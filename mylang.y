@@ -36,8 +36,8 @@ string: STRING
 
 integer: INTEGER
 {
-  struct mylang_object_t obj = $1;
-  printf("Yac got integer: '%s'.\n", $1);
+  // struct mylang_object_t obj = $1;
+  printf("Yac got integer: '%s'.\n", mylang_object_str(&$1));
 };
 
 float: FLOAT

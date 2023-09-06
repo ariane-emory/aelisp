@@ -3,7 +3,7 @@ CFLAGS   = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Iinclude \
-	-DUSE_MYLANG_OBJECTr
+	-DUSE_MYLANG_OBJECT
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
