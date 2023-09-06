@@ -6,10 +6,10 @@ void mylang_object_init(mylang_object_t * const mylang_object) {
   mylang_object->c_str = 0;
 }
 
-char * mylang_object_print(const mylang_object_t * const mylang_object) {
+char * mylang_object_str(const mylang_object_t * const mylang_object) {
 #define BUFF_LEN 256
 
-static char buff[BUFF_LEN] = {0};
+  static char buff[BUFF_LEN] = {0};
 
   snprintf(
     buff,
