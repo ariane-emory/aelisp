@@ -2,8 +2,6 @@
 
 #define MYLANG_OBJECT_HAS_UNION_MEMBER
 
-#define   USE_MYLANG_OBJECT
-
 #ifdef    USE_MYLANG_OBJECT
 #  define YYSTYPE mylang_object_t
 #else  // USE_MYLANG_OBJECT
