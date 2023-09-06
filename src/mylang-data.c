@@ -23,7 +23,7 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
   snprintf(
     buff,
     BUFF_LEN,
-    "('%s', '%s')",
+    "(%s, [%s])",
     mylang_type_str(mylang_object->type),
     mylang_object->c_str
   );
