@@ -36,8 +36,8 @@
 \;                                                              PP(SEMI,     ML_INVALID );
 \'                                                              PP(QUOTE,    ML_INVALID );
 
-\(                                                              PP(LPAR,     ML_INVALID );
-\)                                                              PP(RPAR,     ML_INVALID );
+\(                                                              PP(LPAR,     ML_PAREN   );
+\)                                                              PP(RPAR,     ML_PAREN   );
 \"((\\\")|[^\"]s)*\"                                            PP(STRING,   ML_STRING  );
 \?\\?[^\ \n\t]      |
 \'(\\['\(\)])\'     |
