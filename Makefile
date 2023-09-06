@@ -34,7 +34,9 @@ clean::
 	rm -rf $(BIN) lex.yy.c y.tab.c y.tab.h tmp
 
 test: clean all
-	echo "(+ 1 2 'qwert) (+ abc 1 2 'a')" | ./$(BIN)
+	echo "(+ 1 2 \"hello\" 'qwert) (+ abc 1 2 'a')" | ./$(BIN)
+	echo
+	echo "\"hello\"" | ./$(BIN)
 
 debug: clean all
 	$(GDB) ./$(BIN)

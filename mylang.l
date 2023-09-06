@@ -19,6 +19,7 @@
     switch (yylval.type) {
     case ML_STRING:
       printf("Lex a ML_STRING.\n");
+      yylval.data.string_value = strdup(yytext);
       break;
     case ML_CHAR:
       printf("Lex a ML_CHAR.\n");
