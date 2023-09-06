@@ -16,7 +16,7 @@
     mylang_object_init(&yylval);
     yylval.type  = mylang_type;
     yylval.c_str = strdup(yytext);
-    printf("Lex got %s\n", mylang_object_str(&yylval));
+    printf("Lex got %s.\n", mylang_object_str(&yylval));
 #else  // USE_MYLANG_OBJECT
     yylval = strdup(yytext);
 #endif // USE_MYLANG_OBJECT
