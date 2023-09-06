@@ -4,7 +4,7 @@
 #include "mylang-data.h"
 #include "y.tab.h"
 
-#define PP(x, mylang_type) return pp(#x, x, mylang_type);
+#define LEX(x, mylang_type) return pp(#x, x, mylang_type);
 
   enum yytokentype pp(
     const char * const name,
@@ -20,23 +20,23 @@
 %}
 
 %%
-\'                                                              PP(QUOTE,    ML_QUOTE   );
-\(                                                              PP(LPAR,     ML_PAREN   );
-\)                                                              PP(RPAR,     ML_PAREN   );
+\'                                                              LEX(QUOTE,    ML_QUOTE   );
+\(                                                              LEX(LPAR,     ML_PAREN   );
+\)                                                              LEX(RPAR,     ML_PAREN   );
                                                                 
-\"((\\\")|[^\"]s)*\"                                            PP(STRING,   ML_STRING  );
+\"((\\\")|[^\"]s)*\"                                            LEX(STRING,   ML_STRING  );
 \?\\?[^\ \n\t]      |
 \'(\\['\(\)])\'     |
-\'([^'\ \n\t])\'                                                PP(CHAR,     ML_CHAR    );
-[-+]?[0-9]+                                                     PP(INTEGER,  ML_INTEGER );
+\'([^'\ \n\t])\'                                                LEX(CHAR,     ML_CHAR    );
+[-+]?[0-9]+                                                     LEX(INTEGER,  ML_INTEGER );
 [-+]?[0-9]+\.[0-9]* |
-[-+]?[0-9]*\.[0-9]+                                             PP(FLOAT,    ML_FLOAT   );
-[-+]?[0-9]+\/[0-9]+                                             PP(RATIONAL, ML_RATIONAL);
+[-+]?[0-9]*\.[0-9]+                                             LEX(FLOAT,    ML_FLOAT   );
+[-+]?[0-9]+\/[0-9]+                                             LEX(RATIONAL, ML_RATIONAL);
 
-[\+\-\/\*]                                                      PP(MATHOP,   ML_SYMBOL  );
-([1-9][0-9]+)?[\+\-\/\*]                                        PP(INCROP,   ML_SYMBOL  );
-!?=|(>=?)|(<=?)                                                 PP(COMPARE,  ML_SYMBOL  );
-(\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? PP(WORD,     ML_SYMBOL  );
+[\+\-\/\*]                                                      LEX(MATHOP,   ML_SYMBOL  );
+([1-9][0-9]+)?[\+\-\/\*]                                        LEX(INCROP,   ML_SYMBOL  );
+!?=|(>=?)|(<=?)                                                 LEX(COMPARE,  ML_SYMBOL  );
+(\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? LEX(WORD,     ML_SYMBOL  );
 [\n\t\ ]+  ;
 %
 
