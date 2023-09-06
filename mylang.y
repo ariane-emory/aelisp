@@ -3,7 +3,7 @@
 #include <string.h>
 #include "mylang-data.h"
 
-#define YAC_PRINT(x) printf("Yac got '%s'.\n", mylang_object_str(&x));
+#define YAC_PRINT(x) printf("Yac got %s.\n", mylang_object_str(&x));
   
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; } 
@@ -17,10 +17,8 @@
 sexps: | sexps sexp { printf("Yac got sexps.\n"); };
 
 sexp: QUOTE sexp | list | atom { printf("Yac got sexp.\n"); };
-
 list: LPAR sexps RPAR { printf("Yac got list.\n"); };
-
-atom: string | integer | float | rational | mathop | compare | word | char
+atom: string | integer | float | rational | mathop | compare | word | char;
 
 string:   STRING   { YAC_PRINT($1); };
 integer:  INTEGER  { YAC_PRINT($1); };
