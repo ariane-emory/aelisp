@@ -34,7 +34,7 @@ clean::
 	rm -rf $(BIN) lex.yy.c y.tab.c y.tab.h tmp
 
 test: clean all
-	./$(BIN)
+	echo "(+ 1 2) (+ 1 2)" | ./$(BIN)
 
 debug: clean all
 	$(GDB) ./$(BIN)
