@@ -1,4 +1,8 @@
 UNAME_S = $(shell uname -s)
+CFLAGS   = \
+	-Wno-implicit-int \
+	-Wno-implicit-function-declaration \
+	-Iinclude
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
@@ -7,13 +11,9 @@ endif
 
 GDB      = gdb
 OBJDUMP  = objdump
-SRC      = $(shell find . -name "*.c")
-OBJ      = $(patsubst %.c, tmp/%.o, $(SRC))
+SRC      = $(shell find src -name "*.c")
+OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
 BIN      = mylang
-CFLAGS   = \
-	-Wno-implicit-int \
-	-Wno-implicit-function-declaration \
-	-Iinclude
 
 all:: $(BIN) 
 
@@ -23,11 +23,11 @@ lex.yy.c:
 y.tab.c:
 	yacc -d $(BIN).y
 
-tmp/%.o: %.c
+tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): lex.yy.c y.tab.c
+$(BIN): lex.yy.c y.tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
@@ -41,3 +41,9 @@ debug: clean all
 
 dump: clean tmp/main.o $(BIN)
 	$(OBJDUMP) -t -d tmp/main.o
+
+
+
+
+
+
