@@ -4,11 +4,7 @@
 #include "mylang-data.h"
 #include "y.tab.h"
 
-#define PP(x) {                                                                                                                             \
-    pp(#x, x);                                                                                                                                \
-    yylval = strdup(yytext);                                                                                                                \
-    return x;                                                                                                                               \
-  }
+#define PP(x) { return pp(#x, x); }
 
   enum yytokentype pp(const char * const name, enum yytokentype x) {
     printf("Lex got %s.\n", name);
