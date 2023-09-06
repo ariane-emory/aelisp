@@ -8,7 +8,11 @@
 
   enum yytokentype pp(const char * const name, enum yytokentype x) {
     printf("Lex got %s.\n", name);
+#ifdef    USE_MYLANG_OBJECT
+    mylang_object_init(&yylval);
+#else  // USE_MYLANG_OBJECT
     yylval = strdup(yytext);
+#endif // USE_MYLANG_OBJECT
     return x;
   }
 %}
