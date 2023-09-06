@@ -5,15 +5,15 @@
 #include "y.tab.h"
 
 #define PP(x) {                                                                                                                             \
-    printf(#x ".\n");                                                                                                                       \
+    pp(#x, x);                                                                                                                                \
     yylval = strdup(yytext);                                                                                                                \
     return x;                                                                                                                               \
   }
 
-  enum yytokentype pp(const char * const name, const enum yytokentype token_type) {
-    printf("%s.\n", name);
+  enum yytokentype pp(const char * const name, enum yytokentype x) {
+    printf("Lex got %s.\n", name);
     yylval = strdup(yytext);
-    return token_type;
+    return x;
   }
 %}
 

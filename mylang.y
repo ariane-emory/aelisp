@@ -22,18 +22,18 @@ main() {
 %%
 sexps: | sexps sexp
 {
-  printf("Got sexps.\n");
+  printf("Yac got sexps.\n");
 };
 sexp: QUOTE sexp | list | atom
 {
-  printf("Got sexp.\n");
+  printf("Yac got sexp.\n");
 };
 list: LPAR sexps RPAR
 {
-  printf("Got list.\n");
+  printf("Yac got list.\n");
 };
 atom: STRING | INTEGER | FLOAT | RATIONAL | MATHOP | COMPARE | WORD | CHAR
 {
-  printf("Got atom.\n");
+  printf("Yac got atom.\n");
 };
 %%
