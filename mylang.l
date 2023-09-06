@@ -58,7 +58,7 @@
 \'                                                              LEX(QUOTE,    ML_QUOTE   );
 \(                                                              LEX(LPAR,     ML_PAREN   );
 \)                                                              LEX(RPAR,     ML_PAREN   );                                                                
-\"((\\\")|[^\"]s)*\"                                            LEX(STRING,   ML_STRING  );
+\"((\\\")|([^\"]))*\"                                             LEX(STRING,   ML_STRING  );
 \?\\?[^\ \n\t]      |
 \'(\\['\(\)])\'     |
 \'([^'\ \n\t])\'                                                LEX(CHAR,     ML_CHAR    );
