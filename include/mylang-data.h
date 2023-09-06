@@ -38,7 +38,7 @@ typedef enum {
   FOR_LEXED_TYPES_DO(enum_item)
 } mylang_type_t;
 
-const char * mylang_type_name(const mylang_type_t mylang_type);
+const char * const mylang_type_name(const mylang_type_t mylang_type);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Rational type
