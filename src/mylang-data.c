@@ -6,6 +6,15 @@ void mylang_object_init(mylang_object_t * const mylang_object) {
   mylang_object->c_str = 0;
 }
 
+#define return_str(x) case x: return #x;
+
+const char * const mylang_type_str(const mylang_type_t mylang_type) {
+  switch (mylang_type) {
+    FOR_LEXED_TYPES_DO(return_str);
+  default: return "UNRECOGNIZED!";
+  }
+}
+
 const char * const mylang_object_str(const mylang_object_t * const mylang_object) {
 #define BUFF_LEN 256
 
@@ -22,11 +31,4 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
   return buff;
 }
 
-#define return_str(x) case x: return #x;
 
-const char * const mylang_type_str(const mylang_type_t mylang_type) {
-  switch (mylang_type) {
-    FOR_LEXED_TYPES_DO(return_str);
-  default: return "UNRECOGNIZED!";
-  }
-}
