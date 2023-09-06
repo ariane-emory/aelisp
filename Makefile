@@ -12,7 +12,8 @@ OBJ      = $(patsubst %.c, tmp/%.o, $(SRC))
 BIN      = mylang
 CFLAGS   = \
 	-Wno-implicit-int \
-	-Wno-implicit-function-declaration
+	-Wno-implicit-function-declaration \
+	-Iinclude
 
 all:: $(BIN) 
 
