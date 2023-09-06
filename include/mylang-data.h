@@ -73,7 +73,7 @@ typedef struct mylang_object_t {
 } mylang_object_t;
 
 void mylang_object_init(mylang_object_t * const mylang_object);
-void mylang_object_print(const mylang_object_t * const mylang_object);
+char * mylang_object_print(const mylang_object_t * const mylang_object);
 
 ////////////////////////////////////////////////////////////////////////////////
 // List type
