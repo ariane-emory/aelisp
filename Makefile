@@ -3,7 +3,7 @@ CFLAGS   = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Iinclude \
-	-DUSE_MYLANG_OBJECT
+	-DUSE_MYLANG_OBJECTr
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
@@ -35,7 +35,7 @@ clean::
 	rm -rf $(BIN) lex.yy.c y.tab.c y.tab.h tmp
 
 test: clean all
-	echo "(+ 1 2) (+ 1 2)" | ./$(BIN)
+	echo "(+ 1 2) (+ 1 2 'a')" | ./$(BIN)
 
 debug: clean all
 	$(GDB) ./$(BIN)

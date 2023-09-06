@@ -14,18 +14,60 @@
 %%
 sexps: | sexps sexp
 {
-  // printf("Yac got sexps.\n");
+  printf("Yac got sexps.\n");
 };
+
 sexp: QUOTE sexp | list | atom
 {
-  // printf("Yac got sexp.\n");
+  printf("Yac got sexp.\n");
 };
+
 list: LPAR sexps RPAR
 {
-  // printf("Yac got list.\n");
+  printf("Yac got list.\n");
 };
-atom: STRING | INTEGER | FLOAT | RATIONAL | MATHOP | COMPARE | WORD | CHAR
+
+atom: string | integer | float | rational | mathop | compare | word | char
+
+string: STRING
 {
-  // printf("Yac got atom.\n");
+  printf("Yac got string.\n");
 };
+
+integer: INTEGER
+{
+  struct mylang_object_t obj = $1;
+  printf("Yac got integer: '%s'.\n", $1);
+};
+
+float: FLOAT
+{
+  printf("Yac got float.\n");
+};
+
+rational: RATIONAL
+{
+  printf("Yac got rational.\n");
+};
+
+mathop: MATHOP
+{
+  printf("Yac got mathop.\n");
+};
+
+compare: COMPARE
+{
+  printf("Yac got compare.\n");
+};
+
+word: WORD
+{
+  printf("Yac got word.\n");
+};
+
+char: CHAR
+{
+  printf("Yac got char.\n");
+};
+
 %%
