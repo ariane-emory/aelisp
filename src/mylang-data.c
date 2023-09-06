@@ -15,7 +15,7 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
     buff,
     BUFF_LEN,
     "('%s', '%s')",
-    mylang_type_name(mylang_object->type),
+    mylang_type_str(mylang_object->type),
     mylang_object->c_str
   );
 
@@ -24,7 +24,7 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
 
 #define return_str(x) case x: return #x;
 
-const char * const mylang_type_name(const mylang_type_t mylang_type) {
+const char * const mylang_type_str(const mylang_type_t mylang_type) {
   switch (mylang_type) {
     FOR_LEXED_TYPES_DO(return_str);
   default: return "UNRECOGNIZED!";
