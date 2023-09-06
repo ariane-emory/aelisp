@@ -3,17 +3,9 @@
 #include <string.h>
 #include "mylang-data.h"
   
-void yyerror(const char *str) {
-  fprintf(stderr, "Error: %s\n", str);
-}
-
-int yywrap() {
-  return 1;
-} 
-
-main() {
-  yyparse();
-} 
+  void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
+  int yywrap() { return 1; } 
+  main() { yyparse(); } 
 
 %}
 
