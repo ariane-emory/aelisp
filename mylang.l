@@ -11,11 +11,15 @@
     enum yytokentype x,
     mylang_type_t mylang_type) {
     printf("Lex got %s.\n", name);
+
 #ifdef    USE_MYLANG_OBJECT
     mylang_object_init(&yylval);
+    yylval->type  = mlang_type;
+    yylval->c_str = strdup(yytext)
 #else  // USE_MYLANG_OBJECT
     yylval = strdup(yytext);
 #endif // USE_MYLANG_OBJECT
+
     return x;
   }
 %}
