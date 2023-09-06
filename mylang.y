@@ -14,18 +14,18 @@
 %%
 sexps: | sexps sexp
 {
-  printf("Yac got sexps.\n");
+  // printf("Yac got sexps.\n");
 };
 sexp: QUOTE sexp | list | atom
 {
-  printf("Yac got sexp.\n");
+  // printf("Yac got sexp.\n");
 };
 list: LPAR sexps RPAR
 {
-  printf("Yac got list.\n");
+  // printf("Yac got list.\n");
 };
 atom: STRING | INTEGER | FLOAT | RATIONAL | MATHOP | COMPARE | WORD | CHAR
 {
-  printf("Yac got atom.\n");
+  // printf("Yac got atom.\n");
 };
 %%
