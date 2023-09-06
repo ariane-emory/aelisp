@@ -31,4 +31,7 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
   return buff;
 }
 
-
+void mylang_list_init(mylang_list_t * const mylang_list) {
+  mylang_list->head = 0;
+  mylang_list->tail = 0;
+}

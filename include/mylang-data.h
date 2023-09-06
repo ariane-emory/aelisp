@@ -78,3 +78,6 @@ typedef struct mylang_list_t {
   mylang_object_t *      head;
   struct mylang_list_t * tail;
 } mylang_list_t;
+
+void mylang_list_init(mylang_list_t * const mylang_list);
+void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * mylang_object);
