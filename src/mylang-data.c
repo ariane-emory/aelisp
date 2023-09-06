@@ -35,3 +35,10 @@ void mylang_list_init(mylang_list_t * const mylang_list) {
   mylang_list->head = 0;
   mylang_list->tail = 0;
 }
+
+void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * mylang_object) {
+  mylang_list_t * position = mylang_list;
+
+  for (; position->tail; position = position->tail);
+    
+}

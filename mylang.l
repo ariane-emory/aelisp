@@ -16,6 +16,39 @@
 
     printf("Lex got %s.\n", mylang_object_str(&yylval));
 
+    switch (yylval.type) {
+    case ML_STRING:
+      printf("Lex a ML_STRING.\n");
+      break;
+    case ML_CHAR:
+      printf("Lex a ML_CHAR.\n");
+      break;
+    case ML_INTEGER:
+      printf("Lex a ML_INTEGER.\n");
+      break;
+    case ML_FLOAT:
+      printf("Lex a ML_FLOAT.\n");
+      break;
+    case ML_RATIONAL:
+      printf("Lex a ML_RATIONAL.\n");
+      break;
+    case ML_LIST:
+      printf("Lex a ML_LIST.\n");
+      break;
+    case ML_SYMBOL:
+      printf("Lex a ML_SYMBOL.\n");
+      break;
+    case ML_QUOTE:
+      printf("Lex a ML_QUOTE.\n");
+      break;
+    case ML_PAREN:
+      printf("Lex a ML_PAREN.\n");
+      break;
+    default:
+      printf("Lex something unrecognizable.\n");
+      break;
+    }
+
     return x;
   }
 %}
