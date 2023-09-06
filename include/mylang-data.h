@@ -25,10 +25,11 @@ typedef enum {
   ML_INVALID = 0,
   ML_STRING,
   ML_CHAR,
-  ML_INT,
+  ML_INTEGER,
   ML_FLOAT,
   ML_RATIONAL,
   ML_LIST,
+  ML_SYMBOL,
 } mylang_type_t;
 
 ////////////////////////////////////////////////////////////////////////////////

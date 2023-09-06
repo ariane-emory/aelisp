@@ -7,5 +7,5 @@ void mylang_object_init(mylang_object_t * const mylang_object) {
 }
 
 void mylang_object_print(const mylang_object_t * const mylang_object) {
-  printf("Bang\n");
+  printf("(%d, \"%s\")\n", mylang_object->type, mylang_object->c_str);
 }
