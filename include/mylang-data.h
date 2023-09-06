@@ -29,6 +29,7 @@ typedef struct mylang_list_t   mylang_list_t;
   DO(ML_RATIONAL)                                                                                                                           \
   DO(ML_LIST)                                                                                                                               \
   DO(ML_SYMBOL)                                                                                                                             \
+  DO(ML_QUOTE)                                                                                                                              \
   DO(ML_PAREN)
 
 #define enum_item(x) x,

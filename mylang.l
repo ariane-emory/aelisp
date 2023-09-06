@@ -34,7 +34,7 @@
 /* \;                                                              PP(SEMI,     ML_INVALID ); */
 
 %%
-\'                                                              PP(QUOTE,    ML_INVALID );
+\'                                                              PP(QUOTE,    ML_QUOTE   );
 \(                                                              PP(LPAR,     ML_PAREN   );
 \)                                                              PP(RPAR,     ML_PAREN   );
                                                                 
@@ -50,7 +50,7 @@
 [\+\-\/\*]                                                      PP(MATHOP,   ML_SYMBOL  );
 ([1-9][0-9]+)?[\+\-\/\*]                                        PP(INCROP,   ML_SYMBOL  );
 !?=|(>=?)|(<=?)                                                 PP(COMPARE,  ML_SYMBOL  );
-(\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? PP(WORD,     ML_SYMBOL);
+(\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? PP(WORD,     ML_SYMBOL  );
 [\n\t\ ]+  ;
 %
 
