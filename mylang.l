@@ -15,7 +15,8 @@
 #ifdef    USE_MYLANG_OBJECT
     mylang_object_init(&yylval);
     yylval->type  = mlang_type;
-    yylval->c_str = strdup(yytext)
+    yylval->c_str = strdup(yytext);
+    
 #else  // USE_MYLANG_OBJECT
     yylval = strdup(yytext);
 #endif // USE_MYLANG_OBJECT
