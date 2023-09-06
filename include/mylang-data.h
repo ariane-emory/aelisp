@@ -1,12 +1,6 @@
 #pragma once
 
-#define MYLANG_OBJECT_HAS_UNION_MEMBER
-
-#ifdef    USE_MYLANG_OBJECT
-#  define YYSTYPE mylang_object_t
-#else  // USE_MYLANG_OBJECT
-#  define YYSTYPE mylang_string_t
-#endif // USE_MYLANG_OBJECT
+#define YYSTYPE mylang_object_t
 
 typedef char * mylang_string_t;
 

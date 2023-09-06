@@ -10,28 +10,14 @@
     const char * const name,
     enum yytokentype x,
     mylang_type_t mylang_type) {
-    // printf("Lex got %s.\n", name);
-
-#ifdef    USE_MYLANG_OBJECT
     mylang_object_init(&yylval);
     yylval.type  = mylang_type;
     yylval.c_str = strdup(yytext);
     printf("Lex got %s.\n", mylang_object_str(&yylval));
-#else  // USE_MYLANG_OBJECT
-    yylval = strdup(yytext);
-#endif // USE_MYLANG_OBJECT
 
     return x;
   }
 %}
-
-/* lex mylang.l && gcc-13 lex.yy.c -o mylang -ll && ./mylang  */
-/* \{                                                              PP(LBRC,     ML_INVALID ); */
-/* \}                                                              PP(RBRC,     ML_INVALID ); */
-/* \[                                                              PP(LSQR,     ML_INVALID ); */
-/* \]                                                              PP(RSQR,     ML_INVALID ); */
-/* \,                                                              PP(COMMA,    ML_INVALID ); */
-/* \;                                                              PP(SEMI,     ML_INVALID ); */
 
 %%
 \'                                                              PP(QUOTE,    ML_QUOTE   );

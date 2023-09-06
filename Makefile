@@ -2,8 +2,7 @@ UNAME_S = $(shell uname -s)
 CFLAGS   = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
-	-Iinclude \
-	-DUSE_MYLANG_OBJECT
+	-Iinclude
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
