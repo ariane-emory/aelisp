@@ -36,7 +36,7 @@ clean::
 test: clean all
 	echo "\"hello \\\"bob\\\"\"" | ./$(BIN)
 	echo
-	echo "(+ 1 2 \"hello\" 'qwert) (+ abc 1 2 'a')" | ./$(BIN)
+	echo "(+ 1 2 \"hello\" 'qwert)" | ./$(BIN)
 
 debug: clean all
 	$(GDB) ./$(BIN)
