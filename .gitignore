@@ -1,4 +1,4 @@
-	*.yy.c
-	*.tab.c
-	*.tab.h
-	mylang
+lex.yy.c
+y.tab.c
+y.tab.h
+mylang
