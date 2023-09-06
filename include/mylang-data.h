@@ -21,17 +21,24 @@ typedef struct mylang_list_t   mylang_list_t;
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////
 
+#define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
+  DO(ML_STRING)                                                                                                                             \
+  DO(ML_CHAR)                                                                                                                               \
+  DO(ML_INTEGER)                                                                                                                            \
+  DO(ML_FLOAT)                                                                                                                              \
+  DO(ML_RATIONAL)                                                                                                                           \
+  DO(ML_LIST)                                                                                                                               \
+  DO(ML_SYMBOL)                                                                                                                             \
+  DO(ML_PAREN)
+
+#define enum_item(x) x,
+
 typedef enum {
   ML_INVALID = 0,
-  ML_STRING,
-  ML_CHAR,
-  ML_INTEGER,
-  ML_FLOAT,
-  ML_RATIONAL,
-  ML_LIST,
-  ML_SYMBOL,
-  ML_PAREN,
+  FOR_LEXED_TYPES_DO(enum_item)
 } mylang_type_t;
+
+const char * mylang_type_name(const mylang_type_t mylang_type);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Rational type
