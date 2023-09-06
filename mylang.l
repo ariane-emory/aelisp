@@ -4,9 +4,12 @@
 #include "mylang-data.h"
 #include "y.tab.h"
 
-#define PP(x) return pp(#x, x);
+#define PP(x, mylang_type) return pp(#x, x, mylang_type);
 
-  enum yytokentype pp(const char * const name, enum yytokentype x) {
+  enum yytokentype pp(
+    const char * const name,
+    enum yytokentype x,
+    mylang_type_t mylang_type) {
     printf("Lex got %s.\n", name);
 #ifdef    USE_MYLANG_OBJECT
     mylang_object_init(&yylval);
@@ -20,29 +23,29 @@
 /* lex mylang.l && gcc-13 lex.yy.c -o mylang -ll && ./mylang  */
 
 %%
-\{                                  PP(LBRC);
-\}                                  PP(RBRC);
-\[                                  PP(LSQR);
-\]                                  PP(RSQR);
-\,                                  PP(COMMA);
-\;                                  PP(SEMI);
-\'                                  PP(QUOTE);
+\{                                  PP(LBRC, ML_INVALID);
+\}                                  PP(RBRC, ML_INVALID);
+\[                                  PP(LSQR, ML_INVALID);
+\]                                  PP(RSQR, ML_INVALID);
+\,                                  PP(COMMA, ML_INVALID);
+\;                                  PP(SEMI, ML_INVALID);
+\'                                  PP(QUOTE, ML_INVALID);
 
-\(                                  PP(LPAR);
-\)                                  PP(RPAR);
-\"((\\\")|[^\"]s)*\"                PP(STRING);
+\(                                  PP(LPAR, ML_INVALID);
+\)                                  PP(RPAR, ML_INVALID);
+\"((\\\")|[^\"]s)*\"                PP(STRING, ML_INVALID);
 \?\\?[^\ \n\t]      |
 \'(\\['\(\)])\'     |
-\'([^'\ \n\t])\'                    PP(CHAR);                                    
-[-+]?[0-9]+                         PP(INTEGER);
+\'([^'\ \n\t])\'                    PP(CHAR, ML_INVALID);                                    
+[-+]?[0-9]+                         PP(INTEGER, ML_INVALID);
 [-+]?[0-9]+\.[0-9]* |
-[-+]?[0-9]*\.[0-9]+                 PP(FLOAT);
-[-+]?[0-9]+\/[0-9]+                 PP(RATIONAL);
+[-+]?[0-9]*\.[0-9]+                 PP(FLOAT, ML_INVALID);
+[-+]?[0-9]+\/[0-9]+                 PP(RATIONAL, ML_INVALID);
 
-[\+\-\/\*]                          PP(MATHOP);
-([1-9][0-9]+)?[\+\-\/\*]            PP(INCROP);
-!?=|(>=?)|(<=?)                     PP(COMPARE);
-(\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? PP(WORD);
+[\+\-\/\*]                          PP(MATHOP, ML_INVALID);
+([1-9][0-9]+)?[\+\-\/\*]            PP(INCROP, ML_INVALID);
+!?=|(>=?)|(<=?)                     PP(COMPARE, ML_INVALID);
+(\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? PP(WORD, ML_INVALID);
 [\n\t\ ]+  ;
 %
 
