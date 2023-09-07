@@ -20,8 +20,8 @@ LEX      = flex
 
 all:: $(BIN)
 
-%.lex.c: %.l
-	$(LEX) -o $@ $^
+%.lex.c: %.l %.tab.c
+	$(LEX) -o $@ $<
 
 %.tab.c: %.y
 	$(YACC) -d $^
@@ -37,7 +37,7 @@ $(BIN2): $(BIN2).lex.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
-	rm -rf $(BIN) $(BIN)g.yy.c $(BIN)g.tab.c tmp
+	rm -rf $(BIN) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp
 
 test: clean all
 	echo "\"hello \\\"bob\\\"\"" | ./$(BIN)
