@@ -40,8 +40,8 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct mylang_rational_t {
-  int                    numerator;
-  unsigned int           denominator;
+  int                           numerator;
+  unsigned int                  denominator;
 } mylang_rational_t;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,12 +49,12 @@ typedef struct mylang_rational_t {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef union {
-  char *                 string_value;
-  char                   char_value;
-  int                    int_value;
-  double                 float_value;
-  mylang_rational_t      rational_value;
-  mylang_list_item_t *        list_value;
+  char *                        string_value;
+  char                          char_value;
+  int                           int_value;
+  double                        float_value;
+  mylang_rational_t             rational_value;
+  mylang_list_item_t *          list_value;
 } mylang_data_t;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,9 +62,9 @@ typedef union {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct mylang_object_t {
-  mylang_type_t          type;
-  mylang_string_t        c_str;
-  mylang_data_t          data;
+  mylang_type_t                 type;
+  mylang_string_t               c_str;
+  mylang_data_t                 data;
 } mylang_object_t;
 
 //------------------------------------------------------------------------------
@@ -77,8 +77,8 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct mylang_list_item_t {
-  mylang_object_t *      data;
-  struct mylang_list_item_t * tail;
+  mylang_object_t *             object;
+  struct mylang_list_item_t *   tail;
 } mylang_list_item_t;
 
 //------------------------------------------------------------------------------

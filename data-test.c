@@ -17,7 +17,7 @@ int main() {
     obj->c_str = zero;
     printf("%s\n", mylang_object_str(obj));
     
-    head->data = obj;
+    head->object = obj;
   }
   
   {
@@ -49,6 +49,6 @@ int main() {
 
   for (; head; head = head->tail) {
     //printf("%s\n", mylang_list_item_str(head));
-    printf("%s\n", mylang_object_str(head->data));
+    printf("%s\n", mylang_object_str(head->object));
   }
 }
