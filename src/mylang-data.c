@@ -18,8 +18,10 @@ const char * const mylang_type_str(const mylang_type_t mylang_type) {
   }
 }
 
+#undef return_str
+
 const char * const mylang_object_str(const mylang_object_t * const mylang_object) {
-  static char buff[BUFF_LEN] = {0};
+static char buff[BUFF_LEN] = {0};
 
   snprintf(
     buff,
@@ -54,7 +56,7 @@ const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_
     "(%zu, %zu)",
     mylang_list_item->object, 
     mylang_list_item->tail
-           );
+  );
 
   return buff;
 }
