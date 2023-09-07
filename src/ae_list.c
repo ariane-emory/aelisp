@@ -83,3 +83,6 @@ void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
   if (this)
     ae_list_node_each(*this, fun);
 }
+
+void ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
+}

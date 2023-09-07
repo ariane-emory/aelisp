@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef void (*ae_list_node_each_fun)(void *);
+typedef void * (*ae_list_node_map_fun)(void *);
 
 typedef struct ae_list_node_t {
   void *                    object;
@@ -19,6 +20,7 @@ void               ae_list_init          (      ae_list_t * const this);
 const char * const ae_list_str           (const ae_list_t * const this);
 ae_list_node_t *   ae_list_push_back     (      ae_list_t * const this, void * const object);
 void               ae_list_each          (      ae_list_t * const this, ae_list_node_each_fun fun);
+void               ae_list_map           (      ae_list_t * const this, ae_list_node_map_fun fun);
 
 void               ae_list_node_init     (      ae_list_node_t * const this);
 const char * const ae_list_node_str      (const ae_list_node_t * const this);
