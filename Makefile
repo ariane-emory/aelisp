@@ -19,7 +19,7 @@ BIN2     = mini
 YACC     = bison
 LEX      = flex
 
-all:: $(BIN) $(BIN2)
+all:: bin/$(BIN) bin/$(BIN2)
 
 tmp/%.lex.c: %.l tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
@@ -36,10 +36,12 @@ tmp:
 tmp/%.o: src/%.c tmp
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
+bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
+	mkdir -p ./bin
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
+bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
+	mkdir -p ./bin
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 data-test: data-test.c tmp/mylang-data.o
@@ -49,9 +51,9 @@ clean::
 	rm -rf $(BIN) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp
 
 test: clean all
-	echo "\"hello \\\"bob\\\"\"" | ./$(BIN)
+	echo "\"hello \\\"bob\\\"\"" | ./bin/$(BIN)
 	echo
-	echo "(+ 1 'x' 2 \"hello\" 'qwert)" | ./$(BIN)
+	echo "(+ 1 'x' 2 \"hello\" 'qwert)" | ./bin/$(BIN)
 
 test2: clean all
 	./$(BIN2)
