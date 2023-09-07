@@ -10,7 +10,8 @@ static char * three = "Three";
 
 void print_ae_object_str(void * ae_list_node_p) {
   ae_list_node_t * ae_list_node = ae_list_node_p;
-  printf("%s\n", ae_object_str(ae_list_node->object));
+  // printf("%s\n", ae_object_str(ae_list_node->object));
+  printf("Hello.\n");
 }
 
 
@@ -22,36 +23,36 @@ int main() {
     ae_object_t * obj = malloc(sizeof(ae_object_t));
     ae_object_init(obj);
     obj->c_str = zero;
-    printf("%s\n", ae_object_str(obj));
-    ae_list_push_back(&list, obj);
+    // printf("%s\n", ae_object_str(obj));
+    printf("Added node 0x%x.\n", ae_list_push_back(&list, obj));
   }
   
   {
     ae_object_t * obj = malloc(sizeof(ae_object_t));
     ae_object_init(obj);
     obj->c_str = one;
-    printf("%s\n", ae_object_str(obj));
-    ae_list_push_back(&list, obj);
+    // printf("%s\n", ae_object_str(obj));
+    printf("Added node 0x%x.\n", ae_list_push_back(&list, obj));
   }
 
   {
     ae_object_t * obj = malloc(sizeof(ae_object_t));
     ae_object_init(obj);
     obj->c_str = two;
-    printf("%s\n", ae_object_str(obj));
-    ae_list_push_back(&list, obj);
+    // printf("%s\n", ae_object_str(obj));
+    printf("Added node 0x%x.\n", ae_list_push_back(&list, obj));
   }
 
   {
     ae_object_t * obj = malloc(sizeof(ae_object_t));
     ae_object_init(obj);
     obj->c_str = three;
-    printf("%s\n", ae_object_str(obj));
-    ae_list_push_back(&list, obj);
+    // printf("%s\n", ae_object_str(obj));
+    printf("Added node 0x%x.\n", ae_list_push_back(&list, obj));
   }
 
-  for (ae_list_node_t * position = list; position; position = position->tail)
-    printf("%s\n", ae_object_str(position->object));
+  /* for (ae_list_node_t * position = list; position; position = position->tail) */
+  /*   printf("%s\n", ae_object_str(position->object)); */
 
   ae_list_node_each(list, print_ae_object_str);
 }
