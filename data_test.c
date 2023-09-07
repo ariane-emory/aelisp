@@ -20,6 +20,13 @@ void print_int_p(void * int_p) {
   printf("%d\n", tmp2);
 }
 
+void * double_int_p(void * int_p) {
+  int tmp  = *(int*)int_p;
+  int * new_int = malloc(sizeof(int));
+  *new_int = tmp * 2;
+  return new_int;
+}
+
 
 int main() {
   ae_list_t list = 0;

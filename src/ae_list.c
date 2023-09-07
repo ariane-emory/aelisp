@@ -82,7 +82,7 @@ void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
     ae_list_node_each(*this, fun);
 }
 
-void ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
+ae_list_t * ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
   ae_list_t * new_list_p = malloc(sizeof(ae_list_t));
   ae_list_init(new_list_p);
 
