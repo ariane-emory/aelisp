@@ -66,9 +66,8 @@ ae_list_node_t * ae_list_node_append(ae_list_node_t * const ae_list_node, void *
 }
 
 ae_list_node_t * ae_list_append(ae_list_t * const ae_list, void * const object) {
-  if (*ae_list)
-    ae_list_node_append(*ae_list, object);
-  else 
-    *ae_list = ae_list_node_create(object);
+  return *ae_list
+    ? ae_list_node_append(*ae_list, object)
+    : (*ae_list = ae_list_node_create(object));
 }
 
