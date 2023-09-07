@@ -12,14 +12,15 @@ endif
 
 GDB      = gdb
 OBJDUMP  = objdump
+LEX      = flex
+YACC     = bison
 SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
 BIN      = mylang
 BIN2     = mini
-YACC     = bison
-LEX      = flex
+BIN3     = data-test
 
-all:: bin/$(BIN) bin/$(BIN2)
+all:: bin/$(BIN) bin/$(BIN2) bin/$(BIN3)
 
 tmp/%.lex.c: %.lex tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
@@ -44,7 +45,7 @@ bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-data-test: data-test.c tmp/mylang-data.o
+bin/$(BIN3): $(BIN3).c tmp/mylang-data.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
