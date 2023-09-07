@@ -52,20 +52,20 @@ const char * const ae_list_node_str(const ae_list_node_t * const ae_list_node) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_list_node_t * ae_list_node_create(ae_object_t * const ae_object) {
+ae_list_node_t * ae_list_node_create(struct ae_object_t * const ae_object) {
   ae_list_node_t * list_node = malloc(sizeof(ae_list_node_t));
   ae_list_node_init(list_node);
   list_node->object = ae_object;
   return list_node;
 }
 
-void ae_list_node_append(ae_list_node_t * const ae_list_node, ae_object_t * const ae_object) {
+void ae_list_node_append(ae_list_node_t * const ae_list_node, struct ae_object_t * const ae_object) {
   ae_list_node_t * position = ae_list_node;
   for (; position->tail; position = position->tail);
   position->tail = ae_list_node_create(ae_object);
 }
 
-void ae_list_append(ae_list_t * const ae_list, ae_object_t * const ae_object) {
+void ae_list_append(ae_list_t * const ae_list, struct ae_object_t * const ae_object) {
   if (*ae_list)
     ae_list_node_append(*ae_list, ae_object);
   else 
