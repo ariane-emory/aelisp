@@ -32,6 +32,19 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
   return buff;
 }
 
+const char * const mylang_list_head_str(const mylang_list_head_t * const mylang_list_head) {
+  static char buff[BUFF_LEN] = {0};
+
+  snprintf(
+    buff,
+    BUFF_LEN,
+    "(%zu)",
+    mylang_list_head->items
+  );
+
+  return buff;
+}
+
 const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_list_item) {
   static char buff[BUFF_LEN] = {0};
 
