@@ -42,7 +42,7 @@ $(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 $(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-data-test: src/data-test.c tmp/mylang-data.o
+data-test: data-test.c tmp/mylang-data.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
