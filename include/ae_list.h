@@ -4,8 +4,8 @@
 // List type
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef void   (*ae_list_node_each_fun)(void *);
-typedef void * (*ae_list_node_map_fun) (void *);
+typedef void   (*ae_list_node_each_fun)(void * const);
+typedef void * (*ae_list_node_map_fun) (void * const);
 
 typedef struct ae_list_node_t {
   void *                    object;

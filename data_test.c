@@ -19,9 +19,8 @@ void print_int_p(void * int_p) {
 }
 
 void * double_int_p(void * int_p) {
-  int tmp  = *(int*)int_p;
   int * new_int = malloc(sizeof(int));
-  *new_int = tmp * 2;
+  *new_int = *(int*)int_p * 2;
   return new_int;
 }
 
