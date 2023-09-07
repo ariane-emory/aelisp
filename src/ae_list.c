@@ -72,9 +72,23 @@ ae_list_node_t * ae_list_push_back(ae_list_t * const this, void * const object) 
     : (*this = ae_list_node_create(object));
 }
 
+size_t ae_list_node_length(ae_list_node_t * const this) {
+  size_t length = 0;
+  for (ae_list_node_t * position = this; position; position = position->tail, length++);
+  return length;
+}
+
 void ae_list_node_each (ae_list_node_t * const this, ae_list_node_each_fun fun) {
   for (ae_list_node_t * position = this; position; position = position->tail)
     fun(position->object);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+size_t ae_list_length(ae_list_t * const this) {
+  return this
+    ? ae_list_node_length(*this)
+    : 0;
 }
 
 void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
