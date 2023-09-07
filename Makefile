@@ -42,6 +42,9 @@ $(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 $(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
+data-test: data-test.c
+	$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS)
+
 clean::
 	rm -rf $(BIN) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp
 
