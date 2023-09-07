@@ -1,5 +1,5 @@
 lex.yy.c
-y.tab.c
-y.tab.h
+*.tab.c
+*.tab.h
 mylang
 tmp/*
