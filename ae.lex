@@ -14,7 +14,7 @@
     yylval.type  = ae_type;
     yylval.c_str = strdup(yytext);
 
-    printf("Lex got %s.\n", ae_object_str(&yylval));
+    // printf("Lex got %s.\n", ae_object_str(&yylval));
 
     switch (yylval.type) {
     case ML_STRING:
