@@ -44,10 +44,6 @@ int main() {
     ae_list_push_back(&list, obj);
   }
 
-  ae_list_node_t * position = list;
-  
-  for (; position; position = position->tail) {
-    //printf("%s\n", ae_position_node_str(position));
+  for (ae_list_node_t * position = list; position; position = position->tail)
     printf("%s\n", ae_object_str(position->object));
-  }
 }

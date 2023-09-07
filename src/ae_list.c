@@ -72,3 +72,9 @@ ae_list_node_t * ae_list_push_back(ae_list_t * const ae_list, void * const objec
     : (*ae_list = ae_list_node_create(object));
 }
 
+void ae_list_node_each (ae_list_node_t * const ae_list_node, ae_list_node_each_fun fun) {
+  ae_list_node_t * position = ae_list_node;
+  
+  for (ae_list_node_t * position = ae_list_node; position; position = position->tail)
+    fun(position->object);
+}
