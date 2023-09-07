@@ -18,7 +18,7 @@ SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
 BIN      = ae
 BIN2     = mini
-BIN3     = data-test
+BIN3     = data_test
 
 all:: bin/$(BIN) bin/$(BIN2) bin/$(BIN3)
 
