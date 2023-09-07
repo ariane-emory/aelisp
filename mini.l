@@ -3,6 +3,10 @@
 %}
 
 %%
-stop    printf("Stop command received\n");
-start   printf("Start command received\n");
+'[^']'             |
+'\\[nt\ \\]\'      | 
+\?\\\\[nt\ \\]     |
+\?\\[^nt\ \\]      printf("CHAR3 [%s]\n", yytext);
 %%
+
+   

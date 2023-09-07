@@ -59,9 +59,11 @@
 \(                                                              LEX(LPAR,     ML_PAREN   );
 \)                                                              LEX(RPAR,     ML_PAREN   );                                                                
 \"((\\\")|([^\"]))*\"                                           LEX(STRING,   ML_STRING  );
-\?\\?[^\ \n\t]      |
-\'(\\['\(\)])\'     |
-\'([^'\ \n\t])\'                                                LEX(CHAR,     ML_CHAR    );
+
+'[^']'              |
+'\\[nt\ \\]\'       | 
+\?\\\\[nt\ \\]      |
+\?\\[^nt\ \\]                                                   LEX(CHAR,     ML_CHAR    );
 [-+]?[0-9]+                                                     LEX(INTEGER,  ML_INTEGER );
 [-+]?[0-9]+\.[0-9]* |
 [-+]?[0-9]*\.[0-9]+                                             LEX(FLOAT,    ML_FLOAT   );
