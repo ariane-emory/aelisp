@@ -27,7 +27,7 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
     "(%s, [%s])",
     mylang_type_str(mylang_object->type),
     mylang_object->c_str
-  );
+           );
 
   return buff;
 }
@@ -40,7 +40,7 @@ const char * const mylang_list_head_str(const mylang_list_head_t * const mylang_
     BUFF_LEN,
     "(%zu)",
     mylang_list_head->items
-  );
+           );
 
   return buff;
 }
@@ -54,7 +54,7 @@ const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_
     "(%zu, %zu)",
     mylang_list_item->object, 
     mylang_list_item->tail
-  );
+           );
 
   return buff;
 }
@@ -77,4 +77,21 @@ void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang
   mylang_list_item_init(new_tail);
   new_tail->object = mylang_object;
   position->tail = new_tail;
+}
+
+void mylang_list_head_append(mylang_list_head_t * const mylang_list_head, mylang_object_t * mylang_object) {
+  mylang_list_item_t * new_tail = malloc(sizeof(mylang_list_item_t));
+  mylang_list_item_init(new_tail);
+  new_tail->object = mylang_object;
+
+  if (mylang_list_head->items) {
+    mylang_list_item_t * position = mylang_list_head->items;
+    
+    for (; position->tail; position = position->tail);
+    
+    position->tail = new_tail;
+  }
+  else {
+    mylang_list_head->items = new_tail;
+  }
 }
