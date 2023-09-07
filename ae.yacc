@@ -11,9 +11,12 @@
     %}
 
 %token LPAR RPAR STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE WORD QUOTE CHAR
+%start sexps
 
 %%
+
 sexps: | sexps sexp { printf("Yac got sexps.\n"); };
+
 sexp:
 list                               { $$ = $1; printf("Yac got sexp (list).\n"); };
 | atom                             { $$ = $1; printf("Yac got sexp (atom).\n"); };
