@@ -18,10 +18,10 @@ BIN2     = mini
 YACC     = bison
 LEX      = flex
 
-all:: $(BIN) $(BIN2)
+all:: $(BIN)
 
 %.lex.c: %.l
-	$(LEX) -o $< $^
+	$(LEX) -o mylang.lex.c $^
 
 %.tab.c: %.y
 	$(YACC) -d $^
