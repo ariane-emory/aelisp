@@ -32,7 +32,7 @@ $(BIN): lex.yy.c mylang.tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
-	rm -rf $(BIN) lex.yy.c y.tab.c y.tab.h tmp
+	rm -rf $(BIN) mylang.yy.c mylang.tab.c y.tab.h tmp
 
 test: clean all
 	echo "\"hello \\\"bob\\\"\"" | ./$(BIN)
