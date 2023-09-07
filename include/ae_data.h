@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ae-rational.h"
+#include "ae_rational.h"
 
 #define YYSTYPE ae_object_t
 

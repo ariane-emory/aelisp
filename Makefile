@@ -48,7 +48,7 @@ bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-bin/$(BIN3): $(BIN3).c obj/ae-data.o obj/ae-list.o
+bin/$(BIN3): $(BIN3).c obj/ae_data.o obj/ae_list.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::

@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include <string.h>
-#include "ae-data.h"
+#include "ae_data.h"
 #include "ae.tab.h"
 
 #define LEX(x, ae_type) return lex(#x, x, ae_type);
