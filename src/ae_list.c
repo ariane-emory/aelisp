@@ -73,8 +73,6 @@ ae_list_node_t * ae_list_push_back(ae_list_t * const this, void * const object) 
 }
 
 void ae_list_node_each (ae_list_node_t * const this, ae_list_node_each_fun fun) {
-  ae_list_node_t * position = this;
-  
   for (ae_list_node_t * position = this; position; position = position->tail)
     fun(position->object);
 }
@@ -85,4 +83,10 @@ void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
 }
 
 void ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
+  ae_list_t * new_list_p = malloc(sizeof(ae_list_t));
+  ae_list_init(new_list_p);
+
+  for (ae_list_node_t * position = *this; position; position = position->tail)
+    ae_list_push_back(new_list_p, fun(position->object));
+
 }
