@@ -15,12 +15,20 @@
 
 %%
 
-sexps: | sexps sexp { printf("Yac got sexps.\n"); };
 
 sexp:
 list                               { $$ = $1; printf("Yac got sexp (list).\n"); };
 | atom                             { $$ = $1; printf("Yac got sexp (atom).\n"); };
 
+list:     LPAR sexps RPAR          { $$ = $1; printf("Yac got list.\n"); };
+
+sexps: sexps sexp                  {
+                                     printf("Yac got sexps.\n");
+                                     $$ = $1;
+                                     ae_list_push_back($2);
+                                   };
+     |                             { $$ = 0; }
+   
 atom:
 string                             { $$ = $1; }
 | integer                          { $$ = $1; }
@@ -31,7 +39,6 @@ string                             { $$ = $1; }
 | word                             { $$ = $1; }
 | char                             { $$ = $1; };
 
-list:     LPAR sexps RPAR          { $$ = $1; printf("Yac got list.\n"); };
 string:   STRING                   { $$ = $1; YACC_PRINT($1); };
 integer:  INTEGER                  { $$ = $1; YACC_PRINT($1); };
 float:    FLOAT                    { $$ = $1; YACC_PRINT($1); };
