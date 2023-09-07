@@ -18,9 +18,12 @@ BIN2     = mini
 YACC     = bison
 LEX      = flex
 
-all:: $(BIN)
+all:: $(BIN) $(BIN2)
 
 %.lex.c: %.l %.tab.c
+	$(LEX) -o $@ $<
+
+%.lex.c: %.l
 	$(LEX) -o $@ $<
 
 %.tab.c: %.y
@@ -34,7 +37,7 @@ $(BIN): $(BIN).lex.c $(BIN).tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 $(BIN2): $(BIN2).lex.c $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
 	rm -rf $(BIN) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp

@@ -2,5 +2,6 @@ lex.yy.c
 *.lex.c
 *.tab.c
 *.tab.h
-mylang
 tmp/*
+mylang
+mini
