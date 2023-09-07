@@ -11,7 +11,7 @@ static char * three = "Three";
 void print_ae_object_str(void * ae_list_node_p) {
   ae_list_node_t * ae_list_node = ae_list_node_p;
   // printf("%s\n", ae_object_str(ae_list_node->object));
-  printf("Hello.\n");
+  printf("Iterate node 0x%x.\n", ae_list_node);
 }
 
 
