@@ -13,6 +13,6 @@ typedef union {
   int                       int_value;
   double                    float_value;
   ae_rational_t             rational_value;
-  ae_list_node_t *          list_value;
+  ae_list_t                 list_value;
 } ae_data_t;
 
