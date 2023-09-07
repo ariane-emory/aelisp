@@ -15,6 +15,11 @@ void print_ae_object_str(void * ae_object_p) {
   printf("%s\n", ae_object_str(ae_object));
 }
 
+void print_int_p(void * int_p) {
+  int * tmp = int_p;
+  printf("%d\n", tmp);
+}
+
 
 int main() {
   ae_list_t list = 0;
@@ -66,4 +71,6 @@ int main() {
     *new_num = ix;
     ae_list_push_back(&num_list, new_num);
   }
+
+  ae_list_node_each(num_list, print_int_p);
 }
