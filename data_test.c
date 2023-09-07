@@ -8,7 +8,8 @@ static char * one   = "One";
 static char * two   = "Two";
 static char * three = "Three";
 
-void print_ae_object_str(void * ae_lis_nodet) {
+void print_ae_object_str(void * ae_list_node_p) {
+  ae_list_node_t * ae_list_node = ae_list_node_p;
   printf("%s\n", ae_object_str(ae_list_node->object));
 }
 
@@ -51,4 +52,6 @@ int main() {
 
   for (ae_list_node_t * position = list; position; position = position->tail)
     printf("%s\n", ae_object_str(position->object));
+
+  ae_list_node_each(list, print_ae_object_str);
 }
