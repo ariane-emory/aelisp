@@ -78,3 +78,8 @@ void ae_list_node_each (ae_list_node_t * const this, ae_list_node_each_fun fun) 
   for (ae_list_node_t * position = this; position; position = position->tail)
     fun(position->object);
 }
+
+void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
+  if (this)
+    ae_list_node_each(this, fun);
+}
