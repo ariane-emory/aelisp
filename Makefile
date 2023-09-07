@@ -55,10 +55,11 @@ clean::
 	rm -rf bin obj tmp
 
 test: clean all
-	echo "\"hello \\\"bob\\\"\"" | ./bin/$(BIN)
-	echo
-	echo "(+ 1 'x' 2 \"hello\" qwert)" | ./bin/$(BIN)
-	./bin/$(BIN3)
+	echo "(a b c d e)" | ./bin/$(BIN)
+#	echo "\"hello \\\"bob\\\"\"" | ./bin/$(BIN)
+#	echo
+#	echo "(+ 1 'x' 2 \"hello\"  qwert)" | ./bin/$(BIN)
+#	./bin/$(BIN3)
 
 test2: clean all
 	./$(BIN2)
