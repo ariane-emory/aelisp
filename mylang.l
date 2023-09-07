@@ -59,7 +59,6 @@
 \(                                                              LEX(LPAR,     ML_PAREN   );
 \)                                                              LEX(RPAR,     ML_PAREN   );                                                                
 \"((\\\")|([^\"]))*\"                                           LEX(STRING,   ML_STRING  );
-
 '[^']'              |
 '\\[nt\ \\]\'       | 
 \?\\\\[nt\ \\]      |
