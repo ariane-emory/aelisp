@@ -40,5 +40,8 @@ void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * myl
   mylang_list_t * position = mylang_list;
 
   for (; position->tail; position = position->tail);
-    
+
+  mylang_list_t * new_tail = malloc(sizeof(mylang_list_t));
+  mylang_list_init(new_tail);
+  position->tail = new_tail;
 }
