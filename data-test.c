@@ -43,10 +43,10 @@ int main() {
     ae_list_append(&list, obj);
   }
 
-  ae_list_item_t * position = list;
+  ae_list_node_t * position = list;
   
   for (; position; position = position->tail) {
-    //printf("%s\n", ae_position_item_str(position));
+    //printf("%s\n", ae_position_node_str(position));
     printf("%s\n", ae_object_str(position->object));
   }
 }

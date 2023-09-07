@@ -9,7 +9,7 @@ typedef char * ae_string_t;
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_object_t ae_object_t;
-typedef struct ae_list_item_t   ae_list_item_t;
+typedef struct ae_list_node_t   ae_list_node_t;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Types enum
@@ -26,11 +26,11 @@ typedef struct ae_list_item_t   ae_list_item_t;
   DO(ML_QUOTE)                                                                                                                              \
   DO(ML_PAREN)
 
-#define enum_item(x) x,
+#define enum_node(x) x,
 
 typedef enum {
   ML_INVALID = 0,
-  FOR_LEXED_TYPES_DO(enum_item)
+  FOR_LEXED_TYPES_DO(enum_node)
 } ae_type_t;
 
 const char * const ae_type_str(const ae_type_t ae_type);
@@ -40,8 +40,8 @@ const char * const ae_type_str(const ae_type_t ae_type);
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_rational_t {
-  int                           numerator;
-  unsigned int                  denominator;
+  int                       numerator;
+  unsigned int              denominator;
 } ae_rational_t;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,12 +49,12 @@ typedef struct ae_rational_t {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef union {
-  char *                        string_value;
-  char                          char_value;
-  int                           int_value;
-  double                        float_value;
+  char *                    string_value;
+  char                      char_value;
+  int                       int_value;
+  double                    float_value;
   ae_rational_t             rational_value;
-  ae_list_item_t *          list_value;
+  ae_list_node_t *          list_value;
 } ae_data_t;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,19 +76,19 @@ const char * const ae_object_str(const ae_object_t * const ae_object);
 // List type
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef struct ae_list_item_t {
+typedef struct ae_list_node_t {
   ae_object_t *             object;
-  struct ae_list_item_t *   tail;
-} ae_list_item_t;
+  struct ae_list_node_t *   tail;
+} ae_list_node_t;
 
-typedef ae_list_item_t * ae_list_t;
+typedef ae_list_node_t * ae_list_t;
 
 //------------------------------------------------------------------------------
 
 void               ae_list_init(ae_list_t * const ae_list);
 const char * const ae_list_str(const ae_list_t * const ae_list);
-void               ae_list_append(ae_list_t * const ae_list, ae_object_t * ae_object);
+void               ae_list_append(ae_list_t * const ae_list, ae_object_t * const ae_object);
 
-void               ae_list_item_init(ae_list_item_t * const ae_list_item);
-const char * const ae_list_item_str(const ae_list_item_t * const ae_list_item);
-void               ae_list_item_append(ae_list_item_t * const ae_list_item, ae_object_t * ae_object);
+void               ae_list_node_init(ae_list_node_t * const ae_list_node);
+const char * const ae_list_node_str(const ae_list_node_t * const ae_list_node);
+void               ae_list_node_append(ae_list_node_t * const ae_list_node, ae_object_t * const ae_object);
