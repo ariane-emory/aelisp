@@ -39,7 +39,7 @@ tmp/%.o: src/%.c tmp
 $(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-$(BIN2): $(BIN2).lex.c $(OBJ)
+$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
