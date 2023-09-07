@@ -21,20 +21,19 @@ LEX      = flex
 
 all:: $(BIN) $(BIN2)
 
-tmp/%.lex.c: %.l tmp/%.tab.c
-	mkdir -p $(dir $@)
+tmp/%.lex.c: %.l tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
 
-tmp/%.lex.c: %.l
-	mkdir -p $(dir $@)
+tmp/%.lex.c: %.l tmp
 	$(LEX) -o $@ $<
 
-tmp/%.tab.c: %.y
-	mkdir -p $(dir $@)
-	$(YACC) -d $^ -o $@
+tmp/%.tab.c: %.y tmp
+	$(YACC) -d $< -o $@
 
-tmp/%.o: src/%.c
-	mkdir -p $(dir $@)
+tmp:
+	mkdir -p $@
+
+tmp/%.o: src/%.c tmp
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
