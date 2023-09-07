@@ -3,7 +3,7 @@
 #include <string.h>
 #include "ae.h"
 
-#define YAC_PRINT(x) printf("Yac got %s.\n", ae_object_str(&x));
+#define YAC_PRINT(x) { printf("Yac got %s.\n", ae_object_str(&x)); }
   
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; } 
