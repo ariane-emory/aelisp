@@ -31,12 +31,3 @@ const char * const ae_object_str(const ae_object_t * const ae_object) {
 
   return buff;
 }
-
-#define return_str(x) case x: return #x;
-const char * const ae_type_str(const ae_type_t ae_type) {
-  switch (ae_type) {
-    FOR_LEXED_TYPES_DO(return_str);
-  default: return "UNRECOGNIZED!";
-  }
-}
-#undef return_str

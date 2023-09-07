@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ae_rational.h"
+#include "ae_type.h"
 
 #define YYSTYPE ae_object_t
 
@@ -12,30 +13,6 @@ typedef char * ae_string_t;
 
 typedef struct ae_object_t ae_object_t;
 typedef struct ae_list_node_t   ae_list_node_t;
-
-////////////////////////////////////////////////////////////////////////////////
-// Types enum
-////////////////////////////////////////////////////////////////////////////////
-
-#define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
-  DO(ML_STRING)                                                                                                                             \
-  DO(ML_CHAR)                                                                                                                               \
-  DO(ML_INTEGER)                                                                                                                            \
-  DO(ML_FLOAT)                                                                                                                              \
-  DO(ML_RATIONAL)                                                                                                                           \
-  DO(ML_LIST)                                                                                                                               \
-  DO(ML_SYMBOL)                                                                                                                             \
-  DO(ML_QUOTE)                                                                                                                              \
-  DO(ML_PAREN)
-
-#define enum_node(x) x,
-
-typedef enum {
-  ML_INVALID = 0,
-  FOR_LEXED_TYPES_DO(enum_node)
-} ae_type_t;
-
-const char * const ae_type_str(const ae_type_t ae_type);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Data type
