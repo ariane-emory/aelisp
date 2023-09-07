@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "mylang-data.h"
-#include "y.tab.h"
+#include "mylang.tab.h"
 
 #define LEX(x, mylang_type) return lex(#x, x, mylang_type);
 
@@ -58,7 +58,7 @@
 \'                                                              LEX(QUOTE,    ML_QUOTE   );
 \(                                                              LEX(LPAR,     ML_PAREN   );
 \)                                                              LEX(RPAR,     ML_PAREN   );                                                                
-\"((\\\")|([^\"]))*\"                                             LEX(STRING,   ML_STRING  );
+\"((\\\")|([^\"]))*\"                                           LEX(STRING,   ML_STRING  );
 \?\\?[^\ \n\t]      |
 \'(\\['\(\)])\'     |
 \'([^'\ \n\t])\'                                                LEX(CHAR,     ML_CHAR    );

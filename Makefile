@@ -14,20 +14,21 @@ OBJDUMP  = objdump
 SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
 BIN      = mylang
+YACC     = bison
 
 all:: $(BIN) 
 
 lex.yy.c:
 	lex $(BIN).l
 
-y.tab.c:
-	yacc -d $(BIN).y
+mylang.tab.c:
+	$(YACC) -d $(BIN).y
 
 tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): lex.yy.c y.tab.c $(OBJ)
+$(BIN): lex.yy.c mylang.tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
