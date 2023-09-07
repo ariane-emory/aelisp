@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ae-rational.h"
+
 #define YYSTYPE ae_object_t
 
 typedef char * ae_string_t;
@@ -36,15 +38,6 @@ typedef enum {
 const char * const ae_type_str(const ae_type_t ae_type);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Rational type
-////////////////////////////////////////////////////////////////////////////////
-
-typedef struct ae_rational_t {
-  int                       numerator;
-  unsigned int              denominator;
-} ae_rational_t;
-
-////////////////////////////////////////////////////////////////////////////////
 // Data type
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -71,24 +64,3 @@ typedef struct ae_object_t {
 
 void               ae_object_init(ae_object_t * const ae_object);
 const char * const ae_object_str(const ae_object_t * const ae_object);
-
-////////////////////////////////////////////////////////////////////////////////
-// List type
-////////////////////////////////////////////////////////////////////////////////
-
-typedef struct ae_list_node_t {
-  ae_object_t *             object;
-  struct ae_list_node_t *   tail;
-} ae_list_node_t;
-
-typedef ae_list_node_t * ae_list_t;
-
-//------------------------------------------------------------------------------
-
-void               ae_list_init(ae_list_t * const ae_list);
-const char * const ae_list_str(const ae_list_t * const ae_list);
-void               ae_list_append(ae_list_t * const ae_list, ae_object_t * const ae_object);
-
-void               ae_list_node_init(ae_list_node_t * const ae_list_node);
-const char * const ae_list_node_str(const ae_list_node_t * const ae_list_node);
-void               ae_list_node_append(ae_list_node_t * const ae_list_node, ae_object_t * const ae_object);
