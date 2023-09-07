@@ -15,7 +15,6 @@ void print_ae_object_str(void * ae_object_p) {
 }
 
 void print_int_p(void * int_p) {
-  *(int*)int_p += 1;
   printf("%d\n",*(int*)int_p);
 }
 
@@ -26,6 +25,12 @@ void * double_int_p(void * int_p) {
   return new_int;
 }
 
+void * id_int_p(void * int_p) {
+  int tmp  = *(int*)int_p;
+  int * new_int = malloc(sizeof(int));
+  *new_int = tmp;
+  return new_int;
+}
 
 int main() {
   ae_list_t list = 0;
@@ -80,8 +85,9 @@ int main() {
   ae_list_each(&num_list, print_int_p);
   printf("\n");
   ae_list_t doubled_list = ae_list_map(&num_list, double_int_p);
-  ae_list_each(&doubled_list, print_int_p);
-
+  ae_list_map_into(&doubled_list, &num_list, id_int_p);
+  ae_list_each(&num_list, print_int_p);
+                                             
   printf("Length: %d\n", ae_list_node_length(doubled_list));
   printf("Length: %d\n", ae_list_length(&doubled_list));
 }

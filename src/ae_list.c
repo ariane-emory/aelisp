@@ -97,7 +97,7 @@ void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
     ae_list_node_each(*this, fun);
 }
 
-ae_list_t ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
+ae_list_t ae_list_map(const ae_list_t * const this, ae_list_node_map_fun fun) {
   ae_list_t new_list = 0;
 
   if (*this)
