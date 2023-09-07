@@ -14,10 +14,11 @@ OBJDUMP  = objdump
 SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
 BIN      = mylang
+BIN2     = mini
 YACC     = bison
 LEX      = flex
 
-all:: $(BIN) 
+all:: $(BIN) $(BIN2)
 
 %.lex.c: %.l
 	$(LEX) -o $< $^
@@ -29,11 +30,14 @@ tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): $(BIN).lex.c mylang.tab.c $(OBJ)
+$(BIN): $(BIN).lex.c $(BIN).tab.c $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+
+$(BIN2): $(BIN2).lex.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
-	rm -rf $(BIN) mylang.yy.c mylang.tab.c y.tab.h tmp
+	rm -rf $(BIN) $(BIN)g.yy.c $(BIN)g.tab.c tmp
 
 test: clean all
 	echo "\"hello \\\"bob\\\"\"" | ./$(BIN)
