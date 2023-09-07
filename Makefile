@@ -29,14 +29,15 @@ tmp/%.lex.c: %.l
 	mkdir -p $(dir $@)
 	$(LEX) -o $@ $<
 
-%.tab.c: %.y
-	$(YACC) -d $^
+tmp/%.tab.c: %.y
+	mkdir -p $(dir $@)
+	$(YACC) -d $^ -o $@
 
 tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): tmp/$(BIN).lex.c $(BIN).tab.c $(OBJ)
+$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 $(BIN2): $(BIN2).lex.c $(OBJ)
