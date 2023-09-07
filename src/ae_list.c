@@ -13,9 +13,9 @@ void ae_list_init(ae_list_t * const ae_list) {
   *ae_list = 0;
 }
 
-void ae_list_node_init(ae_list_node_t * const ae_list_node) {
-  ae_list_node->object = 0;
-  ae_list_node->tail   = 0;
+void ae_list_node_init(ae_list_node_t * const this) {
+  this->object = 0;
+  this->tail   = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,15 +35,15 @@ const char * const ae_list_str(const ae_list_t * const ae_list) {
   return buff;
 }
 
-const char * const ae_list_node_str(const ae_list_node_t * const ae_list_node) {
+const char * const ae_list_node_str(const ae_list_node_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   snprintf(
     buff,
     BUFF_LEN,
     "(%zu, %zu)",
-    ae_list_node->object, 
-    ae_list_node->tail
+    this->object, 
+    this->tail
   );
 
   return buff;
@@ -60,21 +60,21 @@ ae_list_node_t * ae_list_node_create(void * const object) {
   return list_node;
 }
 
-ae_list_node_t * ae_list_node_push_back(ae_list_node_t * const ae_list_node, void * const object) {
-  ae_list_node_t * position = ae_list_node;
+ae_list_node_t * ae_list_node_push_back(ae_list_node_t * const this, void * const object) {
+  ae_list_node_t * position = this;
   for (; position->tail; position = position->tail);
   return (position->tail = ae_list_node_create(object));
 }
 
-ae_list_node_t * ae_list_push_back(ae_list_t * const ae_list, void * const object) {
-  return *ae_list
-    ? ae_list_node_push_back(*ae_list, object)
-    : (*ae_list = ae_list_node_create(object));
+ae_list_node_t * ae_list_push_back(ae_list_t * const this, void * const object) {
+  return *this
+    ? ae_list_node_push_back(*this, object)
+    : (*this = ae_list_node_create(object));
 }
 
-void ae_list_node_each (ae_list_node_t * const ae_list_node, ae_list_node_each_fun fun) {
-  ae_list_node_t * position = ae_list_node;
+void ae_list_node_each (ae_list_node_t * const this, ae_list_node_each_fun fun) {
+  ae_list_node_t * position = this;
   
-  for (ae_list_node_t * position = ae_list_node; position; position = position->tail)
+  for (ae_list_node_t * position = this; position; position = position->tail)
     fun(position->object);
 }

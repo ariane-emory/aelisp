@@ -9,24 +9,24 @@
 // _init method
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_object_init(ae_object_t * const ae_object) {
-  ae_object->type  = ML_INVALID;
-  ae_object->c_str = 0;
+void ae_object_init(ae_object_t * const this) {
+  this->type  = ML_INVALID;
+  this->c_str = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // _str methods
 ////////////////////////////////////////////////////////////////////////////////
 
-const char * const ae_object_str(const ae_object_t * const ae_object) {
+const char * const ae_object_str(const ae_object_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   snprintf(
     buff,
     BUFF_LEN,
     "(%s, [%s])",
-    ae_type_str(ae_object->type),
-    ae_object->c_str
+    ae_type_str(this->type),
+    this->c_str
   );
 
   return buff;

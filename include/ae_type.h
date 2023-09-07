@@ -22,4 +22,4 @@ typedef enum {
   FOR_LEXED_TYPES_DO(enum_node)
 } ae_type_t;
 
-const char * const ae_type_str(const ae_type_t ae_type);
+const char * const ae_type_str(const ae_type_t this);
