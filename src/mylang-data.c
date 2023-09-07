@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "mylang-data.h"
 
+#define BUFF_LEN 256
+
 void mylang_object_init(mylang_object_t * const mylang_object) {
   mylang_object->type  = ML_INVALID;
   mylang_object->c_str = 0;
@@ -17,8 +19,6 @@ const char * const mylang_type_str(const mylang_type_t mylang_type) {
 }
 
 const char * const mylang_object_str(const mylang_object_t * const mylang_object) {
-#define BUFF_LEN 256
-
   static char buff[BUFF_LEN] = {0};
 
   snprintf(
@@ -32,8 +32,22 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
   return buff;
 }
 
+const char * const mylang_list_str(const mylang_list_t * const mylang_list) {
+  static char buff[BUFF_LEN] = {0};
+
+  snprintf(
+    buff,
+    BUFF_LEN,
+    "(%zu, %zu)",
+    mylang_list->data, 
+    mylang_list->tail
+  );
+
+  return buff;
+}
+
 void mylang_list_init(mylang_list_t * const mylang_list) {
-  mylang_list->head = 0;
+  mylang_list->data = 0;
   mylang_list->tail = 0;
 }
 
@@ -44,5 +58,6 @@ void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * myl
 
   mylang_list_t * new_tail = malloc(sizeof(mylang_list_t));
   mylang_list_init(new_tail);
+  new_tail->data = mylang_object;
   position->tail = new_tail;
 }
