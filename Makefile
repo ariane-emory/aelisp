@@ -15,11 +15,12 @@ SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
 BIN      = mylang
 YACC     = bison
+LEX      = flex
 
 all:: $(BIN) 
 
-lex.yy.c:
-	lex $(BIN).l
+mylang.c:
+	$(LEX) -o $(BIN).c $(BIN).l
 
 mylang.tab.c:
 	$(YACC) -d $(BIN).y
@@ -28,7 +29,7 @@ tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): lex.yy.c mylang.tab.c $(OBJ)
+$(BIN): $(BIN).c mylang.tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
