@@ -39,8 +39,8 @@ const char * const mylang_list_str(const mylang_list_t * const mylang_list) {
     buff,
     BUFF_LEN,
     "(%zu)",
-    mylang_list->items
-           );
+    (*mylang_list)
+  );
 
   return buff;
 }
@@ -60,7 +60,7 @@ const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_
 }
 
 void mylang_list_init(mylang_list_t * const mylang_list) {
-  mylang_list->items  = 0;
+  (*mylang_list)  = 0;
 }
 
 void mylang_list_item_init(mylang_list_item_t * const mylang_list_item) {
@@ -81,13 +81,14 @@ void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang
 
 void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * mylang_object) {
 
-  if (mylang_list->items) {
-    mylang_list_item_append(mylang_list->items, mylang_object);
+  if (*mylang_list) {
+    mylang_list_item_append(*mylang_list, mylang_object);
   }
   else {
     mylang_list_item_t * new_tail = malloc(sizeof(mylang_list_item_t));
     mylang_list_item_init(new_tail);
     new_tail->object = mylang_object;
-    mylang_list->items = new_tail;
+    (*mylang_list) = new_tail;
   }
 }
+

@@ -43,7 +43,7 @@ int main() {
     mylang_list_append(list, obj);
   }
 
-  mylang_list_item_t * position = list->items;
+  mylang_list_item_t * position = (*list);
   
   for (; position; position = position->tail) {
     //printf("%s\n", mylang_position_item_str(position));
