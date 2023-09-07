@@ -46,9 +46,13 @@ const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_
   return buff;
 }
 
+void mylang_list_head_init(mylang_list_head_t * const mylang_list_head) {
+  mylang_list_head->items  = 0;
+}
+
 void mylang_list_item_init(mylang_list_item_t * const mylang_list_item) {
   mylang_list_item->object = 0;
-  mylang_list_item->tail = 0;
+  mylang_list_item->tail   = 0;
 }
 
 void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang_object_t * mylang_object) {
