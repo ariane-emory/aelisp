@@ -19,12 +19,12 @@ typedef ae_list_node_t * ae_list_t;
 void               ae_list_init          (      ae_list_t * const this);
 const char * const ae_list_str           (const ae_list_t * const this);
 ae_list_node_t *   ae_list_push_back     (      ae_list_t * const this, void * const object);
-size_t             ae_list_length        (      ae_list_t * const this);
-void               ae_list_each          (      ae_list_t * const this, ae_list_node_each_fun fun);
+size_t             ae_list_length        (const ae_list_t * const this);
+void               ae_list_each          (const ae_list_t * const this, ae_list_node_each_fun fun);
 ae_list_t          ae_list_map           (      ae_list_t * const this, ae_list_node_map_fun fun);
 
 void               ae_list_node_init     (      ae_list_node_t * const this);
 const char * const ae_list_node_str      (const ae_list_node_t * const this);
 ae_list_node_t *   ae_list_node_push_back(      ae_list_node_t * const this, void * const object);
-size_t             ae_list_node_length   (      ae_list_node_t * const this);
-void               ae_list_node_each     (      ae_list_node_t * const this, ae_list_node_each_fun fun);
+size_t             ae_list_node_length   (const ae_list_node_t * const this);
+void               ae_list_node_each     (const ae_list_node_t * const this, ae_list_node_each_fun fun);
