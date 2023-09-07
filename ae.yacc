@@ -14,12 +14,11 @@
 
 %%
 sexps: | sexps sexp { printf("Yac got sexps.\n"); };
-
 sexp:
 list                               { $$ = $1; printf("Yac got sexp (list).\n"); };
 | atom                             { $$ = $1; printf("Yac got sexp (atom).\n"); };
-list:     LPAR sexps RPAR          { printf("Yac got list.\n"); };
-string:   STRING                   { YAC_PRINT($1); };
+list:     LPAR sexps RPAR          { $$ = $1; printf("Yac got list.\n"); };
+string:   STRING                   { $$ = $1; YAC_PRINT($1); };
 integer:  INTEGER                  { $$ = $1; YAC_PRINT($1); };
 float:    FLOAT                    { $$ = $1; YAC_PRINT($1); };
 rational: RATIONAL                 { $$ = $1; YAC_PRINT($1); };
