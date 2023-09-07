@@ -19,8 +19,8 @@ LEX      = flex
 
 all:: $(BIN) 
 
-mylang.c:
-	$(LEX) -o $(BIN).c $(BIN).l
+%.lex.c: %.l
+	$(LEX) -o $< $^
 
 %.tab.c: %.y
 	$(YACC) -d $^
@@ -29,7 +29,7 @@ tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): $(BIN).c mylang.tab.c $(OBJ)
+$(BIN): $(BIN).lex.c mylang.tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
