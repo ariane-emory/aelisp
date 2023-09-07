@@ -32,14 +32,14 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
   return buff;
 }
 
-const char * const mylang_list_head_str(const mylang_list_head_t * const mylang_list_head) {
+const char * const mylang_list_str(const mylang_list_t * const mylang_list) {
   static char buff[BUFF_LEN] = {0};
 
   snprintf(
     buff,
     BUFF_LEN,
     "(%zu)",
-    mylang_list_head->items
+    mylang_list->items
            );
 
   return buff;
@@ -59,8 +59,8 @@ const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_
   return buff;
 }
 
-void mylang_list_head_init(mylang_list_head_t * const mylang_list_head) {
-  mylang_list_head->items  = 0;
+void mylang_list_init(mylang_list_t * const mylang_list) {
+  mylang_list->items  = 0;
 }
 
 void mylang_list_item_init(mylang_list_item_t * const mylang_list_item) {
@@ -79,19 +79,19 @@ void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang
   position->tail = new_tail;
 }
 
-void mylang_list_head_append(mylang_list_head_t * const mylang_list_head, mylang_object_t * mylang_object) {
+void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * mylang_object) {
   mylang_list_item_t * new_tail = malloc(sizeof(mylang_list_item_t));
   mylang_list_item_init(new_tail);
   new_tail->object = mylang_object;
 
-  if (mylang_list_head->items) {
-    mylang_list_item_t * position = mylang_list_head->items;
+  if (mylang_list->items) {
+    mylang_list_item_t * position = mylang_list->items;
     
     for (; position->tail; position = position->tail);
     
     position->tail = new_tail;
   }
   else {
-    mylang_list_head->items = new_tail;
+    mylang_list->items = new_tail;
   }
 }

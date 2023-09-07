@@ -81,16 +81,16 @@ typedef struct mylang_list_item_t {
   struct mylang_list_item_t *   tail;
 } mylang_list_item_t;
 
-typedef struct mylang_list_head_t {
+typedef struct mylang_list_t {
   struct mylang_list_item_t *   items;
-} mylang_list_head_t;
+} mylang_list_t;
 
 
 //------------------------------------------------------------------------------
 
-void mylang_list_head_init(mylang_list_head_t * const mylang_list_head);
-const char * const mylang_list_head_str(const mylang_list_head_t * const mylang_list_head);
-void mylang_list_head_append(mylang_list_head_t * const mylang_list_head, mylang_object_t * mylang_object);
+void mylang_list_init(mylang_list_t * const mylang_list);
+const char * const mylang_list_str(const mylang_list_t * const mylang_list);
+void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * mylang_object);
 
 void mylang_list_item_init(mylang_list_item_t * const mylang_list_item);
 const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_list_item);
