@@ -22,19 +22,23 @@ list                               { $$ = $1; printf("Yac got sexp (list).\n"); 
 
 list:  LPAR sexps RPAR             { $$ = $1; printf("Yac got list.\n"); };
 
-sexps: sexps sexp                  {
-                                     printf("Yac got sexps (1).\n");
-                                     $$ = $1;
-                                     printf("Copied %s.\n", ae_object_str(&$2));
-                                     char * nll = 0;
-                                     ae_list_push_back(&$1.data.list_value, &$2);
-                                   }
-     |                             {
-                                     printf("Yac got sexps (2).\n");
-                                     ae_object_init(&$$);
-                                     $$.type = ML_LIST;
-                                     ae_list_init(&$$.data.list_value);
-                                   };
+sexps: sexps sexp
+{
+  $$ = $1;
+  ae_list_push_back(&$1.data.list_value, &$2);
+  printf(
+    "Yac cont'd sexps. Copied %s.\n",
+    ae_object_str(&$1));
+  printf(
+    "                  Pushed %s.\n",
+    ae_object_str(&$2));
+}
+| {
+  ae_object_init(&$$);
+  $$.type = ML_LIST;
+  ae_list_init(&$$.data.list_value);
+  printf("Yac got sexps (2). Created %s.\n", ae_object_str(&$$));
+};
    
 atom:
 string                             { $$ = $1; }

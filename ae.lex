@@ -14,39 +14,39 @@
     yylval.type  = ae_type;
     yylval.c_str = strdup(yytext);
 
-    // printf("Lex got %s.\n", ae_object_str(&yylval));
+    //// printf("Lex got %s.\n", ae_object_str(&yylval));
 
     switch (yylval.type) {
     case ML_STRING:
-      printf("Lex a ML_STRING.\n");
+      //printf("Lex a ML_STRING.\n");
       yylval.data.string_value = strdup(yytext);
       break;
     case ML_CHAR:
-      printf("Lex a ML_CHAR.\n");
+      //printf("Lex a ML_CHAR.\n");
       break;
     case ML_INTEGER:
-      printf("Lex a ML_INTEGER.\n");
+      //printf("Lex a ML_INTEGER.\n");
       break;
     case ML_FLOAT:
-      printf("Lex a ML_FLOAT.\n");
+      //printf("Lex a ML_FLOAT.\n");
       break;
     case ML_RATIONAL:
-      printf("Lex a ML_RATIONAL.\n");
+      //printf("Lex a ML_RATIONAL.\n");
       break;
     case ML_LIST:
-      printf("Lex a ML_LIST.\n");
+      //printf("Lex a ML_LIST.\n");
       break;
     case ML_SYMBOL:
-      printf("Lex a ML_SYMBOL.\n");
+      //printf("Lex a ML_SYMBOL.\n");
       break;
     case ML_QUOTE:
-      printf("Lex a ML_QUOTE.\n");
+      //printf("Lex a ML_QUOTE.\n");
       break;
     case ML_PAREN:
-      printf("Lex a ML_PAREN.\n");
+      //printf("Lex a ML_PAREN.\n");
       break;
     default:
-      printf("Lex something unrecognizable.\n");
+      //printf("Lex something unrecognizable.\n");
       break;
     }
 
