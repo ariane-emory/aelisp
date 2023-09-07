@@ -16,7 +16,7 @@ LEX      = flex
 YACC     = bison
 SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
-BIN      = mylang
+BIN      = ae
 BIN2     = mini
 BIN3     = data-test
 
@@ -45,7 +45,7 @@ bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-bin/$(BIN3): $(BIN3).c tmp/mylang-data.o
+bin/$(BIN3): $(BIN3).c tmp/ae-data.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::

@@ -1,20 +1,20 @@
 %{
 #include <stdio.h>
 #include <string.h>
-#include "mylang-data.h"
-#include "mylang.tab.h"
+#include "ae-data.h"
+#include "ae.tab.h"
 
-#define LEX(x, mylang_type) return lex(#x, x, mylang_type);
+#define LEX(x, ae_type) return lex(#x, x, ae_type);
 
   enum yytokentype lex(
     const char * const name,
     enum yytokentype x,
-    mylang_type_t mylang_type) {
-    mylang_object_init(&yylval);
-    yylval.type  = mylang_type;
+    ae_type_t ae_type) {
+    ae_object_init(&yylval);
+    yylval.type  = ae_type;
     yylval.c_str = strdup(yytext);
 
-    printf("Lex got %s.\n", mylang_object_str(&yylval));
+    printf("Lex got %s.\n", ae_object_str(&yylval));
 
     switch (yylval.type) {
     case ML_STRING:
