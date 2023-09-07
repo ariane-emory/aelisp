@@ -81,10 +81,6 @@ typedef struct mylang_list_item_t {
   struct mylang_list_item_t *   tail;
 } mylang_list_item_t;
 
-/* typedef struct mylang_list_t { */
-/*   struct mylang_list_item_t *   items; */
-/* } mylang_list_t; */
-
 typedef mylang_list_item_t * mylang_list_t;
 
 //------------------------------------------------------------------------------
