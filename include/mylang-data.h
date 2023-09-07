@@ -9,7 +9,7 @@ typedef char * mylang_string_t;
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct mylang_object_t mylang_object_t;
-typedef struct mylang_list_t   mylang_list_t;
+typedef struct mylang_list_item_t   mylang_list_item_t;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Types enum
@@ -54,7 +54,7 @@ typedef union {
   int                    int_value;
   double                 float_value;
   mylang_rational_t      rational_value;
-  mylang_list_t *        list_value;
+  mylang_list_item_t *        list_value;
 } mylang_data_t;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,13 +76,13 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
 // List type
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef struct mylang_list_t {
+typedef struct mylang_list_item_t {
   mylang_object_t *      data;
-  struct mylang_list_t * tail;
-} mylang_list_t;
+  struct mylang_list_item_t * tail;
+} mylang_list_item_t;
 
 //------------------------------------------------------------------------------
 
-void mylang_list_init(mylang_list_t * const mylang_list);
-void mylang_list_append(mylang_list_t * const mylang_list, mylang_object_t * mylang_object);
-const char * const mylang_list_str(const mylang_list_t * const mylang_list);
+void mylang_list_item_init(mylang_list_item_t * const mylang_list_item);
+void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang_object_t * mylang_object);
+const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_list_item);
