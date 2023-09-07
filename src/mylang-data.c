@@ -27,7 +27,7 @@ const char * const mylang_object_str(const mylang_object_t * const mylang_object
     "(%s, [%s])",
     mylang_type_str(mylang_object->type),
     mylang_object->c_str
-           );
+  );
 
   return buff;
 }
@@ -40,7 +40,7 @@ const char * const mylang_list_str(const mylang_list_t * const mylang_list) {
     BUFF_LEN,
     "(%zu)",
     (*mylang_list)
-           );
+  );
 
   return buff;
 }
