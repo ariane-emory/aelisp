@@ -33,7 +33,7 @@ typedef enum {
   FOR_LEXED_TYPES_DO(enum_item)
 } ae_type_t;
 
-// const char * const ae_type_str(const ae_type_t ae_type);
+const char * const ae_type_str(const ae_type_t ae_type);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Rational type
@@ -69,7 +69,7 @@ typedef struct ae_object_t {
 
 //------------------------------------------------------------------------------
 
-void ae_object_init(ae_object_t * const ae_object);
+void               ae_object_init(ae_object_t * const ae_object);
 const char * const ae_object_str(const ae_object_t * const ae_object);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,10 +85,10 @@ typedef ae_list_item_t * ae_list_t;
 
 //------------------------------------------------------------------------------
 
-void ae_list_init(ae_list_t * const ae_list);
+void               ae_list_init(ae_list_t * const ae_list);
 const char * const ae_list_str(const ae_list_t * const ae_list);
-void ae_list_append(ae_list_t * const ae_list, ae_object_t * ae_object);
+void               ae_list_append(ae_list_t * const ae_list, ae_object_t * ae_object);
 
-void ae_list_item_init(ae_list_item_t * const ae_list_item);
+void               ae_list_item_init(ae_list_item_t * const ae_list_item);
 const char * const ae_list_item_str(const ae_list_item_t * const ae_list_item);
-void ae_list_item_append(ae_list_item_t * const ae_list_item, ae_object_t * ae_object);
+void               ae_list_item_append(ae_list_item_t * const ae_list_item, ae_object_t * ae_object);
