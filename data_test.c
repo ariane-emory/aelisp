@@ -8,6 +8,11 @@ static char * one   = "One";
 static char * two   = "Two";
 static char * three = "Three";
 
+void print_ae_object_str(void * ae_lis_nodet) {
+  printf("%s\n", ae_object_str(ae_list_node->object));
+}
+
+
 int main() {
   ae_list_t list = 0; // malloc(sizeof(ae_list_t));
   ae_list_init(&list);
