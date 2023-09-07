@@ -60,15 +60,15 @@ ae_list_node_t * ae_list_node_create(void * const object) {
   return list_node;
 }
 
-ae_list_node_t * ae_list_node_append(ae_list_node_t * const ae_list_node, void * const object) {
+ae_list_node_t * ae_list_node_push_back(ae_list_node_t * const ae_list_node, void * const object) {
   ae_list_node_t * position = ae_list_node;
   for (; position->tail; position = position->tail);
   return (position->tail = ae_list_node_create(object));
 }
 
-ae_list_node_t * ae_list_append(ae_list_t * const ae_list, void * const object) {
+ae_list_node_t * ae_list_push_back(ae_list_t * const ae_list, void * const object) {
   return *ae_list
-    ? ae_list_node_append(*ae_list, object)
+    ? ae_list_node_push_back(*ae_list, object)
     : (*ae_list = ae_list_node_create(object));
 }
 

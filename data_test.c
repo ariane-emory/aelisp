@@ -17,7 +17,7 @@ int main() {
     ae_object_init(obj);
     obj->c_str = zero;
     printf("%s\n", ae_object_str(obj));
-    ae_list_append(&list, obj);
+    ae_list_push_back(&list, obj);
   }
   
   {
@@ -25,7 +25,7 @@ int main() {
     ae_object_init(obj);
     obj->c_str = one;
     printf("%s\n", ae_object_str(obj));
-    ae_list_append(&list, obj);
+    ae_list_push_back(&list, obj);
   }
 
   {
@@ -33,7 +33,7 @@ int main() {
     ae_object_init(obj);
     obj->c_str = two;
     printf("%s\n", ae_object_str(obj));
-    ae_list_append(&list, obj);
+    ae_list_push_back(&list, obj);
   }
 
   {
@@ -41,7 +41,7 @@ int main() {
     ae_object_init(obj);
     obj->c_str = three;
     printf("%s\n", ae_object_str(obj));
-    ae_list_append(&list, obj);
+    ae_list_push_back(&list, obj);
   }
 
   ae_list_node_t * position = list;
