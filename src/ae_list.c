@@ -64,7 +64,9 @@ ae_list_node_t * ae_list_node_create(void * const object) {
 ae_list_node_t * ae_list_node_push_back(ae_list_node_t * const this, void * const object) {
   ae_list_node_t * position = this;
   for (; position->tail; position = position->tail);
-  return (position->tail = ae_list_node_create(object));
+  position->tail = ae_list_node_create(object);
+  printf("After push, length is %d.\n", ae_list_node_length(this));
+  return position->tail;
 }
 
 size_t ae_list_node_length(const ae_list_node_t * const this) {

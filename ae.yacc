@@ -20,14 +20,20 @@ sexp:
 list                               { $$ = $1; printf("Yac got sexp (list).\n"); };
 | atom                             { $$ = $1; printf("Yac got sexp (atom).\n"); };
 
-list:     LPAR sexps RPAR          { $$ = $1; printf("Yac got list.\n"); };
+list:  LPAR sexps RPAR             { $$ = $1; printf("Yac got list.\n"); };
 
 sexps: sexps sexp                  {
                                      printf("Yac got sexps.\n");
                                      $$ = $1;
-                                     ae_list_push_back($2);
+                                     printf("Copied %s.\n", ae_object_str(&$1));
+                                     char * nll = 0;
+                                     ae_list_push_back(&$1.data.list_value, &$2);
+                                   }
+     |                             {
+                                     ae_object_init(&$$);
+                                     $$.type = ML_LIST;
+                                     ae_list_init(&$$.data.list_value);
                                    };
-     |                             { $$ = 0; }
    
 atom:
 string                             { $$ = $1; }
