@@ -16,7 +16,6 @@ int main() {
     mylang_object_init(obj);
     obj->c_str = zero;
     printf("%s\n", mylang_object_str(obj));
-    
     mylang_list_append(list, obj);
   }
   
@@ -25,7 +24,6 @@ int main() {
     mylang_object_init(obj);
     obj->c_str = one;
     printf("%s\n", mylang_object_str(obj));
-    
     mylang_list_append(list, obj);
   }
 
@@ -34,7 +32,6 @@ int main() {
     mylang_object_init(obj);
     obj->c_str = two;
     printf("%s\n", mylang_object_str(obj));
-    
     mylang_list_append(list, obj);
   }
 
@@ -43,7 +40,6 @@ int main() {
     mylang_object_init(obj);
     obj->c_str = three;
     printf("%s\n", mylang_object_str(obj));
-    
     mylang_list_append(list, obj);
   }
 
