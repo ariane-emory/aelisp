@@ -21,7 +21,7 @@ LEX      = flex
 all:: $(BIN)
 
 %.lex.c: %.l
-	$(LEX) -o mylang.lex.c $^
+	$(LEX) -o $@ $^
 
 %.tab.c: %.y
 	$(YACC) -d $^
