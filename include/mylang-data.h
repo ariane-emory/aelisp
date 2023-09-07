@@ -88,6 +88,11 @@ typedef struct mylang_list_head_t {
 
 //------------------------------------------------------------------------------
 
+void mylang_list_head_init(mylang_list_head_t * const mylang_list_head);
+const char * const mylang_list_head_str(const mylang_list_head_t * const mylang_list_head);
+
 void mylang_list_item_init(mylang_list_item_t * const mylang_list_item);
-void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang_object_t * mylang_object);
 const char * const mylang_list_item_str(const mylang_list_item_t * const mylang_list_item);
+
+void mylang_list_item_append(mylang_list_item_t * const mylang_list_item, mylang_object_t * mylang_object);
+
