@@ -21,13 +21,13 @@ LEX      = flex
 
 all:: bin/$(BIN) bin/$(BIN2)
 
-tmp/%.lex.c: %.l tmp/%.tab.c tmp
+tmp/%.lex.c: %.lex tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
 
-tmp/%.lex.c: %.l tmp
+tmp/%.lex.c: %.lex tmp
 	$(LEX) -o $@ $<
 
-tmp/%.tab.c: %.y tmp
+tmp/%.tab.c: %.yacc tmp
 	$(YACC) -d $< -o $@
 
 tmp:
@@ -63,9 +63,4 @@ debug: clean all
 
 dump: clean tmp/main.o $(BIN)
 	$(OBJDUMP) -t -d tmp/main.o
-
-
-
-
-
 
