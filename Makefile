@@ -15,7 +15,7 @@ OBJDUMP  = objdump
 LEX      = flex
 YACC     = bison
 SRC      = $(shell find src -name "*.c")
-OBJ      = $(patsubst src/%.c, tmp/%.o, $(SRC))
+OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
 BIN      = ae
 BIN2     = mini
 BIN3     = data-test
@@ -34,7 +34,10 @@ tmp/%.tab.c: %.yacc tmp
 tmp:
 	mkdir -p $@
 
-tmp/%.o: src/%.c tmp
+obj:
+	mkdir -p $@
+
+obj/%.o: src/%.c obj
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
@@ -45,11 +48,11 @@ bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-bin/$(BIN3): $(BIN3).c tmp/ae-data.o
+bin/$(BIN3): $(BIN3).c obj/ae-data.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
-	rm -rf tmp/$(BIN) tmp/$(BIN2) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp
+	rm -rf bin obj tmp
 
 test: clean all
 	echo "\"hello \\\"bob\\\"\"" | ./bin/$(BIN)

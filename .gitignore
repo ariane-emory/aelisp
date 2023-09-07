@@ -1,3 +1,4 @@
-tmp/*
 bin/*
+obj/*
+tmp/*
 .DS_Store
