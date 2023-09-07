@@ -22,8 +22,8 @@ all:: $(BIN)
 mylang.c:
 	$(LEX) -o $(BIN).c $(BIN).l
 
-mylang.tab.c:
-	$(YACC) -d $(BIN).y
+%.tab.c: %.y
+	$(YACC) -d $^
 
 tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
