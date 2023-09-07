@@ -107,7 +107,7 @@ ae_list_t ae_list_map(const ae_list_t * const this, ae_list_node_map_fun fun) {
   return new_list;
 }
 
-void ae_list_map_into_from(ae_list_t * const this, ae_list_t * const that, ae_list_node_map_fun fun) {
+void ae_list_map_into_from(ae_list_t * const this, const ae_list_t * const that, ae_list_node_map_fun fun) {
   assert(that != this);
   
   if (*that)
