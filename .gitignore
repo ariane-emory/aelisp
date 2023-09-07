@@ -5,3 +5,4 @@ lex.yy.c
 tmp/*
 mylang
 mini
+data-test
