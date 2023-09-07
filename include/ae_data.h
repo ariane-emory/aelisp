@@ -3,12 +3,14 @@
 #include "ae_rational.h"
 #include "ae_list.h"
 
+typedef char * ae_string_t;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Data type
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef union {
-  char *                    string_value;
+  ae_string_t               string_value;
   char                      char_value;
   int                       int_value;
   double                    float_value;
