@@ -9,8 +9,8 @@
 
 typedef struct ae_object_t {
   ae_type_t                 type;
-  char *                    c_str;
   ae_data_t                 data;
+  char *                    c_str;
 } ae_object_t;
 
 //------------------------------------------------------------------------------
