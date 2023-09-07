@@ -85,8 +85,8 @@ int main() {
   ae_list_each(&num_list, print_int_p);
   printf("\n");
   ae_list_t doubled_list = ae_list_map(&num_list, double_int_p);
-  ae_list_map_into(&doubled_list, &num_list, id_int_p);
-  ae_list_each(&num_list, print_int_p);
+  ae_list_map_into_from(&doubled_list, &num_list, id_int_p);
+  ae_list_each(&doubled_list, print_int_p);
                                              
   printf("Length: %d\n", ae_list_node_length(doubled_list));
   printf("Length: %d\n", ae_list_length(&doubled_list));

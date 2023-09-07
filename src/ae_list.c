@@ -107,10 +107,10 @@ ae_list_t ae_list_map(const ae_list_t * const this, ae_list_node_map_fun fun) {
   return new_list;
 }
 
-void ae_list_map_into(ae_list_t * const this, ae_list_t * const that, ae_list_node_map_fun fun) {
-  assert(this != that);
+void ae_list_map_into_from(ae_list_t * const this, ae_list_t * const that, ae_list_node_map_fun fun) {
+  assert(that != this);
   
-  if (*this)
-    for (ae_list_node_t * position = *this; position; position = position->tail)
-      ae_list_push_back(that, fun(position->object));
+  if (*that)
+    for (ae_list_node_t * position = *that; position; position = position->tail)
+      ae_list_push_back(this, fun(position->object));
 }
