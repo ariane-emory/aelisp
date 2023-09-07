@@ -48,7 +48,7 @@ data-test: data-test.c tmp/mylang-data.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
-	rm -rf $(BIN) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp
+	rm -rf tmp/$(BIN) tmp/$(BIN2) $(BIN).yy.c $(BIN).tab.c $(BIN).lex.c $(BIN).tab.h  tmp
 
 test: clean all
 	echo "\"hello \\\"bob\\\"\"" | ./bin/$(BIN)
