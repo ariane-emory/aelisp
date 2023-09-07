@@ -81,5 +81,5 @@ void ae_list_node_each (ae_list_node_t * const this, ae_list_node_each_fun fun) 
 
 void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
   if (this)
-    ae_list_node_each(this, fun);
+    ae_list_node_each(*this, fun);
 }

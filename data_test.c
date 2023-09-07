@@ -61,7 +61,7 @@ int main() {
     // printf("Added node 0x%x containing 0x%x.\n", new_tail, new_tail->object);
   }
 
-  ae_list_node_each(list, print_ae_object_str);
+  ae_list_each(&list, print_ae_object_str);
 
   ae_list_t num_list = 0;
   ae_list_init(&num_list);
@@ -72,5 +72,5 @@ int main() {
     ae_list_push_back(&num_list, new_num);
   }
 
-  ae_list_node_each(num_list, print_int_p);
+  ae_list_each(&num_list, print_int_p);
 }
