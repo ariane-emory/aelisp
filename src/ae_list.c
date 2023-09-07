@@ -82,11 +82,12 @@ void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
     ae_list_node_each(*this, fun);
 }
 
-ae_list_t * ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
-  ae_list_t * new_list_p = malloc(sizeof(ae_list_t));
-  ae_list_init(new_list_p);
+ae_list_t ae_list_map(ae_list_t * const this, ae_list_node_map_fun fun) {
+  ae_list_t new_list = 0;
 
-  for (ae_list_node_t * position = *this; position; position = position->tail)
-    ae_list_push_back(new_list_p, fun(position->object));
+  if (this)
+    for (ae_list_node_t * position = *this; position; position = position->tail)
+      ae_list_push_back(&new_list, fun(position->object));
 
+  return new_list;
 }
