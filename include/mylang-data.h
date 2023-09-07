@@ -81,6 +81,11 @@ typedef struct mylang_list_item_t {
   struct mylang_list_item_t *   tail;
 } mylang_list_item_t;
 
+typedef struct mylang_list_head_t {
+  struct mylang_list_item_t *   items;
+} mylang_list_head_t;
+
+
 //------------------------------------------------------------------------------
 
 void mylang_list_item_init(mylang_list_item_t * const mylang_list_item);
