@@ -11,13 +11,13 @@ static char * three = "Three";
 
 void print_ae_object_str(void * ae_object_p) {
   ae_object_t * ae_object = ae_object_p;
-  // printf("Iterate object 0x%x.\n", ae_object);
   printf("%s\n", ae_object_str(ae_object));
 }
 
 void print_int_p(void * int_p) {
-  int * tmp = int_p;
-  printf("%d\n", *tmp);
+  int tmp  = *(int*)int_p;
+  int tmp2 = tmp * 2;
+  printf("%d\n", tmp2);
 }
 
 
