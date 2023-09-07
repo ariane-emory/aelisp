@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "mylang-data.h"
 
 void mylang_object_init(mylang_object_t * const mylang_object) {
