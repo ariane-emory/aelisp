@@ -2,7 +2,8 @@ UNAME_S = $(shell uname -s)
 CFLAGS   = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
-	-Iinclude
+	-Iinclude \
+	-I.
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
@@ -20,10 +21,12 @@ LEX      = flex
 
 all:: $(BIN) $(BIN2)
 
-%.lex.c: %.l %.tab.c
+tmp/%.lex.c: %.l tmp/%.tab.c
+	mkdir -p $(dir $@)
 	$(LEX) -o $@ $<
 
-%.lex.c: %.l
+tmp/%.lex.c: %.l
+	mkdir -p $(dir $@)
 	$(LEX) -o $@ $<
 
 %.tab.c: %.y
@@ -33,7 +36,7 @@ tmp/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BIN): $(BIN).lex.c $(BIN).tab.c $(OBJ)
+$(BIN): tmp/$(BIN).lex.c $(BIN).tab.c $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 $(BIN2): $(BIN2).lex.c $(OBJ)
