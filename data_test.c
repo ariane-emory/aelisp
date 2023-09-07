@@ -15,6 +15,7 @@ void print_ae_object_str(void * ae_object_p) {
 }
 
 void print_int_p(void * int_p) {
+  *(int*)int_p += 1;
   printf("%d\n",*(int*)int_p);
 }
 
