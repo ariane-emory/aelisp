@@ -6,14 +6,20 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
   main() { yyparse(); }
-%}
+
+  ae_object_t * root = 0;
+    
+  %}
 
 %token LPAR RPAR STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR
-%start sexps
+%start program
 
 %%
 
+program: sexps { root = &$$; }
+
 sexp: list | atom
+
 atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
 list:  LPAR sexps RPAR { $$ = $2; };
