@@ -26,7 +26,12 @@
       ae_object_init(obj);
       obj->type = AE_INVALID;
 
-      printf("Pool allocated instance #% 4d:  %s.\n", ix, ae_object_str(obj));
+      #define BUFF_LEN 5
+      char buff[BUFF_LEN] = { 0 };
+      snprintf(buff, BUFF_LEN, "#%d:", ix); // off by one? I forget.
+      #undef BUFF_LEN
+      
+      printf("Pool allocated instance %-6s  %s.\n", buff, ae_object_str(obj));
       return obj;
     }
     
