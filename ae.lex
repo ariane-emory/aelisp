@@ -18,32 +18,32 @@
 
     switch (yylval.type) {
     case AE_STRING:
-      //printf("Lex a AE_STRING.\n");
+      //printf("Lex an AE_STRING.\n");
       yylval.data.string_value = strdup(yytext);
       break;
     case AE_CHAR:
-      //printf("Lex a AE_CHAR.\n");
+      //printf("Lex an AE_CHAR.\n");
       break;
     case AE_INTEGER:
-      //printf("Lex a AE_INTEGER.\n");
+      //printf("Lex an AE_INTEGER.\n");
       break;
     case AE_FLOAT:
-      //printf("Lex a AE_FLOAT.\n");
+      //printf("Lex an AE_FLOAT.\n");
       break;
     case AE_RATIONAL:
-      //printf("Lex a AE_RATIONAL.\n");
+      //printf("Lex an AE_RATIONAL.\n");
       break;
     case AE_LIST:
-      //printf("Lex a AE_LIST.\n");
+      //printf("Lex an AE_LIST.\n");
       break;
     case AE_SYMBOL:
-      //printf("Lex a AE_SYMBOL.\n");
+      //printf("Lex an AE_SYMBOL.\n");
       break;
     case AE_QUOTE:
-      //printf("Lex a AE_QUOTE.\n");
+      //printf("Lex an AE_QUOTE.\n");
       break;
     case AE_PAREN:
-      //printf("Lex a AE_PAREN.\n");
+      //printf("Lex an AE_PAREN.\n");
       break;
     default:
       //printf("Lex something unrecognizable.\n");
