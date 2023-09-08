@@ -19,6 +19,8 @@
     printf("Root's list_value: %s.\n", ae_list_str(&first_list));
     printf("Root's list_value len: %d.\n", ae_list_length(&first_list));
     printf("Root's list_value len: %d.\n", ae_list_node_length(&first_lists_first_node));
+
+    ae_object_t obj = first_lists_first_node.object;
   }
     
     %}
