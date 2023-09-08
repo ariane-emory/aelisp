@@ -38,15 +38,7 @@ sexps: sexps sexp
   printf("\nYacc began sexps. Created %s.\n", ae_object_str(&$$));
 };
    
-atom:
-char;
-| compare 
-| float 
-| integer  
-| mathop 
-| rational 
-| string 
-| word 
+atom: char | compare | float | integer | mathop | rational | string | word;
 
 char:     CHAR;
 compare:  COMPARE;
