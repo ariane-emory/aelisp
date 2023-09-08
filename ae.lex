@@ -27,30 +27,24 @@
     case AE_INTEGER:
       //printf("Lex an AE_INTEGER.\n");
       yylval.data.int_value = atoi(yytext);
-      printf("Parsed integer %d.\n", yylval.data.int_value);
+      // printf("Parsed integer %d.\n", yylval.data.int_value);
       break;
     case AE_FLOAT:
       //printf("Lex an AE_FLOAT.\n");
       yylval.data.float_value = strtod(yytext, 0);
-      printf("Parsed float %lf.\n", yylval.data.float_value);
+      // printf("Parsed float %lf.\n", yylval.data.float_value);
       break;
     case AE_RATIONAL:
       //printf("Lex an AE_RATIONAL.\n");
       break;
-    case AE_LIST:
-      //printf("Lex an AE_LIST.\n");
-      break;
     case AE_SYMBOL:
-      //printf("Lex an AE_SYMBOL.\n");
       break;
     case AE_QUOTE:
-      //printf("Lex an AE_QUOTE.\n");
       break;
     case AE_PAREN:
-      //printf("Lex an AE_PAREN.\n");
       break;
     default:
-      //printf("Lex something unrecognizable.\n");
+      printf("Lexed something unrecognizable!\n");
       break;
     }
 
