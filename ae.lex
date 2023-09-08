@@ -39,6 +39,24 @@
       break;
     case AE_RATIONAL:
       //printf("Lexed an AE_RATIONAL.\n");
+      int slash_pos = 0;
+      for (; yytext[slash_pos] != '/'; ++slash_pos);
+      printf("Slash pos %d.\n", slash_pos);
+
+      char * tmp = malloc(slash_pos + 1);
+      strncpy(tmp, yytext, slash_pos);
+      printf("Copied [%s].\n", tmp);
+      yylval.data.rational_value.numerator = atoi(tmp);
+      printf("Parsed [%d].\n", yylval.data.rational_value.numerator);
+      free(tmp);
+
+      tmp = malloc(strlen(yytext) - slash_pos);
+      printf("Alloced %d.\n", strlen(yytext) - slash_pos);
+      strncpy(tmp, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
+      printf("Copied [%s].\n", tmp);
+      yylval.data.rational_value.denominator = atoi(tmp);
+      printf("Parsed [%d].\n", yylval.data.rational_value.denominator);
+      
       break;
     case AE_SYMBOL:
       break;
