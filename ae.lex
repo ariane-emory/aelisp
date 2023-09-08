@@ -18,24 +18,29 @@
 
     switch (yylval.type) {
     case AE_STRING:
-      //printf("Lex an AE_STRING.\n");
-      yylval.data.string_value = strdup(yytext);
+      //printf("Lexed an AE_STRING.\n");
+      //yylval.data.string_value = strdup(yytext);
+      yylval.data.string_value = malloc(strlen(yytext));
+      char * begin = yytext + 1;
+      int copy_len = strlen(begin) - 1;
+      strncpy(yylval.data.string_value, begin, copy_len);
+      printf("Parsed string [%s].\n", yylval.data.string_value);
       break;
     case AE_CHAR:
-      //printf("Lex an AE_CHAR.\n");
+      //printf("Lexed an AE_CHAR.\n");
       break;
     case AE_INTEGER:
-      //printf("Lex an AE_INTEGER.\n");
+      //printf("Lexed an AE_INTEGER.\n");
       yylval.data.int_value = atoi(yytext);
       // printf("Parsed integer %d.\n", yylval.data.int_value);
       break;
     case AE_FLOAT:
-      //printf("Lex an AE_FLOAT.\n");
+      //printf("Lexed an AE_FLOAT.\n");
       yylval.data.float_value = strtod(yytext, 0);
       // printf("Parsed float %lf.\n", yylval.data.float_value);
       break;
     case AE_RATIONAL:
-      //printf("Lex an AE_RATIONAL.\n");
+      //printf("Lexed an AE_RATIONAL.\n");
       break;
     case AE_SYMBOL:
       break;
