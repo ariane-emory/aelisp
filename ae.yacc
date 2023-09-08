@@ -14,6 +14,16 @@
   }
   
   main() {
+
+#define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
+    PRINT_SIZEOF(int);
+    PRINT_SIZEOF(void *);
+    PRINT_SIZEOF(ae_data_t);
+    PRINT_SIZEOF(ae_list_t);
+    PRINT_SIZEOF(ae_list_node_t);
+    PRINT_SIZEOF(ae_object_t);
+    PRINT_SIZEOF(ae_rational_t);
+
     yyparse();
 
     printf("Root: %s.\n", ae_object_str(root));
