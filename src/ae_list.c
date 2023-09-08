@@ -29,7 +29,7 @@ const char * const ae_list_str(const ae_list_t * const ae_list) {
   snprintf(
     buff,
     BUFF_LEN,
-    "(0x%zu)",
+    "<l>(0x%zu)",
     (*ae_list)
   );
 
@@ -42,7 +42,7 @@ const char * const ae_list_node_str(const ae_list_node_t * const this) {
   snprintf(
     buff,
     BUFF_LEN,
-    "(0x%zu, 0x%zu)",
+    "<n>(0x%zu, 0x%zu)",
     this->object, 
     this->tail
   );

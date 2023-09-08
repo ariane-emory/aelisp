@@ -27,7 +27,7 @@ const char * const ae_object_str(const ae_object_t * const this) {
     snprintf(
       buff,
       BUFF_LEN,
-      "(%s, %d)",
+      "<o>(%s, %d)",
       ae_type_str(this->type),
       ae_list_length(&this->data.list_value)
     );
@@ -35,7 +35,7 @@ const char * const ae_object_str(const ae_object_t * const this) {
     snprintf(
       buff,
       BUFF_LEN,
-      "(%s, [%s])",
+      "<o>(%s, [%s])",
       ae_type_str(this->type),
       this->c_str
     );
