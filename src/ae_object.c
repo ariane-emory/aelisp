@@ -53,3 +53,13 @@ void ae_object_move(ae_object_t * const this, ae_object_t * const that) {
   memcpy(this, that, sizeof(ae_object_t));
   ae_object_init(that);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// _clone method
+////////////////////////////////////////////////////////////////////////////////
+
+ae_object_t * ae_object_clone(ae_object_t * const this) {
+  ae_object_t * clone = malloc(sizeof(ae_object_t));
+  memcpy(clone, this, sizeof(ae_object_t));
+  return clone;
+}
