@@ -61,5 +61,27 @@ void ae_object_move(ae_object_t * const this, ae_object_t * const that) {
 ae_object_t * ae_object_clone(ae_object_t * const this) {
   ae_object_t * clone = malloc(sizeof(ae_object_t));
   memcpy(clone, this, sizeof(ae_object_t));
+
+  clone->c_str = malloc(strlen(this->c_str) + 1);
+  strcpy(clone->c_str, this->c_str);
+
+  switch (this->type) {
+  case AE_STRING:
+  case AE_SYMBOL:
+    clone->data.string_value = malloc(strlen(this->data.string_value) + 1);
+    strcpy(clone->data.string_value, this->data.string_value);
+  case AE_LIST:
+    if (!this)
+      return clone;
+    
+    for (ae_list_node_t * position = this->data.list_value;
+         position;
+         position = position->tail) {
+      /* void * tmp = fun(position->object); */
+      /* assert(tmp != position->object); */
+      /* ae_list_push_back(this, tmp); */
+    }
+  }
+  
   return clone;
 }
