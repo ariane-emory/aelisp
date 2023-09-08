@@ -50,8 +50,10 @@ list:  LPAR sexps RPAR { $$ = $2; };
 sexps: sexps sexp
 {
   printf("\nYacc cont'd sexps. Copied %s.\n", ae_object_str(&$1));
-  printf("Yacc cont'd sexps. Pushing 0x%zu %s.\n", &$2, ae_object_str(&$2));
-  ae_list_push_back(&$$.data.list_value, &$2);
+  ae_object_t * new_object = malloc(sizeof(ae_object_t));
+  ae_object_move(new_object, &$2);
+  printf("Yacc cont'd sexps. Pushing 0x%zu %s.\n", new_object, ae_object_str(new_object));
+  ae_list_push_back(&$$.data.list_value, new_object);
   printf("Yacc cont'd sexps. Returning %s.\n", ae_object_str(&$$));
 } | {
   ae_object_init(&$$);
