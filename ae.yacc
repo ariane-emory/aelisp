@@ -4,6 +4,9 @@
 #include <string.h>
 #include "ae.h"
 
+#define POOL_SIZE (1 << 12)
+  ae_object_t pool[POOL_SIZE];
+
   ae_object_t * root = 0;
 
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
