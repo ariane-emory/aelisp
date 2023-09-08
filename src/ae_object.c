@@ -77,7 +77,8 @@ ae_object_t * ae_object_clone(ae_object_t * const this) {
     for (ae_list_node_t * position = this->data.list_value;
          position;
          position = position->tail) {
-      ae_object_t * obj = position->object;
+      ae_object_t * obj_in_list = position->object;
+      ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object);
       
       /* void * tmp = fun(position->object); */
       /* assert(tmp != position->object); */
