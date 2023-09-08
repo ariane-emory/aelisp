@@ -27,10 +27,12 @@
     case AE_INTEGER:
       //printf("Lex an AE_INTEGER.\n");
       yylval.data.int_value = atoi(yytext);
+      printf("Parsed integer %d.\n", yylval.data.int_value);
       break;
     case AE_FLOAT:
       //printf("Lex an AE_FLOAT.\n");
       yylval.data.float_value = strtod(yytext, 0);
+      printf("Parsed float %lf.\n", yylval.data.float_value);
       break;
     case AE_RATIONAL:
       //printf("Lex an AE_RATIONAL.\n");
