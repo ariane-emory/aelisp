@@ -72,5 +72,6 @@
 !?=|(>=?)|(<=?)                                                 LEX(COMPARE,  ML_SYMBOL  );
 (\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? LEX(WORD,     ML_SYMBOL  );
 [\n\t\ ]+  ;
-%
+  
+%%
 
