@@ -104,6 +104,7 @@
       
       break;
     case AE_SYMBOL:
+      yylval.data.string_value = strdup(yytext);
       break;
     case AE_QUOTE:
       break;
