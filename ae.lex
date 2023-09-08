@@ -25,21 +25,51 @@
       printf("Parsed string [%s].\n", yylval.data.string_value);
       break;
     case AE_CHAR:
-      printf("\nLexed an AE_CHAR.\n");
-      printf("Str [%s].\n", yytext);
-      printf("Len %d.\n", strlen(yytext));
-      
-      switch (yytext[0]) {
-      case '\'':
-        printf("Quote.\n");
-        break;
-      case '?':
-        printf("Question.\n");
-        break;
-      default:
-        printf("Confused.\n");
-        break;
+      // printf("\nLexed an AE_CHAR.\n");
+      // printf("Str [%s].\n", yytext);
+      // printf("Len %d.\n", strlen(yytext));
+
+      yylval.data.char_value = 0;
+
+      char * tmp = 0;
+
+      if (yytext[0] == '?') {
+        tmp = malloc(strlen(yytext) - 1);
+        strncpy(tmp, yytext + 2, strlen(yytext) - 1);
       }
+      else {
+        tmp = malloc(strlen(yytext) - 1);
+        strncpy(tmp, yytext + 1, strlen(yytext) - 2);
+      }
+
+      // printf("Snipped [%s].\n", tmp);
+
+      if (tmp[0] == '\\') {
+        // printf("Escaped character.\n");
+        switch(tmp[1]) {
+        case 'n':
+          yylval.data.char_value = '\n';
+          break;
+        case 't':
+          yylval.data.char_value = '\t';
+          break;
+        case ' ':
+          yylval.data.char_value = ' ';
+          break;
+        default:
+          printf("Unrecognized escape sequence in [%s]!\n", yytext);
+          break;
+        }
+      }
+      else {
+        // printf("Plain character.\n");
+        yylval.data.char_value = tmp[0];
+      }
+      
+      // printf("Final char '%c'.\n", yylval.data.char_value);
+
+      free(tmp);
+      
       break;
     case AE_INTEGER:
       // printf("Lexed an AE_INTEGER.\n");
@@ -57,20 +87,20 @@
       for (; yytext[slash_pos] != '/'; ++slash_pos);
       // printf("Slash pos %d.\n", slash_pos);
 
-      char * tmp = malloc(slash_pos + 1);
-      strncpy(tmp, yytext, slash_pos);
-      // printf("Copied [%s].\n", tmp);
-      yylval.data.rational_value.numerator = atoi(tmp);
+      char * tmp2 = malloc(slash_pos + 1);
+      strncpy(tmp2, yytext, slash_pos);
+      // printf("Copied [%s].\n", tmp2);
+      yylval.data.rational_value.numerator = atoi(tmp2);
       // printf("Parsed [%d].\n", yylval.data.rational_value.numerator);
-      free(tmp);
+      free(tmp2);
 
-      tmp = malloc(strlen(yytext) - slash_pos);
+      tmp2 = malloc(strlen(yytext) - slash_pos);
       // printf("Alloced %d.\n", strlen(yytext) - slash_pos);
-      strncpy(tmp, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
-      // printf("Copied [%s].\n", tmp);
-      yylval.data.rational_value.denominator = atoi(tmp);
+      strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
+      // printf("Copied [%s].\n", tmp2);
+      yylval.data.rational_value.denominator = atoi(tmp2);
       // printf("Parsed [%d].\n", yylval.data.rational_value.denominator);
-      free(tmp);
+      free(tmp2);
       
       break;
     case AE_SYMBOL:
