@@ -4,7 +4,8 @@
 const char * const ae_type_str(const ae_type_t this) {
   switch (this) {
     FOR_LEXED_TYPES_DO(return_str);
-    return_str(AE_FREE)
+    return_str(AE_FREE);
+    return_str(AE_INVALID);
   default: return "UNRECOGNIZED!";
   }
 }
