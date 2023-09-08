@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_object_init(ae_object_t * const this) {
-  this->type  = ML_INVALID;
+  this->type  = AE_INVALID;
   this->c_str = 0;
 }
 
@@ -21,7 +21,7 @@ void ae_object_init(ae_object_t * const this) {
 const char * const ae_object_str(const ae_object_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
-  if (this->type == ML_LIST) 
+  if (this->type == AE_LIST) 
     snprintf(
       buff,
       BUFF_LEN,

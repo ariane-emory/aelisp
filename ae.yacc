@@ -8,13 +8,13 @@
   main() { yyparse(); }
 %}
 
-%token LPAR RPAR STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE WORD QUOTE CHAR
+%token LPAR RPAR STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR
 %start sexps
 
 %%
 
 sexp: list | atom
-atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | WORD;
+atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
 list:  LPAR sexps RPAR { $$ = $2; };
 
@@ -26,7 +26,7 @@ sexps: sexps sexp
   printf("Yacc cont'd sexps. Returning %s.\n", ae_object_str(&$$));
 } | {
   ae_object_init(&$$);
-  $$.type = ML_LIST;
+  $$.type = AE_LIST;
   ae_list_init(&$$.data.list_value);
   printf("\nYacc began sexps. Created %s.\n", ae_object_str(&$$));
 };

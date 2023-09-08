@@ -5,20 +5,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
-  DO(ML_STRING)                                                                                                                             \
-  DO(ML_CHAR)                                                                                                                               \
-  DO(ML_INTEGER)                                                                                                                            \
-  DO(ML_FLOAT)                                                                                                                              \
-  DO(ML_RATIONAL)                                                                                                                           \
-  DO(ML_LIST)                                                                                                                               \
-  DO(ML_SYMBOL)                                                                                                                             \
-  DO(ML_QUOTE)                                                                                                                              \
-  DO(ML_PAREN)
+  DO(AE_STRING)                                                                                                                             \
+  DO(AE_CHAR)                                                                                                                               \
+  DO(AE_INTEGER)                                                                                                                            \
+  DO(AE_FLOAT)                                                                                                                              \
+  DO(AE_RATIONAL)                                                                                                                           \
+  DO(AE_LIST)                                                                                                                               \
+  DO(AE_SYMBOL)                                                                                                                             \
+  DO(AE_QUOTE)                                                                                                                              \
+  DO(AE_PAREN)
 
 #define enum_node(x) x,
 
 typedef enum {
-  ML_INVALID = 0,
+  AE_INVALID = 0,
   FOR_LEXED_TYPES_DO(enum_node)
 } ae_type_t;
 
