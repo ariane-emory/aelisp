@@ -5,7 +5,7 @@
 #include "ae.h"
 
 #define POOL_SIZE (1 << 12)
-  ae_object_t * pool = malloc(sizeof(ae_object_t) *POOL_SIZE);
+  ae_object_t pool[POOL_SIZE];
  
   ae_object_t * root = 0;
 
@@ -20,16 +20,17 @@
     for (size_t ix = 0; ix < POOL_SIZE; ix++) {
       ae_object_t * obj = &pool[ix];
 
-      if (obj->type == AE_FREE) {
-        ae_object_init(obj);
-        obj->type = AE_INVALID;
-        printf("Pool allocated instance #% 4d:  %s.\n", ix, ae_object_str(obj));
-        return obj;
-      }
-    }
+      if (obj->type != AE_FREE)
+        continue;
+      
+      ae_object_init(obj);
+      obj->type = AE_INVALID;
 
+      printf("Pool allocated instance #% 4d:  %s.\n", ix, ae_object_str(obj));
+      return obj;
+    }
+    
     printf("ERROR: Pool is full.\n");
-            
     return 0;
   }
 
