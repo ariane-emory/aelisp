@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_object_init(ae_object_t * const this) {
+  memset(this, 0, sizeof(ae_object_t));
   this->type  = AE_INVALID;
   this->c_str = 0;
 }

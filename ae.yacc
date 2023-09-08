@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "ae.h"
 
@@ -17,8 +18,11 @@
 
     printf("Root: %s.\n", ae_object_str(root));
 
-    ae_list_t first_list = root->data.list_value;
-    ae_list_node_t first_lists_first_node = *root->data.list_value;
+    ae_object_t * root_object = malloc(sizeof(ae_object_t));
+    ae_object_move(root_object, root);
+    
+    ae_list_t first_list = root_object->data.list_value;
+    ae_list_node_t first_lists_first_node = *root_object->data.list_value;
     
     printf("Root's list_value: %s.\n", ae_list_str(&first_list));
     printf("Root's list_value len: %d.\n", ae_list_length(&first_list));
