@@ -15,6 +15,9 @@
   void describe(void * ae_object) {
     printf("0x%zu -> %s\n", ae_object, ae_object_str(ae_object));
   }
+
+  ae_object_t * alloc_from_pool() {
+  }
   
   main() {
 

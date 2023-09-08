@@ -18,7 +18,8 @@
 #define enum_node(x) x,
 
 typedef enum {
-  AE_INVALID = 0,
+  AE_FREE = 0,
+  AE_INVALID,
   FOR_LEXED_TYPES_DO(enum_node)
 } ae_type_t;
 
