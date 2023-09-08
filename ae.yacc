@@ -8,6 +8,10 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
+  void describe(void * ae_object) {
+    printf("0x%zu -> %s\n", ae_object, ae_object_str(ae_object));
+  }
+  
   main() {
     yyparse();
 
@@ -24,6 +28,8 @@
     printf("Obj: %s.\n", ae_object_str(obj));
     printf("Obj's list_value: %s.\n", ae_list_str(&obj->data.list_value));
     printf("Obj's list_value len: %d.\n", ae_list_length(&obj->data.list_value));
+
+    ae_list_each(&first_list, describe);
   }
     
     %}
