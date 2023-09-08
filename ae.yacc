@@ -17,7 +17,15 @@
   }
 
   ae_object_t * alloc_from_pool() {
+    for (size_t iix = 0; iix < POOL_SIZE; iix++) {
+      if (pool[iix].type == AE_FREE) {
+        pool[iix].type = AE_INVALID;
+        return &pool[iix];
+      }
+    }
   }
+
+#define ALLOC_AE_OBJECT malloc(sizeof(ae_object_t))
   
   main() {
 
@@ -47,7 +55,7 @@
 
     printf("Root: %s.\n", ae_object_str(root));
 
-    ae_object_t * root_object = malloc(sizeof(ae_object_t));
+    ae_object_t * root_object = ALLOC_AE_OBJECT;
     ae_object_move(root_object, root);
     
     ae_list_t first_list = root_object->data.list_value;
@@ -83,7 +91,7 @@ list:  LPAR sexps RPAR { $$ = $2; };
 sexps: sexps sexp
 {
   printf("\nYacc cont'd sexps. Copied 0x%zu %s.\n", &$1, ae_object_str(&$1));
-  ae_object_t * new_object = malloc(sizeof(ae_object_t));
+  ae_object_t * new_object = ALLOC_AE_OBJECT;
   ae_object_move(new_object, &$2);
   printf("Yacc cont'd sexps. Pushing 0x%zu %s.\n", new_object, ae_object_str(new_object));
   ae_list_push_back(&$$.data.list_value, new_object);
