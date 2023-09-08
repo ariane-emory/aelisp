@@ -4,6 +4,20 @@
 #include "ae.h"
 #include "ae.tab.h"
 
+#define FOR_ESCAPED_CHARACTER_DO(DO)                                                                                                        \
+  DO('a',    '\a')                                                                                                                          \
+    DO('b',  '\b')                                                                                                                          \
+    DO('e',   '\e')                                                                                                                         \
+    DO('f',  '\f')                                                                                                                          \
+    DO('n',  '\n')                                                                                                                          \
+    DO('r',  '\r')                                                                                                                          \
+    DO('t',  '\t')                                                                                                                          \
+    DO('v',  '\v')                                                                                                                          \
+    DO('\\', '\\')                                                                                                                          \
+    DO('\'', '\'')                                                                                                                          \
+    DO('\"', '\"')                                                                                                                          \
+    DO('\?', '\?')                                                                                                                         
+
 #define LEX(x, ae_type) return lex(#x, x, ae_type);
   
   enum yytokentype lex(
@@ -47,15 +61,11 @@
       if (tmp[0] == '\\') {
         // printf("Escaped character.\n");
         switch(tmp[1]) {
-        case 'n':
-          yylval.data.char_value = '\n';
-          break;
-        case 't':
-          yylval.data.char_value = '\t';
-          break;
-        case ' ':
-          yylval.data.char_value = ' ';
-          break;
+#define escaped_char_case(chr, replacement)                                                                                                 \
+          case chr:                                                                                                                         \
+            yylval.data.char_value = replacement;                                                                                           \
+            break;
+          FOR_ESCAPED_CHARACTER_DO(escaped_char_case);
         default:
           printf("Unrecognized escape sequence in [%s]!\n", yytext);
           break;
@@ -124,10 +134,10 @@
 \(                                                              LEX(LPAR,     AE_PAREN   );
 \)                                                              LEX(RPAR,     AE_PAREN   );                                                                
 \"((\\\")|([^\"]))*\"                                           LEX(STRING,   AE_STRING  );
-'[^']'              |
-'\\[nt\ \\]\'       | 
-\?\\\\[nt\ \\]      |
-\?\\[^nt\ \\]                                                   LEX(CHAR,     AE_CHAR    );
+'[^']'       |
+'\\.'        | 
+\?\\\\.      |
+\?\\.                                                           LEX(CHAR,     AE_CHAR    );
 [-+]?[0-9]+                                                     LEX(INTEGER,  AE_INTEGER );
 [-+]?[0-9]+\.[0-9]* |
 [-+]?[0-9]*\.[0-9]+                                             LEX(FLOAT,    AE_FLOAT   );
@@ -136,7 +146,7 @@
 ([1-9][0-9]+)?[\+\-\/\*]                                        LEX(INCROP,   AE_SYMBOL  );
 !?=|(>=?)|(<=?)                                                 LEX(COMPARE,  AE_SYMBOL  );
 (\-+)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? LEX(SYMBOL,   AE_SYMBOL  );
-[\n\t\ ]+  ;
-  
+[\f\n\t\v\ ]+  ;
+
 %%
 
