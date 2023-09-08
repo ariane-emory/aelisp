@@ -6,6 +6,9 @@
 
 #define LEX(x, ae_type) return lex(#x, x, ae_type);
 
+#define POOL_SIZE (1 << 12)
+  ae_object pool[POOL_SIZE];
+  
   enum yytokentype lex(
     const char * const name,
     enum yytokentype x,
