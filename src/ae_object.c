@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "ae_object.h"
 
@@ -15,7 +16,7 @@ void ae_object_init(ae_object_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// _str methods
+// _str method
 ////////////////////////////////////////////////////////////////////////////////
 
 const char * const ae_object_str(const ae_object_t * const this) {
@@ -39,4 +40,13 @@ const char * const ae_object_str(const ae_object_t * const this) {
     );
 
   return buff;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// _move method
+////////////////////////////////////////////////////////////////////////////////
+
+void ae_object_move(ae_object_t * const this, ae_object_t * const that) {
+  memcpy(this, that, sizeof(ae_object_t));
+  ae_object_init(that);
 }

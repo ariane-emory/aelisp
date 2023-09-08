@@ -15,5 +15,6 @@ typedef struct ae_object_t {
 
 //------------------------------------------------------------------------------
 
-void               ae_object_init(ae_object_t * const ae_object);
-const char * const ae_object_str(const ae_object_t * const ae_object);
+void               ae_object_init(ae_object_t * const this);
+const char * const ae_object_str(const ae_object_t * const this);
+void               ae_object_move(ae_object_t * const this, ae_object_t * const that);
