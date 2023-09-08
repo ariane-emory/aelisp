@@ -50,7 +50,7 @@ list:  LPAR sexps RPAR { $$ = $2; };
 sexps: sexps sexp
 {
   printf("\nYacc cont'd sexps. Copied %s.\n", ae_object_str(&$1));
-  printf("Yacc cont'd sexps. Pushing %s.\n", ae_object_str(&$2));
+  printf("Yacc cont'd sexps. Pushing 0x%zu %s.\n", &$2, ae_object_str(&$2));
   ae_list_push_back(&$$.data.list_value, &$2);
   printf("Yacc cont'd sexps. Returning %s.\n", ae_object_str(&$$));
 } | {
