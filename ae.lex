@@ -20,10 +20,8 @@
     case AE_STRING:
       //printf("Lexed an AE_STRING.\n");
       //yylval.data.string_value = strdup(yytext);
-      yylval.data.string_value = malloc(strlen(yytext));
-      char * begin = yytext + 1;
-      int copy_len = strlen(begin) - 1;
-      strncpy(yylval.data.string_value, begin, copy_len);
+      yylval.data.string_value = malloc(strlen(yytext) - 1);
+      strncpy(yylval.data.string_value, yytext + 1, strlen(yytext)-2);
       printf("Parsed string [%s].\n", yylval.data.string_value);
       break;
     case AE_CHAR:
