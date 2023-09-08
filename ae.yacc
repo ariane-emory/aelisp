@@ -5,7 +5,7 @@
 #include "ae.h"
 
 #define POOL_SIZE (1 << 12)
-  ae_object_t pool[POOL_SIZE];
+  ae_object_t * pool = malloc(sizeof(ae_object_t) *POOL_SIZE);
  
   ae_object_t * root = 0;
 
