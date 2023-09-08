@@ -25,7 +25,21 @@
       printf("Parsed string [%s].\n", yylval.data.string_value);
       break;
     case AE_CHAR:
-      // printf("Lexed an AE_CHAR.\n");
+      printf("\nLexed an AE_CHAR.\n");
+      printf("Str [%s].\n", yytext);
+      printf("Len %d.\n", strlen(yytext));
+      
+      switch (yytext[0]) {
+      case '\'':
+        printf("Quote.\n");
+        break;
+      case '?':
+        printf("Question.\n");
+        break;
+      default:
+        printf("Confused.\n");
+        break;
+      }
       break;
     case AE_INTEGER:
       // printf("Lexed an AE_INTEGER.\n");
@@ -41,7 +55,7 @@
       // printf("Lexed an AE_RATIONAL.\n");
       int slash_pos = 0;
       for (; yytext[slash_pos] != '/'; ++slash_pos);
-      printf("Slash pos %d.\n", slash_pos);
+      // printf("Slash pos %d.\n", slash_pos);
 
       char * tmp = malloc(slash_pos + 1);
       strncpy(tmp, yytext, slash_pos);
