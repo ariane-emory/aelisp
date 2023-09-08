@@ -5,9 +5,9 @@
 #include "ae.tab.h"
 
 #define FOR_ESCAPED_CHARACTER_DO(DO)                                                                                                        \
-  DO('a',    '\a')                                                                                                                          \
+  DO('a',  '\a')                                                                                                                            \
   DO('b',  '\b')                                                                                                                            \
-  DO('e',   '\e')                                                                                                                           \
+  DO('e',  '\e')                                                                                                                            \
   DO('f',  '\f')                                                                                                                            \
   DO('n',  '\n')                                                                                                                            \
   DO('r',  '\r')                                                                                                                            \
