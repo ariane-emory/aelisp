@@ -17,12 +17,22 @@
   }
 
   ae_object_t * pool_alloc_ae_object() {
-    for (size_t iix = 0; iix < POOL_SIZE; iix++) {
-      if (pool[iix].type == AE_FREE) {
-        pool[iix].type = AE_INVALID;
-        return &pool[iix];
+    for (size_t ix = 0; ix < POOL_SIZE; ix++) {
+      ae_object_t * obj = &pool[ix];
+
+      if (obj->type == AE_FREE) {
+        ae_object_init(obj);
+        obj->type = AE_INVALID;
+        return obj;
       }
     }
+    
+    return 0;
+  }
+
+  void pool_free_ae_object(ae_object_t * this) {
+    ae_object_init(this);
+    this->type = AE_FREE;
   }
 
 #define USE_POOL
