@@ -16,7 +16,7 @@
     printf("0x%zu -> %s\n", ae_object, ae_object_str(ae_object));
   }
 
-  ae_object_t * alloc_from_pool() {
+  ae_object_t * pool_alloc_ae_object() {
     for (size_t iix = 0; iix < POOL_SIZE; iix++) {
       if (pool[iix].type == AE_FREE) {
         pool[iix].type = AE_INVALID;
@@ -25,7 +25,13 @@
     }
   }
 
-#define ALLOC_AE_OBJECT malloc(sizeof(ae_object_t))
+#define USE_POOL
+  
+#ifdef USE_POOL
+#  define ALLOC_AE_OBJECT pool_alloc_ae_object()
+#else
+#  define ALLOC_AE_OBJECT malloc(sizeof(ae_object_t))
+#endif
   
   main() {
 
