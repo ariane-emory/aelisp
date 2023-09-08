@@ -3,13 +3,25 @@
 #include <string.h>
 #include "ae.h"
 
+  ae_object_t * root = 0;
+
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
-  main() { yyparse(); }
 
-  ae_object_t * root = 0;
+  main() {
+    yyparse();
+
+    printf("Root: %s.\n", ae_object_str(root));
+
+    ae_list_t first_list = root->data.list_value;
+    ae_list_node_t first_lists_first_node = *root->data.list_value;
     
-  %}
+    printf("Root's list_value: %s.\n", ae_list_str(&first_list));
+    printf("Root's list_value len: %d.\n", ae_list_length(&first_list));
+    printf("Root's list_value len: %d.\n", ae_list_node_length(&first_lists_first_node));
+  }
+    
+    %}
 
 %token LPAR RPAR STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR
 %start program
