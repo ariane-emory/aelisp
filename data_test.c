@@ -76,7 +76,11 @@ int main() {
 
   ae_list_each(&object->data.list_value, print_ae_object_str);
 
+  ae_object_t * clone = ae_object_clone(object);
 
+  printf("\n");
+
+  ae_list_each(&clone->data.list_value, print_ae_object_str);
   
   /* ae_list_t num_list = 0; */
 
