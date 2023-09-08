@@ -71,6 +71,8 @@ ae_object_t * ae_object_clone(ae_object_t * const this) {
     clone->data.string_value = malloc(strlen(this->data.string_value) + 1);
     strcpy(clone->data.string_value, this->data.string_value);
   case AE_LIST:
+    ae_list_init(&clone->data.list_value);
+    
     if (!this)
       return clone;
     
