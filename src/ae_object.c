@@ -79,10 +79,7 @@ ae_object_t * ae_object_clone(ae_object_t * const this) {
          position = position->tail) {
       ae_object_t * obj_in_list = position->object;
       ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object);
-      
-      /* void * tmp = fun(position->object); */
-      /* assert(tmp != position->object); */
-      /* ae_list_push_back(this, tmp); */
+      ae_list_push_back(&clone->data.list_value, clone_of_obj_in_list);
     }
   }
   
