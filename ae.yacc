@@ -9,6 +9,8 @@
   
 #define NL      putchar('\n')
 #define SPC     putchar(' ')
+#define LPR     putchar('(')
+#define RPR     putchar(')')
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_object_puts(x)
@@ -56,9 +58,6 @@
     OBJ(this);
     SPC;
     SPC;
-    // LSQR;
-    // OBJC(this);
-    // RSQR;
     NL;
     
     if (this->type == AE_LIST) {
