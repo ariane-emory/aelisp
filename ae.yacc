@@ -5,10 +5,14 @@
 
 #include "ae.h"
 
-// Utility macros that should probably be moved to another file:
-#define NL putchar('\n')
-#define SPC putchar(' ')
-
+// Utility macros that should probably be moved to another file and/or renamed/undefed.
+  
+#define NL     putchar('\n')
+#define SPC    putchar(' ')
+#define LSQR   putchar('[')
+#define RSQR   putchar(']')
+#define OBJ(x) ae_object_puts(x)
+  
 #define POOL_SIZE (1 << 12)
 
   ae_object_t pool[POOL_SIZE];
@@ -25,8 +29,8 @@
     for (int ct = 0; ct < indent << 1; ct++)
       SPC;
     
-    ae_object_puts(this);
-    NL;
+    OBJ(this);
+    SPC; LSQR; RSQR; NL;
     
     if (this->type == AE_LIST) {
       ++indent;
