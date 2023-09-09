@@ -2,7 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "ae.h"
+
+// Utility macros that should probably be moved to another file:
+#define NL putchar('\n')
+
 
 #define POOL_SIZE (1 << 12)
   ae_object_t pool[POOL_SIZE];
@@ -13,7 +18,8 @@
   int yywrap() { return 1; }
 
   void describe(void * ae_object) {
-    printf("%s\n", ae_object_str(ae_object));
+    ae_object_fputs(ae_object, stdout);
+    NL;
   }
 
   ae_object_t * pool_alloc_ae_object() {

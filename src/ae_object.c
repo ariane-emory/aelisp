@@ -46,11 +46,18 @@ const char * const ae_object_str(const ae_object_t * const this) {
   return buff;
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
-//
+// fputs / puts
 ////////////////////////////////////////////////////////////////////////////////
-void ae_object_fputs(const ae_object_t * const this) {
-  char * const tmp = ae_object_str(this);
+
+void ae_object_fputs(const ae_object_t * const this, FILE * stream) {
+  const char * tmp = ae_object_str(this);
+  fputs(tmp, stream);
+}
+
+void ae_object_puts(const ae_object_t * const this) {
+  ae_object_fputs(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
