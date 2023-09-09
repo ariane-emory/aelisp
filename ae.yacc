@@ -33,9 +33,9 @@
     OBJ(this);
     SPC;
     SPC;
-    LSQR;
-    OBJC(this);
-    RSQR;
+    // LSQR;
+    // OBJC(this);
+    // RSQR;
     NL;
     
     if (this->type == AE_LIST) {
