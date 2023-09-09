@@ -60,9 +60,6 @@
       }
       else {
         printf("nil");
-        putchar('n');
-        putchar('i');
-        putchar('l');
       }
       SPC;
     }
