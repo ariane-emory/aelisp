@@ -10,8 +10,8 @@
 #define NL      putchar('\n')
 #define BSPC    putchar('\b')
 #define SPC     putchar(' ')
-#define LPAR     putchar('(')
-#define RPAR     putchar(')')
+#define LPAR    putchar('(')
+#define RPAR    putchar(')')
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_object_puts(x)
@@ -49,8 +49,6 @@
   }
 
   void write(void * ae_object) {
-    static unsigned int indent = 0;
-    
     ae_object_t * this = ae_object;
         
     if (this->type == AE_LIST) {
@@ -103,19 +101,6 @@
 #endif
   
   main() {
-
-    /* for (size_t iix = 0; iix < POOL_SIZE; iix++) { */
-    /*   ae_object_t * this = &pool[iix]; */
-    /*   char * this_p = (char *)this; */
-
-    /*   printf("#%d %s -> ", iix, ae_object_str(this)); */
-    /*   for (size_t ix = 0; ix < sizeof(ae_object_t); ix++) { */
-    /*     printf("%0x ", *(this_p + ix)); */
-    /*   } */
-
-    /*   printf("\n"); */
-    /* } */
-    
 #define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(void *);
