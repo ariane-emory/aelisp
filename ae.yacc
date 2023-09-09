@@ -52,12 +52,17 @@
     ae_object_t * this = ae_object;
         
     if (this->type == AE_LIST) {
-      LPAR;
       if (this->data.list_value) {
+        LPAR;
         ae_list_each(&this->data.list_value, write);
         BSPC;
+        RPAR;
       }
-      RPAR;
+      else {
+        putchar('n');
+        putchar('i');
+        putchar('l');
+      }
       SPC;
     }
     else {
