@@ -10,8 +10,8 @@
 #define NL      putchar('\n')
 #define BSPC    putchar('\b')
 #define SPC     putchar(' ')
-#define LPR     putchar('(')
-#define RPR     putchar(')')
+#define LPAR     putchar('(')
+#define RPAR     putchar(')')
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_object_puts(x)
@@ -54,10 +54,10 @@
     ae_object_t * this = ae_object;
         
     if (this->type == AE_LIST) {
-      LPR;
+      LPAR;
       ae_list_each(&this->data.list_value, write);
       BSPC;
-      RPR;
+      RPAR;
       SPC;
     }
     else {
@@ -146,7 +146,7 @@
     
     %}
 
-%token LPAR RPAR STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR
+%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR
 %start program
 
 %%
@@ -157,7 +157,7 @@ sexp: list | atom
 
 atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
-list:  LPAR sexps RPAR { $$ = $2; };
+list:  LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
 {
