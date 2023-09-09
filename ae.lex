@@ -120,6 +120,8 @@
       break;
     case AE_PAREN:
       break;
+    case AE_LIST:
+      break;
     default:
       printf("Tokenized something unrecognizable!\n");
       break;
@@ -130,9 +132,10 @@
 %}
 
 %%
+nil                                                             TOKENIZE(LIST,     AE_LIST    );
 \'                                                              TOKENIZE(QUOTE,    AE_QUOTE   );
-\(                                                              TOKENIZE(LPAREN,     AE_PAREN   );
-\)                                                              TOKENIZE(RPAREN,     AE_PAREN   );                                                                
+\(                                                              TOKENIZE(LPAREN,   AE_PAREN   );
+\)                                                              TOKENIZE(RPAREN,   AE_PAREN   );                                                                
 \"((\\\")|([^\"]))*\"                                           TOKENIZE(STRING,   AE_STRING  );
 '[^']'       |
 '\\.'        | 

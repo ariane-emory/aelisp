@@ -134,7 +134,7 @@
     
     %}
 
-%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR
+%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR LIST
 %start program
 
 %%
@@ -145,7 +145,12 @@ sexp: list | atom
 
 atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
-list:  LPAREN sexps RPAREN { $$ = $2; };
+list:  LIST
+{
+  ae_object_init(&$$);
+  $$.type = AE_LIST;
+  ae_list_init(&$$.data.list_value);
+} | LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
 {
