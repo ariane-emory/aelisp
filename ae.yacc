@@ -53,8 +53,10 @@
         
     if (this->type == AE_LIST) {
       LPAR;
-      ae_list_each(&this->data.list_value, write);
-      BSPC;
+      if (this->data.list_value) {
+        ae_list_each(&this->data.list_value, write);
+        BSPC;
+      }
       RPAR;
       SPC;
     }
