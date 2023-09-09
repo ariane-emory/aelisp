@@ -7,6 +7,7 @@
 
 // Utility macros that should probably be moved to another file:
 #define NL putchar('\n')
+#define SPC putchar(' ')
 
 
 #define POOL_SIZE (1 << 12)
@@ -18,13 +19,21 @@
   int yywrap() { return 1; }
 
   void describe(void * ae_object) {
+    static unsigned int indent = 0;
+    
     ae_object_t * this = ae_object;
+
+    for (int ct = 0; ct < indent << 1; ct++)
+      SPC;
     
     ae_object_fputs(this, stdout);
     NL;
     
-    if (this->type == AE_LIST)
+    if (this->type == AE_LIST) {
+      ++indent;
       ae_list_each(&this->data.list_value, describe);
+      --indent;
+    }
   }
 
   ae_object_t * pool_alloc_ae_object() {
