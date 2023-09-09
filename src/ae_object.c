@@ -65,31 +65,7 @@ void ae_object_puts(const ae_object_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_object_fputsc(const ae_object_t * const this, FILE * stream) {
-  switch(this->type) {
-  /* case AE_CHAR: */
-  /*   fputc(this->data.char_value, stream); */
-  /*   return; */
-  /* case AE_FLOAT: */
-  /*   fprintf(stream, "%.02lf", this->data.float_value); */
-  /*   return; */
-  /* case AE_INTEGER: */
-  /*   fprintf(stream, "%d", this->data.int_value); */
-  /*   return; */
-  /* case AE_RATIONAL: */
-  /*   fputs(this->c_str, stream); */
-  /*   return; */
-  /* case AE_STRING: */
-  /*   fputc('"', stream); */
-  /*   fputs(this->data.string_value, stream); */
-  /*   fputc('"', stream); */
-  /*   return; */
-  /* case AE_SYMBOL: */
-  /*   fputs(this->data.string_value, stream); */
-  /*   return; */
-  default:
-    fputs(this->c_str, stream);
-    // fputs("<unprintable ae_object>", stream);
-  }
+  fputs(this->c_str, stream);
 }
 
 void ae_object_putsc(const ae_object_t * const this) {
