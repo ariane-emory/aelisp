@@ -56,7 +56,7 @@ clean::
 	rm -rf bin obj tmp
 
 test: clean all
-	echo "(a b) (a b c) (a b c d) (a b c d \"bang\")" | ./bin/$(BIN)
+	echo "(a b) (a b c) (a b c d) (a b c d \"bang\" 1 1.5 3/4 'x' ?\\y '\\n')" | ./bin/$(BIN)
 # echo "('\\n' '\\t')" | ./bin/$(BIN)
 # echo "(a b c) (a 1.234 2. -.5 b c d e \"hello!\" -128/36 'a' '\\\n' ?\\x) (+ 1 'x' 2 \"hello\"  qwert)" | ./bin/$(BIN)
 #	./bin/$(BIN3)

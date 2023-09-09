@@ -23,5 +23,5 @@ ae_object_t *      ae_object_clone(ae_object_t * const this);
 void               ae_object_fputs(const ae_object_t * const this, FILE * stream);
 void               ae_object_puts(const ae_object_t * const this);
 // pretty putses:
-void               ae_object_fputsp(const ae_object_t * const this, FILE * stream);
-void               ae_object_putsp(const ae_object_t * const this);
+void               ae_object_fputsc(const ae_object_t * const this, FILE * stream);
+void               ae_object_putsc(const ae_object_t * const this);

@@ -5,15 +5,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
-  DO(AE_STRING)                                                                                                                             \
   DO(AE_CHAR)                                                                                                                               \
-  DO(AE_INTEGER)                                                                                                                            \
   DO(AE_FLOAT)                                                                                                                              \
-  DO(AE_RATIONAL)                                                                                                                           \
+  DO(AE_INTEGER)                                                                                                                            \
   DO(AE_LIST)                                                                                                                               \
-  DO(AE_SYMBOL)                                                                                                                             \
+  DO(AE_PAREN)                                                                                                                              \
   DO(AE_QUOTE)                                                                                                                              \
-  DO(AE_PAREN)
+  DO(AE_RATIONAL)                                                                                                                           \
+  DO(AE_STRING)                                                                                                                             \
+  DO(AE_SYMBOL)                                                                                                                             
 
 #define enum_node(x) x,
 

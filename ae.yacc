@@ -12,7 +12,7 @@
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_object_puts(x)
-#define OBJP(x) ae_object_putsp(x)
+#define OBJC(x) ae_object_putsc(x)
   
 #define POOL_SIZE (1 << 12)
 
@@ -34,7 +34,7 @@
     SPC;
     SPC;
     LSQR;
-    OBJP(this);
+    OBJC(this);
     RSQR;
     NL;
     
