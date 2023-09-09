@@ -65,12 +65,14 @@ void ae_object_puts(const ae_object_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_object_fputsp(const ae_object_t * const this, FILE * stream) {
-  const char * tmp = ae_object_str(this);
-  fputs(tmp, stream);
+  switch(this->type) {
+  default:
+    fputs("<unprintable ae_object>", stream);
+  }
 }
 
 void ae_object_putsp(const ae_object_t * const this) {
-  ae_object_fputs(this, stdout);
+  ae_object_fputsp(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

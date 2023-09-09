@@ -7,11 +7,12 @@
 
 // Utility macros that should probably be moved to another file and/or renamed/undefed.
   
-#define NL     putchar('\n')
-#define SPC    putchar(' ')
-#define LSQR   putchar('[')
-#define RSQR   putchar(']')
-#define OBJ(x) ae_object_puts(x)
+#define NL      putchar('\n')
+#define SPC     putchar(' ')
+#define LSQR    putchar('[')
+#define RSQR    putchar(']')
+#define OBJ(x)  ae_object_puts(x)
+#define OBJP(x) ae_object_putsp(x)
   
 #define POOL_SIZE (1 << 12)
 
@@ -30,7 +31,11 @@
       SPC;
     
     OBJ(this);
-    SPC; LSQR; RSQR; NL;
+    SPC;
+    LSQR;
+    ae_object_putsp(this);
+    RSQR;
+    NL;
     
     if (this->type == AE_LIST) {
       ++indent;
