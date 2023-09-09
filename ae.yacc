@@ -33,7 +33,7 @@
     OBJ(this);
     SPC;
     LSQR;
-    ae_object_putsp(this);
+    OBJP(this);
     RSQR;
     NL;
     
