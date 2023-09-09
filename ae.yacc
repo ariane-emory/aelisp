@@ -123,12 +123,15 @@
     printf("program:                        %s.\n", ae_object_str(program_object));
     NL;
 
-    ae_list_t program_object_s_list_value = program_object->data.list_value;
-    
-    ae_list_each(&program_object_s_list_value, describe);
+    ae_list_each(&program_object->data.list_value, describe);
     NL;
     
-    ae_list_each(&program_object_s_list_value, write);
+    ae_list_each(&program_object->data.list_value, write);
+    NL;
+    
+    printf("bing.\n");
+    write(&program_object);
+    printf("bong.\n");
   }
     
     %}
