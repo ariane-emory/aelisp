@@ -130,7 +130,7 @@
     NL;
     
     printf("bing.\n");
-    write(&program_object);
+    write(program_object);
     printf("bong.\n");
   }
     
