@@ -17,8 +17,10 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
-  void describe(void * ae_object) {
-    ae_object_fputs(ae_object, stdout);
+  void describe(void * this) {
+    this_fputs(this, stdout);
+    if (this->type == AE_LIST)
+      ae_list_each(&program_object_s_list_value, describe);
     NL;
   }
 
