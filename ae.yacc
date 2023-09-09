@@ -78,23 +78,19 @@
     
     yyparse();
 
-    printf("Root: %s.\n", ae_object_str(root));
+    printf("\nroot:                           %s.\n", ae_object_str(root));
 
-    ae_object_t * root_object = ALLOC_AE_OBJECT;
-    ae_object_move(root_object, root);
+    ae_object_t * program_object = ALLOC_AE_OBJECT; 
+    ae_object_move(program_object, root); // take the 'program' rule's ae_object.
+    printf("program:                        %s.\n", ae_object_str(program_object));
     
-    ae_list_t first_list = root_object->data.list_value;
-    ae_list_node_t first_lists_first_node = *root_object->data.list_value;
+    ae_list_t program_object_s_list_value = program_object->data.list_value;
     
-    printf("Root's list_value: %s.\n", ae_list_str(&first_list));
-    printf("Root's list_value len: %d.\n", ae_list_length(&first_list));
+    printf("Program's list_value: %s.\n", ae_list_str(&program_object_s_list_value));
+    printf("Program's list_value len: %d.\n", ae_list_length(&program_object_s_list_value));
   
-    ae_object_t * obj = first_lists_first_node.object;
-    printf("Obj: %s.\n", ae_object_str(obj));
-    printf("Obj's list_value: %s.\n", ae_list_str(&obj->data.list_value));
-    printf("Obj's list_value len: %d.\n", ae_list_length(&obj->data.list_value));
 
-    ae_list_each(&first_list, describe);
+    ae_list_each(&program_object_s_list_value, describe);
   }
     
     %}
