@@ -45,6 +45,29 @@
     }
   }
 
+  void write(void * ae_object) {
+    static unsigned int indent = 0;
+    
+    ae_object_t * this = ae_object;
+
+    for (int ct = 0; ct < indent << 1; ct++)
+      SPC;
+    
+    OBJ(this);
+    SPC;
+    SPC;
+    // LSQR;
+    // OBJC(this);
+    // RSQR;
+    NL;
+    
+    if (this->type == AE_LIST) {
+      ++indent;
+      ae_list_each(&this->data.list_value, write);
+      --indent;
+    }
+  }
+
   ae_object_t * pool_alloc_ae_object() {
     for (size_t ix = 0; ix < POOL_SIZE; ix++) {
       ae_object_t * obj = &pool[ix];
@@ -111,11 +134,16 @@
 
     ae_object_t * program_object = ALLOC_AE_OBJECT; 
     ae_object_move(program_object, root); // take the 'program' rule's ae_object.
+
     printf("program:                        %s.\n", ae_object_str(program_object));
-    
+    NL;
+
     ae_list_t program_object_s_list_value = program_object->data.list_value;
     
     ae_list_each(&program_object_s_list_value, describe);
+    NL;
+    
+    ae_list_each(&program_object_s_list_value, write);
   }
     
     %}
