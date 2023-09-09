@@ -13,7 +13,7 @@
   int yywrap() { return 1; }
 
   void describe(void * ae_object) {
-    printf("0x%zu -> %s\n", ae_object, ae_object_str(ae_object));
+    printf("%s\n", ae_object_str(ae_object));
   }
 
   ae_object_t * pool_alloc_ae_object() {
@@ -86,9 +86,6 @@
     
     ae_list_t program_object_s_list_value = program_object->data.list_value;
     
-    printf("Program's list_value len: %d.\n", ae_list_length(&program_object_s_list_value));
-  
-
     ae_list_each(&program_object_s_list_value, describe);
   }
     
