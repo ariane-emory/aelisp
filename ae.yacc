@@ -8,6 +8,7 @@
 // Utility macros that should probably be moved to another file and/or renamed/undefed.
   
 #define NL      putchar('\n')
+#define BSPC    putchar('\b')
 #define SPC     putchar(' ')
 #define LPR     putchar('(')
 #define RPR     putchar(')')
@@ -51,19 +52,17 @@
     static unsigned int indent = 0;
     
     ae_object_t * this = ae_object;
-
-    for (int ct = 0; ct < indent << 1; ct++)
-      SPC;
-    
-    OBJ(this);
-    SPC;
-    SPC;
-    NL;
-    
+        
     if (this->type == AE_LIST) {
-      ++indent;
+      LPR;
       ae_list_each(&this->data.list_value, write);
-      --indent;
+      BSPC;
+      RPR;
+      SPC;
+    }
+    else {
+      ae_object_putsc(this);
+      SPC;
     }
   }
 
