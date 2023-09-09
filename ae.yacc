@@ -59,7 +59,7 @@
         RPAR;
       }
       else {
-        puts("nil");
+        fputs("nil", stdout);
       }
       SPC;
     }
