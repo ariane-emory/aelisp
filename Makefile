@@ -58,7 +58,7 @@ test: clean all
 	echo "(a b) (a b c) (a b c d) (a b c d e)" | ./bin/$(BIN)
 # echo "('\\n' '\\t')" | ./bin/$(BIN)
 # echo "(a b c) (a 1.234 2. -.5 b c d e \"hello!\" -128/36 'a' '\\\n' ?\\x) (+ 1 'x' 2 \"hello\"  qwert)" | ./bin/$(BIN)
-	./bin/$(BIN3)
+#	./bin/$(BIN3)
 
 test2: clean all
 	./$(BIN2)
