@@ -26,7 +26,7 @@
     for (int ct = 0; ct < indent << 1; ct++)
       SPC;
     
-    ae_object_fputs(this, stdout);
+    ae_object_puts(this);
     NL;
     
     if (this->type == AE_LIST) {
