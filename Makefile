@@ -1,5 +1,6 @@
 UNAME_S = $(shell uname -s)
 CFLAGS   = \
+	-Werror \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Iinclude \
