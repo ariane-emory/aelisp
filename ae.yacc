@@ -36,9 +36,6 @@
     OBJ(this);
     SPC;
     SPC;
-    // LSQR;
-    // OBJC(this);
-    // RSQR;
     NL;
     
     if (this->type == AE_LIST) {
@@ -48,13 +45,13 @@
     }
   }
 
-  void write(void * ae_object) {
+  void write(ae_object_t * ae_object) {
     ae_object_t * this = ae_object;
         
     if (this->type == AE_LIST) {
       if (this->data.list_value) {
         LPAR;
-        ae_list_each(&this->data.list_value, write);
+        ae_list_each(&this->data.list_value, (ae_list_node_each_fun)write);
         BSPC;
         RPAR;
       }
@@ -129,7 +126,7 @@
     ae_list_each(&program_object->data.list_value, describe);
     NL;
     
-    ae_list_each(&program_object->data.list_value, write);
+    ae_list_each(&program_object->data.list_value, (ae_list_node_each_fun)write);
     NL;
     
     write(program_object);
