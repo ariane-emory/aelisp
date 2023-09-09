@@ -86,7 +86,6 @@
     
     ae_list_t program_object_s_list_value = program_object->data.list_value;
     
-    printf("Program's list_value: %s.\n", ae_list_str(&program_object_s_list_value));
     printf("Program's list_value len: %d.\n", ae_list_length(&program_object_s_list_value));
   
 
