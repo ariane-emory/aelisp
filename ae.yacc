@@ -17,11 +17,14 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
-  void describe(void * this) {
-    this_fputs(this, stdout);
-    if (this->type == AE_LIST)
-      ae_list_each(&program_object_s_list_value, describe);
+  void describe(void * ae_object) {
+    ae_object_t * this = ae_object;
+    
+    ae_object_fputs(this, stdout);
     NL;
+    
+    if (this->type == AE_LIST)
+      ae_list_each(&this->data.list_value, describe);
   }
 
   ae_object_t * pool_alloc_ae_object() {
