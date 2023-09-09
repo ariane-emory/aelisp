@@ -66,6 +66,14 @@ void ae_object_puts(const ae_object_t * const this) {
 
 void ae_object_fputsp(const ae_object_t * const this, FILE * stream) {
   switch(this->type) {
+  case AE_STRING:
+    fputc('"', stream);
+    fputs(this->data.string_value, stream);
+    fputc('"', stream);
+    return;
+  case AE_SYMBOL:
+    fputs(this->data.string_value, stream);
+    return;    
   default:
     fputs("<unprintable ae_object>", stream);
   }

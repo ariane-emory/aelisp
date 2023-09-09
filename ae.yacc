@@ -32,6 +32,7 @@
     
     OBJ(this);
     SPC;
+    SPC;
     LSQR;
     OBJP(this);
     RSQR;
