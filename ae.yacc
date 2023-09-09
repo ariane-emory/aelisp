@@ -59,6 +59,7 @@
         RPAR;
       }
       else {
+        printf("nil");
         putchar('n');
         putchar('i');
         putchar('l');
