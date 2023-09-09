@@ -59,7 +59,7 @@
         RPAR;
       }
       else {
-        printf("nil");
+        puts("nil");
       }
       SPC;
     }
