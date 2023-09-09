@@ -129,9 +129,7 @@
     ae_list_each(&program_object->data.list_value, write);
     NL;
     
-    printf("bing.\n");
     write(program_object);
-    printf("bong.\n");
   }
     
     %}
