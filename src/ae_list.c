@@ -23,7 +23,7 @@ void ae_list_node_init(ae_list_node_t * const this) {
 // _str methods
 ////////////////////////////////////////////////////////////////////////////////
 
-const char * const ae_list_str(const ae_list_t * const this) {
+const char * ae_list_str(const ae_list_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   snprintf(
@@ -37,7 +37,7 @@ const char * const ae_list_str(const ae_list_t * const this) {
   return buff;
 }
 
-const char * const ae_list_node_str(const ae_list_node_t * const this) {
+const char * ae_list_node_str(const ae_list_node_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   snprintf(

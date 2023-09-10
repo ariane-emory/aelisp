@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define return_str(x) case x: return #x;
-const char * const ae_type_str(const ae_type_t this) {
+const char * ae_type_str(const ae_type_t this) {
   switch (this) {
     FOR_LEXED_TYPES_DO(return_str);
     return_str(AE_FREE);
@@ -35,7 +35,7 @@ void ae_object_init(ae_object_t * const this) {
 // _str method
 ////////////////////////////////////////////////////////////////////////////////
 
-const char * const ae_object_str(const ae_object_t * const this) {
+const char * ae_object_str(const ae_object_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   if (this->type == AE_LIST) 
@@ -126,10 +126,11 @@ ae_object_t * ae_object_clone(ae_object_t * const this) {
     for (ae_list_node_t * position = this->list_value;
          position;
          position = position->tail) {
-      ae_object_t * obj_in_list = position->object; REPORT;
       ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object); REPORT;
       ae_list_push_back(&clone->list_value, clone_of_obj_in_list); REPORT;
     }
+  default:
+    (void)0; // do nothing special for this type.
   }
   
   return clone;

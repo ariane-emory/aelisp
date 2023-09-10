@@ -1,14 +1,15 @@
-UNAME_S = $(shell uname -s)
-CFLAGS   = \
+UNAME_S      = $(shell uname -s)
+CFLAGS       = -Iinclude -I. 	-Wno-implicit-int -Wno-implicit-function-declaration
+
+EXTRA_CFLAGS = \
 	-Iinclude \
 	-I. \
-	-Wno-implicit-int \
-	-Wno-implicit-function-declaration \
 	-Werror \
 	-Wall \
 	-Wextra \
 	-Wshadow \
 	-Wpedantic \
+	-Wno-format \
 	-ggdb
 
 ifeq ($(UNAME_S),Darwin)
@@ -54,7 +55,7 @@ bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-bin/$(BIN3): $(BIN3).c obj/ae_list.o obj/ae_object.o obj/ae_type.o
+bin/$(BIN3): $(BIN3).c obj/ae_list.o obj/ae_object.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
