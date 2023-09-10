@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ae.h"
+#include "ae_list.h"
+#include "ae_object.h"
+
+#define YYSTYPE ae_object_t
 
 // Utility macros that should probably be moved to another file and/or renamed/undefed.
   

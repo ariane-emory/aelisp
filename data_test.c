@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-#include "ae.h"
+#include "ae_list.h"
+#include "ae_object.h"
 
 static char * zero  = "Zero";
 static char * one   = "One";

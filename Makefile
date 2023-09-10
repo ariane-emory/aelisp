@@ -4,7 +4,8 @@ CFLAGS   = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Iinclude \
-	-I.
+	-I. \
+  -ggdb
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
