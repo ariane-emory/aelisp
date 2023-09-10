@@ -100,34 +100,31 @@ void ae_object_move(ae_object_t * const this, ae_object_t * const that) {
 // _clone method
 ////////////////////////////////////////////////////////////////////////////////
 
-// #define REPORT printf("Line %d.\n", __LINE__)
-#define REPORT 
-
 ae_object_t * ae_object_clone(ae_object_t * const this) {
-  ae_object_t * clone = malloc(sizeof(ae_object_t)); REPORT;
-  memcpy(clone, this, sizeof(ae_object_t)); REPORT;
+  ae_object_t * clone = malloc(sizeof(ae_object_t));
+  memcpy(clone, this, sizeof(ae_object_t));
 
   if (clone->c_str) {
-    clone->c_str = malloc(strlen(this->c_str) + 1); REPORT;
-    strcpy(clone->c_str, this->c_str); REPORT;
+    clone->c_str = malloc(strlen(this->c_str) + 1);
+    strcpy(clone->c_str, this->c_str);
   }
   
   switch (this->type) {
   case AE_STRING:
   case AE_SYMBOL:
-    clone->string_value = malloc(strlen(this->string_value) + 1); REPORT;
-    strcpy(clone->string_value, this->string_value); REPORT;
+    clone->string_value = malloc(strlen(this->string_value) + 1);
+    strcpy(clone->string_value, this->string_value);
   case AE_LIST:
-    ae_list_init(&clone->list_value); REPORT;
+    ae_list_init(&clone->list_value);
     
     if (!this)
-      return clone; REPORT;
+      return clone;
     
     for (ae_list_node_t * position = this->list_value;
          position;
          position = position->tail) {
-      ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object); REPORT;
-      ae_list_push_back(&clone->list_value, clone_of_obj_in_list); REPORT;
+      ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object);
+      ae_list_push_back(&clone->list_value, clone_of_obj_in_list);
     }
   default:
     (void)0; // do nothing special for this type.
