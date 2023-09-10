@@ -30,7 +30,7 @@ const char * const ae_object_str(const ae_object_t * const this) {
       "<O %p>(%s, %d)",
       this,
       ae_type_str(this->type),
-      ae_list_length(&this->data.list_value)
+      ae_list_length(&this->list_value)
     );
   else
     snprintf(
@@ -100,20 +100,20 @@ ae_object_t * ae_object_clone(ae_object_t * const this) {
   switch (this->type) {
   case AE_STRING:
   case AE_SYMBOL:
-    clone->data.string_value = malloc(strlen(this->data.string_value) + 1); REPORT;
-    strcpy(clone->data.string_value, this->data.string_value); REPORT;
+    clone->string_value = malloc(strlen(this->string_value) + 1); REPORT;
+    strcpy(clone->string_value, this->string_value); REPORT;
   case AE_LIST:
-    ae_list_init(&clone->data.list_value); REPORT;
+    ae_list_init(&clone->list_value); REPORT;
     
     if (!this)
       return clone; REPORT;
     
-    for (ae_list_node_t * position = this->data.list_value;
+    for (ae_list_node_t * position = this->list_value;
          position;
          position = position->tail) {
       ae_object_t * obj_in_list = position->object; REPORT;
       ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object); REPORT;
-      ae_list_push_back(&clone->data.list_value, clone_of_obj_in_list); REPORT;
+      ae_list_push_back(&clone->list_value, clone_of_obj_in_list); REPORT;
     }
   }
   

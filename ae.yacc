@@ -40,7 +40,7 @@
     
     if (this->type == AE_LIST) {
       ++indent;
-      ae_list_each(&this->data.list_value, describe);
+      ae_list_each(&this->list_value, describe);
       --indent;
     }
   }
@@ -49,9 +49,9 @@
     ae_object_t * this = ae_object;
         
     if (this->type == AE_LIST) {
-      if (this->data.list_value) {
+      if (this->list_value) {
         LPAR;
-        ae_list_each(&this->data.list_value, (ae_list_node_each_fun)write);
+        ae_list_each(&this->list_value, (ae_list_node_each_fun)write);
         BSPC;
         RPAR;
       }
@@ -106,7 +106,6 @@
 #define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(void *);
-    PRINT_SIZEOF(ae_data_t);
     PRINT_SIZEOF(ae_list_t);
     PRINT_SIZEOF(ae_list_node_t);
     PRINT_SIZEOF(ae_object_t);
@@ -123,10 +122,10 @@
     printf("program:                        %s.\n", ae_object_str(program_object));
     NL;
 
-    ae_list_each(&program_object->data.list_value, describe);
+    ae_list_each(&program_object->list_value, describe);
     NL;
     
-    ae_list_each(&program_object->data.list_value, (ae_list_node_each_fun)write);
+    ae_list_each(&program_object->list_value, (ae_list_node_each_fun)write);
     NL;
     
     write(program_object);
@@ -149,7 +148,7 @@ list:  LIST
 {
   ae_object_init(&$$);
   $$.type = AE_LIST;
-  ae_list_init(&$$.data.list_value);
+  ae_list_init(&$$.list_value);
 } | LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
@@ -158,12 +157,12 @@ sexps: sexps sexp
   ae_object_t * new_object = ALLOC_AE_OBJECT;
   ae_object_move(new_object, &$2);
   printf("Yacc cont'd sexps. Pushing      %s.\n", ae_object_str(new_object));
-  ae_list_push_back(&$$.data.list_value, new_object);
+  ae_list_push_back(&$$.list_value, new_object);
   printf("Yacc cont'd sexps. Returning    %s.\n", ae_object_str(&$$));
 } | {
   ae_object_init(&$$);
   $$.type = AE_LIST;
-  ae_list_init(&$$.data.list_value);
+  ae_list_init(&$$.list_value);
   printf("\nYacc began sexps.  Created      %s.\n", ae_object_str(&$$));
 };
    

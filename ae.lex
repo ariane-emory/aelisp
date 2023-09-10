@@ -33,17 +33,17 @@
     switch (yylval.type) {
     case AE_STRING:
       // printf("Tokenized an AE_STRING.\n");
-      // yylval.data.string_value = strdup(yytext);
-      yylval.data.string_value = malloc(strlen(yytext) - 1);
-      strncpy(yylval.data.string_value, yytext + 1, strlen(yytext) - 2);
-      printf("Parsed string [%s].\n", yylval.data.string_value);
+      // yylval.string_value = strdup(yytext);
+      yylval.string_value = malloc(strlen(yytext) - 1);
+      strncpy(yylval.string_value, yytext + 1, strlen(yytext) - 2);
+      printf("Parsed string [%s].\n", yylval.string_value);
       break;
     case AE_CHAR:
       // printf("\nTokenized an AE_CHAR.\n");
       // printf("Str [%s].\n", yytext);
       // printf("Len %d.\n", strlen(yytext));
 
-      yylval.data.char_value = 0;
+      yylval.char_value = 0;
 
       char * tmp = 0;
 
@@ -63,7 +63,7 @@
         switch(tmp[1]) {
 #define escaped_char_case(chr, replacement)                                                                                                 \
           case chr:                                                                                                                         \
-            yylval.data.char_value = replacement;                                                                                           \
+            yylval.char_value = replacement;                                                                                           \
             break;
           FOR_ESCAPED_CHARACTER_DO(escaped_char_case);
         default:
@@ -73,23 +73,23 @@
       }
       else {
         // printf("Plain character.\n");
-        yylval.data.char_value = tmp[0];
+        yylval.char_value = tmp[0];
       }
       
-      // printf("Final char '%c'.\n", yylval.data.char_value);
+      // printf("Final char '%c'.\n", yylval.char_value);
 
       free(tmp);
       
       break;
     case AE_INTEGER:
       // printf("Tokenized an AE_INTEGER.\n");
-      yylval.data.int_value = atoi(yytext);
-      // printf("Parsed integer %d.\n", yylval.data.int_value);
+      yylval.int_value = atoi(yytext);
+      // printf("Parsed integer %d.\n", yylval.int_value);
       break;
     case AE_FLOAT:
       // printf("Tokenized an AE_FLOAT.\n");
-      yylval.data.float_value = strtod(yytext, 0);
-      // printf("Parsed float %lf.\n", yylval.data.float_value);
+      yylval.float_value = strtod(yytext, 0);
+      // printf("Parsed float %lf.\n", yylval.float_value);
       break;
     case AE_RATIONAL:
       // printf("Tokenized an AE_RATIONAL.\n");
@@ -100,21 +100,21 @@
       char * tmp2 = malloc(slash_pos + 1);
       strncpy(tmp2, yytext, slash_pos);
       // printf("Copied [%s].\n", tmp2);
-      yylval.data.rational_value.numerator = atoi(tmp2);
-      // printf("Parsed [%d].\n", yylval.data.rational_value.numerator);
+      yylval.rational_value.numerator = atoi(tmp2);
+      // printf("Parsed [%d].\n", yylval.rational_value.numerator);
       free(tmp2);
 
       tmp2 = malloc(strlen(yytext) - slash_pos);
       // printf("Alloced %d.\n", strlen(yytext) - slash_pos);
       strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
       // printf("Copied [%s].\n", tmp2);
-      yylval.data.rational_value.denominator = atoi(tmp2);
-      // printf("Parsed [%d].\n", yylval.data.rational_value.denominator);
+      yylval.rational_value.denominator = atoi(tmp2);
+      // printf("Parsed [%d].\n", yylval.rational_value.denominator);
       free(tmp2);
       
       break;
     case AE_SYMBOL:
-      yylval.data.string_value = strdup(yytext);
+      yylval.string_value = strdup(yytext);
       break;
     case AE_QUOTE:
       break;
