@@ -1,11 +1,15 @@
 UNAME_S = $(shell uname -s)
 CFLAGS   = \
-	-Werror \
-	-Wno-implicit-int \
-	-Wno-implicit-function-declaration \
 	-Iinclude \
 	-I. \
-  -ggdb
+	-Wno-implicit-int \
+	-Wno-implicit-function-declaration \
+	-Werror \
+	-Wall \
+	-Wextra \
+	-Wshadow \
+	-Wpedantic \
+	-ggdb
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
