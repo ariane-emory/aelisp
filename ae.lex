@@ -100,7 +100,7 @@
       char * tmp2 = malloc(slash_pos + 1);
       strncpy(tmp2, yytext, slash_pos);
       // printf("Copied [%s].\n", tmp2);
-      yylval.rational_value.numerator = atoi(tmp2);
+      yylval.numerator_value = atoi(tmp2);
       // printf("Parsed [%d].\n", yylval.rational_value.numerator);
       free(tmp2);
 
@@ -108,7 +108,7 @@
       // printf("Alloced %d.\n", strlen(yytext) - slash_pos);
       strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
       // printf("Copied [%s].\n", tmp2);
-      yylval.rational_value.denominator = atoi(tmp2);
+      yylval.denominator_value = atoi(tmp2);
       // printf("Parsed [%d].\n", yylval.rational_value.denominator);
       free(tmp2);
       

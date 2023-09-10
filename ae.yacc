@@ -109,7 +109,6 @@
     PRINT_SIZEOF(ae_list_t);
     PRINT_SIZEOF(ae_list_node_t);
     PRINT_SIZEOF(ae_object_t);
-    PRINT_SIZEOF(ae_rational_t);
     PRINT_SIZEOF(ae_type_t);
     
     yyparse();
