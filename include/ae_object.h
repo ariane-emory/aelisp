@@ -1,16 +1,36 @@
 #pragma once
 
 #include "ae_type.h"
-#include "ae_data.h"
+#include "ae_rational.h"
+#include "ae_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// Object type
+// Typedefs
+////////////////////////////////////////////////////////////////////////////////
+
+typedef char * ae_string_t;
+
+////////////////////////////////////////////////////////////////////////////////
+// Data union
+////////////////////////////////////////////////////////////////////////////////
+
+typedef union {
+  ae_string_t               string_value;
+  char                      char_value;
+  int                       int_value;
+  double                    float_value;
+  ae_rational_t             rational_value;
+  ae_list_t                 list_value;
+} ae_data_t;
+
+////////////////////////////////////////////////////////////////////////////////
+// Object struct
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_object_t {
+  char *                    c_str;
   ae_type_t                 type;
   ae_data_t                 data;
-  char *                    c_str;
 } ae_object_t;
 
 //------------------------------------------------------------------------------
