@@ -28,7 +28,6 @@
     enum yytokentype x,
     ae_type_t ae_type) {
     ae_obj_init(&yylval, ae_type);
-    yylval.c_str = strdup(yytext);
 
     switch (yylval.type) {
     case AE_STRING:

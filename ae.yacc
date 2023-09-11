@@ -8,7 +8,7 @@
 
 #define YYSTYPE ae_obj_t
 
-// Utility macros that should probably be moved to another file and/or renamed/undefed.
+// Utility macros that should probably be unsafe_moved to another file and/or renamed/undefed.
   
 #define NL      putchar('\n')
 #define BSPC    putchar('\b')
@@ -17,8 +17,7 @@
 #define RPAR    putchar(')')
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
-#define OBJ(x)  ae_obj_puts(x)
-#define OBJC(x) ae_obj_putsc(x)
+#define OBJ(x)  ae_obj_put(x)
   
 #define POOL_SIZE (1 << 12)
 
@@ -43,7 +42,7 @@
     
     if (this->type == AE_LIST) {
       ++indent;
-      ae_list_each(&this->list_value, describe);
+      ae_obj_list_each(&this->list_value, describe);
       --indent;
     }
   }
@@ -54,7 +53,7 @@
     if (this->type == AE_LIST) {
       if (this->list_value) {
         LPAR;
-        ae_list_each(&this->list_value, (ae_list_node_each_fun)write);
+        ae_obj_list_each(&this->list_value, (ae_obj_list_each_fun)write);
         BSPC;
         RPAR;
       }
@@ -64,7 +63,7 @@
       SPC;
     }
     else {
-      ae_obj_putsc(this);
+      ae_obj_put(this);
       SPC;
     }
   }
@@ -83,7 +82,6 @@
       snprintf(buff, BUFF_LEN, "#%d:", ix); // off by one? I forget.
       #undef BUFF_LEN
       
-      printf("Pool allocated instance %-6s  %s.\n", buff, ae_obj_str(obj));
       return obj;
     }
     
@@ -114,18 +112,21 @@
     
     yyparse();
 
-    printf("\nroot:                           %s.\n", ae_obj_str(root));
-
-    ae_obj_t * program_obj = ALLOC_AE_OBJ; 
-    ae_obj_move(program_obj, root); // take the 'program' rule's ae_obj.
-
-    printf("program:                        %s.\n", ae_obj_str(program_obj));
-    NL;
-
-    ae_list_each(&program_obj->list_value, describe);
+    printf("\nroot:                           ");
+    ae_obj_put(root);
     NL;
     
-    ae_list_each(&program_obj->list_value, (ae_list_node_each_fun)write);
+    ae_obj_t * program_obj = ALLOC_AE_OBJ; 
+    ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
+
+    printf("program:                        ");
+    ae_obj_put(program_obj);
+    NL;
+
+    ae_obj_list_each(&program_obj->list_value, describe);
+    NL;
+    
+    ae_obj_list_each(&program_obj->list_value, (ae_obj_list_each_fun)write);
     NL;
     
     write(program_obj);
@@ -152,16 +153,12 @@ list:  LIST
 
 sexps: sexps sexp
 {
-  printf("\nYacc cont'd sexps. Copied       %s.\n", ae_obj_str(&$1));
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
-  ae_obj_move(new_obj, &$2);
-  printf("Yacc cont'd sexps. Pushing      %s.\n", ae_obj_str(new_obj));
+  ae_obj_unsafe_move(new_obj, &$2);
   ae_list_push_back(&$$.list_value, new_obj);
-  printf("Yacc cont'd sexps. Returning    %s.\n", ae_obj_str(&$$));
 } | {
   ae_obj_init(&$$, AE_LIST);
   ae_list_init(&$$.list_value);
-  printf("\nYacc began sexps.  Created      %s.\n", ae_obj_str(&$$));
 };
    
 %%

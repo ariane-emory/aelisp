@@ -9,6 +9,23 @@
 typedef char * ae_string_t;
 
 ////////////////////////////////////////////////////////////////////////////////
+// Escaped chars helper
+////////////////////////////////////////////////////////////////////////////////
+
+#define FOR_ESCAPED_CHARACTER_DO(DO)                                                                                                        \
+  DO('a',  '\a')                                                                                                                            \
+  DO('b',  '\b')                                                                                                                            \
+  DO('f',  '\f')                                                                                                                            \
+  DO('n',  '\n')                                                                                                                            \
+  DO('r',  '\r')                                                                                                                            \
+  DO('t',  '\t')                                                                                                                            \
+  DO('v',  '\v')                                                                                                                            \
+  DO('\\', '\\')                                                                                                                            \
+  DO('\'', '\'')                                                                                                                            \
+  DO('\"', '\"')                                                                                                                            \
+  DO('\?', '\?')                                                                                                                         
+
+////////////////////////////////////////////////////////////////////////////////
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +55,6 @@ const char * ae_type_str(const ae_type_t this);
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t {
-  char *                    c_str;
   ae_type_t                 type;
   union {
     ae_string_t             str_value;
@@ -56,14 +72,21 @@ typedef struct ae_obj_t {
 } ae_obj_t;
 
 //------------------------------------------------------------------------------
+// Obj's methods
+//------------------------------------------------------------------------------
 
-void               ae_obj_init(ae_obj_t * const this, ae_type_t type);
-const char *       ae_obj_str(const ae_obj_t * const this);
-void               ae_obj_move(ae_obj_t * const this, ae_obj_t * const that);
-ae_obj_t *         ae_obj_clone(ae_obj_t * const this);
+void          ae_obj_init        (      ae_obj_t * const this,  ae_type_t type);
+void          ae_obj_unsafe_move (      ae_obj_t * const this,  ae_obj_t * const that);
+ae_obj_t *    ae_obj_clone       (const ae_obj_t * const this);
+
 // ugly putses:
-void               ae_obj_fputs(const ae_obj_t * const this, FILE * stream);
-void               ae_obj_puts(const ae_obj_t * const this);
-// pretty putses:
-void               ae_obj_fputsc(const ae_obj_t * const this, FILE * stream);
-void               ae_obj_putsc(const ae_obj_t * const this);
+void          ae_obj_fput        (const ae_obj_t * const this,  FILE * stream);
+void          ae_obj_put         (const ae_obj_t * const this);
+// byte-oriented putses:
+void          ae_obj_fput_bytes  (const ae_obj_t * const this,  FILE * stream);
+void          ae_obj_put_bytes   (const ae_obj_t * const this);
+// write:
+void          ae_obj_fwrite      (const ae_obj_t * const this,  FILE * stream);
+void          ae_obj_write       (const ae_obj_t * const this);
+
+

@@ -77,7 +77,7 @@ size_t ae_list_node_length(const ae_list_node_t * const this) {
   return length;
 }
 
-void ae_list_node_each (ae_list_node_t * const this, ae_list_node_each_fun fun) {
+void ae_list_node_each (ae_list_node_t * const this, ae_obj_list_each_fun fun) {
   for (const ae_list_node_t * position = this; position; position = position->tail)
     fun(position->object);
 }
@@ -96,18 +96,18 @@ size_t ae_list_length(const ae_list_t * const this) {
     : 0;
 }
 
-void ae_list_each(ae_list_t * const this, ae_list_node_each_fun fun) {
+void ae_obj_list_each(ae_list_t * const this, ae_obj_list_each_fun fun) {
   if (*this)
     ae_list_node_each(*this, fun);
 }
 
-ae_list_t ae_list_map(const ae_list_t * const this, ae_list_node_map_fun fun) {
+ae_list_t ae_list_map(const ae_list_t * const this, ae_obj_list_map_fun fun) {
   ae_list_t new_list = 0;
   ae_list_map_into_from(&new_list, this, fun);
   return new_list;
 }
 
-void ae_list_map_into_from(ae_list_t * const this, const ae_list_t * const that, ae_list_node_map_fun fun) {
+void ae_list_map_into_from(ae_list_t * const this, const ae_list_t * const that, ae_obj_list_map_fun fun) {
   assert(that != this);
   
   if (!that) return;
