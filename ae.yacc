@@ -92,7 +92,7 @@
     return 0;
   }
 
-  void pool_free_ae_object(ae_obj_t * const this) {
+  void pool_free_ae_obj(ae_obj_t * const this) {
     ae_obj_init(this);
     this->type = AE_FREE;
   }
