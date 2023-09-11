@@ -28,7 +28,6 @@ const char * ae_type_str(const ae_type_t this) {
 void ae_obj_init(ae_obj_t * const this) {
   memset(this, 0, sizeof(ae_obj_t));
   this->type  = AE_INVALID;
-  // this->c_str = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
