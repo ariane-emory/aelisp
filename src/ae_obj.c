@@ -112,8 +112,8 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   switch (this->type) {
   case AE_STRING:
   case AE_SYMBOL:
-    clone->string_value = malloc(strlen(this->string_value) + 1);
-    strcpy(clone->string_value, this->string_value);
+    clone->str_value = malloc(strlen(this->str_value) + 1);
+    strcpy(clone->str_value, this->str_value);
   case AE_LIST:
     ae_list_init(&clone->list_value);
     

@@ -33,8 +33,12 @@
 
     switch (yylval.type) {
     case AE_STRING:
-      yylval.string_value = malloc(strlen(yytext) - 1);
-      strncpy(yylval.string_value, yytext + 1, strlen(yytext) - 2);
+      yylval.str_value = malloc(strlen(yytext) - 1);
+      strncpy(yylval.str_value, yytext + 1, strlen(yytext) - 2);
+      break;
+    case AE_SYMBOL:
+      yylval.str_value = malloc(strlen(yytext) + 1);
+      yylval.str_value = strdup(yytext);
       break;
     case AE_CHAR:
       yylval.char_value = 0;
@@ -89,9 +93,6 @@
       yylval.denominator_value = atoi(tmp2);
       free(tmp2);
       
-      break;
-    case AE_SYMBOL:
-      yylval.string_value = strdup(yytext);
       break;
     case AE_QUOTE:
       break;
