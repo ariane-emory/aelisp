@@ -42,7 +42,6 @@ typedef struct ae_obj_t {
   ae_type_t                 type;
   union {
     ae_string_t             string_value;
-    ae_string_t             symbol_value;
     char                    char_value;
     int                     int_value;
     double                  float_value;
