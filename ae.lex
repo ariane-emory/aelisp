@@ -36,8 +36,8 @@
       strncpy(yylval.str_value, yytext + 1, strlen(yytext) - 2);
       break;
     case AE_SYMBOL:
-      yylval.str_value = malloc(strlen(yytext) + 1);
-      yylval.str_value = strdup(yytext);
+      yylval.sym_value = malloc(strlen(yytext) + 1);
+      yylval.sym_value = strdup(yytext);
       break;
     case AE_CHAR:
       yylval.char_value = 0;
