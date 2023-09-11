@@ -34,14 +34,13 @@ void * id_int_p(void * int_p) {
 
 int main() {
   ae_obj_t * object = malloc(sizeof(ae_obj_t));
-  ae_obj_init(object);
-  object->type = AE_LIST;
+  ae_obj_init(object, AE_LIST);
 
   ae_list_init(&object->list_value);  
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj);
+    ae_obj_init(obj, AE_INTEGER);
     obj->c_str = zero;
     // printf("%s\n", ae_obj_str(obj));
     ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
@@ -50,7 +49,7 @@ int main() {
   
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj);
+    ae_obj_init(obj, AE_INTEGER);
     obj->c_str = one;
     // printf("%s\n", ae_obj_str(obj));
     ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
@@ -59,7 +58,7 @@ int main() {
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj);
+    ae_obj_init(obj, AE_INTEGER);
     obj->c_str = two;
     // printf("%s\n", ae_obj_str(obj));
     ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
@@ -68,7 +67,7 @@ int main() {
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj);
+    ae_obj_init(obj, AE_INTEGER);
     obj->c_str = three;
     // printf("%s\n", ae_obj_str(obj));
     ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);

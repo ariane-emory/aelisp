@@ -76,8 +76,7 @@
       if (obj->type != AE_FREE)
         continue;
       
-      ae_obj_init(obj);
-      obj->type = AE_INVALID;
+      ae_obj_init(obj, AE_INVALID);
 
       #define BUFF_LEN 5
       char buff[BUFF_LEN] = { 0 };
@@ -93,8 +92,7 @@
   }
 
   void pool_free_ae_obj(ae_obj_t * const this) {
-    ae_obj_init(this);
-    this->type = AE_FREE;
+    ae_obj_init(this, AE_FREE);
   }
 
 #define USE_POOL
@@ -148,8 +146,7 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
 list:  LIST
 {
-  ae_obj_init(&$$);
-  $$.type = AE_LIST;
+  ae_obj_init(&$$, AE_LIST);
   ae_list_init(&$$.list_value);
 } | LPAREN sexps RPAREN { $$ = $2; };
 
@@ -162,8 +159,7 @@ sexps: sexps sexp
   ae_list_push_back(&$$.list_value, new_obj);
   printf("Yacc cont'd sexps. Returning    %s.\n", ae_obj_str(&$$));
 } | {
-  ae_obj_init(&$$);
-  $$.type = AE_LIST;
+  ae_obj_init(&$$, AE_LIST);
   ae_list_init(&$$.list_value);
   printf("\nYacc began sexps.  Created      %s.\n", ae_obj_str(&$$));
 };

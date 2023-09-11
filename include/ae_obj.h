@@ -56,10 +56,10 @@ typedef struct ae_obj_t {
 
 //------------------------------------------------------------------------------
 
-void               ae_obj_init(ae_obj_t * const this);
+void               ae_obj_init(ae_obj_t * const this, ae_type_t type);
 const char *       ae_obj_str(const ae_obj_t * const this);
 void               ae_obj_move(ae_obj_t * const this, ae_obj_t * const that);
-ae_obj_t *      ae_obj_clone(ae_obj_t * const this);
+ae_obj_t *         ae_obj_clone(ae_obj_t * const this);
 // ugly putses:
 void               ae_obj_fputs(const ae_obj_t * const this, FILE * stream);
 void               ae_obj_puts(const ae_obj_t * const this);

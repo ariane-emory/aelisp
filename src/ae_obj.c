@@ -25,9 +25,9 @@ const char * ae_type_str(const ae_type_t this) {
 // _init method
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_init(ae_obj_t * const this) {
+void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
   memset(this, 0, sizeof(ae_obj_t));
-  this->type  = AE_INVALID;
+  this->type  = type;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ void ae_obj_putsc(const ae_obj_t * const this) {
 
 void ae_obj_move(ae_obj_t * const this, ae_obj_t * const that) {
   memcpy(this, that, sizeof(ae_obj_t));
-  ae_obj_init(that);
+  ae_obj_init(that, AE_INVALID);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,16 +110,17 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   
   switch (this->type) {
   case AE_STRING:
+    clone->str_value = malloc(strlen(this->str_value) + 1);
+    strcpy(clone->str_value, this->str_value);
+    break;
   case AE_SYMBOL:
     clone->str_value = malloc(strlen(this->str_value) + 1);
     strcpy(clone->str_value, this->str_value);
     break;
   case AE_LIST:
-    ae_list_init(&clone->list_value);
-    
+    ae_list_init(&clone->list_value);    
     if (!this)
       return clone;
-    
     for (ae_list_node_t * position = this->list_value;
          position;
          position = position->tail) {
