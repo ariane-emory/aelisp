@@ -81,7 +81,7 @@ typedef struct ae_obj_t {
 // Node's methods
 //------------------------------------------------------------------------------
 
-void   ae_obj_list_push_back          (      ae_obj_t *  const this, ae_obj_t * const ae_object);
+void   ae_obj_list_push_back          (      ae_obj_t *  const this, ae_obj_t * const ae_obj);
 void   ae_obj_list_each               (      ae_obj_t *  const this, ae_obj_list_each_fun fun);
 size_t ae_obj_list_length             (const ae_obj_t *  const this);
 

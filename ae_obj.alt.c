@@ -27,14 +27,14 @@ struct ae_obj_t;
 void ae_obj_put         (const struct ae_obj_t * const this);
 void ae_obj_put_bytes   (const struct ae_obj_t * const this);
 
-void ae_obj_list_push_back(ae_obj_t * const this, ae_obj_t * const ae_object) {
+void ae_obj_list_push_back(ae_obj_t * const this, ae_obj_t * const ae_obj) {
   /* fputs("Push into ", stdout); */
   /* ae_obj_put(this); */
   /* fflush(stdout); */
   // assert(this->type == AE_LIST);
   
   fputs("\nPushing ", stdout);
-  ae_obj_put(ae_object); 
+  ae_obj_put(ae_obj); 
   fputs(" into ", stdout);
   ae_obj_put(this); putchar('\n');
 
@@ -44,11 +44,11 @@ void ae_obj_list_push_back(ae_obj_t * const this, ae_obj_t * const ae_object) {
     for (; position->tail; position = position->tail);
     ae_obj_t * node = malloc(sizeof(ae_obj_t));
     ae_obj_init(node, AE_LIST);
-    node->head = ae_object;
+    node->head = ae_obj;
     position->tail = node;
   }
   else {
-    position->head = ae_object;    
+    position->head = ae_obj;    
   }
 }
 

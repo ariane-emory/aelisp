@@ -3,7 +3,7 @@
 #include <inttypes.h>
 
 #include "ae_list.h"
-#include "ae_object.h"
+#include "ae_obj.h"
 
 static char * zero  = "Zero";
 static char * one   = "One";
@@ -11,8 +11,8 @@ static char * two   = "Two";
 static char * three = "Three";
 
 void print_ae_obj_str(void * ae_obj_p) {
-  ae_obj_t * ae_object = ae_obj_p;
-  printf("%s\n", ae_obj_str(ae_object));
+  ae_obj_t * ae_obj = ae_obj_p;
+  printf("%s\n", ae_obj_str(ae_obj));
 }
 
 void print_int_p(void * int_p) {
