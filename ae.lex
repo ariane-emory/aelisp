@@ -5,7 +5,7 @@
 #include "ae_list.h"
 #include "ae_object.h"
 
-#define YYSTYPE ae_object_t
+#define YYSTYPE ae_obj_t
 #include "ae.tab.h"
 
 #define FOR_ESCAPED_CHARACTER_DO(DO)                                                                                                        \
@@ -27,11 +27,11 @@
     const char * const name,
     enum yytokentype x,
     ae_type_t ae_type) {
-    ae_object_init(&yylval);
+    ae_obj_init(&yylval);
     yylval.type  = ae_type;
     yylval.c_str = strdup(yytext);
 
-    //// printf("Tokenize got %s.\n", ae_object_str(&yylval));
+    //// printf("Tokenize got %s.\n", ae_obj_str(&yylval));
 
     switch (yylval.type) {
     case AE_STRING:

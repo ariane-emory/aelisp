@@ -25,8 +25,8 @@ const char * ae_type_str(const ae_type_t this) {
 // _init method
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_object_init(ae_object_t * const this) {
-  memset(this, 0, sizeof(ae_object_t));
+void ae_obj_init(ae_obj_t * const this) {
+  memset(this, 0, sizeof(ae_obj_t));
   this->type  = AE_INVALID;
   // this->c_str = 0;
 }
@@ -35,7 +35,7 @@ void ae_object_init(ae_object_t * const this) {
 // _str method
 ////////////////////////////////////////////////////////////////////////////////
 
-const char * ae_object_str(const ae_object_t * const this) {
+const char * ae_obj_str(const ae_obj_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   if (this->type == AE_LIST) 
@@ -66,43 +66,43 @@ const char * ae_object_str(const ae_object_t * const this) {
 // fputs / puts
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_object_fputs(const ae_object_t * const this, FILE * stream) {
-  const char * tmp = ae_object_str(this);
+void ae_obj_fputs(const ae_obj_t * const this, FILE * stream) {
+  const char * tmp = ae_obj_str(this);
   fputs(tmp, stream);
 }
 
-void ae_object_puts(const ae_object_t * const this) {
-  ae_object_fputs(this, stdout);
+void ae_obj_puts(const ae_obj_t * const this) {
+  ae_obj_fputs(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // fputsc / putsc
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_object_fputsc(const ae_object_t * const this, FILE * stream) {
+void ae_obj_fputsc(const ae_obj_t * const this, FILE * stream) {
   fputs(this->c_str, stream);
 }
 
-void ae_object_putsc(const ae_object_t * const this) {
-  ae_object_fputsc(this, stdout);
+void ae_obj_putsc(const ae_obj_t * const this) {
+  ae_obj_fputsc(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // _move method
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_object_move(ae_object_t * const this, ae_object_t * const that) {
-  memcpy(this, that, sizeof(ae_object_t));
-  ae_object_init(that);
+void ae_obj_move(ae_obj_t * const this, ae_obj_t * const that) {
+  memcpy(this, that, sizeof(ae_obj_t));
+  ae_obj_init(that);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // _clone method
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_object_t * ae_object_clone(ae_object_t * const this) {
-  ae_object_t * clone = malloc(sizeof(ae_object_t));
-  memcpy(clone, this, sizeof(ae_object_t));
+ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
+  ae_obj_t * clone = malloc(sizeof(ae_obj_t));
+  memcpy(clone, this, sizeof(ae_obj_t));
 
   if (clone->c_str) {
     clone->c_str = malloc(strlen(this->c_str) + 1);
@@ -123,7 +123,7 @@ ae_object_t * ae_object_clone(ae_object_t * const this) {
     for (ae_list_node_t * position = this->list_value;
          position;
          position = position->tail) {
-      ae_object_t * clone_of_obj_in_list = ae_object_clone(position->object);
+      ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->object);
       ae_list_push_back(&clone->list_value, clone_of_obj_in_list);
     }
   default:
