@@ -28,10 +28,10 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
-  void describe(void * ae_object) {
+  void describe(void * ae_obj) {
     static unsigned int indent = 0;
     
-    ae_obj_t * this = ae_object;
+    ae_obj_t * this = ae_obj;
 
     for (int ct = 0; ct < indent << 1; ct++)
       SPC;
@@ -48,8 +48,8 @@
     }
   }
 
-  void write(ae_obj_t * ae_object) {
-    ae_obj_t * this = ae_object;
+  void write(ae_obj_t * ae_obj) {
+    ae_obj_t * this = ae_obj;
         
     if (this->type == AE_LIST) {
       if (this->list_value) {
@@ -100,9 +100,9 @@
 #define USE_POOL
   
 #ifdef USE_POOL
-#  define ALLOC_AE_OBJECT pool_alloc_ae_obj()
+#  define ALLOC_AE_OBJ pool_alloc_ae_obj()
 #else
-#  define ALLOC_AE_OBJECT malloc(sizeof(ae_obj_t))
+#  define ALLOC_AE_OBJ malloc(sizeof(ae_obj_t))
 #endif
   
   main() {
@@ -118,19 +118,19 @@
 
     printf("\nroot:                           %s.\n", ae_obj_str(root));
 
-    ae_obj_t * program_object = ALLOC_AE_OBJECT; 
-    ae_obj_move(program_object, root); // take the 'program' rule's ae_object.
+    ae_obj_t * program_obj = ALLOC_AE_OBJ; 
+    ae_obj_move(program_obj, root); // take the 'program' rule's ae_obj.
 
-    printf("program:                        %s.\n", ae_obj_str(program_object));
+    printf("program:                        %s.\n", ae_obj_str(program_obj));
     NL;
 
-    ae_list_each(&program_object->list_value, describe);
+    ae_list_each(&program_obj->list_value, describe);
     NL;
     
-    ae_list_each(&program_object->list_value, (ae_list_node_each_fun)write);
+    ae_list_each(&program_obj->list_value, (ae_list_node_each_fun)write);
     NL;
     
-    write(program_object);
+    write(program_obj);
   }
     
     %}
@@ -156,10 +156,10 @@ list:  LIST
 sexps: sexps sexp
 {
   printf("\nYacc cont'd sexps. Copied       %s.\n", ae_obj_str(&$1));
-  ae_obj_t * new_object = ALLOC_AE_OBJECT;
-  ae_obj_move(new_object, &$2);
-  printf("Yacc cont'd sexps. Pushing      %s.\n", ae_obj_str(new_object));
-  ae_list_push_back(&$$.list_value, new_object);
+  ae_obj_t * new_obj = ALLOC_AE_OBJ;
+  ae_obj_move(new_obj, &$2);
+  printf("Yacc cont'd sexps. Pushing      %s.\n", ae_obj_str(new_obj));
+  ae_list_push_back(&$$.list_value, new_obj);
   printf("Yacc cont'd sexps. Returning    %s.\n", ae_obj_str(&$$));
 } | {
   ae_obj_init(&$$);
