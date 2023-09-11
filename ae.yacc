@@ -47,27 +47,6 @@
     }
   }
 
-  void write(ae_obj_t * ae_obj) {
-    ae_obj_t * this = ae_obj;
-        
-    if (this->type == AE_LIST) {
-      if (this->list_value) {
-        LPAR;
-        ae_obj_list_each(&this->list_value, (ae_obj_list_each_fun)write);
-        BSPC;
-        RPAR;
-      }
-      else {
-        fputs("nil", stdout);
-      }
-      SPC;
-    }
-    else {
-      ae_obj_put(this);
-      SPC;
-    }
-  }
-
   ae_obj_t * pool_alloc_ae_obj() {
     for (size_t ix = 0; ix < POOL_SIZE; ix++) {
       ae_obj_t * obj = &pool[ix];
@@ -122,13 +101,13 @@
     printf("program:                        ");
     ae_obj_put(program_obj);
     NL;
-
+    NL;
     ae_obj_list_each(&program_obj->list_value, describe);
     NL;
-    
-    ae_obj_list_each(&program_obj->list_value, (ae_obj_list_each_fun)write);
-    NL;
-    
+    puts("Writing...");
+    fflush(stdout);
+    ae_obj_write(program_obj);
+    NL;    
     write(program_obj);
   }
     
