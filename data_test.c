@@ -79,7 +79,7 @@ int main() {
 
   ae_object_t * clone = ae_object_clone(object);
 
-  printf("\n");
+  printf("\nPrint clone\n");
 
   ae_list_each(&clone->list_value, print_ae_object_str);
   
