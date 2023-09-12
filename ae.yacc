@@ -79,6 +79,8 @@
 #else
 #  define ALLOC_AE_OBJ malloc(sizeof(ae_obj_t))
 #endif
+
+  extern FILE * yyin;
   
   main() {
 #define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
@@ -89,7 +91,9 @@
     PRINT_SIZEOF(ae_obj_t);
     PRINT_SIZEOF(ae_type_t);
     
-    yyparse();
+     FILE * fp = fopen("sample.txt", "r");
+     yyin = fp;
+     yyparse();
 
     printf("\nroot:                           ");
     ae_obj_put(root);
