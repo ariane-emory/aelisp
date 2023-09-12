@@ -1,7 +1,13 @@
 UNAME_S      = $(shell uname -s)
-CFLAGS       = -Iinclude -I. -Wno-implicit-int -Wno-implicit-function-declaration	-ggdb
+CFLAGS       = \
+	-ggdb \
+	-Iinclude \
+	-I. \
+	-Wno-implicit-int \
+	-Wno-implicit-function-declaration
 
 EXTRA_CFLAGS = \
+  -ggdb \
 	-Iinclude \
 	-I. \
 	-Werror \
@@ -9,13 +15,7 @@ EXTRA_CFLAGS = \
 	-Wextra \
 	-Wshadow \
 	-Wpedantic \
-	-Wno-format \
-	-ggdb
-
-ifeq ($(UNAME_S),Darwin)
-	CXX = g++-13
-  CC  = gcc-13
-endif
+	-Wno-format
 
 GDB      = gdb
 OBJDUMP  = objdump
@@ -25,6 +25,12 @@ SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
 BIN      = ae
 BIN2     = data_test
+
+ifeq ($(UNAME_S),Darwin)
+	CXX = g++-13
+  CC  = gcc-13
+	GDB = lldb
+endif
 
 all:: bin/$(BIN) bin/$(BIN2)
 
