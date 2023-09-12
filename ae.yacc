@@ -40,9 +40,9 @@
     SPC;
     NL;
     
-    if (this->type == AE_LIST) {
+    if (this->type == AE_LIST && this->list_value) {
       ++indent;
-      ae_list_each(&this->list_value, describe);
+      ae_node_each(this->list_value, describe);
       --indent;
     }
   }
