@@ -31,8 +31,6 @@
       SPC;
     
     OBJ(this);
-    SPC;
-    SPC;
     NL;
     
     if (this->type == AE_LIST && this->head) {
