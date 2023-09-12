@@ -71,18 +71,27 @@
     ae_obj_put(root);
     NL;
     NL;
+      
+    ae_obj_t * program_obj = ALLOC_AE_OBJ; 
+    ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
+
+    NL;
+    printf("program:                        ");
+    ae_obj_put(program_obj);
+    NL;
+    NL;
     puts("Describing items in program.");
-    if (root->type == AE_LIST && root->head)
-      ae_obj_each(root, describe);
+    if (program_obj->type == AE_LIST && program_obj->head)
+      ae_obj_each(program_obj, describe);
     puts("Described items in program.");
     NL;
     puts("Writing program obj.");
-    ae_obj_write(root);
+    ae_obj_write(program_obj);
     puts("\nWrote program obj.");
     NL;
     puts("Writing items in program obj.");
-    if (root->type == AE_LIST && root->head)
-      ae_obj_each(root, do_write);
+    if (program_obj->type == AE_LIST && program_obj->head)
+      ae_obj_each(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;    
   }
