@@ -23,9 +23,6 @@ int main() {
   ae_obj_t * list = malloc(sizeof(ae_obj_t));
   ae_obj_init(list, AE_LIST);
 
-  list->list_value.head = 0;
-  list->list_value.tail = 0;  
-
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
