@@ -106,7 +106,8 @@
     ae_obj_put(program_obj);
     NL;
     NL;
-    ae_list_each(&program_obj->list_value, describe);
+    if (program_obj->type == AE_LIST && program_obj->list_value)
+      ae_node_each(program_obj->list_value, describe);
     puts("Done loop.");
     fflush(stdout);
     NL;
