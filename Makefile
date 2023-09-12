@@ -44,7 +44,7 @@ obj:
 	mkdir -p $@
 
 obj/%.o: src/%.c obj
-	$(CC) -o $@ $< $(EXTRA_CFLAGS) -c
+	$(CC) -o $@ $< $(LDFLAGS) $(EXTRA_CFLAGS) -c
 
 bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	mkdir -p ./bin
