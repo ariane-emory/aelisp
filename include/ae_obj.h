@@ -50,7 +50,8 @@ const char * ae_type_str(const ae_type_t this);
 
 struct ae_obj_t;
 
-typedef void   (*ae_obj_each_fun)(struct ae_obj_t * const);
+typedef void              (*ae_obj_each_fun)(struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_obj_map_fun)(const struct ae_obj_t * const);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Obj struct
@@ -97,6 +98,7 @@ void          ae_obj_write       (const ae_obj_t * const this);
 size_t        ae_obj_length      (const ae_obj_t * const this);
 void          ae_obj_push_back   (      ae_obj_t * const this, ae_obj_t * const obj);
 void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun fun);
+ae_obj_t *    ae_obj_map         (      ae_obj_t * const this, ae_obj_map_fun fun);
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
