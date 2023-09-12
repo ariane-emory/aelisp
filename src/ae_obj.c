@@ -4,7 +4,6 @@
 
 #include "ae_obj.h"
 
-#define BUFF_LEN 256
 #define NL      fputc('\n', stream)
 #define BSPC    fputc('\b', stream)
 #define SPC     fputc(' ',  stream)
@@ -241,6 +240,8 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// _push_back
+////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
@@ -251,4 +252,35 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   else {
     this->head = obj;
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// pool 
+////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t pool[POOL_SIZE];
+
+ae_obj_t * pool_alloc_ae_obj() {
+  for (size_t ix = 0; ix < POOL_SIZE; ix++) {
+    ae_obj_t * obj = &pool[ix];
+
+    if (obj->type != AE_FREE)
+      continue;
+      
+    ae_obj_init(obj, AE_INVALID);
+
+#define BUFF_LEN 5
+    char buff[BUFF_LEN] = { 0 };
+    snprintf(buff, BUFF_LEN, "#%d:", ix); // off by one? I forget.
+#undef BUFF_LEN
+      
+    return obj;
+  }
+    
+  printf("ERROR: Pool is full.\n");
+  return 0;
+}
+
+void pool_free_ae_obj(ae_obj_t * const this) {
+  ae_obj_init(this, AE_FREE);
 }

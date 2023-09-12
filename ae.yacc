@@ -43,43 +43,8 @@
     }
   }
 
-#define POOL_SIZE (1 << 12)
-
-  ae_obj_t pool[POOL_SIZE];
-  ae_obj_t * pool_alloc_ae_obj() {
-    for (size_t ix = 0; ix < POOL_SIZE; ix++) {
-      ae_obj_t * obj = &pool[ix];
-
-      if (obj->type != AE_FREE)
-        continue;
-      
-      ae_obj_init(obj, AE_INVALID);
-
-      #define BUFF_LEN 5
-      char buff[BUFF_LEN] = { 0 };
-      snprintf(buff, BUFF_LEN, "#%d:", ix); // off by one? I forget.
-      #undef BUFF_LEN
-      
-      return obj;
-    }
-    
-    printf("ERROR: Pool is full.\n");
-    return 0;
-  }
-
-  void pool_free_ae_obj(ae_obj_t * const this) {
-    ae_obj_init(this, AE_FREE);
-  }
-
-#define USE_POOL
-  
-#ifdef USE_POOL
-#  define ALLOC_AE_OBJ pool_alloc_ae_obj()
-#else
-#  define ALLOC_AE_OBJ malloc(sizeof(ae_obj_t))
-#endif
-
   extern FILE * yyin;
+  extern ae_obj_t pool[POOL_SIZE];
   
   main() {
 #define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))

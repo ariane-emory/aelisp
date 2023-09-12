@@ -30,7 +30,7 @@ typedef char * ae_string_t;
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
   DO(AE_CHAR)                                                                                                                               \
   DO(AE_FLOAT)                                                                                                                              \
-  DO(AE_INVALID)                                                                                                                              \
+  DO(AE_INVALID)                                                                                                                            \
   DO(AE_INTEGER)                                                                                                                            \
   DO(AE_LIST)                                                                                                                               \
   DO(AE_PAREN)                                                                                                                              \
@@ -97,4 +97,21 @@ void          ae_obj_write       (const ae_obj_t * const this);
 size_t        ae_obj_length      (const ae_obj_t * const this);
 void          ae_obj_push_back   (      ae_obj_t * const this, ae_obj_t * const obj);
 void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun fun);
+
+////////////////////////////////////////////////////////////////////////////////
+// pool
+////////////////////////////////////////////////////////////////////////////////
+
+#define POOL_SIZE (1 << 12)
+
+ae_obj_t * pool_alloc_ae_obj();
+void pool_free_ae_obj(ae_obj_t * const this);
+
+#define USE_POOL
+  
+#ifdef USE_POOL
+#  define ALLOC_AE_OBJ pool_alloc_ae_obj()
+#else
+#  define ALLOC_AE_OBJ (puts("Using malloc."), malloc(sizeof(ae_obj_t)))
+#endif
 
