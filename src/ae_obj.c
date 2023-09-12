@@ -236,13 +236,6 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
-  ae_obj_t * node = ALLOC_AE_OBJ;
-  ae_obj_init(node, AE_LIST);
-  node->head = obj;
-  return node;
-}
-
 size_t ae_obj_length(const ae_obj_t * const this) {
   size_t length = 0;
   for (const ae_obj_t * position = this; position; position = position->tail, length++);
@@ -254,15 +247,28 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
     fun(position->head);
 }
 
+// ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
+// }
+
 ////////////////////////////////////////////////////////////////////////////////
 // _push_back
 ////////////////////////////////////////////////////////////////////////////////
+
+
+ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
+  ae_obj_t * node = ALLOC_AE_OBJ;
+  ae_obj_init(node, AE_LIST);
+  node->head = obj;
+  return node;
+}
 
 void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
-    position->tail = ae_obj_create(obj);
+    position->tail = ALLOC_AE_OBJ;
+    ae_obj_init(position->tail, AE_LIST);
+    position->tail->head = obj;
   }
   else {
     this->head = obj;
