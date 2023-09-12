@@ -68,17 +68,17 @@ typedef ae_node_t * ae_list_t;
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t {
-  ae_type_t                 type;
+  ae_type_t        type;
   union {
-    ae_string_t             str_value;
-    ae_string_t             sym_value;
-    char                    char_value;
-    int                     int_value;
-    double                  float_value;
-    ae_node_t               list_value;
+    ae_string_t    str_value;
+    ae_string_t    sym_value;
+    char           char_value;
+    int            int_value;
+    double         float_value;
+    ae_node_t      list_value;
     struct {
-      int                   numerator_value;
-      unsigned int          denominator_value;
+      int          numerator_value;
+      unsigned int denominator_value;
     };
     /* struct { */
     /*   struct ae_obj_t * head; */
