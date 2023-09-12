@@ -83,14 +83,13 @@
     NL;
     puts("Writing program obj.");
     ae_obj_write(program_obj);
-    puts("Wrote program obj.");
+    puts("\nWrote program obj.");
     NL;
-    NL;
+    puts("Writing items in program obj.");
     if (program_obj->type == AE_LIST && program_obj->head)
       ae_obj_each(program_obj, do_write);
+    puts("Wrote items in program obj.");
     NL;    
-    write(program_obj);
-    NL;
   }
     
     %}
