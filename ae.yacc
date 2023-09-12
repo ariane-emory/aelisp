@@ -135,8 +135,6 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 list:  LIST
 {
   ae_obj_init(&$$, AE_LIST);
-  $$.list_value.head = 0;
-  $$.list_value.tail = 0;
 } | LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
@@ -146,8 +144,6 @@ sexps: sexps sexp
   ae_node_push_back(&$$.list_value, new_obj);
 } | {
   ae_obj_init(&$$, AE_LIST);
-  $$.list_value.head = 0;
-  $$.list_value.tail = 0;
 };
    
 %%
