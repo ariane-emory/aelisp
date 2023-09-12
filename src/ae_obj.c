@@ -95,7 +95,13 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "<%p>(%s, [", this, ae_type_str(this->type));
+  if (this->type == AE_INVALID || this->type == AE_FREE) {
+    fprintf(stream, "<%p>(%s)", this, ae_type_str(this->type));
+    return;
+  }
+  
+  fprintf(stream, "<%p>(%s, ", this, ae_type_str(this->type));
+
   switch (this->type) {
   case AE_LIST:
     if (this->head)
@@ -107,10 +113,12 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
       fputc('0', stream);
     break;
   default:
+    LSQR;
     ae_obj_fwrite(this, stream);
     BSPC;
+    RSQR;
   }
-  fprintf(stream, "])");
+  fprintf(stream, ")");
 }
 
 void ae_obj_put(const ae_obj_t * const this) {
