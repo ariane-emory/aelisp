@@ -43,7 +43,10 @@
   }
 
   extern FILE * yyin;
+
+#ifdef POOL_SIZE
   extern ae_obj_t pool[POOL_SIZE];
+#endif
   
   main() {
 #define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
@@ -53,7 +56,7 @@
     PRINT_SIZEOF(ae_type_t);
     printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_value));
 
-#ifdef USE_POOL
+#ifdef POOL_SIZE
     printf("Using pool from %p to %p.\n", pool, &pool[POOL_SIZE]);
 #endif
     

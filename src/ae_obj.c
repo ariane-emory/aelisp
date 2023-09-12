@@ -273,6 +273,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // pool 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef POOL_SIZE
 ae_obj_t pool[POOL_SIZE];
 
 ae_obj_t * pool_alloc_ae_obj() {
@@ -294,3 +295,4 @@ ae_obj_t * pool_alloc_ae_obj() {
 void pool_free_ae_obj(ae_obj_t * const this) {
   ae_obj_init(this, AE_FREE);
 }
+#endif

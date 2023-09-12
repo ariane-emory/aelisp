@@ -102,15 +102,12 @@ void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun f
 // pool
 ////////////////////////////////////////////////////////////////////////////////
 
-#define POOL_SIZE (1 << 12)
+//#define POOL_SIZE (1 << 12)
 
-ae_obj_t * pool_alloc_ae_obj();
-void pool_free_ae_obj(ae_obj_t * const this);
-
-#define USE_POOL
-  
-#ifdef USE_POOL
+#ifdef POOL_SIZE
 #  define ALLOC_AE_OBJ pool_alloc_ae_obj()
+ae_obj_t * pool_alloc_ae_obj();
+void       pool_free_ae_obj(ae_obj_t * const this);
 #else
 #  define ALLOC_AE_OBJ (puts("Using malloc."), malloc(sizeof(ae_obj_t)))
 #endif
