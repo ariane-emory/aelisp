@@ -26,14 +26,6 @@ ae_node_t * ae_node_create(struct ae_obj_t * const obj) {
   return node;
 }
 
-ae_node_t * ae_node_push_back(ae_node_t * const this, struct ae_obj_t * const obj) {
-  ae_node_t * position = this;
-  for (; position->tail; position = position->tail);
-  position->tail = ae_node_create(obj);
-  // printf("After push, length is %d.\n", ae_node_length(this));
-  return position->tail;
-}
-
 size_t ae_node_length(const ae_node_t * const this) {
   size_t length = 0;
   for (const ae_node_t * position = this; position; position = position->tail, length++);
@@ -53,3 +45,11 @@ ae_node_t * ae_list_push_back(ae_list_t * const this, struct ae_obj_t * const ob
     : (*this = ae_node_create(obj));
 }
 
+
+ae_node_t * ae_node_push_back(ae_node_t * const this, struct ae_obj_t * const obj) {
+  ae_node_t * position = this;
+  for (; position->tail; position = position->tail);
+  position->tail = ae_node_create(obj);
+  // printf("After push, length is %d.\n", ae_node_length(this));
+  return position->tail;
+}
