@@ -123,7 +123,7 @@ nil                                                             TOKENIZE(LIST,  
 [\+\-\/\*]                                                      TOKENIZE(MATHOP,   AE_SYMBOL  );
 ([1-9][0-9]+)?[\+\-\/\*]                                        TOKENIZE(INCROP,   AE_SYMBOL  );
 !?=|(>=?)|(<=?)                                                 TOKENIZE(COMPARE,  AE_SYMBOL  );
-(\-+:)?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
+([\-+:])?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
 [\f\n\t\v\ ]+  ;
 
 %%
