@@ -100,6 +100,10 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   fprintf(stream, "<%p>(%s, ", this, ae_type_str(this->type));
   
   switch (this->type) {
+  case AE_PAREN:
+    BSPC;
+    BSPC;
+    break;
   case AE_INVALID:
   case AE_FREE:
     BSPC; BSPC; RPAR; return;
