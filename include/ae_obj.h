@@ -28,6 +28,7 @@ typedef char * ae_string_t;
 ////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
+  DO(AE_INF)                                                                                                                                \
   DO(AE_CHAR)                                                                                                                               \
   DO(AE_FLOAT)                                                                                                                              \
   DO(AE_INVALID)                                                                                                                            \

@@ -171,6 +171,9 @@ void ae_obj_write(const ae_obj_t * const this) {
 
 void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   switch (this->type) {
+  case AE_INF:
+    fputs("∞", stream);
+    break;
   case AE_LIST:
     if (this->type == AE_LIST && this->head) {
       LPAR;

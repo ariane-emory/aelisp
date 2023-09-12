@@ -102,6 +102,7 @@
 %}
 
 %%
+∞                                                                  TOKENIZE(INF,      AE_INF     );
 nil                                                                 TOKENIZE(LIST,     AE_LIST    );
 \'                                                                  TOKENIZE(QUOTE,    AE_QUOTE   );
 \(                                                                  TOKENIZE(LPAREN,   AE_PAREN   );
