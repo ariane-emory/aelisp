@@ -107,6 +107,9 @@
     NL;
     NL;
     ae_obj_list_each(&program_obj->list_value, describe);
+    puts("Done loop.");
+    fflush(stdout);
+    NL;
     NL;
     puts("Writing...");
     fflush(stdout);
