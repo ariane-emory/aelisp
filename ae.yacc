@@ -22,11 +22,9 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
-  void describe(ae_obj_t * ae_obj) {
+  void describe(ae_obj_t * this) {
     static unsigned int indent = 0;
     
-    ae_obj_t * this = ae_obj;
-
     for (int ct = 0; ct < indent << 1; ct++)
       SPC;
     
