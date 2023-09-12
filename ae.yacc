@@ -65,14 +65,14 @@
     yyin = fp;
     yyparse();
 
-    printf("\nroot:    ");
+    printf("\nroot:            ");
     ae_obj_put(root);
     NL;
     
     ae_obj_t * program_obj = ALLOC_AE_OBJ; 
     ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
 
-    printf("program: ");
+    printf("program:         ");
     ae_obj_put(program_obj);
     NL;
     NL;
@@ -110,13 +110,13 @@ list:
 LPAREN sexps RPAREN { $$ = $2; };
 | LIST {
 #ifdef NOISY_INIT
-  printf("Initting $$ @ %p.\n", &$$);
+  printf("Initting $$      <%p>\n", &$$);
 #endif  
 
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
-  printf("Done initting $$ @ %p.\n", &$$);
+  printf("Initted $$       <%p>\n", &$$);
 #endif
 }
 
@@ -130,13 +130,13 @@ sexps sexp {
 }
 | {
 #ifdef NOISY_INIT  
-  printf("Initting $$ @ %p.\n", &$$);
+  printf("Initting $$      <%p>\n", &$$);
 #endif
 
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
-  printf("Done initting $$ @ %p.\n", &$$);
+  printf("Initted $$       <%p>\n", &$$);
 #endif
 };
    

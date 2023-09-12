@@ -34,7 +34,7 @@ const char * ae_type_str(const ae_type_t this) {
 
 void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 #ifdef NOISY_INIT
-  fputs("Initializing ", stdout);
+  fputs("Initializing     ", stdout);
   ae_obj_put(this);
   putchar('\n');
 #endif
@@ -43,7 +43,7 @@ void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
   this->type  = type;
 
 #ifdef NOISY_INIT
-  fputs("Initialized  ", stdout);
+  fputs("Initialized      ", stdout);
   ae_obj_put(this);
   putchar('\n');
 #endif
@@ -55,7 +55,7 @@ void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 
 void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 #ifdef NOISY_INIT
-  fputs("Moving ", stdout);
+  fputs("Moving           ", stdout);
   ae_obj_put(that);
   fputs(" to ", stdout);
   ae_obj_put(this);
@@ -66,7 +66,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   ae_obj_init(that, AE_INVALID);
 
 #ifdef NOISY_INIT
-  fputs("Moved ", stdout);
+  fputs("Moved            ", stdout);
   ae_obj_put(that);
   fputs(" to ", stdout);
   ae_obj_put(this);
@@ -79,7 +79,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
-  fputs("Cloning      ", stdout);
+  fputs("Cloning          ", stdout);
   ae_obj_put(this);
   putchar('\n');
   fflush(stdout);
@@ -112,7 +112,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     (void)0; // do nothing special for this type.
   }
   
-  fputs("Cloned       ", stdout);
+  fputs("Cloned           ", stdout);
   ae_obj_put(this);
   fputs(" into ", stdout);
   ae_obj_put(clone);
@@ -297,6 +297,12 @@ ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
 }
 
 void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
+  fputs("Pushing          ", stdout);
+  ae_obj_put(obj);
+  fputs(" into ", stdout);
+  ae_obj_put(this);
+  putchar('\n');
+  
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
@@ -307,6 +313,12 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   else {
     this->head = obj;
   }
+
+  fputs("Pushed           ", stdout);
+  ae_obj_put(obj);
+  fputs(" into ", stdout);
+  ae_obj_put(this);
+  putchar('\n');
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,7 +336,7 @@ ae_obj_t * pool_alloc_ae_obj() {
       continue;
     
 #ifdef NOISY_INIT
-  fputs("Allocating   ", stdout);
+  fputs("Allocating       ", stdout);
   ae_obj_put(obj);
   putchar('\n');
 #endif
@@ -332,7 +344,7 @@ ae_obj_t * pool_alloc_ae_obj() {
   ae_obj_init(obj, AE_INVALID);
       
 #ifdef NOISY_INIT
-  fputs("Allocated    ", stdout);
+  fputs("Allocated        ", stdout);
   ae_obj_put(obj);
   putchar('\n');
 #endif

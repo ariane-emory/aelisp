@@ -14,13 +14,13 @@
     enum yytokentype x,
     ae_type_t ae_type) {
 #ifdef NOISY_INIT
-    printf("Initting yylval @ %p.\n", &yylval);
+    printf("Initting yylval  <%p>\n", &yylval);
 #endif
 
     ae_obj_init(&yylval, ae_type);
 
 #ifdef NOISY_INIT
-    printf("Done initting yylval @ %p.\n", &yylval);
+    printf("Initted yylval   <%p>\n", &yylval);
 #endif
     
     switch (yylval.type) {

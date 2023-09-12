@@ -18,6 +18,10 @@ void describe(ae_obj_t * ae_obj_p) {
 int main() {
   putchar('\n');
 
+#ifdef NOISY_INIT
+  puts("Initting strings.");
+#endif
+
   ae_obj_t * obj_one = ALLOC_AE_OBJ;
   ae_obj_init(obj_one, AE_STRING);
   obj_one->str_value = zero;
@@ -34,7 +38,11 @@ int main() {
 #ifdef NOISY_INIT
   puts("Done initting strings.\n");
 #endif
-  
+
+#ifdef NOISY_INIT
+  puts("Initting list.");
+#endif
+
   ae_obj_t * list = ALLOC_AE_OBJ;
   ae_obj_init(list, AE_LIST);
 
@@ -42,39 +50,13 @@ int main() {
   puts("Done initting list.\n");
 #endif
   
-  fputs("Pushing ", stdout);
-  ae_obj_put(obj_one);
-  fputs(" into ", stdout);
-  ae_obj_put(list);
-  putchar('\n');
   ae_obj_push_back(list, obj_one);
-  
-  fputs("Pushing ", stdout);
-  ae_obj_put(obj_two);
-  fputs(" into ", stdout);
-  ae_obj_put(list);
-  putchar('\n');
   ae_obj_push_back(list, obj_two);
-  
-  fputs("Pushing ", stdout);
-  ae_obj_put(obj_three);
-  fputs(" into ", stdout);
-  ae_obj_put(list);
-  putchar('\n');
   ae_obj_push_back(list, obj_three);
-  
-  fputs("Pushing ", stdout);
-  ae_obj_put(obj_four);
-  fputs(" into ", stdout);
-  ae_obj_put(list);
-  putchar('\n');
   ae_obj_push_back(list, obj_four);
-
-  fputs("\nDone pushing into ", stdout);
-  ae_obj_put(list);
-  putchar('\n');
-  putchar('\n');
     
+  putchar('\n');
+
   if (list->type == AE_LIST && list->head)
     ae_obj_each(list, describe);
 
