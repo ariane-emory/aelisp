@@ -70,26 +70,19 @@
     printf("\nroot:            ");
     ae_obj_put(root);
     NL;
-    
-    ae_obj_t * program_obj = ALLOC_AE_OBJ; 
-    ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
-
-    printf("program:         ");
-    ae_obj_put(program_obj);
-    NL;
     NL;
     puts("Describing items in program.");
-    if (program_obj->type == AE_LIST && program_obj->head)
-      ae_obj_each(program_obj, describe);
+    if (root->type == AE_LIST && root->head)
+      ae_obj_each(root, describe);
     puts("Described items in program.");
     NL;
     puts("Writing program obj.");
-    ae_obj_write(program_obj);
+    ae_obj_write(root);
     puts("\nWrote program obj.");
     NL;
     puts("Writing items in program obj.");
-    if (program_obj->type == AE_LIST && program_obj->head)
-      ae_obj_each(program_obj, do_write);
+    if (root->type == AE_LIST && root->head)
+      ae_obj_each(root, do_write);
     puts("Wrote items in program obj.");
     NL;    
   }
@@ -116,7 +109,7 @@ LPAREN sexps RPAREN { $$ = $2; };
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
-  printf("Initted $$       <%p>\n", &$$);
+  printf("Initted $$       <%p>\n\n", &$$);
 #endif
 }
 
@@ -136,7 +129,7 @@ sexps sexp {
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
-  printf("Initted $$       <%p>\n", &$$);
+  printf("Initted $$       <%p>\n\n", &$$);
 #endif
 };
    

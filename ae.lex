@@ -20,7 +20,7 @@
     ae_obj_init(&yylval, ae_type);
 
 #ifdef NOISY_INIT
-    printf("Initted yylval   <%p>\n", &yylval);
+    printf("Initted yylval   <%p>\n\n", &yylval);
 #endif
     
     switch (yylval.type) {
