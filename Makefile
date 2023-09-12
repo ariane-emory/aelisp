@@ -24,10 +24,9 @@ YACC     = bison
 SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
 BIN      = ae
-BIN2     = mini
-BIN3     = data_test
+BIN2     = data_test
 
-all:: bin/$(BIN) bin/$(BIN2) bin/$(BIN3)
+all:: bin/$(BIN) bin/$(BIN2)
 
 tmp/%.lex.c: %.lex tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
@@ -51,11 +50,7 @@ bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-bin/$(BIN2): tmp/$(BIN2).lex.c $(OBJ)
-	mkdir -p ./bin
-	$(CC) -ll -o $@ $^ $(CFLAGS) $(LDFLAGS)
-
-bin/$(BIN3): $(BIN3).c obj/ae_obj.o
+bin/$(BIN2): $(BIN2).c obj/ae_obj.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean::
@@ -63,7 +58,7 @@ clean::
 
 test: clean all
 	./bin/$(BIN)
-	./bin/$(BIN3)
+	./bin/$(BIN2)
 
 test2: clean all
 	./$(BIN2)

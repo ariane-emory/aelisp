@@ -15,10 +15,6 @@ void describe(ae_obj_t * ae_obj_p) {
   putchar('\n');
 }
 
-void print_int_p(ae_obj_t * int_p) {
-  printf("%d\n",*(int*)int_p);
-}
-
 int main() {
   putchar('\n');
 
