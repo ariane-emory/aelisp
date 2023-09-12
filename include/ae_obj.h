@@ -33,7 +33,8 @@ typedef char * ae_string_t;
   DO(AE_CHAR)                                                                                                                               \
   DO(AE_FLOAT)                                                                                                                              \
   DO(AE_LIST)                                                                                                                               \
-  DO(AE_PAREN)                                                                                                                              \
+  DO(AE_LPAREN)                                                                                                                              \
+  DO(AE_RPAREN)                                                                                                                              \
   DO(AE_QUOTE)                                                                                                                              \
   DO(AE_RATIONAL)                                                                                                                           \
   DO(AE_INF)                                                                                                                                \

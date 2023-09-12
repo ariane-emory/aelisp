@@ -88,7 +88,7 @@
       break;
     case AE_INF:
     case AE_QUOTE:
-    case AE_PAREN:
+    case AE_LPAREN:
     case AE_LIST:
       break;
     default:
@@ -104,8 +104,8 @@
 ∞                                                                  TOKENIZE(INF,      AE_INF     );
 nil                                                                 TOKENIZE(LIST,     AE_LIST    );
 \'                                                                  TOKENIZE(QUOTE,    AE_QUOTE   );
-\(                                                                  TOKENIZE(LPAREN,   AE_PAREN   );
-\)                                                                  TOKENIZE(RPAREN,   AE_PAREN   );                                                                
+\(                                                                  TOKENIZE(LPAREN,   AE_LPAREN  );
+\)                                                                  TOKENIZE(RPAREN,   AE_RPAREN  );                                                                
 \"((\\\")|([^\"]))*\"                                               TOKENIZE(STRING,   AE_STRING  );
 '[^']'       |
 '\\.'        | 
