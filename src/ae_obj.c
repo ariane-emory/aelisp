@@ -36,7 +36,7 @@ void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
   memset(this, 0, sizeof(ae_obj_t));
   this->type  = type;
 #ifdef NOISY_INIT
-  fputs("Initted ", stdout);
+  fputs("Initialized ", stdout);
   ae_obj_put(this);
   putchar('\n');
 #endif

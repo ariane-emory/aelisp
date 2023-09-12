@@ -4,7 +4,8 @@ CFLAGS       = \
 	-Iinclude \
 	-I. \
 	-Wno-implicit-int \
-	-Wno-implicit-function-declaration
+	-Wno-implicit-function-declaration \
+	-DNOISY_INIT
 
 STRICTER_CFLAGS = \
   -ggdb \
@@ -15,7 +16,8 @@ STRICTER_CFLAGS = \
 	-Wextra \
 	-Wshadow \
 	-Wpedantic \
-	-Wno-format
+	-Wno-format \
+	-DNOISY_INIT
 
 GDB      = gdb
 OBJDUMP  = objdump
