@@ -71,7 +71,7 @@
     ae_obj_init(this, AE_FREE);
   }
 
-// #define USE_POOL
+#define USE_POOL
   
 #ifdef USE_POOL
 #  define ALLOC_AE_OBJ pool_alloc_ae_obj()
