@@ -13,8 +13,10 @@
     const char * const name,
     enum yytokentype x,
     ae_type_t ae_type) {
+    printf("Initting yylval @ %p.\n", &yylval);
     ae_obj_init(&yylval, ae_type);
-
+    printf("Done initting yylval @ %p.\n", &yylval);
+    
     switch (yylval.type) {
     case AE_STRING:
       yylval.str_value = malloc(strlen(yytext) - 1);
