@@ -7,8 +7,6 @@
 
 #define YYSTYPE ae_obj_t
 
-// Utility macros that should probably be unsafe_moved to another file and/or renamed/undefed.
-  
 #define NL      putchar('\n')
 #define BSPC    putchar('\b')
 #define SPC     putchar(' ')
@@ -18,7 +16,7 @@
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_obj_put(x)
 
-    ae_obj_t * root = 0;
+  ae_obj_t * root = 0;
 
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
@@ -101,9 +99,9 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
 list:  LIST
 {
-    printf("Initting $$ @ %p.\n", &$$);
-    ae_obj_init(&$$, AE_LIST);
-    printf("Done initting $$ @ %p.\n", &$$);
+  printf("Initting $$ @ %p.\n", &$$);
+  ae_obj_init(&$$, AE_LIST);
+  printf("Done initting $$ @ %p.\n", &$$);
 } | LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
@@ -112,9 +110,9 @@ sexps: sexps sexp
   ae_obj_unsafe_move(new_obj, &$2);
   ae_obj_push_back(&$$, new_obj);
 } | {
-    printf("Initting $$ @ %p.\n", &$$);
-    ae_obj_init(&$$, AE_LIST);
-    printf("Done initting $$ @ %p.\n", &$$);
+  printf("Initting $$ @ %p.\n", &$$);
+  ae_obj_init(&$$, AE_LIST);
+  printf("Done initting $$ @ %p.\n", &$$);
 };
    
 %%
