@@ -38,8 +38,8 @@
     }
   }
 
-  void do_write(ae_obj_t * ae_obj) {
-    ae_obj_write(ae_obj);
+  void do_write(ae_obj_t * this) {
+    ae_obj_write(this);
     NL;
   }
 
