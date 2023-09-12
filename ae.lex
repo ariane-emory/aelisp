@@ -13,6 +13,8 @@
     const char * const name,
     enum yytokentype x,
     const ae_type_t ae_type) {
+    memset(&yylval, 0, sizeof(yylval));
+    
 #ifdef NOISY_INIT
     printf("Initting yylval  <%p>\n", &yylval);
 #endif

@@ -80,7 +80,7 @@
     ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
 
     NL;
-    printf("program:                        ");
+    printf("program:         ");
     ae_obj_put(program_obj);
     NL;
     NL;
