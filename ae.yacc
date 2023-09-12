@@ -103,26 +103,27 @@
 
 program: sexps { root = &$$; }
 
-sexp: list | atom
 
 atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 
-list:  LIST
-{
+list:
+LPAREN sexps RPAREN { $$ = $2; };
+| LIST {
 #ifdef NOISY_INIT
   printf("Initting $$ @ %p.\n", &$$);
-#endif
-  
+#endif  
+
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
   printf("Done initting $$ @ %p.\n", &$$);
 #endif
 }
-| LPAREN sexps RPAREN { $$ = $2; };
 
-sexps: sexps sexp
-{
+sexp: list | atom
+
+sexps:
+sexps sexp {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
   ae_obj_unsafe_move(new_obj, &$2);
   ae_obj_push_back(&$$, new_obj);
@@ -131,7 +132,7 @@ sexps: sexps sexp
 #ifdef NOISY_INIT  
   printf("Initting $$ @ %p.\n", &$$);
 #endif
-  
+
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
