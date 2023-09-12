@@ -17,11 +17,8 @@
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_obj_put(x)
-  
-#define POOL_SIZE (1 << 12)
 
-  ae_obj_t pool[POOL_SIZE];
-  ae_obj_t * root = 0;
+    ae_obj_t * root = 0;
 
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
@@ -46,6 +43,9 @@
     }
   }
 
+#define POOL_SIZE (1 << 12)
+
+  ae_obj_t pool[POOL_SIZE];
   ae_obj_t * pool_alloc_ae_obj() {
     for (size_t ix = 0; ix < POOL_SIZE; ix++) {
       ae_obj_t * obj = &pool[ix];
