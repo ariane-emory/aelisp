@@ -64,10 +64,11 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     strcpy(clone->sym_value, this->sym_value);
     break;
   case AE_LIST:
-    clone->list_value = 0;
-    if (!this)
+    clone->list_value.head = 0;
+    clone->list_value.tail = 0;
+    if (!this->list_value.head)
       return clone;
-    for (ae_node_t * position = this->list_value;
+    for (ae_node_t * position = &this->list_value;
          position;
          position = position->tail) {
       ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);

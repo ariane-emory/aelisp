@@ -40,7 +40,12 @@ void ae_node_each (ae_node_t * const this, ae_node_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_node_push_back(ae_node_t * const this, struct ae_obj_t * const obj) {
-  ae_node_t * position = this;
-  for (; position->tail; position = position->tail);
-  position->tail = ae_node_create(obj);
+  if (this->head) {
+    ae_node_t * position = this;
+    for (; position->tail; position = position->tail);
+    position->tail = ae_node_create(obj);
+  }
+  else {
+    this->head = obj;
+  }
 }
