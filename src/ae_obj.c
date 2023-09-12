@@ -51,6 +51,11 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
+  fputs("Clone ", stdout);
+  ae_obj_put(this);
+  putchar('\n');
+  fflush(stdout);
+  
   ae_obj_t * clone = malloc(sizeof(ae_obj_t));
   memcpy(clone, this, sizeof(ae_obj_t));
 
@@ -68,7 +73,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     clone->tail = 0;
     if (!this->head)
       return clone;
-    for (ae_obj_t * position = (ae_obj_t *)&this;
+    for (ae_obj_t * position = (ae_obj_t *)this;
          position;
          position = position->tail) {
       ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);
