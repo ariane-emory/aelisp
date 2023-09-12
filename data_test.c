@@ -18,22 +18,22 @@ void describe(ae_obj_t * ae_obj_p) {
 int main() {
   putchar('\n');
 
-  ae_obj_t * obj_one = malloc(sizeof(ae_obj_t));
+  ae_obj_t * obj_one = ALLOC_AE_OBJ;
   ae_obj_init(obj_one, AE_STRING);
   obj_one->str_value = zero;
-  ae_obj_t * obj_two = malloc(sizeof(ae_obj_t));
+  ae_obj_t * obj_two = ALLOC_AE_OBJ;
   ae_obj_init(obj_two, AE_STRING);
   obj_two->str_value = one;
-  ae_obj_t * obj_three = malloc(sizeof(ae_obj_t));
+  ae_obj_t * obj_three = ALLOC_AE_OBJ;
   ae_obj_init(obj_three, AE_STRING);
   obj_three->str_value = two;
-  ae_obj_t * obj_four = malloc(sizeof(ae_obj_t));
+  ae_obj_t * obj_four = ALLOC_AE_OBJ;
   ae_obj_init(obj_four, AE_STRING);
   obj_four->str_value = three;
 
   puts("Done initting strings.\n");
   
-  ae_obj_t * list = malloc(sizeof(ae_obj_t));
+  ae_obj_t * list = ALLOC_AE_OBJ;
   ae_obj_init(list, AE_LIST);
 
   puts("Done initting list.\n");

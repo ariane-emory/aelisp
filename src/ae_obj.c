@@ -59,7 +59,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   putchar('\n');
   fflush(stdout);
   
-  ae_obj_t * clone = malloc(sizeof(ae_obj_t));
+  ae_obj_t * clone = ALLOC_AE_OBJ;
   memcpy(clone, this, sizeof(ae_obj_t));
 
   switch (this->type) {
@@ -222,7 +222,7 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
-  ae_obj_t * node = malloc(sizeof(ae_obj_t));
+  ae_obj_t * node = ALLOC_AE_OBJ;
   ae_obj_init(node, AE_LIST);
   node->head = obj;
   return node;
