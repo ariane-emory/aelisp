@@ -80,7 +80,10 @@ typedef struct ae_obj_t {
       int                   numerator_value;
       unsigned int          denominator_value;
     };
-
+    /* struct { */
+    /*   struct ae_obj_t * head; */
+    /*   struct ae_obj_t * tail; */
+    /* }; */
   };
 } ae_obj_t;
 
