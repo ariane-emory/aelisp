@@ -1,5 +1,5 @@
 UNAME_S      = $(shell uname -s)
-CFLAGS       = -Iinclude -I. -Wno-implicit-int -Wno-implicit-function-declaration
+CFLAGS       = -Iinclude -I. -Wno-implicit-int -Wno-implicit-function-declaration	-ggdb
 
 EXTRA_CFLAGS = \
 	-Iinclude \
