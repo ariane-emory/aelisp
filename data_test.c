@@ -31,12 +31,16 @@ int main() {
   ae_obj_init(obj_four, AE_STRING);
   obj_four->str_value = three;
 
+#ifdef NOISY_INIT
   puts("Done initting strings.\n");
+#endif
   
   ae_obj_t * list = ALLOC_AE_OBJ;
   ae_obj_init(list, AE_LIST);
 
+#ifdef NOISY_INIT
   puts("Done initting list.\n");
+#endif
   
   fputs("Pushing ", stdout);
   ae_obj_put(obj_one);
