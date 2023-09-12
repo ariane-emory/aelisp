@@ -19,17 +19,17 @@ void ae_node_init(ae_node_t * const this) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_node_t * ae_node_create(void * const object) {
+ae_node_t * ae_node_create(void * const obj) {
   ae_node_t * node = malloc(sizeof(ae_node_t));
   ae_node_init(node);
-  node->object = object;
+  node->object = obj;
   return node;
 }
 
-ae_node_t * ae_node_push_back(ae_node_t * const this, void * const object) {
+ae_node_t * ae_node_push_back(ae_node_t * const this, void * const obj) {
   ae_node_t * position = this;
   for (; position->tail; position = position->tail);
-  position->tail = ae_node_create(object);
+  position->tail = ae_node_create(obj);
   // printf("After push, length is %d.\n", ae_node_length(this));
   return position->tail;
 }
@@ -47,17 +47,11 @@ void ae_node_each (ae_node_t * const this, ae_list_each_fun fun) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_node_t * ae_list_push_back(ae_list_t * const this, void * const object) {
+ae_node_t * ae_list_push_back(ae_list_t * const this, void * const obj) {
   return *this
-    ? ae_node_push_back(*this, object)
-    : (*this = ae_node_create(object));
+    ? ae_node_push_back(*this, obj)
+    : (*this = ae_node_create(obj));
 }
-
-/* size_t ae_list_length(const ae_list_t * const this) { */
-/*   return *this */
-/*     ? ae_node_length(*this) */
-/*     : 0; */
-/* } */
 
 void ae_list_each(ae_list_t * const this, ae_list_each_fun fun) {
   if (*this)
