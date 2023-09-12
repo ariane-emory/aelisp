@@ -26,55 +26,51 @@ int main() {
   ae_obj_init(list, AE_LIST);
 
   {
-    ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj, AE_STRING);
-    obj->str_value = zero;
-    fputs("\nPushing ", stdout);
-    ae_obj_put(obj);
+    ae_obj_t * obj_one = malloc(sizeof(ae_obj_t));
+    ae_obj_init(obj_one, AE_STRING);
+    obj_one->str_value = zero;
+    fputs("Pushing ", stdout);
+    ae_obj_put(obj_one);
     fputs(" into ", stdout);
     ae_obj_put(list);
     putchar('\n');
-    putchar('\n');
-    ae_obj_push_back(list, obj);
+    ae_obj_push_back(list, obj_one);
   }
   
   {
-    ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj, AE_STRING);
-    obj->str_value = one;
-    fputs("\nPushing ", stdout);
-    ae_obj_put(obj);
+    ae_obj_t * obj_two = malloc(sizeof(ae_obj_t));
+    ae_obj_init(obj_two, AE_STRING);
+    obj_two->str_value = one;
+    fputs("Pushing ", stdout);
+    ae_obj_put(obj_two);
     fputs(" into ", stdout);
     ae_obj_put(list);
     putchar('\n');
-    putchar('\n');
-    ae_obj_push_back(list, obj);
+    ae_obj_push_back(list, obj_two);
   }
 
   {
-    ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj, AE_STRING);
-    obj->str_value = two;
-    fputs("\nPushing ", stdout);
-    ae_obj_put(obj);
+    ae_obj_t * obj_three = malloc(sizeof(ae_obj_t));
+    ae_obj_init(obj_three, AE_STRING);
+    obj_three->str_value = two;
+    fputs("Pushing ", stdout);
+    ae_obj_put(obj_three);
     fputs(" into ", stdout);
     ae_obj_put(list);
     putchar('\n');
-    putchar('\n');
-    ae_obj_push_back(list, obj);
+    ae_obj_push_back(list, obj_three);
   }
 
   {
-    ae_obj_t * obj = malloc(sizeof(ae_obj_t));
-    ae_obj_init(obj, AE_STRING);
-    obj->str_value = three;
-    fputs("\nPushing ", stdout);
-    ae_obj_put(obj);
+    ae_obj_t * obj_four = malloc(sizeof(ae_obj_t));
+    ae_obj_init(obj_four, AE_STRING);
+    obj_four->str_value = three;
+    fputs("Pushing ", stdout);
+    ae_obj_put(obj_four);
     fputs(" into ", stdout);
     ae_obj_put(list);
     putchar('\n');
-    putchar('\n');
-    ae_obj_push_back(list, obj);
+    ae_obj_push_back(list, obj_four);
   }
 
   fputs("\nDone pushing into ", stdout);
