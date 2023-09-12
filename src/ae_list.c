@@ -19,14 +19,14 @@ void ae_node_init(ae_node_t * const this) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_node_t * ae_node_create(void * const obj) {
+ae_node_t * ae_node_create(struct ae_obj_t * const obj) {
   ae_node_t * node = malloc(sizeof(ae_node_t));
   ae_node_init(node);
   node->head = obj;
   return node;
 }
 
-ae_node_t * ae_node_push_back(ae_node_t * const this, void * const obj) {
+ae_node_t * ae_node_push_back(ae_node_t * const this, struct ae_obj_t * const obj) {
   ae_node_t * position = this;
   for (; position->tail; position = position->tail);
   position->tail = ae_node_create(obj);
@@ -47,7 +47,7 @@ void ae_node_each (ae_node_t * const this, ae_list_each_fun fun) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_node_t * ae_list_push_back(ae_list_t * const this, void * const obj) {
+ae_node_t * ae_list_push_back(ae_list_t * const this, struct ae_obj_t * const obj) {
   return *this
     ? ae_node_push_back(*this, obj)
     : (*this = ae_node_create(obj));
