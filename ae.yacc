@@ -1,4 +1,5 @@
 %{
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,11 +46,12 @@
   extern ae_obj_t pool[POOL_SIZE];
   
   main() {
-#define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
+#define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(ae_obj_t *);
     PRINT_SIZEOF(ae_obj_t);
     PRINT_SIZEOF(ae_type_t);
+    printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_value));
 
 #ifdef USE_POOL
     printf("Using pool from %p to %p.\n", pool, &pool[POOL_SIZE]);
