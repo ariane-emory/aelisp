@@ -89,10 +89,13 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   fprintf(stream, "<%p>(%s, [", this, ae_type_str(this->type));
   switch (this->type) {
   case AE_LIST:
-    fprintf(stream, "%d, %p, %p",
-            ae_list_length(&this->list_value),
-            this->list_value->object,
-            this->list_value->tail);
+    if (this->list_value)
+      fprintf(stream, "%d, %p, %p",
+              ae_list_length(&this->list_value),
+              this->list_value->object,
+              this->list_value->tail);
+    else
+      fputs("0, nil", stream);
     break;
   default:
     ae_obj_fwrite(this, stream);
