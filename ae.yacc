@@ -40,9 +40,9 @@
     SPC;
     NL;
     
-    if (this->type == AE_LIST && this->list_value) {
+    if (this->type == AE_LIST && this->list_value.head) {
       ++indent;
-      ae_node_each(this->list_value, describe);
+      ae_node_each(&this->list_value, describe);
       --indent;
     }
   }
@@ -106,8 +106,8 @@
     ae_obj_put(program_obj);
     NL;
     NL;
-    if (program_obj->type == AE_LIST && program_obj->list_value)
-      ae_node_each(program_obj->list_value, describe);
+    if (program_obj->type == AE_LIST && program_obj->list_value.head)
+      ae_node_each(&program_obj->list_value, describe);
     puts("Done loop.");
     fflush(stdout);
     NL;
@@ -136,17 +136,19 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 list:  LIST
 {
   ae_obj_init(&$$, AE_LIST);
-  $$.list_value = 0;
+  $$.list_value.head = 0;
+  $$.list_value.tail = 0;
 } | LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
 {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
   ae_obj_unsafe_move(new_obj, &$2);
-  ae_list_push_back(&$$.list_value, new_obj);
+  ae_node_push_back(&$$.list_value, new_obj);
 } | {
   ae_obj_init(&$$, AE_LIST);
-  $$.list_value = 0;
+  $$.list_value.head = 0;
+  $$.list_value.tail = 0;
 };
    
 %%
