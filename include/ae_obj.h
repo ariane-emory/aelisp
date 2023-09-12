@@ -96,8 +96,7 @@ void          ae_obj_write       (const ae_obj_t * const this);
 
 //------------------------------------------------------------------------------
 
-size_t        ae_obj_length     (const ae_obj_t * const this);
-void          ae_obj_push_back  (      ae_obj_t * const this, ae_obj_t * const obj);
-void          ae_obj_each       (      ae_obj_t * const this, ae_obj_each_fun fun);
-ae_obj_t *    ae_obj_create     (      ae_obj_t * const obj);
+size_t        ae_obj_length      (const ae_obj_t * const this);
+void          ae_obj_push_back   (      ae_obj_t * const this, ae_obj_t * const obj);
+void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun fun);
 
