@@ -42,7 +42,7 @@
     
     if (this->type == AE_LIST) {
       ++indent;
-      ae_obj_list_each(&this->list_value, describe);
+      ae_list_each(&this->list_value, describe);
       --indent;
     }
   }
@@ -106,7 +106,7 @@
     ae_obj_put(program_obj);
     NL;
     NL;
-    ae_obj_list_each(&program_obj->list_value, describe);
+    ae_list_each(&program_obj->list_value, describe);
     puts("Done loop.");
     fflush(stdout);
     NL;

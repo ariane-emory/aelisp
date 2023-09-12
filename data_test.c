@@ -54,11 +54,11 @@ int main() {
     ae_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
   }
 
-  ae_obj_list_each(&object->list_value, describe);
+  ae_list_each(&object->list_value, describe);
 
   ae_obj_t * clone = ae_obj_clone(object);
 
   printf("\nPrint clone\n");
 
-  ae_obj_list_each(&clone->list_value, describe);
+  ae_list_each(&clone->list_value, describe);
 }

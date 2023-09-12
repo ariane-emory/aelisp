@@ -40,7 +40,7 @@ size_t ae_node_length(const ae_node_t * const this) {
   return length;
 }
 
-void ae_node_each (ae_node_t * const this, ae_obj_list_each_fun fun) {
+void ae_node_each (ae_node_t * const this, ae_list_each_fun fun) {
   for (const ae_node_t * position = this; position; position = position->tail)
     fun(position->object);
 }
@@ -59,7 +59,7 @@ ae_node_t * ae_list_push_back(ae_list_t * const this, void * const object) {
 /*     : 0; */
 /* } */
 
-void ae_obj_list_each(ae_list_t * const this, ae_obj_list_each_fun fun) {
+void ae_list_each(ae_list_t * const this, ae_list_each_fun fun) {
   if (*this)
     ae_node_each(*this, fun);
 }
