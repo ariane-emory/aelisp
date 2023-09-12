@@ -87,10 +87,14 @@
     PRINT_SIZEOF(ae_obj_t *);
     PRINT_SIZEOF(ae_obj_t);
     PRINT_SIZEOF(ae_type_t);
+
+#ifdef USE_POOL
+    printf("Using pool from %p to %p.\n", pool, &pool[POOL_SIZE]);
+#endif
     
-     FILE * fp = fopen("sample.txt", "r");
-     yyin = fp;
-     yyparse();
+    FILE * fp = fopen("sample.txt", "r");
+    yyin = fp;
+    yyparse();
 
     printf("\nroot:                           ");
     ae_obj_put(root);
