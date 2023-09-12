@@ -27,7 +27,7 @@
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
-  void describe(void * ae_obj) {
+  void describe(ae_obj_t * ae_obj) {
     static unsigned int indent = 0;
     
     ae_obj_t * this = ae_obj;
@@ -85,7 +85,7 @@
   main() {
 #define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
-    PRINT_SIZEOF(void *);
+    PRINT_SIZEOF(ae_obj_t *);
     PRINT_SIZEOF(ae_list_t);
     PRINT_SIZEOF(ae_node_t);
     PRINT_SIZEOF(ae_obj_t);

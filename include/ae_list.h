@@ -4,9 +4,9 @@
 // List type
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef void   (*ae_list_each_fun)(void * const);
-
 struct ae_obj_t;
+
+typedef void   (*ae_list_each_fun)(struct ae_obj_t * const);
 
 typedef struct ae_node_t {
   struct ae_obj_t *    head;
