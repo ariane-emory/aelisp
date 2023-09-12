@@ -95,12 +95,14 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
+  fprintf(stream, "<%p>(%s", this, ae_type_str(this->type));
+  
   if (this->type == AE_INVALID || this->type == AE_FREE) {
-    fprintf(stream, "<%p>(%s)", this, ae_type_str(this->type));
+    fputc(')', stream);
     return;
   }
-  
-  fprintf(stream, "<%p>(%s, ", this, ae_type_str(this->type));
+
+  fputs(", ", stream);
 
   switch (this->type) {
   case AE_LIST:
