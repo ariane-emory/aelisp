@@ -102,7 +102,7 @@ void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun f
 // pool
 ////////////////////////////////////////////////////////////////////////////////
 
-//#define POOL_SIZE (1 << 12)
+#define POOL_SIZE (1 << 12)
 
 #ifdef POOL_SIZE
 #  define ALLOC_AE_OBJ pool_alloc_ae_obj()
