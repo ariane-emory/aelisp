@@ -44,14 +44,14 @@ obj:
 	mkdir -p $@
 
 obj/%.o: src/%.c obj
-	$(CC) -c $< -o $@ $(EXTRA_CFLAGS) 
+	$(CC) -o $@ $< $(EXTRA_CFLAGS) -c
 
 bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	mkdir -p ./bin
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(CFLAGS)
 
 bin/$(BIN2): $(BIN2).c obj/ae_obj.o
-	$(CC) -o $@ $^ $(EXTRA_CFLAGS) $(LDFLAGS) -Wno-unused-variable
+	$(CC) -o $@ $^ $(LDFLAGS) $(EXTRA_CFLAGS) -Wno-unused-variable
 
 clean::
 	rm -rf bin obj tmp
