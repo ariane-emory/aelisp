@@ -150,7 +150,7 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   case AE_LIST:
     if (this->type == AE_LIST && this->list_value && this->list_value->head) {
       LPAR;
-      ae_list_each((ae_list_t *)&this->list_value, (ae_list_each_fun)ae_obj_write);
+      ae_node_each(this->list_value, (ae_list_each_fun)ae_obj_write);
       BSPC;
       RPAR;
     }
