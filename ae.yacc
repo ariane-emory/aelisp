@@ -115,6 +115,8 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL | I
 list:
 LPAREN sexps RPAREN { $$ = $2; };
 | LIST {
+  memset(&$$, 0, sizeof($$));
+  
 #ifdef NOISY_INIT
   printf("Initting $$      <%p>\n", &$$);
 #endif  
@@ -135,14 +137,16 @@ sexps sexp {
   ae_obj_push_back(&$$, new_obj);
 }
 | {
+  memset(&$$, 0, sizeof($$));
+
 #ifdef NOISY_INIT  
-  printf("Initting $$      <%p>\n", &$$);
+  printf("Initting $$ (b)  <%p>\n", &$$);
 #endif
 
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
-  printf("Initted $$       <%p>\n\n", &$$);
+  printf("Initted $$ (b)   <%p>\n\n", &$$);
 #endif
 };
    
