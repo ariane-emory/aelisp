@@ -53,7 +53,3 @@ ae_node_t * ae_list_push_back(ae_list_t * const this, struct ae_obj_t * const ob
     : (*this = ae_node_create(obj));
 }
 
-void ae_list_each(ae_list_t * const this, ae_node_each_fun fun) {
-  if (*this)
-    ae_node_each(*this, fun);
-}
