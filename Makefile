@@ -65,8 +65,8 @@ clean::
 	rm -rf bin obj tmp
 
 test: clean all
-	./bin/$(BIN)
-	./bin/$(BIN2)
+	./bin/$(BIN) | tee out
+#	./bin/$(BIN2)
 
 test2: clean all
 	./$(BIN2)

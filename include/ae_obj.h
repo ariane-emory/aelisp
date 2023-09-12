@@ -28,15 +28,15 @@ typedef char * ae_string_t;
 ////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
+  DO(AE_INTEGER)                                                                                                                            \
   DO(AE_INVALID)                                                                                                                            \
-  DO(AE_INF)                                                                                                                                \
   DO(AE_CHAR)                                                                                                                               \
   DO(AE_FLOAT)                                                                                                                              \
-  DO(AE_INTEGER)                                                                                                                            \
   DO(AE_LIST)                                                                                                                               \
   DO(AE_PAREN)                                                                                                                              \
   DO(AE_QUOTE)                                                                                                                              \
   DO(AE_RATIONAL)                                                                                                                           \
+  DO(AE_INF)                                                                                                                                \
   DO(AE_STRING)                                                                                                                             \
   DO(AE_SYMBOL)                                                                                                                             
 

@@ -50,6 +50,8 @@
 #endif
   
   main() {
+    putchar('\n');
+    
 #define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(ae_obj_t *);
@@ -58,7 +60,7 @@
     printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_value));
 
 #ifdef POOL_SIZE
-    printf("Using pool from   %p to %p.\n", pool, &pool[POOL_SIZE]);
+    printf("\nUsing pool from   %p to %p.\n\n", pool, &pool[POOL_SIZE]);
 #endif
     
     FILE * fp = fopen("sample.txt", "r");
