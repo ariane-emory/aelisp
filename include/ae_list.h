@@ -7,7 +7,7 @@
 typedef void   (*ae_list_each_fun)(void * const);
 
 typedef struct ae_node_t {
-  void *               object;
+  void *               head;
   struct ae_node_t *   tail;
 } ae_node_t;
 

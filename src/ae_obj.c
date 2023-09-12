@@ -70,7 +70,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     for (ae_node_t * position = this->list_value;
          position;
          position = position->tail) {
-      ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->object);
+      ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);
       ae_list_push_back(&clone->list_value, clone_of_obj_in_list);
     }
     break;
@@ -92,7 +92,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     if (this->list_value)
       fprintf(stream, "%d, %p, %p",
               ae_node_length(this->list_value),
-              this->list_value->object,
+              this->list_value->head,
               this->list_value->tail);
     else
       fputs("0, nil", stream);
@@ -148,7 +148,7 @@ void ae_obj_write(const ae_obj_t * const this) {
 void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   switch (this->type) {
   case AE_LIST:
-    if (this->type == AE_LIST && this->list_value && this->list_value->object) {
+    if (this->type == AE_LIST && this->list_value && this->list_value->head) {
       LPAR;
       ae_list_each((ae_list_t *)&this->list_value, (ae_list_each_fun)ae_obj_write);
       BSPC;

@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_node_init(ae_node_t * const this) {
-  this->object = 0;
+  this->head = 0;
   this->tail   = 0;
 }
 
@@ -22,7 +22,7 @@ void ae_node_init(ae_node_t * const this) {
 ae_node_t * ae_node_create(void * const obj) {
   ae_node_t * node = malloc(sizeof(ae_node_t));
   ae_node_init(node);
-  node->object = obj;
+  node->head = obj;
   return node;
 }
 
@@ -42,7 +42,7 @@ size_t ae_node_length(const ae_node_t * const this) {
 
 void ae_node_each (ae_node_t * const this, ae_list_each_fun fun) {
   for (const ae_node_t * position = this; position; position = position->tail)
-    fun(position->object);
+    fun(position->head);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
