@@ -15,10 +15,9 @@ typedef ae_node_t * ae_list_t;
 
 //------------------------------------------------------------------------------
 
-//size_t             ae_list_length        (const ae_list_t * const this);
-ae_node_t *        ae_list_push_back     (      ae_list_t * const this, void * const object);
+ae_node_t *        ae_list_push_back(      ae_list_t * const this, void * const object);
 
-void               ae_obj_list_each      (      ae_list_t * const this, ae_obj_list_each_fun fun);
+void               ae_obj_list_each (      ae_list_t * const this, ae_obj_list_each_fun fun);
 
 void               ae_node_init     (      ae_node_t * const this);
 size_t             ae_node_length   (const ae_node_t * const this);
