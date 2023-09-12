@@ -40,6 +40,11 @@
     }
   }
 
+  void do_write(ae_obj_t * ae_obj) {
+    ae_obj_write(ae_obj);
+    NL;
+  }
+
   extern FILE * yyin;
 
 #ifdef POOL_SIZE
@@ -82,6 +87,10 @@
     puts("Writing...");
     fflush(stdout);
     ae_obj_write(program_obj);
+    NL;
+    NL;
+    if (program_obj->type == AE_LIST && program_obj->head)
+      ae_obj_each(program_obj, do_write);
     NL;    
     write(program_obj);
     NL;
