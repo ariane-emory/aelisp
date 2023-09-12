@@ -54,7 +54,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
-  fputs("Clone ", stdout);
+  fputs("Clone   ", stdout);
   ae_obj_put(this);
   putchar('\n');
   fflush(stdout);
@@ -170,9 +170,14 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
     fputs(this->sym_value, stream);
     break;
   case AE_STRING:
-    fputc('"', stream);
-    fputs(this->str_value, stream);
-    fputc('"', stream);
+    if (this->str_value == 0) {
+      fputs("(null)", stream);
+    }
+    else {
+      fputc('"', stream);
+      fputs(this->str_value, stream);
+      fputc('"', stream);
+    }
     break;
   case AE_INTEGER:
     fprintf(stream, "%d", this->int_value);
