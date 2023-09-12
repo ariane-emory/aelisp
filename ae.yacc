@@ -48,10 +48,14 @@
 #ifdef POOL_SIZE
   extern ae_obj_t pool[POOL_SIZE];
 #endif
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Main
+  //////////////////////////////////////////////////////////////////////////////
   
   main() {
     putchar('\n');
-    
+
 #define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(ae_obj_t *);
