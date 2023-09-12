@@ -21,42 +21,42 @@ void print_int_p(void * int_p) {
 }
 
 int main() {
-  ae_obj_t * objj = malloc(sizeof(ae_obj_t));
-  ae_obj_init(objj, AE_LIST);
+  ae_obj_t * list = malloc(sizeof(ae_obj_t));
+  ae_obj_init(list, AE_LIST);
 
-  objj->list_value = 0;  
+  list->list_value = 0;  
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = zero;
-    ae_node_t * new_tail = ae_list_push_back(&objj->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&list->list_value, obj);
   }
   
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = one;
-    ae_node_t * new_tail = ae_list_push_back(&objj->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&list->list_value, obj);
   }
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = two;
-    ae_node_t * new_tail = ae_list_push_back(&objj->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&list->list_value, obj);
   }
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = three;
-    ae_node_t * new_tail = ae_list_push_back(&objj->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&list->list_value, obj);
   }
 
-  ae_list_each(&objj->list_value, describe);
+  ae_list_each(&list->list_value, describe);
 
-  ae_obj_t * clone = ae_obj_clone(objj);
+  ae_obj_t * clone = ae_obj_clone(list);
 
   printf("\nPrint clone\n");
 
