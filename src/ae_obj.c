@@ -47,8 +47,24 @@ void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
+#ifdef NOISY_INIT
+  fputs("Moving ", stdout);
+  ae_obj_put(that);
+  fputs(" to ", stdout);
+  ae_obj_put(this);
+  putchar('\n');
+#endif
+
   memcpy(this, that, sizeof(ae_obj_t));
   ae_obj_init(that, AE_INVALID);
+
+#ifdef NOISY_INIT
+  fputs("Moved ", stdout);
+  ae_obj_put(that);
+  fputs(" to ", stdout);
+  ae_obj_put(this);
+  putchar('\n');
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +72,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
-  fputs("Clone   ", stdout);
+  fputs("Cloning     ", stdout);
   ae_obj_put(this);
   putchar('\n');
   fflush(stdout);
@@ -89,6 +105,13 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     (void)0; // do nothing special for this type.
   }
   
+  fputs("Cloned      ", stdout);
+  ae_obj_put(this);
+  fputs(" into ", stdout);
+  ae_obj_put(clone);
+  putchar('\n');
+  fflush(stdout);
+
   return clone;
 }
 
@@ -292,10 +315,22 @@ ae_obj_t * pool_alloc_ae_obj() {
 
     if (obj->type != AE_FREE)
       continue;
+    
+#ifdef NOISY_INIT
+  fputs("Allocating  ", stdout);
+  ae_obj_put(obj);
+  putchar('\n');
+#endif
+
+  ae_obj_init(obj, AE_INVALID);
       
-    ae_obj_init(obj, AE_INVALID);
-      
-    return obj;
+#ifdef NOISY_INIT
+  fputs("Allocated   ", stdout);
+  ae_obj_put(obj);
+  putchar('\n');
+#endif
+  
+  return obj;
   }
     
   printf("ERROR: Pool is full.\n");
