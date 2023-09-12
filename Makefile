@@ -6,7 +6,7 @@ CFLAGS       = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration
 
-EXTRA_CFLAGS = \
+STRICTER_CFLAGS = \
   -ggdb \
 	-Iinclude \
 	-I. \
@@ -50,14 +50,14 @@ obj:
 	mkdir -p $@
 
 obj/%.o: src/%.c obj
-	$(CC) -o $@ $< $(LDFLAGS) $(EXTRA_CFLAGS) -c
+	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
 
 bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(CFLAGS)
 
 bin/$(BIN2): $(BIN2).c obj/ae_obj.o
-	$(CC) -o $@ $^ $(LDFLAGS) $(EXTRA_CFLAGS) -Wno-unused-variable
+	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
 clean::
 	rm -rf bin obj tmp
