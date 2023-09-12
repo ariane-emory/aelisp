@@ -86,10 +86,9 @@
       free(tmp2);
       
       break;
+    case AE_INF:
     case AE_QUOTE:
-      break;
     case AE_PAREN:
-      break;
     case AE_LIST:
       break;
     default:
