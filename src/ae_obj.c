@@ -33,10 +33,17 @@ const char * ae_type_str(const ae_type_t this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_init(ae_obj_t * const this, ae_type_t type) {
+#ifdef NOISY_INIT
+  fputs("Initializing ", stdout);
+  ae_obj_put(this);
+  putchar('\n');
+#endif
+
   memset(this, 0, sizeof(ae_obj_t));
   this->type  = type;
+
 #ifdef NOISY_INIT
-  fputs("Initialized ", stdout);
+  fputs("Initialized  ", stdout);
   ae_obj_put(this);
   putchar('\n');
 #endif
@@ -72,7 +79,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
-  fputs("Cloning     ", stdout);
+  fputs("Cloning      ", stdout);
   ae_obj_put(this);
   putchar('\n');
   fflush(stdout);
@@ -105,7 +112,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     (void)0; // do nothing special for this type.
   }
   
-  fputs("Cloned      ", stdout);
+  fputs("Cloned       ", stdout);
   ae_obj_put(this);
   fputs(" into ", stdout);
   ae_obj_put(clone);
@@ -317,7 +324,7 @@ ae_obj_t * pool_alloc_ae_obj() {
       continue;
     
 #ifdef NOISY_INIT
-  fputs("Allocating  ", stdout);
+  fputs("Allocating   ", stdout);
   ae_obj_put(obj);
   putchar('\n');
 #endif
@@ -325,7 +332,7 @@ ae_obj_t * pool_alloc_ae_obj() {
   ae_obj_init(obj, AE_INVALID);
       
 #ifdef NOISY_INIT
-  fputs("Allocated   ", stdout);
+  fputs("Allocated    ", stdout);
   ae_obj_put(obj);
   putchar('\n');
 #endif
