@@ -89,6 +89,7 @@
     case AE_INF:
     case AE_QUOTE:
     case AE_LPAREN:
+    case AE_RPAREN:
     case AE_LIST:
       break;
     default:
