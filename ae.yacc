@@ -118,13 +118,13 @@ LPAREN sexps RPAREN { $$ = $2; };
   memset(&$$, 0, sizeof($$));
   
 #ifdef NOISY_INIT
-  printf("Initting $$      <%p>\n", &$$);
+  printf("Initting $$ (a)  <%p>\n", &$$);
 #endif  
 
   ae_obj_init(&$$, AE_LIST);
 
 #ifdef NOISY_INIT
-  printf("Initted $$       <%p>\n\n", &$$);
+  printf("Initted $$ (a)   <%p>\n\n", &$$);
 #endif
 }
 
