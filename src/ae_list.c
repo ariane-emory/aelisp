@@ -20,39 +20,6 @@ void ae_list_node_init(ae_node_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// _str methods
-////////////////////////////////////////////////////////////////////////////////
-
-const char * ae_list_str(const ae_list_t * const this) {
-  static char buff[BUFF_LEN] = {0};
-
-  snprintf(
-    buff,
-    BUFF_LEN,
-    "<L %p>(%p)",
-    this,
-    (*this)
-  );
-
-  return buff;
-}
-
-const char * ae_list_node_str(const ae_node_t * const this) {
-  static char buff[BUFF_LEN] = {0};
-
-  snprintf(
-    buff,
-    BUFF_LEN,
-    "<N %p>(%p, %p)",
-    this,
-    this->object, 
-    this->tail
-  );
-
-  return buff;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -99,22 +66,4 @@ size_t ae_list_length(const ae_list_t * const this) {
 void ae_obj_list_each(ae_list_t * const this, ae_obj_list_each_fun fun) {
   if (*this)
     ae_list_node_each(*this, fun);
-}
-
-ae_list_t ae_list_map(const ae_list_t * const this, ae_obj_list_map_fun fun) {
-  ae_list_t new_list = 0;
-  ae_list_map_into_from(&new_list, this, fun);
-  return new_list;
-}
-
-void ae_list_map_into_from(ae_list_t * const this, const ae_list_t * const that, ae_obj_list_map_fun fun) {
-  assert(that != this);
-  
-  if (!that) return;
-  
-  for (ae_node_t * position = *that; position; position = position->tail) {
-    void * tmp = fun(position->object);
-    assert(tmp != position->object);
-    ae_list_push_back(this, tmp);
-  }
 }
