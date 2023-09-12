@@ -283,11 +283,6 @@ ae_obj_t * pool_alloc_ae_obj() {
       continue;
       
     ae_obj_init(obj, AE_INVALID);
-
-#define BUFF_LEN 5
-    char buff[BUFF_LEN] = { 0 };
-    snprintf(buff, BUFF_LEN, "#%d:", ix); // off by one? I forget.
-#undef BUFF_LEN
       
     return obj;
   }
