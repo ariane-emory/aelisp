@@ -91,7 +91,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_LIST:
     if (this->list_value)
       fprintf(stream, "%d, %p, %p",
-              ae_list_node_length(this->list_value),
+              ae_node_length(this->list_value),
               this->list_value->object,
               this->list_value->tail);
     else
