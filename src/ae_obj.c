@@ -77,7 +77,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
          position;
          position = position->tail) {
       ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);
-      ae_node_push_back(clone, clone_of_obj_in_list);
+      ae_obj_push_back(clone, clone_of_obj_in_list);
     }
     break;
   default:
@@ -97,7 +97,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_LIST:
     if (this->head)
       fprintf(stream, "%d, %p, %p",
-              ae_node_length(this),
+              ae_obj_length(this),
               this->head,
               this->tail);
     else
@@ -156,7 +156,7 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   case AE_LIST:
     if (this->type == AE_LIST && this->head) {
       LPAR;
-      ae_node_each((ae_obj_t *)this, (ae_node_each_fun)ae_obj_write);
+      ae_obj_each((ae_obj_t *)this, (ae_obj_each_fun)ae_obj_write);
       BSPC;
       RPAR;
     }
@@ -212,31 +212,31 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_node_create(ae_obj_t * const obj) {
+ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
   ae_obj_t * node = malloc(sizeof(ae_obj_t));
   ae_obj_init(node, AE_LIST);
   node->head = obj;
   return node;
 }
 
-size_t ae_node_length(const ae_obj_t * const this) {
+size_t ae_obj_length(const ae_obj_t * const this) {
   size_t length = 0;
   for (const ae_obj_t * position = this; position; position = position->tail, length++);
   return length;
 }
 
-void ae_node_each (ae_obj_t * const this, ae_node_each_fun fun) {
+void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
   for (const ae_obj_t * position = this; position; position = position->tail)
     fun(position->head);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_node_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
+void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
-    position->tail = ae_node_create(obj);
+    position->tail = ae_obj_create(obj);
   }
   else {
     this->head = obj;

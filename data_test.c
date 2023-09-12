@@ -27,37 +27,37 @@ int main() {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = zero;
-    ae_node_push_back(list, obj);
+    ae_obj_push_back(list, obj);
   }
   
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = one;
-    ae_node_push_back(list, obj);
+    ae_obj_push_back(list, obj);
   }
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = two;
-    ae_node_push_back(list, obj);
+    ae_obj_push_back(list, obj);
   }
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = three;
-    ae_node_push_back(list, obj);
+    ae_obj_push_back(list, obj);
   }
 
   if (list->type == AE_LIST && list->head)
-    ae_node_each(list, describe);
+    ae_obj_each(list, describe);
 
   ae_obj_t * clone = ae_obj_clone(list);
 
   printf("\nPrint clone\n");
 
   if (clone->type == AE_LIST && clone->head)
-    ae_node_each(clone, describe);
+    ae_obj_each(clone, describe);
 }
