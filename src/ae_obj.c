@@ -12,6 +12,8 @@
 #define RPAR    fputc(')',  stream)
 #define LSQR    fputc('[',  stream)
 #define RSQR    fputc(']',  stream)
+#define DQUO    fputc('"',  stream)
+#define SQUO    fputc('\'', stream)
 
 ////////////////////////////////////////////////////////////////////////////////
 // ae_type_str method
@@ -104,7 +106,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
               this->head,
               this->tail);
     else
-      fputs("0, nil", stream);
+      fputc('0', stream);
     break;
   default:
     ae_obj_fwrite(this, stream);
@@ -174,9 +176,9 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
       fputs("(null)", stream);
     }
     else {
-      fputc('"', stream);
+      DQUO;
       fputs(this->str_value, stream);
-      fputc('"', stream);
+      DQUO;
     }
     break;
   case AE_INTEGER:
@@ -204,15 +206,16 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
       tmp[0] = this->char_value;
     }
 
-    fputc('\'', stream);
+    SQUO;
     fputs(tmp, stream);
-    fputc('\'', stream);
+    SQUO;
     
     break;
   }
   default:
     fprintf(stream, "UNPRINTABLE");
   }
+  
   SPC;
 }
 
