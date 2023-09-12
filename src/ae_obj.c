@@ -91,7 +91,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// obj's fputs / puts
+// obj's fput / put
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
@@ -111,13 +111,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
       fputs("nil", stream);
     break;
   case AE_SYMBOL:
-    ae_obj_fwrite(this, stream);
-    BSPC;
-    break;
   case AE_STRING:
-    ae_obj_fwrite(this, stream);
-    BSPC;
-    break;
   case AE_CHAR:
   case AE_FLOAT:
   case AE_INTEGER:
@@ -159,8 +153,6 @@ void ae_obj_fput_bytes(const ae_obj_t * const this, FILE * stream) {
     }
     fprintf(stream, "%016x ", start[ix]);
   }
-    
-  (void)start; (void)stream;
 }
 
 void ae_obj_put_bytes(const ae_obj_t * const this) {
