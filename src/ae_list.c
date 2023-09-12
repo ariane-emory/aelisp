@@ -14,7 +14,7 @@ void ae_list_init(ae_list_t * const ae_list) {
   *ae_list = 0;
 }
 
-void ae_list_node_init(ae_list_node_t * const this) {
+void ae_list_node_init(ae_node_t * const this) {
   this->object = 0;
   this->tail   = 0;
 }
@@ -37,7 +37,7 @@ const char * ae_list_str(const ae_list_t * const this) {
   return buff;
 }
 
-const char * ae_list_node_str(const ae_list_node_t * const this) {
+const char * ae_list_node_str(const ae_node_t * const this) {
   static char buff[BUFF_LEN] = {0};
 
   snprintf(
@@ -56,35 +56,35 @@ const char * ae_list_node_str(const ae_list_node_t * const this) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_list_node_t * ae_list_node_create(void * const object) {
-  ae_list_node_t * list_node = malloc(sizeof(ae_list_node_t));
+ae_node_t * ae_list_node_create(void * const object) {
+  ae_node_t * list_node = malloc(sizeof(ae_node_t));
   ae_list_node_init(list_node);
   list_node->object = object;
   return list_node;
 }
 
-ae_list_node_t * ae_list_node_push_back(ae_list_node_t * const this, void * const object) {
-  ae_list_node_t * position = this;
+ae_node_t * ae_list_node_push_back(ae_node_t * const this, void * const object) {
+  ae_node_t * position = this;
   for (; position->tail; position = position->tail);
   position->tail = ae_list_node_create(object);
   // printf("After push, length is %d.\n", ae_list_node_length(this));
   return position->tail;
 }
 
-size_t ae_list_node_length(const ae_list_node_t * const this) {
+size_t ae_list_node_length(const ae_node_t * const this) {
   size_t length = 0;
-  for (const ae_list_node_t * position = this; position; position = position->tail, length++);
+  for (const ae_node_t * position = this; position; position = position->tail, length++);
   return length;
 }
 
-void ae_list_node_each (ae_list_node_t * const this, ae_obj_list_each_fun fun) {
-  for (const ae_list_node_t * position = this; position; position = position->tail)
+void ae_list_node_each (ae_node_t * const this, ae_obj_list_each_fun fun) {
+  for (const ae_node_t * position = this; position; position = position->tail)
     fun(position->object);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_list_node_t * ae_list_push_back(ae_list_t * const this, void * const object) {
+ae_node_t * ae_list_push_back(ae_list_t * const this, void * const object) {
   return *this
     ? ae_list_node_push_back(*this, object)
     : (*this = ae_list_node_create(object));
@@ -112,7 +112,7 @@ void ae_list_map_into_from(ae_list_t * const this, const ae_list_t * const that,
   
   if (!that) return;
   
-  for (ae_list_node_t * position = *that; position; position = position->tail) {
+  for (ae_node_t * position = *that; position; position = position->tail) {
     void * tmp = fun(position->object);
     assert(tmp != position->object);
     ae_list_push_back(this, tmp);

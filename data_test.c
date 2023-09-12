@@ -30,28 +30,28 @@ int main() {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = zero;
-    ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
   }
   
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = one;
-    ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
   }
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = two;
-    ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
   }
 
   {
     ae_obj_t * obj = malloc(sizeof(ae_obj_t));
     ae_obj_init(obj, AE_STRING);
     obj->str_value = three;
-    ae_list_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
+    ae_node_t * new_tail = ae_list_push_back(&object->list_value, obj);
   }
 
   ae_obj_list_each(&object->list_value, describe);

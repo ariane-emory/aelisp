@@ -87,7 +87,7 @@
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(void *);
     PRINT_SIZEOF(ae_list_t);
-    PRINT_SIZEOF(ae_list_node_t);
+    PRINT_SIZEOF(ae_node_t);
     PRINT_SIZEOF(ae_obj_t);
     PRINT_SIZEOF(ae_type_t);
     
