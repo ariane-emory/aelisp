@@ -118,14 +118,16 @@ list:  LIST
 #ifdef NOISY_INIT
   printf("Done initting $$ @ %p.\n", &$$);
 #endif
-} | LPAREN sexps RPAREN { $$ = $2; };
+}
+| LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
 {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
   ae_obj_unsafe_move(new_obj, &$2);
   ae_obj_push_back(&$$, new_obj);
-} | {
+}
+| {
 #ifdef NOISY_INIT  
   printf("Initting $$ @ %p.\n", &$$);
 #endif
