@@ -53,11 +53,11 @@ ae_node_t * ae_list_push_back(ae_list_t * const this, void * const object) {
     : (*this = ae_list_node_create(object));
 }
 
-size_t ae_list_length(const ae_list_t * const this) {
-  return *this
-    ? ae_list_node_length(*this)
-    : 0;
-}
+/* size_t ae_list_length(const ae_list_t * const this) { */
+/*   return *this */
+/*     ? ae_list_node_length(*this) */
+/*     : 0; */
+/* } */
 
 void ae_obj_list_each(ae_list_t * const this, ae_obj_list_each_fun fun) {
   if (*this)
