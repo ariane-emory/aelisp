@@ -12,7 +12,7 @@
 
 void ae_node_init(ae_node_t * const this) {
   this->head = 0;
-  this->tail   = 0;
+  this->tail = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
