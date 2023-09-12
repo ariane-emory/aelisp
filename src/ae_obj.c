@@ -108,17 +108,22 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
               this->head,
               this->tail);
     else
-      fputc('0', stream);
+      fputs("nil", stream);
+    break;
+  case AE_SYMBOL:
+    ae_obj_fwrite(this, stream);
+    BSPC;
     break;
   case AE_STRING:
     ae_obj_fwrite(this, stream);
     BSPC;
-    return;
+    break;
   case AE_CHAR:
   case AE_FLOAT:
   case AE_INTEGER:
   case AE_RATIONAL:
     ae_obj_fwrite(this, stream);
+    BSPC;
     break;
   default:
     LSQR;
