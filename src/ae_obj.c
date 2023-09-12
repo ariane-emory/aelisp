@@ -280,7 +280,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef POOL_SIZE
-ae_obj_t pool[POOL_SIZE];
+ae_obj_t pool[POOL_SIZE] = { 0 };
 
 ae_obj_t * pool_alloc_ae_obj() {
   for (size_t ix = 0; ix < POOL_SIZE; ix++) {

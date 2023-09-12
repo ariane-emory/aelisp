@@ -65,14 +65,14 @@
     yyin = fp;
     yyparse();
 
-    printf("\nroot:                           ");
+    printf("\nroot:    ");
     ae_obj_put(root);
     NL;
     
     ae_obj_t * program_obj = ALLOC_AE_OBJ; 
     ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
 
-    printf("program:                        ");
+    printf("program: ");
     ae_obj_put(program_obj);
     NL;
     NL;
