@@ -85,8 +85,6 @@
 #define PRINT_SIZEOF(t)     printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(ae_obj_t *);
-    PRINT_SIZEOF(ae_list_t);
-    PRINT_SIZEOF(ae_node_t);
     PRINT_SIZEOF(ae_obj_t);
     PRINT_SIZEOF(ae_type_t);
     
