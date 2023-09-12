@@ -50,6 +50,5 @@ ae_node_t * ae_node_push_back(ae_node_t * const this, struct ae_obj_t * const ob
   ae_node_t * position = this;
   for (; position->tail; position = position->tail);
   position->tail = ae_node_create(obj);
-  // printf("After push, length is %d.\n", ae_node_length(this));
   return position->tail;
 }
