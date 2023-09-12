@@ -134,7 +134,7 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL;
 list:  LIST
 {
   ae_obj_init(&$$, AE_LIST);
-  ae_list_init(&$$.list_value);
+  $$.list_value = 0;
 } | LPAREN sexps RPAREN { $$ = $2; };
 
 sexps: sexps sexp
@@ -144,7 +144,7 @@ sexps: sexps sexp
   ae_list_push_back(&$$.list_value, new_obj);
 } | {
   ae_obj_init(&$$, AE_LIST);
-  ae_list_init(&$$.list_value);
+  $$.list_value = 0;
 };
    
 %%

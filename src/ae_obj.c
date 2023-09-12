@@ -64,7 +64,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     strcpy(clone->sym_value, this->sym_value);
     break;
   case AE_LIST:
-    ae_list_init(&clone->list_value);    
+    clone->list_value = 0;
     if (!this)
       return clone;
     for (ae_node_t * position = this->list_value;

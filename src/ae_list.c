@@ -10,10 +10,6 @@
 // _init methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_list_init(ae_list_t * const ae_list) {
-  *ae_list = 0;
-}
-
 void ae_list_node_init(ae_node_t * const this) {
   this->object = 0;
   this->tail   = 0;
