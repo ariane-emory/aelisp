@@ -58,7 +58,7 @@
     printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_value));
 
 #ifdef POOL_SIZE
-    printf("Using pool from %p to %p.\n", pool, &pool[POOL_SIZE]);
+    printf("Using pool from   %p to %p.\n", pool, &pool[POOL_SIZE]);
 #endif
     
     FILE * fp = fopen("sample.txt", "r");
@@ -76,15 +76,14 @@
     ae_obj_put(program_obj);
     NL;
     NL;
+    puts("Describing items in program.");
     if (program_obj->type == AE_LIST && program_obj->head)
       ae_obj_each(program_obj, describe);
-    puts("Done loop.");
-    fflush(stdout);
+    puts("Described items in program.");
     NL;
-    NL;
-    puts("Writing...");
-    fflush(stdout);
+    puts("Writing program obj.");
     ae_obj_write(program_obj);
+    puts("Wrote program obj.");
     NL;
     NL;
     if (program_obj->type == AE_LIST && program_obj->head)

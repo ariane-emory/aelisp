@@ -64,8 +64,10 @@ int main() {
     
   ae_obj_t * clone = ae_obj_clone(list);
 
-  printf("\nPrint clone\n");
+  puts("\nPrinting clone.");
 
   if (clone->type == AE_LIST && clone->head)
     ae_obj_each(clone, describe);
+
+  puts("Done printing clone.");
 }
