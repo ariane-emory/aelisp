@@ -73,7 +73,6 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
          position = position->tail) {
       ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);
       ae_node_push_back(&clone->list_value, clone_of_obj_in_list);
-      // ae_list_push_back(&clone->list_value, clone_of_obj_in_list);
     }
     break;
   default:
@@ -205,22 +204,13 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// _init methods
-////////////////////////////////////////////////////////////////////////////////
-
-void ae_node_init(ae_node_t * const this) {
-  this->head = 0;
-  this->tail = 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_node_t * ae_node_create(struct ae_obj_t * const obj) {
   ae_node_t * node = malloc(sizeof(ae_node_t));
-  ae_node_init(node);
   node->head = obj;
+  node->tail = 0;
   return node;
 }
 
