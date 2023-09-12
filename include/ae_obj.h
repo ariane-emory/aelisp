@@ -75,15 +75,15 @@ typedef struct ae_obj_t {
     char           char_value;
     int            int_value;
     double         float_value;
-    ae_node_t      list_value;
+    // ae_node_t      list_value;
     struct {
       int          numerator_value;
       unsigned int denominator_value;
     };
-    /* struct { */
-    /*   struct ae_obj_t * head; */
-    /*   struct ae_obj_t * tail; */
-    /* }; */
+    struct {
+      struct ae_obj_t * head;
+      struct ae_obj_t * tail;
+    };
   };
 } ae_obj_t;
 
@@ -107,9 +107,9 @@ void          ae_obj_write       (const ae_obj_t * const this);
 
 //------------------------------------------------------------------------------
 
-void          ae_node_init       (      ae_node_t * const this);
-size_t        ae_node_length     (const ae_node_t * const this);
-void          ae_node_push_back  (      ae_node_t * const this, struct ae_obj_t * const obj);
-void          ae_node_each       (      ae_node_t * const this, ae_node_each_fun fun);
-ae_node_t *   ae_node_create     (struct ae_obj_t * const obj);
+void          ae_node_init       (      ae_obj_t * const this);
+size_t        ae_node_length     (const ae_obj_t * const this);
+void          ae_node_push_back  (      ae_obj_t * const this, ae_obj_t * const obj);
+void          ae_node_each       (      ae_obj_t * const this, ae_node_each_fun fun);
+ae_obj_t *    ae_node_create     (      ae_obj_t * const obj);
 

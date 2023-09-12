@@ -39,9 +39,9 @@
     SPC;
     NL;
     
-    if (this->type == AE_LIST && this->list_value.head) {
+    if (this->type == AE_LIST && this->head) {
       ++indent;
-      ae_node_each(&this->list_value, describe);
+      ae_node_each(this, describe);
       --indent;
     }
   }
@@ -105,8 +105,8 @@
     ae_obj_put(program_obj);
     NL;
     NL;
-    if (program_obj->type == AE_LIST && program_obj->list_value.head)
-      ae_node_each(&program_obj->list_value, describe);
+    if (program_obj->type == AE_LIST && program_obj->head)
+      ae_node_each(program_obj, describe);
     puts("Done loop.");
     fflush(stdout);
     NL;
@@ -141,7 +141,7 @@ sexps: sexps sexp
 {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
   ae_obj_unsafe_move(new_obj, &$2);
-  ae_node_push_back(&$$.list_value, new_obj);
+  ae_node_push_back(&$$, new_obj);
 } | {
   ae_obj_init(&$$, AE_LIST);
 };

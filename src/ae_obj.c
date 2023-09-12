@@ -64,15 +64,15 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     strcpy(clone->sym_value, this->sym_value);
     break;
   case AE_LIST:
-    clone->list_value.head = 0;
-    clone->list_value.tail = 0;
-    if (!this->list_value.head)
+    clone->head = 0;
+    clone->tail = 0;
+    if (!this->head)
       return clone;
-    for (ae_node_t * position = (ae_node_t *)&this->list_value;
+    for (ae_obj_t * position = (ae_obj_t *)&this;
          position;
          position = position->tail) {
       ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);
-      ae_node_push_back(&clone->list_value, clone_of_obj_in_list);
+      ae_node_push_back(clone, clone_of_obj_in_list);
     }
     break;
   default:
@@ -90,11 +90,11 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   fprintf(stream, "<%p>(%s, [", this, ae_type_str(this->type));
   switch (this->type) {
   case AE_LIST:
-    if (this->list_value.head)
+    if (this->head)
       fprintf(stream, "%d, %p, %p",
-              ae_node_length(&this->list_value),
-              this->list_value.head,
-              this->list_value.tail);
+              ae_node_length(this),
+              this->head,
+              this->tail);
     else
       fputs("0, nil", stream);
     break;
@@ -149,9 +149,9 @@ void ae_obj_write(const ae_obj_t * const this) {
 void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   switch (this->type) {
   case AE_LIST:
-    if (this->type == AE_LIST && this->list_value.head) {
+    if (this->type == AE_LIST && this->head) {
       LPAR;
-      ae_node_each((ae_node_t *)&this->list_value, (ae_node_each_fun)ae_obj_write);
+      ae_node_each((ae_obj_t *)this, (ae_node_each_fun)ae_obj_write);
       BSPC;
       RPAR;
     }
@@ -207,29 +207,29 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_node_t * ae_node_create(struct ae_obj_t * const obj) {
-  ae_node_t * node = malloc(sizeof(ae_node_t));
+ae_obj_t * ae_node_create(ae_obj_t * const obj) {
+  ae_obj_t * node = malloc(sizeof(ae_obj_t));
+  ae_obj_init(node, AE_LIST);
   node->head = obj;
-  node->tail = 0;
   return node;
 }
 
-size_t ae_node_length(const ae_node_t * const this) {
+size_t ae_node_length(const ae_obj_t * const this) {
   size_t length = 0;
-  for (const ae_node_t * position = this; position; position = position->tail, length++);
+  for (const ae_obj_t * position = this; position; position = position->tail, length++);
   return length;
 }
 
-void ae_node_each (ae_node_t * const this, ae_node_each_fun fun) {
-  for (const ae_node_t * position = this; position; position = position->tail)
+void ae_node_each (ae_obj_t * const this, ae_node_each_fun fun) {
+  for (const ae_obj_t * position = this; position; position = position->tail)
     fun(position->head);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_node_push_back(ae_node_t * const this, struct ae_obj_t * const obj) {
+void ae_node_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
-    ae_node_t * position = this;
+    ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
     position->tail = ae_node_create(obj);
   }
