@@ -7,19 +7,6 @@
 #define YYSTYPE ae_obj_t
 #include "ae.tab.h"
 
-#define FOR_ESCAPED_CHARACTER_DO(DO)                                                                                                        \
-  DO('a',  '\a')                                                                                                                            \
-  DO('b',  '\b')                                                                                                                            \
-  DO('f',  '\f')                                                                                                                            \
-  DO('n',  '\n')                                                                                                                            \
-  DO('r',  '\r')                                                                                                                            \
-  DO('t',  '\t')                                                                                                                            \
-  DO('v',  '\v')                                                                                                                            \
-  DO('\\', '\\')                                                                                                                            \
-  DO('\'', '\'')                                                                                                                            \
-  DO('\"', '\"')                                                                                                                            \
-  DO('\?', '\?')                                                                                                                         
-
 #define TOKENIZE(x, ae_type) return tokenize(#x, x, ae_type);
   
   enum yytokentype tokenize(
