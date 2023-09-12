@@ -64,7 +64,6 @@ typedef struct ae_obj_t {
     char           char_value;
     int            int_value;
     double         float_value;
-    // ae_obj_t      list_value;
     struct {
       int          numerator_value;
       unsigned int denominator_value;
