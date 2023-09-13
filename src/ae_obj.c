@@ -433,3 +433,13 @@ void pool_free_ae_obj(ae_obj_t * const this) {
   ae_obj_init(this, AE_FREE____);
 }
 #endif
+
+void pool_print(void) {
+  puts("\nPrinting pool contents.");
+  for (size_t ix = 0; ix < POOL_SIZE; ix++) {
+    printf("# %5d: ", ix); 
+    ae_obj_put(&pool[ix]);
+    putchar('\n');
+  }
+  puts("Printed pool contents.");
+}

@@ -104,7 +104,7 @@ typedef struct ae_obj_t {
 } ae_obj_t;
 
 //------------------------------------------------------------------------------
-// Obj's methods
+// Obj'ss methods
 //------------------------------------------------------------------------------
 
 ae_obj_t *    ae_obj_init        (      ae_obj_t * const this,  ae_type_t type);
@@ -160,3 +160,5 @@ void       pool_free_ae_obj(ae_obj_t * const this);
 #endif
 
 #define NEW_AE_OBJ(type) ae_obj_init(ALLOC_AE_OBJ, type)
+
+void pool_print(void);

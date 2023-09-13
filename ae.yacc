@@ -107,15 +107,9 @@
     NL;
 
 #define   PRINT_POOL
-    
+
 #ifdef    PRINT_POOL
-    puts("Printing pool contents.");
-    for (size_t ix = 0; ix < POOL_SIZE; ix++) {
-      printf("# %5d: ", ix); 
-      ae_obj_put(&pool[ix]);
-      putchar('\n');
-    }
-    puts("Printed pool contents.");
+    pool_print();
 #endif // PRINT_POOL
   }
 
