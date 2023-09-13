@@ -50,7 +50,7 @@ obj/%.o: src/%.c obj
 ################################################################################
 
 bin/test/%: bin/test
-	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(patsubst bin/test/%_test, obj/%.o, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 	mkdir -p ./bin
