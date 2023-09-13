@@ -372,15 +372,15 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
    ae_obj_t * cons = *sym_list;
 
-   fputs("Interning in ", stdout);
+   fputs("Interning in     ", stdout);
    ae_obj_put(*sym_list);
-   fputs(": ", stdout);
-   ae_obj_write(*sym_list);
+   /* fputs(": ", stdout); */
+   /* ae_obj_write(*sym_list); */
    putchar('\n');
    fflush(stdout);
    
-   for (; cons; cons = CDR(cons)) {
-     fputs("Looking at", stdout);
+   for (; CDR(cons); cons = CDR(cons)) {
+     fputs("Looking at   ", stdout);
      ae_obj_put(cons);
      putchar('\n');
      fflush(stdout);
@@ -398,10 +398,29 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
      }
    }
 
+   fputs("Arrived at       ", stdout);
+   ae_obj_put(cons);
+   putchar('\n');
+   fflush(stdout);
+
+   
    ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
    sym->sym_value = strdup(c_str);
-   
-   *sym_list = CONS(sym, *sym_list);
+   fputs("Created          ", stdout);
+   ae_obj_put(sym);
+   putchar('\n');
+
+   if (cons->head) 
+     *sym_list = CONS(sym, *sym_list);
+   else
+     (*sym_list)->head = sym;
+
+   fputs("sym_list is      ", stdout);
+   ae_obj_put(*sym_list);
+   putchar('\n');
+
+   ae_obj_write(*sym_list);
+   putchar('\n');
 
    return CAR((*sym_list));
  }

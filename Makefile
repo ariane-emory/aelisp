@@ -66,7 +66,7 @@ clean::
 
 test: clean all
 	./bin/$(BIN) | tee out
-	./bin/$(BIN2)
+#	./bin/$(BIN2)
 
 test2: clean all
 	./$(BIN2)
