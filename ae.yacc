@@ -55,7 +55,7 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
-    symbols = NEW_AE_OBJ(AE_CONS____);
+    symbols = NEW_AE_OBJ(AE_CONS____); // stop doing this!
     
     putchar('\n');
 
