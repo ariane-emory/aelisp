@@ -284,6 +284,7 @@ size_t ae_obj_length(const ae_obj_t * const this) {
   
   size_t length = 0;
   for (const ae_obj_t * position = this; position; position = position->tail, length++);
+
   return length;
 }
 
@@ -369,28 +370,22 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list) {
-   ae_obj_t * cons = *sym_list;
+#define NEW_SYM ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__); sym->sym_value = strdup(c_str)
 
-   if (! CAR((*sym_list))) {    
-     ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
-     sym->sym_value = strdup(c_str);
-     (*sym_list)->head = sym;
-
-     return CAR(*sym_list);
+ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
+   if (! CAR(*sym_list_p)) {
+     // shortcut/hack for my weird imaginary nil:
+     NEW_SYM;
+     return ((*sym_list_p)->head = sym);
    }
 
-   for (; cons; cons = CDR(cons)) 
-     if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
-       return CAR(cons);
+   for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) 
+       if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
+         return CAR(cons);
      
-    
-   ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
-   sym->sym_value = strdup(c_str);
-
-   *sym_list = CONS(sym, *sym_list);
-
-   return CAR((*sym_list));
+   NEW_SYM;
+   
+   return CAR(*sym_list_p = CONS(sym, *sym_list_p));
  }
 
 // micro-lisp's version:
