@@ -372,37 +372,23 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list) {
    ae_obj_t * cons = *sym_list;
 
-   if (! CAR(cons)) {    
+   if (! CAR((*sym_list))) {    
      ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
      sym->sym_value = strdup(c_str);
-     cons->head = sym;
+     (*sym_list)->head = sym;
+
+     return CAR(*sym_list);
    }
 
-   for (; cons; cons = CDR(cons)) {
-     if (strcmp(c_str, CAR(cons)->sym_value) == 0) {
+   for (; cons; cons = CDR(cons)) 
+     if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
        return CAR(cons);
-     }
-   }
-
-   /* printf("Interning arrived at %p ", cons); */
-   /* putchar('\n'); */
-   /* fflush(stdout); */
-   
+     
+    
    ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
    sym->sym_value = strdup(c_str);
 
-   /* fputs("Created          ", stdout); */
-   /* ae_obj_put(sym); */
-   /* putchar('\n'); */
-
    *sym_list = CONS(sym, *sym_list);
-
-   /* fputs("sym_list is      ", stdout); */
-   /* ae_obj_put(*sym_list); */
-   /* putchar('\n'); */
-
-   /* ae_obj_write(*sym_list); */
-   /* putchar('\n'); */
 
    return CAR((*sym_list));
  }

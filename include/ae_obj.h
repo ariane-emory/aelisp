@@ -141,8 +141,8 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list);
 ////////////////////////////////////////////////////////////////////////////////
 
 #define CONS(head, tail) ae_obj_cons((head), (tail))
-#define CAR(obj) (obj->head)
-#define CDR(obj) (obj->tail)
+#define CAR(obj) ((obj)->head)
+#define CDR(obj) ((obj)->tail)
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
