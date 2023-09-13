@@ -14,19 +14,27 @@ void test_newly_allocated_ae_obj_is_inside_pool(void)
 }
 
 void test_newly_initialized_ae_obj_has_correct_type_field(void) {
-#define test_init(_type)                                                                                                                    \
+#define test(_type)                                                                                                                    \
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
     ae_obj_init(this, _type);                                                                                                               \
     TEST_CHECK(this->type == _type);                                                                                                        \
     TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type ".");                                                               \
   }
-  FOR_LEXED_TYPES_DO(test_init);
+  FOR_LEXED_TYPES_DO(test);
+}
+
+void test_newly_initialized_ae_obj_has_zeroed_data_fields(void) {
+  SETUP_TEST;
+  ae_obj_init(this, AE_RATIONAL);
+  TEST_CHECK(this->numerator_value == 0 && this->denominator_value == 0);
+  TEST_MSG("After ae_obj_init(obj, AE_RATIONAL), its data fields should == 0.");
 }
 
 #define FOR_TEST_FUNS_DO(X)                                                                                                                 \
   X(test_newly_allocated_ae_obj_is_inside_pool)                                                                                             \
-  X(test_newly_initialized_ae_obj_has_correct_type_field)
+  X(test_newly_initialized_ae_obj_has_correct_type_field)                                                                                   \
+  X(test_newly_initialized_ae_obj_has_zeroed_data_fields)
 
 #define pair(fun) { #fun, fun },
 
