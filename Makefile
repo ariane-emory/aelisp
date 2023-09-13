@@ -27,7 +27,6 @@ LEX      = flex
 YACC     = bison
 SRC      = $(shell find src -name "*.c")
 OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
-BIN      = ae
 BIN2     = data_test
 
 ifeq ($(UNAME_S),Darwin)
@@ -36,7 +35,11 @@ ifeq ($(UNAME_S),Darwin)
 	GDB = lldb
 endif
 
-all:: bin/$(BIN) bin/$(BIN2) bin/test/ae_obj_test
+################################################################################
+# Targets
+################################################################################
+
+all:: bin/ae bin/data_test bin/test/ae_obj_test
 
 tmp/%.lex.c: %.lex tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
@@ -53,20 +56,20 @@ bin/test/%: bin/test
 obj/%.o: src/%.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
 
-bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
+bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(YACC_LEX_CFLAGS)
 
-bin/$(BIN2): $(BIN2).c obj/ae_obj.o
+bin/data_test: data_test.c obj/ae_obj.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
 test: clean all
-	./bin/$(BIN)
-	./bin/$(BIN2)
+	./bin/ae
+	./bin/data_test
 	./bin/test/ae_obj_test
 
 debug: clean all
-	$(GDB) ./bin/$(BIN)
+	$(GDB) ./bin/ae
 
 ################################################################################
 # Directories
