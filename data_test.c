@@ -11,8 +11,7 @@ static char * two   = "Three";
 static char * three = "Four";
 
 ae_obj_t * map_fun_strlen(const ae_obj_t * const obj) {
-  ae_obj_t * new_obj = ALLOC_AE_OBJ;
-  ae_obj_init(new_obj, AE_INTEGER_);
+  ae_obj_t * new_obj = NEW_AE_OBJ(AE_INTEGER_);
   
   printf("Measuring \"%s\".\n", obj->str_value);
   new_obj->int_value = strlen(obj->str_value);
@@ -39,23 +38,19 @@ int main() {
 
   ae_obj_t * list = 0;
   
-  ae_obj_t * obj_four = ALLOC_AE_OBJ;
-  ae_obj_init(obj_four, AE_STRING__);
+  ae_obj_t * obj_four = NEW_AE_OBJ(AE_STRING__);
   obj_four->str_value = three;
   list = CONS(obj_four, list);
   
-  ae_obj_t * obj_three = ALLOC_AE_OBJ;
-  ae_obj_init(obj_three, AE_STRING__);
+  ae_obj_t * obj_three = NEW_AE_OBJ(AE_STRING__);
   obj_three->str_value = two;
   list = CONS(obj_three, list);
   
-  ae_obj_t * obj_two = ALLOC_AE_OBJ;
-  ae_obj_init(obj_two, AE_STRING__);
+  ae_obj_t * obj_two = NEW_AE_OBJ(AE_STRING__);
   obj_two->str_value = one;
   list = CONS(obj_two, list);
   
-  ae_obj_t * obj_one = ALLOC_AE_OBJ;
-  ae_obj_init(obj_one, AE_STRING__);
+  ae_obj_t * obj_one = NEW_AE_OBJ(AE_STRING__);
   obj_one->str_value = zero;
   list = CONS(obj_one, list);
       
