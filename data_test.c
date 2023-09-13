@@ -64,6 +64,14 @@ int main() {
     
   ae_obj_t * clone = ae_obj_clone(list);
 
+  ae_obj_t * prepended = ALLOC_AE_OBJ;
+  ae_obj_init(prepended, AE_CONS____);
+  prepended->head = obj_two;
+  prepended->tail = clone;
+  clone = prepended;
+  
+  clone = ae_obj_cons(obj_three, clone);
+  
   puts("\nPrinting clone.");
 
   if (clone->type == AE_CONS____ && clone->head)
