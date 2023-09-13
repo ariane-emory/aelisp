@@ -10,6 +10,8 @@ test_tutorial(void)
     (void)obj;
     
     pool_print();
+
+    printf("Pool end: %p\n", pool_last);
 }
 
 TEST_LIST = {

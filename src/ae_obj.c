@@ -405,6 +405,7 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
 
 #ifdef POOL_SIZE
 ae_obj_t pool[POOL_SIZE] = { 0 };
+const ae_obj_t *  pool_last = &pool[POOL_SIZE - 1];
 
 ae_obj_t * pool_alloc_ae_obj() {
   for (int ix = POOL_SIZE - 1; ix >= 0; ix--) {
