@@ -137,6 +137,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_RPAREN__:
   case AE_INVALID_:
   case AE_FREE____:
+  case AE_INF_____:
     BSPC; break;
   case AE_CONS____:
     if (! this->head)
@@ -156,7 +157,6 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_STRING__:
   case AE_CHAR____:
   case AE_FLOAT___:
-  case AE_INF_____:
   case AE_INTEGER_:
   case AE_RATIONAL:
     ae_obj_fwrite(this, stream);
