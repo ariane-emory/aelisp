@@ -129,7 +129,8 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "<%p>(%s, ", this, ae_type_str(this->type));
+  fprintf(stream, "%p(%s, ", this, ae_type_str(this->type));
+  // fprintf(stream, "<%p>(%s, ", this, ae_type_str(this->type));
   
   switch (this->type) {
   case AE_LPAREN:
