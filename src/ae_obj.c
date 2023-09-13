@@ -140,17 +140,17 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     BSPC; return;
   case AE_LIST____:
     if (! this->head)
-      fputs(" nil", stream);
+      fputs("nil", stream);
     else if (! this->tail)
-      fprintf(stream, "%2d %011p %p",
-              ae_obj_length(this),
+      fprintf(stream, "%011p %-11p %2d",
               this->head,
-              this->tail);
+              this->tail,
+              ae_obj_length(this));
     else
-      fprintf(stream, "%2d %011p %011p",
-              ae_obj_length(this),
+      fprintf(stream, "%011p %-011p %2d",
               this->head,
-              this->tail);    
+              this->tail,
+              ae_obj_length(this));    
     break;
   case AE_SYMBOL__:
   case AE_STRING__:
@@ -159,9 +159,6 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
   case AE_INTEGER_:
   case AE_RATIONAL:
-    SPC;
-    SPC;
-    SPC;
     ae_obj_fwrite(this, stream);
     BSPC;
     break;
