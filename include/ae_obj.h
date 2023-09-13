@@ -28,23 +28,23 @@ typedef char * ae_string_t;
 ////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
-  DO(AE_INTEGER)                                                                                                                            \
-  DO(AE_INVALID)                                                                                                                            \
-  DO(AE_CHAR____)                                                                                                                               \
-  DO(AE_FLOAT___)                                                                                                                              \
-  DO(AE_LIST____)                                                                                                                               \
-  DO(AE_LPAREN__)                                                                                                                              \
-  DO(AE_RPAREN__)                                                                                                                              \
-  DO(AE_QUOTE___)                                                                                                                              \
+  DO(AE_INTEGER_)                                                                                                                           \
+  DO(AE_INVALID_)                                                                                                                           \
+  DO(AE_CHAR____)                                                                                                                           \
+  DO(AE_FLOAT___)                                                                                                                           \
+  DO(AE_LIST____)                                                                                                                           \
+  DO(AE_LPAREN__)                                                                                                                           \
+  DO(AE_RPAREN__)                                                                                                                           \
+  DO(AE_QUOTE___)                                                                                                                           \
   DO(AE_RATIONAL)                                                                                                                           \
-  DO(AE_INF_____)                                                                                                                                \
-  DO(AE_STRING__)                                                                                                                             \
+  DO(AE_INF_____)                                                                                                                           \
+  DO(AE_STRING__)                                                                                                                           \
   DO(AE_SYMBOL__)                                                                                                                             
 
 #define enum_node(x) x,
 
 typedef enum {
-  AE_FREE = 0,
+  AE_FREE____ = 0,
   FOR_LEXED_TYPES_DO(enum_node)
 } ae_type_t;
 

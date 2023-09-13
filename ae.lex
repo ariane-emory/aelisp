@@ -67,7 +67,7 @@
       free(tmp);
       
       break;
-    case AE_INTEGER:
+    case AE_INTEGER_:
       yylval.int_value = atoi(yytext);
       break;
     case AE_FLOAT___:
@@ -114,7 +114,7 @@ nil                                                                 TOKENIZE(LIS
 '\\.'        | 
 \?\\\\.      |
 \?\\.                                                               TOKENIZE(CHAR,     AE_CHAR____    );
-[-+]?[0-9]+                                                         TOKENIZE(INTEGER,  AE_INTEGER );
+[-+]?[0-9]+                                                         TOKENIZE(INTEGER,  AE_INTEGER_ );
 [-+]?[0-9]+\.[0-9]* |
 [-+]?[0-9]*\.[0-9]+                                                 TOKENIZE(FLOAT,    AE_FLOAT___   );
 [-+]?[0-9]+\/[0-9]+                                                 TOKENIZE(RATIONAL, AE_RATIONAL);
