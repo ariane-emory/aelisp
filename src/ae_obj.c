@@ -23,7 +23,7 @@
 const char * ae_type_str(const ae_type_t this) {
   switch (this) {
     FOR_LEXED_TYPES_DO(return_str);
-    return_str(AE_FREE______);
+    return_str(AE_FREE____);
   default:
     return "UNRECOGNIZED";
   }
@@ -65,7 +65,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 #endif
 
   memcpy(this, that, sizeof(ae_obj_t));
-  ae_obj_init(that, AE_FREE______); // AE_INVALID_);
+  ae_obj_init(that, AE_FREE____); // AE_INVALID_);
 
 #ifdef NOISY_INIT
   fputs("Moved            ", stdout);
@@ -136,18 +136,18 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_LPAREN__:
   case AE_RPAREN__:
   case AE_INVALID_:
-  case AE_FREE______:
-    BSPC; BSPC; RPAR; return;
+  case AE_FREE____:
+    BSPC; return;
   case AE_LIST____:
     if (! this->head)
-      fputs("nil", stream);
+      fputs(" nil", stream);
     else if (! this->tail)
-      fprintf(stream, "%d %011p %p",
+      fprintf(stream, "%2d %011p %p",
               ae_obj_length(this),
               this->head,
               this->tail);
     else
-      fprintf(stream, "%d %011p %011p",
+      fprintf(stream, "%2d %011p %011p",
               ae_obj_length(this),
               this->head,
               this->tail);    
@@ -159,6 +159,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
   case AE_INTEGER_:
   case AE_RATIONAL:
+    fputc(' ', stream);
     ae_obj_fwrite(this, stream);
     BSPC;
     break;
@@ -343,7 +344,7 @@ ae_obj_t * pool_alloc_ae_obj() {
   for (int ix = POOL_SIZE - 1; ix >= 0; ix--) {
     ae_obj_t * obj = &pool[ix];
 
-    if (obj->type != AE_FREE______)
+    if (obj->type != AE_FREE____)
       continue;
     
 // #ifdef NOISY_INIT
@@ -371,6 +372,6 @@ ae_obj_t * pool_alloc_ae_obj() {
 }
 
 void pool_free_ae_obj(ae_obj_t * const this) {
-  ae_obj_init(this, AE_FREE______);
+  ae_obj_init(this, AE_FREE____);
 }
 #endif
