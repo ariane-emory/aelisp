@@ -28,7 +28,7 @@ YACC      = bison
 SRC       = $(shell find src  -name "*.c")
 TEST_SRC  = $(shell find test -name "*.c")
 TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRC)), bin/$(test_bin))
-OBJ       = $(patsubst src/%.c, obj/%.o, $(SRC))
+OBJS       = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
@@ -52,11 +52,11 @@ obj/%.o: src/%.c obj
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(patsubst bin/test/%_test, obj/%.o, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
 
-bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
+bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(YACC_LEX_CFLAGS)
 
-bin/data_test: obj/ae_obj.o
+bin/data_test: $(OBJS)
 	$(CC) -o $@ $(patsubst bin/%, %.c, $@) $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
 ################################################################################
