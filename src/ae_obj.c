@@ -129,7 +129,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "%011p(%s ", this, ae_type_str(this->type));
+  fprintf(stream, "%011p %s ", this, ae_type_str(this->type));
   // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(this->type));
   
   switch (this->type) {
@@ -168,7 +168,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     BSPC;
     RSQR;
   }
-  RPAR;
+  //RPAR;
 }
 
 void ae_obj_put(const ae_obj_t * const this) {
