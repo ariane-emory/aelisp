@@ -54,7 +54,7 @@ bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 bin/data_test: data_test.c obj/ae_obj.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
-test: clean all
+tests: clean all
 	./bin/ae
 	./bin/data_test
 	./bin/test/ae_obj_test
