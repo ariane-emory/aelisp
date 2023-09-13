@@ -89,7 +89,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   ae_obj_t * clone = 0;
 
 #define CLONE_WITH_MEMCPY clone = ALLOC_AE_OBJ; memcpy(clone, this, sizeof(ae_obj_t))
-#define COPY_C_STR(field) clone->field = strdup(this->field)
+#define DUP_C_STR(field) clone->field = strdup(this->field)
   
   switch (this->type) {
   case AE_CONS____:
@@ -97,18 +97,18 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     break;
   case AE_STRING__:
     CLONE_WITH_MEMCPY;
-    COPY_C_STR(str_value);
+    DUP_C_STR(str_value);
     break;
   case AE_SYMBOL__:
     CLONE_WITH_MEMCPY;
-    COPY_C_STR(sym_value);
+    DUP_C_STR(sym_value);
     break;
   default:
     CLONE_WITH_MEMCPY;
   }
 
 #undef CLONE_WITH_MEMCPY
-#undef COPY_C_STR
+#undef DUP_C_STR
   
   fputs("Cloned           ", stdout);
   ae_obj_put(this);
