@@ -33,8 +33,8 @@ LEX       = flex
 YACC      = bison
 
 SRCS      = $(shell find src  -name "*.c")
-OBJS      = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_SRCS = $(shell find test -name "*.c")
+OBJS      = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRCS)), bin/$(test_bin))
 
 ################################################################################
