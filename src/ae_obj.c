@@ -325,8 +325,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   printf("Cons %p %p\n", head, tail);
   fflush(stdout);
   
-  ae_obj_t * new_list = ALLOC_AE_OBJ;
-  ae_obj_init(new_list, AE_CONS____);
+  ae_obj_t * new_list = NEW_AE_OBJ(AE_CONS____);
 
   new_list->head = head;
   new_list->tail = tail;
@@ -350,8 +349,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
-    position->tail = ALLOC_AE_OBJ;
-    ae_obj_init(position->tail, AE_CONS____);
+    position->tail = NEW_AE_OBJ(AE_CONS____);
     position->tail->head = obj;
   }
   else {
