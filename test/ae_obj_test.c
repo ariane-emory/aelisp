@@ -10,7 +10,8 @@
   ae_obj_t * this = ALLOC_AE_OBJ; \
   ae_obj_t * that = ALLOC_AE_OBJ; \
   size_t counter = 1;             \
-  (void)counter;
+  (void)counter;                  \
+  (void)that;
 
 void test_newly_allocated_ae_obj_is_inside_pool(void)
 {
