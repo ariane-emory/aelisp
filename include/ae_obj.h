@@ -41,6 +41,13 @@ typedef char * ae_string_t;
   DO(AE_STRING__)                                                                                                                           \
   DO(AE_SYMBOL__)                                                                                                                             
 
+#define enum_node(x) x,
+
+typedef enum {
+  AE_FREE____ = 0,
+  FOR_LEXED_TYPES_DO(enum_node)
+} ae_type_t;
+
 #define INTEGERP(o)         ((o)->type == AE_INTEGER_)
 #define INVALIDP(o)         ((o)->type == AE_INVALID_)
 #define CHARP(o)            ((o)->type == AE_CHAR____)
@@ -65,13 +72,6 @@ typedef char * ae_string_t;
 #define ASSERT_INFP(o)      (assert(INFP(o)))
 #define ASSERT_STRINGP(o)   (assert(STRINGP(o)))
 #define ASSERT_SYMBOLP(o)   (assert(SYMBOLP(o)))
-
-#define enum_node(x) x,
-
-typedef enum {
-  AE_FREE____ = 0,
-  FOR_LEXED_TYPES_DO(enum_node)
-} ae_type_t;
 
 const char * ae_type_str(const ae_type_t this);
 
