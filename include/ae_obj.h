@@ -57,7 +57,7 @@ typedef char * ae_string_t;
 #define ASSERT_INVALIDP(o)  (assert(INVALIDP(o)))
 #define ASSERT_CHARP(o)     (assert(CHARP(o)))
 #define ASSERT_FLOATP(o)    (assert(FLOATP(o)))
-#define ASSERT_CONSP(o)     (assert(CONSP(o)))
+#define ASSERT_CONSP(o)     (assert((!(o)) || CONSP(o)))
 #define ASSERT_LPARENP(o)   (assert(LPARENP(o)))
 #define ASSERT_RPARENP(o)   (assert(RPARENP(o)))
 #define ASSERT_QUOTEP(o)    (assert(QUOTEP(o)))

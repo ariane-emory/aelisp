@@ -7,18 +7,22 @@
 
 static char * zero  = "Zero";
 static char * one   = "One";
-static char * two   = "Two";
+static char * two   = "Twenty Four";
 static char * three = "Three";
 
 ae_obj_t * map_fun(const ae_obj_t * const obj) {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
   ae_obj_init(new_obj, AE_INTEGER_);
   
+  printf("Measuring \"%s\".\n", obj->str_value);
   new_obj->int_value = strlen(obj->str_value);
-    
+
+  printf("Set ");
+  ae_obj_put(new_obj);
+  putchar('\n');
+  
   return new_obj;
 }
-
 
 void describe(ae_obj_t * ae_obj_p) {
   ae_obj_t * ae_obj = ae_obj_p;
