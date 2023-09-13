@@ -107,7 +107,7 @@ typedef struct ae_obj_t {
 // Obj's methods
 //------------------------------------------------------------------------------
 
-void          ae_obj_init        (      ae_obj_t * const this,  ae_type_t type);
+ae_obj_t *    ae_obj_init        (      ae_obj_t * const this,  ae_type_t type);
 void          ae_obj_unsafe_move (      ae_obj_t * const this,  ae_obj_t * const that);
 ae_obj_t *    ae_obj_clone       (const ae_obj_t * const this);
 
