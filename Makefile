@@ -21,20 +21,21 @@ STRICTER_CFLAGS = \
 	-Wno-format \
 	-DNOISY_INIT
 
-GDB       = gdb
-OBJDUMP   = objdump
-LEX       = flex
-YACC      = bison
-SRCS       = $(shell find src  -name "*.c")
-TEST_SRCS  = $(shell find test -name "*.c")
-TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRCS)), bin/$(test_bin))
-OBJS       = $(patsubst src/%.c, obj/%.o, $(SRCS))
-
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
   CC  = gcc-13
 	GDB = lldb
 endif
+
+GDB       = gdb
+OBJDUMP   = objdump
+LEX       = flex
+YACC      = bison
+
+SRCS      = $(shell find src  -name "*.c")
+OBJS      = $(patsubst src/%.c, obj/%.o, $(SRCS))
+TEST_SRCS = $(shell find test -name "*.c")
+TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRCS)), bin/$(test_bin))
 
 ################################################################################
 # Targets
