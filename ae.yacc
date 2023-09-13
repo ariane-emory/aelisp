@@ -17,8 +17,9 @@
 #define RSQR    putchar(']')
 #define OBJ(x)  ae_obj_put(x)
 
-  ae_obj_t * root = 0;
-
+  ae_obj_t * root    = 0;
+  ae_obj_t * symbols = 0;
+  
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int yywrap() { return 1; }
 
@@ -54,6 +55,8 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
+    symbols = NEW_AE_OBJ(AE_CONS____);
+    
     putchar('\n');
 
 #define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
@@ -148,9 +151,18 @@ sexp: list | atom
 
 sexps:
 sexps sexp {
-  ae_obj_t * new_obj = ALLOC_AE_OBJ;
-  ae_obj_unsafe_move(new_obj, &$2);
-  ae_obj_push_back(&$$, new_obj);
+
+  if (SYMBOLP(&$2)) {
+    printf("Interning '%s'...\n", $2.sym_value);
+    fflush(stdout);
+    ae_obj_push_back(&$$, c_str_intern($2.sym_value, &symbols));
+  }
+  else {
+    ae_obj_t * new_obj = ALLOC_AE_OBJ;
+    ae_obj_unsafe_move(new_obj, &$2);
+    ae_obj_push_back(&$$, new_obj);
+  }
+  
 }
 | {
   memset(&$$, 0, sizeof($$));
