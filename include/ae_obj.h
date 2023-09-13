@@ -134,7 +134,7 @@ ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head, ae_obj_t * const 
 // Intern
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** symbols_list);
+ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list);
 
 ////////////////////////////////////////////////////////////////////////////////
 // convenience macros

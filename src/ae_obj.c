@@ -369,18 +369,19 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** symbols_list) {
-   ae_obj_t * cell = *symbols_list;
+ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
+   ae_obj_t * cons = *sym_list;
 
-   for (; cell; cell = CDR(cell))
-     if (strcmp(c_str, CAR(cell)->sym_value) == 0)
-       return CAR(cell);
+   for (; cons; cons = CDR(cons))
+     if (strcmp(c_str, CAR(cons)->sym_value) == 0)
+       return CAR(cons);
 
    ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
+   sym->sym_value = strdup(c_str);
    
-   *symbols_list = CONS(sym, *symbols_list);
+   *sym_list = CONS(sym, *sym_list);
 
-   return CAR((*symbols_list));
+   return CAR((*sym_list));
  }
 
 // nicro-lisp's version:
