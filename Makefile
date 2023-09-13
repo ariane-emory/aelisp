@@ -35,7 +35,7 @@ ifeq ($(UNAME_S),Darwin)
 	GDB = lldb
 endif
 
-all:: bin/$(BIN) bin/$(BIN2)
+all:: bin/$(BIN) bin/$(BIN2) bin/test/ae_obj_test
 
 tmp/%.lex.c: %.lex tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
@@ -74,6 +74,7 @@ clean::
 test: clean all
 	./bin/$(BIN) | tee out
 	./bin/$(BIN2)
+	./bin/test/ae_obj_test
 
 test2: clean all
 	./$(BIN2)
