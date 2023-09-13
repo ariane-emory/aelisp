@@ -34,7 +34,7 @@
       yylval.sym_value = malloc(strlen(yytext) + 1);
       yylval.sym_value = strdup(yytext);
       break;
-    case AE_CHAR:
+    case AE_CHAR____:
       yylval.char_value = 0;
 
       char * tmp = 0;
@@ -70,7 +70,7 @@
     case AE_INTEGER:
       yylval.int_value = atoi(yytext);
       break;
-    case AE_FLOAT:
+    case AE_FLOAT___:
       yylval.float_value = strtod(yytext, 0);
       break;
     case AE_RATIONAL:
@@ -92,7 +92,7 @@
     case AE_QUOTE___:
     case AE_LPAREN__:
     case AE_RPAREN__:
-    case AE_LIST:
+    case AE_LIST____:
       break;
     default:
       printf("Tokenized something unrecognizable!\n");
@@ -105,7 +105,7 @@
 
 %%
 ∞                                                                  TOKENIZE(INF,      AE_INF_____     );
-nil                                                                 TOKENIZE(LIST,     AE_LIST    );
+nil                                                                 TOKENIZE(LIST,     AE_LIST____    );
 \'                                                                  TOKENIZE(QUOTE,    AE_QUOTE___   );
 \(                                                                  TOKENIZE(LPAREN,   AE_LPAREN__  );
 \)                                                                  TOKENIZE(RPAREN,   AE_RPAREN__  );                                                                
@@ -113,10 +113,10 @@ nil                                                                 TOKENIZE(LIS
 '[^']'       |
 '\\.'        | 
 \?\\\\.      |
-\?\\.                                                               TOKENIZE(CHAR,     AE_CHAR    );
+\?\\.                                                               TOKENIZE(CHAR,     AE_CHAR____    );
 [-+]?[0-9]+                                                         TOKENIZE(INTEGER,  AE_INTEGER );
 [-+]?[0-9]+\.[0-9]* |
-[-+]?[0-9]*\.[0-9]+                                                 TOKENIZE(FLOAT,    AE_FLOAT   );
+[-+]?[0-9]*\.[0-9]+                                                 TOKENIZE(FLOAT,    AE_FLOAT___   );
 [-+]?[0-9]+\/[0-9]+                                                 TOKENIZE(RATIONAL, AE_RATIONAL);
 [\+\-\/\*]                                                          TOKENIZE(MATHOP,   AE_SYMBOL__  );
 ([1-9][0-9]+)?[\+\-\/\*]                                            TOKENIZE(INCROP,   AE_SYMBOL__  );

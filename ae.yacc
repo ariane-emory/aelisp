@@ -31,7 +31,7 @@
     OBJ(this);
     NL;
     
-    if (this->type == AE_LIST && this->head) {
+    if (this->type == AE_LIST____ && this->head) {
       ++indent;
       ae_obj_each(this, describe);
       --indent;
@@ -85,7 +85,7 @@
     NL;
     NL;
     puts("Describing items in program.");
-    if (program_obj->type == AE_LIST && program_obj->head)
+    if (program_obj->type == AE_LIST____ && program_obj->head)
       ae_obj_each(program_obj, describe);
     puts("Described items in program.");
     NL;
@@ -94,7 +94,7 @@
     puts("\nWrote program obj.");
     NL;
     puts("Writing items in program obj.");
-    if (program_obj->type == AE_LIST && program_obj->head)
+    if (program_obj->type == AE_LIST____ && program_obj->head)
       ae_obj_each(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
@@ -137,7 +137,7 @@ LPAREN sexps RPAREN { $$ = $2; };
   printf("Initting $$ (a)  <%p>\n", &$$);
 #endif  
 
-  ae_obj_init(&$$, AE_LIST);
+  ae_obj_init(&$$, AE_LIST____);
 
 #ifdef NOISY_INIT
   printf("Initted $$ (a)   <%p>\n\n", &$$);
@@ -159,7 +159,7 @@ sexps sexp {
   printf("Initting $$ (b)  <%p>\n", &$$);
 #endif
 
-  ae_obj_init(&$$, AE_LIST);
+  ae_obj_init(&$$, AE_LIST____);
 
 #ifdef NOISY_INIT
   printf("Initted $$ (b)   <%p>\n\n", &$$);

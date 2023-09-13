@@ -30,9 +30,9 @@ typedef char * ae_string_t;
 #define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
   DO(AE_INTEGER)                                                                                                                            \
   DO(AE_INVALID)                                                                                                                            \
-  DO(AE_CHAR)                                                                                                                               \
-  DO(AE_FLOAT)                                                                                                                              \
-  DO(AE_LIST)                                                                                                                               \
+  DO(AE_CHAR____)                                                                                                                               \
+  DO(AE_FLOAT___)                                                                                                                              \
+  DO(AE_LIST____)                                                                                                                               \
   DO(AE_LPAREN__)                                                                                                                              \
   DO(AE_RPAREN__)                                                                                                                              \
   DO(AE_QUOTE___)                                                                                                                              \
@@ -96,7 +96,7 @@ void          ae_obj_put_bytes   (const ae_obj_t * const this);
 void          ae_obj_fwrite      (const ae_obj_t * const this,  FILE * stream);
 void          ae_obj_write       (const ae_obj_t * const this);
 
-// For AE_LISTs:
+// For AE_LIST____s:
 size_t        ae_obj_length      (const ae_obj_t * const this);
 void          ae_obj_push_back   (      ae_obj_t * const this, ae_obj_t * const obj);
 void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun fun);

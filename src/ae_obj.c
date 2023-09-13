@@ -98,7 +98,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     clone->sym_value = malloc(strlen(this->sym_value) + 1);
     strcpy(clone->sym_value, this->sym_value);
     break;
-  case AE_LIST:
+  case AE_LIST____:
     clone->head = 0;
     clone->tail = 0;
     if (!this->head)
@@ -138,7 +138,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INVALID:
   case AE_FREE:
     BSPC; BSPC; RPAR; return;
-  case AE_LIST:
+  case AE_LIST____:
     if (! this->head)
       fputs("nil", stream);
     else if (! this->tail)
@@ -154,8 +154,8 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     break;
   case AE_SYMBOL__:
   case AE_STRING__:
-  case AE_CHAR:
-  case AE_FLOAT:
+  case AE_CHAR____:
+  case AE_FLOAT___:
   case AE_INF_____:
   case AE_INTEGER:
   case AE_RATIONAL:
@@ -215,8 +215,8 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
     fputs("∞", stream);
     break;
-  case AE_LIST:
-    if (this->type == AE_LIST && this->head) {
+  case AE_LIST____:
+    if (this->type == AE_LIST____ && this->head) {
       LPAR;
       ae_obj_each((ae_obj_t *)this, (ae_obj_each_fun)ae_obj_write);
       BSPC;
@@ -244,10 +244,10 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   case AE_RATIONAL:
     fprintf(stream, "%d/%d", this->numerator_value, this->denominator_value);
     break;
-  case AE_FLOAT:
+  case AE_FLOAT___:
     fprintf(stream, "%g", this->float_value);
     break;
-  case AE_CHAR:
+  case AE_CHAR____:
   {
     char tmp[3] = { 0 };
 
@@ -301,7 +301,7 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 
 ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
   ae_obj_t * node = ALLOC_AE_OBJ;
-  ae_obj_init(node, AE_LIST);
+  ae_obj_init(node, AE_LIST____);
   node->head = obj;
   return node;
 }
@@ -317,7 +317,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
     position->tail = ALLOC_AE_OBJ;
-    ae_obj_init(position->tail, AE_LIST);
+    ae_obj_init(position->tail, AE_LIST____);
     position->tail->head = obj;
   }
   else {
