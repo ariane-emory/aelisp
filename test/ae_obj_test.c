@@ -28,8 +28,13 @@ void test_newly_initialized_ae_obj_has_correct_type_field(void) {
   FOR_LEXED_TYPES_DO(test_init);
 }
 
+#define FOR_TEST_FUNS_DO(X)                                                                                                                 \
+  X(test_newly_allocated_ae_obj_is_inside_pool)                                                                                             \
+  X(test_newly_initialized_ae_obj_has_correct_type_field)
+
+#define pair(fun) { #fun, fun },
+
 TEST_LIST = {
-  { "test_newly_allocated_ae_obj_is_inside_pool",           test_newly_allocated_ae_obj_is_inside_pool },
-  { "test_newly_initialized_ae_obj_has_correct_type_field", test_newly_initialized_ae_obj_has_correct_type_field },
+  FOR_TEST_FUNS_DO(pair)
   { NULL, NULL }
 };
