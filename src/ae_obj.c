@@ -372,7 +372,12 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
    ae_obj_t * cons = *sym_list;
 
-   fputs("Interning in     ", stdout);
+   printf("Interning %s in ", c_str);
+   ae_obj_put(*sym_list);
+   putchar(' ');
+   ae_obj_write(*sym_list);
+   putchar('\n');
+
    ae_obj_put(*sym_list);
    /* fputs(": ", stdout); */
    /* ae_obj_write(*sym_list); */
@@ -380,7 +385,7 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
    fflush(stdout);
    
    for (; CDR(cons); cons = CDR(cons)) {
-     fputs("Looking at   ", stdout);
+     fputs("Interning looking at   ", stdout);
      ae_obj_put(cons);
      putchar('\n');
      fflush(stdout);
