@@ -65,7 +65,7 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 #endif
 
   memcpy(this, that, sizeof(ae_obj_t));
-  ae_obj_init(that, AE_INVALID);
+  ae_obj_init(that, AE_FREE); // AE_INVALID);
 
 #ifdef NOISY_INIT
   fputs("Moved            ", stdout);
@@ -129,8 +129,8 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "%p(%s, ", this, ae_type_str(this->type));
-  // fprintf(stream, "<%p>(%s, ", this, ae_type_str(this->type));
+  fprintf(stream, "%011p(%s, ", this, ae_type_str(this->type));
+  // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(this->type));
   
   switch (this->type) {
   case AE_LPAREN:
@@ -139,18 +139,24 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_FREE:
     BSPC; BSPC; RPAR; return;
   case AE_LIST:
-    if (this->head)
-      fprintf(stream, "length %d, %p, %p",
+    if (! this->head)
+      fputs("nil", stream);
+    else if (! this->tail)
+      fprintf(stream, "length %d, %011p, %p",
               ae_obj_length(this),
               this->head,
               this->tail);
     else
-      fputs("nil", stream);
+      fprintf(stream, "length %d, %011p, %011p",
+              ae_obj_length(this),
+              this->head,
+              this->tail);    
     break;
   case AE_SYMBOL:
   case AE_STRING:
   case AE_CHAR:
   case AE_FLOAT:
+  case AE_INF:
   case AE_INTEGER:
   case AE_RATIONAL:
     ae_obj_fwrite(this, stream);
@@ -334,19 +340,19 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 ae_obj_t pool[POOL_SIZE] = { 0 };
 
 ae_obj_t * pool_alloc_ae_obj() {
-  for (size_t ix = 0; ix < POOL_SIZE; ix++) {
+  for (int ix = POOL_SIZE - 1; ix >= 0; ix--) {
     ae_obj_t * obj = &pool[ix];
 
     if (obj->type != AE_FREE)
       continue;
     
-#ifdef NOISY_INIT
-  fputs("Allocating       ", stdout);
-  ae_obj_put(obj);
-  putchar('\n');
-#endif
+// #ifdef NOISY_INIT
+//   fputs("Allocating       ", stdout);
+//   ae_obj_put(obj);
+//   putchar('\n');
+// #endif
 
-  ae_obj_init(obj, AE_INVALID);
+// ae_obj_init(obj, AE_INVALID);
       
 #ifdef NOISY_INIT
   fputs("Allocated        ", stdout);
