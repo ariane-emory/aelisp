@@ -3,8 +3,14 @@
 #include "ae_obj.h"
 #include "acutest.h"
 
-#define SETUP_TEST pool_clear(); ae_obj_t * this = ALLOC_AE_OBJ; size_t counter = 1; (void)counter;
 #define FAIL TEST_CHECK(0)
+
+#define SETUP_TEST                \
+  pool_clear();                   \
+  ae_obj_t * this = ALLOC_AE_OBJ; \
+  ae_obj_t * that = ALLOC_AE_OBJ; \
+  size_t counter = 1;             \
+  (void)counter;
 
 void test_newly_allocated_ae_obj_is_inside_pool(void)
 {
@@ -14,7 +20,7 @@ void test_newly_allocated_ae_obj_is_inside_pool(void)
 }
 
 void test_newly_initialized_ae_obj_has_correct_type_field(void) {
-#define test(_type)                                                                                                                    \
+#define test(_type)                                                                                                                         \
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
     ae_obj_init(this, _type);                                                                                                               \
