@@ -59,11 +59,8 @@ bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 bin/$(BIN2): $(BIN2).c obj/ae_obj.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
-clean::
-	rm -rf bin obj tmp
-
 test: clean all
-	./bin/$(BIN) | tee out
+	./bin/$(BIN)
 	./bin/$(BIN2)
 	./bin/test/ae_obj_test
 
@@ -85,3 +82,11 @@ bin:
 
 bin/test:
 	mkdir -p $@
+
+################################################################################
+# Clean
+################################################################################
+
+clean::
+	rm -rf bin obj tmp
+
