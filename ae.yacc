@@ -71,7 +71,7 @@
     yyin = fp;
     yyparse();
 
-    printf("\nroot:            ");
+    printf("root:            ");
     ae_obj_put(root);
     NL;
     NL;
@@ -97,7 +97,19 @@
     if (program_obj->type == AE_LIST && program_obj->head)
       ae_obj_each(program_obj, do_write);
     puts("Wrote items in program obj.");
-    NL;    
+    NL;
+
+#define   PRINT_POOL
+    
+#ifdef    PRINT_POOL
+    puts("Printing pool contents.");
+    for (size_t ix = 0; ix < POOL_SIZE; ix++) {
+      printf("# %5d: ", ix); 
+      ae_obj_put(&pool[ix]);
+      putchar('\n');
+    }
+    puts("Printed pool contents.");
+#endif // PRINT_POOL
   }
 
   //////////////////////////////////////////////////////////////////////////////

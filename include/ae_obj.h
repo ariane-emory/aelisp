@@ -106,7 +106,7 @@ ae_obj_t *    ae_obj_map         (      ae_obj_t * const this, ae_obj_map_fun fu
 // pool
 ////////////////////////////////////////////////////////////////////////////////
 
-#define POOL_SIZE (1 << 12)
+#define POOL_SIZE (1 << 7)
 
 #ifdef POOL_SIZE
 #  define ALLOC_AE_OBJ pool_alloc_ae_obj()
