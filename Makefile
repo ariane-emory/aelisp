@@ -21,13 +21,14 @@ STRICTER_CFLAGS = \
 	-Wno-format \
 	-DNOISY_INIT
 
-GDB      = gdb
-OBJDUMP  = objdump
-LEX      = flex
-YACC     = bison
-SRC      = $(shell find src  -name "*.c")
-TEST_SRC = $(shell find test -name "*.c")
-OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
+GDB       = gdb
+OBJDUMP   = objdump
+LEX       = flex
+YACC      = bison
+SRC       = $(shell find src  -name "*.c")
+TEST_SRC  = $(shell find test -name "*.c")
+TEST_BINS = $(subst .c, , $(TEST_SRC))
+OBJ       = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
