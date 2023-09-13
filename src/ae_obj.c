@@ -86,32 +86,27 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   putchar('\n');
   fflush(stdout);
   
-  ae_obj_t * clone = ALLOC_AE_OBJ;
-  memcpy(clone, this, sizeof(ae_obj_t));
+  ae_obj_t * clone = 0;
 
   switch (this->type) {
   case AE_STRING__:
+    clone = ALLOC_AE_OBJ;
+    memcpy(clone, this, sizeof(ae_obj_t));
     clone->str_value = malloc(strlen(this->str_value) + 1);
     strcpy(clone->str_value, this->str_value);
     break;
   case AE_SYMBOL__:
+    clone = ALLOC_AE_OBJ;
+    memcpy(clone, this, sizeof(ae_obj_t));
     clone->sym_value = malloc(strlen(this->sym_value) + 1);
     strcpy(clone->sym_value, this->sym_value);
     break;
   case AE_CONS____:
-    clone->head = 0;
-    clone->tail = 0;
-    if (!this->head)
-      return clone;
-    for (ae_obj_t * position = (ae_obj_t *)this;
-         position;
-         position = position->tail) {
-      ae_obj_t * clone_of_obj_in_list = ae_obj_clone(position->head);
-      ae_obj_push_back(clone, clone_of_obj_in_list);
-    }
+    clone = ae_obj_map(this, ae_obj_clone);
     break;
   default:
-    (void)0; // do nothing special for this type.
+    clone = ALLOC_AE_OBJ;
+    memcpy(clone, this, sizeof(ae_obj_t));
   }
   
   fputs("Cloned           ", stdout);
