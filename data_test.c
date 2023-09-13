@@ -1,13 +1,24 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <inttypes.h>
 
 #include "ae_obj.h"
 
-static char * zero  = "Zer";
+static char * zero  = "Zero";
 static char * one   = "One";
 static char * two   = "Two";
-static char * three = "Thr";
+static char * three = "Three";
+
+ae_obj_t * map_fun(const ae_obj_t * const obj) {
+  ae_obj_t * new_obj = ALLOC_AE_OBJ;
+  ae_obj_init(new_obj, AE_INTEGER_);
+  
+  new_obj->int_value = strlen(obj->str_value);
+    
+  return new_obj;
+}
+
 
 void describe(ae_obj_t * ae_obj_p) {
   ae_obj_t * ae_obj = ae_obj_p;
@@ -77,11 +88,20 @@ int main() {
   if (clone->type == AE_CONS____ && clone->head)
     ae_obj_each(clone, describe);
 
-  puts("Done printing clone.");
+  puts("Done printing clone.\n");
 
-  extern ae_obj_t pool[POOL_SIZE];
+  ae_obj_t * mapped = ae_obj_map(clone, map_fun);
+  
+  puts("\nPrinting mapped.");
+
+  if (mapped->type == AE_CONS____ && mapped->head)
+    ae_obj_each(mapped, describe);
+
+  puts("Done printing mapped.");
 
   return 0;
+
+  extern ae_obj_t pool[POOL_SIZE];
 
   puts("\nPrinting pool contents.");
   for (size_t ix = 0; ix < POOL_SIZE; ix++) {
