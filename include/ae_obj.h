@@ -166,3 +166,4 @@ void       pool_free_ae_obj(ae_obj_t * const this);
 #define NEW_AE_OBJ(type) ae_obj_init(ALLOC_AE_OBJ, type)
 
 void pool_print(void);
+void pool_clear(void);

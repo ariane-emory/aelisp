@@ -446,3 +446,16 @@ void pool_print(void) {
   }
   puts("Printed pool contents.");
 }
+
+void pool_clear(void) {
+#ifdef NOISY_INIT
+  puts("\nClearing pool contents.");
+#endif
+
+  for (size_t ix = 0; ix < POOL_SIZE; ix++)
+    pool_free_ae_obj(&pool[ix]);
+
+#ifdef NOISY_INIT
+  puts("Cleared pool contents.");
+#endif
+}
