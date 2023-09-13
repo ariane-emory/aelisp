@@ -56,8 +56,8 @@ bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(YACC_LEX_CFLAGS)
 
-bin/data_test: data_test.c obj/ae_obj.o
-	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
+bin/data_test: obj/ae_obj.o
+	$(CC) -o $@ $(patsubst bin/%, %.c, $@) $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
 ################################################################################
 # Lexer/parser
