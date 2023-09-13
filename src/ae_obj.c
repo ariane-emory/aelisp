@@ -159,7 +159,9 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
   case AE_INTEGER_:
   case AE_RATIONAL:
-    fputc(' ', stream);
+    SPC;
+    SPC;
+    SPC;
     ae_obj_fwrite(this, stream);
     BSPC;
     break;
@@ -346,14 +348,6 @@ ae_obj_t * pool_alloc_ae_obj() {
 
     if (obj->type != AE_FREE____)
       continue;
-    
-// #ifdef NOISY_INIT
-//   fputs("Allocating       ", stdout);
-//   ae_obj_put(obj);
-//   putchar('\n');
-// #endif
-
-// ae_obj_init(obj, AE_INVALID_);
       
 #ifdef NOISY_INIT
   fputs("Allocated        ", stdout);
