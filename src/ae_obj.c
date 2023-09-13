@@ -282,12 +282,16 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 ////////////////////////////////////////////////////////////////////////////////
 
 size_t ae_obj_length(const ae_obj_t * const this) {
+  ASSERT_CONSP(this);
+  
   size_t length = 0;
   for (const ae_obj_t * position = this; position; position = position->tail, length++);
   return length;
 }
 
 void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
+  ASSERT_CONSP(this);
+
   for (const ae_obj_t * position = this; position; position = position->tail)
     fun(position->head);
 }
@@ -308,6 +312,8 @@ ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
 }
 
 void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
+  ASSERT_CONSP(this);
+ 
   fputs("Pushing          ", stdout);
   ae_obj_put(obj);
   fputs(" into ", stdout);
@@ -339,7 +345,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  assert(tail->type == AE_CONS____);
+  ASSERT_CONSP(tail);
   
   ae_obj_t * new_list = ALLOC_AE_OBJ;
   ae_obj_init(new_list, AE_CONS____);
