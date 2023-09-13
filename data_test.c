@@ -72,7 +72,9 @@ int main() {
   puts("Done printing clone.");
 
   extern ae_obj_t pool[POOL_SIZE];
-  
+
+  return 0;
+
   puts("\nPrinting pool contents.");
   for (size_t ix = 0; ix < POOL_SIZE; ix++) {
     printf("# %5d: ", ix); 
