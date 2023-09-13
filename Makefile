@@ -67,9 +67,6 @@ test: clean all
 	./bin/$(BIN2)
 	./bin/test/ae_obj_test
 
-test2: clean all
-	./$(BIN2)
-
 debug: clean all
 	$(GDB) ./bin/$(BIN)
 
