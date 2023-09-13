@@ -41,15 +41,6 @@ endif
 
 all:: bin/ae bin/data_test bin/test/ae_obj_test
 
-tmp/%.lex.c: %.lex tmp/%.tab.c tmp
-	$(LEX) -o $@ $<
-
-tmp/%.lex.c: %.lex tmp
-	$(LEX) -o $@ $<
-
-tmp/%.tab.c: %.yacc tmp
-	$(YACC) -d $< -o $@
-
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
 
@@ -70,6 +61,19 @@ test: clean all
 
 debug: clean all
 	$(GDB) ./bin/ae
+
+################################################################################
+# Lexer/parser
+################################################################################
+
+tmp/%.lex.c: %.lex tmp/%.tab.c tmp
+	$(LEX) -o $@ $<
+
+tmp/%.lex.c: %.lex tmp
+	$(LEX) -o $@ $<
+
+tmp/%.tab.c: %.yacc tmp
+	$(YACC) -d $< -o $@
 
 ################################################################################
 # Directories
