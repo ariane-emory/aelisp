@@ -103,7 +103,7 @@
     NL;
     puts("Writing symbols in program.");
     ae_obj_write(symbols);
-    puts("Wrote symbols in program.");
+    puts("\nWrote symbols in program.");
     NL;
 
 #define   PRINT_POOL
