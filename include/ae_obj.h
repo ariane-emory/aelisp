@@ -125,7 +125,7 @@ void          ae_obj_write       (const ae_obj_t * const this);
 size_t        ae_obj_length      (const ae_obj_t * const this);
 void          ae_obj_push_back   (      ae_obj_t * const this, ae_obj_t * const obj);
 void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun fun);
-ae_obj_t *    ae_obj_map         (      ae_obj_t * const this, ae_obj_map_fun fun);
+ae_obj_t *    ae_obj_map         (const ae_obj_t * const this, ae_obj_map_fun fun);
 
 // This returns a new obj:
 ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head, ae_obj_t * const tail);

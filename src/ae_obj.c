@@ -299,10 +299,10 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 // ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
 // }
 
-ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
+ae_obj_t * ae_obj_map(const ae_obj_t * const this, ae_obj_map_fun fun) {
   return this
     ? ae_obj_cons(fun(this->head), ae_obj_map(this->tail, fun))
-    : this;
+    : 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
