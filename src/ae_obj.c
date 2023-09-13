@@ -299,17 +299,37 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 // ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
 // }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// _create
+////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
+  ae_obj_t * new_list = ALLOC_AE_OBJ;
+  ae_obj_init(new_list, AE_CONS____);
+
+  new_list->head = obj;
+
+  return new_list;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// _cons
+////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
+  ASSERT_CONSP(tail);
+  
+  ae_obj_t * new_list = ae_obj_create(head);
+
+  new_list->tail = tail;
+
+  return new_list;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // _push_back
 ////////////////////////////////////////////////////////////////////////////////
-
-
-ae_obj_t * ae_obj_create(ae_obj_t * const obj) {
-  ae_obj_t * node = ALLOC_AE_OBJ;
-  ae_obj_init(node, AE_CONS____);
-  node->head = obj;
-  return node;
-}
 
 void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   ASSERT_CONSP(this);
@@ -337,23 +357,6 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   ae_obj_put(this);
   putchar('\n');
   putchar('\n');
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// _cons
-////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  ASSERT_CONSP(tail);
-  
-  ae_obj_t * new_list = ALLOC_AE_OBJ;
-  ae_obj_init(new_list, AE_CONS____);
-
-  new_list->head = head;
-  new_list->tail = tail;
-
-  return new_list;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
