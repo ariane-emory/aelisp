@@ -16,11 +16,11 @@ void test_newly_allocated_ae_obj_is_inside_pool(void)
 
 void test_newly_initialized_ae_obj_has_correct_type_field(void) {
 
-#define test_init(_type)                                                                                                                     \
+#define test_init(_type)                                                                                                                    \
   {                                                                                                                                         \
     DECL_OBJ;                                                                                                                               \
-    ae_obj_init(this, _type);                                                                                                                 \
-    TEST_CHECK(this->type == _type);                                                                                                          \
+    ae_obj_init(this, _type);                                                                                                               \
+    TEST_CHECK(this->type == _type);                                                                                                        \
     FAIL;                                                                                                                                   \
     TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type);                                                                   \
   }
