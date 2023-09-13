@@ -1,5 +1,6 @@
 UNAME_S      = $(shell uname -s)
-CFLAGS       = \
+
+YACC_LEX_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I. \
@@ -54,7 +55,7 @@ obj/%.o: src/%.c obj
 
 bin/$(BIN): tmp/$(BIN).lex.c tmp/$(BIN).tab.c $(OBJ)
 	mkdir -p ./bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(YACC_LEX_CFLAGS)
 
 bin/$(BIN2): $(BIN2).c obj/ae_obj.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
