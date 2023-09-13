@@ -52,6 +52,12 @@ tmp:
 obj:
 	mkdir -p $@
 
+bin/test:
+	mkdir -p $@
+
+bin/test/%: bin/test
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
+
 obj/%.o: src/%.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
 
