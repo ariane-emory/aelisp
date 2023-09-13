@@ -7,10 +7,10 @@
 
 static char * zero  = "Zero";
 static char * one   = "One";
-static char * two   = "Twenty Four";
+static char * two   = "Two";
 static char * three = "Three";
 
-ae_obj_t * map_fun(const ae_obj_t * const obj) {
+ae_obj_t * map_fun_strlen(const ae_obj_t * const obj) {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
   ae_obj_init(new_obj, AE_INTEGER_);
   
@@ -22,6 +22,10 @@ ae_obj_t * map_fun(const ae_obj_t * const obj) {
   putchar('\n');
   
   return new_obj;
+}
+
+ae_obj_t * map_fun_clone(const ae_obj_t * const obj) {
+  return ae_obj_clone(obj);
 }
 
 void describe(ae_obj_t * ae_obj_p) {
@@ -94,7 +98,9 @@ int main() {
 
   puts("Done printing clone.\n");
 
-  ae_obj_t * mapped = ae_obj_map(clone, map_fun);
+  ae_obj_t * mapped = ae_obj_map(clone, map_fun_clone);
+
+  // ae_obj_t * mapped = ae_obj_map(list, map_fun_clone);
   
   puts("\nPrinting mapped.");
 

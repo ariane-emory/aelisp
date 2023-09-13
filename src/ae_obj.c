@@ -289,11 +289,23 @@ size_t ae_obj_length(const ae_obj_t * const this) {
   return length;
 }
 
+// #define   AE_OBJ_EACH_RECURSES
+
 void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
+#ifdef    AE_OBJ_EACH_RECURSES
+  if (! this) return;
+
+  ASSERT_CONSP(this);
+
+  fun(this->head);
+
+  ae_obj_each(this->tail, fun);
+#else  // AE_OBJ_EACH_RECURSES
   ASSERT_CONSP(this);
 
   for (const ae_obj_t * position = this; position; position = position->tail)
     fun(position->head);
+#endif // AE_OBJ_EACH_RECURSES
 }
 
 ae_obj_t * ae_obj_map(const ae_obj_t * const this, ae_obj_map_fun fun) {
