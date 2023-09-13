@@ -90,11 +90,11 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   memcpy(clone, this, sizeof(ae_obj_t));
 
   switch (this->type) {
-  case AE_STRING:
+  case AE_STRING__:
     clone->str_value = malloc(strlen(this->str_value) + 1);
     strcpy(clone->str_value, this->str_value);
     break;
-  case AE_SYMBOL:
+  case AE_SYMBOL__:
     clone->sym_value = malloc(strlen(this->sym_value) + 1);
     strcpy(clone->sym_value, this->sym_value);
     break;
@@ -133,8 +133,8 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(this->type));
   
   switch (this->type) {
-  case AE_LPAREN:
-  case AE_RPAREN:
+  case AE_LPAREN__:
+  case AE_RPAREN__:
   case AE_INVALID:
   case AE_FREE:
     BSPC; BSPC; RPAR; return;
@@ -152,11 +152,11 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
               this->head,
               this->tail);    
     break;
-  case AE_SYMBOL:
-  case AE_STRING:
+  case AE_SYMBOL__:
+  case AE_STRING__:
   case AE_CHAR:
   case AE_FLOAT:
-  case AE_INF:
+  case AE_INF_____:
   case AE_INTEGER:
   case AE_RATIONAL:
     ae_obj_fwrite(this, stream);
@@ -212,7 +212,7 @@ void ae_obj_write(const ae_obj_t * const this) {
 
 void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   switch (this->type) {
-  case AE_INF:
+  case AE_INF_____:
     fputs("∞", stream);
     break;
   case AE_LIST:
@@ -225,10 +225,10 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
     else
       fputs("nil", stream);
     break;
-  case AE_SYMBOL:
+  case AE_SYMBOL__:
     fputs(this->sym_value, stream);
     break;
-  case AE_STRING:
+  case AE_STRING__:
     if (this->str_value == 0) {
       fputs("(null)", stream);
     }

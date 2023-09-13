@@ -23,16 +23,16 @@ int main() {
 #endif
 
   ae_obj_t * obj_one = ALLOC_AE_OBJ;
-  ae_obj_init(obj_one, AE_STRING);
+  ae_obj_init(obj_one, AE_STRING__);
   obj_one->str_value = zero;
   ae_obj_t * obj_two = ALLOC_AE_OBJ;
-  ae_obj_init(obj_two, AE_STRING);
+  ae_obj_init(obj_two, AE_STRING__);
   obj_two->str_value = one;
   ae_obj_t * obj_three = ALLOC_AE_OBJ;
-  ae_obj_init(obj_three, AE_STRING);
+  ae_obj_init(obj_three, AE_STRING__);
   obj_three->str_value = two;
   ae_obj_t * obj_four = ALLOC_AE_OBJ;
-  ae_obj_init(obj_four, AE_STRING);
+  ae_obj_init(obj_four, AE_STRING__);
   obj_four->str_value = three;
 
 #ifdef NOISY_INIT

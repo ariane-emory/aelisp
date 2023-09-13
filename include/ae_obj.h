@@ -33,13 +33,13 @@ typedef char * ae_string_t;
   DO(AE_CHAR)                                                                                                                               \
   DO(AE_FLOAT)                                                                                                                              \
   DO(AE_LIST)                                                                                                                               \
-  DO(AE_LPAREN)                                                                                                                              \
-  DO(AE_RPAREN)                                                                                                                              \
-  DO(AE_QUOTE)                                                                                                                              \
+  DO(AE_LPAREN__)                                                                                                                              \
+  DO(AE_RPAREN__)                                                                                                                              \
+  DO(AE_QUOTE___)                                                                                                                              \
   DO(AE_RATIONAL)                                                                                                                           \
-  DO(AE_INF)                                                                                                                                \
-  DO(AE_STRING)                                                                                                                             \
-  DO(AE_SYMBOL)                                                                                                                             
+  DO(AE_INF_____)                                                                                                                                \
+  DO(AE_STRING__)                                                                                                                             \
+  DO(AE_SYMBOL__)                                                                                                                             
 
 #define enum_node(x) x,
 

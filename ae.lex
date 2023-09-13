@@ -26,11 +26,11 @@
 #endif
     
     switch (yylval.type) {
-    case AE_STRING:
+    case AE_STRING__:
       yylval.str_value = malloc(strlen(yytext) - 1);
       strncpy(yylval.str_value, yytext + 1, strlen(yytext) - 2);
       break;
-    case AE_SYMBOL:
+    case AE_SYMBOL__:
       yylval.sym_value = malloc(strlen(yytext) + 1);
       yylval.sym_value = strdup(yytext);
       break;
@@ -88,10 +88,10 @@
       free(tmp2);
       
       break;
-    case AE_INF:
-    case AE_QUOTE:
-    case AE_LPAREN:
-    case AE_RPAREN:
+    case AE_INF_____:
+    case AE_QUOTE___:
+    case AE_LPAREN__:
+    case AE_RPAREN__:
     case AE_LIST:
       break;
     default:
@@ -104,12 +104,12 @@
 %}
 
 %%
-∞                                                                  TOKENIZE(INF,      AE_INF     );
+∞                                                                  TOKENIZE(INF,      AE_INF_____     );
 nil                                                                 TOKENIZE(LIST,     AE_LIST    );
-\'                                                                  TOKENIZE(QUOTE,    AE_QUOTE   );
-\(                                                                  TOKENIZE(LPAREN,   AE_LPAREN  );
-\)                                                                  TOKENIZE(RPAREN,   AE_RPAREN  );                                                                
-\"((\\\")|([^\"]))*\"                                               TOKENIZE(STRING,   AE_STRING  );
+\'                                                                  TOKENIZE(QUOTE,    AE_QUOTE___   );
+\(                                                                  TOKENIZE(LPAREN,   AE_LPAREN__  );
+\)                                                                  TOKENIZE(RPAREN,   AE_RPAREN__  );                                                                
+\"((\\\")|([^\"]))*\"                                               TOKENIZE(STRING,   AE_STRING__  );
 '[^']'       |
 '\\.'        | 
 \?\\\\.      |
@@ -118,10 +118,10 @@ nil                                                                 TOKENIZE(LIS
 [-+]?[0-9]+\.[0-9]* |
 [-+]?[0-9]*\.[0-9]+                                                 TOKENIZE(FLOAT,    AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                 TOKENIZE(RATIONAL, AE_RATIONAL);
-[\+\-\/\*]                                                          TOKENIZE(MATHOP,   AE_SYMBOL  );
-([1-9][0-9]+)?[\+\-\/\*]                                            TOKENIZE(INCROP,   AE_SYMBOL  );
-!?=|(>=?)|(<=?)                                                     TOKENIZE(COMPARE,  AE_SYMBOL  );
-([\-+:&])?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
+[\+\-\/\*]                                                          TOKENIZE(MATHOP,   AE_SYMBOL__  );
+([1-9][0-9]+)?[\+\-\/\*]                                            TOKENIZE(INCROP,   AE_SYMBOL__  );
+!?=|(>=?)|(<=?)                                                     TOKENIZE(COMPARE,  AE_SYMBOL__  );
+([\-+:&])?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL__  );
 [\f\n\t\v\ ]+  ;
 
 %%
