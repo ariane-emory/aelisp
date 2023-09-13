@@ -129,7 +129,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "%011p(%s, ", this, ae_type_str(this->type));
+  fprintf(stream, "%011p(%s ", this, ae_type_str(this->type));
   // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(this->type));
   
   switch (this->type) {
@@ -142,12 +142,12 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     if (! this->head)
       fputs("nil", stream);
     else if (! this->tail)
-      fprintf(stream, "length %d, %011p, %p",
+      fprintf(stream, "%d %011p %p",
               ae_obj_length(this),
               this->head,
               this->tail);
     else
-      fprintf(stream, "length %d, %011p, %011p",
+      fprintf(stream, "%d %011p %011p",
               ae_obj_length(this),
               this->head,
               this->tail);    
