@@ -66,24 +66,14 @@ int main() {
 
   putchar('\n');
     
-  /* ae_obj_t * clone = ae_obj_clone(list); */
-
-  /* ae_obj_t * prepended = ALLOC_AE_OBJ; */
-  /* ae_obj_init(prepended, AE_CONS____); */
-  /* prepended->head = obj_two; */
-  /* prepended->tail = clone; */
-  /* clone = prepended; */
+  ae_obj_t * clone = ae_obj_clone(list);
   
-  /* clone = ae_obj_cons(obj_three, clone); */
-  
-  /* puts("\nPrinting clone."); */
+  puts("\nPrinting clone.");
 
-  /* if (clone->type == AE_CONS____ && clone->head) */
-  /*   ae_obj_each(clone, describe); */
+  if (clone->type == AE_CONS____ && clone->head)
+    ae_obj_each(clone, describe);
 
-  /* puts("Done printing clone.\n"); */
-
-  /* ae_obj_t * mapped = ae_obj_map(clone, map_fun_clone); */
+  puts("Done printing clone.\n");
 
   ae_obj_t * mapped = ae_obj_map(list, map_fun_clone);
   
