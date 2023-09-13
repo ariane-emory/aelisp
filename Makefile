@@ -27,7 +27,7 @@ LEX       = flex
 YACC      = bison
 SRC       = $(shell find src  -name "*.c")
 TEST_SRC  = $(shell find test -name "*.c")
-TEST_BINS = $(subst .c, , $(TEST_SRC))
+TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRC)), bin/$(test_bin))
 OBJ       = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 ifeq ($(UNAME_S),Darwin)
@@ -40,7 +40,7 @@ endif
 # Targets
 ################################################################################
 
-all: bin/ae bin/data_test bin/test/ae_obj_test
+all: bin/ae bin/data_test $(TEST_BINS)
 
 obj/%.o: src/%.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
@@ -58,18 +58,6 @@ bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 
 bin/data_test: data_test.c obj/ae_obj.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
-
-################################################################################
-# Utility targets
-################################################################################
-
-tests: clean all
-	./bin/ae
-	./bin/data_test
-	./bin/test/ae_obj_test
-
-debug: clean all
-	$(GDB) ./bin/ae
 
 ################################################################################
 # Lexer/parser
@@ -99,6 +87,18 @@ bin:
 
 bin/test:
 	mkdir -p $@
+
+################################################################################
+# Utility targets
+################################################################################
+
+tests: clean all
+	./bin/ae
+	./bin/data_test
+	./bin/test/ae_obj_test
+
+debug: clean all
+	$(GDB) ./bin/ae
 
 ################################################################################
 # Clean
