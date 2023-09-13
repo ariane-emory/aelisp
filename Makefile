@@ -25,7 +25,8 @@ GDB      = gdb
 OBJDUMP  = objdump
 LEX      = flex
 YACC     = bison
-SRC      = $(shell find src -name "*.c")
+SRC      = $(shell find src  -name "*.c")
+TEST_SRC = $(shell find test -name "*.c")
 OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
 BIN2     = data_test
 
