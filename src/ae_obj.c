@@ -88,26 +88,27 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   ae_obj_t * clone = 0;
 
+#define CLONE_WITH_MEMCPY clone = ALLOC_AE_OBJ; memcpy(clone, this, sizeof(ae_obj_t))
+#define COPY_C_STR(field) clone->field = malloc(strlen(this->field) + 1); strcpy(clone->field, this->field)
+  
   switch (this->type) {
-  case AE_STRING__:
-    clone = ALLOC_AE_OBJ;
-    memcpy(clone, this, sizeof(ae_obj_t));
-    clone->str_value = malloc(strlen(this->str_value) + 1);
-    strcpy(clone->str_value, this->str_value);
-    break;
-  case AE_SYMBOL__:
-    clone = ALLOC_AE_OBJ;
-    memcpy(clone, this, sizeof(ae_obj_t));
-    clone->sym_value = malloc(strlen(this->sym_value) + 1);
-    strcpy(clone->sym_value, this->sym_value);
-    break;
   case AE_CONS____:
     clone = ae_obj_map(this, ae_obj_clone);
     break;
+  case AE_STRING__:
+    CLONE_WITH_MEMCPY;
+    COPY_C_STR(str_value);
+    break;
+  case AE_SYMBOL__:
+    CLONE_WITH_MEMCPY;
+    COPY_C_STR(sym_value);
+    break;
   default:
-    clone = ALLOC_AE_OBJ;
-    memcpy(clone, this, sizeof(ae_obj_t));
+    CLONE_WITH_MEMCPY;
   }
+
+#undef CLONE_WITH_MEMCPY
+#undef COPY_C_STR
   
   fputs("Cloned           ", stdout);
   ae_obj_put(this);
