@@ -39,7 +39,7 @@ endif
 # Targets
 ################################################################################
 
-all:: bin/ae bin/data_test bin/test/ae_obj_test
+all: bin/ae bin/data_test bin/test/ae_obj_test
 
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
@@ -95,6 +95,6 @@ bin/test:
 # Clean
 ################################################################################
 
-clean::
+clean:
 	rm -rf bin obj tmp
 
