@@ -28,7 +28,6 @@ YACC     = bison
 SRC      = $(shell find src  -name "*.c")
 TEST_SRC = $(shell find test -name "*.c")
 OBJ      = $(patsubst src/%.c, obj/%.o, $(SRC))
-BIN2     = data_test
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
