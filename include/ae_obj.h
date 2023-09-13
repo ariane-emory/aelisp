@@ -44,7 +44,7 @@ typedef char * ae_string_t;
 #define enum_node(x) x,
 
 typedef enum {
-  AE_FREE____ = 0,
+  AE_FREE______ = 0,
   FOR_LEXED_TYPES_DO(enum_node)
 } ae_type_t;
 
