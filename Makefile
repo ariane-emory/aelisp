@@ -25,10 +25,10 @@ GDB       = gdb
 OBJDUMP   = objdump
 LEX       = flex
 YACC      = bison
-SRC       = $(shell find src  -name "*.c")
-TEST_SRC  = $(shell find test -name "*.c")
-TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRC)), bin/$(test_bin))
-OBJS       = $(patsubst src/%.c, obj/%.o, $(SRC))
+SRCS       = $(shell find src  -name "*.c")
+TEST_SRCS  = $(shell find test -name "*.c")
+TEST_BINS = $(foreach test_bin, $(subst .c, , $(TEST_SRCS)), bin/$(test_bin))
+OBJS       = $(patsubst src/%.c, obj/%.o, $(SRCS))
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
