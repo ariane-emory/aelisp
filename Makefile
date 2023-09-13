@@ -41,11 +41,15 @@ endif
 
 all: bin/ae bin/data_test bin/test/ae_obj_test
 
-bin/test/%: bin/test
-	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
-
 obj/%.o: src/%.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
+
+################################################################################
+# Binaries
+################################################################################
+
+bin/test/%: bin/test
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 	mkdir -p ./bin
@@ -53,6 +57,10 @@ bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJ)
 
 bin/data_test: data_test.c obj/ae_obj.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
+
+################################################################################
+# Utility targets
+################################################################################
 
 tests: clean all
 	./bin/ae
