@@ -376,7 +376,7 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
    if (! CAR(*sym_list_p)) {
      // shortcut/hack for my weird imaginary nil:
      NEW_SYM;
-     return ((*sym_list_p)->head = sym);
+     return (CAR(*sym_list_p) = sym);
    }
 
    for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) 
