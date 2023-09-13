@@ -384,7 +384,7 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
    return CAR((*sym_list));
  }
 
-// nicro-lisp's version:
+// micro-lisp's version:
 // 
 // Object * intern(const char *sym) {
 //   Object *_pair = symbols;
