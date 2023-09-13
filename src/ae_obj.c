@@ -309,10 +309,11 @@ ae_obj_t * ae_obj_map(const ae_obj_t * const this, ae_obj_map_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
+  if (tail)
+    ASSERT_CONSP(tail);
+
   printf("Cons %p %p\n", head, tail);
   fflush(stdout);
-  
-  ASSERT_CONSP(tail);
   
   ae_obj_t * new_list = ALLOC_AE_OBJ;
   ae_obj_init(new_list, AE_CONS____);

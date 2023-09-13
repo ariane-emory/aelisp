@@ -103,7 +103,7 @@ int main() {
 
   puts("Done printing mapped.");
 
-  return 0;
+  //return 0;
 
   extern ae_obj_t pool[POOL_SIZE];
 
