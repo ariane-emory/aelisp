@@ -46,10 +46,15 @@ tmp/%.lex.c: %.lex tmp
 tmp/%.tab.c: %.yacc tmp
 	$(YACC) -d $< -o $@
 
+# Directories
+
 tmp:
 	mkdir -p $@
 
 obj:
+	mkdir -p $@
+
+bin:
 	mkdir -p $@
 
 bin/test:
