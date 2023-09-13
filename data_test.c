@@ -5,10 +5,10 @@
 
 #include "ae_obj.h"
 
-static char * zero  = "Zero";
-static char * one   = "One";
-static char * two   = "Two";
-static char * three = "Three";
+static char * zero  = "One";
+static char * one   = "Two";
+static char * two   = "Three";
+static char * three = "Four";
 
 ae_obj_t * map_fun_strlen(const ae_obj_t * const obj) {
   ae_obj_t * new_obj = ALLOC_AE_OBJ;
@@ -37,43 +37,28 @@ void describe(ae_obj_t * ae_obj_p) {
 int main() {
   putchar('\n');
 
-#ifdef NOISY_INIT
-  puts("Initting strings.");
-#endif
-
-  ae_obj_t * obj_one = ALLOC_AE_OBJ;
-  ae_obj_init(obj_one, AE_STRING__);
-  obj_one->str_value = zero;
-  ae_obj_t * obj_two = ALLOC_AE_OBJ;
-  ae_obj_init(obj_two, AE_STRING__);
-  obj_two->str_value = one;
-  ae_obj_t * obj_three = ALLOC_AE_OBJ;
-  ae_obj_init(obj_three, AE_STRING__);
-  obj_three->str_value = two;
+  ae_obj_t * list = 0;
+  
   ae_obj_t * obj_four = ALLOC_AE_OBJ;
   ae_obj_init(obj_four, AE_STRING__);
   obj_four->str_value = three;
-
-#ifdef NOISY_INIT
-  puts("Done initting strings.\n");
-#endif
-
-#ifdef NOISY_INIT
-  puts("Initting list.");
-#endif
-
-  ae_obj_t * list = ALLOC_AE_OBJ;
-  ae_obj_init(list, AE_CONS____);
-
-#ifdef NOISY_INIT
-  puts("Done initting list.\n");
-#endif
+  list = CONS(obj_four, list);
   
-  ae_obj_push_back(list, obj_one);
-  ae_obj_push_back(list, obj_two);
-  ae_obj_push_back(list, obj_three);
-  ae_obj_push_back(list, obj_four);
-    
+  ae_obj_t * obj_three = ALLOC_AE_OBJ;
+  ae_obj_init(obj_three, AE_STRING__);
+  obj_three->str_value = two;
+  list = CONS(obj_three, list);
+  
+  ae_obj_t * obj_two = ALLOC_AE_OBJ;
+  ae_obj_init(obj_two, AE_STRING__);
+  obj_two->str_value = one;
+  list = CONS(obj_two, list);
+  
+  ae_obj_t * obj_one = ALLOC_AE_OBJ;
+  ae_obj_init(obj_one, AE_STRING__);
+  obj_one->str_value = zero;
+  list = CONS(obj_one, list);
+      
   putchar('\n');
 
   if (list->type == AE_CONS____ && list->head)
@@ -81,26 +66,26 @@ int main() {
 
   putchar('\n');
     
-  ae_obj_t * clone = ae_obj_clone(list);
+  /* ae_obj_t * clone = ae_obj_clone(list); */
 
-  ae_obj_t * prepended = ALLOC_AE_OBJ;
-  ae_obj_init(prepended, AE_CONS____);
-  prepended->head = obj_two;
-  prepended->tail = clone;
-  clone = prepended;
+  /* ae_obj_t * prepended = ALLOC_AE_OBJ; */
+  /* ae_obj_init(prepended, AE_CONS____); */
+  /* prepended->head = obj_two; */
+  /* prepended->tail = clone; */
+  /* clone = prepended; */
   
-  clone = ae_obj_cons(obj_three, clone);
+  /* clone = ae_obj_cons(obj_three, clone); */
   
-  puts("\nPrinting clone.");
+  /* puts("\nPrinting clone."); */
 
-  if (clone->type == AE_CONS____ && clone->head)
-    ae_obj_each(clone, describe);
+  /* if (clone->type == AE_CONS____ && clone->head) */
+  /*   ae_obj_each(clone, describe); */
 
-  puts("Done printing clone.\n");
+  /* puts("Done printing clone.\n"); */
 
-  ae_obj_t * mapped = ae_obj_map(clone, map_fun_clone);
+  /* ae_obj_t * mapped = ae_obj_map(clone, map_fun_clone); */
 
-  // ae_obj_t * mapped = ae_obj_map(list, map_fun_clone);
+  ae_obj_t * mapped = ae_obj_map(list, map_fun_clone);
   
   puts("\nPrinting mapped.");
 
