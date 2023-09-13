@@ -101,6 +101,10 @@
       ae_obj_each(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
+    puts("Writing symbols in program.");
+    ae_obj_write(symbols);
+    puts("Wrote symbols in program.");
+    NL;
 
 #define   PRINT_POOL
     
