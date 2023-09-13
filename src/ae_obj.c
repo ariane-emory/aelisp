@@ -296,12 +296,11 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
     fun(position->head);
 }
 
-// ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
-// }
-
 ae_obj_t * ae_obj_map(const ae_obj_t * const this, ae_obj_map_fun fun) {
+  ASSERT_CONSP(this);
+
   return this
-    ? ae_obj_cons(fun(this->head), ae_obj_map(this->tail, fun))
+    ? CONS(fun(this->head), ae_obj_map(this->tail, fun))
     : 0;
 }
 
