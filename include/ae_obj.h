@@ -151,3 +151,4 @@ void       pool_free_ae_obj(ae_obj_t * const this);
 #  define ALLOC_AE_OBJ (puts("Using malloc."), malloc(sizeof(ae_obj_t)))
 #endif
 
+#define NEW_AE_OBJ(type) ae_obj_init(ALLOC_AE_OBJ, type)
