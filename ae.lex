@@ -16,13 +16,13 @@
     memset(&yylval, 0, sizeof(yylval));
     
 #ifdef NOISY_INIT
-    printf("Initting yylval  <%p>\n", &yylval);
+    printf("Initting yylval  %p\n", &yylval);
 #endif
 
     ae_obj_init(&yylval, ae_type);
 
 #ifdef NOISY_INIT
-    printf("Initted yylval   <%p>\n\n", &yylval);
+    printf("Initted yylval   %p\n\n", &yylval);
 #endif
     
     switch (yylval.type) {
@@ -92,7 +92,7 @@
     case AE_QUOTE___:
     case AE_LPAREN__:
     case AE_RPAREN__:
-    case AE_LIST____:
+    case AE_CONS____:
       break;
     default:
       printf("Tokenized something unrecognizable!\n");
@@ -105,7 +105,7 @@
 
 %%
 ∞                                                                  TOKENIZE(INF,      AE_INF_____     );
-nil                                                                 TOKENIZE(LIST,     AE_LIST____    );
+nil                                                                 TOKENIZE(LIST,     AE_CONS____    );
 \'                                                                  TOKENIZE(QUOTE,    AE_QUOTE___   );
 \(                                                                  TOKENIZE(LPAREN,   AE_LPAREN__  );
 \)                                                                  TOKENIZE(RPAREN,   AE_RPAREN__  );                                                                

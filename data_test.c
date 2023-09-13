@@ -44,7 +44,7 @@ int main() {
 #endif
 
   ae_obj_t * list = ALLOC_AE_OBJ;
-  ae_obj_init(list, AE_LIST____);
+  ae_obj_init(list, AE_CONS____);
 
 #ifdef NOISY_INIT
   puts("Done initting list.\n");
@@ -57,7 +57,7 @@ int main() {
     
   putchar('\n');
 
-  if (list->type == AE_LIST____ && list->head)
+  if (list->type == AE_CONS____ && list->head)
     ae_obj_each(list, describe);
 
   putchar('\n');
@@ -66,7 +66,7 @@ int main() {
 
   puts("\nPrinting clone.");
 
-  if (clone->type == AE_LIST____ && clone->head)
+  if (clone->type == AE_CONS____ && clone->head)
     ae_obj_each(clone, describe);
 
   puts("Done printing clone.");
