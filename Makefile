@@ -11,6 +11,7 @@ STRICTER_CFLAGS = \
   -ggdb \
 	-Iinclude \
 	-I. \
+	-I3p/acutest/include/ \
 	-Werror \
 	-Wall \
 	-Wextra \
