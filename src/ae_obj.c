@@ -364,6 +364,36 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   putchar('\n');
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// intern
+////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** symbols_list) {
+   ae_obj_t * cell = *symbols_list;
+
+   for (; cell; cell = CDR(cell))
+     if (strcmp(c_str, CAR(cell)->sym_value) == 0)
+       return CAR(cell);
+
+   ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
+   
+   *symbols_list = CONS(sym, *symbols_list);
+
+   return CAR((*symbols_list));
+ }
+
+// nicro-lisp's version:
+// 
+// Object * intern(const char *sym) {
+//   Object *_pair = symbols;
+//   for ( ; _pair ; _pair = cdr(_pair))
+//     if (strncmp(sym, car(_pair)->value.string, TOKEN_MAX)==0)
+//       return car(_pair);
+//   symbols = cons(newsymbol(sym), symbols);
+//   return car(symbols);
+// }
+
 ////////////////////////////////////////////////////////////////////////////////
 // pool 
 ////////////////////////////////////////////////////////////////////////////////
