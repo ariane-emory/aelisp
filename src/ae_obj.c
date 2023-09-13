@@ -373,18 +373,30 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
    ae_obj_t * cons = *sym_list;
 
    printf("Interning %s in ", c_str);
-   ae_obj_put(*sym_list);
+   ae_obj_put(cons);
    putchar(' ');
-   ae_obj_write(*sym_list);
-   putchar('\n');
-
-   ae_obj_put(*sym_list);
-   /* fputs(": ", stdout); */
-   /* ae_obj_write(*sym_list); */
+   ae_obj_write(cons);
    putchar('\n');
    fflush(stdout);
    
-   for (; CDR(cons); cons = CDR(cons)) {
+   if (! CAR(cons)) {    
+     ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
+     sym->sym_value = strdup(c_str);
+     fputs("Created          ", stdout);
+     ae_obj_put(sym);
+     putchar('\n');
+
+     cons->head = sym;
+     printf("Interning returns early with ");
+     ae_obj_put(*sym_list);
+     putchar(' ');
+     ae_obj_write(*sym_list);
+     putchar('\n');
+   }
+
+
+
+   for (; cons; cons = CDR(cons)) {
      fputs("Interning looking at   ", stdout);
      ae_obj_put(cons);
      putchar('\n');
@@ -403,11 +415,9 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
      }
    }
 
-   fputs("Arrived at       ", stdout);
-   ae_obj_put(cons);
+   printf("Interning arrived at %p ", cons);
    putchar('\n');
    fflush(stdout);
-
    
    ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__);
    sym->sym_value = strdup(c_str);
@@ -415,10 +425,10 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** sym_list) {
    ae_obj_put(sym);
    putchar('\n');
 
-   if (cons->head) 
+//   if (cons) 
      *sym_list = CONS(sym, *sym_list);
-   else
-     (*sym_list)->head = sym;
+     // else
+     //(*sym_list)->head = sym;
 
    fputs("sym_list is      ", stdout);
    ae_obj_put(*sym_list);
