@@ -46,20 +46,6 @@ tmp/%.lex.c: %.lex tmp
 tmp/%.tab.c: %.yacc tmp
 	$(YACC) -d $< -o $@
 
-# Directories
-
-tmp:
-	mkdir -p $@
-
-obj:
-	mkdir -p $@
-
-bin:
-	mkdir -p $@
-
-bin/test:
-	mkdir -p $@
-
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(LDFLAGS) $(STRICTER_CFLAGS)
 
@@ -85,8 +71,20 @@ test2: clean all
 	./$(BIN2)
 
 debug: clean all
-	$(GDB) ./$(BIN)
+	$(GDB) ./bin/$(BIN)
 
-dump: clean tmp/main.o $(BIN)
-	$(OBJDUMP) -t -d tmp/main.o
+################################################################################
+# Directories
+################################################################################
 
+tmp:
+	mkdir -p $@
+
+obj:
+	mkdir -p $@
+
+bin:
+	mkdir -p $@
+
+bin/test:
+	mkdir -p $@
