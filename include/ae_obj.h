@@ -152,7 +152,8 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p);
 
 #ifdef POOL_SIZE
 extern ae_obj_t pool[POOL_SIZE];
-extern const ae_obj_t *  pool_last;
+extern const ae_obj_t * const pool_first;
+extern const ae_obj_t * const pool_last;
 
 ae_obj_t * pool_alloc_ae_obj();
 void       pool_free_ae_obj(ae_obj_t * const this);
