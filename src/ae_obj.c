@@ -358,11 +358,13 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   ASSERT_CONSP(this);
  
+#ifdef NOISY_INIT
   fputs("Pushing          ", stdout);
   ae_obj_put(obj);
   fputs(" into ", stdout);
   ae_obj_put(this);
   putchar('\n');
+#endif
   
   if (this->head) {
     ae_obj_t * position = this;
@@ -374,12 +376,14 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
     this->head = obj;
   }
 
+#ifdef NOISY_INIT
   fputs("Pushed           ", stdout);
   ae_obj_put(obj);
   fputs(" into ", stdout);
   ae_obj_put(this);
   putchar('\n');
   putchar('\n');
+#endif
 }
 
 

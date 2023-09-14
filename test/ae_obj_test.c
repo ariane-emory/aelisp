@@ -114,7 +114,7 @@ void push_back(void) {
 
   ae_obj_init(this, AE_CONS____);
 
-  printf("WARNING: Feigning length value at line %d in %s, this needs fixing!", __LINE__, __FILE__);
+  printf("\nWARNING: Feigning length value at line %d in %s, this needs fixing!", __LINE__, __FILE__);
   T(ae_obj_length(this) == 1);
 
   for (unsigned int ix = 1; ix < 4; ix++) { 
@@ -134,7 +134,7 @@ void push_back(void) {
   // string constant.
 
   // ae_obj_fwrite does dumb shit with backspace:  
-  const char * const strcmp_str = "(126 125 124 123 \b) ";
+  const char * const strcmp_str = "(126 125 124 \b) ";
   
   const size_t buff_len = 1 << 8;
   char * buff = malloc(buff_len);
@@ -143,6 +143,7 @@ void push_back(void) {
   ae_obj_fwrite(this, stream);
   fclose(stream);
 
+  ae_obj_write(this);
   T(strcmp(strcmp_str, buff) == 0);
   
   free(buff);
