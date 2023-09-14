@@ -114,8 +114,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  ae_obj_t * new_list = ALLOC_AE_OBJ;
-  ae_obj_init(new_list, AE_CONS____);
+  ae_obj_t * new_list = NEW_AE_OBJ(AE_CONS____);
   
   // This cast might be a little sketch? Think about it...
   new_list->head = (ae_obj_t *)this;
