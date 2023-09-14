@@ -21,11 +21,11 @@ ae_obj_t * symbols = 0;
     free(tmp_str);                                                                                                                          \
     tmp_str = 0;                                                                                                                            \
   }                                                                                                                                         \
-  ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
-  ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
-  T(!!this);                                                                                                                                \
-  T(!!that);                                                                                                                                \
-  T(this != that);                                                                                                                          \
+  ae_obj_t * this = 0;                                                                                                                      \
+  ae_obj_t * that = 0;                                                                                                                      \
+  T(!this);                                                                                                                                \
+  T(!that);                                                                                                                                \
+  T(this == that);                                                                                                                          \
   (void)that;
 
 char * tmp_str = 0;
@@ -145,6 +145,8 @@ void newly_allocated_ae_obj_is_inside_pool(void)
 {
   SETUP_TEST;
 
+  this = ALLOC_AE_OBJ;
+  
   T(this >= pool_first && this <= pool_last);
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
 }
@@ -153,7 +155,7 @@ void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
 {
   SETUP_TEST;
 
-  T(this->type == AE_INVALID_);
+  T(ALLOC_AE_OBJ->type == AE_INVALID_);
 }
 
 void newly_initialized_ae_obj_has_correct_type_field(void) {
@@ -161,7 +163,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
                                                                                                                                             \
-    ae_obj_init(this, _type);                                                                                                               \
+    this = NEW_AE_OBJ(_type);                                                                                                               \
                                                                                                                                             \
     T(this->type == _type);                                                                                                                 \
   }
