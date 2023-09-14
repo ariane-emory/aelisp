@@ -371,7 +371,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   putchar('\n');
 #endif
   
-  if (this->head) {
+  if (CAR(this)) {
     ae_obj_t * position = this;
     for (; CDR(position) ; position = CDR(position));
     CDR(position)       = NEW(AE_CONS____);
