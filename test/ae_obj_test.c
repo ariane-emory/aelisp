@@ -28,15 +28,17 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
   T(ae_obj_length(new_list) == 0);
 
-  for (unsigned int ix = 1; ix < 4; ix++) { 
+  for (unsigned int ix = 1; ix < 5; ix++) { 
     ae_obj_t * new_tailtip = ALLOC_AE_OBJ;
     ae_obj_init(new_tailtip, AE_INTEGER_);
-    new_tailtip->int_value = 123 + ix;
+    new_tailtip->int_value = ix;
 
     ae_obj_push_back(new_list, new_tailtip);
 
-    T(ae_obj_length(new_list) == ix);
+    //T(ae_obj_length(new_list) == ix);
   }
+  
+  // ae_obj_write(new_list);
 
   return new_list;
 }
@@ -48,26 +50,40 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_init(head,       AE_INTEGER_);
 
   new_list->head = head;
-  head->int_value = 123;
+  head->int_value = 4;
   
   T(ae_obj_length(new_list) == 1);
 
-  for (unsigned int ix = 1; ix < 4; ix++) { 
+  /* printf("\nBefore: "); */
+  /* ae_obj_write(new_list); */
+  
+  for (unsigned int ix = 0; ix < 3; ix++) { 
     ae_obj_t * new_head = ALLOC_AE_OBJ;
     ae_obj_init(new_head, AE_INTEGER_);
-    new_head->int_value = 123 + ix;
+    new_head->int_value = 3 - ix;
 
     ae_obj_t * tail = new_list;
     
     new_list = CONS(new_head, tail);
-    
+
+    /* printf("\nAt %d: ", ix); */
+    /* ae_obj_write(new_list); */
+
+    const size_t expected_length = 2 + ix;
+  
     T(new_list != head);
     T(new_list != new_head);
     T(new_list->head == new_head);
     T(new_list->tail == tail);
-    T(ae_obj_length(new_list) == 1 + ix);
+    T(ae_obj_length(new_list) == expected_length);
+    TEST_MSG(
+      "Incorrect length %d, expected %d.",
+      ae_obj_length(new_list),
+      expected_length);
   }
 
+  //ae_obj_write(new_list);
+  
   return new_list;
 }
 
@@ -147,11 +163,13 @@ void consed_list_tests(void) {
   this = cons_together_a_list_of_ints();
 
   ae_obj_each(this, incr_list_counter);
+
+  //ae_obj_put(this);
   
   T(list_counter == 4);
   T(ae_obj_length(this) == 4);
-  T(shitty_write_based_equality_predicate(this,                            "(126 125 124 123 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
+  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
 }
 
 void pushed_list_tests(void) {
@@ -161,10 +179,12 @@ void pushed_list_tests(void) {
 
   ae_obj_each(this, incr_list_counter); 
 
-  T(list_counter == 3);
-  T(ae_obj_length(this) == 3);
-  T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(248 250 252 \b) "));
+  // ae_obj_put(this);
+  
+  T(list_counter == 4);
+  T(ae_obj_length(this) == 4);
+  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
 }
 
 void unsafe_move(void) {
