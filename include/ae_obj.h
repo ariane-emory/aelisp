@@ -157,9 +157,9 @@ extern const ae_obj_t * const pool_last;
 ae_obj_t * pool_alloc_ae_obj();
 void       pool_free_ae_obj(ae_obj_t * const this);
 
-#define AE_OBJ_ALLOC      (pool_alloc_ae_obj())
-#define AE_OBJ_NEW(type)  (ae_obj_init(AE_OBJ_ALLOC, (type)))
-#define AE_MOVE_NEW(that) (ae_obj_unsafe_move(AE_OBJ_ALLOC, (that)))
+#define ALLOC      (pool_alloc_ae_obj())
+#define NEW(type)  (ae_obj_init(ALLOC, (type)))
+#define MOVE_NEW(that) (ae_obj_unsafe_move(ALLOC, (that)))
 
 void pool_print(void);
 void pool_clear(void);

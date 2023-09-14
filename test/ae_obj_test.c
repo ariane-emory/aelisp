@@ -43,12 +43,12 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t *  new_list = AE_OBJ_NEW(AE_CONS____);
+  ae_obj_t *  new_list = NEW(AE_CONS____);
 
   T(ae_obj_length(new_list) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
-    ae_obj_t * new_tailtip = AE_OBJ_NEW(AE_INTEGER_);
+    ae_obj_t * new_tailtip = NEW(AE_INTEGER_);
     new_tailtip->int_value = ix + 1;
     ae_obj_push_back(new_list, new_tailtip);
 
@@ -59,15 +59,15 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * list = AE_OBJ_NEW(AE_CONS____);
-  ae_obj_t * head = AE_OBJ_NEW(AE_INTEGER_);
+  ae_obj_t * list = NEW(AE_CONS____);
+  ae_obj_t * head = NEW(AE_INTEGER_);
   head->int_value = 4;
   list->head      = head;
   
   T(ae_obj_length(list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
-    ae_obj_t * new_head = AE_OBJ_NEW(AE_INTEGER_);
+    ae_obj_t * new_head = NEW(AE_INTEGER_);
     new_head->int_value = 3 - ix;
 
     ae_obj_t * tail = list;
@@ -100,14 +100,14 @@ void incr_list_length_counter(ae_obj_t * const this) {
 ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
-  ae_obj_t * new_obj = AE_OBJ_NEW(AE_INTEGER_);
+  ae_obj_t * new_obj = NEW(AE_INTEGER_);
   new_obj->int_value = this->int_value * 2;
 
   return new_obj;
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  ae_obj_t * new_list = AE_OBJ_NEW(AE_CONS____);
+  ae_obj_t * new_list = NEW(AE_CONS____);
   
   // This cast might be a little sketch? Think about it...
   new_list->head = (ae_obj_t *)this;
@@ -139,7 +139,7 @@ void newly_allocated_ae_obj_is_inside_pool(void)
 {
   SETUP_TEST;
 
-  this = AE_OBJ_ALLOC;
+  this = ALLOC;
   
   T(this >= pool_first && this <= pool_last);
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
@@ -149,7 +149,7 @@ void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
 {
   SETUP_TEST;
 
-  T(AE_OBJ_ALLOC->type == AE_INVALID_);
+  T(ALLOC->type == AE_INVALID_);
 }
 
 void newly_initialized_ae_obj_has_correct_type_field(void) {
@@ -157,7 +157,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
                                                                                                                                             \
-    this = AE_OBJ_NEW(_type);                                                                                                               \
+    this = NEW(_type);                                                                                                               \
                                                                                                                                             \
     T(this->type == _type);                                                                                                                 \
   }
@@ -167,7 +167,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
 
-  this = AE_OBJ_NEW(AE_RATIONAL);
+  this = NEW(AE_RATIONAL);
 
   T(this->numerator_value == 0 && this->denominator_value == 0);
 }
@@ -187,14 +187,11 @@ void pushed_list_tests(void) {
 void unsafe_move_an_ae_obj(void) {
   SETUP_TEST;
 
-  this = AE_OBJ_NEW(AE_CHAR____);
-  this->char_value = 'x';
-
-  that = AE_OBJ_NEW(AE_RATIONAL);
+  that = NEW(AE_RATIONAL);
   that->numerator_value   = 123;
   that->denominator_value = 321;
 
-  ae_obj_unsafe_move(this, that);
+  this = MOVE_NEW(that);
 
   T(this->type              == AE_RATIONAL);
   T(this->numerator_value   == 123);
@@ -208,7 +205,7 @@ void unsafe_move_an_ae_obj(void) {
 void clone_a_simple_ae_obj(void) {
   SETUP_TEST;
 
-  this = AE_OBJ_NEW(AE_RATIONAL);
+  this = NEW(AE_RATIONAL);
   this->numerator_value   = 123;
   this->denominator_value = 321;
 

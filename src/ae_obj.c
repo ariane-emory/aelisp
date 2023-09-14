@@ -96,7 +96,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   ae_obj_t * clone = 0;
 
-#define CLONE_USING_MEMCPY clone = AE_OBJ_ALLOC; memcpy(clone, this, sizeof(ae_obj_t))
+#define CLONE_USING_MEMCPY clone = ALLOC; memcpy(clone, this, sizeof(ae_obj_t))
 #define DUP_C_STR(field) clone->field = strdup(this->field)
   
   switch (this->type) {
@@ -348,7 +348,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   fflush(stdout);
 #endif
   
-  ae_obj_t * new_list = AE_OBJ_NEW(AE_CONS____);
+  ae_obj_t * new_list = NEW(AE_CONS____);
 
   new_list->head = head;
   new_list->tail = tail;
@@ -374,7 +374,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
-    position->tail = AE_OBJ_NEW(AE_CONS____);
+    position->tail = NEW(AE_CONS____);
     position->tail->head = obj;
   }
   else {
@@ -396,11 +396,11 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM(sym) ae_obj_t * sym = AE_OBJ_NEW(AE_SYMBOL__); sym->sym_value = strdup(c_str)
+#define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); sym->sym_value = strdup(c_str)
 
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
   if (! *sym_list_p)
-    *sym_list_p = AE_OBJ_NEW(AE_CONS____);
+    *sym_list_p = NEW(AE_CONS____);
   
   if (! CAR(*sym_list_p)) {
     // shortcut/hack for my weird imaginary nil:

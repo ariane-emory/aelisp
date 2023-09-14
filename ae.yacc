@@ -55,7 +55,7 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
-    symbols = AE_OBJ_NEW(AE_CONS____); 
+    symbols = NEW(AE_CONS____); 
     
     putchar('\n');
 
@@ -78,7 +78,7 @@
     ae_obj_put(root);
     NL;
 
-    ae_obj_t * program_obj = AE_MOVE_NEW(root); // take the 'program' rule's ae_obj.
+    ae_obj_t * program_obj = MOVE_NEW(root); // take the 'program' rule's ae_obj.
 
     printf("program: ");
     ae_obj_put(program_obj);
@@ -151,8 +151,7 @@ sexps sexp {
     ae_obj_push_back(&$$, c_str_intern($2.sym_value, &symbols));
   }
   else {
-    ae_obj_t * new_obj = AE_OBJ_ALLOC;
-    ae_obj_unsafe_move(new_obj, &$2);
+    ae_obj_t * new_obj = MOVE_NEW(&$2);
     ae_obj_push_back(&$$, new_obj);
   }
   
