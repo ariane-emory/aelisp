@@ -13,7 +13,7 @@
 #define CDR(this)             ((this)->tail)
 #define CADR(this)            (CAR(CDR(this)))
 #define CONS(head, tail)      (ae_obj_cons((head), (tail)))
-#define INTERN(sym_list, str) (string_intern((sym_list), (str)))
+#define INTERN(sym_list, str) (ae_obj_string_intern((sym_list), (str)))
 
 #define INTEGERP(o)           ((o)->type == AE_INTEGER_)
 #define INVALIDP(o)           ((o)->type == AE_INVALID_)
@@ -147,7 +147,7 @@ ae_obj_t *    ae_obj_map         (      ae_obj_t * const this,   ae_obj_map_fun 
 ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head,   ae_obj_t *  const tail);
 
 // Intern
-ae_obj_t *    string_intern      (      ae_obj_t ** const sym_list_p, ae_string_t string );
+ae_obj_t *    ae_obj_string_intern      (      ae_obj_t ** const sym_list_p, ae_string_t string );
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
