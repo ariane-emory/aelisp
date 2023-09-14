@@ -172,8 +172,8 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
-  
-  ae_obj_init(this, AE_RATIONAL);
+
+  this = NEW_AE_OBJ(AE_RATIONAL);
 
   T(this->numerator_value == 0 && this->denominator_value == 0);
 }
@@ -193,10 +193,10 @@ void pushed_list_tests(void) {
 void unsafe_move_an_ae_obj(void) {
   SETUP_TEST;
 
-  ae_obj_init(this, AE_CHAR____);
+  this = NEW_AE_OBJ(AE_CHAR____);
   this->char_value = 'x';
 
-  ae_obj_init(that, AE_RATIONAL);
+  that = NEW_AE_OBJ(AE_RATIONAL);
   that->numerator_value   = 123;
   that->denominator_value = 321;
 
@@ -214,7 +214,7 @@ void unsafe_move_an_ae_obj(void) {
 void clone_a_simple_ae_obj(void) {
   SETUP_TEST;
 
-  ae_obj_init(this, AE_RATIONAL);
+  this = NEW_AE_OBJ(AE_RATIONAL);
   this->numerator_value   = 123;
   this->denominator_value = 321;
 
