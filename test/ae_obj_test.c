@@ -110,18 +110,11 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
 
 void list_tests(void) {
   SETUP_TEST;
-
   this = cons_together_a_list_of_ints();
-
   ae_obj_each(this, incr_list_tests_tests_length);
-  
   T(list_tests_tests_length == 4);
-
-  T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
-  
-  ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
-
-  T(shitty_write_based_equal(doubled, "(252 250 248 246 \b) "));
+  T(shitty_write_based_equal(this,                            "(126 125 124 123 \b) "));
+  T(shitty_write_based_equal(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
 }
 
 void unsafe_move(void) {
