@@ -93,7 +93,7 @@ const char * ae_type_str(const ae_type_t this);
 struct ae_obj_t;
 
 typedef void              (*ae_obj_each_fun)(struct ae_obj_t * const);
-typedef struct ae_obj_t * (*ae_obj_map_fun)(struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_obj_map_fun )(struct ae_obj_t * const);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Obj struct
