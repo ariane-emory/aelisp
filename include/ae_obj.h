@@ -36,6 +36,7 @@ typedef char * ae_string_t;
 #define RPARENP(o)            ((o)->type == AE_RPAREN__)
 #define STRINGP(o)            ((o)->type == AE_STRING__)
 #define SYMBOLP(o)            ((o)->type == AE_SYMBOL__)
+#define NULLP(o)              (!!)
 
 #define ASSERT_ATOMP(o)       ((o)->type >= AE_INVALID_)
 #define ASSERT_CHARP(o)       (assert(CHARP(o)))
@@ -50,6 +51,7 @@ typedef char * ae_string_t;
 #define ASSERT_RPARENP(o)     (assert(RPARENP(o)))
 #define ASSERT_STRINGP(o)     (assert(STRINGP(o)))
 #define ASSERT_SYMBOLP(o)     (assert(SYMBOLP(o)))
+#define ASSERT_NULlP(o)       (assert(NULLP(o)))
 
 ////////////////////////////////////////////////////////////////////////////////
 // Escaped chars helper macro
