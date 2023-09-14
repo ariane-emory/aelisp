@@ -10,11 +10,12 @@ ae_obj_t * symbols = 0;
 // Macros
 ////////////////////////////////////////////////////////////////////////////////
 
-#define T    TEST_CHECK
+#define T TEST_CHECK
 
 #define COUNT_LIST(l) list_counter = 0; ae_obj_each((l), incr_list_counter); 
 
 #define SETUP_TEST                                                                                                                          \
+  symbols = 0;                                                                                                                              \
   pool_clear();                                                                                                                             \
   if (tmp_str) {                                                                                                                            \
     free(tmp_str);                                                                                                                          \
@@ -246,12 +247,15 @@ void pushed_and_consed_lists_write_identically(void) {
 void intern_symbols(void) {
   SETUP_TEST;
 
-  ae_obj_init(this, AE_SYMBOL__);
-  ae_obj_init(that, AE_SYMBOL__);
+  /* ae_obj_init(this, AE_SYMBOL__); */
+  /* ae_obj_init(that, AE_SYMBOL__); */
 
-  this->sym_value = "one";
-  this->sym_value = "two";
-  
+  /* this->sym_value = "one"; */
+  /* this->sym_value = "two"; */
+
+  T(c_str_intern("one", &symbols) == c_str_intern("one", &symbols));
+  T(c_str_intern("one", &symbols) != c_str_intern("two", &symbols));
+  T(ae_obj_length(symbols) == 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
