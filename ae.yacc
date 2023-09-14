@@ -148,7 +148,7 @@ sexps sexp {
     fflush(stdout);
 #endif
 
-    PUSH_BACK(&$$, string_intern($2.sym_value, &symbols));
+    PUSH_BACK(&$$, INTERN(&symbols, $2.sym_value));
   }
   else {
     ae_obj_t * new_obj = MOVE_NEW(&$2);
