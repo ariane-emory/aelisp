@@ -2,3 +2,4 @@
 - Better code for aligning type strs when printing.
 - Logic for rendering a list like (nil) / (0x0 . 0x0).
 - Maybe addressable nil value?
+- Redo/rename the so-called 'byte oriented' putses.
