@@ -10,6 +10,10 @@
 
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
+  if (tmp_str) {                                                                                                                            \
+  free(tmp_str);                                                                                                                            \
+  tmp_str = 0;                                                                                                                              \
+  }                                                                                                                                         \
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
   T(this != that);                                                                                                                          \
@@ -17,6 +21,8 @@
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
+
+char * tmp_str = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers
@@ -221,11 +227,9 @@ void pushed_and_consed_list_write_identically(void) {
 
   this            = push_together_a_list_of_ints();
   that            = cons_together_a_list_of_ints();
-  char * that_str = write_to_new_string(that);
+  tmp_str         = write_to_new_string(that);
 
-  T(shitty_write_based_equality_predicate(this, that_str));
-
-  free(that_str);
+  T(shitty_write_based_equality_predicate(this, tmp_str));
 }
 
 #define FOR_TEST_FUNS_DO(X)                                                                                                                 \
