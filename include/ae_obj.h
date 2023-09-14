@@ -13,6 +13,31 @@
 #define CONS(head, tail)      (ae_obj_cons((head), (tail)))
 #define SYM(str)              (c_str_intern((str)))
 
+#define INTEGERP(o)           ((o)->type == AE_INTEGER_)
+#define INVALIDP(o)           ((o)->type == AE_INVALID_)
+#define CHARP(o)              ((o)->type == AE_CHAR____)
+#define FLOATP(o)             ((o)->type == AE_FLOAT___)
+#define CONSP(o)              ((o)->type == AE_CONS____)
+#define LPARENP(o)            ((o)->type == AE_LPAREN__)
+#define RPARENP(o)            ((o)->type == AE_RPAREN__)
+#define QUOTEP(o)             ((o)->type == AE_QUOTE___)
+#define RATIONALP(o)          ((o)->type == AE_RATIONAL)
+#define INFP(o)               ((o)->type == AE_INF_____)
+#define STRINGP(o)            ((o)->type == AE_STRING__)
+#define SYMBOLP(o)            ((o)->type == AE_SYMBOL__)
+#define ASSERT_INTEGERP(o)    (assert(INTEGERP(o)))
+#define ASSERT_INVALIDP(o)    (assert(INVALIDP(o)))
+#define ASSERT_CHARP(o)       (assert(CHARP(o)))
+#define ASSERT_FLOATP(o)      (assert(FLOATP(o)))
+#define ASSERT_CONSP(o)       (assert((CONSP(o))))
+#define ASSERT_LPARENP(o)     (assert(LPARENP(o)))
+#define ASSERT_RPARENP(o)     (assert(RPARENP(o)))
+#define ASSERT_QUOTEP(o)      (assert(QUOTEP(o)))
+#define ASSERT_RATIONALP(o)   (assert(RATIONALP(o)))
+#define ASSERT_INFP(o)        (assert(INFP(o)))
+#define ASSERT_STRINGP(o)     (assert(STRINGP(o)))
+#define ASSERT_SYMBOLP(o)     (assert(SYMBOLP(o)))
+
 ////////////////////////////////////////////////////////////////////////////////
 // Typedefs
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,31 +85,6 @@ typedef enum {
   AE_FREE____ = 0,
   FOR_EACH_LEXED_TYPE(enum_node)
 } ae_type_t;
-
-#define INTEGERP(o)         ((o)->type == AE_INTEGER_)
-#define INVALIDP(o)         ((o)->type == AE_INVALID_)
-#define CHARP(o)            ((o)->type == AE_CHAR____)
-#define FLOATP(o)           ((o)->type == AE_FLOAT___)
-#define CONSP(o)            ((o)->type == AE_CONS____)
-#define LPARENP(o)          ((o)->type == AE_LPAREN__)
-#define RPARENP(o)          ((o)->type == AE_RPAREN__)
-#define QUOTEP(o)           ((o)->type == AE_QUOTE___)
-#define RATIONALP(o)        ((o)->type == AE_RATIONAL)
-#define INFP(o)             ((o)->type == AE_INF_____)
-#define STRINGP(o)          ((o)->type == AE_STRING__)
-#define SYMBOLP(o)          ((o)->type == AE_SYMBOL__)
-#define ASSERT_INTEGERP(o)  (assert(INTEGERP(o)))
-#define ASSERT_INVALIDP(o)  (assert(INVALIDP(o)))
-#define ASSERT_CHARP(o)     (assert(CHARP(o)))
-#define ASSERT_FLOATP(o)    (assert(FLOATP(o)))
-#define ASSERT_CONSP(o)     (assert((CONSP(o))))
-#define ASSERT_LPARENP(o)   (assert(LPARENP(o)))
-#define ASSERT_RPARENP(o)   (assert(RPARENP(o)))
-#define ASSERT_QUOTEP(o)    (assert(QUOTEP(o)))
-#define ASSERT_RATIONALP(o) (assert(RATIONALP(o)))
-#define ASSERT_INFP(o)      (assert(INFP(o)))
-#define ASSERT_STRINGP(o)   (assert(STRINGP(o)))
-#define ASSERT_SYMBOLP(o)   (assert(SYMBOLP(o)))
 
 const char * ae_type_str(const ae_type_t this);
 
@@ -141,13 +141,10 @@ void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun f
 ae_obj_t *    ae_obj_map         (      ae_obj_t * const this, ae_obj_map_fun fun);
 
 // This returns a new obj:
-ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head, ae_obj_t * const tail);
+ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head, ae_obj_t *  const tail);
 
-////////////////////////////////////////////////////////////////////////////////
 // Intern
-////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * c_str_intern(ae_string_t c_str, ae_obj_t ** const sym_list_p);
+ae_obj_t *    c_str_intern       (      ae_string_t     c_str, ae_obj_t ** const sym_list_p);
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
