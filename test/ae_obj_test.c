@@ -243,18 +243,18 @@ void intern_symbols(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_TEST_FUNS_DO(X)                                                                                                                 \
-  X(test_setup_is_okay)                                                                                                                     \
-  X(newly_allocated_ae_obj_is_inside_pool)                                                                                                  \
-  X(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                             \
-  X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
-  X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                        \
-  X(unsafe_move_an_ae_obj)                                                                                                                  \
-  X(clone_a_simple_ae_obj)                                                                                                                  \
-  X(pushed_list_tests)                                                                                                                      \
-  X(consed_list_tests)                                                                                                                      \
-  X(pushed_and_consed_lists_write_identically)                                                                                              \
-  X(intern_symbols)
+#define FOR_TEST_FUNS_DO(DO)                                                                                                                \
+  DO(test_setup_is_okay)                                                                                                                    \
+  DO(newly_allocated_ae_obj_is_inside_pool)                                                                                                 \
+  DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                            \
+  DO(newly_initialized_ae_obj_has_correct_type_field)                                                                                       \
+  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                       \
+  DO(unsafe_move_an_ae_obj)                                                                                                                 \
+  DO(clone_a_simple_ae_obj)                                                                                                                 \
+  DO(pushed_list_tests)                                                                                                                     \
+  DO(consed_list_tests)                                                                                                                     \
+  DO(pushed_and_consed_lists_write_identically)                                                                                             \
+  DO(intern_symbols)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
 
