@@ -50,16 +50,13 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t *  new_list = ALLOC_AE_OBJ;
-  ae_obj_init(new_list,  AE_CONS____);
+  ae_obj_t *  new_list = NEW_AE_OBJ(AE_CONS____);
 
   T(ae_obj_length(new_list) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
-    ae_obj_t * new_tailtip = ALLOC_AE_OBJ;
-    ae_obj_init(new_tailtip, AE_INTEGER_);
+    ae_obj_t * new_tailtip = NEW_AE_OBJ(AE_INTEGER_);
     new_tailtip->int_value = ix + 1;
-
     ae_obj_push_back(new_list, new_tailtip);
 
     T(ae_obj_length(new_list) == ix + 1);
@@ -77,8 +74,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   T(ae_obj_length(new_list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
-    ae_obj_t * new_head = ALLOC_AE_OBJ;
-    ae_obj_init(new_head, AE_INTEGER_);
+    ae_obj_t * new_head = NEW_AE_OBJ(AE_INTEGER_);
     new_head->int_value = 3 - ix;
 
     ae_obj_t * tail = new_list;
