@@ -54,8 +54,7 @@ obj/%.o: src/%.c obj
 ################################################################################
 
 bin/test/%: bin/test
-$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
-#	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(patsubst bin/test/%_test, obj/%.o, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
