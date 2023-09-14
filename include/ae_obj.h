@@ -122,31 +122,31 @@ typedef struct ae_obj_t {
 // Obj'ss methods
 //------------------------------------------------------------------------------
 
-ae_obj_t *    ae_obj_init        (      ae_obj_t * const this,  ae_type_t type);
-ae_obj_t *    ae_obj_unsafe_move (      ae_obj_t * const this,  ae_obj_t * const that);
+ae_obj_t *    ae_obj_init        (      ae_obj_t * const this,   ae_type_t type);
+ae_obj_t *    ae_obj_unsafe_move (      ae_obj_t * const this,   ae_obj_t * const that);
 ae_obj_t *    ae_obj_clone       (const ae_obj_t * const this);
 
 // ugly putses:
-void          ae_obj_fput        (const ae_obj_t * const this,  FILE * stream);
+void          ae_obj_fput        (const ae_obj_t * const this,   FILE * stream);
 void          ae_obj_put         (const ae_obj_t * const this);
 // byte-oriented putses:
-void          ae_obj_fput_bytes  (const ae_obj_t * const this,  FILE * stream);
+void          ae_obj_fput_bytes  (const ae_obj_t * const this,   FILE * stream);
 void          ae_obj_put_bytes   (const ae_obj_t * const this);
 // write:
-void          ae_obj_fwrite      (const ae_obj_t * const this,  FILE * stream);
+void          ae_obj_fwrite      (const ae_obj_t * const this,   FILE * stream);
 void          ae_obj_write       (const ae_obj_t * const this);
 
 // For AE_CONS____es:
 size_t        ae_obj_length      (const ae_obj_t * const this);
-void          ae_obj_push_back   (      ae_obj_t * const this, ae_obj_t * const obj);
-void          ae_obj_each        (      ae_obj_t * const this, ae_obj_each_fun fun);
-ae_obj_t *    ae_obj_map         (      ae_obj_t * const this, ae_obj_map_fun fun);
+void          ae_obj_push_back   (      ae_obj_t * const this,   ae_obj_t * const obj);
+void          ae_obj_each        (      ae_obj_t * const this,   ae_obj_each_fun fun);
+ae_obj_t *    ae_obj_map         (      ae_obj_t * const this,   ae_obj_map_fun fun);
 
 // This returns a new obj:
-ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head, ae_obj_t *  const tail);
+ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head,   ae_obj_t *  const tail);
 
 // Intern
-ae_obj_t *    string_intern       (      ae_string_t     c_str, ae_obj_t ** const sym_list_p);
+ae_obj_t *    string_intern       (      ae_string_t     string, ae_obj_t ** const sym_list_p);
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
