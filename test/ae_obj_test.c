@@ -18,8 +18,8 @@
   (void)that;
 
 bool shitty_write_based_equal(const ae_obj_t * const this, const char * const strcmp_str) {
-  // For expedience-of-implementation's sake, we'll check if this it's
-  // supposed to be by fwriting it into a string and comparing it to a string
+  // For expedience-of-implementation's sake, we'll check if this is what it's
+  // supposed to be by _fwriting it into a string and comparing it to a string
   // constant.
   
   const size_t buff_len = 1 << 8;
@@ -114,24 +114,7 @@ void list_tests(void) {
     T(list_tests_tests_length == 4);
   }
   
-  {
-    // For expedience-of-implementation's sake, we'll check if the list is what
-    // it's supposed to be by fwriting it into a string and comparing it to a
-    // string constant.
-    
-    // ae_obj_fwrite does dumb shit with backspace:  
-    const char * const strcmp_str = "(126 125 124 123 \b) ";
-    
-    const size_t buff_len = 1 << 8;
-    char * buff = malloc(buff_len);
-    
-    FILE * stream = fmemopen(buff, buff_len, "w");
-    ae_obj_fwrite(this, stream);
-    fclose(stream);
-
-    T(strcmp(strcmp_str, buff) == 0);
-    free(buff);
-  }
+  T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
 
   {
     ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
