@@ -364,6 +364,18 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 // _push_back
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef NOISY_INIT
+#  define AFTER_PUSH_MESSAGE                                                                                                                  \
+    fputs("Pushed           ", stdout);                                                                                                     \
+    ae_obj_put(obj);                                                                                                                        \
+    fputs(" into ", stdout);                                                                                                                \
+    ae_obj_put(this);                                                                                                                       \
+    putchar('\n');                                                                                                                          \
+    putchar('\n');
+#else
+#  define AFTER_PUSH_MESSAGE ((void)0)
+#endif
+
 ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   ASSERT_CONSP(this);
  
@@ -385,15 +397,8 @@ ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
     CAR(this) = obj;
   }
 
-#ifdef NOISY_INIT
-  fputs("Pushed           ", stdout);
-  ae_obj_put(obj);
-  fputs(" into ", stdout);
-  ae_obj_put(this);
-  putchar('\n');
-  putchar('\n');
-#endif
-
+  AFTER_PUSH_MESSAGE;
+  
   return this; // incorrect
 }
 
