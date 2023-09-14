@@ -123,6 +123,16 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
   return that;
 }
 
+
+void basic_list_checks(ae_obj_t * this) {
+  ae_obj_each(this, incr_list_counter); 
+
+  T(list_counter == 4);
+  T(ae_obj_length(this) == 4);
+  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Tests
 ////////////////////////////////////////////////////////////////////////////////
@@ -162,14 +172,7 @@ void consed_list_tests(void) {
   
   this = cons_together_a_list_of_ints();
 
-  ae_obj_each(this, incr_list_counter);
-
-  //ae_obj_put(this);
-  
-  T(list_counter == 4);
-  T(ae_obj_length(this) == 4);
-  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
+  basic_list_checks(this);
 }
 
 void pushed_list_tests(void) {
@@ -177,14 +180,7 @@ void pushed_list_tests(void) {
 
   this = push_together_a_list_of_ints();
 
-  ae_obj_each(this, incr_list_counter); 
-
-  // ae_obj_put(this);
-  
-  T(list_counter == 4);
-  T(ae_obj_length(this) == 4);
-  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
+  basic_list_checks(this);
 }
 
 void unsafe_move(void) {
