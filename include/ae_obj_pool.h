@@ -4,8 +4,6 @@
 // pool
 ////////////////////////////////////////////////////////////////////////////////
 
-#define POOL_SIZE (1 << 7)
-
 extern const struct ae_obj_t * const pool_first;
 extern const struct ae_obj_t * const pool_last;
 
