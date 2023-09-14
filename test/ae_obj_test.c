@@ -47,14 +47,14 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
   T(ae_obj_length(new_list) == 0);
 
-  for (unsigned int ix = 1; ix < 5; ix++) { 
+  for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_tailtip = ALLOC_AE_OBJ;
     ae_obj_init(new_tailtip, AE_INTEGER_);
-    new_tailtip->int_value = ix;
+    new_tailtip->int_value = ix + 1;
 
     ae_obj_push_back(new_list, new_tailtip);
 
-    T(ae_obj_length(new_list) == ix);
+    T(ae_obj_length(new_list) == ix + 1);
   }
 
   return new_list;
@@ -116,7 +116,6 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
   ae_obj_t * new_list = ALLOC_AE_OBJ;
-
   ae_obj_init(new_list, AE_CONS____);
   
   // This cast might be a little sketch? Think about it...
@@ -223,11 +222,6 @@ void simple_clone(void) {
   X(simple_clone)                                                                                                                           \
   X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)
-
-// While there is no explicit test for the _write method, it is, in a sense,
-// implicitly tested: the consed_list_tests test passing relies upon the
-// write method behaving correctly. _map is used by some of the existing tests.
-
 
 #define pair(fun) { #fun, fun },
 
