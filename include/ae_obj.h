@@ -1,6 +1,19 @@
 #pragma once
 
 ////////////////////////////////////////////////////////////////////////////////
+// convenience macros
+////////////////////////////////////////////////////////////////////////////////
+
+#define ALLOC                 (pool_alloc_ae_obj())
+#define NEW(type)             (ae_obj_init(ALLOC, (type)))
+#define MOVE_NEW(that)        (ae_obj_unsafe_move(ALLOC, (that)))
+#define PUSH_BACK(this, that) (ae_obj_push_back((this), (that)))
+#define CAR(this)             ((this)->head)
+#define CDR(this)             ((this)->tail)
+#define CONS(head, tail)      (ae_obj_cons((head), (tail)))
+#define SYM(str)              (c_str_intern((str)))
+
+////////////////////////////////////////////////////////////////////////////////
 // Typedefs
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -134,19 +147,7 @@ ae_obj_t *    ae_obj_cons        (      ae_obj_t * const head, ae_obj_t * const 
 // Intern
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p);
-
-////////////////////////////////////////////////////////////////////////////////
-// convenience macros
-////////////////////////////////////////////////////////////////////////////////
-
-#define ALLOC                 (pool_alloc_ae_obj())
-#define NEW(type)             (ae_obj_init(ALLOC, (type)))
-#define MOVE_NEW(that)        (ae_obj_unsafe_move(ALLOC, (that)))
-#define PUSH_BACK(this, that) (ae_obj_push_back((this), (that)))
-#define CAR(this)             ((this)->head)
-#define CDR(this)             ((this)->tail)
-#define CONS(head, tail)      (ae_obj_cons((head), (tail)))
+ae_obj_t * c_str_intern(ae_string_t c_str, ae_obj_t ** const sym_list_p);
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
