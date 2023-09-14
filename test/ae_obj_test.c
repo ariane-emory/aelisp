@@ -22,6 +22,25 @@
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////
 
+bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
+  // For expedience-of-implementation's sake, we'll check if this is what it's
+  // supposed to be by _fwriting it into a string and comparing it to a string
+  // constant.
+  
+  const size_t buff_len = 1 << 8;
+  char *       buff     = malloc(buff_len);
+  FILE *       stream   = fmemopen(buff, buff_len, "w");
+
+  ae_obj_fwrite(this, stream);
+  fclose(stream);
+
+  bool ret = T(strcmp(strcmp_str, buff) == 0);
+
+  free(buff);
+  
+  return ret;
+}
+
 ae_obj_t * push_together_a_list_of_ints(void) {
   ae_obj_t *  new_list = ALLOC_AE_OBJ;
   ae_obj_init(new_list,  AE_CONS____);
@@ -75,25 +94,6 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   }
   
   return new_list;
-}
-
-bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
-  // For expedience-of-implementation's sake, we'll check if this is what it's
-  // supposed to be by _fwriting it into a string and comparing it to a string
-  // constant.
-  
-  const size_t buff_len = 1 << 8;
-  char *       buff     = malloc(buff_len);
-  FILE *       stream   = fmemopen(buff, buff_len, "w");
-
-  ae_obj_fwrite(this, stream);
-  fclose(stream);
-
-  bool ret = T(strcmp(strcmp_str, buff) == 0);
-
-  free(buff);
-  
-  return ret;
 }
 
 static size_t list_counter = 0;
