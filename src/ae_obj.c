@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 #include <assert.h>
 
@@ -392,8 +393,7 @@ ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (CAR(this)) {
     ae_obj_t * position = this;
     for (; CDR(position); position = CDR(position));
-    CDR(position)       = NEW(AE_CONS____);
-    CADR(position)      = obj;
+    CDR(position)       = CONS(obj, NULL);
 
     AFTER_PUSH_MESSAGE(CDR(position));
   
