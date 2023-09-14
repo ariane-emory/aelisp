@@ -226,7 +226,8 @@ void simple_clone(void) {
 
 // While there is no explicit test for the _write method, it is, in a sense,
 // implicitly tested: the consed_list_tests test passing relies upon the
-// write method behaving correctly.
+// write method behaving correctly. _map is used by some of the existing tests.
+
 
 #define pair(fun) { #fun, fun },
 
