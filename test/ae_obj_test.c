@@ -124,8 +124,12 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
   return CONS((ae_obj_t *)this, new_list);
 }
 
-void basic_list_checks(ae_obj_t * this) {
+#define COUNT_LIST(l)                                                                                                                       \
+  list_counter = 0;                                                                                                                         \
   ae_obj_each(this, incr_list_counter); 
+
+void basic_list_checks(ae_obj_t * this) {
+  COUNT_LIST(this);
 
   T(list_counter == 4);
   T(ae_obj_length(this) == 4);
