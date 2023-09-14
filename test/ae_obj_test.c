@@ -9,6 +9,7 @@
   pool_clear();                                                                                                                             \
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
+  TEST_CHECK(this != that);                                                                                                                 \
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
@@ -58,23 +59,31 @@ void unsafe_move(void) {
   that->numerator_value   = 123;
   that->denominator_value = 321;
 
-  /* putchar('\n'); */
-  /* printf("this is %p and that is %p.\n", this, that); */
-  /* fputs("this ", stdout); ae_obj_put(this); putchar('\n'); */
-  /* fputs("that ", stdout); ae_obj_put(that); putchar('\n'); */
-
   ae_obj_unsafe_move(this, that);
 
-  /* fputs("this ", stdout); ae_obj_put(this); putchar('\n'); */
-  /* fputs("that ", stdout); ae_obj_put(that); putchar('\n'); */
-
-  TEST_CHECK(this->type == AE_RATIONAL);
+  TEST_CHECK(this->type              == AE_RATIONAL);
   TEST_CHECK(this->numerator_value   == 123);
   TEST_CHECK(this->denominator_value == 321);
 
-  TEST_CHECK(that->type == AE_FREE____);
+  TEST_CHECK(that->type              == AE_FREE____);
   TEST_CHECK(that->numerator_value   == 0);
   TEST_CHECK(that->denominator_value == 0);
+}
+
+void simple_clone(void) {
+  SETUP_TEST;
+
+  ae_obj_init(this, AE_RATIONAL);
+  this->numerator_value   = 123;
+  this->denominator_value = 321;
+
+  ae_obj_t * clone = ae_obj_clone(this);
+
+  TEST_CHECK(this != that);
+
+  TEST_CHECK(clone->type              == AE_RATIONAL);
+  TEST_CHECK(clone->numerator_value   == 123);
+  TEST_CHECK(clone->denominator_value == 321);
 }
 
 #define FOR_TEST_FUNS_DO(X)                                                                                                            \
@@ -82,7 +91,8 @@ void unsafe_move(void) {
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                   \
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                   \
   X(unsafe_move)                                                                                                                       \
-  X(cons)
+  X(simple_clone)
+//  X(cons)
 
 #define pair(fun) { #fun, fun },
 

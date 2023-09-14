@@ -83,10 +83,12 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
+#ifdef NOISY_INIT
   fputs("Cloning          ", stdout);
   ae_obj_put(this);
   putchar('\n');
   fflush(stdout);
+#endif
   
   ae_obj_t * clone = 0;
 
@@ -112,12 +114,14 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 #undef CLONE_USING_MEMCPY
 #undef DUP_C_STR
   
+#ifdef NOISY_INIT
   fputs("Cloned           ", stdout);
   ae_obj_put(this);
   fputs(" into ", stdout);
   ae_obj_put(clone);
   putchar('\n');
   fflush(stdout);
+#endif
 
   return clone;
 }
