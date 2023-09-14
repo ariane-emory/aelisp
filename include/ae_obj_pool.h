@@ -2,15 +2,12 @@
 
 #include "ae_obj.h"
 
-struct ae_obj_t;
-
 ////////////////////////////////////////////////////////////////////////////////
 // pool
 ////////////////////////////////////////////////////////////////////////////////
 
 #define POOL_SIZE (1 << 7)
 
-// extern struct ae_obj_t               pool[POOL_SIZE];
 extern const struct ae_obj_t * const pool_first;
 extern const struct ae_obj_t * const pool_last;
 
