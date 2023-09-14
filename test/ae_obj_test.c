@@ -41,6 +41,14 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   TEST_MSG("After ae_obj_init(obj, AE_RATIONAL), its data fields should == 0.");
 }
 
+
+static size_t cons_tests_length = 0;
+
+void incr_cons_tests_length(ae_obj_t * const this) {
+  (void)this;
+  cons_tests_length++;
+}
+
 void cons(void) {
   SETUP_TEST;
 
@@ -83,8 +91,13 @@ void cons(void) {
   fclose(stream);
 
   T(strcmp(strcmp_str, buff) == 0);
-  
   free(buff);
+
+  printf("Final len %d\n", ae_obj_length(this));
+
+  ae_obj_each(this, incr_cons_tests_length);
+
+  T(cons_tests_length == 4);
 }
 
 void unsafe_move(void) {
