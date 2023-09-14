@@ -46,9 +46,11 @@ void cons(void) {
 
   ae_obj_init(this, AE_CONS____);
   this->head = that;
-  
+
   ae_obj_init(that, AE_INTEGER_);
   that->int_value = 123;
+
+  T(ae_obj_length(this) == 1);
 
   ae_obj_t * new_head = ALLOC_AE_OBJ;
   ae_obj_init(new_head, AE_INTEGER_);
@@ -61,6 +63,7 @@ void cons(void) {
   T(cons_result != new_head);
   T(cons_result->head == new_head);
   T(cons_result->tail == this);
+  T(ae_obj_length(cons_result) == 2);
 }
 
 void unsafe_move(void) {
