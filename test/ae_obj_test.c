@@ -48,6 +48,16 @@ void incr_cons_and_each_tests_length(ae_obj_t * const this) {
   cons_and_each_tests_length++;
 }
 
+ae_obj_t * double_ae_obj(ae_obj_t * const this) {
+  ASSERT_INTEGERP(this);
+
+  ae_obj_t * that = ALLOC_AE_OBJ;
+  ae_obj_init(that, AE_INTEGER_);
+  that->int_value = this->int_value * 2;
+
+  return that;
+}
+
 void cons_and_each(void) {
   SETUP_TEST;
 
