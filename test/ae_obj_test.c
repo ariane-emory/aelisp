@@ -112,12 +112,9 @@ void list_tests(void) {
     free(buff);
   }
 
-  ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
-  puts("Doubled is ");
-  ae_obj_write(doubled);
-  NL;
-
   {
+    ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
+
     // For expedienc-of-implementation's sake, we'll check if the list is what
     // it's supposed to be by fwriting it into a string and comparing it to a
     // string constant.
