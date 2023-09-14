@@ -161,5 +161,5 @@ extern const ae_obj_t * const pool_last;
 
 ae_obj_t * pool_alloc_ae_obj();
 void       pool_free_ae_obj(ae_obj_t * const this);
-void pool_print(void);
-void pool_clear(void);
+void       pool_print(void);
+void       pool_clear(void);
