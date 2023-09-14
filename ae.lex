@@ -53,7 +53,7 @@
           case chr:                                                                                                                         \
             yylval.char_value = replacement;                                                                                           \
             break;
-          FOR_ESCAPED_CHARACTER_DO(escaped_char_case);
+          FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
         default:
           printf("Unrecognized escape sequence in [%s]!\n", yytext);
           break;

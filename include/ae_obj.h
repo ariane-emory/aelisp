@@ -10,7 +10,7 @@ typedef char * ae_string_t;
 // Escaped chars helper
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_ESCAPED_CHARACTER_DO(DO)                                                                                                        \
+#define FOR_EACH_ESCAPED_CHARACTER(DO)                                                                                                      \
   DO('a',  '\a')                                                                                                                            \
   DO('b',  '\b')                                                                                                                            \
   DO('f',  '\f')                                                                                                                            \
@@ -27,7 +27,7 @@ typedef char * ae_string_t;
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_LEXED_TYPES_DO(DO)                                                                                                              \
+#define FOR_EACH_LEXED_TYPES(DO)                                                                                                            \
   DO(AE_INTEGER_)                                                                                                                           \
   DO(AE_INVALID_)                                                                                                                           \
   DO(AE_CHAR____)                                                                                                                           \
@@ -45,7 +45,7 @@ typedef char * ae_string_t;
 
 typedef enum {
   AE_FREE____ = 0,
-  FOR_LEXED_TYPES_DO(enum_node)
+  FOR_EACH_LEXED_TYPES(enum_node)
 } ae_type_t;
 
 #define INTEGERP(o)         ((o)->type == AE_INTEGER_)

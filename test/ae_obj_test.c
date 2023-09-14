@@ -161,7 +161,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
                                                                                                                                             \
     T(this->type == _type);                                                                                                                 \
   }
-  FOR_LEXED_TYPES_DO(test);
+  FOR_EACH_LEXED_TYPES(test);
 }
 
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
@@ -243,7 +243,7 @@ void intern_symbols(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_TEST_FUNS_DO(DO)                                                                                                                \
+#define FOR_EACH_TEST_FUNS(DO)                                                                                                              \
   DO(test_setup_is_okay)                                                                                                                    \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                                                                 \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                            \
@@ -261,6 +261,6 @@ void intern_symbols(void) {
 #define pair(fun) { #fun, fun },
 
 TEST_LIST = {
-  FOR_TEST_FUNS_DO(pair)
+  FOR_EACH_TEST_FUNS(pair)
   { NULL, NULL }
 };

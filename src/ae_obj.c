@@ -22,7 +22,7 @@
 #define return_str(x) case x: return #x;
 const char * ae_type_str(const ae_type_t this) {
   switch (this) {
-    FOR_LEXED_TYPES_DO(return_str);
+    FOR_EACH_LEXED_TYPES(return_str);
     return_str(AE_FREE____);
   default:
     return "UNRECOGNIZED";
@@ -264,7 +264,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
         tmp[0] = '\\';                                                                                                                      \
         tmp[1] = displayed;                                                                                                                 \
         break;
-      FOR_ESCAPED_CHARACTER_DO(escaped_char_case);
+      FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
 #undef escaped_char_case
     default:
       tmp[0] = this->char_value;
