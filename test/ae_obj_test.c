@@ -38,9 +38,8 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
   ae_obj_init(this, AE_RATIONAL);
   T(this->numerator_value == 0 && this->denominator_value == 0);
-  TEST_MSG("After ae_obj_init(obj, AE_RATIONAL), its data fields should == 0.");
+  TEST_MSG("After ae_obj_init(obj, %s), its data fields should == 0.", ae_type_str(this->type));
 }
-
 
 static size_t cons_tests_length = 0;
 
