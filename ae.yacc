@@ -32,7 +32,7 @@
     OBJ(this);
     NL;
     
-    if (this->type == AE_CONS____ && this->head) {
+    if (this->type == AE_CONS____ && CAR(this)) {
       ++indent;
       ae_obj_each(this, describe);
       --indent;
@@ -85,7 +85,7 @@
     NL;
     NL;
     puts("Describing items in program.");
-    if (program_obj->type == AE_CONS____ && program_obj->head)
+    if (program_obj->type == AE_CONS____ && CAR(program_obj))
       ae_obj_each(program_obj, describe);
     puts("Described items in program.");
     NL;
@@ -94,7 +94,7 @@
     puts("\nWrote program obj.");
     NL;
     puts("Writing items in program obj.");
-    if (program_obj->type == AE_CONS____ && program_obj->head)
+    if (program_obj->type == AE_CONS____ && CAR(program_obj))
       ae_obj_each(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
