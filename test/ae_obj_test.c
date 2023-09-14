@@ -68,7 +68,12 @@ void cons(void) {
     T(ae_obj_length(this) == 1 + ix);
   }
 
-  const char * const strcmp_str = "(126 125 124 123) ";
+  // For expedienc-of-implementation's sake, we'll check if the list is what
+  // it's supposed to be by fwriting it into a string and comparing it to a
+  // string constant.
+
+  // ae_obj_fwrite does dumb shit with backspace:  
+  const char * const strcmp_str = "(126 125 124 123 \b) ";
   
   const size_t buff_len = 1 << 8;
   char * buff = malloc(buff_len);
@@ -76,16 +81,8 @@ void cons(void) {
   FILE * stream = fmemopen(buff, buff_len, "w");
   ae_obj_fwrite(this, stream);
   fclose(stream);
-  
-  printf("\nBuff has    '%s'\n", buff);
-  printf(  "Cmp str has '%s'\n", strcmp_str);
 
-  for (size_t ix = 0; ix < strlen(strcmp_str); ix++) {
-    printf("'%c' (%d) vs '%c' (%d).\n", strcmp_str[ix], (unsigned int)strcmp_str[ix], buff[ix], (unsigned int)buff[ix]);
-  }
-  
-  int cmp = strcmp(strcmp_str, buff);
-  printf("cmp = %d\n", cmp);
+  T(strcmp(strcmp_str, buff) == 0);
   
   free(buff);
 }
