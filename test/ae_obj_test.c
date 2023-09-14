@@ -107,9 +107,7 @@ void incr_list_counter(ae_obj_t * const this) {
 ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
-  ae_obj_t * new_obj = ALLOC_AE_OBJ;
-  ae_obj_init(new_obj, AE_INTEGER_);
-
+  ae_obj_t * new_obj = NEW_AE_OBJ(AE_INTEGER_);
   new_obj->int_value = this->int_value * 2;
 
   return new_obj;
