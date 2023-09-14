@@ -99,7 +99,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   fflush(stdout);
 #endif
   
-  ae_obj_t * clone = 0;
+  ae_obj_t * clone = NULL;
 
 #define CLONE_USING_MEMCPY clone = ALLOC(); memcpy(clone, this, sizeof(ae_obj_t))
 #define DUP_C_STR(field) clone->field = strdup(this->field)
@@ -243,7 +243,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
     fputs(this->sym_value, _stream);
     break;
   case AE_STRING__:
-    if (this->str_value == 0) {
+    if (this->str_value == NULL) {
       fputs("(null)", _stream);
     }
     else {
@@ -331,7 +331,8 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 }
 
 ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
-  if (! this) return 0;
+  if (! this)
+    return NULL;
   
   ASSERT_CONSP(this);
 
@@ -376,7 +377,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
     putchar('\n');                                                                                                                          \
     putchar('\n');
 #else
-#  define AFTER_PUSH_MESSAGE(tailtip) ((void)0)
+#  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif
 
 ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
@@ -397,7 +398,7 @@ ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 
     AFTER_PUSH_MESSAGE(CDR(position));
   
-    return CDR(position); // double check if this is the right cons!
+    return CDR(position);
   }
   else {
     CAR(this) = obj;

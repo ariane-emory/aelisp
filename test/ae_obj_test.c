@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #include "ae_obj.h"
 #include "acutest.h"
@@ -13,13 +14,13 @@
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; ae_obj_each((l), incr_list_length_counter);
 
 #define SETUP_TEST                                                                                                                          \
-  static char * tmp_str = 0;                                                                                                                \
-  ae_obj_t * this = 0;                                                                                                                      \
-  ae_obj_t * that = 0;                                                                                                                      \
+  static char * tmp_str = NULL;                                                                                                             \
+  ae_obj_t *    this    = NULL;                                                                                                             \
+  ae_obj_t *    that    = NULL;                                                                                                             \
   pool_clear();                                                                                                                             \
   if (tmp_str) {                                                                                                                            \
     free(tmp_str);                                                                                                                          \
-    tmp_str = 0;                                                                                                                            \
+    tmp_str = NULL;                                                                                                                         \
   }                                                                                                                                         \
   (void)this;                                                                                                                               \
   (void)that;
@@ -158,7 +159,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
                                                                                                                                             \
-    this = NEW(_type);                                                                                                               \
+    this = NEW(_type);                                                                                                                      \
                                                                                                                                             \
     T(this->type == _type);                                                                                                                 \
   }
@@ -240,7 +241,7 @@ void intern_symbols(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_TEST_FUN(DO)                                                                                                              \
+#define FOR_EACH_TEST_FUN(DO)                                                                                                               \
   DO(test_setup_is_okay)                                                                                                                    \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                                                                 \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                            \
