@@ -396,9 +396,9 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); sym->sym_value = strdup(c_str)
+#define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); sym->sym_value = strdup(string)
 
-ae_obj_t * string_intern(ae_string_t c_str, ae_obj_t ** const sym_list_p) {
+ae_obj_t * string_intern(ae_string_t string, ae_obj_t ** const sym_list_p) {
   if (! *sym_list_p)
     *sym_list_p = NEW(AE_CONS____);
   
@@ -409,24 +409,13 @@ ae_obj_t * string_intern(ae_string_t c_str, ae_obj_t ** const sym_list_p) {
   }
 
   for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) 
-    if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
+    if (strcmp(string, CAR(cons)->sym_value) == 0) 
       return CAR(cons);
      
   NEW_SYM(sym);
    
   return CAR(*sym_list_p = CONS(sym, *sym_list_p));
 }
-
-// micro-lisp's version:
-// 
-// Object * intern(const char *sym) {
-//   Object *_pair = symbols;
-//   for ( ; _pair ; _pair = cdr(_pair))
-//     if (strncmp(sym, car(_pair)->value.string, TOKEN_MAX)==0)
-//       return car(_pair);
-//   symbols = cons(newsymbol(sym), symbols);
-//   return car(symbols);
-// }
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool 
