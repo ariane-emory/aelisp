@@ -86,7 +86,7 @@ void list_tests(void) {
   }
 
   {
-    printf("Final len %d\n", ae_obj_length(this));
+    // printf("Final len %d\n", ae_obj_length(this));
 
     ae_obj_each(this, incr_list_tests_tests_length);
   

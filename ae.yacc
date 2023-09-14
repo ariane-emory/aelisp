@@ -77,15 +77,12 @@
     printf("root:            ");
     ae_obj_put(root);
     NL;
-    NL;
       
     ae_obj_t * program_obj = ALLOC_AE_OBJ; 
     ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
 
-    NL;
     printf("program:         ");
     ae_obj_put(program_obj);
-    NL;
     NL;
     puts("Describing items in program.");
     if (program_obj->type == AE_CONS____ && program_obj->head)
