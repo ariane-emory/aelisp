@@ -226,7 +226,6 @@ void pushed_and_consed_lists_write_identically(void) {
   T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
-
 void intern_symbols(void) {
   SETUP_TEST;
 
