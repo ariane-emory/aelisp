@@ -11,7 +11,7 @@
   pool_clear();                                                                                                                             \
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
-  T(this != that);                                                                                                                 \
+  T(this != that);                                                                                                                          \
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
@@ -28,7 +28,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
     ae_obj_init(this, _type);                                                                                                               \
-    T(this->type == _type);                                                                                                        \
+    T(this->type == _type);                                                                                                                 \
     TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type ".");                                                               \
   }
   FOR_LEXED_TYPES_DO(test);
@@ -86,11 +86,11 @@ void cons_and_each(void) {
   }
 
   {
-      printf("Final len %d\n", ae_obj_length(this));
+    printf("Final len %d\n", ae_obj_length(this));
 
-      ae_obj_each(this, incr_cons_and_each_tests_length);
+    ae_obj_each(this, incr_cons_and_each_tests_length);
   
-      T(cons_and_each_tests_length == 4);
+    T(cons_and_each_tests_length == 4);
   }
   
   {
@@ -112,12 +112,29 @@ void cons_and_each(void) {
     free(buff);
   }
 
-
   ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
   puts("Doubled is ");
   ae_obj_write(doubled);
   NL;
-  
+
+  {
+    // For expedienc-of-implementation's sake, we'll check if the list is what
+    // it's supposed to be by fwriting it into a string and comparing it to a
+    // string constant.
+    
+    // ae_obj_fwrite does dumb shit with backspace:  
+    const char * const strcmp_str = "(252 250 248 246 \b) ";
+    
+    const size_t buff_len = 1 << 8;
+    char * buff = malloc(buff_len);
+    
+    FILE * stream = fmemopen(buff, buff_len, "w");
+    ae_obj_fwrite(doubled, stream);
+    fclose(stream);
+
+    T(strcmp(strcmp_str, buff) == 0);
+    free(buff);
+  }
 }
 
 void unsafe_move(void) {
@@ -202,13 +219,13 @@ void simple_clone(void) {
   T(clone->denominator_value == 321);
 }
 
-#define FOR_TEST_FUNS_DO(X)                                                                                                            \
-  X(newly_allocated_ae_obj_is_inside_pool)                                                                                             \
-  X(newly_initialized_ae_obj_has_correct_type_field)                                                                                   \
-  X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                   \
-  X(unsafe_move)                                                                                                                       \
-  X(simple_clone)                                                                                                                      \
-  X(push_back)                                                                                                                         \
+#define FOR_TEST_FUNS_DO(X)                                                                                                                 \
+  X(newly_allocated_ae_obj_is_inside_pool)                                                                                                  \
+  X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
+  X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                        \
+  X(unsafe_move)                                                                                                                            \
+  X(simple_clone)                                                                                                                           \
+  X(push_back)                                                                                                                              \
   X(cons_and_each)
 
 #define pair(fun) { #fun, fun },
