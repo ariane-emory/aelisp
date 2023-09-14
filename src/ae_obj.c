@@ -423,7 +423,6 @@ ae_obj_t * ae_obj_string_intern(ae_obj_t ** const sym_list_p, ae_string_t string
 // pool 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef POOL_SIZE
 ae_obj_t pool[POOL_SIZE] = { 0 };
 
 const ae_obj_t * const pool_first = &pool[0];
@@ -457,7 +456,6 @@ ae_obj_t * pool_alloc_ae_obj() {
 void pool_free_ae_obj(ae_obj_t * const this) {
   ae_obj_init(this, AE_FREE____);
 }
-#endif
 
 void pool_print(void) {
   puts("\nPrinting pool contents.");
