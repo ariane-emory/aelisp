@@ -239,7 +239,7 @@ void pushed_and_consed_lists_write_identically(void) {
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                        \
   X(unsafe_move_an_ae_obj)                                                                                                                  \
-  X(clone_a_simple_ae_obj)                                                                                                                  \
+  X(clone_a_simple_ae_obju)                                                                                                                 \
   X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)                                                                                                                      \
   X(pushed_and_consed_lists_write_identically)
