@@ -4,6 +4,8 @@
 #include "ae_obj.h"
 #include "acutest.h"
 
+ae_obj_t * symbols = 0;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Macros
 ////////////////////////////////////////////////////////////////////////////////
@@ -240,6 +242,18 @@ void pushed_and_consed_lists_write_identically(void) {
   T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
+
+void intern_symbols(void) {
+  SETUP_TEST;
+
+  ae_obj_init(this, AE_SYMBOL__);
+  ae_obj_init(that, AE_SYMBOL__);
+
+  this->sym_value = "one";
+  this->sym_value = "two";
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////
@@ -254,7 +268,8 @@ void pushed_and_consed_lists_write_identically(void) {
   X(clone_a_simple_ae_obj)                                                                                                                  \
   X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)                                                                                                                      \
-  X(pushed_and_consed_lists_write_identically)
+  X(pushed_and_consed_lists_write_identically)                                                                                              \
+  X(intern_symbols)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
 
