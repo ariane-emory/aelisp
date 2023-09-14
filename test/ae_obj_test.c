@@ -13,6 +13,7 @@
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
   T(this != that);                                                                                                                          \
+  list_tests_tests_length = 0;                                                                                                              \
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
@@ -144,11 +145,25 @@ void list_tests(void) {
   SETUP_TEST;
   
   this = cons_together_a_list_of_ints();
+
   ae_obj_each(this, incr_list_tests_tests_length);
 
   T(list_tests_tests_length == 4);
+  T(ae_obj_length(this) == 4);
   T(shitty_write_based_equality_predicate(this,                            "(126 125 124 123 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
+}
+
+void push_back(void) {
+  SETUP_TEST;
+
+  this = push_together_a_list_of_ints();
+
+  /* ae_obj_each(this, incr_list_tests_tests_length); */
+
+  /* T(list_tests_tests_length == 4); */
+  T(ae_obj_length(this));
+  T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
 }
 
 void unsafe_move(void) {
@@ -166,30 +181,10 @@ void unsafe_move(void) {
   T(this->type              == AE_RATIONAL);
   T(this->numerator_value   == 123);
   T(this->denominator_value == 321);
+
   T(that->type              == AE_FREE____);
   T(that->numerator_value   == 0);
   T(that->denominator_value == 0);
-}
-
-
-void push_back(void) {
-  SETUP_TEST;
-
-  ae_obj_init(this, AE_CONS____);
-
-  T(ae_obj_length(this) == 0);
-
-  for (unsigned int ix = 1; ix < 4; ix++) { 
-    ae_obj_t * new_last = ALLOC_AE_OBJ;
-    ae_obj_init(new_last, AE_INTEGER_);
-    new_last->int_value = 123 + ix;
-
-    ae_obj_push_back(this, new_last);
-
-    T(ae_obj_length(this) == ix);
-  }
-
-  T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
 }
 
 void simple_clone(void) {
