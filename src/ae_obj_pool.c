@@ -12,10 +12,9 @@
 // pool 
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t pool[AE_OBJ_POOL_SIZE] = { 0 };
-
-const ae_obj_t * const pool_first = &pool[0];
-const ae_obj_t * const pool_last  = &pool[AE_OBJ_POOL_SIZE - 1];
+/* */ ae_obj_t         pool[AE_OBJ_POOL_SIZE] = { 0 };
+const ae_obj_t * const pool_first             = &pool[0];
+const ae_obj_t * const pool_last              = &pool[AE_OBJ_POOL_SIZE - 1];
 
 ////////////////////////////////////////////////////////////////////////////////
 // alloc
