@@ -144,8 +144,8 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p);
 #define NEW(type)             (ae_obj_init(ALLOC, (type)))
 #define MOVE_NEW(that)        (ae_obj_unsafe_move(ALLOC, (that)))
 #define PUSH_BACK(this, that) (ae_obj_push_back((this), (that)))
-#define CAR(obj)              ((obj)->head)
-#define CDR(obj)              ((obj)->tail)
+#define CAR(this)             ((this)->head)
+#define CDR(this)             ((this)->tail)
 #define CONS(head, tail)      (ae_obj_cons((head), (tail)))
 
 ////////////////////////////////////////////////////////////////////////////////
