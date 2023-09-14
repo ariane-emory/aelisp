@@ -10,7 +10,7 @@
 
 #define T TEST_CHECK
 
-#define COUNT_LIST(l) list_counter = 0; ae_obj_each((l), incr_list_counter); 
+#define COUNT_LIST_LENGTH(l) list_length_counter = 0; ae_obj_each((l), incr_list_length_counter); 
 
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
@@ -91,11 +91,11 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   return list;
 }
 
-static size_t list_counter = 0;
+static size_t list_length_counter = 0;
 
-void incr_list_counter(ae_obj_t * const this) {
+void incr_list_length_counter(ae_obj_t * const this) {
   (void)this;
-  list_counter++;
+  list_length_counter++;
 }
 
 ae_obj_t * ae_obj_double(ae_obj_t * const this) {
@@ -117,9 +117,9 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
-  COUNT_LIST(this);
+  COUNT_LIST_LENGTH(this);
 
-  T(list_counter == 4);
+  T(list_length_counter == 4);
   T(ae_obj_length(this) == 4);
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
