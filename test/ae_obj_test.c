@@ -80,6 +80,10 @@ void cons(void) {
   printf("\nBuff has    '%s'\n", buff);
   printf(  "Cmp str has '%s'\n", strcmp_str);
 
+  for (size_t ix = 0; ix < strlen(strcmp_str); ix++) {
+    printf("'%c' (%d) vs '%c' (%d).\n", strcmp_str[ix], (unsigned int)strcmp_str[ix], buff[ix], (unsigned int)buff[ix]);
+  }
+  
   int cmp = strcmp(strcmp_str, buff);
   printf("cmp = %d\n", cmp);
   
