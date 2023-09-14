@@ -101,16 +101,11 @@
       ae_obj_each(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
-    puts("Writing symbols in program.");
+    puts("Writing interned symbols.");
     ae_obj_write(symbols);
-    puts("\nWrote symbols in program.");
-    NL;
+    puts("\nWrote interned symbols.");
 
-#define   PRINT_POOL
-
-#ifdef    PRINT_POOL
     pool_print();
-#endif // PRINT_POOL
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -151,8 +146,10 @@ sexps:
 sexps sexp {
 
   if (SYMBOLP(&$2)) {
+#ifdef NOISY_INIT
     printf("Interning '%s'...\n", $2.sym_value);
     fflush(stdout);
+#endif
     ae_obj_push_back(&$$, c_str_intern($2.sym_value, &symbols));
   }
   else {
