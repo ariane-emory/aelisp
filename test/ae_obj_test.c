@@ -17,17 +17,48 @@
   (void)counter;                                                                                                                            \
   (void)that;
 
+ae_obj_t * create_a_list_of_ints(void) {
+  ae_obj_t * new_list   = ALLOC_AE_OBJ;
+  ae_obj_t * head       = ALLOC_AE_OBJ;
+  ae_obj_init(new_list,   AE_CONS____);
+  ae_obj_init(head,       AE_INTEGER_);
+
+  new_list->head = head;
+  head->int_value = 123;
+  
+
+
+  T(ae_obj_length(new_list) == 1);
+
+  for (unsigned int ix = 1; ix < 4; ix++) { 
+    ae_obj_t * new_head = ALLOC_AE_OBJ;
+    ae_obj_init(new_head, AE_INTEGER_);
+    new_head->int_value = 123 + ix;
+
+    ae_obj_t * tail = new_list;
+    
+    new_list = CONS(new_head, tail);
+    
+    T(new_list != head);
+    T(new_list != new_head);
+    T(new_list->head == new_head);
+    T(new_list->tail == tail);
+    T(ae_obj_length(new_list) == 1 + ix);
+  }
+
+  return new_list;
+}
+
 bool shitty_write_based_equal(const ae_obj_t * const this, const char * const strcmp_str) {
   // For expedience-of-implementation's sake, we'll check if this is what it's
   // supposed to be by _fwriting it into a string and comparing it to a string
   // constant.
   
   const size_t buff_len = 1 << 8;
-  char * buff = malloc(buff_len);
-  FILE * stream = fmemopen(buff, buff_len, "w");
+  char *       buff     = malloc(buff_len);
+  FILE *       stream   = fmemopen(buff, buff_len, "w");
 
   ae_obj_fwrite(this, stream);
-
   fclose(stream);
 
   bool ret = T(strcmp(strcmp_str, buff) == 0);
@@ -109,25 +140,10 @@ void list_tests(void) {
   ae_obj_each(this, incr_list_tests_tests_length);
 
   T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
-
-  {
-    ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
-
-  T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
   
-    // ae_obj_fwrite does dumb shit with backspace:  
-    const char * const strcmp_str = "(252 250 248 246 \b) ";
-    
-    const size_t buff_len = 1 << 8;
-    char * buff = malloc(buff_len);
-    
-    FILE * stream = fmemopen(buff, buff_len, "w");
-    ae_obj_fwrite(doubled, stream);
-    fclose(stream);
+  ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
 
-    T(strcmp(strcmp_str, buff) == 0);
-    free(buff);
-  }
+  T(shitty_write_based_equal(doubled, "(252 250 248 246 \b) "));
 }
 
 void unsafe_move(void) {
