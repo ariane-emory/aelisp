@@ -6,6 +6,8 @@
 
 #define T    TEST_CHECK
 
+#define COUNT_LIST(l) list_counter = 0; ae_obj_each((l), incr_list_counter); 
+
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
   if (tmp_str) {                                                                                                                            \
@@ -17,7 +19,6 @@
   T(!!this);                                                                                                                                \
   T(!!that);                                                                                                                                \
   T(this != that);                                                                                                                          \
-  list_counter = 0;                                                                                                                         \
   (void)that;
 
 char * tmp_str = 0;
@@ -106,12 +107,12 @@ void incr_list_counter(ae_obj_t * const this) {
 ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
-  ae_obj_t * that = ALLOC_AE_OBJ;
-  ae_obj_init(that, AE_INTEGER_);
+  ae_obj_t * new_obj = ALLOC_AE_OBJ;
+  ae_obj_init(new_obj, AE_INTEGER_);
 
-  that->int_value = this->int_value * 2;
+  new_obj->int_value = this->int_value * 2;
 
-  return that;
+  return new_obj;
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
@@ -123,10 +124,6 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 
   return CONS((ae_obj_t *)this, new_list);
 }
-
-#define COUNT_LIST(l)                                                                                                                       \
-  list_counter = 0;                                                                                                                         \
-  ae_obj_each(this, incr_list_counter); 
 
 void basic_list_checks(ae_obj_t * this) {
   COUNT_LIST(this);
@@ -217,12 +214,12 @@ void clone_a_simple_ae_obj(void) {
   this->numerator_value   = 123;
   this->denominator_value = 321;
 
-  ae_obj_t * clone = ae_obj_clone(this);
+  that = ae_obj_clone(this);
 
   T(this != that);
-  T(clone->type              == AE_RATIONAL);
-  T(clone->numerator_value   == 123);
-  T(clone->denominator_value == 321);
+  T(that->type              == AE_RATIONAL);
+  T(that->numerator_value   == 123);
+  T(that->denominator_value == 321);
 }
 
 void pushed_and_consed_lists_write_identically(void) {
