@@ -108,6 +108,45 @@ void unsafe_move(void) {
   T(that->denominator_value == 0);
 }
 
+
+void push_back(void) {
+  SETUP_TEST;
+
+  ae_obj_init(this, AE_CONS____);
+
+  T(ae_obj_length(this) == 0);
+
+  for (unsigned int ix = 1; ix < 4; ix++) { 
+    ae_obj_t * new_last = ALLOC_AE_OBJ;
+    ae_obj_init(new_last, AE_INTEGER_);
+    new_last->int_value = 123 + ix;
+
+    ae_obj_t * tail = this;
+
+    ae_obj_push_back(this, new_last);
+
+    T(ae_obj_length(this) == ix);
+  }
+
+  // For expedienc-of-implementation's sake, we'll check if the list is what
+  // it's supposed to be by fwriting it into a string and comparing it to a
+  // string constant.
+
+  // ae_obj_fwrite does dumb shit with backspace:  
+  const char * const strcmp_str = "(126 125 124 123 \b) ";
+  
+  const size_t buff_len = 1 << 8;
+  char * buff = malloc(buff_len);
+
+  FILE * stream = fmemopen(buff, buff_len, "w");
+  ae_obj_fwrite(this, stream);
+  fclose(stream);
+
+  T(strcmp(strcmp_str, buff) == 0);
+  
+  free(buff);
+}
+
 void simple_clone(void) {
   SETUP_TEST;
 
@@ -129,6 +168,7 @@ void simple_clone(void) {
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                   \
   X(unsafe_move)                                                                                                                       \
   X(simple_clone)                                                                                                                      \
+  X(push_back)                                                                                                                         \
   X(cons)
 
 #define pair(fun) { #fun, fun },
