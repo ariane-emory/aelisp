@@ -51,7 +51,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   return new_list;
 }
 
-bool shitty_write_based_equal(const ae_obj_t * const this, const char * const strcmp_str) {
+bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
   // For expedience-of-implementation's sake, we'll check if this is what it's
   // supposed to be by _fwriting it into a string and comparing it to a string
   // constant.
@@ -128,8 +128,8 @@ void list_tests(void) {
   ae_obj_each(this, incr_list_tests_tests_length);
 
   T(list_tests_tests_length == 4);
-  T(shitty_write_based_equal(this,                            "(126 125 124 123 \b) "));
-  T(shitty_write_based_equal(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
+  T(shitty_write_based_equality_predicate(this,                            "(126 125 124 123 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
 }
 
 void unsafe_move(void) {
