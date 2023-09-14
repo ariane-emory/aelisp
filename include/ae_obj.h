@@ -117,7 +117,7 @@ typedef struct ae_obj_t {
       struct ae_obj_t * tail;
     };
   };
-}; // __attribute__((packed)) ae_obj_t;
+} ae_obj_t; // __attribute__((packed)) ae_obj_t;
 
 //------------------------------------------------------------------------------
 // Obj'ss methods
