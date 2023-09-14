@@ -62,13 +62,13 @@ bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 # Lexer/parser
 ################################################################################
 
-tmp/%.lex.c: %.lex tmp/%.tab.c tmp
+tmp/%.lex.c: grammar/%.lex tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
 
-tmp/%.lex.c: %.lex tmp
+tmp/%.lex.c: grammar/%.lex tmp
 	$(LEX) -o $@ $<
 
-tmp/%.tab.c: %.yacc tmp
+tmp/%.tab.c: grammar/%.yacc tmp
 	$(YACC) -d $< -o $@
 
 ################################################################################
