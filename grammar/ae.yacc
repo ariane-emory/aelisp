@@ -59,6 +59,10 @@
     
     putchar('\n');
 
+    printf("Pool first: %zu.\n", pool_first);
+    printf("Pool last:  %zu.\n", pool_last);
+    printf("Pool size:  %zu.\n", (pool_last - pool_first) + sizeof(ae_obj_t));
+    
 #define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t))
     PRINT_SIZEOF(int);
     PRINT_SIZEOF(ae_obj_t *);
