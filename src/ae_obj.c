@@ -394,7 +394,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__); sym->sym_value = strdup(c_str)
+#define NEW_SYM(sym) ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__); sym->sym_value = strdup(c_str)
 
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
   if (! *sym_list_p)
@@ -402,7 +402,7 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
   
   if (! CAR(*sym_list_p)) {
     // shortcut/hack for my weird imaginary nil:
-    NEW_SYM;
+    NEW_SYM(sym);
     return (CAR(*sym_list_p) = sym);
   }
 
@@ -410,7 +410,7 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
     if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
       return CAR(cons);
      
-  NEW_SYM;
+  NEW_SYM(sym);
    
   return CAR(*sym_list_p = CONS(sym, *sym_list_p));
 }
