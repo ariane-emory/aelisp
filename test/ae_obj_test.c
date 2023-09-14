@@ -217,7 +217,7 @@ void simple_clone_an_ae_obj(void) {
   T(clone->denominator_value == 321);
 }
 
-void pushed_and_consed_list_write_identically(void) {
+void pushed_and_consed_lists_write_identically(void) {
   SETUP_TEST;
 
   this            = push_together_a_list_of_ints();
@@ -235,7 +235,7 @@ void pushed_and_consed_list_write_identically(void) {
   X(simple_clone_an_ae_obj)                                                                                                                 \
   X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)                                                                                                                      \
-  X(pushed_and_consed_list_write_identically)
+  X(pushed_and_consed_lists_write_identically)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
 
