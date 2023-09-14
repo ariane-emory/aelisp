@@ -19,7 +19,7 @@
     printf("Initting yylval  %p\n", &yylval);
 #endif
 
-    ae_obj_init(&yylval, ae_type);
+    INIT(&yylval, ae_type);
 
 #ifdef NOISY_INIT
     printf("Initted yylval   %p\n\n", &yylval);
