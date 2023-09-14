@@ -148,6 +148,13 @@ void newly_allocated_ae_obj_is_inside_pool(void)
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
 }
 
+void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
+{
+  SETUP_TEST;
+
+  T(this->type == AE_INVALID_);
+}
+
 void newly_initialized_ae_obj_has_correct_type_field(void) {
 #define test(_type)                                                                                                                         \
   {                                                                                                                                         \
@@ -201,7 +208,7 @@ void unsafe_move_an_ae_obj(void) {
   T(that->denominator_value == 0);
 }
 
-void simple_clone_an_ae_obj(void) {
+void clone_a_simple_ae_obj(void) {
   SETUP_TEST;
 
   ae_obj_init(this, AE_RATIONAL);
@@ -228,10 +235,11 @@ void pushed_and_consed_lists_write_identically(void) {
 
 #define FOR_TEST_FUNS_DO(X)                                                                                                                 \
   X(newly_allocated_ae_obj_is_inside_pool)                                                                                                  \
+  X(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                             \
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                        \
   X(unsafe_move_an_ae_obj)                                                                                                                  \
-  X(simple_clone_an_ae_obj)                                                                                                                 \
+  X(clone_a_simple_ae_obj)                                                                                                                  \
   X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)                                                                                                                      \
   X(pushed_and_consed_lists_write_identically)
