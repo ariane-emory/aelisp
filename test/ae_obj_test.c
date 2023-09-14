@@ -120,6 +120,7 @@ void basic_list_checks(ae_obj_t * this) {
   T(ae_obj_length(this) == 4);
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_clone(ae_obj_map(this, ae_obj_double)), "(2 4 6 8 \b) "));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
