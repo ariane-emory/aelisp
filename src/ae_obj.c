@@ -374,8 +374,8 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
-    position->tail = NEW(AE_CONS____);
-    position->tail->head = obj;
+    CDR(position)      = NEW(AE_CONS____);
+    CAR(CDR(position)) = obj;
   }
   else {
     this->head = obj;
