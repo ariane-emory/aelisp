@@ -234,7 +234,7 @@ void pushed_and_consed_lists_write_identically(void) {
 void intern_symbols(void) {
   SETUP_TEST;
 
-  // re-use this as the symbol list here:
+  // re-use 'this' as the symbol list here:
   T(c_str_intern("one", &this) == c_str_intern("one", &this));
   T(c_str_intern("one", &this) != c_str_intern("two", &this));
   T(ae_obj_length(this) == 2);
