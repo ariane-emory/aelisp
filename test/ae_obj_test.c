@@ -238,6 +238,8 @@ void pushed_and_consed_list_write_identically(void) {
   X(consed_list_tests)                                                                                                                      \
   X(pushed_and_consed_list_write_identically)
 
+/* TODO: write ae_obj_remove_elem_from and a test for it. */
+
 #define pair(fun) { #fun, fun },
 
 TEST_LIST = {
