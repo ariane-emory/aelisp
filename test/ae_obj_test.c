@@ -145,7 +145,7 @@ void newly_allocated_ae_obj_is_inside_pool(void)
 {
   SETUP_TEST;
 
-  this = ALLOC_AE_OBJ;
+  this = AE_OBJ_ALLOC;
   
   T(this >= pool_first && this <= pool_last);
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
@@ -155,7 +155,7 @@ void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
 {
   SETUP_TEST;
 
-  T(ALLOC_AE_OBJ->type == AE_INVALID_);
+  T(AE_OBJ_ALLOC->type == AE_INVALID_);
 }
 
 void newly_initialized_ae_obj_has_correct_type_field(void) {

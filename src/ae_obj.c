@@ -94,7 +94,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   ae_obj_t * clone = 0;
 
-#define CLONE_USING_MEMCPY clone = ALLOC_AE_OBJ; memcpy(clone, this, sizeof(ae_obj_t))
+#define CLONE_USING_MEMCPY clone = AE_OBJ_ALLOC; memcpy(clone, this, sizeof(ae_obj_t))
 #define DUP_C_STR(field) clone->field = strdup(this->field)
   
   switch (this->type) {

@@ -78,7 +78,7 @@
     ae_obj_put(root);
     NL;
       
-    ae_obj_t * program_obj = ALLOC_AE_OBJ; 
+    ae_obj_t * program_obj = AE_OBJ_ALLOC; 
     ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
 
     printf("program: ");
@@ -152,7 +152,7 @@ sexps sexp {
     ae_obj_push_back(&$$, c_str_intern($2.sym_value, &symbols));
   }
   else {
-    ae_obj_t * new_obj = ALLOC_AE_OBJ;
+    ae_obj_t * new_obj = AE_OBJ_ALLOC;
     ae_obj_unsafe_move(new_obj, &$2);
     ae_obj_push_back(&$$, new_obj);
   }
