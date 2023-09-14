@@ -21,6 +21,25 @@
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////
 
+ae_obj_t * push_together_a_list_of_ints(void) {
+  ae_obj_t *  new_list = ALLOC_AE_OBJ;
+  ae_obj_init(new_list,  AE_CONS____);
+
+  T(ae_obj_length(new_list) == 0);
+
+  for (unsigned int ix = 1; ix < 4; ix++) { 
+    ae_obj_t * new_tailtip = ALLOC_AE_OBJ;
+    ae_obj_init(new_tailtip, AE_INTEGER_);
+    new_tailtip->int_value = 123 + ix;
+
+    ae_obj_push_back(new_list, new_tailtip);
+
+    T(ae_obj_length(new_list) == ix);
+  }
+
+  return new_list;
+}
+
 ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * new_list   = ALLOC_AE_OBJ;
   ae_obj_t * head       = ALLOC_AE_OBJ;
@@ -165,34 +184,12 @@ void push_back(void) {
     ae_obj_init(new_last, AE_INTEGER_);
     new_last->int_value = 123 + ix;
 
-    ae_obj_t * tail = this;
-
     ae_obj_push_back(this, new_last);
 
     T(ae_obj_length(this) == ix);
   }
 
-  // For expedience-of-implementation's sake, we'll check if the list is what
-  // it's supposed to be by fwriting it into a string and comparing it to a
-  // string constant.
-
-  // ae_obj_fwrite does dumb shit with backspace:  
-  const char * const strcmp_str = "(124 125 126 \b) ";
-  
-  const size_t buff_len = 1 << 8;
-  char * buff = malloc(buff_len);
-
-  FILE * stream = fmemopen(buff, buff_len, "w");
-  ae_obj_fwrite(this, stream);
-  fclose(stream);
-
-  /* ae_obj_write(this); */
-  /* printf("\nCompare '%s' and '%s'.\n", strcmp_str, buff); */
-  /* fflush(stdout); */
-
-  T(strcmp(strcmp_str, buff) == 0);
-  
-  free(buff);
+  T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
 }
 
 void simple_clone(void) {
