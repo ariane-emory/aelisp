@@ -41,14 +41,14 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   TEST_MSG("After ae_obj_init(obj, %s), its data fields should == 0.", ae_type_str(this->type));
 }
 
-static size_t cons_tests_length = 0;
+static size_t cons_and_each_tests_length = 0;
 
-void incr_cons_tests_length(ae_obj_t * const this) {
+void incr_cons_and_each_tests_length(ae_obj_t * const this) {
   (void)this;
-  cons_tests_length++;
+  cons_and_each_tests_length++;
 }
 
-void cons(void) {
+void cons_and_each(void) {
   SETUP_TEST;
 
   ae_obj_init(this, AE_CONS____);
@@ -94,9 +94,9 @@ void cons(void) {
 
   printf("Final len %d\n", ae_obj_length(this));
 
-  ae_obj_each(this, incr_cons_tests_length);
+  ae_obj_each(this, incr_cons_and_each_tests_length);
 
-  T(cons_tests_length == 4);
+  T(cons_and_each_tests_length == 4);
 }
 
 void unsafe_move(void) {
@@ -188,7 +188,7 @@ void simple_clone(void) {
   X(unsafe_move)                                                                                                                       \
   X(simple_clone)                                                                                                                      \
   X(push_back)                                                                                                                         \
-  X(cons)
+  X(cons_and_each)
 
 #define pair(fun) { #fun, fun },
 
