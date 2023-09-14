@@ -18,7 +18,8 @@ STRICTER_CFLAGS = \
 	-Wextra \
 	-Wshadow \
 	-Wpedantic \
-	-Wno-format #\
+	-Wno-format \
+	-DACUTEST_SPACES=60 #\
 	-DNOISY_INIT
 
 ifeq ($(UNAME_S),Darwin)
