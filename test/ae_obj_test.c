@@ -10,19 +10,18 @@
 
 #define T TEST_CHECK
 
-#define COUNT_LIST_LENGTH(l) list_length_counter = 0; ae_obj_each((l), incr_list_length_counter); 
+#define COUNT_LIST_LENGTH(l) list_length_counter = 0; ae_obj_each((l), incr_list_length_counter);
 
 #define SETUP_TEST                                                                                                                          \
-  pool_clear();                                                                                                                             \
+  static char * tmp_str = 0;                                                                                                                \
   ae_obj_t * this = 0;                                                                                                                      \
   ae_obj_t * that = 0;                                                                                                                      \
+  pool_clear();                                                                                                                             \
   if (tmp_str) {                                                                                                                            \
     free(tmp_str);                                                                                                                          \
     tmp_str = 0;                                                                                                                            \
   }                                                                                                                                         \
   (void)that;
-
-char * tmp_str = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers
