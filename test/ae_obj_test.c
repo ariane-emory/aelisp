@@ -114,8 +114,10 @@ void push_back(void) {
 
   ae_obj_init(this, AE_CONS____);
 
-  printf("\nWARNING: Feigning length value at line %d in %s, this needs fixing!", __LINE__, __FILE__);
-  T(ae_obj_length(this) == 1);
+  // printf("\nWARNING: Feigning length value at line %d in %s, this needs fixing!", __LINE__, __FILE__);
+  // T(ae_obj_length(this) == 1);
+
+  T(ae_obj_length(this) == 0);
 
   for (unsigned int ix = 1; ix < 4; ix++) { 
     ae_obj_t * new_last = ALLOC_AE_OBJ;
@@ -143,9 +145,10 @@ void push_back(void) {
   ae_obj_fwrite(this, stream);
   fclose(stream);
 
-  ae_obj_write(this);
-  printf("\nCompare '%s' and '%s'.\n", strcmp_str, buff);
-  fflush(stdout);
+  /* ae_obj_write(this); */
+  /* printf("\nCompare '%s' and '%s'.\n", strcmp_str, buff); */
+  /* fflush(stdout); */
+
   T(strcmp(strcmp_str, buff) == 0);
   
   free(buff);

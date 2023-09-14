@@ -296,6 +296,9 @@ size_t ae_obj_length(const ae_obj_t * const this) {
   ASSERT_CONSP(this);
   
   size_t length = 0;
+
+  if (! this->head) return 0;
+  
   for (const ae_obj_t * position = this; position; position = position->tail, length++);
 
   return length;
