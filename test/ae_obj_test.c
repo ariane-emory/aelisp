@@ -114,13 +114,15 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
 }
 
 
-ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
+ae_obj_t * ae_obj_to_pairs(const ae_obj_t * const this) {
   ae_obj_t * new_list = ALLOC_AE_OBJ;
+
   ae_obj_init(new_list, AE_CONS____);
   
-  new_list->head = this;
+  // This cast might be a little sketch? Think about it...
+  new_list->head = (ae_obj_t *)this;
 
-  return CONS(this, new_list);
+  return CONS((ae_obj_t *)this, new_list);
 }
 
 void basic_list_checks(ae_obj_t * this) {
@@ -131,7 +133,7 @@ void basic_list_checks(ae_obj_t * this) {
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_clone(ae_obj_map(this, ae_obj_double)), "(2 4 6 8 \b) "));
-}
+  T(shitty_write_based_equality_predicate(ae_obj_clone(ae_obj_map(this, ae_obj_to_pairs)), "(2 4 6 8 \b) "));}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Tests
