@@ -67,7 +67,7 @@
     printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_value));
 
 #ifdef POOL_SIZE
-    printf("\nUsing pool from   %p to %p.\n\n", pool, &pool[POOL_SIZE]);
+    printf("\nUsing pool from   %p to %p.\n\n", pool_first, pool_last);
 #endif
     
     FILE * fp = fopen("data/sample.txt", "r");
@@ -83,6 +83,7 @@
 
     printf("program:         ");
     ae_obj_put(program_obj);
+    NL;
     NL;
     puts("Describing items in program.");
     if (program_obj->type == AE_CONS____ && program_obj->head)
@@ -103,6 +104,7 @@
     puts("\nWrote interned symbols.");
 
     pool_print();
+    NL;
   }
 
   //////////////////////////////////////////////////////////////////////////////
