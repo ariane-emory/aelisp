@@ -16,6 +16,8 @@
   }                                                                                                                                         \
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
+  T(!!this);                                                                                                                                \
+  T(!!that);                                                                                                                                \
   T(this != that);                                                                                                                          \
   list_counter = 0;                                                                                                                         \
   size_t counter = 1;                                                                                                                       \
