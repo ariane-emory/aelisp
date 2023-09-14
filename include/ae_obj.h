@@ -10,6 +10,7 @@
 #define PUSH_BACK(this, that) (ae_obj_push_back((this), (that)))
 #define CAR(this)             ((this)->head)
 #define CDR(this)             ((this)->tail)
+#define CADR(this)            (CAR(CDR(this)))
 #define CONS(head, tail)      (ae_obj_cons((head), (tail)))
 #define SYM(str)              (c_str_intern((str)))
 
