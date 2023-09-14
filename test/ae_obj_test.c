@@ -14,12 +14,12 @@
 
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
+  ae_obj_t * this = 0;                                                                                                                      \
+  ae_obj_t * that = 0;                                                                                                                      \
   if (tmp_str) {                                                                                                                            \
     free(tmp_str);                                                                                                                          \
     tmp_str = 0;                                                                                                                            \
   }                                                                                                                                         \
-  ae_obj_t * this = 0;                                                                                                                      \
-  ae_obj_t * that = 0;                                                                                                                      \
   (void)that;
 
 char * tmp_str = 0;
