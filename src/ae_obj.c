@@ -22,7 +22,7 @@
 #define return_str(x) case x: return #x;
 const char * ae_type_str(const ae_type_t this) {
   switch (this) {
-    FOR_EACH_LEXED_TYPES(return_str);
+    FOR_EACH_LEXED_TYPE(return_str);
     return_str(AE_FREE____);
   default:
     return "UNRECOGNIZED";

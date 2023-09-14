@@ -161,7 +161,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
                                                                                                                                             \
     T(this->type == _type);                                                                                                                 \
   }
-  FOR_EACH_LEXED_TYPES(test);
+  FOR_EACH_LEXED_TYPE(test);
 }
 
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {

@@ -27,7 +27,7 @@ typedef char * ae_string_t;
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_LEXED_TYPES(DO)                                                                                                            \
+#define FOR_EACH_LEXED_TYPE(DO)                                                                                                            \
   DO(AE_INTEGER_)                                                                                                                           \
   DO(AE_INVALID_)                                                                                                                           \
   DO(AE_CHAR____)                                                                                                                           \
@@ -45,7 +45,7 @@ typedef char * ae_string_t;
 
 typedef enum {
   AE_FREE____ = 0,
-  FOR_EACH_LEXED_TYPES(enum_node)
+  FOR_EACH_LEXED_TYPE(enum_node)
 } ae_type_t;
 
 #define INTEGERP(o)         ((o)->type == AE_INTEGER_)
