@@ -164,6 +164,7 @@ void pushed_list_tests(void) {
   T(list_counter == 3);
   T(ae_obj_length(this) == 3);
   T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(248 250 252 \b) "));
 }
 
 void unsafe_move(void) {
