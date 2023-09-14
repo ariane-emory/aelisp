@@ -41,11 +41,11 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   TEST_MSG("After ae_obj_init(obj, %s), its data fields should == 0.", ae_type_str(this->type));
 }
 
-static size_t cons_and_each_and_map_tests_length = 0;
+static size_t list_tests_tests_length = 0;
 
-void incr_cons_and_each_and_map_tests_length(ae_obj_t * const this) {
+void incr_list_tests_tests_length(ae_obj_t * const this) {
   (void)this;
-  cons_and_each_and_map_tests_length++;
+  list_tests_tests_length++;
 }
 
 ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
@@ -58,7 +58,7 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
   return that;
 }
 
-void cons_and_each_and_map(void) {
+void list_tests(void) {
   SETUP_TEST;
 
   ae_obj_init(this, AE_CONS____);
@@ -88,9 +88,9 @@ void cons_and_each_and_map(void) {
   {
     printf("Final len %d\n", ae_obj_length(this));
 
-    ae_obj_each(this, incr_cons_and_each_and_map_tests_length);
+    ae_obj_each(this, incr_list_tests_tests_length);
   
-    T(cons_and_each_and_map_tests_length == 4);
+    T(list_tests_tests_length == 4);
   }
   
   {
@@ -226,10 +226,10 @@ void simple_clone(void) {
   X(unsafe_move)                                                                                                                            \
   X(simple_clone)                                                                                                                           \
   X(push_back)                                                                                                                              \
-  X(cons_and_each_and_map)
+  X(list_tests)
 
 // While there is no explicit test for the _write method, it is, in a sense,
-// implicitly tested: the cons_and_each_and_map test passing relies upon the
+// implicitly tested: the list_tests test passing relies upon the
 // write method behaving correctly.
 
 #define pair(fun) { #fun, fun },
