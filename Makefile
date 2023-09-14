@@ -5,7 +5,8 @@ YACC_LEX_CFLAGS = \
 	-Iinclude \
 	-I. \
 	-Wno-implicit-int \
-	-Wno-implicit-function-declaration #\
+	-Wno-implicit-function-declaration \
+	-Wno-address-of-packed-member #\
 	-DNOISY_INIT
 
 STRICTER_CFLAGS = \
@@ -19,6 +20,7 @@ STRICTER_CFLAGS = \
 	-Wshadow \
 	-Wpedantic \
 	-Wno-format \
+	-Wno-address-of-packed-member \
 	-DACUTEST_SPACES=60 #\
 	-DNOISY_INIT
 
