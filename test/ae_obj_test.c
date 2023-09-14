@@ -20,8 +20,6 @@
   T(!!that);                                                                                                                                \
   T(this != that);                                                                                                                          \
   list_counter = 0;                                                                                                                         \
-  size_t counter = 1;                                                                                                                       \
-  (void)counter;                                                                                                                            \
   (void)that;
 
 char * tmp_str = 0;
