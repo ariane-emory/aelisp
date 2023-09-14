@@ -364,7 +364,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 // _push_back
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
+ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   ASSERT_CONSP(this);
  
 #ifdef NOISY_INIT
@@ -393,6 +393,8 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   putchar('\n');
   putchar('\n');
 #endif
+
+  return this; // incorrect
 }
 
 ////////////////////////////////////////////////////////////////////////////////
