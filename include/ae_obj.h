@@ -100,7 +100,7 @@ typedef struct ae_obj_t * (*ae_obj_map_fun)(struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t {
-  ae_type_t        type;
+  ae_type_t             type;
   union {
     ae_string_t         str_value;
     ae_string_t         sym_value;
