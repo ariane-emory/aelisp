@@ -389,17 +389,21 @@ ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   
   if (CAR(this)) {
     ae_obj_t * position = this;
-    for (; CDR(position) ; position = CDR(position));
+    for (; CDR(position); position = CDR(position));
     CDR(position)       = NEW(AE_CONS____);
     CADR(position)      = obj;
+
+    AFTER_PUSH_MESSAGE;
+  
+    return position;
   }
   else {
     CAR(this) = obj;
-  }
 
-  AFTER_PUSH_MESSAGE;
-  
-  return this; // incorrect
+    AFTER_PUSH_MESSAGE;
+
+    return this;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
