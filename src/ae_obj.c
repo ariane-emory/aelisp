@@ -454,7 +454,7 @@ ae_obj_t * pool_alloc_ae_obj() {
     return obj;
   }
     
-  printf("ERROR: Pool is full.\n");
+  fprintf(stderr, "ERROR: Pool is full.\n");
 
   assert(0);
   
