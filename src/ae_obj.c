@@ -146,16 +146,16 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
     BSPC; break;
   case AE_CONS____:
-    if (! this->head)
+    if (! CAR(this))
       fputs("nil", stream);
     else if (! this->tail)
       fprintf(stream, "%011p %-11p %2d",
-              this->head,
+              CAR(this) ,
               this->tail,
               ae_obj_length(this));
     else
       fprintf(stream, "%011p %-011p %2d",
-              this->head,
+              CAR(this) ,
               this->tail,
               ae_obj_length(this));    
     break;
@@ -225,7 +225,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
     fputs("∞", _stream);
     break;
   case AE_CONS____:
-    if (this->type == AE_CONS____ && this->head) {
+    if (this->type == AE_CONS____ && CAR(this) ) {
       fputc('(', _stream);
       ae_obj_each((ae_obj_t *)this, (ae_obj_each_fun)ae_obj_fwrite_internal);
       fputc('\b', _stream);
@@ -299,7 +299,7 @@ size_t ae_obj_length(const ae_obj_t * const this) {
   
   size_t length = 0;
 
-  if (! this->head) return 0;
+  if (! CAR(this) ) return 0;
   
   for (const ae_obj_t * position = this; position; position = position->tail, length++);
 
@@ -314,14 +314,14 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 
   ASSERT_CONSP(this);
 
-  fun(this->head);
+  fun(CAR(this) );
 
   ae_obj_each(this->tail, fun);
 #else  // AE_OBJ_EACH_RECURSES
   ASSERT_CONSP(this);
 
   for (const ae_obj_t * position = this; position; position = position->tail)
-    fun(position->head);
+    fun(CAR(position) );
 #endif // AE_OBJ_EACH_RECURSES
 }
 
@@ -330,7 +330,7 @@ ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
   
   ASSERT_CONSP(this);
 
-  return CONS(fun(this->head), ae_obj_map(this->tail, fun));
+  return CONS(fun(CAR(this) ), ae_obj_map(this->tail, fun));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
