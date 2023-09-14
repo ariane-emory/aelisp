@@ -113,6 +113,16 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
   return that;
 }
 
+
+ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
+  ae_obj_t * new_list = ALLOC_AE_OBJ;
+  ae_obj_init(new_list, AE_CONS____);
+  
+  new_list->head = this;
+
+  return CONS(this, new_list);
+}
+
 void basic_list_checks(ae_obj_t * this) {
   ae_obj_each(this, incr_list_counter); 
 
