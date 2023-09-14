@@ -415,7 +415,9 @@ ae_obj_t * pool_alloc_ae_obj() {
 
     if (obj->type != AE_FREE____)
       continue;
-      
+
+    obj->type = AE_INVALID_;
+    
 #ifdef NOISY_INIT
   fputs("Allocated        ", stdout);
   ae_obj_put(obj);

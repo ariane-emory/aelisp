@@ -5,12 +5,12 @@
 
 #define FAIL TEST_CHECK(0)
 
-#define SETUP_TEST                \
-  pool_clear();                   \
-  ae_obj_t * this = ALLOC_AE_OBJ; \
-  ae_obj_t * that = ALLOC_AE_OBJ; \
-  size_t counter = 1;             \
-  (void)counter;                  \
+#define SETUP_TEST                                                                                                                          \
+  pool_clear();                                                                                                                             \
+  ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
+  ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
+  size_t counter = 1;                                                                                                                       \
+  (void)counter;                                                                                                                            \
   (void)that;
 
 void newly_allocated_ae_obj_is_inside_pool(void)
@@ -55,16 +55,18 @@ void unsafe_move(void) {
   this->char_value = 'x';
 
   ae_obj_init(that, AE_RATIONAL);
-  that->numerator_value  = 123;
+  that->numerator_value   = 123;
   that->denominator_value = 321;
 
-  putchar('\n');
-  printf("this %p and that is %p.\n", this, that);
-  fputs("this ", stdout); ae_obj_put(this); putchar('\n');
-  fputs("that ", stdout); ae_obj_put(that); putchar('\n');
+  /* putchar('\n'); */
+  /* printf("this is %p and that is %p.\n", this, that); */
+  /* fputs("this ", stdout); ae_obj_put(this); putchar('\n'); */
+  /* fputs("that ", stdout); ae_obj_put(that); putchar('\n'); */
+
   ae_obj_unsafe_move(this, that);
-  fputs("this ", stdout); ae_obj_put(this); putchar('\n');
-  fputs("that ", stdout); ae_obj_put(that); putchar('\n');
+
+  /* fputs("this ", stdout); ae_obj_put(this); putchar('\n'); */
+  /* fputs("that ", stdout); ae_obj_put(that); putchar('\n'); */
 
   TEST_CHECK(this->type == AE_RATIONAL);
   TEST_CHECK(this->numerator_value   == 123);
