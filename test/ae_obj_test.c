@@ -243,7 +243,7 @@ void intern_symbols(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_TEST_FUNS(DO)                                                                                                              \
+#define FOR_EACH_TEST_FUN(DO)                                                                                                              \
   DO(test_setup_is_okay)                                                                                                                    \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                                                                 \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                            \
@@ -261,6 +261,6 @@ void intern_symbols(void) {
 #define pair(fun) { #fun, fun },
 
 TEST_LIST = {
-  FOR_EACH_TEST_FUNS(pair)
+  FOR_EACH_TEST_FUN(pair)
   { NULL, NULL }
 };
