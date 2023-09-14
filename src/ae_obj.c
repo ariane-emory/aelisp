@@ -99,7 +99,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   switch (this->type) {
   case AE_CONS____:
-    clone = ae_obj_map(this, ae_obj_clone);
+    clone = ae_obj_map((ae_obj_t *)this, (ae_obj_map_fun)ae_obj_clone);
     break;
   case AE_STRING__:
     CLONE_USING_MEMCPY;
@@ -323,7 +323,7 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 #endif // AE_OBJ_EACH_RECURSES
 }
 
-ae_obj_t * ae_obj_map(const ae_obj_t * const this, ae_obj_map_fun fun) {
+ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
   if (! this) return 0;
   
   ASSERT_CONSP(this);

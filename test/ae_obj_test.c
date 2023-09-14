@@ -103,7 +103,7 @@ void incr_list_counter(ae_obj_t * const this) {
   list_counter++;
 }
 
-ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
+ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
   ae_obj_t * that = ALLOC_AE_OBJ;
@@ -114,7 +114,7 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
 }
 
 
-ae_obj_t * ae_obj_to_pairs(const ae_obj_t * const this) {
+ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
   ae_obj_t * new_list = ALLOC_AE_OBJ;
 
   ae_obj_init(new_list, AE_CONS____);
