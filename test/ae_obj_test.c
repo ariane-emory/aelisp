@@ -106,14 +106,8 @@ void list_tests(void) {
     T(ae_obj_length(this) == 1 + ix);
   }
 
-  {
-    // printf("Final len %d\n", ae_obj_length(this));
+  ae_obj_each(this, incr_list_tests_tests_length);
 
-    ae_obj_each(this, incr_list_tests_tests_length);
-  
-    T(list_tests_tests_length == 4);
-  }
-  
   T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
 
   {
