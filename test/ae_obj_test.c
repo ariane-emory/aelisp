@@ -68,12 +68,21 @@ void cons(void) {
     T(ae_obj_length(this) == 1 + ix);
   }
 
+  const char * const strcmp_str = "(126 125 124 123) ";
+  
   const size_t buff_len = 1 << 8;
   char * buff = malloc(buff_len);
+
   FILE * stream = fmemopen(buff, buff_len, "w");
-  ae_obj_fwrite(this, stdout);
   ae_obj_fwrite(this, stream);
   fclose(stream);
+  
+  printf("\nBuff has    '%s'\n", buff);
+  printf(  "Cmp str has '%s'\n", strcmp_str);
+
+  int cmp = strcmp(strcmp_str, buff);
+  printf("cmp = %d\n", cmp);
+  
   free(buff);
 }
 
