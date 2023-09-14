@@ -398,7 +398,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 
 #define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); sym->sym_value = strdup(c_str)
 
-ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
+ae_obj_t * c_str_intern(ae_string_t c_str, ae_obj_t ** const sym_list_p) {
   if (! *sym_list_p)
     *sym_list_p = NEW(AE_CONS____);
   
