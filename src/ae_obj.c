@@ -57,7 +57,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 // _unsafe_move method
 ////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
+ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   assert(this != that);
   
 #ifdef NOISY_INIT
@@ -78,6 +78,8 @@ void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   ae_obj_put(this);
   putchar('\n');
 #endif
+
+  return this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

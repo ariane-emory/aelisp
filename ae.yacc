@@ -77,9 +77,8 @@
     printf("root:    ");
     ae_obj_put(root);
     NL;
-      
-    ae_obj_t * program_obj = AE_OBJ_ALLOC; 
-    ae_obj_unsafe_move(program_obj, root); // take the 'program' rule's ae_obj.
+
+    ae_obj_t * program_obj = AE_MOVE_NEW(root); // take the 'program' rule's ae_obj.
 
     printf("program: ");
     ae_obj_put(program_obj);

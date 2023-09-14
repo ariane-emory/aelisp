@@ -108,7 +108,7 @@ typedef struct ae_obj_t {
 //------------------------------------------------------------------------------
 
 ae_obj_t *    ae_obj_init        (      ae_obj_t * const this,  ae_type_t type);
-void          ae_obj_unsafe_move (      ae_obj_t * const this,  ae_obj_t * const that);
+ae_obj_t *    ae_obj_unsafe_move (      ae_obj_t * const this,  ae_obj_t * const that);
 ae_obj_t *    ae_obj_clone       (const ae_obj_t * const this);
 
 // ugly putses:
@@ -150,19 +150,17 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p);
 
 #define POOL_SIZE (1 << 7)
 
-#ifdef POOL_SIZE
-extern ae_obj_t pool[POOL_SIZE];
+extern ae_obj_t               pool[POOL_SIZE];
 extern const ae_obj_t * const pool_first;
 extern const ae_obj_t * const pool_last;
 
 ae_obj_t * pool_alloc_ae_obj();
 void       pool_free_ae_obj(ae_obj_t * const this);
 
-#  define AE_OBJ_ALLOC pool_alloc_ae_obj()
-#  define AE_OBJ_NEW(type) ae_obj_init(AE_OBJ_ALLOC, (type))
+#define AE_OBJ_ALLOC      (pool_alloc_ae_obj())
+#define AE_OBJ_NEW(type)  (ae_obj_init(AE_OBJ_ALLOC, (type)))
+#define AE_MOVE_NEW(that) (ae_obj_unsafe_move(AE_OBJ_ALLOC, (that)))
 
 void pool_print(void);
 void pool_clear(void);
-#else
-#  define AE_OBJ_ALLOC (puts("Using malloc."), malloc(sizeof(ae_obj_t)))
-#endif
+
