@@ -140,9 +140,13 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p);
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CONS(head, tail) ae_obj_cons((head), (tail))
-#define CAR(obj)         ((obj)->head)
-#define CDR(obj)         ((obj)->tail)
+#define ALLOC                 (pool_alloc_ae_obj())
+#define NEW(type)             (ae_obj_init(ALLOC, (type)))
+#define MOVE_NEW(that)        (ae_obj_unsafe_move(ALLOC, (that)))
+#define PUSH_BACK(this, that) (ae_obj_push_back((this), (that)))
+#define CAR(obj)              ((obj)->head)
+#define CDR(obj)              ((obj)->tail)
+#define CONS(head, tail)      (ae_obj_cons((head), (tail)))
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
@@ -156,11 +160,5 @@ extern const ae_obj_t * const pool_last;
 
 ae_obj_t * pool_alloc_ae_obj();
 void       pool_free_ae_obj(ae_obj_t * const this);
-
-#define ALLOC      (pool_alloc_ae_obj())
-#define NEW(type)  (ae_obj_init(ALLOC, (type)))
-#define MOVE_NEW(that) (ae_obj_unsafe_move(ALLOC, (that)))
-
 void pool_print(void);
 void pool_clear(void);
-
