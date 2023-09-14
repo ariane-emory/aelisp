@@ -15,8 +15,8 @@ ae_obj_t * symbols = 0;
 #define COUNT_LIST(l) list_counter = 0; ae_obj_each((l), incr_list_counter); 
 
 #define SETUP_TEST                                                                                                                          \
+  symbols = 0;                                                                                                                              \
   pool_clear();                                                                                                                             \
-  symbols = NEW_AE_OBJ(AE_CONS____);                                                                                                        \
   if (tmp_str) {                                                                                                                            \
     free(tmp_str);                                                                                                                          \
     tmp_str = 0;                                                                                                                            \

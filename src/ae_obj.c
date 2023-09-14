@@ -260,7 +260,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
 
     switch (this->char_value) {
 #define escaped_char_case(displayed, unescaped)                                                                                             \
-      case unescaped:                                                                                                                      \
+      case unescaped:                                                                                                                       \
         tmp[0] = '\\';                                                                                                                      \
         tmp[1] = displayed;                                                                                                                 \
         break;
@@ -397,20 +397,23 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 #define NEW_SYM ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__); sym->sym_value = strdup(c_str)
 
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
-   if (! CAR(*sym_list_p)) {
-     // shortcut/hack for my weird imaginary nil:
-     NEW_SYM;
-     return (CAR(*sym_list_p) = sym);
-   }
+  if (! *sym_list_p)
+    *sym_list_p = NEW_AE_OBJ(AE_CONS____);
+  
+  if (! CAR(*sym_list_p)) {
+    // shortcut/hack for my weird imaginary nil:
+    NEW_SYM;
+    return (CAR(*sym_list_p) = sym);
+  }
 
-   for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) 
-       if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
-         return CAR(cons);
+  for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) 
+    if (strcmp(c_str, CAR(cons)->sym_value) == 0) 
+      return CAR(cons);
      
-   NEW_SYM;
+  NEW_SYM;
    
-   return CAR(*sym_list_p = CONS(sym, *sym_list_p));
- }
+  return CAR(*sym_list_p = CONS(sym, *sym_list_p));
+}
 
 // micro-lisp's version:
 // 
@@ -443,12 +446,12 @@ ae_obj_t * pool_alloc_ae_obj() {
     obj->type = AE_INVALID_;
     
 #ifdef NOISY_INIT
-  fputs("Allocated        ", stdout);
-  ae_obj_put(obj);
-  putchar('\n');
+    fputs("Allocated        ", stdout);
+    ae_obj_put(obj);
+    putchar('\n');
 #endif
   
-  return obj;
+    return obj;
   }
     
   printf("ERROR: Pool is full.\n");
