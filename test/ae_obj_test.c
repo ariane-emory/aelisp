@@ -11,8 +11,8 @@
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
   if (tmp_str) {                                                                                                                            \
-  free(tmp_str);                                                                                                                            \
-  tmp_str = 0;                                                                                                                              \
+    free(tmp_str);                                                                                                                          \
+    tmp_str = 0;                                                                                                                            \
   }                                                                                                                                         \
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
@@ -181,7 +181,7 @@ void pushed_list_tests(void) {
   basic_list_checks(push_together_a_list_of_ints());
 }
 
-void unsafe_move(void) {
+void unsafe_move_an_ae_obj(void) {
   SETUP_TEST;
 
   ae_obj_init(this, AE_CHAR____);
@@ -202,7 +202,7 @@ void unsafe_move(void) {
   T(that->denominator_value == 0);
 }
 
-void simple_clone(void) {
+void simple_clone_an_ae_obj(void) {
   SETUP_TEST;
 
   ae_obj_init(this, AE_RATIONAL);
@@ -231,8 +231,8 @@ void pushed_and_consed_list_write_identically(void) {
   X(newly_allocated_ae_obj_is_inside_pool)                                                                                                  \
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                        \
-  X(unsafe_move)                                                                                                                            \
-  X(simple_clone)                                                                                                                           \
+  X(unsafe_move_an_ae_obj)                                                                                                                  \
+  X(simple_clone_an_ae_obj)                                                                                                                 \
   X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)                                                                                                                      \
   X(pushed_and_consed_list_write_identically)
