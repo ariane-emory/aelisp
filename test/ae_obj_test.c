@@ -170,17 +170,13 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
 void consed_list_tests(void) {
   SETUP_TEST;
   
-  this = cons_together_a_list_of_ints();
-
-  basic_list_checks(this);
+  basic_list_checks(cons_together_a_list_of_ints());
 }
 
 void pushed_list_tests(void) {
   SETUP_TEST;
 
-  this = push_together_a_list_of_ints();
-
-  basic_list_checks(this);
+  basic_list_checks(push_together_a_list_of_ints());
 }
 
 void unsafe_move(void) {
