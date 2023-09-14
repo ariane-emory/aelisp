@@ -112,8 +112,10 @@ void list_tests(void) {
   SETUP_TEST;
 
   this = cons_together_a_list_of_ints();
-    
+
   ae_obj_each(this, incr_list_tests_tests_length);
+  
+  T(list_tests_tests_length == 4);
 
   T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
   
@@ -148,9 +150,6 @@ void push_back(void) {
   SETUP_TEST;
 
   ae_obj_init(this, AE_CONS____);
-
-  // printf("\nWARNING: Feigning length value at line %d in %s, this needs fixing!", __LINE__, __FILE__);
-  // T(ae_obj_length(this) == 1);
 
   T(ae_obj_length(this) == 0);
 
