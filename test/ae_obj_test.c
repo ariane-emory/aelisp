@@ -94,7 +94,7 @@ void list_tests(void) {
   }
   
   {
-    // For expedienc-of-implementation's sake, we'll check if the list is what
+    // For expedience-of-implementation's sake, we'll check if the list is what
     // it's supposed to be by fwriting it into a string and comparing it to a
     // string constant.
     
@@ -115,7 +115,7 @@ void list_tests(void) {
   {
     ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
 
-    // For expedienc-of-implementation's sake, we'll check if the list is what
+    // For expedience-of-implementation's sake, we'll check if the list is what
     // it's supposed to be by fwriting it into a string and comparing it to a
     // string constant.
     
@@ -178,7 +178,7 @@ void push_back(void) {
     T(ae_obj_length(this) == ix);
   }
 
-  // For expedienc-of-implementation's sake, we'll check if the list is what
+  // For expedience-of-implementation's sake, we'll check if the list is what
   // it's supposed to be by fwriting it into a string and comparing it to a
   // string constant.
 
