@@ -39,8 +39,7 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
   // constant.
   
   const size_t buff_len = 1 << 8;
-  char *       buff     = malloc(buff_len);
-  // FILE *       stream   = fmemopen(buff, buff_len, "w");
+  char *       buff;
   size_t       size;
   FILE *       stream   = open_memstream(&buff, &size);
 
@@ -49,7 +48,7 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 
   bool ret = T(strcmp(strcmp_str, buff) == 0);
 
-  // free(buff);
+  free(buff);
   
   return ret;
 }
