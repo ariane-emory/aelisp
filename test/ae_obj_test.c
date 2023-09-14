@@ -48,7 +48,7 @@ void incr_cons_and_each_tests_length(ae_obj_t * const this) {
   cons_and_each_tests_length++;
 }
 
-ae_obj_t * double_ae_obj(ae_obj_t * const this) {
+ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
   ae_obj_t * that = ALLOC_AE_OBJ;
@@ -85,28 +85,39 @@ void cons_and_each(void) {
     T(ae_obj_length(this) == 1 + ix);
   }
 
-  // For expedienc-of-implementation's sake, we'll check if the list is what
-  // it's supposed to be by fwriting it into a string and comparing it to a
-  // string constant.
+  {
+      printf("Final len %d\n", ae_obj_length(this));
 
-  // ae_obj_fwrite does dumb shit with backspace:  
-  const char * const strcmp_str = "(126 125 124 123 \b) ";
+      ae_obj_each(this, incr_cons_and_each_tests_length);
   
-  const size_t buff_len = 1 << 8;
-  char * buff = malloc(buff_len);
+      T(cons_and_each_tests_length == 4);
+  }
+  
+  {
+    // For expedienc-of-implementation's sake, we'll check if the list is what
+    // it's supposed to be by fwriting it into a string and comparing it to a
+    // string constant.
+    
+    // ae_obj_fwrite does dumb shit with backspace:  
+    const char * const strcmp_str = "(126 125 124 123 \b) ";
+    
+    const size_t buff_len = 1 << 8;
+    char * buff = malloc(buff_len);
+    
+    FILE * stream = fmemopen(buff, buff_len, "w");
+    ae_obj_fwrite(this, stream);
+    fclose(stream);
 
-  FILE * stream = fmemopen(buff, buff_len, "w");
-  ae_obj_fwrite(this, stream);
-  fclose(stream);
+    T(strcmp(strcmp_str, buff) == 0);
+    free(buff);
+  }
 
-  T(strcmp(strcmp_str, buff) == 0);
-  free(buff);
 
-  printf("Final len %d\n", ae_obj_length(this));
-
-  ae_obj_each(this, incr_cons_and_each_tests_length);
-
-  T(cons_and_each_tests_length == 4);
+  ae_obj_t * doubled = ae_obj_map(this, ae_obj_double);
+  puts("Doubled is ");
+  ae_obj_write(doubled);
+  NL;
+  
 }
 
 void unsafe_move(void) {
