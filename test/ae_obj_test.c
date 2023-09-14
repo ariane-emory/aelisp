@@ -227,10 +227,9 @@ void pushed_and_consed_lists_write_identically(void) {
   SETUP_TEST;
 
   this    = push_together_a_list_of_ints();
-  that    = cons_together_a_list_of_ints();
-  tmp_str = write_to_new_string(that);
+  tmp_str = write_to_new_string(this);
 
-  T(shitty_write_based_equality_predicate(this, tmp_str));
+  T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
 #define FOR_TEST_FUNS_DO(X)                                                                                                                 \
