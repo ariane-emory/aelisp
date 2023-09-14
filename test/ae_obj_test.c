@@ -62,7 +62,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * list = NEW(AE_CONS____);
   ae_obj_t * head = NEW(AE_INTEGER_);
   head->int_value = 4;
-  list->head      = head;
+  CAR(list)       = head;
   
   T(ae_obj_length(list) == 1);
 
@@ -78,8 +78,8 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   
     T(list != head);
     T(list != new_head);
-    T(list->head == new_head);
-    T(list->tail == tail);
+    T(CAR(list) == new_head);
+    T(CDR(list) == tail);
     T(ae_obj_length(list) == expected_length);
     TEST_MSG(
       "Incorrect length %d, expected %d.",

@@ -338,7 +338,7 @@ ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  assert(head != tail); // not yet supported
+  assert(head != tail); // consing an obj onto itself is not yet supported.
   
   if (tail)
     ASSERT_CONSP(tail);
