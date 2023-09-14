@@ -34,19 +34,8 @@ char * write_to_new_string(const ae_obj_t * const this) {
 }
 
 bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
-  // For expedience-of-implementation's sake, we'll check if this is what it's
-  // supposed to be by _fwriting it into a string and comparing it to a string
-  // constant.
-  
-  const size_t buff_len = 1 << 8;
-  char *       buff;
-  size_t       size;
-  FILE *       stream   = open_memstream(&buff, &size);
-
-  ae_obj_fwrite(this, stream);
-  fclose(stream);
-
-  bool ret = T(strcmp(strcmp_str, buff) == 0);
+  char *       buff = write_to_new_string(this); 
+  bool         ret  = T(strcmp(strcmp_str, buff) == 0);
 
   free(buff);
   
@@ -227,6 +216,18 @@ void simple_clone(void) {
   T(clone->denominator_value == 321);
 }
 
+void pushed_and_consed_list_write_identically(void) {
+  SETUP_TEST;
+
+  this            = push_together_a_list_of_ints();
+  that            = cons_together_a_list_of_ints();
+  char * that_str = write_to_new_string(that);
+
+  T(shitty_write_based_equality_predicate(this, that_str));
+
+  free(that_str);
+}
+
 #define FOR_TEST_FUNS_DO(X)                                                                                                                 \
   X(newly_allocated_ae_obj_is_inside_pool)                                                                                                  \
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
@@ -234,7 +235,8 @@ void simple_clone(void) {
   X(unsafe_move)                                                                                                                            \
   X(simple_clone)                                                                                                                           \
   X(pushed_list_tests)                                                                                                                      \
-  X(consed_list_tests)
+  X(consed_list_tests)                                                                                                                      \
+  X(pushed_and_consed_list_write_identically)
 
 #define pair(fun) { #fun, fun },
 
