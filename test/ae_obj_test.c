@@ -147,7 +147,7 @@ void consed_list_tests(void) {
   this = cons_together_a_list_of_ints();
 
   ae_obj_each(this, incr_list_counter);
-
+  
   T(list_counter == 4);
   T(ae_obj_length(this) == 4);
   T(shitty_write_based_equality_predicate(this,                            "(126 125 124 123 \b) "));
@@ -159,10 +159,10 @@ void pushed_list_tests(void) {
 
   this = push_together_a_list_of_ints();
 
-  /* ae_obj_each(this, incr_list_counter); */
+  ae_obj_each(this, incr_list_counter); 
 
-  /* T(list_counter == 4); */
-  T(ae_obj_length(this));
+  T(list_counter == 3);
+  T(ae_obj_length(this) == 3);
   T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
 }
 
