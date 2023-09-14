@@ -23,8 +23,8 @@ ae_obj_t * symbols = 0;
   }                                                                                                                                         \
   ae_obj_t * this = 0;                                                                                                                      \
   ae_obj_t * that = 0;                                                                                                                      \
-  T(!this);                                                                                                                                \
-  T(!that);                                                                                                                                \
+  T(!this);                                                                                                                                 \
+  T(!that);                                                                                                                                 \
   T(this == that);                                                                                                                          \
   (void)that;
 
