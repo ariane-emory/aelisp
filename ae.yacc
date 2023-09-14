@@ -157,13 +157,13 @@ sexps sexp {
   
 }
 | {
-  memset(&$$, 0, sizeof($$));
+  // memset(&$$, 0, sizeof($$));
 
 #ifdef NOISY_INIT  
   printf("Initting $$ (b)  %p\n", &$$);
 #endif
 
-  ae_obj_init(&$$, AE_CONS____);
+  INIT(&$$, AE_CONS____);
 
 #ifdef NOISY_INIT
   printf("Initted $$ (b)   %p\n\n", &$$);
