@@ -1,0 +1,2 @@
+- Write ae_obj_remove_elem?
+- Better code for aligning type strs when printing.
