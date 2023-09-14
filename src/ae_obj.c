@@ -58,6 +58,8 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
+  assert(this != that);
+  
 #ifdef NOISY_INIT
   fputs("Moving           ", stdout);
   ae_obj_put(that);
@@ -324,11 +326,15 @@ ae_obj_t * ae_obj_map(const ae_obj_t * const this, ae_obj_map_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
+  assert(head != tail); // not yet supported
+  
   if (tail)
     ASSERT_CONSP(tail);
 
+#ifdef NOISY_INIT
   printf("Cons %p %p\n", head, tail);
   fflush(stdout);
+#endif
   
   ae_obj_t * new_list = NEW_AE_OBJ(AE_CONS____);
 

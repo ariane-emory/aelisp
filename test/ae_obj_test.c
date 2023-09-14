@@ -3,13 +3,15 @@
 #include "ae_obj.h"
 #include "acutest.h"
 
+#define NL putchar('\n')
 #define FAIL TEST_CHECK(0)
+#define T TEST_CHECK
 
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
-  TEST_CHECK(this != that);                                                                                                                 \
+  T(this != that);                                                                                                                 \
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
@@ -17,7 +19,7 @@
 void newly_allocated_ae_obj_is_inside_pool(void)
 {
   SETUP_TEST;
-  TEST_CHECK(this >= pool_first && this <= pool_last);
+  T(this >= pool_first && this <= pool_last);
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
 }
 
@@ -26,7 +28,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                                                         \
     SETUP_TEST;                                                                                                                             \
     ae_obj_init(this, _type);                                                                                                               \
-    TEST_CHECK(this->type == _type);                                                                                                        \
+    T(this->type == _type);                                                                                                        \
     TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type ".");                                                               \
   }
   FOR_LEXED_TYPES_DO(test);
@@ -35,18 +37,30 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
   ae_obj_init(this, AE_RATIONAL);
-  TEST_CHECK(this->numerator_value == 0 && this->denominator_value == 0);
+  T(this->numerator_value == 0 && this->denominator_value == 0);
   TEST_MSG("After ae_obj_init(obj, AE_RATIONAL), its data fields should == 0.");
 }
 
 void cons(void) {
   SETUP_TEST;
 
-  ae_obj_init(this, AE_INTEGER_);
+  ae_obj_init(this, AE_CONS____);
+  this->head = that;
+  
   ae_obj_init(that, AE_INTEGER_);
-  this->int_value = 1;
-  this->int_value = 2;
-  // CONS(this, that);
+  that->int_value = 123;
+
+  ae_obj_t * new_head = ALLOC_AE_OBJ;
+  ae_obj_init(new_head, AE_INTEGER_);
+  new_head->int_value = 456;
+
+  ae_obj_t * cons_result = CONS(new_head, this);
+
+  T(cons_result != this);
+  T(cons_result != that);
+  T(cons_result != new_head);
+  T(cons_result->head == new_head);
+  T(cons_result->tail == this);
 }
 
 void unsafe_move(void) {
@@ -61,13 +75,13 @@ void unsafe_move(void) {
 
   ae_obj_unsafe_move(this, that);
 
-  TEST_CHECK(this->type              == AE_RATIONAL);
-  TEST_CHECK(this->numerator_value   == 123);
-  TEST_CHECK(this->denominator_value == 321);
+  T(this->type              == AE_RATIONAL);
+  T(this->numerator_value   == 123);
+  T(this->denominator_value == 321);
 
-  TEST_CHECK(that->type              == AE_FREE____);
-  TEST_CHECK(that->numerator_value   == 0);
-  TEST_CHECK(that->denominator_value == 0);
+  T(that->type              == AE_FREE____);
+  T(that->numerator_value   == 0);
+  T(that->denominator_value == 0);
 }
 
 void simple_clone(void) {
@@ -79,11 +93,10 @@ void simple_clone(void) {
 
   ae_obj_t * clone = ae_obj_clone(this);
 
-  TEST_CHECK(this != that);
-
-  TEST_CHECK(clone->type              == AE_RATIONAL);
-  TEST_CHECK(clone->numerator_value   == 123);
-  TEST_CHECK(clone->denominator_value == 321);
+  T(this != that);
+  T(clone->type              == AE_RATIONAL);
+  T(clone->numerator_value   == 123);
+  T(clone->denominator_value == 321);
 }
 
 #define FOR_TEST_FUNS_DO(X)                                                                                                            \
@@ -91,8 +104,8 @@ void simple_clone(void) {
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                   \
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                   \
   X(unsafe_move)                                                                                                                       \
-  X(simple_clone)
-//  X(cons)
+  X(simple_clone)                                                                                                                      \
+  X(cons)
 
 #define pair(fun) { #fun, fun },
 
