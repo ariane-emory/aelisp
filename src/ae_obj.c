@@ -365,15 +365,17 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef NOISY_INIT
-#  define AFTER_PUSH_MESSAGE                                                                                                                  \
+#  define AFTER_PUSH_MESSAGE(tailtip)                                                                                                       \
     fputs("Pushed           ", stdout);                                                                                                     \
     ae_obj_put(obj);                                                                                                                        \
     fputs(" into ", stdout);                                                                                                                \
     ae_obj_put(this);                                                                                                                       \
+    fputs("' tailtip ", stdout);                                                                                                            \
+    ae_obj_put(tailtip);                                                                                                                    \
     putchar('\n');                                                                                                                          \
     putchar('\n');
 #else
-#  define AFTER_PUSH_MESSAGE ((void)0)
+#  define AFTER_PUSH_MESSAGE(tailtip) ((void)0)
 #endif
 
 ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
@@ -393,14 +395,14 @@ ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
     CDR(position)       = NEW(AE_CONS____);
     CADR(position)      = obj;
 
-    AFTER_PUSH_MESSAGE;
+    AFTER_PUSH_MESSAGE(CDR(position));
   
-    return position;
+    return CDR(position); // double check if this is the right cons!
   }
   else {
     CAR(this) = obj;
 
-    AFTER_PUSH_MESSAGE;
+    AFTER_PUSH_MESSAGE(this);
 
     return this;
   }
