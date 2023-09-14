@@ -60,35 +60,35 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * new_list = AE_OBJ_NEW(AE_CONS____);
-  ae_obj_t * head     = AE_OBJ_NEW(AE_INTEGER_);
-  head->int_value     = 4;
-  new_list->head      = head;
+  ae_obj_t * list = AE_OBJ_NEW(AE_CONS____);
+  ae_obj_t * head = AE_OBJ_NEW(AE_INTEGER_);
+  head->int_value = 4;
+  list->head      = head;
   
-  T(ae_obj_length(new_list) == 1);
+  T(ae_obj_length(list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
     ae_obj_t * new_head = AE_OBJ_NEW(AE_INTEGER_);
     new_head->int_value = 3 - ix;
 
-    ae_obj_t * tail = new_list;
+    ae_obj_t * tail = list;
     
-    new_list = CONS(new_head, tail);
+    list = CONS(new_head, tail);
 
     const size_t expected_length = 2 + ix;
   
-    T(new_list != head);
-    T(new_list != new_head);
-    T(new_list->head == new_head);
-    T(new_list->tail == tail);
-    T(ae_obj_length(new_list) == expected_length);
+    T(list != head);
+    T(list != new_head);
+    T(list->head == new_head);
+    T(list->tail == tail);
+    T(ae_obj_length(list) == expected_length);
     TEST_MSG(
       "Incorrect length %d, expected %d.",
-      ae_obj_length(new_list),
+      ae_obj_length(list),
       expected_length);
   }
   
-  return new_list;
+  return list;
 }
 
 static size_t list_counter = 0;
