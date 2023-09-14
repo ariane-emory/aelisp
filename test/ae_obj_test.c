@@ -116,7 +116,6 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   return that;
 }
 
-
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
   ae_obj_t * new_list = ALLOC_AE_OBJ;
   ae_obj_init(new_list, AE_CONS____);
@@ -220,9 +219,9 @@ void simple_clone_an_ae_obj(void) {
 void pushed_and_consed_lists_write_identically(void) {
   SETUP_TEST;
 
-  this            = push_together_a_list_of_ints();
-  that            = cons_together_a_list_of_ints();
-  tmp_str         = write_to_new_string(that);
+  this    = push_together_a_list_of_ints();
+  that    = cons_together_a_list_of_ints();
+  tmp_str = write_to_new_string(that);
 
   T(shitty_write_based_equality_predicate(this, tmp_str));
 }
