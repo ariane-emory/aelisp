@@ -154,11 +154,8 @@ sexps sexp {
     ae_obj_t * new_obj = MOVE_NEW(&$2);
     PUSH_BACK(&$$, new_obj);
   }
-  
 }
 | {
-  // memset(&$$, 0, sizeof($$));
-
 #ifdef NOISY_INIT  
   printf("Initting $$ (b)  %p\n", &$$);
 #endif
