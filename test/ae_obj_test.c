@@ -52,18 +52,20 @@ void cons(void) {
 
   T(ae_obj_length(this) == 1);
 
-  ae_obj_t * new_head = ALLOC_AE_OBJ;
-  ae_obj_init(new_head, AE_INTEGER_);
-  new_head->int_value = 456;
-
-  ae_obj_t * cons_result = CONS(new_head, this);
-
-  T(cons_result != this);
-  T(cons_result != that);
-  T(cons_result != new_head);
-  T(cons_result->head == new_head);
-  T(cons_result->tail == this);
-  T(ae_obj_length(cons_result) == 2);
+  for (int ix = 1; ix < 3; ix++) { 
+    ae_obj_t * new_head = ALLOC_AE_OBJ;
+    ae_obj_init(new_head, AE_INTEGER_);
+    new_head->int_value = 123 + ix;
+    
+    ae_obj_t * cons_result = CONS(new_head, this);
+    
+    T(cons_result != this);
+    T(cons_result != that);
+    T(cons_result != new_head);
+    T(cons_result->head == new_head);
+    T(cons_result->tail == this);
+    T(ae_obj_length(cons_result) == 1 + ix);
+  }
 }
 
 void unsafe_move(void) {
