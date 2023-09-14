@@ -119,7 +119,6 @@
 
 program: sexps { root = &$$; }
 
-
 atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL | INF;
 
 list:
