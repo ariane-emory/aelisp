@@ -141,8 +141,8 @@ ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p);
 ////////////////////////////////////////////////////////////////////////////////
 
 #define CONS(head, tail) ae_obj_cons((head), (tail))
-#define CAR(obj) ((obj)->head)
-#define CDR(obj) ((obj)->tail)
+#define CAR(obj)         ((obj)->head)
+#define CDR(obj)         ((obj)->tail)
 
 ////////////////////////////////////////////////////////////////////////////////
 // pool
@@ -159,7 +159,7 @@ ae_obj_t * pool_alloc_ae_obj();
 void       pool_free_ae_obj(ae_obj_t * const this);
 
 #  define AE_OBJ_ALLOC pool_alloc_ae_obj()
-#  define AE_OBJ_NEW(type) ae_obj_init(AE_OBJ_ALLOC, type)
+#  define AE_OBJ_NEW(type) ae_obj_init(AE_OBJ_ALLOC, (type))
 
 void pool_print(void);
 void pool_clear(void);
