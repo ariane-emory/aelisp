@@ -69,13 +69,10 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * new_list   = ALLOC_AE_OBJ;
-  ae_obj_t * head       = ALLOC_AE_OBJ;
-  ae_obj_init(new_list,   AE_CONS____);
-  ae_obj_init(head,       AE_INTEGER_);
-
-  new_list->head = head;
-  head->int_value = 4;
+  ae_obj_t * new_list = NEW_AE_OBJ(AE_CONS____);
+  ae_obj_t * head     = NEW_AE_OBJ(AE_INTEGER_);
+  head->int_value     = 4;
+  new_list->head      = head;
   
   T(ae_obj_length(new_list) == 1);
 
