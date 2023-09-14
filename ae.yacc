@@ -70,7 +70,7 @@
     printf("\nUsing pool from   %p to %p.\n\n", pool, &pool[POOL_SIZE]);
 #endif
     
-    FILE * fp = fopen("sample.txt", "r");
+    FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
     yyparse();
 
