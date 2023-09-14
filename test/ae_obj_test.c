@@ -71,6 +71,7 @@ void cons(void) {
   const size_t buff_len = 1 << 8;
   char * buff = malloc(buff_len);
   FILE * stream = fmemopen(buff, buff_len, "w");
+  ae_obj_fwrite(this, stdout);
   ae_obj_fwrite(this, stream);
   fclose(stream);
   free(buff);
