@@ -108,6 +108,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 
   ae_obj_t * that = ALLOC_AE_OBJ;
   ae_obj_init(that, AE_INTEGER_);
+
   that->int_value = this->int_value * 2;
 
   return that;
