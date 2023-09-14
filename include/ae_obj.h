@@ -6,6 +6,7 @@
 
 #define ALLOC                 (pool_alloc_ae_obj())
 #define NEW(type)             (ae_obj_init(ALLOC, (type)))
+#define INIT(this, type)      (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)        (ae_obj_unsafe_move(ALLOC, (that)))
 #define PUSH_BACK(this, that) (ae_obj_push_back((this), (that)))
 #define CAR(this)             ((this)->head)

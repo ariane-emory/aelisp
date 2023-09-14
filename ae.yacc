@@ -130,7 +130,7 @@ LPAREN sexps RPAREN { $$ = $2; };
   printf("Initting $$ (a)  %p\n", &$$);
 #endif  
 
-  ae_obj_init(&$$, AE_CONS____);
+  INIT(&$$, AE_CONS____);
 
 #ifdef NOISY_INIT
   printf("Initted $$ (a)   %p\n\n", &$$);
