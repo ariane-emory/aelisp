@@ -26,6 +26,7 @@
 #define INFP(o)               ((o)->type == AE_INF_____)
 #define STRINGP(o)            ((o)->type == AE_STRING__)
 #define SYMBOLP(o)            ((o)->type == AE_SYMBOL__)
+
 #define ASSERT_INTEGERP(o)    (assert(INTEGERP(o)))
 #define ASSERT_INVALIDP(o)    (assert(INVALIDP(o)))
 #define ASSERT_CHARP(o)       (assert(CHARP(o)))
