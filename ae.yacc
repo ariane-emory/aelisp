@@ -148,11 +148,12 @@ sexps sexp {
     printf("Interning '%s'...\n", $2.sym_value);
     fflush(stdout);
 #endif
-    ae_obj_push_back(&$$, c_str_intern($2.sym_value, &symbols));
+
+    PUSH_BACK(&$$, c_str_intern($2.sym_value, &symbols));
   }
   else {
     ae_obj_t * new_obj = MOVE_NEW(&$2);
-    ae_obj_push_back(&$$, new_obj);
+    PUSH_BACK(&$$, new_obj);
   }
   
 }
