@@ -4,9 +4,9 @@
 #include "ae_obj.h"
 #include "acutest.h"
 
-#define NL putchar('\n')
+#define NL   putchar('\n')
 #define FAIL TEST_CHECK(0)
-#define T TEST_CHECK
+#define T    TEST_CHECK
 
 #define SETUP_TEST                                                                                                                          \
   pool_clear();                                                                                                                             \
