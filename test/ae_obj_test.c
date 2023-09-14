@@ -17,6 +17,10 @@
   (void)counter;                                                                                                                            \
   (void)that;
 
+////////////////////////////////////////////////////////////////////////////////
+// Helpers
+////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * new_list   = ALLOC_AE_OBJ;
   ae_obj_t * head       = ALLOC_AE_OBJ;
@@ -66,31 +70,6 @@ bool shitty_write_based_equal(const ae_obj_t * const this, const char * const st
   return ret;
 }
 
-void newly_allocated_ae_obj_is_inside_pool(void)
-{
-  SETUP_TEST;
-  T(this >= pool_first && this <= pool_last);
-  TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
-}
-
-void newly_initialized_ae_obj_has_correct_type_field(void) {
-#define test(_type)                                                                                                                         \
-  {                                                                                                                                         \
-    SETUP_TEST;                                                                                                                             \
-    ae_obj_init(this, _type);                                                                                                               \
-    T(this->type == _type);                                                                                                                 \
-    TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type ".");                                                               \
-  }
-  FOR_LEXED_TYPES_DO(test);
-}
-
-void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
-  SETUP_TEST;
-  ae_obj_init(this, AE_RATIONAL);
-  T(this->numerator_value == 0 && this->denominator_value == 0);
-  TEST_MSG("After ae_obj_init(obj, %s), its data fields should == 0.", ae_type_str(this->type));
-}
-
 static size_t list_tests_tests_length = 0;
 
 void incr_list_tests_tests_length(ae_obj_t * const this) {
@@ -108,10 +87,46 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
   return that;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Tests
+////////////////////////////////////////////////////////////////////////////////
+
+void newly_allocated_ae_obj_is_inside_pool(void)
+{
+  SETUP_TEST;
+
+  T(this >= pool_first && this <= pool_last);
+  TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
+}
+
+void newly_initialized_ae_obj_has_correct_type_field(void) {
+#define test(_type)                                                                                                                         \
+  {                                                                                                                                         \
+    SETUP_TEST;                                                                                                                             \
+                                                                                                                                            \
+    ae_obj_init(this, _type);                                                                                                               \
+                                                                                                                                            \
+    T(this->type == _type);                                                                                                                 \
+    TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type ".");                                                               \
+  }
+  FOR_LEXED_TYPES_DO(test);
+}
+
+void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
+  SETUP_TEST;
+  
+  ae_obj_init(this, AE_RATIONAL);
+
+  T(this->numerator_value == 0 && this->denominator_value == 0);
+  TEST_MSG("After ae_obj_init(obj, %s), its data fields should == 0.", ae_type_str(this->type));
+}
+
 void list_tests(void) {
   SETUP_TEST;
+  
   this = cons_together_a_list_of_ints();
   ae_obj_each(this, incr_list_tests_tests_length);
+
   T(list_tests_tests_length == 4);
   T(shitty_write_based_equal(this,                            "(126 125 124 123 \b) "));
   T(shitty_write_based_equal(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
@@ -132,7 +147,6 @@ void unsafe_move(void) {
   T(this->type              == AE_RATIONAL);
   T(this->numerator_value   == 123);
   T(this->denominator_value == 321);
-
   T(that->type              == AE_FREE____);
   T(that->numerator_value   == 0);
   T(that->denominator_value == 0);
