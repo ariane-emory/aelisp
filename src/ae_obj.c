@@ -346,7 +346,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   fflush(stdout);
 #endif
   
-  ae_obj_t * new_list = NEW_AE_OBJ(AE_CONS____);
+  ae_obj_t * new_list = AE_OBJ_NEW(AE_CONS____);
 
   new_list->head = head;
   new_list->tail = tail;
@@ -372,7 +372,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
   if (this->head) {
     ae_obj_t * position = this;
     for (; position->tail; position = position->tail);
-    position->tail = NEW_AE_OBJ(AE_CONS____);
+    position->tail = AE_OBJ_NEW(AE_CONS____);
     position->tail->head = obj;
   }
   else {
@@ -394,11 +394,11 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM(sym) ae_obj_t * sym = NEW_AE_OBJ(AE_SYMBOL__); sym->sym_value = strdup(c_str)
+#define NEW_SYM(sym) ae_obj_t * sym = AE_OBJ_NEW(AE_SYMBOL__); sym->sym_value = strdup(c_str)
 
 ae_obj_t * c_str_intern(char * c_str, ae_obj_t ** const sym_list_p) {
   if (! *sym_list_p)
-    *sym_list_p = NEW_AE_OBJ(AE_CONS____);
+    *sym_list_p = AE_OBJ_NEW(AE_CONS____);
   
   if (! CAR(*sym_list_p)) {
     // shortcut/hack for my weird imaginary nil:
