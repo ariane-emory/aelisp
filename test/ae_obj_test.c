@@ -26,8 +26,6 @@ ae_obj_t * create_a_list_of_ints(void) {
   new_list->head = head;
   head->int_value = 123;
   
-
-
   T(ae_obj_length(new_list) == 1);
 
   for (unsigned int ix = 1; ix < 4; ix++) { 
@@ -113,30 +111,8 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
 void list_tests(void) {
   SETUP_TEST;
 
-  ae_obj_init(this, AE_CONS____);
-  this->head = that;
-
-  ae_obj_init(that, AE_INTEGER_);
-  that->int_value = 123;
-
-  T(ae_obj_length(this) == 1);
-
-  for (unsigned int ix = 1; ix < 4; ix++) { 
-    ae_obj_t * new_head = ALLOC_AE_OBJ;
-    ae_obj_init(new_head, AE_INTEGER_);
-    new_head->int_value = 123 + ix;
-
-    ae_obj_t * tail = this;
+  this = create_a_list_of_ints();
     
-    this = CONS(new_head, tail);
-    
-    T(this != that);
-    T(this != new_head);
-    T(this->head == new_head);
-    T(this->tail == tail);
-    T(ae_obj_length(this) == 1 + ix);
-  }
-
   ae_obj_each(this, incr_list_tests_tests_length);
 
   T(shitty_write_based_equal(this, "(126 125 124 123 \b) "));
