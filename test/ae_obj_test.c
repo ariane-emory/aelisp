@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "ae_obj.h"
 #include "acutest.h"
@@ -15,6 +16,26 @@
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
+
+bool shitty_write_based_equal(const ae_obj_t * const this, const char * const strcmp_str) {
+  // For expedience-of-implementation's sake, we'll check if this it's
+  // supposed to be by fwriting it into a string and comparing it to a string
+  // constant.
+  
+  const size_t buff_len = 1 << 8;
+  char * buff = malloc(buff_len);
+  FILE * stream = fmemopen(buff, buff_len, "w");
+
+  ae_obj_fwrite(this, stream);
+
+  fclose(stream);
+
+  bool ret = T(strcmp(strcmp_str, buff) == 0);
+
+  free (buff);
+  
+  return ret;
+}
 
 void newly_allocated_ae_obj_is_inside_pool(void)
 {
