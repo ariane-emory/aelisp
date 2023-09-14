@@ -228,6 +228,10 @@ void simple_clone(void) {
   X(push_back)                                                                                                                              \
   X(cons_and_each_and_map)
 
+// While there is no explicit test for the _write method, it is, in a sense,
+// implicitly tested: the cons_and_each_and_map test passing relies upon the
+// write method behaving correctly.
+
 #define pair(fun) { #fun, fun },
 
 TEST_LIST = {
