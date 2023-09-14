@@ -17,7 +17,7 @@
   (void)counter;                                                                                                                            \
   (void)that;
 
-ae_obj_t * create_a_list_of_ints(void) {
+ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * new_list   = ALLOC_AE_OBJ;
   ae_obj_t * head       = ALLOC_AE_OBJ;
   ae_obj_init(new_list,   AE_CONS____);
@@ -61,7 +61,7 @@ bool shitty_write_based_equal(const ae_obj_t * const this, const char * const st
 
   bool ret = T(strcmp(strcmp_str, buff) == 0);
 
-  free (buff);
+  free(buff);
   
   return ret;
 }
@@ -111,7 +111,7 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
 void list_tests(void) {
   SETUP_TEST;
 
-  this = create_a_list_of_ints();
+  this = cons_together_a_list_of_ints();
     
   ae_obj_each(this, incr_list_tests_tests_length);
 
