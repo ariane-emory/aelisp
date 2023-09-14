@@ -41,7 +41,7 @@ TEST_BINS = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
 # Targets
 ################################################################################
 
-all: bin/ae bin/old_data_test $(TEST_BINS)
+all: bin/ae $(TEST_BINS)
 
 obj/%.o: src/%.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
@@ -56,9 +56,6 @@ bin/test/%: bin/test
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(YACC_LEX_CFLAGS)
-
-bin/old_data_test: $(OBJS)
-	$(CC) -o $@ $(patsubst bin/%, %.c, $@) $^ $(LDFLAGS) $(STRICTER_CFLAGS) -Wno-unused-variable
 
 ################################################################################
 # Lexer/parser
@@ -95,7 +92,6 @@ bin/test:
 
 tests: clean all
 	./bin/ae
-	./bin/old_data_test
 	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
