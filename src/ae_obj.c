@@ -148,15 +148,15 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_CONS____:
     if (! CAR(this))
       fputs("nil", stream);
-    else if (! this->tail)
+    else if (! CDR(this))
       fprintf(stream, "%011p %-11p %2d",
               CAR(this) ,
-              this->tail,
+              CDR(this),
               ae_obj_length(this));
     else
       fprintf(stream, "%011p %-011p %2d",
               CAR(this) ,
-              this->tail,
+              CDR(this),
               ae_obj_length(this));    
     break;
   case AE_SYMBOL__:
@@ -301,7 +301,7 @@ size_t ae_obj_length(const ae_obj_t * const this) {
 
   if (! CAR(this) ) return 0;
   
-  for (const ae_obj_t * position = this; position; position = position->tail, length++);
+  for (const ae_obj_t * position = this; position; position = CDR(position), length++);
 
   return length;
 }
@@ -316,11 +316,11 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 
   fun(CAR(this) );
 
-  ae_obj_each(this->tail, fun);
+  ae_obj_each(CDR(this), fun);
 #else  // AE_OBJ_EACH_RECURSES
   ASSERT_CONSP(this);
 
-  for (const ae_obj_t * position = this; position; position = position->tail)
+  for (const ae_obj_t * position = this; position; position = CDR(position))
     fun(CAR(position) );
 #endif // AE_OBJ_EACH_RECURSES
 }
@@ -330,7 +330,7 @@ ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
   
   ASSERT_CONSP(this);
 
-  return CONS(fun(CAR(this) ), ae_obj_map(this->tail, fun));
+  return CONS(fun(CAR(this) ), ae_obj_map(CDR(this), fun));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
