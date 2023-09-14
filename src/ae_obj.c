@@ -378,7 +378,7 @@ void ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
     CADR(position)      = obj;
   }
   else {
-    this->head = obj;
+    CAR(this) = obj;
   }
 
 #ifdef NOISY_INIT
