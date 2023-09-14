@@ -29,9 +29,9 @@ char * tmp_str = 0;
 ////////////////////////////////////////////////////////////////////////////////
 
 char * write_to_new_string(const ae_obj_t * const this) {
-  char *       buff;
-  size_t       size;
-  FILE *       stream   = open_memstream(&buff, &size);
+  char * buff;
+  size_t size;
+  FILE * stream = open_memstream(&buff, &size);
 
   ae_obj_fwrite(this, stream);
   fclose(stream);
@@ -40,12 +40,7 @@ char * write_to_new_string(const ae_obj_t * const this) {
 }
 
 bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
-  char *       buff = write_to_new_string(this); 
-  bool         ret  = T(strcmp(strcmp_str, buff) == 0);
-
-  free(buff);
-  
-  return ret;
+  return ! strcmp(strcmp_str, tmp_str = write_to_new_string(this));
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
