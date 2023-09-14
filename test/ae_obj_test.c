@@ -4,6 +4,10 @@
 #include "ae_obj.h"
 #include "acutest.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// Macros
+////////////////////////////////////////////////////////////////////////////////
+
 #define T    TEST_CHECK
 
 #define COUNT_LIST(l) list_counter = 0; ae_obj_each((l), incr_list_counter); 
@@ -139,6 +143,11 @@ void basic_list_checks(ae_obj_t * this) {
 // Tests
 ////////////////////////////////////////////////////////////////////////////////
 
+void test_setup_is_okay(void)
+{
+  SETUP_TEST;
+}
+
 void newly_allocated_ae_obj_is_inside_pool(void)
 {
   SETUP_TEST;
@@ -231,7 +240,12 @@ void pushed_and_consed_lists_write_identically(void) {
   T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// TEST_LIST
+////////////////////////////////////////////////////////////////////////////////
+
 #define FOR_TEST_FUNS_DO(X)                                                                                                                 \
+  X(test_setup_is_okay)                                                                                                                     \
   X(newly_allocated_ae_obj_is_inside_pool)                                                                                                  \
   X(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                             \
   X(newly_initialized_ae_obj_has_correct_type_field)                                                                                        \
