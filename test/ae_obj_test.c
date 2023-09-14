@@ -22,6 +22,17 @@
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////
 
+char * write_to_new_string(const ae_obj_t * const this) {
+  char *       buff;
+  size_t       size;
+  FILE *       stream   = open_memstream(&buff, &size);
+
+  ae_obj_fwrite(this, stream);
+  fclose(stream);
+
+  return buff;
+}
+
 bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
   // For expedience-of-implementation's sake, we'll check if this is what it's
   // supposed to be by _fwriting it into a string and comparing it to a string
@@ -29,14 +40,16 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
   
   const size_t buff_len = 1 << 8;
   char *       buff     = malloc(buff_len);
-  FILE *       stream   = fmemopen(buff, buff_len, "w");
+  // FILE *       stream   = fmemopen(buff, buff_len, "w");
+  size_t       size;
+  FILE *       stream   = open_memstream(&buff, &size);
 
   ae_obj_fwrite(this, stream);
   fclose(stream);
 
   bool ret = T(strcmp(strcmp_str, buff) == 0);
 
-  free(buff);
+  // free(buff);
   
   return ret;
 }
