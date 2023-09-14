@@ -13,7 +13,7 @@
   ae_obj_t * this = ALLOC_AE_OBJ;                                                                                                           \
   ae_obj_t * that = ALLOC_AE_OBJ;                                                                                                           \
   T(this != that);                                                                                                                          \
-  consed_list_tests_tests_length = 0;                                                                                                              \
+  list_counter = 0;                                                                                                                         \
   size_t counter = 1;                                                                                                                       \
   (void)counter;                                                                                                                            \
   (void)that;
@@ -90,11 +90,11 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
   return ret;
 }
 
-static size_t consed_list_tests_tests_length = 0;
+static size_t list_counter = 0;
 
-void incr_consed_list_tests_tests_length(ae_obj_t * const this) {
+void incr_list_counter(ae_obj_t * const this) {
   (void)this;
-  consed_list_tests_tests_length++;
+  list_counter++;
 }
 
 ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
@@ -146,9 +146,9 @@ void consed_list_tests(void) {
   
   this = cons_together_a_list_of_ints();
 
-  ae_obj_each(this, incr_consed_list_tests_tests_length);
+  ae_obj_each(this, incr_list_counter);
 
-  T(consed_list_tests_tests_length == 4);
+  T(list_counter == 4);
   T(ae_obj_length(this) == 4);
   T(shitty_write_based_equality_predicate(this,                            "(126 125 124 123 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(252 250 248 246 \b) "));
@@ -159,9 +159,9 @@ void pushed_list_tests(void) {
 
   this = push_together_a_list_of_ints();
 
-  /* ae_obj_each(this, incr_consed_list_tests_tests_length); */
+  /* ae_obj_each(this, incr_list_counter); */
 
-  /* T(consed_list_tests_tests_length == 4); */
+  /* T(list_counter == 4); */
   T(ae_obj_length(this));
   T(shitty_write_based_equality_predicate(this, "(124 125 126 \b) "));
 }
@@ -208,7 +208,7 @@ void simple_clone(void) {
   X(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                        \
   X(unsafe_move)                                                                                                                            \
   X(simple_clone)                                                                                                                           \
-  X(pushed_list_tests)                                                                                                                              \
+  X(pushed_list_tests)                                                                                                                      \
   X(consed_list_tests)
 
 // While there is no explicit test for the _write method, it is, in a sense,
