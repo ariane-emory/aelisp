@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stddef.h>
 #include <assert.h>
 
 #include "ae_obj.h"
@@ -40,9 +41,9 @@ ae_obj_t * pool_alloc_ae_obj() {
     
   fprintf(stderr, "ERROR: Pool is full.\n");
 
-  assert(0);
+  assert(NULL);
   
-  return 0;
+  return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
