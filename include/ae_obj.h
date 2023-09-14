@@ -13,7 +13,7 @@
 #define CDR(this)             ((this)->tail)
 #define CADR(this)            (CAR(CDR(this)))
 #define CONS(head, tail)      (ae_obj_cons((head), (tail)))
-#define INTERN(sym_list, str) (string_intern((sym_list), (str)))
+#define INTERN(sym_list, str) (string_intern((str), (sym_list)))
 
 #define INTEGERP(o)           ((o)->type == AE_INTEGER_)
 #define INVALIDP(o)           ((o)->type == AE_INVALID_)

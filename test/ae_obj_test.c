@@ -231,8 +231,8 @@ void intern_symbols(void) {
   SETUP_TEST;
 
   // re-use 'this' as the symbol list here:
-  T(string_intern("one", &this) == string_intern("one", &this));
-  T(string_intern("one", &this) != string_intern("two", &this));
+  T(string_intern("one", &this) == INTERN(&this, "one"));
+  T(string_intern("one", &this) != INTERN(&this, "two"));
   T(ae_obj_length(this) == 2);
 }
 
