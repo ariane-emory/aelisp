@@ -52,20 +52,28 @@ void cons(void) {
 
   T(ae_obj_length(this) == 1);
 
-  for (int ix = 1; ix < 3; ix++) { 
+  for (unsigned int ix = 1; ix < 4; ix++) { 
     ae_obj_t * new_head = ALLOC_AE_OBJ;
     ae_obj_init(new_head, AE_INTEGER_);
     new_head->int_value = 123 + ix;
+
+    ae_obj_t * tail = this;
     
-    ae_obj_t * cons_result = CONS(new_head, this);
+    this = CONS(new_head, tail);
     
-    T(cons_result != this);
-    T(cons_result != that);
-    T(cons_result != new_head);
-    T(cons_result->head == new_head);
-    T(cons_result->tail == this);
-    T(ae_obj_length(cons_result) == 1 + ix);
+    T(this != that);
+    T(this != new_head);
+    T(this->head == new_head);
+    T(this->tail == tail);
+    T(ae_obj_length(this) == 1 + ix);
   }
+
+  const size_t buff_len = 1 << 8;
+  char * buff = malloc(buff_len);
+  FILE * stream = fmemopen(buff, buff_len, "w");
+  ae_obj_fwrite(this, stream);
+  fclose(stream);
+  free(buff);
 }
 
 void unsafe_move(void) {
