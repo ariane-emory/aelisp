@@ -134,7 +134,7 @@ void push_back(void) {
   // string constant.
 
   // ae_obj_fwrite does dumb shit with backspace:  
-  const char * const strcmp_str = "(126 125 124 \b) ";
+  const char * const strcmp_str = "(124 125 126 \b) ";
   
   const size_t buff_len = 1 << 8;
   char * buff = malloc(buff_len);
@@ -144,6 +144,8 @@ void push_back(void) {
   fclose(stream);
 
   ae_obj_write(this);
+  printf("\nCompare '%s' and '%s'.\n", strcmp_str, buff);
+  fflush(stdout);
   T(strcmp(strcmp_str, buff) == 0);
   
   free(buff);
