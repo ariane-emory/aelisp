@@ -35,10 +35,8 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
     ae_obj_push_back(new_list, new_tailtip);
 
-    //T(ae_obj_length(new_list) == ix);
+    T(ae_obj_length(new_list) == ix);
   }
-  
-  // ae_obj_write(new_list);
 
   return new_list;
 }
@@ -54,9 +52,6 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   
   T(ae_obj_length(new_list) == 1);
 
-  /* printf("\nBefore: "); */
-  /* ae_obj_write(new_list); */
-  
   for (unsigned int ix = 0; ix < 3; ix++) { 
     ae_obj_t * new_head = ALLOC_AE_OBJ;
     ae_obj_init(new_head, AE_INTEGER_);
@@ -65,9 +60,6 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
     ae_obj_t * tail = new_list;
     
     new_list = CONS(new_head, tail);
-
-    /* printf("\nAt %d: ", ix); */
-    /* ae_obj_write(new_list); */
 
     const size_t expected_length = 2 + ix;
   
@@ -81,8 +73,6 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
       ae_obj_length(new_list),
       expected_length);
   }
-
-  //ae_obj_write(new_list);
   
   return new_list;
 }
@@ -123,7 +113,6 @@ ae_obj_t * ae_obj_double(const ae_obj_t * const this) {
   return that;
 }
 
-
 void basic_list_checks(ae_obj_t * this) {
   ae_obj_each(this, incr_list_counter); 
 
@@ -153,7 +142,6 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
     ae_obj_init(this, _type);                                                                                                               \
                                                                                                                                             \
     T(this->type == _type);                                                                                                                 \
-    TEST_MSG("After ae_obj_init(obj, " #_type "), obj->type != " #_type ".");                                                               \
   }
   FOR_LEXED_TYPES_DO(test);
 }
@@ -164,7 +152,6 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   ae_obj_init(this, AE_RATIONAL);
 
   T(this->numerator_value == 0 && this->denominator_value == 0);
-  TEST_MSG("After ae_obj_init(obj, %s), its data fields should == 0.", ae_type_str(this->type));
 }
 
 void consed_list_tests(void) {
