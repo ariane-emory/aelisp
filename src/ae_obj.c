@@ -151,9 +151,9 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
     BSPC; break;
   case AE_CONS____:
-    if      (NULLP(CAR(this)))
+    if      (! CAR(this))
       fputs("nil", stream);
-    else if (NULLP(CDR(this)))
+    else if (! CDR(this))
       fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), 666); // LENGTH(this));
     else
       fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), 666); // LENGTH(this));    
