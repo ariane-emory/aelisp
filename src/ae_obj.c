@@ -106,7 +106,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   switch (this->type) {
   case AE_CONS____:
-    clone = ae_list_map((ae_obj_t *)this, (ae_list_map_fun)ae_obj_clone);
+    clone = MAP((ae_obj_t *)this, (ae_list_map_fun)ae_obj_clone);
     break;
   case AE_STRING__:
     CLONE_USING_MEMCPY;
@@ -232,7 +232,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
   case AE_CONS____:
     if (this->type == AE_CONS____ && CAR(this) ) {
       fputc('(', _stream);
-      ae_list_each((ae_obj_t *)this, (ae_list_each_fun)ae_obj_fwrite_internal);
+      EACH((ae_obj_t *)this, (ae_list_each_fun)ae_obj_fwrite_internal);
       fputc('\b', _stream);
       fputc(')', _stream);
     }
@@ -319,7 +319,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   
   ASSERT_CONSP(list);
 
-  return CONS(fun(CAR(list) ), ae_list_map(CDR(list), fun));
+  return CONS(fun(CAR(list) ), MAP(CDR(list), fun));
 }
 
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
@@ -328,9 +328,9 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 
   ASSERT_CONSP(list);
 
-  fun(CAR(list) );
-
-  ae_list_each(CDR(list), fun);
+  fun(CAR(list));
+  EACH(CDR(list), fun);
+  
 #else  // AE_OBJ_EACH_RECURSES
   ASSERT_CONSP(list);
 
