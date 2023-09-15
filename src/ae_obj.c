@@ -47,7 +47,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 #endif
 
   memset(this, 0, sizeof(ae_obj_t));
-  this->type  = type;
+  TYPE(this) = type;
 
 #ifdef NOISY_INIT
   fputs("Initialized      ", stdout);
@@ -104,7 +104,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 #define CLONE_USING_MEMCPY clone = ALLOC(); memcpy(clone, this, sizeof(ae_obj_t))
 #define DUP_C_STR(field) clone->field = strdup(this->field)
   
-  switch (this->type) {
+  switch (TYPE(this)) {
   case AE_CONS____:
     clone = MAP((ae_obj_t *)this, (ae_list_map_fun)ae_obj_clone);
     break;
@@ -140,10 +140,10 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "%011p[ %s ", this, ae_type_str(this->type));
-  // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(this->type));
+  fprintf(stream, "%011p[ %s ", this, ae_type_str(TYPE(this)));
+  // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(TYPE(this)));
   
-  switch (this->type) {
+  switch (TYPE(this)) {
   case AE_LPAREN__:
   case AE_RPAREN__:
   case AE_INVALID_:
@@ -225,12 +225,12 @@ void ae_obj_write(const ae_obj_t * const this) {
 static FILE * _stream;
 
 static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
-  switch (this->type) {
+  switch (TYPE(this)) {
   case AE_INF_____:
     fputs("∞", _stream);
     break;
   case AE_CONS____:
-    if (this->type == AE_CONS____ && CAR(this) ) {
+    if (CONSP(this) && CAR(this) ) {
       fputc('(', _stream);
       EACH((ae_obj_t *)this, (ae_list_each_fun)ae_obj_fwrite_internal);
       fputc('\b', _stream);
