@@ -358,8 +358,8 @@ size_t ae_list_length(const ae_obj_t * const list) {
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
   ASSERT_CONSP(list);
 
-  for (ae_obj_t * position = list; position; position = CDR(position))
-    fun(CAR(position) );
+  FOR_EACH(elem, list)
+    fun(elem);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
