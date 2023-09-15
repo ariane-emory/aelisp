@@ -1,6 +1,6 @@
 - [ ] Better code for aligning type strs when printing.
 - [ ] Maybe addressable nil value?
-- [ ] Redo/rename the so-called 'byte oriented' putses.
+- [ ] Redo/rename the so-called 'byte oriented' puts.
 
 Completed:
 
