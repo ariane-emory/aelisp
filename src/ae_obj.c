@@ -299,42 +299,42 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-size_t ae_obj_length(const ae_obj_t * const this) {
-  ASSERT_CONSP(this);
+size_t ae_obj_length(const ae_obj_t * const list) {
+  ASSERT_CONSP(list);
   
   size_t length = 0;
 
-  if (! CAR(this) ) return 0;
+  if (! CAR(list) ) return 0;
   
-  for (const ae_obj_t * position = this; position; position = CDR(position), length++);
+  for (const ae_obj_t * position = list; position; position = CDR(position), length++);
 
   return length;
 }
 
 // #define   AE_OBJ_EACH_RECURSES
 
-ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
-  if (! this)
+ae_obj_t * ae_obj_map(ae_obj_t * const list, ae_obj_map_fun fun) {
+  if (! list)
     return NULL;
   
-  ASSERT_CONSP(this);
+  ASSERT_CONSP(list);
 
-  return CONS(fun(CAR(this) ), ae_obj_map(CDR(this), fun));
+  return CONS(fun(CAR(list) ), ae_obj_map(CDR(list), fun));
 }
 
-void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
+void ae_obj_each (ae_obj_t * const list, ae_obj_each_fun fun) {
 #ifdef    AE_OBJ_EACH_RECURSES
-  if (! this) return;
+  if (! list) return;
 
-  ASSERT_CONSP(this);
+  ASSERT_CONSP(list);
 
-  fun(CAR(this) );
+  fun(CAR(list) );
 
-  ae_obj_each(CDR(this), fun);
+  ae_obj_each(CDR(list), fun);
 #else  // AE_OBJ_EACH_RECURSES
-  ASSERT_CONSP(this);
+  ASSERT_CONSP(list);
 
-  for (const ae_obj_t * position = this; position; position = CDR(position))
+  for (const ae_obj_t * position = list; position; position = CDR(position))
     fun(CAR(position) );
 #endif // AE_OBJ_EACH_RECURSES
 }
@@ -408,32 +408,32 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif
 
-ae_obj_t * ae_obj_push_back(ae_obj_t * const this, ae_obj_t * const obj) {
-  ASSERT_CONSP(this);
+ae_obj_t * ae_obj_push_back(ae_obj_t * const list, ae_obj_t * const elem) {
+  ASSERT_CONSP(list);
  
 #ifdef NOISY_INIT
   fputs("Pushing          ", stdout);
-  ae_obj_put(obj);
+  ae_obj_put(elem);
   fputs(" into ", stdout);
-  ae_obj_put(this);
+  ae_obj_put(list);
   putchar('\n');
 #endif
   
-  if (CAR(this)) {
-    ae_obj_t * position = this;
+  if (CAR(list)) {
+    ae_obj_t * position = list;
     for (; CDR(position); position = CDR(position));
-    CDR(position)       = CONS(obj, NULL);
+    CDR(position)       = CONS(elem, NULL);
 
     AFTER_PUSH_MESSAGE(CDR(position));
   
     return CDR(position);
   }
   else {
-    CAR(this) = obj;
+    CAR(list) = elem;
 
-    AFTER_PUSH_MESSAGE(this);
+    AFTER_PUSH_MESSAGE(list);
 
-    return this;
+    return list;
   }
 }
 
