@@ -339,8 +339,15 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 #endif // AE_OBJ_EACH_RECURSES
 }
 
-/* static void ae_obj_remove_from_helper_fun(ae_obj_t * const this) { */
-/* } */
+bool ae_obj_member_of(ae_obj_t * const list, ae_obj_t * const elem) {
+  ASSERT_CONSP(list);
+
+   for (const ae_obj_t * position = list; position; position = CDR(position))
+    if (EQ(CAR(position), elem))
+      return true;
+  
+   return false;
+}
 
 ae_obj_t * ae_obj_remove_from(ae_obj_t * const list, ae_obj_t * const elem) {
   ASSERT_CONSP(list);
