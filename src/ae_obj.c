@@ -318,11 +318,12 @@ ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
 
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 #ifdef    AE_OBJ_EACH_RECURSES
-  if (! list) return;
+  if (NULLP(list)) return;
 
   ASSERT_CONSP(list);
 
   fun(CAR(list));
+  
   EACH(CDR(list), fun);
   
 #else  // AE_OBJ_EACH_RECURSES
