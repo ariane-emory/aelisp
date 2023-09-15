@@ -326,6 +326,19 @@ char * ae_obj_swrite(const ae_obj_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _map method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
+  if (! list)
+    return NULL;
+  
+  ASSERT_CONSP(list);
+
+  return CONS(fun(CAR(list) ), MAP(CDR(list), fun));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // other methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -335,21 +348,12 @@ size_t ae_list_length(const ae_obj_t * const list) {
   if (! CAR(list) ) return 0;
 
   size_t length = 0;
+  
+#define FOR_EACH(elem, list)    for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = ((void)(elem), CDR(position)))  
 
   FOR_EACH(elem, list) length++;
 
   return length;
-}
-
-// #define   AE_OBJ_EACH_RECURSES
-
-ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
-  if (! list)
-    return NULL;
-  
-  ASSERT_CONSP(list);
-
-  return CONS(fun(CAR(list) ), MAP(CDR(list), fun));
 }
 
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
@@ -370,6 +374,10 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 #endif // AE_OBJ_EACH_RECURSES
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _has_member method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
 
@@ -379,6 +387,10 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   
    return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _remove_member method
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
