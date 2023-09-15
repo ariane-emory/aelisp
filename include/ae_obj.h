@@ -152,12 +152,12 @@ void          ae_obj_fwrite       (const ae_obj_t * const this,        FILE * st
 void          ae_obj_write        (const ae_obj_t * const this);
 
 // For AE_CONS____es:
-size_t        ae_obj_length       (const ae_obj_t * const this);
-ae_obj_t *    ae_obj_push_back    (      ae_obj_t * const this,        ae_obj_t * const obj);
-ae_obj_t *    ae_obj_remove_from  (      ae_obj_t * const list,        ae_obj_t * const elem);
-bool          ae_obj_member_of    (      ae_obj_t * const list,        ae_obj_t * const elem);
-void          ae_obj_each         (      ae_obj_t * const this,        ae_obj_each_fun fun);
-ae_obj_t *    ae_obj_map          (      ae_obj_t * const this,        ae_obj_map_fun fun);
+size_t        ae_obj_length       (const ae_obj_t * const list);
+ae_obj_t *    ae_obj_push_back    (      ae_obj_t * const list,        ae_obj_t * const  elem);
+ae_obj_t *    ae_obj_remove_from  (      ae_obj_t * const list,        ae_obj_t * const  elem);
+bool          ae_obj_member_of    (      ae_obj_t * const list,        ae_obj_t * const  elem);
+void          ae_obj_each         (      ae_obj_t * const list,        ae_obj_each_fun   fun);
+ae_obj_t *    ae_obj_map          (      ae_obj_t * const list,        ae_obj_map_fun    fun);
 
 // This returns a new obj:
 ae_obj_t *    ae_obj_cons         (      ae_obj_t * const head,        ae_obj_t *  const tail);
