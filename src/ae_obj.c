@@ -95,7 +95,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 #ifdef NOISY_INIT
   fputs("Cloning          ", stdout);
-  ae_obj_put(this);
+  PUT(this);
   putchar('\n');
   fflush(stdout);
 #endif
@@ -126,9 +126,9 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
 #ifdef NOISY_INIT
   fputs("Cloned           ", stdout);
-  ae_obj_put(this);
+  PUT(this);
   fputs(" into ", stdout);
-  ae_obj_put(clone);
+  PUT(clone);
   putchar('\n');
   fflush(stdout);
 #endif
@@ -178,7 +178,7 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
 }
 
 void ae_obj_put(const ae_obj_t * const this) {
-  ae_obj_fput(this, stdout);
+  FPUT(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

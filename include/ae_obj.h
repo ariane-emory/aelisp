@@ -26,6 +26,7 @@ typedef char * ae_string_t;
 #define CLONE(this)             (ae_obj_clone((this)))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
+#define FPUT(this, stream)      (ae_obj_put(this), (stream))
 #define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
