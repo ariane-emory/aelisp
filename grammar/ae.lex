@@ -121,7 +121,7 @@ nil                                                                 TOKENIZE(LIS
 ([1-9][0-9]+)?[\+\-\/\*]                                            TOKENIZE(INCROP,   AE_SYMBOL__  );
 !?=|(>=?)|(<=?)                                                     TOKENIZE(COMPARE,  AE_SYMBOL__  );
 ([\-+:&])?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL__  );
-[\f\n\t\v\ ]+  ;
-
+\;\;[^\n]*\n   ; /* comments */
+[\f\n\t\v\ ]+  ; /* ignored wItespace */
 %%
 
