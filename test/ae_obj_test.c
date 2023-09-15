@@ -237,7 +237,7 @@ void clone_a_simple_ae_obj(void) {
   that = CLONE(this);
 
   T(this != that);
-  T(that->type              == AE_RATIONAL);
+  T(RATIONALP(that));
   T(that->numerator_value   == 123);
   T(that->denominator_value == 321);
 }
