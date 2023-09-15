@@ -350,7 +350,11 @@ size_t ae_list_length(const ae_obj_t * const list) {
   size_t length = 0;
   
   // for (const ae_obj_t * position = (list); position; position = (CDR(position)))
-  for (const ae_obj_t * position = (list), * elem = CAR((list)); position; position = CDR(position), elem = position ? CAR(position) : NULL)
+  for (const ae_obj_t * position = (list), * elem = CAR((list));
+       position;
+       position = CDR(position), elem = position ?
+         CAR(position) :
+         NULL)
   {
     NL;
     fputs("Position is ", stdout);
@@ -358,7 +362,7 @@ size_t ae_list_length(const ae_obj_t * const list) {
     
     NL;
     fputs("Elem is     ", stdout);
-    PUT(CAR(position));
+    PUT(elem);
 
     NL;
     
