@@ -106,7 +106,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   switch (TYPE(this)) {
   case AE_CONS____:
-    clone = MAP((ae_obj_t *)this, (ae_list_map_fun)ae_obj_clone);
+    clone = MAP(this, ae_obj_clone);
     break;
   case AE_STRING__:
     CLONE_USING_MEMCPY;
@@ -313,7 +313,7 @@ size_t ae_list_length(const ae_obj_t * const list) {
 
 // #define   AE_OBJ_EACH_RECURSES
 
-ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
+ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
   if (! list)
     return NULL;
   

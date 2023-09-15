@@ -20,12 +20,12 @@ typedef char * ae_string_t;
 #define CDR(this)               ((this)->tail)
 #define CLONE(this)             (ae_obj_clone((this)))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
-#define EACH(this, fun)         (ae_list_each(this, fun))
+#define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
 #define EQ(this, that)          ((this) == (that))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 #define LENGTH(this)            (ae_list_length(this))
-#define MAP(this, fun)          (ae_list_map(this, fun))
+#define MAP(this, fun)          (ae_list_map(this, (ae_list_map_fun)fun))
 #define MEMBER(this, that)      (ae_list_has_member((this), (that)))
 #define MOVE_NEW(that)          (ae_obj_unsafe_move((ALLOC()), (that)))
 #define NEW(type)               (ae_obj_init((ALLOC()), (type)))
@@ -160,6 +160,6 @@ ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,       ae_obj_t
 bool          ae_list_has_member   (const ae_obj_t *  const list,       ae_obj_t * const member   );
 size_t        ae_list_length       (const ae_obj_t *  const list                                  );
 void          ae_list_each         (      ae_obj_t *  const list,       ae_list_each_fun fun      );
-ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,       ae_list_map_fun  fun      );
+ae_obj_t *    ae_list_map          (const ae_obj_t *  const list,       ae_list_map_fun  fun      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

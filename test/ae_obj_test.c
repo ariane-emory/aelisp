@@ -52,6 +52,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_tailtip = NEW(AE_INTEGER_);
     new_tailtip->int_value = ix + 1;
+
     PUSH(new_list, new_tailtip);
 
     T(LENGTH(new_list) == ix + 1);
@@ -121,6 +122,7 @@ void basic_list_checks(ae_obj_t * this) {
   COUNT_LIST_LENGTH(this);
 
   T(list_length_counter == 4);
+  T(list_length_counter == LENGTH(this));
   T(LENGTH(this) == 4);
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
   T(shitty_write_based_equality_predicate(MAP(this, ae_obj_double), "(2 4 6 8 \b) "));
@@ -136,10 +138,10 @@ void remove_elem_from_list(void) {
   SETUP_TEST;
 
   // re-use 'this' as the symbol list here:
-  T(INTERN(&this, "a") == INTERN(&this, "a"));
-  T(INTERN(&this, "b") == INTERN(&this, "b"));
-  T(INTERN(&this, "c") == INTERN(&this, "c"));
-  T(INTERN(&this, "d") == INTERN(&this, "d"));
+  T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
+  T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
+  T(EQ(INTERN(&this, "c"), INTERN(&this, "c")));
+  T(EQ(INTERN(&this, "d"), INTERN(&this, "d")));
   T(LENGTH(this) == 4);
 
   that = INTERN(&this, "b");
