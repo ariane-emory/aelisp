@@ -18,7 +18,7 @@ typedef char * ae_string_t;
 #define NEW(type)               (ae_obj_init((ALLOC()), (type)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)          (ae_obj_unsafe_move((ALLOC()), (that)))
-#define PUSH_BACK(this, that)   (ae_obj_push_back((this), (that)))
+#define PUSH_BACK(this, that)   (ae_list_push_back((this), (that)))
 #define INTERN(sym_list, str)   (ae_obj_string_intern((sym_list), (str)))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 #define CAR(this)               ((this)->head)
@@ -27,9 +27,9 @@ typedef char * ae_string_t;
 #define WRITE(this)             (ae_obj_write(this))
 #define PUT(this)               (ae_obj_put(this))
 #define LENGTH(this)            (ae_list_length(this))
-#define REMOVE_FROM(list, elem) (ae_obj_remove_from(list, elem))
+#define REMOVE_FROM(list, elem) (ae_list_remove_member(list, elem))
 #define EQ(this, that)          ((this) == (that))
-#define MEMBER(this, that)      (ae_obj_member_of((this), (that)))
+#define MEMBER(this, that)      (ae_list_has_member((this), (that)))
 
 #define ATOMP(o)                ((o)->type >= AE_INVALID_)
 #define CHARP(o)                ((o)->type == AE_CHAR____)
@@ -137,31 +137,31 @@ typedef struct ae_obj_t {
 // Obj's methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *    ae_obj_init         (      ae_obj_t * const this,        ae_type_t type);
-ae_obj_t *    ae_obj_unsafe_move  (      ae_obj_t * const this,        ae_obj_t * const that);
-ae_obj_t *    ae_obj_clone        (const ae_obj_t * const this);
+ae_obj_t *    ae_obj_init          (      ae_obj_t * const this,        ae_type_t type);
+ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t * const this,        ae_obj_t * const that);
+ae_obj_t *    ae_obj_clone         (const ae_obj_t * const this);
 
 // ugly putses:
-void          ae_obj_fput         (const ae_obj_t * const this,        FILE * stream);
-void          ae_obj_put          (const ae_obj_t * const this);
+void          ae_obj_fput          (const ae_obj_t * const this,        FILE * stream);
+void          ae_obj_put           (const ae_obj_t * const this);
 // byte-oriented putses:
-void          ae_obj_fput_bytes   (const ae_obj_t * const this,        FILE * stream);
-void          ae_obj_put_bytes    (const ae_obj_t * const this);
+void          ae_obj_fput_bytes    (const ae_obj_t * const this,        FILE * stream);
+void          ae_obj_put_bytes     (const ae_obj_t * const this);
 // write:
-void          ae_obj_fwrite       (const ae_obj_t * const this,        FILE * stream);
-void          ae_obj_write        (const ae_obj_t * const this);
+void          ae_obj_fwrite        (const ae_obj_t * const this,        FILE * stream);
+void          ae_obj_write         (const ae_obj_t * const this);
 
 // For AE_CONS____es:
 size_t        ae_list_length       (const ae_obj_t * const list);
-ae_obj_t *    ae_obj_push_back    (      ae_obj_t * const list,        ae_obj_t * const  elem);
-ae_obj_t *    ae_obj_remove_from  (      ae_obj_t * const list,        ae_obj_t * const  elem);
-bool          ae_obj_member_of    (      ae_obj_t * const list,        ae_obj_t * const  elem);
+ae_obj_t *    ae_list_push_back     (      ae_obj_t * const list,        ae_obj_t * const  elem);
+ae_obj_t *    ae_list_remove_member(      ae_obj_t * const list,        ae_obj_t * const  elem);
+bool          ae_list_has_member   (      ae_obj_t * const list,        ae_obj_t * const  elem);
 void          ae_list_each         (      ae_obj_t * const list,        ae_list_each_fun   fun);
 ae_obj_t *    ae_list_map          (      ae_obj_t * const list,        ae_list_map_fun    fun);
 
 // This returns a new obj:
-ae_obj_t *    ae_obj_cons         (      ae_obj_t * const head,        ae_obj_t *  const tail);
+ae_obj_t *    ae_obj_cons          (      ae_obj_t * const head,        ae_obj_t *  const tail);
 
 // Intern
-ae_obj_t *    ae_obj_string_intern(      ae_obj_t ** const sym_list_p, ae_string_t string );
+ae_obj_t *    ae_obj_string_intern (      ae_obj_t ** const sym_list_p, ae_string_t string );
 
