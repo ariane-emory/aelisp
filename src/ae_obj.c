@@ -349,9 +349,8 @@ size_t ae_list_length(const ae_obj_t * const list) {
 
   size_t length = 0;
   
-#define FOR_EACH(elem, list)    for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = ((void)(elem), CDR(position)))  
-
-  FOR_EACH(elem, list) {
+  for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = (CDR(position)))
+  {
     length++;
   }
 
