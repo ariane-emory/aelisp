@@ -348,7 +348,7 @@ ae_obj_t * ae_obj_remove_from(ae_obj_t * const list, ae_obj_t * const elem) {
   ae_obj_t * new_list = NULL;
   
   for (const ae_obj_t * position = list; position; position = CDR(position)) {
-    if (CAR(position) == elem)
+    if (EQ(CAR(position), elem))
       continue;
     else if (! new_list)
       new_list = CONS(CAR(position), NULL);

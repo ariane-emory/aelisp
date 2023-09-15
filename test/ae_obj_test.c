@@ -143,10 +143,10 @@ void remove_elem_from_list(void) {
   T(LENGTH(this) == 4);
 
   that = INTERN(&this, "b");
-  that = REMOVE_FROM(this, that);
+  this = REMOVE_FROM(this, that);
   
-  T(shitty_write_based_equality_predicate(that, "(d c a \b) "));
-  T(LENGTH(that) == 3);
+  T(shitty_write_based_equality_predicate(this, "(d c a \b) "));
+  T(LENGTH(this) == 3);
 
   /* TODO: Add a case testing the removal of multiple instances of the same item. */
 }
