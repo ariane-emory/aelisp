@@ -348,31 +348,10 @@ size_t ae_list_length(const ae_obj_t * const list) {
   if (! CAR(list) ) return 0;
 
   size_t length = 0;
-  
-  for (const ae_obj_t
-         * position = (list),
-         * elem     = CAR((position));
-       position;      
-       elem         = (position = CDR(position)) ?
-         CAR(position) :
-         NULL
-  )
-  {
-    NL;
-    fputs("Position is ", stdout);
-    PUT(position);
-    
-    NL;
-    fputs("Elem is     ", stdout);
-    PUT(elem);
 
-    NL;
-    
+  FOR_EACH(elem, list)
     length++;
-  }
 
-  NL;
- 
   return length;
 }
 
