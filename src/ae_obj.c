@@ -351,13 +351,15 @@ size_t ae_list_length(const ae_obj_t * const list) {
   
   for (const ae_obj_t * position = (list); position; position = (CDR(position)))
   {
+    NL;
     fputs("Looking at elem ", stdout);
     PUT(CAR(position));
-    NL;
     
     length++;
   }
 
+   NL;
+ 
   return length;
 }
 
