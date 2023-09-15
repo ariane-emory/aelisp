@@ -90,15 +90,25 @@
     ae_obj_put(program_obj);
     NL;
     NL;
+
     puts("Describing items in program.");
     if (CONSP(program_obj) && CAR(program_obj))
       EACH(program_obj, describe);
     puts("Described items in program.");
     NL;
+
     puts("Writing program obj.");
     ae_obj_write(program_obj);
     puts("\nWrote program obj.");
     NL;
+
+    fputs("Items in program obj; ", stdout);
+    fflush(stdout);
+    printf("%d", LENGTH(program_obj));
+    NL;
+    NL;
+    fflush(stdout);
+
     puts("Writing items in program obj.");
     if (CONSP(program_obj) && CAR(program_obj))
       EACH(program_obj, do_write);
@@ -107,7 +117,8 @@
     puts("Writing interned symbols.");
     ae_obj_write(symbols);
     puts("\nWrote interned symbols.");
-
+    NL;
+    
     //pool_print();
     //NL;
   }
