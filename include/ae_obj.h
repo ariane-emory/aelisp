@@ -8,7 +8,9 @@
 // Typedefs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef char * ae_string_t;
+typedef char  *              ae_string_t;
+typedef void              (*ae_list_each_fun)(struct ae_obj_t *  const);
+typedef struct ae_obj_t * (*ae_list_map_fun )(struct ae_obj_t *  const);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
@@ -131,11 +133,6 @@ typedef enum {
 } ae_type_t;
 
 const char * ae_type_str(const ae_type_t this);
-
-struct ae_obj_t;
-
-typedef void              (*ae_list_each_fun)(struct ae_obj_t * const);
-typedef struct ae_obj_t * (*ae_list_map_fun )(struct ae_obj_t * const);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj struct
