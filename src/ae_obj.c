@@ -74,7 +74,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 #endif
 
   memcpy(this, that, sizeof(ae_obj_t));
-  ae_obj_init(that, AE_FREE____); // AE_INVALID_);
+  INIT(that, AE_FREE____);
 
 #ifdef NOISY_INIT
   fputs("Moved            ", stdout);

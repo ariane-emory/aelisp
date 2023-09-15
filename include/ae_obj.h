@@ -20,6 +20,7 @@ typedef char * ae_string_t;
 #define CDR(this)               ((this)->tail)
 #define CLONE(this)             (ae_obj_clone((this)))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
+#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
 #define EQ(this, that)          ((this) == (that))
 #define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
