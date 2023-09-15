@@ -267,7 +267,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
     }
     else {
       fputc('"', _stream);
-      fputs(this->str_value, _stream);
+      fputs(STR_VAL(this), _stream);
       fputc('"', _stream);
     }
     break;
