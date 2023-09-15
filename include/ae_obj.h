@@ -22,6 +22,7 @@ typedef char * ae_string_t;
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
 #define EQ(this, that)          ((this) == (that))
+#define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 #define LENGTH(this)            (ae_list_length(this))
@@ -32,8 +33,8 @@ typedef char * ae_string_t;
 #define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define PUT(this)               (ae_obj_put(this))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
-#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define TYPE(this)              ((this)->type)
+#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define WRITE(this)             (ae_obj_write(this))
 
 #define ATOMP(o)                ((o)->type >= AE_INVALID_)
@@ -49,7 +50,7 @@ typedef char * ae_string_t;
 #define RPARENP(o)              ((o)->type == AE_RPAREN__)
 #define STRINGP(o)              ((o)->type == AE_STRING__)
 #define SYMBOLP(o)              ((o)->type == AE_SYMBOL__)
-#define NULLP(o)                (!!(o))
+#define NULLP(o)                (!(o))
 
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))

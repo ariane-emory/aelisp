@@ -151,18 +151,12 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF_____:
     BSPC; break;
   case AE_CONS____:
-    if (! CAR(this))
+    if      (NULLP(CAR(this)))
       fputs("nil", stream);
-    else if (! CDR(this))
-      fprintf(stream, "%011p %-11p %2d",
-              CAR(this) ,
-              CDR(this),
-              ae_list_length(this));
+    else if (NULLP(CDR(this)))
+      fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), LENGTH(this));
     else
-      fprintf(stream, "%011p %-011p %2d",
-              CAR(this) ,
-              CDR(this),
-              ae_list_length(this));    
+      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));    
     break;
   case AE_SYMBOL__:
   case AE_STRING__:
