@@ -1,6 +1,8 @@
 - [ ] Better code for aligning type strs when printing.
 - [ ] Maybe addressable nil value?
 - [ ] Redo/rename the so-called 'byte oriented' putses.
-- [ ] Write ae_obj_memberp?
 
+Completed:
+
+- [X] Write ae_obj_memberp?
 - [X] Write ae_obj_remove_elem?
