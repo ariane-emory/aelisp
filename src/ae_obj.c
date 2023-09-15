@@ -339,23 +339,23 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 #endif // AE_OBJ_EACH_RECURSES
 }
 
-bool ae_list_has_member(ae_obj_t * const list, ae_obj_t * const elem) {
+bool ae_list_has_member(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
 
    for (const ae_obj_t * position = list; position; position = CDR(position))
-    if (EQ(CAR(position), elem))
+    if (EQ(CAR(position), member))
       return true;
   
    return false;
 }
 
-ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const elem) {
+ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
 
   ae_obj_t * new_list = NULL;
   
   for (const ae_obj_t * position = list; position; position = CDR(position)) {
-    if (EQ(CAR(position), elem))
+    if (EQ(CAR(position), member))
       continue;
     else if (! new_list)
       new_list = CONS(CAR(position), NULL);
@@ -408,12 +408,12 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif
 
-ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const elem) {
+ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
  
 #ifdef NOISY_INIT
   fputs("Pushing          ", stdout);
-  ae_obj_put(elem);
+  ae_obj_put(member);
   fputs(" into ", stdout);
   ae_obj_put(list);
   putchar('\n');
@@ -422,14 +422,14 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const elem) {
   if (CAR(list)) {
     ae_obj_t * position = list;
     for (; CDR(position); position = CDR(position));
-    CDR(position)       = CONS(elem, NULL);
+    CDR(position)       = CONS(member, NULL);
 
     AFTER_PUSH_MESSAGE(CDR(position));
   
     return CDR(position);
   }
   else {
-    CAR(list) = elem;
+    CAR(list) = member;
 
     AFTER_PUSH_MESSAGE(list);
 

@@ -153,11 +153,11 @@ void          ae_obj_write         (const ae_obj_t * const this);
 
 // For AE_CONS____es:
 size_t        ae_list_length       (const ae_obj_t * const list);
-ae_obj_t *    ae_list_push_back     (      ae_obj_t * const list,        ae_obj_t * const  elem);
-ae_obj_t *    ae_list_remove_member(      ae_obj_t * const list,        ae_obj_t * const  elem);
-bool          ae_list_has_member   (      ae_obj_t * const list,        ae_obj_t * const  elem);
-void          ae_list_each         (      ae_obj_t * const list,        ae_list_each_fun   fun);
-ae_obj_t *    ae_list_map          (      ae_obj_t * const list,        ae_list_map_fun    fun);
+ae_obj_t *    ae_list_push_back    (      ae_obj_t * const list,        ae_obj_t * const  member);
+ae_obj_t *    ae_list_remove_member(      ae_obj_t * const list,        ae_obj_t * const  member);
+bool          ae_list_has_member   (      ae_obj_t * const list,        ae_obj_t * const  member);
+void          ae_list_each         (      ae_obj_t * const list,        ae_list_each_fun  fun);
+ae_obj_t *    ae_list_map          (      ae_obj_t * const list,        ae_list_map_fun   fun);
 
 // This returns a new obj:
 ae_obj_t *    ae_obj_cons          (      ae_obj_t * const head,        ae_obj_t *  const tail);
