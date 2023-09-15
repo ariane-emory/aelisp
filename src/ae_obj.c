@@ -487,11 +487,11 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const sym_list_p, ae_string_t strin
     return (CAR(*sym_list_p) = sym);
   }
 
-  for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) {
-    ae_obj_t * elem = CAR(cons);
-    
+  /* for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) { */
+  /*   ae_obj_t * elem = CAR(cons); */
+  FOR_EACH(elem, *sym_list_p) {  
     if (strcmp(string, elem->sym_value) == 0) 
-      return elem;
+      return (ae_obj_t *)elem;
   }
      
   NEW_SYM(sym);
