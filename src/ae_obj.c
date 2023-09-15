@@ -477,26 +477,24 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 
 #define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); SYM_VAL(sym) = strdup(string)
 
-ae_obj_t * ae_list_intern_string(ae_obj_t ** const sym_list_p, ae_string_t string) {
-  if (! *sym_list_p)
-    *sym_list_p = NEW(AE_CONS____);
+ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
+  if (! *plist)
+    *plist = NEW(AE_CONS____);
   
-  if (! CAR(*sym_list_p)) {
+  if (! CAR(*plist)) {
     // shortcut/hack for my weird imaginary nil:
     NEW_SYM(sym);
-    return (CAR(*sym_list_p) = sym);
+    return (CAR(*plist) = sym);
   }
 
-  /* for (ae_obj_t * cons = *sym_list_p; cons; cons = CDR(cons)) { */
-  /*   ae_obj_t * elem = CAR(cons); */
-  FOR_EACH(elem, *sym_list_p) {  
+  FOR_EACH(elem, *plist) {  
     if (strcmp(string, elem->sym_value) == 0) 
       return (ae_obj_t *)elem;
   }
      
   NEW_SYM(sym);
    
-  return CAR(*sym_list_p = CONS(sym, *sym_list_p));
+  return CAR(*plist = CONS(sym, *plist));
 }
 
 #undef NEW_SYM
