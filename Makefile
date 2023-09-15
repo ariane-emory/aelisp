@@ -21,7 +21,6 @@ STRICTER_CFLAGS = \
 	-Wpedantic \
 	-Wno-format \
 	-Wno-address-of-packed-member \
-	-Wno-unused-variable \
 	-DACUTEST_SPACES=60 #\
 	-DNOISY_INIT
 
