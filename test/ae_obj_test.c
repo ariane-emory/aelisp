@@ -55,6 +55,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
     ae_obj_t * new_tailtip = PUSH(new_list, new_int);
 
+    T(CONSP(new_tailtip));
     T(LENGTH(new_list) == ix + 1);
   }
 
