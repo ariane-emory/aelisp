@@ -50,10 +50,10 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   T(LENGTH(new_list) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
-    ae_obj_t * new_tailtip = NEW(AE_INTEGER_);
-    new_tailtip->int_value = ix + 1;
+    ae_obj_t * new_int     = NEW(AE_INTEGER_);
+    new_int->int_value     = ix + 1;
 
-    PUSH(new_list, new_tailtip);
+    ae_obj_t * new_tailtip = PUSH(new_list, new_int);
 
     T(LENGTH(new_list) == ix + 1);
   }
