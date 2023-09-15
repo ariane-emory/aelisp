@@ -22,7 +22,6 @@ typedef char * ae_string_t;
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 #define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
-#define EQ(this, that)          ((this) == (that))
 #define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
@@ -39,6 +38,9 @@ typedef char * ae_string_t;
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define WRITE(this)             (ae_obj_write(this))
 
+#define EQ(this, that)          ((this) == (that))
+#define NEQ(this, that)         ((this) != (that))
+
 #define ATOMP(o)                ((o)->type >= AE_INVALID_)
 #define CHARP(o)                ((o)->type == AE_CHAR____)
 #define CONSP(o)                ((o)->type == AE_CONS____)
@@ -53,6 +55,9 @@ typedef char * ae_string_t;
 #define STRINGP(o)              ((o)->type == AE_STRING__)
 #define SYMBOLP(o)              ((o)->type == AE_SYMBOL__)
 #define NULLP(o)                (!(o))
+
+#define ASSERT_EQ(this, that)   (assert((this) == (that)))
+#define ASSERT_NEQ(this, that)  (assert((this) != (that)))
 
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))
