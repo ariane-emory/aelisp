@@ -63,7 +63,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
-  assert(this != that);
+  ASSERT_NEQ(this, that);
   
 #ifdef NOISY_INIT
   fputs("Moving           ", stdout);
@@ -365,7 +365,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  assert(head != tail); // consing an obj onto itself is not yet supported.
+  ASSERT_NEQ(head, tail); // consing an obj onto itself is not yet supported.
   
   if (tail)
     ASSERT_CONSP(tail);
