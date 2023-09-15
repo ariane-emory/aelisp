@@ -360,7 +360,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
     else if (! new_list)
       new_list = CONS(CAR(position), NULL);
     else 
-      PUSH_BACK(new_list, CAR(position));
+      PUSH(new_list, CAR(position));
   }
   
   return new_list;

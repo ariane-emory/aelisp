@@ -52,7 +52,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_tailtip = NEW(AE_INTEGER_);
     new_tailtip->int_value = ix + 1;
-    PUSH_BACK(new_list, new_tailtip);
+    PUSH(new_list, new_tailtip);
 
     T(LENGTH(new_list) == ix + 1);
   }
@@ -146,7 +146,7 @@ void remove_elem_from_list(void) {
 
   T(MEMBER(this, that));
   
-  this = REMOVE_FROM(this, that);
+  this = REMOVE(this, that);
   
   T(! MEMBER(this, that));
   T(shitty_write_based_equality_predicate(this, "(d c a \b) "));

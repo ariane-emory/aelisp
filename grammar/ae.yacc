@@ -154,11 +154,11 @@ sexps sexp {
     fflush(stdout);
 #endif
 
-    PUSH_BACK(&$$, INTERN(&symbols, $2.sym_value));
+    PUSH(&$$, INTERN(&symbols, $2.sym_value));
   }
   else {
     ae_obj_t * new_obj = MOVE_NEW(&$2);
-    PUSH_BACK(&$$, new_obj);
+    PUSH(&$$, new_obj);
   }
 }
 | {
