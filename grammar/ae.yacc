@@ -102,7 +102,7 @@
     puts("\nWrote program obj.");
     NL;
 
-    fputs("Items in program obj: ", stdout); 
+    fputs("Count items in program obj: ", stdout); 
     fflush(stdout);
     NL;
     printf("%d", LENGTH(program_obj));
