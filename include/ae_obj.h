@@ -167,9 +167,9 @@ void          ae_obj_fwrite        (const ae_obj_t *  const this,       FILE *  
 void          ae_obj_fput          (const ae_obj_t *  const this,       FILE *            stream  );
 void          ae_obj_fput_bytes    (const ae_obj_t *  const this,       FILE *            stream  );
 // list-relater methods ////////////////////////////////////////////////////////////////////////////
+ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const sym_list_p, ae_string_t       string  );
 ae_obj_t *    ae_obj_cons          (      ae_obj_t *  const head,       ae_obj_t *  const tail    );
 ae_obj_t *    ae_list_push_back    (      ae_obj_t *  const list,       ae_obj_t *  const member  );
-ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const sym_list_p, ae_string_t       string  );
 ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,       ae_obj_t *  const member  );
 bool          ae_list_has_member   (const ae_obj_t *  const list,       ae_obj_t *  const member  );
 size_t        ae_list_length       (const ae_obj_t *  const list                                  );
