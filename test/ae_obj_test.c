@@ -174,7 +174,7 @@ void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
 {
   SETUP_TEST;
 
-  T(ALLOC()->type == AE_INVALID_);
+  T(INVALIDP(ALLOC()));
 }
 
 void newly_initialized_ae_obj_has_correct_type_field(void) {
@@ -184,7 +184,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
                                                                                                                                             \
     this = NEW(_type);                                                                                                                      \
                                                                                                                                             \
-    T(this->type == _type);                                                                                                                 \
+    T(TYPE(this) == _type);                                                                                                                 \
   }
   FOR_EACH_LEXED_TYPE(test);
 }
@@ -218,11 +218,11 @@ void unsafe_move_an_ae_obj(void) {
 
   this = MOVE_NEW(that);
 
-  T(this->type              == AE_RATIONAL);
+  T(RATIONALP(this));
   T(this->numerator_value   == 123);
   T(this->denominator_value == 321);
 
-  T(that->type              == AE_FREE____);
+  T(FREEP(that));
   T(that->numerator_value   == 0);
   T(that->denominator_value == 0);
 }
