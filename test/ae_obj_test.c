@@ -132,6 +132,12 @@ void basic_list_checks(ae_obj_t * this) {
 // Tests
 ////////////////////////////////////////////////////////////////////////////////
 
+void list_remove(void) {
+  SETUP_TEST;
+
+  that = cons_together_a_list_of_ints();
+}
+
 void test_setup_is_okay(void)
 {
   SETUP_TEST;
@@ -252,7 +258,8 @@ void intern_symbols(void) {
   DO(pushed_list_tests)                                                                                                                     \
   DO(consed_list_tests)                                                                                                                     \
   DO(pushed_and_consed_lists_write_identically)                                                                                             \
-  DO(intern_symbols)
+  DO(intern_symbols)                                                                                                                        \
+  DO(list_remove)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
 
