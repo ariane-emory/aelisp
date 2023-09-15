@@ -40,9 +40,10 @@ const char * ae_type_str(const ae_type_t this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
+
 #ifdef NOISY_INIT
   fputs("Initializing     ", stdout);
-  ae_obj_put(this);
+  PUT(this);
   putchar('\n');
 #endif
 
@@ -51,7 +52,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 
 #ifdef NOISY_INIT
   fputs("Initialized      ", stdout);
-  ae_obj_put(this);
+  PUT(this);
   putchar('\n');
 #endif
 
