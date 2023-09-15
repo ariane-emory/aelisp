@@ -259,10 +259,10 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
       fputs("nil", _stream);
     break;
   case AE_SYMBOL__:
-    fputs(this->sym_value, _stream);
+    fputs(SYM_VAL(this), _stream);
     break;
   case AE_STRING__:
-    if (this->str_value == NULL) {
+    if (STR_VAL(this) == NULL) {
       fputs("(null)", _stream);
     }
     else {

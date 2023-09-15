@@ -40,6 +40,8 @@ typedef char * ae_string_t;
 #define PUT(this)               (ae_obj_put(this))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 #define SWRITE(this)            (ae_obj_swrite(this))
+#define STR_VAL(this)           ((this)->str_value)
+#define SYM_VAL(this)           ((this)->sym_value)
 #define TYPE(this)              ((this)->type)
 #define TYPE_STR(type)          (ae_type_str((type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
