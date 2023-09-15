@@ -33,6 +33,7 @@ typedef char * ae_string_t;
 #define PUT(this)               (ae_obj_put(this))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
+#define TYPE(this)              ((this)->type)
 #define WRITE(this)             (ae_obj_write(this))
 
 #define ATOMP(o)                ((o)->type >= AE_INVALID_)
