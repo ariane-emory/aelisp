@@ -241,44 +241,46 @@ void ae_obj_write(const ae_obj_t * const this) {
   FWRITE(this, stdout);
 }
 
-static FILE * _stream;
+static FILE * stream;
 
 static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
   switch (TYPE(this)) {
   case AE_INF_____:
-    fputs("∞", _stream);
+    fputs("∞", stream);
     break;
   case AE_CONS____:
     if (CONSP(this) && CAR(this) ) {
-      fputc('(', _stream);
+      fputc('(', stream);
       EACH((ae_obj_t *)this, ae_obj_fwrite_internal);
-      fputc('\b', _stream);
-      fputc(')', _stream);
+      fputc('\b', stream);
+      fputc(')', stream);
     }
     else
-      fputs("nil", _stream);
+      fputs("nil", stream);
     break;
   case AE_SYMBOL__:
-    fputs(SYM_VAL(this), _stream);
+    fputs(SYM_VAL(this), stream);
     break;
   case AE_STRING__:
     if (STR_VAL(this) == NULL) {
-      fputs("(null)", _stream);
+      int wrote = fputs("(null)", stream);
+      for (; wrote < 40; wrote++)
+        SPC;
     }
     else {
-      fputc('"', _stream);
-      fputs(STR_VAL(this), _stream);
-      fputc('"', _stream);
+      fputc('"', stream);
+      fputs(STR_VAL(this), stream);
+      fputc('"', stream);
     }
     break;
   case AE_INTEGER_:
-    fprintf(_stream, "%d", this->int_value);
+    fprintf(stream, "%d", this->int_value);
     break;
   case AE_RATIONAL:
-    fprintf(_stream, "%d/%d", this->numerator_value, this->denominator_value);
+    fprintf(stream, "%d/%d", this->numerator_value, this->denominator_value);
     break;
   case AE_FLOAT___:
-    fprintf(_stream, "%g", this->float_value);
+    fprintf(stream, "%g", this->float_value);
     break;
   case AE_CHAR____:
   {
@@ -296,28 +298,28 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_value;
     }
 
-    fputc('\'', _stream);
-    fputs(tmp, _stream);
-    fputc('\'', _stream);
+    fputc('\'', stream);
+    fputs(tmp, stream);
+    fputc('\'', stream);
     
     break;
   }
   default:
-    fprintf(_stream, "UNPRINTABLE");
+    fprintf(stream, "UNPRINTABLE");
   }
   
-  fputc(' ', _stream);
+  fputc(' ', stream);
 }
 
-void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
-  _stream = stream;
+void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream_) {
+  stream = stream_;
   ae_obj_fwrite_internal(this);
 }
 
 char * ae_obj_swrite(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream);
+  MEMSTREAM(buff, stream_);
 
-  ae_obj_fwrite(this, stream);
+  ae_obj_fwrite(this, stream_);
   fclose(stream);
 
   return buff; // free this when you're done with it.
