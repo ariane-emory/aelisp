@@ -357,7 +357,8 @@ size_t ae_list_length(const ae_obj_t * const list) {
        position     = CDR(position),
        elem         = position ?
          CAR(position) :
-         NULL)
+         NULL
+  )
   {
     NL;
     fputs("Position is ", stdout);
