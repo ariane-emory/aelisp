@@ -84,6 +84,13 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(struct ae_obj_t *  const);
 #define ASSERT_NULLP(o)         (assert(! (o)))
 
 #define FOR_EACH(elem, list) \
+  for (ae_obj_t                                                                                                                             \
+         * position = (list),                                                                                                               \
+         * elem     = CAR((position));                                                                                                      \
+       position;                                                                                                                            \
+       elem         = (position = CDR(position)) ? CAR(position) : NULL)                                                                                                                              
+
+#define FOR_EACH_CONST(elem, list)                                                                                                              \
   for (const ae_obj_t                                                                                                                       \
          * position = (list),                                                                                                               \
          * elem     = CAR((position));                                                                                                      \
