@@ -443,7 +443,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 
 #define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); sym->sym_value = strdup(string)
 
-ae_obj_t * ae_obj_string_intern(ae_obj_t ** const sym_list_p, ae_string_t string) {
+ae_obj_t * ae_list_string_intern(ae_obj_t ** const sym_list_p, ae_string_t string) {
   if (! *sym_list_p)
     *sym_list_p = NEW(AE_CONS____);
   

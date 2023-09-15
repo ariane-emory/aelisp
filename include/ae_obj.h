@@ -19,7 +19,7 @@ typedef char * ae_string_t;
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)          (ae_obj_unsafe_move((ALLOC()), (that)))
 #define PUSH_BACK(this, that)   (ae_list_push_back((this), (that)))
-#define INTERN(sym_list, str)   (ae_obj_string_intern((sym_list), (str)))
+#define INTERN(sym_list, str)   (ae_list_string_intern((sym_list), (str)))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 #define CAR(this)               ((this)->head)
 #define CDR(this)               ((this)->tail)
@@ -151,17 +151,13 @@ void          ae_obj_put_bytes     (const ae_obj_t * const this);
 void          ae_obj_fwrite        (const ae_obj_t * const this,        FILE * stream);
 void          ae_obj_write         (const ae_obj_t * const this);
 
-// For AE_CONS____es:
+// list methods:
 size_t        ae_list_length       (const ae_obj_t * const list);
 ae_obj_t *    ae_list_push_back    (      ae_obj_t * const list,        ae_obj_t * const  member);
 ae_obj_t *    ae_list_remove_member(      ae_obj_t * const list,        ae_obj_t * const  member);
 bool          ae_list_has_member   (      ae_obj_t * const list,        ae_obj_t * const  member);
 void          ae_list_each         (      ae_obj_t * const list,        ae_list_each_fun  fun);
 ae_obj_t *    ae_list_map          (      ae_obj_t * const list,        ae_list_map_fun   fun);
-
-// This returns a new obj:
 ae_obj_t *    ae_obj_cons          (      ae_obj_t * const head,        ae_obj_t *  const tail);
-
-// Intern
-ae_obj_t *    ae_obj_string_intern (      ae_obj_t ** const sym_list_p, ae_string_t string );
+ae_obj_t *    ae_list_string_intern(      ae_obj_t ** const sym_list_p, ae_string_t string );
 

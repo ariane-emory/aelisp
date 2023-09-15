@@ -4,5 +4,5 @@
 
 Completed:
 
-- [X] Write ae_obj_memberp?
-- [X] Write ae_obj_remove_elem?
+- [X] Write ae_list_has_member.
+- [X] Write ae_list_remove_member.
