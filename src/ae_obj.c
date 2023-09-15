@@ -289,6 +289,17 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   ae_obj_fwrite_internal(this);
 }
 
+char * ae_obj_swrite(const ae_obj_t * const this) {
+  char * buff;
+  size_t size;
+  FILE * stream = open_memstream(&buff, &size);
+
+  ae_obj_fwrite(this, stream);
+  fclose(stream);
+
+  return buff; // free this when you're done with it.
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // other methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
