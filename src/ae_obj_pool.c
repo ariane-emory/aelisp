@@ -23,16 +23,17 @@ const ae_obj_t * const pool_last              = &pool[AE_OBJ_POOL_SIZE - 1];
 
 ae_obj_t * pool_alloc_ae_obj() {
   for (int ix = AE_OBJ_POOL_SIZE - 1; ix >= 0; ix--) {
+
     ae_obj_t * obj = &pool[ix];
 
-    if (obj->type != AE_FREE____)
+    if (! FREEP(obj))
       continue;
 
-    obj->type = AE_INVALID_;
+    TYPE(obj) = AE_INVALID_;
     
 #ifdef NOISY_INIT
     fputs("Allocated        ", stdout);
-    ae_obj_put(obj);
+    PUT(obj);
     putchar('\n');
 #endif
   
@@ -51,7 +52,7 @@ ae_obj_t * pool_alloc_ae_obj() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pool_free_ae_obj(ae_obj_t * const this) {
-  ae_obj_init(this, AE_FREE____);
+  INIT(this, AE_FREE____);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ void pool_print(void) {
   puts("\nPrinting pool contents.");
   for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
     printf("# %5d: ", ix); 
-    ae_obj_put(&pool[ix]);
+    PUT(&pool[ix]);
     putchar('\n');
   }
   puts("Printed pool contents.");
