@@ -384,7 +384,7 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
 
-  DECL(new_list,  NULL);
+  ae_obj_t * new_list = NULL;
   
   for (const ae_obj_t * position = list; position; position = CDR(position)) {
     if (EQ(CAR(position), member))
@@ -414,7 +414,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   fflush(stdout);
 #endif
   
-  DECL(new_list, NEW(AE_CONS____));
+  ae_obj_t * new_list = NEW(AE_CONS____);
 
   CAR(new_list) = head;
   CDR(new_list) = tail;
@@ -452,8 +452,10 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 #endif
   
   if (CAR(list)) {
-    DECL(position, list);
+    ae_obj_t * position = list;
+    
     for (; CDR(position); position = CDR(position));
+
     CDR(position)       = CONS(member, NULL);
 
     AFTER_PUSH_MESSAGE(CDR(position));

@@ -14,7 +14,6 @@ typedef char * ae_string_t;
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DECL(name, this)        ae_obj_t * name = (this);
 #define SET(name, this)         name = (this);
 #define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
@@ -81,7 +80,7 @@ typedef char * ae_string_t;
 #define ASSERT_RPARENP(o)       (assert(RPARENP(o)))
 #define ASSERT_STRINGP(o)       (assert(STRINGP(o)))
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
-#define ASSERT_NULlP(o)         (assert(! (o)))
+#define ASSERT_NULLP(o)         (assert(! (o)))
 
 #define FOR_EACH(elem, list) \
   for (const ae_obj_t                                                                                                                       \

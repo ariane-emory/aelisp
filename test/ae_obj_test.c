@@ -110,7 +110,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  DECL(new_list, NEW(AE_CONS____));
+  ae_obj_t * new_list = NEW(AE_CONS____);
   
   CAR(new_list) = (ae_obj_t *)this;
 
