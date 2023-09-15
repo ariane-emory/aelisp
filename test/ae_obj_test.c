@@ -47,14 +47,14 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 ae_obj_t * push_together_a_list_of_ints(void) {
   ae_obj_t *  new_list = NEW(AE_CONS____);
 
-  T(ae_obj_length(new_list) == 0);
+  T(LENGTH(new_list) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_tailtip = NEW(AE_INTEGER_);
     new_tailtip->int_value = ix + 1;
     PUSH_BACK(new_list, new_tailtip);
 
-    T(ae_obj_length(new_list) == ix + 1);
+    T(LENGTH(new_list) == ix + 1);
   }
 
   return new_list;
@@ -66,7 +66,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   head->int_value = 4;
   CAR(list)       = head;
   
-  T(ae_obj_length(list) == 1);
+  T(LENGTH(list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
     ae_obj_t * new_head = NEW(AE_INTEGER_);
@@ -82,10 +82,10 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
     T(list != new_head);
     T(CAR(list) == new_head);
     T(CDR(list) == tail);
-    T(ae_obj_length(list) == expected_length);
+    T(LENGTH(list) == expected_length);
     TEST_MSG(
       "Incorrect length %d, expected %d.",
-      ae_obj_length(list),
+      LENGTH(list),
       expected_length);
   }
   
@@ -121,7 +121,7 @@ void basic_list_checks(ae_obj_t * this) {
   COUNT_LIST_LENGTH(this);
 
   T(list_length_counter == 4);
-  T(ae_obj_length(this) == 4);
+  T(LENGTH(this) == 4);
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
   T(shitty_write_based_equality_predicate(ae_obj_clone(ae_obj_map(this, ae_obj_double)), "(2 4 6 8 \b) "));
@@ -132,10 +132,23 @@ void basic_list_checks(ae_obj_t * this) {
 // Tests
 ////////////////////////////////////////////////////////////////////////////////
 
-void list_remove(void) {
+void remove_elem_from_list(void) {
   SETUP_TEST;
 
-  that = cons_together_a_list_of_ints();
+  // re-use 'this' as the symbol list here:
+  T(INTERN(&this, "a") == INTERN(&this, "a"));
+  T(INTERN(&this, "b") == INTERN(&this, "b"));
+  T(INTERN(&this, "c") == INTERN(&this, "c"));
+  T(INTERN(&this, "d") == INTERN(&this, "d"));
+  T(LENGTH(this) == 4);
+
+  that = INTERN(&this, "b");
+  that = REMOVE_FROM(this, that);
+  
+  T(shitty_write_based_equality_predicate(that, "(d c a \b) "));
+  T(LENGTH(that) == 3);
+
+  /* TODO: Add a case testing the removal of multiple instances of the same item. */
 }
 
 void test_setup_is_okay(void)
@@ -240,7 +253,7 @@ void intern_symbols(void) {
   // re-use 'this' as the symbol list here:
   T(INTERN(&this, "one") == INTERN(&this, "one"));
   T(INTERN(&this, "one") != INTERN(&this, "two"));
-  T(ae_obj_length(this) == 2);
+  T(LENGTH(this) == 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -259,7 +272,7 @@ void intern_symbols(void) {
   DO(consed_list_tests)                                                                                                                     \
   DO(pushed_and_consed_lists_write_identically)                                                                                             \
   DO(intern_symbols)                                                                                                                        \
-  DO(list_remove)
+  DO(remove_elem_from_list)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
 

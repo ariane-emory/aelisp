@@ -342,13 +342,13 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 /* static void ae_obj_remove_from_helper_fun(ae_obj_t * const this) { */
 /* } */
 
-ae_obj_t * ae_obj_remove_from(ae_obj_t * const this,ae_obj_t * const list) {
+ae_obj_t * ae_obj_remove_from(ae_obj_t * const list, ae_obj_t * const elem) {
   ASSERT_CONSP(list);
 
   ae_obj_t * new_list = NULL;
   
-  for (const ae_obj_t * position = this; position; position = CDR(position)) {
-    if (CAR(position) == this)
+  for (const ae_obj_t * position = list; position; position = CDR(position)) {
+    if (CAR(position) == elem)
       continue;
     else if (! new_list)
       new_list = CONS(CAR(position), NULL);
