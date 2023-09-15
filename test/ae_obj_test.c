@@ -143,8 +143,12 @@ void remove_elem_from_list(void) {
   T(LENGTH(this) == 4);
 
   that = INTERN(&this, "b");
+
+  T(MEMBER(this, that));
+  
   this = REMOVE_FROM(this, that);
   
+  T(! MEMBER(this, that));
   T(shitty_write_based_equality_predicate(this, "(d c a \b) "));
   T(LENGTH(this) == 3);
 

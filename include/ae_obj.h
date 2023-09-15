@@ -29,6 +29,7 @@ typedef char * ae_string_t;
 #define LENGTH(this)            (ae_obj_length(this))
 #define REMOVE_FROM(list, elem) (ae_obj_remove_from(list, elem))
 #define EQ(this, that)          ((this) == (that))
+#define MEMBER(this, that)      (ae_obj_member_of((this), (that)))
 
 #define ATOMP(o)                ((o)->type >= AE_INVALID_)
 #define CHARP(o)                ((o)->type == AE_CHAR____)
