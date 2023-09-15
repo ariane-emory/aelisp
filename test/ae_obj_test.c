@@ -122,7 +122,7 @@ void basic_list_checks(ae_obj_t * this) {
 
   T(list_length_counter == 4);
   T(LENGTH(this) == 4);
-  T(shitty_write_based_equality_predicate(this, "(1 3 4 \b) "));
+  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
   T(shitty_write_based_equality_predicate(MAP(this, ae_obj_double), "(2 4 6 8 \b) "));
   T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_double)), "(2 4 6 8 \b) "));
   T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_to_pairs)), "((1 1 \b) (2 2 \b) (3 3 \b) (4 4 \b) \b) "));
