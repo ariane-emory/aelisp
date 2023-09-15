@@ -47,7 +47,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
   putchar('\n');
 #endif
 
-  memset(this, 0, sizeof(ae_obj_t));
+  ZERO(this);
   TYPE(this) = type;
 
 #ifdef NOISY_INIT
@@ -68,9 +68,9 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   
 #ifdef NOISY_INIT
   fputs("Moving           ", stdout);
-  ae_obj_put(that);
+  PUT(that);
   fputs(" to ", stdout);
-  ae_obj_put(this);
+  PUT(this);
   putchar('\n');
 #endif
 
@@ -79,9 +79,9 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 
 #ifdef NOISY_INIT
   fputs("Moved            ", stdout);
-  ae_obj_put(that);
+  PUT(that);
   fputs(" to ", stdout);
-  ae_obj_put(this);
+  PUT(this);
   putchar('\n');
 #endif
 
