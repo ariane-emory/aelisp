@@ -3,6 +3,7 @@
 - [ ] Redo/rename the so-called 'byte oriented' puts.
 - [ ] _fput methods should return ints.
 - [ ] Grammar should permit comments.
+- [ ] Macro versions of each and map.
 
 Completed:
 
