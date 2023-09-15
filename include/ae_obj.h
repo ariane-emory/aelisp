@@ -159,13 +159,14 @@ typedef struct ae_obj_t {
 ae_obj_t *    ae_obj_init          (      ae_obj_t *  const this,       ae_type_t         type    );
 ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t *  const this,       ae_obj_t *  const that    );
 ae_obj_t *    ae_obj_clone         (const ae_obj_t *  const this                                  );
-// writing / pringint methods //////////////////////////////////////////////////////////////////////
+// writing / printing methods //////////////////////////////////////////////////////////////////////
 void          ae_obj_write         (const ae_obj_t *  const this                                  );
 void          ae_obj_put           (const ae_obj_t *  const this                                  );
 void          ae_obj_put_bytes     (const ae_obj_t *  const this                                  );
 void          ae_obj_fwrite        (const ae_obj_t *  const this,       FILE *            stream  );
 void          ae_obj_fput          (const ae_obj_t *  const this,       FILE *            stream  );
 void          ae_obj_fput_bytes    (const ae_obj_t *  const this,       FILE *            stream  );
+char *        ae_obj_sput          (const ae_obj_t *  const this                                  );
 char *        ae_obj_swrite        (const ae_obj_t *  const this                                  );
 // list-relater methods ////////////////////////////////////////////////////////////////////////////
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const sym_list_p, ae_string_t       string  );
