@@ -39,6 +39,7 @@ typedef char * ae_string_t;
 #define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define PUT(this)               (ae_obj_put(this))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
+#define SWRITE(this)            (ae_obj_swrite(this))
 #define TYPE(this)              ((this)->type)
 #define TYPE_STR(type)          (ae_type_str((type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
@@ -166,8 +167,8 @@ void          ae_obj_put_bytes     (const ae_obj_t *  const this                
 void          ae_obj_fwrite        (const ae_obj_t *  const this,       FILE *            stream  );
 void          ae_obj_fput          (const ae_obj_t *  const this,       FILE *            stream  );
 void          ae_obj_fput_bytes    (const ae_obj_t *  const this,       FILE *            stream  );
-char *        ae_obj_sput          (const ae_obj_t *  const this                                  );
 char *        ae_obj_swrite        (const ae_obj_t *  const this                                  );
+char *        ae_obj_sput          (const ae_obj_t *  const this                                  );
 // list-relater methods ////////////////////////////////////////////////////////////////////////////
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const sym_list_p, ae_string_t       string  );
 ae_obj_t *    ae_obj_cons          (      ae_obj_t *  const head,       ae_obj_t *  const tail    );

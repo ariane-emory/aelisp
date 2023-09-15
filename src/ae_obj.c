@@ -289,10 +289,13 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   ae_obj_fwrite_internal(this);
 }
 
-char * ae_obj_swrite(const ae_obj_t * const this) {
-  char * buff;
-  size_t size;
+#define MEMSTREAM(buff, stream)                                                                                                             \
+  char * buff;                                                                                                                              \
+  size_t size;                                                                                                                              \
   FILE * stream = open_memstream(&buff, &size);
+
+char * ae_obj_swrite(const ae_obj_t * const this) {
+  MEMSTREAM(buff, stream);
 
   ae_obj_fwrite(this, stream);
   fclose(stream);
