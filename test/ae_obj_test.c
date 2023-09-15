@@ -11,7 +11,7 @@
 
 #define T TEST_CHECK
 
-#define COUNT_LIST_LENGTH(l) list_length_counter = 0; ae_obj_each((l), incr_list_length_counter);
+#define COUNT_LIST_LENGTH(l) list_length_counter = 0; ae_list_each((l), incr_list_length_counter);
 
 #define SETUP_TEST                                                                                                                          \
   static char * tmp_str = NULL;                                                                                                             \
@@ -123,9 +123,9 @@ void basic_list_checks(ae_obj_t * this) {
   T(list_length_counter == 4);
   T(LENGTH(this) == 4);
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_map(this, ae_obj_double), "(2 4 6 8 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_clone(ae_obj_map(this, ae_obj_double)), "(2 4 6 8 \b) "));
-  T(shitty_write_based_equality_predicate(ae_obj_clone(ae_obj_map(this, ae_obj_to_pairs)), "((1 1 \b) (2 2 \b) (3 3 \b) (4 4 \b) \b) "));
+  T(shitty_write_based_equality_predicate(ae_list_map(this, ae_obj_double), "(2 4 6 8 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_clone(ae_list_map(this, ae_obj_double)), "(2 4 6 8 \b) "));
+  T(shitty_write_based_equality_predicate(ae_obj_clone(ae_list_map(this, ae_obj_to_pairs)), "((1 1 \b) (2 2 \b) (3 3 \b) (4 4 \b) \b) "));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

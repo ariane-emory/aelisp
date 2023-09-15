@@ -106,7 +106,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
   
   switch (this->type) {
   case AE_CONS____:
-    clone = ae_obj_map((ae_obj_t *)this, (ae_obj_map_fun)ae_obj_clone);
+    clone = ae_list_map((ae_obj_t *)this, (ae_list_map_fun)ae_obj_clone);
     break;
   case AE_STRING__:
     CLONE_USING_MEMCPY;
@@ -157,12 +157,12 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
       fprintf(stream, "%011p %-11p %2d",
               CAR(this) ,
               CDR(this),
-              ae_obj_length(this));
+              ae_list_length(this));
     else
       fprintf(stream, "%011p %-011p %2d",
               CAR(this) ,
               CDR(this),
-              ae_obj_length(this));    
+              ae_list_length(this));    
     break;
   case AE_SYMBOL__:
   case AE_STRING__:
@@ -232,7 +232,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
   case AE_CONS____:
     if (this->type == AE_CONS____ && CAR(this) ) {
       fputc('(', _stream);
-      ae_obj_each((ae_obj_t *)this, (ae_obj_each_fun)ae_obj_fwrite_internal);
+      ae_list_each((ae_obj_t *)this, (ae_list_each_fun)ae_obj_fwrite_internal);
       fputc('\b', _stream);
       fputc(')', _stream);
     }
@@ -299,7 +299,7 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
 // other methods
 ////////////////////////////////////////////////////////////////////////////////
 
-size_t ae_obj_length(const ae_obj_t * const list) {
+size_t ae_list_length(const ae_obj_t * const list) {
   ASSERT_CONSP(list);
   
   size_t length = 0;
@@ -313,16 +313,16 @@ size_t ae_obj_length(const ae_obj_t * const list) {
 
 // #define   AE_OBJ_EACH_RECURSES
 
-ae_obj_t * ae_obj_map(ae_obj_t * const list, ae_obj_map_fun fun) {
+ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   if (! list)
     return NULL;
   
   ASSERT_CONSP(list);
 
-  return CONS(fun(CAR(list) ), ae_obj_map(CDR(list), fun));
+  return CONS(fun(CAR(list) ), ae_list_map(CDR(list), fun));
 }
 
-void ae_obj_each (ae_obj_t * const list, ae_obj_each_fun fun) {
+void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 #ifdef    AE_OBJ_EACH_RECURSES
   if (! list) return;
 
@@ -330,7 +330,7 @@ void ae_obj_each (ae_obj_t * const list, ae_obj_each_fun fun) {
 
   fun(CAR(list) );
 
-  ae_obj_each(CDR(list), fun);
+  ae_list_each(CDR(list), fun);
 #else  // AE_OBJ_EACH_RECURSES
   ASSERT_CONSP(list);
 

@@ -34,7 +34,7 @@
     
     if (this->type == AE_CONS____ && CAR(this)) {
       ++indent;
-      ae_obj_each(this, describe);
+      ae_list_each(this, describe);
       --indent;
     }
   }
@@ -92,7 +92,7 @@
     NL;
     puts("Describing items in program.");
     if (program_obj->type == AE_CONS____ && CAR(program_obj))
-      ae_obj_each(program_obj, describe);
+      ae_list_each(program_obj, describe);
     puts("Described items in program.");
     NL;
     puts("Writing program obj.");
@@ -101,7 +101,7 @@
     NL;
     puts("Writing items in program obj.");
     if (program_obj->type == AE_CONS____ && CAR(program_obj))
-      ae_obj_each(program_obj, do_write);
+      ae_list_each(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
     puts("Writing interned symbols.");

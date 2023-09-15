@@ -26,7 +26,7 @@ typedef char * ae_string_t;
 #define CADR(this)              (CAR(CDR(this)))
 #define WRITE(this)             (ae_obj_write(this))
 #define PUT(this)               (ae_obj_put(this))
-#define LENGTH(this)            (ae_obj_length(this))
+#define LENGTH(this)            (ae_list_length(this))
 #define REMOVE_FROM(list, elem) (ae_obj_remove_from(list, elem))
 #define EQ(this, that)          ((this) == (that))
 #define MEMBER(this, that)      (ae_obj_member_of((this), (that)))
@@ -107,8 +107,8 @@ const char * ae_type_str(const ae_type_t this);
 
 struct ae_obj_t;
 
-typedef void              (*ae_obj_each_fun)(struct ae_obj_t * const);
-typedef struct ae_obj_t * (*ae_obj_map_fun )(struct ae_obj_t * const);
+typedef void              (*ae_list_each_fun)(struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_list_map_fun )(struct ae_obj_t * const);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Obj struct
@@ -152,12 +152,12 @@ void          ae_obj_fwrite       (const ae_obj_t * const this,        FILE * st
 void          ae_obj_write        (const ae_obj_t * const this);
 
 // For AE_CONS____es:
-size_t        ae_obj_length       (const ae_obj_t * const list);
+size_t        ae_list_length       (const ae_obj_t * const list);
 ae_obj_t *    ae_obj_push_back    (      ae_obj_t * const list,        ae_obj_t * const  elem);
 ae_obj_t *    ae_obj_remove_from  (      ae_obj_t * const list,        ae_obj_t * const  elem);
 bool          ae_obj_member_of    (      ae_obj_t * const list,        ae_obj_t * const  elem);
-void          ae_obj_each         (      ae_obj_t * const list,        ae_obj_each_fun   fun);
-ae_obj_t *    ae_obj_map          (      ae_obj_t * const list,        ae_obj_map_fun    fun);
+void          ae_list_each         (      ae_obj_t * const list,        ae_list_each_fun   fun);
+ae_obj_t *    ae_list_map          (      ae_obj_t * const list,        ae_list_map_fun    fun);
 
 // This returns a new obj:
 ae_obj_t *    ae_obj_cons         (      ae_obj_t * const head,        ae_obj_t *  const tail);
