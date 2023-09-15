@@ -14,7 +14,6 @@ typedef char * ae_string_t;
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define SET(name, this)         name = (this);
 #define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 
