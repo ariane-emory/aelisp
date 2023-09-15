@@ -339,7 +339,7 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 #endif // AE_OBJ_EACH_RECURSES
 }
 
-bool ae_list_has_member(ae_obj_t * const list, ae_obj_t * const member) {
+bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
 
    for (const ae_obj_t * position = list; position; position = CDR(position))
