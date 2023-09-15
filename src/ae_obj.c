@@ -154,9 +154,9 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     if      (NULLP(CAR(this)))
       fputs("nil", stream);
     else if (NULLP(CDR(this)))
-      fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), LENGTH(this));
+      fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), 666); // LENGTH(this));
     else
-      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));    
+      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), 666); // LENGTH(this));    
     break;
   case AE_SYMBOL__:
   case AE_STRING__:
@@ -349,8 +349,12 @@ size_t ae_list_length(const ae_obj_t * const list) {
 
   size_t length = 0;
   
-  for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = (CDR(position)))
+  for (const ae_obj_t * position = (list); position; position = (CDR(position)))
   {
+    fputs("Looking at elem ", stdout);
+    PUT(CAR(position));
+    NL;
+    
     length++;
   }
 

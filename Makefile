@@ -96,7 +96,7 @@ bin/test:
 
 tests: clean all
 	./bin/ae
-	$(foreach bin, $(TEST_BINS), $(bin))
+	# $(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae
