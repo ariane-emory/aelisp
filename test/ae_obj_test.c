@@ -110,10 +110,9 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  ae_obj_t * new_list = NEW(AE_CONS____);
+  DECL(new_list, NEW(AE_CONS____));
   
-  // This cast might be a little sketch? Think about it...
-  new_list->head = (ae_obj_t *)this;
+  CAR(new_list) = (ae_obj_t *)this;
 
   return CONS((ae_obj_t *)this, new_list);
 }

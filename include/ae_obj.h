@@ -16,6 +16,8 @@ typedef char * ae_string_t;
 
 #define DECL(name, this)        ae_obj_t * name = (this);
 #define SET(name, this)         name = (this);
+#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
+#define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 
 #define ALLOC()                 (pool_alloc_ae_obj())
 #define CADR(this)              (CAR(CDR(this)))
@@ -23,7 +25,6 @@ typedef char * ae_string_t;
 #define CDR(this)               ((this)->tail)
 #define CLONE(this)             (ae_obj_clone((this)))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
-#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
 #define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
