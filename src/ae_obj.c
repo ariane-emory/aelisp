@@ -313,6 +313,15 @@ size_t ae_obj_length(const ae_obj_t * const this) {
 
 // #define   AE_OBJ_EACH_RECURSES
 
+ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
+  if (! this)
+    return NULL;
+  
+  ASSERT_CONSP(this);
+
+  return CONS(fun(CAR(this) ), ae_obj_map(CDR(this), fun));
+}
+
 void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 #ifdef    AE_OBJ_EACH_RECURSES
   if (! this) return;
@@ -330,14 +339,26 @@ void ae_obj_each (ae_obj_t * const this, ae_obj_each_fun fun) {
 #endif // AE_OBJ_EACH_RECURSES
 }
 
-ae_obj_t * ae_obj_map(ae_obj_t * const this, ae_obj_map_fun fun) {
-  if (! this)
-    return NULL;
-  
-  ASSERT_CONSP(this);
+/* static void ae_obj_remove_from_helper_fun(ae_obj_t * const this) { */
+/* } */
 
-  return CONS(fun(CAR(this) ), ae_obj_map(CDR(this), fun));
+ae_obj_t * ae_obj_remove_from(ae_obj_t * const this,ae_obj_t * const list) {
+  ASSERT_CONSP(list);
+
+  ae_obj_t * new_list = NULL;
+  
+  for (const ae_obj_t * position = this; position; position = CDR(position)) {
+    if (CAR(position) == this)
+      continue;
+    else if (! new_list)
+      new_list = CONS(CAR(position), NULL);
+    else 
+      PUSH_BACK(new_list, CAR(position));
+  }
+  
+  return new_list;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // _cons
