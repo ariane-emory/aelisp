@@ -140,8 +140,7 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "%011p[ %s ", this, ae_type_str(TYPE(this)));
-  // fprintf(stream, "<%011p>(%s, ", this, ae_type_str(TYPE(this)));
+  fprintf(stream, "%011p[ %s ", this, TYPE_STR(TYPE(this)));
   
   switch (TYPE(this)) {
   case AE_LPAREN__:
@@ -164,12 +163,12 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_FLOAT___:
   case AE_INTEGER_:
   case AE_RATIONAL:
-    ae_obj_fwrite(this, stream);
+    FWRITE(this, stream);
     BSPC;
     break;
   default:
     LSQR;
-    ae_obj_fwrite(this, stream);
+    FWRITE(this, stream);
     BSPC;
     RSQR;
   }
@@ -213,7 +212,7 @@ void ae_obj_put_bytes(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_write(const ae_obj_t * const this) {
-  ae_obj_fwrite(this, stdout);
+  FWRITE(this, stdout);
 }
 
 static FILE * _stream;
@@ -226,7 +225,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
   case AE_CONS____:
     if (CONSP(this) && CAR(this) ) {
       fputc('(', _stream);
-      EACH((ae_obj_t *)this, (ae_list_each_fun)ae_obj_fwrite_internal);
+      EACH((ae_obj_t *)this, ae_obj_fwrite_internal);
       fputc('\b', _stream);
       fputc(')', _stream);
     }
