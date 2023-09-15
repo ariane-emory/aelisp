@@ -41,7 +41,7 @@ char * write_to_new_string(const ae_obj_t * const this) {
 }
 
 bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
-  return ! strcmp(strcmp_str, write_to_new_string(this));
+  return ! strcmp(strcmp_str, SWRITE(this));
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
@@ -247,7 +247,7 @@ void pushed_and_consed_lists_write_identically(void) {
   SETUP_TEST;
 
   this    = push_together_a_list_of_ints();
-  tmp_str = write_to_new_string(this);
+  tmp_str = SWRITE(this);
 
   T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }

@@ -181,6 +181,21 @@ void ae_obj_put(const ae_obj_t * const this) {
   FPUT(this, stdout);
 }
 
+#define MEMSTREAM(buff, stream)                                                                                                             \
+  char * buff;                                                                                                                              \
+  size_t size;                                                                                                                              \
+  FILE * stream = open_memstream(&buff, &size);
+
+char * ae_obj_sput(const ae_obj_t * const this) {
+  MEMSTREAM(buff, stream);
+
+  ae_obj_fput(this, stream);
+  
+  fclose(stream);
+
+  return buff; // free this when you're done with it.
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput_bytes / put_bytes
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,6 +221,16 @@ void ae_obj_fput_bytes(const ae_obj_t * const this, FILE * stream) {
 
 void ae_obj_put_bytes(const ae_obj_t * const this) {
   ae_obj_fput_bytes(this, stdout);
+}
+
+char * ae_obj_sput_bytes(const ae_obj_t * const this) {
+  MEMSTREAM(buff, stream);
+
+  ae_obj_fput_bytes(this, stream);
+  
+  fclose(stream);
+
+  return buff; // free this when you're done with it.
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -288,11 +313,6 @@ void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream) {
   _stream = stream;
   ae_obj_fwrite_internal(this);
 }
-
-#define MEMSTREAM(buff, stream)                                                                                                             \
-  char * buff;                                                                                                                              \
-  size_t size;                                                                                                                              \
-  FILE * stream = open_memstream(&buff, &size);
 
 char * ae_obj_swrite(const ae_obj_t * const this) {
   MEMSTREAM(buff, stream);
