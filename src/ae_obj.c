@@ -351,7 +351,9 @@ size_t ae_list_length(const ae_obj_t * const list) {
   
 #define FOR_EACH(elem, list)    for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = ((void)(elem), CDR(position)))  
 
-  FOR_EACH(elem, list) length++;
+  FOR_EACH(elem, list) {
+    length++;
+  }
 
   return length;
 }
@@ -359,8 +361,9 @@ size_t ae_list_length(const ae_obj_t * const list) {
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
   ASSERT_CONSP(list);
 
-  for (const ae_obj_t * position = list; position; position = CDR(position))
+  for (const ae_obj_t * position = list; position; position = CDR(position)) {
     fun(CAR(position) );
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

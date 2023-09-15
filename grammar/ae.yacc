@@ -108,8 +108,8 @@
     ae_obj_write(symbols);
     puts("\nWrote interned symbols.");
 
-    pool_print();
-    NL;
+    //pool_print();
+    //NL;
   }
 
     //////////////////////////////////////////////////////////////////////////////

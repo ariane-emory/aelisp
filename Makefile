@@ -94,7 +94,7 @@ bin/test:
 ################################################################################
 
 tests: clean all
-	# ./bin/ae
+	./bin/ae
 	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
