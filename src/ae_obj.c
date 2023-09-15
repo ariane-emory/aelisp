@@ -336,7 +336,7 @@ size_t ae_list_length(const ae_obj_t * const list) {
 
   size_t length = 0;
 
-  FOR_EACH(elem, list) (void)elem, length++;
+  FOR_EACH(elem, list) length++;
 
   return length;
 }

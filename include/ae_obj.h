@@ -84,7 +84,7 @@ typedef char * ae_string_t;
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULlP(o)         (assert(NULLP(o)))
 
-#define FOR_EACH(elem, list)    for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = CDR(position))
+#define FOR_EACH(elem, list)    for (const ae_obj_t * position = (list), * elem = CAR(position); position; position = ((void)(elem), CDR(position)))
   
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
