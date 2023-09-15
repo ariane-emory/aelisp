@@ -332,9 +332,9 @@ char * ae_obj_swrite(const ae_obj_t * const this) {
 size_t ae_list_length(const ae_obj_t * const list) {
   ASSERT_CONSP(list);
   
-  size_t length = 0;
-
   if (! CAR(list) ) return 0;
+
+  size_t length = 0;
 
   FOR_EACH(elem, list) (void)elem, length++;
 
