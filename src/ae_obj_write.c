@@ -136,10 +136,10 @@ int ae_obj_write(const ae_obj_t * const this) {
   return 0;
 }
 
-static FILE * stream;
+static FILE * stream = NULL;
+int           count  = 0;
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
-  int count = 0;
 
 #define COUNTED_FPUTC(c) count += (fputc(c, stream) == EOF ? 0 : 1)
   
