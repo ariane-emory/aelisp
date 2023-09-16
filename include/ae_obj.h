@@ -30,6 +30,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(struct ae_obj_t *  const);
 #define FREE()                  (pool_free_ae_obj())
 #define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
+#define INT_VAL(this)           ((this)->int_value)
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 #define LENGTH(this)            (ae_list_length(this))
 #define MAP(this, fun)          (ae_list_map(this, (ae_list_map_fun)fun))
