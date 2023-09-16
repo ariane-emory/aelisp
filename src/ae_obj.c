@@ -197,8 +197,8 @@ ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
 
-   for (const ae_obj_t * position = list; position; position = CDR(position))
-    if (EQ(CAR(position), member))
+  FOR_EACH_CONST(elem, list)
+    if (EQ(elem, member))
       return true;
   
    return false;
@@ -213,7 +213,6 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 
   ae_obj_t * new_list = NULL;
   
-  // for (const ae_obj_t * elem = list; elem; elem = CDR(elem))
   FOR_EACH(elem, list) {
     if (EQ(elem, member))
       continue;
