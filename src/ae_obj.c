@@ -57,13 +57,13 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_truth (const bool this) {
-  /* OBJ_TRUE and OBJ_FALSE seem to have the same addresses each time this is called, but I'm not
-     sure if the standard gives any assurance that they always will be. Possibly UB? */
+  /* It appears that OBJ_TRUE and OBJ_FALSE seem to have the same addresses when this is called,
+     repeatedly, but I'm not sure if the standard gives any assurance that they always will be.
+     Possibly UB? */
   
-  if (this)
-    return &((ae_obj_t){ .type = AE_INTEGER_, .int_val = 1               });
-  else
-    return &((ae_obj_t){ .type = AE_CONS____, .head = NULL, .tail = NULL });
+  return this
+    ? &((ae_obj_t){ .type = AE_INTEGER_, .int_val = 1               })
+    : &((ae_obj_t){ .type = AE_CONS____, .head = NULL, .tail = NULL });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
