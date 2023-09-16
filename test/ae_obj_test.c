@@ -348,7 +348,17 @@ void equal(void) {
   ae_obj_t * obj_true  = ae_obj_truth(this );
   ae_obj_t * obj_false = ae_obj_truth(false);
   
-  T(! ae_obj_equal(obj_true, obj_false));
+  T(! ae_obj_equal(obj_true,  obj_false));
+  T(! ae_obj_equal(obj_true,  this     ));
+  T(! ae_obj_equal(obj_true,  that     ));
+  T(! ae_obj_equal(obj_false, this     ));
+  T(! ae_obj_equal(obj_false, that     ));
+
+  T(! ae_obj_equal(obj_false, obj_true ));
+  T(! ae_obj_equal(this,      obj_true ));
+  T(! ae_obj_equal(that,      obj_true ));
+  T(! ae_obj_equal(this,      obj_false));
+  T(! ae_obj_equal(that,      obj_false));
   
   /* unfinished */
 }
