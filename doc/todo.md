@@ -1,10 +1,10 @@
-- [ ] Add macro version of map?
 - [ ] Better code for aligning type strs when printing.
 - [ ] Maybe add addressable nil value?
-- [ ] Redo/rename the so-called 'byte oriented' puts.
-- [ ] _fput methods should return ints.
+- [ ] Add macro version of map?
+- [ ] Redo/rename the so-called 'byte oriented' puts?
 
 Completed:
+- [x] _fput methods should return ints.
 - [x] Add FOR_EACH macro.
 - [x] Add whole-line comments beginning with ;; to lexer.
 - [x] Add ae_list_has_member.
