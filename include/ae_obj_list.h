@@ -23,7 +23,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define MEMBER(this, that)      (ae_list_has_member((this), (that)))
 #define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
-#define INTERN(sym_list, str)   (ae_list_interned_symbol_from_string((sym_list), (str)))
+#define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
@@ -47,7 +47,7 @@ bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  c
 size_t        ae_list_length       (const ae_obj_t *  const list                                  );
 ae_obj_t *    ae_list_map          (const ae_obj_t *  const list,  ae_list_map_fun   fun          );
 void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun          );
-ae_obj_t *    ae_list_interned_symbol_from_string(      ae_obj_t ** const plist, ae_string_t       string       );
+ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string       );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "ae_obj_write.h"
