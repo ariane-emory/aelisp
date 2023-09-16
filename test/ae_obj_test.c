@@ -332,8 +332,10 @@ void equal(void) {
   INT_VAL(this)   = 15;
 
   that            = NEW(AE_INTEGER_);
-  FLOAT_VAL(that) = 15.0;
+  INT_VAL(that)   = 15;
 
+  T(ae_obj_equal(this, this));
+  T(ae_obj_equal(that, that));
   T(ae_obj_equal(this, that));
   T(ae_obj_equal(that, this));
 

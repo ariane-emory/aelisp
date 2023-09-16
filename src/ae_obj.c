@@ -29,15 +29,23 @@ const char * ae_type_str(const ae_type_t this) {
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   /* todo: handle rationals */
   
-  return
-    (this             == that)               ||    
-    (CONSP    (this)  && CONSP    (that) &&
+  if (this             == that)
+    return true;
+  
+  if (CONSP    (this)  && CONSP    (that) &&
      CAR      (this)  == CAR      (that) &&
-     CDR      (this)  == CDR      (that))    ||
-    (INTEGERP (this)  && INTEGERP (that) &&
-     INT_VAL  (this)  == INT_VAL  (that))    ||
-    (FLOATP   (that)  && INTEGERP (this) &&
-     FLOAT_VAL(that)  == INT_VAL  (this));  
+     CDR      (this)  == CDR      (that))
+    return true;
+  
+  if (INTEGERP (this)  && INTEGERP (that) &&
+      INT_VAL  (this)  == INT_VAL  (that))
+    return true;
+  
+  if (FLOATP   (that)  && INTEGERP (this) &&
+      FLOAT_VAL(that)  == INT_VAL  (this))
+    return true;
+  
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
