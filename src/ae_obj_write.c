@@ -139,13 +139,14 @@ int ae_obj_write(const ae_obj_t * const this) {
 static FILE * stream   = NULL;
 int           counter  = 0;
 
-static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
+#define COUNTED_FPUTC(c, stream)     counter += (fputc((c), (stream)) == EOF ? 0 : 1)
+#define COUNTED_FPUTS(s, stream)     counter += (fputs((s), (stream)))
+#define COUNTED_FPRINTF(stream, ...) counter += (fprintf((stream), __VA_ARGS__))
 
-#define COUNTED_FPUTC(c, stream) counter += (fputc((c), (stream)) == EOF ? 0 : 1)
-  
+static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
   switch (TYPE(this)) {
   case AE_INF_____:
-    fputs("∞", stream);
+    COUNTED_FPUTS("∞", stream);
     break;
   case AE_CONS____:
     if (CONSP(this) && CAR(this) ) {
@@ -158,20 +159,20 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPUTC(')', stream);
     }
     else
-      fputs("nil", stream);
+      COUNTED_FPUTS("nil", stream);
     break;
   case AE_SYMBOL__:
-    fputs(SYM_VAL(this), stream);
+    COUNTED_FPUTS(SYM_VAL(this), stream);
     break;
   case AE_STRING__:
     if (STR_VAL(this) == NULL) {
-      int wrote = fputs("(null)", stream);
+      int wrote = COUNTED_FPUTS("(null)", stream);
       for (; wrote < 40; wrote++)
         SPC;
     }
     else {
       COUNTED_FPUTC('"', stream);
-      fputs(STR_VAL(this), stream);
+      COUNTED_FPUTS(STR_VAL(this), stream);
       COUNTED_FPUTC('"', stream);
     }
     break;
@@ -203,7 +204,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     }
 
     COUNTED_FPUTC('\'', stream);
-    fputs(tmp, stream);
+    COUNTED_FPUTS(tmp, stream);
     COUNTED_FPUTC('\'', stream);
     
     break;
