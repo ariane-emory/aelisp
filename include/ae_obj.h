@@ -68,53 +68,53 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULLP(o)         (assert(! (o)))
 
-#define FOR_EACH(elem, list) \
-  for (ae_obj_t                                                                                                                             \
-         * position = (list),                                                                                                               \
-         * elem     = CAR((position));                                                                                                      \
-       position;                                                                                                                            \
-       elem         = (position = CDR(position)) ? CAR(position) : NULL)                                                                                                                              
+#define FOR_EACH(elem, list)                                                                       \
+  for (ae_obj_t                                                                                    \
+         * position = (list),                                                                      \
+         * elem     = CAR((position));                                                             \
+       position;                                                                                   \
+       elem         = (position = CDR(position)) ? CAR(position) : NULL) 
 
-#define FOR_EACH_CONST(elem, list)                                                                                                              \
-  for (const ae_obj_t                                                                                                                       \
-         * position = (list),                                                                                                               \
-         * elem     = CAR((position));                                                                                                      \
-       position;                                                                                                                            \
-       elem         = (position = CDR(position)) ? CAR(position) : NULL)                                                                                                                              
+#define FOR_EACH_CONST(elem, list)                                                                 \
+  for (const ae_obj_t                                                                              \
+         * position = (list),                                                                      \
+         * elem     = CAR((position));                                                             \
+       position;                                                                                   \
+       elem         = (position = CDR(position)) ? CAR(position) : NULL) 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Escaped chars helper macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_ESCAPED_CHARACTER(DO)                                                                                                      \
-  DO('a',  '\a')                                                                                                                            \
-  DO('b',  '\b')                                                                                                                            \
-  DO('f',  '\f')                                                                                                                            \
-  DO('n',  '\n')                                                                                                                            \
-  DO('r',  '\r')                                                                                                                            \
-  DO('t',  '\t')                                                                                                                            \
-  DO('v',  '\v')                                                                                                                            \
-  DO('\\', '\\')                                                                                                                            \
-  DO('\'', '\'')                                                                                                                            \
-  DO('\"', '\"')                                                                                                                            \
+#define FOR_EACH_ESCAPED_CHARACTER(DO)                                                             \
+  DO('a',  '\a')                                                                                   \
+  DO('b',  '\b')                                                                                   \
+  DO('f',  '\f')                                                                                   \
+  DO('n',  '\n')                                                                                   \
+  DO('r',  '\r')                                                                                   \
+  DO('t',  '\t')                                                                                   \
+  DO('v',  '\v')                                                                                   \
+  DO('\\', '\\')                                                                                   \
+  DO('\'', '\'')                                                                                   \
+  DO('\"', '\"')                                                                                   \
   DO('\?', '\?')                                                                                                                         
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_LEXED_TYPE(DO)                                                                                                             \
-  DO(AE_CONS____)                                                                                                                           \
-  DO(AE_INVALID_)                                                                                                                           \
-  DO(AE_CHAR____)                                                                                                                           \
-  DO(AE_INTEGER_)                                                                                                                           \
-  DO(AE_RATIONAL)                                                                                                                           \
-  DO(AE_FLOAT___)                                                                                                                           \
-  DO(AE_INF_____)                                                                                                                           \
-  DO(AE_STRING__)                                                                                                                           \
-  DO(AE_SYMBOL__)                                                                                                                           \
-  DO(AE_LPAREN__)                                                                                                                           \
-  DO(AE_RPAREN__)                                                                                                                           \
+#define FOR_EACH_LEXED_TYPE(DO)                                                                    \
+  DO(AE_CONS____)                                                                                  \
+  DO(AE_INVALID_)                                                                                  \
+  DO(AE_CHAR____)                                                                                  \
+  DO(AE_INTEGER_)                                                                                  \
+  DO(AE_RATIONAL)                                                                                  \
+  DO(AE_FLOAT___)                                                                                  \
+  DO(AE_INF_____)                                                                                  \
+  DO(AE_STRING__)                                                                                  \
+  DO(AE_SYMBOL__)                                                                                  \
+  DO(AE_LPAREN__)                                                                                  \
+  DO(AE_RPAREN__)                                                                                  \
   DO(AE_QUOTE___)
 
 #define enum_node(x) x,

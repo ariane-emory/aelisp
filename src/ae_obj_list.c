@@ -85,7 +85,7 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
     if (EQ(elem, member))
       return true;
   
-   return false;
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,15 +137,15 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef NOISY_INIT
-#  define AFTER_PUSH_MESSAGE(tailtip)                                                                                                       \
-    fputs("Pushed           ", stdout);                                                                                                     \
-    ae_obj_put(obj);                                                                                                                        \
-    fputs(" into ", stdout);                                                                                                                \
-    ae_obj_put(this);                                                                                                                       \
-    fputs("' tailtip ", stdout);                                                                                                            \
-    ae_obj_put(tailtip);                                                                                                                    \
-    putchar('\n');                                                                                                                          \
-    putchar('\n');
+#  define AFTER_PUSH_MESSAGE(tailtip)                                                              \
+  fputs("Pushed           ", stdout);                                                              \
+  ae_obj_put(obj);                                                                                 \
+  fputs(" into ", stdout);                                                                         \
+  ae_obj_put(this);                                                                                \
+  fputs("' tailtip ", stdout);                                                                     \
+  ae_obj_put(tailtip);                                                                             \
+  putchar('\n');                                                                                   \
+  putchar('\n');
 #else
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif

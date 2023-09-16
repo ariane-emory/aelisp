@@ -25,17 +25,17 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH(elem, list)                                                                                                                \
-  for (ae_obj_t                                                                                                                             \
-         * position = (list),                                                                                                               \
-         * elem     = CAR((position));                                                                                                      \
-       position;                                                                                                                            \
+#define FOR_EACH(elem, list)                                                                       \
+  for (ae_obj_t                                                                                    \
+         * position = (list),                                                                      \
+         * elem     = CAR((position));                                                             \
+       position;                                                                                   \
        elem         = (position = CDR(position)) ? CAR(position) : NULL) 
-#define FOR_EACH_CONST(elem, list)                                                                                                          \
-  for (const ae_obj_t                                                                                                                       \
-         * position = (list),                                                                                                               \
-         * elem     = CAR((position));                                                                                                      \
-       position;                                                                                                                            \
+#define FOR_EACH_CONST(elem, list)                                                                 \
+  for (const ae_obj_t                                                                              \
+         * position = (list),                                                                      \
+         * elem     = CAR((position));                                                             \
+       position;                                                                                   \
        elem         = (position = CDR(position)) ? CAR(position) : NULL) 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods

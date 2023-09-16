@@ -18,16 +18,16 @@
 
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
 
-#define SETUP_TEST                                                                                                                          \
-  static char * tmp_str = NULL;                                                                                                             \
-  ae_obj_t *    this    = NULL;                                                                                                             \
-  ae_obj_t *    that    = NULL;                                                                                                             \
-  pool_clear();                                                                                                                             \
-  if (tmp_str) {                                                                                                                            \
-    free(tmp_str);                                                                                                                          \
-    tmp_str = NULL;                                                                                                                         \
-  }                                                                                                                                         \
-  (void)this;                                                                                                                               \
+#define SETUP_TEST                                                                                 \
+  static char * tmp_str = NULL;                                                                    \
+  ae_obj_t *    this    = NULL;                                                                    \
+  ae_obj_t *    that    = NULL;                                                                    \
+  pool_clear();                                                                                    \
+  if (tmp_str) {                                                                                   \
+    free(tmp_str);                                                                                 \
+    tmp_str = NULL;                                                                                \
+  }                                                                                                \
+  (void)this;                                                                                      \
   (void)that;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,13 +190,13 @@ void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
 }
 
 void newly_initialized_ae_obj_has_correct_type_field(void) {
-#define test(_type)                                                                                                                         \
-  {                                                                                                                                         \
-    SETUP_TEST;                                                                                                                             \
-                                                                                                                                            \
-    this = NEW(_type);                                                                                                                      \
-                                                                                                                                            \
-    T(TYPE(this) == _type);                                                                                                                 \
+#define test(_type)                                                                                \
+  {                                                                                                \
+    SETUP_TEST;                                                                                    \
+                                                                                                   \
+    this = NEW(_type);                                                                             \
+                                                                                                   \
+    T(TYPE(this) == _type);                                                                        \
   }
   FOR_EACH_LEXED_TYPE(test);
 }
@@ -276,18 +276,18 @@ void intern_symbols(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_TEST_FUN(DO)                                                                                                               \
-  DO(test_setup_is_okay)                                                                                                                    \
-  DO(newly_allocated_ae_obj_is_inside_pool)                                                                                                 \
-  DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                                                            \
-  DO(newly_initialized_ae_obj_has_correct_type_field)                                                                                       \
-  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                                       \
-  DO(unsafe_move_an_ae_obj)                                                                                                                 \
-  DO(clone_a_simple_ae_obj)                                                                                                                 \
-  DO(pushed_list_tests)                                                                                                                     \
-  DO(consed_list_tests)                                                                                                                     \
-  DO(pushed_and_consed_lists_write_identically)                                                                                             \
-  DO(intern_symbols)                                                                                                                        \
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(test_setup_is_okay)                                                                           \
+  DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
+  DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                   \
+  DO(newly_initialized_ae_obj_has_correct_type_field)                                              \
+  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
+  DO(unsafe_move_an_ae_obj)                                                                        \
+  DO(clone_a_simple_ae_obj)                                                                        \
+  DO(pushed_list_tests)                                                                            \
+  DO(consed_list_tests)                                                                            \
+  DO(pushed_and_consed_lists_write_identically)                                                    \
+  DO(intern_symbols)                                                                               \
   DO(remove_elem_from_list)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */

@@ -70,9 +70,9 @@ int ae_obj_put(const ae_obj_t * const this) {
   return 0;
 }
 
-#define MEMSTREAM(buff, stream)                                                                                                             \
-  char * buff;                                                                                                                              \
-  size_t size;                                                                                                                              \
+#define MEMSTREAM(buff, stream)                                                                    \
+  char * buff;                                                                                     \
+  size_t size;                                                                                     \
   FILE * stream = open_memstream(&buff, &size);
 
 char * ae_obj_sput(const ae_obj_t * const this) {
@@ -185,10 +185,10 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     char tmp[3] = { 0 };
 
     switch (this->char_val) {
-#define escaped_char_case(displayed, unescaped)                                                                                             \
-      case unescaped:                                                                                                                       \
-        tmp[0] = '\\';                                                                                                                      \
-        tmp[1] = displayed;                                                                                                                 \
+#define escaped_char_case(displayed, unescaped)                                                    \
+      case unescaped:                                                                              \
+        tmp[0] = '\\';                                                                             \
+        tmp[1] = displayed;                                                                        \
         break;
       FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
 #undef escaped_char_case
