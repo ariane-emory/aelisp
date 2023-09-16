@@ -275,6 +275,12 @@ void intern_symbols(void) {
   T(LENGTH(this) == 2);
 }
 
+void fwrite_lengths(void) {
+  SETUP_TEST;
+
+  T(false);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -291,7 +297,8 @@ void intern_symbols(void) {
   DO(consed_list_tests)                                                                            \
   DO(pushed_and_consed_lists_write_identically)                                                    \
   DO(intern_symbols)                                                                               \
-  DO(remove_elem_from_list)
+  DO(remove_elem_from_list)                                                                        \
+  DO(fwrite_lengths)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
 
