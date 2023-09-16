@@ -49,23 +49,23 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t * list = NEW(AE_CONS____);
-  ae_obj_t * tail = list;
+  ae_obj_t * list    = NEW(AE_CONS____);
+  ae_obj_t * tailtip = list;
 
-  T(LENGTH(tail) == 0);
+  T(LENGTH(tailtip) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_int   = NEW(AE_INTEGER_);
     int        int_value = ix + 1;
     new_int->int_value   = int_value;
 
-    tail                 = PUSH(tail, new_int);
+    tailtip              = PUSH(tailtip, new_int);
     
-    T(CONSP(tail));
-    T(INTEGERP(CAR(tail)));
-    T(INT_VAL(CAR(tail)) == int_value);
+    T(CONSP(tailtip));
+    T(INTEGERP(CAR(tailtip)));
+    T(INT_VAL(CAR(tailtip)) == int_value);
     T(LENGTH(list) == ix + 1);
-    TM("Length is %zu.", LENGTH(tail));
+    TM("Length is %zu.", LENGTH(tailtip));
   }
 
   return list;
