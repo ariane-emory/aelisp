@@ -37,7 +37,6 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define NEW(type)               (ae_obj_init((ALLOC()), (type)))
 #define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
-#define SWRITE(this)            (ae_obj_swrite(this))
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
 #define TYPE(this)              ((this)->type)

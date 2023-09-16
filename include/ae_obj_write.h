@@ -6,10 +6,13 @@
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define PUT(this)               (ae_obj_put(this))
 #define FPUT(this, stream)      (ae_obj_fput((this), (stream)))
+#define SPUT(this, stream)      (ae_obj_fput((this))
+
 #define WRITE(this)             (ae_obj_write(this))
+#define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
+#define SWRITE(this)            (ae_obj_swrite(this))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods writing / printing methods
