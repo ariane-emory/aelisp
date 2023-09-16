@@ -1,5 +1,4 @@
 - [ ] Test ae_obj_eql.
-- [ ] Test ae_obj_truth.
 - [ ] Add rational support to eql.
 - [ ] Better code for aligning type strs when printing.
 - [ ] Maybe add addressable nil value?
@@ -8,6 +7,7 @@
 - [ ] Maybe also a vector type of some sort?
 
 Completed:
+- [x] Test ae_obj_truth.
 - [x] Add eql.
 - [x] _fput methods should return ints.
 - [x] Add FOR_EACH macro.

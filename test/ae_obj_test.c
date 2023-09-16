@@ -325,6 +325,21 @@ void truth(void) {
   T(CONSP(that) && (! CAR(that)) && (! CDR(that)));
 }
 
+void equal(void) {
+  SETUP_TEST;
+
+  this            = NEW(AE_INTEGER_);
+  INT_VAL(this)   = 15;
+
+  that            = NEW(AE_INTEGER_);
+  FLOAT_VAL(that) = 15.0;
+
+  T(ae_obj_equal(this, that));
+  T(ae_obj_equal(that, this));
+
+  /* unfinished */
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -343,6 +358,7 @@ void truth(void) {
   DO(intern_symbols)                                                                               \
   DO(remove_elem_from_list)                                                                        \
   DO(truth)                                                                                        \
+  DO(equal)                                                                                        \
   DO(fwrite_lengths)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */
