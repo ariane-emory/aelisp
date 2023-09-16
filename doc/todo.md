@@ -1,7 +1,9 @@
+- [ ] Add eql (and maybe equal?)
 - [ ] Better code for aligning type strs when printing.
 - [ ] Maybe add addressable nil value?
 - [ ] Add macro version of map?
 - [ ] Redo/rename the so-called 'byte oriented' puts?
+- [ ] Maybe also a vector type of some sort?
 
 Completed:
 - [x] _fput methods should return ints.
