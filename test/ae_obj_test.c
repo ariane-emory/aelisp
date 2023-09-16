@@ -366,12 +366,20 @@ void equal(void) {
   ae_obj_t * pushed = push_together_a_list_of_ints();
   ae_obj_t * consed = cons_together_a_list_of_ints();
 
-  T(  ae_obj_equal(pushed,    pushed));
-  T(  ae_obj_equal(consed,    consed));
-  T(! ae_obj_equal(pushed,    consed));
-  T(! ae_obj_equal(consed,    pushed));
+  T(  ae_obj_equal(pushed,    pushed   ));
+  T(  ae_obj_equal(consed,    consed   ));
+  T(! ae_obj_equal(pushed,    consed   ));
+  T(! ae_obj_equal(consed,    pushed   ));
+
+  T(! ae_obj_equal(pushed,    this     ));
+  T(! ae_obj_equal(pushed,    that     ));
+  T(! ae_obj_equal(pushed,    obj_true ));
+  T(! ae_obj_equal(pushed,    obj_false));
   
-  /* unfinished */
+  T(! ae_obj_equal(consed,    this     ));
+  T(! ae_obj_equal(consed,    that     ));
+  T(! ae_obj_equal(consed,    obj_true ));
+  T(! ae_obj_equal(consed,    obj_false));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
