@@ -349,8 +349,15 @@ size_t ae_list_length(const ae_obj_t * const list) {
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
   ASSERT_CONSP(list);
 
+//#define EACH_RECURSES
+
+#ifdef EACH_RECURSES
+  fun(CAR(list));
+  EACH(CDR(list), fun);
+#else
   FOR_EACH(elem, list)
     fun(elem);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -366,7 +373,7 @@ ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
 // #define MAP_RECURSES
 
 #ifdef MAP_RECURSES
-  return CONS(fun(CAR(list) ), MAP(CDR(list), fun));
+  return CONS(fun(CAR(list)), MAP(CDR(list), fun));
 #else
   ae_obj_t * new_list = NEW(AE_CONS____);
   ae_obj_t * tailtip  = new_list;
