@@ -141,7 +141,7 @@ int           counter  = 0;
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
 
-#define COUNTED_FPUTC(c) counter += (fputc(c, stream) == EOF ? 0 : 1)
+#define COUNTED_FPUTC(c, stream) counter += (fputc((c), (stream)) == EOF ? 0 : 1)
   
   switch (TYPE(this)) {
   case AE_INF_____:
@@ -149,13 +149,13 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_CONS____:
     if (CONSP(this) && CAR(this) ) {
-      COUNTED_FPUTC('(');
+      COUNTED_FPUTC('(', stream);
 
       FOR_EACH_CONST(elem, this)
         ae_obj_fwrite_internal(elem);
 
-      COUNTED_FPUTC('\b');
-      COUNTED_FPUTC(')');
+      COUNTED_FPUTC('\b', stream);
+      COUNTED_FPUTC(')', stream);
     }
     else
       fputs("nil", stream);
@@ -170,9 +170,9 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
         SPC;
     }
     else {
-      COUNTED_FPUTC('"');
+      COUNTED_FPUTC('"', stream);
       fputs(STR_VAL(this), stream);
-      COUNTED_FPUTC('"');
+      COUNTED_FPUTC('"', stream);
     }
     break;
   case AE_INTEGER_:
@@ -202,9 +202,9 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_val;
     }
 
-    COUNTED_FPUTC('\'');
+    COUNTED_FPUTC('\'', stream);
     fputs(tmp, stream);
-    COUNTED_FPUTC('\'');
+    COUNTED_FPUTC('\'', stream);
     
     break;
   }
@@ -212,7 +212,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     fprintf(stream, "UNPRINTABLE");
   }
   
-  COUNTED_FPUTC(' ');
+  COUNTED_FPUTC(' ', stream);
 
   return counter;
 }
