@@ -300,9 +300,12 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(push_together_a_list_of_ints());
+  this          = NEW(AE_INTEGER_);
+  INT_VAL(this) = 123;
   
-  /* this = push_together_a_list_of_ints(); */
+  FWRITE_TEST(push_together_a_list_of_ints());
+
+/* this = push_together_a_list_of_ints(); */
   
   /* char * buff;  */
   /* size_t size; */
