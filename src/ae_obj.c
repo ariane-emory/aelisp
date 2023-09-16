@@ -45,12 +45,13 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_truth (const bool this) {
-  static ae_obj_t obj_true  = (ae_obj_t){ .type = AE_INTEGER_, .int_val = 1               };
-  static ae_obj_t obj_false = (ae_obj_t){ .type = AE_CONS____, .head = NULL, .tail = NULL };
+#define OBJ_TRUE  ((ae_obj_t){ .type = AE_INTEGER_, .int_val = 1               })
+#define OBJ_FALSE ((ae_obj_t){ .type = AE_CONS____, .head = NULL, .tail = NULL })
 
-  (void)this;
-  
-  return NULL;
+  if (this)
+    return &OBJ_TRUE;
+  else
+    return &OBJ_FALSE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
