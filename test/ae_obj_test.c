@@ -279,22 +279,20 @@ void intern_symbols(void) {
 
 #define FWRITE_TEST(expr)                                                                          \
   {                                                                                                \
-  this = push_together_a_list_of_ints();                                                           \
+    char * buff;                                                                                   \
+    size_t size;                                                                                   \
+    FILE * stream   = open_memstream(&buff, &size);                                                \
+    int    reported = ae_obj_fwrite(this, stream);                                                 \
                                                                                                    \
-  char * buff;                                                                                     \
-  size_t size;                                                                                     \
-  FILE * stream   = open_memstream(&buff, &size);                                                  \
-  int    reported = ae_obj_fwrite(this, stream);                                                   \
+    fclose(stream);                                                                                \
+    free(buff);                                                                                    \
                                                                                                    \
-  fclose(stream);                                                                                  \
-  free(buff);                                                                                      \
-                                                                                                   \
-  T((int)strlen(buff) == (int)size);                                                               \
-  TM("strlen of " #expr " was %d but size was %d:\n%s.\n",                                         \
-     (int)strlen(buff), (int)size, buff);                                                          \
-  T((int)strlen(buff) == (int)reported);                                                           \
-  TM("strlen of " #expr " was %d but reported was %d:\n%s.\n",                                     \
-     (int)strlen(buff), (int)reported, buff);                                                      \
+    T((int)strlen(buff) == (int)size);                                                             \
+    TM("strlen of " #expr " was %d but size was %d:\n%s.\n",                                       \
+       (int)strlen(buff), (int)size, buff);                                                        \
+    T((int)strlen(buff) == (int)reported);                                                         \
+    TM("strlen of " #expr " was %d but reported was %d:\n%s.\n",                                   \
+       (int)strlen(buff), (int)reported, buff);                                                    \
   }
 
 void fwrite_lengths(void) {
@@ -302,10 +300,14 @@ void fwrite_lengths(void) {
 
   this          = NEW(AE_INTEGER_);
   INT_VAL(this) = 123;
-  
-  FWRITE_TEST(push_together_a_list_of_ints());
 
-/* this = push_together_a_list_of_ints(); */
+  FWRITE_TEST(this);
+
+  FWRITE_TEST(this);
+ 
+  /* FWRITE_TEST(push_together_a_list_of_ints()); */
+
+  /* this = push_together_a_list_of_ints(); */
   
   /* char * buff;  */
   /* size_t size; */
