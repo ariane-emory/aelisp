@@ -136,12 +136,12 @@ int ae_obj_write(const ae_obj_t * const this) {
   return 0;
 }
 
-static FILE * stream = NULL;
-int           count  = 0;
+static FILE * stream   = NULL;
+int           counter  = 0;
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
 
-#define COUNTED_FPUTC(c) count += (fputc(c, stream) == EOF ? 0 : 1)
+#define COUNTED_FPUTC(c) counter += (fputc(c, stream) == EOF ? 0 : 1)
   
   switch (TYPE(this)) {
   case AE_INF_____:
@@ -176,7 +176,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     }
     break;
   case AE_INTEGER_:
-    count += fprintf(stream, "%d", this->int_val);
+    counter += fprintf(stream, "%d", this->int_val);
     break;
   case AE_RATIONAL:
     fprintf(stream, "%d/%d", this->numerator_val, this->denominator_val);
@@ -214,14 +214,14 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
   
   COUNTED_FPUTC(' ');
 
-  return count;
+  return counter;
 }
 
 int ae_obj_fwrite(const ae_obj_t * const this, FILE * stream_) {
+  counter = 0;
   stream = stream_;
-  ae_obj_fwrite_internal(this);
 
-  return 0;
+  return ae_obj_fwrite_internal(this);
 }
 
 char * ae_obj_swrite(const ae_obj_t * const this) {
