@@ -167,15 +167,7 @@ typedef struct ae_obj_t {
 ae_obj_t *    ae_obj_init          (      ae_obj_t *  const this,  ae_type_t         type         );
 ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t *  const this,  ae_obj_t *  const that         );
 ae_obj_t *    ae_obj_clone         (const ae_obj_t *  const this                                  );
-// list-related methods ////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string       );
-ae_obj_t *    ae_obj_cons          (      ae_obj_t *  const head,  ae_obj_t *  const tail         );
-ae_obj_t *    ae_list_push_back    (      ae_obj_t *  const list,  ae_obj_t *  const member       );
-ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const member       );
-bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const member       );
-size_t        ae_list_length       (const ae_obj_t *  const list                                  );
-ae_obj_t *    ae_list_map          (const ae_obj_t *  const list,  ae_list_map_fun   fun          );
-void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun          );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include "ae_obj_list.h"
 #include "ae_obj_write.h"

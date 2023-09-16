@@ -74,3 +74,51 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 
   return this;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _clone method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
+#ifdef NOISY_INIT
+  fputs("Cloning          ", stdout);
+  PUT(this);
+  putchar('\n');
+  fflush(stdout);
+#endif
+  
+  ae_obj_t * clone = NULL;
+
+#define CLONE_USING_MEMCPY clone = ALLOC(); memcpy(clone, this, sizeof(ae_obj_t))
+#define DUP_C_STR(field) clone->field = strdup(this->field)
+  
+  switch (TYPE(this)) {
+  case AE_CONS____:
+    clone = MAP(this, ae_obj_clone);
+    break;
+  case AE_STRING__:
+    CLONE_USING_MEMCPY;
+    DUP_C_STR(str_val);
+    break;
+  case AE_SYMBOL__:
+    CLONE_USING_MEMCPY;
+    DUP_C_STR(sym_val);
+    break;
+  default:
+    CLONE_USING_MEMCPY;
+  }
+
+#undef CLONE_USING_MEMCPY
+#undef DUP_C_STR
+  
+#ifdef NOISY_INIT
+  fputs("Cloned           ", stdout);
+  PUT(this);
+  fputs(" into ", stdout);
+  PUT(clone);
+  putchar('\n');
+  fflush(stdout);
+#endif
+
+  return clone;
+}
