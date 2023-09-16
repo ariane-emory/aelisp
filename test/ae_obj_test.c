@@ -277,10 +277,12 @@ void intern_symbols(void) {
   T(LENGTH(this) == 2);
 }
 
-#define FWRITE_TEST(type, field, val)                                                              \
+#define FWRITE_TEST(type, field, val, ...)                                                         \
   {                                                                                                \
     this        = NEW(type);                                                                       \
     this->field = val;                                                                             \
+                                                                                                   \
+    __VA_ARGS__;                                                                                   \
                                                                                                    \
     char * buff;                                                                                   \
     size_t size;                                                                                   \
@@ -301,14 +303,13 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(AE_CHAR____, int_val,   '1');
-  FWRITE_TEST(AE_CHAR____, int_val,   '\n');
-  FWRITE_TEST(AE_INTEGER_, int_val,   123);
-  FWRITE_TEST(AE_FLOAT___, float_val, 1.23);
-  FWRITE_TEST(AE_STRING__, str_val,   "asdf");
-  FWRITE_TEST(AE_SYMBOL__, sym_val,   "ghij");
- 
-  /* todo: add rational */      
+  FWRITE_TEST(AE_CHAR____, int_val,       '1');
+  FWRITE_TEST(AE_CHAR____, int_val,       '\n');
+  FWRITE_TEST(AE_INTEGER_, int_val,       123);
+  FWRITE_TEST(AE_FLOAT___, float_val,     1.23);
+  FWRITE_TEST(AE_RATIONAL, numerator_val, 123, this->denominator_val = 456);
+  FWRITE_TEST(AE_STRING__, str_val,       "asdf");
+  FWRITE_TEST(AE_SYMBOL__, sym_val,       "ghij");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
