@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include <stddef.h>
 #include <stdlib.h>
+#include <stddef.h>
+#include <string.h>
+#include <assert.h>
 
 #include "ae_obj.h"
 
@@ -279,7 +280,19 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  T(false);
+  char * buff; 
+  size_t size;
+  FILE * stream = open_memstream(&buff, &size);
+
+  this = push_together_a_list_of_ints();
+
+  ae_obj_fwrite(this, stream);
+
+  fclose(stream);
+  free(buff);
+  
+  T(strlen(buff) == size);
+  TM("strlen was %d but size was %d.\n", strlen(buff), size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
