@@ -1,4 +1,6 @@
-- [ ] Add eql (and maybe equal?)
+- [ ] Test ae_obj_eql.
+- [ ] Test ae_obj_truth.
+- [ ] Add rational support to eql.
 - [ ] Better code for aligning type strs when printing.
 - [ ] Maybe add addressable nil value?
 - [ ] Add macro version of map?
