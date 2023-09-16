@@ -187,7 +187,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 
 #define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); SYM_VAL(sym) = strdup(string)
 
-ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
+ae_obj_t * ae_list_interned_symbol_from_string(ae_obj_t ** const plist, ae_string_t string) {
   if (! *plist)
     *plist = NEW(AE_CONS____);
   
