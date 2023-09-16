@@ -55,7 +55,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   T(LENGTH(tailtip) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
-    ae_obj_t * new_int   = NEW(AE_INTEGER_);
+    ae_obj_t * new_int = NEW(AE_INTEGER_);
     int        int_val = ix + 1;
     new_int->int_val   = int_val;
 
