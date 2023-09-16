@@ -1,1 +1,5 @@
-a b c
+(a ∞ b) (a b c) ;; This is a comment.
+(a b c d (e f))
+;; This is another comment.
+(a b c d "bang" 1 1.5 3/4 'x' ?\y () nil 'a' '\t' ?\\t :asd &more t (= 1 3))
+
