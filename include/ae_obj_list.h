@@ -6,8 +6,8 @@
 // Typedefs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef void              (*ae_list_each_fun)(struct ae_obj_t *  const);
-typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
+typedef        void       (*ae_list_each_fun)(      struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
