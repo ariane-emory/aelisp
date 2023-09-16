@@ -9,7 +9,11 @@
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define T TEST_CHECK
+#define T  TEST_CHECK
+#define TM TEST_MSG
+
+#define NL putchar('\n');
+#define FF fflush(stdout);
 
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
 
@@ -45,23 +49,26 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t *  new_list = NEW(AE_CONS____);
+  ae_obj_t *  list = NEW(AE_CONS____);
+  ae_obj_t *  tail = list;
 
-  T(LENGTH(new_list) == 0);
+  T(LENGTH(tail) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
-    ae_obj_t * new_int     = NEW(AE_INTEGER_);
-    int        int_value   = ix + 1;
-    new_int->int_value     = int_value;
+    ae_obj_t * new_int   = NEW(AE_INTEGER_);
+    int        int_value = ix + 1;
+    new_int->int_value   = int_value;
 
-    ae_obj_t * new_tailtip = PUSH(new_list, new_int);
-
-    T(CONSP(new_tailtip));
-    T(INTEGERP(CAR(new_tailtip)));
-    T(LENGTH(new_list) == ix + 1);
+    tail                 = PUSH(tail, new_int);
+    
+    T(CONSP(tail));
+    T(INTEGERP(CAR(tail)));
+    T(INT_VAL(CAR(tail)) == int_value);
+    T(LENGTH(list) == ix + 1);
+    TM("Length is %zu.", LENGTH(tail));
   }
 
-  return new_list;
+  return list;
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
