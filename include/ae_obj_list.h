@@ -13,9 +13,16 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define CADR(this)              (CAR(CDR(this)))
+#define CAR(this)               ((this)->head)
+#define CDR(this)               ((this)->tail)
+#define CONS(head, tail)        (ae_obj_cons((head), (tail)))
+#define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
+#define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 #define LENGTH(this)            (ae_list_length(this))
 #define MAP(this, fun)          (ae_list_map(this, (ae_list_map_fun)fun))
 #define MEMBER(this, that)      (ae_list_has_member((this), (that)))
+#define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 
 #define FOR_EACH(elem, list)                                                                                                                \
