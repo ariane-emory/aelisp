@@ -302,6 +302,10 @@ void fwrite_lengths(void) {
   SETUP_TEST;
 
   FWRITE_TEST(AE_INTEGER_, int_val, 123);
+  FWRITE_TEST(AE_INTEGER_, int_val, 123);
+  FWRITE_TEST(AE_INTEGER_, int_val, 123);
+  FWRITE_TEST(AE_INTEGER_, int_val, 123);
+  /* todo: add rational */      
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
