@@ -347,6 +347,9 @@ void equal(void) {
 
   ae_obj_t * obj_true  = ae_obj_truth(this );
   ae_obj_t * obj_false = ae_obj_truth(false);
+
+  T(  ae_obj_equal(obj_false, obj_false));
+  T(  ae_obj_equal(obj_true,  obj_true ));
   
   T(! ae_obj_equal(obj_true,  obj_false));
   T(! ae_obj_equal(obj_true,  this     ));
@@ -359,6 +362,14 @@ void equal(void) {
   T(! ae_obj_equal(that,      obj_true ));
   T(! ae_obj_equal(this,      obj_false));
   T(! ae_obj_equal(that,      obj_false));
+
+  ae_obj_t * pushed = push_together_a_list_of_ints();
+  ae_obj_t * consed = cons_together_a_list_of_ints();
+
+  T(  ae_obj_equal(pushed,    pushed));
+  T(  ae_obj_equal(consed,    consed));
+  T(! ae_obj_equal(pushed,    consed));
+  T(! ae_obj_equal(consed,    pushed));
   
   /* unfinished */
 }

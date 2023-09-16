@@ -28,7 +28,7 @@ const char * ae_type_str(const ae_type_t this) {
 
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   /* todo: handle rationals */
-  
+
   if (this             == that)
     return true;
   
