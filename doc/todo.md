@@ -6,6 +6,7 @@ To Do:
 - [ ] Add macro version of map?
 - [ ] Redo/rename the so-called 'byte oriented' puts?
 - [ ] Maybe also a vector type of some sort?
+- [ ] Review whether or not ae_obj_truth is UB and possibly come up with something better.
 
 Completed:
 - [x] Test ae_obj_eql.
