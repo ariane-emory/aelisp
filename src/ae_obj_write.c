@@ -139,19 +139,23 @@ int ae_obj_write(const ae_obj_t * const this) {
 static FILE * stream;
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
+  int count = 0;
+
+#define COUNTED_FPUTC(c) count += (fputc(c, stream) == EOF ? 0 : 1)
+  
   switch (TYPE(this)) {
   case AE_INF_____:
     fputs("∞", stream);
     break;
   case AE_CONS____:
     if (CONSP(this) && CAR(this) ) {
-      fputc('(', stream);
+      COUNTED_FPUTC('(');
 
       FOR_EACH_CONST(elem, this)
         ae_obj_fwrite_internal(elem);
 
-      fputc('\b', stream);
-      fputc(')', stream);
+      COUNTED_FPUTC('\b');
+      COUNTED_FPUTC(')');
     }
     else
       fputs("nil", stream);
@@ -166,13 +170,13 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
         SPC;
     }
     else {
-      fputc('"', stream);
+      COUNTED_FPUTC('"');
       fputs(STR_VAL(this), stream);
-      fputc('"', stream);
+      COUNTED_FPUTC('"');
     }
     break;
   case AE_INTEGER_:
-    fprintf(stream, "%d", this->int_val);
+    count += fprintf(stream, "%d", this->int_val);
     break;
   case AE_RATIONAL:
     fprintf(stream, "%d/%d", this->numerator_val, this->denominator_val);
@@ -185,6 +189,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     char tmp[3] = { 0 };
 
     switch (this->char_val) {
+
 #define escaped_char_case(displayed, unescaped)                                                    \
       case unescaped:                                                                              \
         tmp[0] = '\\';                                                                             \
@@ -192,13 +197,14 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
         break;
       FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
 #undef escaped_char_case
+
     default:
       tmp[0] = this->char_val;
     }
 
-    fputc('\'', stream);
+    COUNTED_FPUTC('\'');
     fputs(tmp, stream);
-    fputc('\'', stream);
+    COUNTED_FPUTC('\'');
     
     break;
   }
@@ -206,9 +212,9 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     fprintf(stream, "UNPRINTABLE");
   }
   
-  fputc(' ', stream);
+  COUNTED_FPUTC(' ');
 
-  return 0;
+  return count;
 }
 
 int ae_obj_fwrite(const ae_obj_t * const this, FILE * stream_) {
