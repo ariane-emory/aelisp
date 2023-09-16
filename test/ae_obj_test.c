@@ -56,14 +56,14 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_int   = NEW(AE_INTEGER_);
-    int        int_value = ix + 1;
-    new_int->int_value   = int_value;
+    int        int_val = ix + 1;
+    new_int->int_val   = int_val;
 
     tailtip              = PUSH(tailtip, new_int);
     
     T(CONSP(tailtip));
     T(INTEGERP(CAR(tailtip)));
-    T(INT_VAL(CAR(tailtip)) == int_value);
+    T(INT_VAL(CAR(tailtip)) == int_val);
     T(LENGTH(list) == ix + 1);
     TM("Length is %zu.", LENGTH(tailtip));
   }
@@ -74,14 +74,14 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * list = NEW(AE_CONS____);
   ae_obj_t * head = NEW(AE_INTEGER_);
-  head->int_value = 4;
+  head->int_val = 4;
   CAR(list)       = head;
   
   T(LENGTH(list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
     ae_obj_t * new_head = NEW(AE_INTEGER_);
-    new_head->int_value = 3 - ix;
+    new_head->int_val = 3 - ix;
 
     ae_obj_t * tail = list;
     
@@ -114,7 +114,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
   ae_obj_t * new_obj = NEW(AE_INTEGER_);
-  new_obj->int_value = this->int_value * 2;
+  new_obj->int_val = this->int_val * 2;
 
   return new_obj;
 }
@@ -205,7 +205,7 @@ void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
 
   this = NEW(AE_RATIONAL);
 
-  T(this->numerator_value == 0 && this->denominator_value == 0);
+  T(this->numerator_val == 0 && this->denominator_val == 0);
 }
 
 void consed_list_tests(void) {
@@ -224,33 +224,33 @@ void unsafe_move_an_ae_obj(void) {
   SETUP_TEST;
 
   that = NEW(AE_RATIONAL);
-  that->numerator_value   = 123;
-  that->denominator_value = 321;
+  that->numerator_val   = 123;
+  that->denominator_val = 321;
 
   this = MOVE_NEW(that);
 
   T(RATIONALP(this));
-  T(this->numerator_value   == 123);
-  T(this->denominator_value == 321);
+  T(this->numerator_val   == 123);
+  T(this->denominator_val == 321);
 
   T(FREEP(that));
-  T(that->numerator_value   == 0);
-  T(that->denominator_value == 0);
+  T(that->numerator_val   == 0);
+  T(that->denominator_val == 0);
 }
 
 void clone_a_simple_ae_obj(void) {
   SETUP_TEST;
 
   this = NEW(AE_RATIONAL);
-  this->numerator_value   = 123;
-  this->denominator_value = 321;
+  this->numerator_val   = 123;
+  this->denominator_val = 321;
 
   that = CLONE(this);
 
   T(this != that);
   T(RATIONALP(that));
-  T(that->numerator_value   == 123);
-  T(that->denominator_value == 321);
+  T(that->numerator_val   == 123);
+  T(that->denominator_val == 321);
 }
 
 void pushed_and_consed_lists_write_identically(void) {

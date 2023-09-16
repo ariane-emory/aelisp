@@ -31,7 +31,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define FREE()                  (pool_free_ae_obj())
 #define FWRITE(this, stream)    (ae_obj_fwrite((this), (stream)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
-#define INT_VAL(this)           ((this)->int_value)
+#define INT_VAL(this)           ((this)->int_val)
 #define INTERN(sym_list, str)   (ae_list_intern_string((sym_list), (str)))
 #define LENGTH(this)            (ae_list_length(this))
 #define MAP(this, fun)          (ae_list_map(this, (ae_list_map_fun)fun))
@@ -42,8 +42,8 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define PUT(this)               (ae_obj_put(this))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 #define SWRITE(this)            (ae_obj_swrite(this))
-#define STR_VAL(this)           ((this)->str_value)
-#define SYM_VAL(this)           ((this)->sym_value)
+#define STR_VAL(this)           ((this)->str_val)
+#define SYM_VAL(this)           ((this)->sym_val)
 #define TYPE(this)              ((this)->type)
 #define TYPE_STR(type)          (ae_type_str((type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
@@ -150,14 +150,14 @@ const char * ae_type_str(const ae_type_t this);
 typedef struct ae_obj_t {
   ae_type_t             type;
   union {
-    ae_string_t         str_value;
-    ae_string_t         sym_value;
-    char                char_value;
-    int                 int_value;
-    double              float_value;
+    ae_string_t         str_val;
+    ae_string_t         sym_val;
+    char                char_val;
+    int                 int_val;
+    double              float_val;
     struct {
-      int               numerator_value;
-      unsigned int      denominator_value;
+      int               numerator_val;
+      unsigned int      denominator_val;
     };
     struct {
       struct ae_obj_t * head;

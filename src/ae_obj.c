@@ -111,11 +111,11 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
     break;
   case AE_STRING__:
     CLONE_USING_MEMCPY;
-    DUP_C_STR(str_value);
+    DUP_C_STR(str_val);
     break;
   case AE_SYMBOL__:
     CLONE_USING_MEMCPY;
-    DUP_C_STR(sym_value);
+    DUP_C_STR(sym_val);
     break;
   default:
     CLONE_USING_MEMCPY;
@@ -274,19 +274,19 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
     }
     break;
   case AE_INTEGER_:
-    fprintf(stream, "%d", this->int_value);
+    fprintf(stream, "%d", this->int_val);
     break;
   case AE_RATIONAL:
-    fprintf(stream, "%d/%d", this->numerator_value, this->denominator_value);
+    fprintf(stream, "%d/%d", this->numerator_val, this->denominator_val);
     break;
   case AE_FLOAT___:
-    fprintf(stream, "%g", this->float_value);
+    fprintf(stream, "%g", this->float_val);
     break;
   case AE_CHAR____:
   {
     char tmp[3] = { 0 };
 
-    switch (this->char_value) {
+    switch (this->char_val) {
 #define escaped_char_case(displayed, unescaped)                                                                                             \
       case unescaped:                                                                                                                       \
         tmp[0] = '\\';                                                                                                                      \
@@ -295,7 +295,7 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
       FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
 #undef escaped_char_case
     default:
-      tmp[0] = this->char_value;
+      tmp[0] = this->char_val;
     }
 
     fputc('\'', stream);
@@ -503,7 +503,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   }
 
   FOR_EACH(elem, *plist) {  
-    if (strcmp(string, elem->sym_value) == 0) 
+    if (strcmp(string, elem->sym_val) == 0) 
       return elem;
   }
      

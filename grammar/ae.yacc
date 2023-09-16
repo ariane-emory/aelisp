@@ -70,7 +70,7 @@
     PRINT_SIZEOF(ae_obj_t *);
     PRINT_SIZEOF(ae_obj_t);
     PRINT_SIZEOF(ae_type_t);
-    printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_value));
+    printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_val));
 
 #ifdef POOL_SIZE
     printf("\nUsing pool from %p to %p.\n\n", pool_first, pool_last);
@@ -162,11 +162,11 @@ sexps sexp {
 
   if (SYMBOLP(&$2)) {
 #ifdef NOISY_INIT
-    printf("Interning '%s'...\n", $2.sym_value);
+    printf("Interning '%s'...\n", $2.sym_val);
     fflush(stdout);
 #endif
 
-    PUSH(&$$, INTERN(&symbols, $2.sym_value));
+    PUSH(&$$, INTERN(&symbols, $2.sym_val));
   }
   else {
     ae_obj_t * new_obj = MOVE_NEW(&$2);

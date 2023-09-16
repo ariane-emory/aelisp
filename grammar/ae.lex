@@ -27,14 +27,14 @@
     
     switch (yylval.type) {
     case AE_STRING__:
-      yylval.str_value = malloc(strlen(yytext) - 1);
-      strncpy(yylval.str_value, yytext + 1, strlen(yytext) - 2);
+      yylval.str_val = malloc(strlen(yytext) - 1);
+      strncpy(yylval.str_val, yytext + 1, strlen(yytext) - 2);
       break;
     case AE_SYMBOL__:
-      yylval.sym_value = strdup(yytext);
+      yylval.sym_val = strdup(yytext);
       break;
     case AE_CHAR____:
-      yylval.char_value = 0;
+      yylval.char_val = 0;
 
       char * tmp = 0;
 
@@ -51,7 +51,7 @@
         switch(tmp[1]) {
 #define escaped_char_case(chr, replacement)                                                                                                 \
           case chr:                                                                                                                         \
-            yylval.char_value = replacement;                                                                                           \
+            yylval.char_val = replacement;                                                                                           \
             break;
           FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
         default:
@@ -60,17 +60,17 @@
         }
       }
       else {
-        yylval.char_value = tmp[0];
+        yylval.char_val = tmp[0];
       }
       
       free(tmp);
       
       break;
     case AE_INTEGER_:
-      yylval.int_value = atoi(yytext);
+      yylval.int_val = atoi(yytext);
       break;
     case AE_FLOAT___:
-      yylval.float_value = strtod(yytext, 0);
+      yylval.float_val = strtod(yytext, 0);
       break;
     case AE_RATIONAL:
       int slash_pos = 0;
@@ -78,12 +78,12 @@
 
       char * tmp2 = malloc(slash_pos + 1);
       strncpy(tmp2, yytext, slash_pos);
-      yylval.numerator_value = atoi(tmp2);
+      yylval.numerator_val = atoi(tmp2);
       free(tmp2);
 
       tmp2 = malloc(strlen(yytext) - slash_pos);
       strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
-      yylval.denominator_value = atoi(tmp2);
+      yylval.denominator_val = atoi(tmp2);
       free(tmp2);
       
       break;
