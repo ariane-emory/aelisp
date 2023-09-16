@@ -26,7 +26,22 @@ const char * ae_type_str(const ae_type_t this) {
 // _init method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that);
+bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
+  if      (this            == that)
+    return true;
+  else if (CONSP   (this)  && CONSP    (that) &&
+           CAR     (this)  == CAR      (that) &&
+           CDR     (this)  == CDR      (that))
+    return true;
+  else if (INTEGERP(this)  && INTEGERP (that) &&
+           INT_VAL (this)  == INT_VAL  (that))
+    return true;
+  else if (FLOATP   (that) && INTEGERP (this) &&
+           FLOAT_VAL(that) == INT_VAL  (this))
+    return true;
+
+  return false;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _init method
