@@ -301,9 +301,6 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  this          = NEW(AE_INTEGER_);
-  this->int_val = 123;
-
   FWRITE_TEST(AE_INTEGER_, int_val, 123);
 }
 
