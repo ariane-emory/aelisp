@@ -25,7 +25,7 @@
 // obj's fput / put
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
+int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   fprintf(stream, "%011p[ %s ", this, TYPE_STR(TYPE(this)));
   
   switch (TYPE(this)) {
@@ -60,10 +60,14 @@ void ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   }
   SPC;
   RSQR;
+
+  return 0;
 }
 
-void ae_obj_put(const ae_obj_t * const this) {
+int ae_obj_put(const ae_obj_t * const this) {
   FPUT(this, stdout);
+
+  return 0;
 }
 
 #define MEMSTREAM(buff, stream)                                                                                                             \
@@ -85,7 +89,7 @@ char * ae_obj_sput(const ae_obj_t * const this) {
 // obj's fput_bytes / put_bytes
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_fput_bytes(const ae_obj_t * const this, FILE * stream) {
+int ae_obj_fput_bytes(const ae_obj_t * const this, FILE * stream) {
 #define same_size_type long int
   size_t max = sizeof(ae_obj_t) / sizeof(same_size_type *);
   
@@ -102,10 +106,14 @@ void ae_obj_fput_bytes(const ae_obj_t * const this, FILE * stream) {
     }
     fprintf(stream, "%016x ", start[ix]);
   }
+
+  return 0;
 }
 
-void ae_obj_put_bytes(const ae_obj_t * const this) {
+int ae_obj_put_bytes(const ae_obj_t * const this) {
   ae_obj_fput_bytes(this, stdout);
+
+  return 0;
 }
 
 char * ae_obj_sput_bytes(const ae_obj_t * const this) {
@@ -122,13 +130,15 @@ char * ae_obj_sput_bytes(const ae_obj_t * const this) {
 // obj's _write methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_write(const ae_obj_t * const this) {
+int ae_obj_write(const ae_obj_t * const this) {
   FWRITE(this, stdout);
+
+  return 0;
 }
 
 static FILE * stream;
 
-static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
+static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
   switch (TYPE(this)) {
   case AE_INF_____:
     fputs("∞", stream);
@@ -136,7 +146,10 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
   case AE_CONS____:
     if (CONSP(this) && CAR(this) ) {
       fputc('(', stream);
-      EACH((ae_obj_t *)this, ae_obj_fwrite_internal);
+
+      FOR_EACH_CONST(elem, this)
+        ae_obj_fwrite_internal(elem);
+
       fputc('\b', stream);
       fputc(')', stream);
     }
@@ -194,11 +207,15 @@ static void ae_obj_fwrite_internal(const ae_obj_t * const this) {
   }
   
   fputc(' ', stream);
+
+  return 0;
 }
 
-void ae_obj_fwrite(const ae_obj_t * const this, FILE * stream_) {
+int ae_obj_fwrite(const ae_obj_t * const this, FILE * stream_) {
   stream = stream_;
   ae_obj_fwrite_internal(this);
+
+  return 0;
 }
 
 char * ae_obj_swrite(const ae_obj_t * const this) {
