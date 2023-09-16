@@ -51,11 +51,13 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_int     = NEW(AE_INTEGER_);
-    new_int->int_value     = ix + 1;
+    int        int_value   = ix + 1;
+    new_int->int_value     = int_value;
 
     ae_obj_t * new_tailtip = PUSH(new_list, new_int);
 
     T(CONSP(new_tailtip));
+    T(INTEGERP(CAR(new_tailtip)));
     T(LENGTH(new_list) == ix + 1);
   }
 
