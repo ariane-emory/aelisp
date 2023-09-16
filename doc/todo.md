@@ -1,12 +1,14 @@
-- [ ] Test ae_obj_eql.
-- [ ] Add rational support to eql.
-- [ ] Better code for aligning type strs when printing.
+To Do:
+- [ ] Better code for aligning type strs when printing objs.
+- [ ] Add a free list allocator and make a pool to hold strings' data.
+- [ ] Add rational support to ae_obj_eql.
 - [ ] Maybe add addressable nil value?
 - [ ] Add macro version of map?
 - [ ] Redo/rename the so-called 'byte oriented' puts?
 - [ ] Maybe also a vector type of some sort?
 
 Completed:
+- [x] Test ae_obj_eql.
 - [x] Test ae_obj_truth.
 - [x] Add eql.
 - [x] _fput methods should return ints.
