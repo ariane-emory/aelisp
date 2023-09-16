@@ -339,6 +339,12 @@ void equal(void) {
   T(ae_obj_equal(this, that));
   T(ae_obj_equal(that, this));
 
+  this            = NEW(AE_FLOAT___);
+  FLOAT_VAL(this) = 2.0;
+
+  T(ae_obj_equal(this, that));
+  T(ae_obj_equal(that, this));
+  
   /* unfinished */
 }
 
