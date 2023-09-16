@@ -257,4 +257,3 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 
   return clone;
 }
-
