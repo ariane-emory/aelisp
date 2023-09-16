@@ -299,7 +299,7 @@ void fwrite_lengths(void) {
   SETUP_TEST;
 
   this          = NEW(AE_INTEGER_);
-  INT_VAL(this) = 123;
+  this->int_val = 123;
 
   FWRITE_TEST(AE_INTEGER_, int_val, 123);
 }
