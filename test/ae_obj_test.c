@@ -279,8 +279,8 @@ void intern_symbols(void) {
 
 #define FWRITE_TEST(type, field, val)                                                              \
   {                                                                                                \
-    this          = NEW(AE_INTEGER_);                                                              \
-    this->int_val = 123;                                                                           \
+    this        = NEW(type);                                                                       \
+    this->field = val;                                                                             \
                                                                                                    \
     char * buff;                                                                                   \
     size_t size;                                                                                   \
