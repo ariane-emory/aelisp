@@ -369,10 +369,10 @@ ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
   return CONS(fun(CAR(list) ), MAP(CDR(list), fun));
 #else
   ae_obj_t * new_list = NEW(AE_CONS____);
-  ae_obj_t * tailtip  = 0;
+  ae_obj_t * tailtip  = new_list;
 
   FOR_EACH_CONST(elem, list)
-    tailtip = ae_list_push_back(new_list, fun(elem));
+    tailtip = ae_list_push_back(tailtip, fun(elem));
 
   return new_list;
 #endif
