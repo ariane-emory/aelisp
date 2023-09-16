@@ -302,23 +302,6 @@ void fwrite_lengths(void) {
   INT_VAL(this) = 123;
 
   FWRITE_TEST(this);
-
-  /* FWRITE_TEST(push_together_a_list_of_ints()); */
-
-  /* this = push_together_a_list_of_ints(); */
-  
-  /* char * buff;  */
-  /* size_t size; */
-  /* FILE * stream   = open_memstream(&buff, &size); */
-  /* int    reported = ae_obj_fwrite(this, stream); */
-
-  /* fclose(stream); */
-  /* free(buff); */
-
-  /* T((int)strlen(buff) == (int)size); */
-  /* TM("strlen was %d but size was %d.\n", strlen(buff), size); */
-  /* T((int)strlen(buff) == (int)reported); */
-  /* TM("strlen was %d but reported was %d.\n", (int)strlen(buff), reported); */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

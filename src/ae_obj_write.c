@@ -175,13 +175,13 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     }
     break;
   case AE_INTEGER_:
-    counter += fprintf(stream, "%d", this->int_val);
+    COUNTED_FPRINTF(stream, "%d", this->int_val);
     break;
   case AE_RATIONAL:
-    fprintf(stream, "%d/%d", this->numerator_val, this->denominator_val);
+    COUNTED_FPRINTF(stream, "%d/%d", this->numerator_val, this->denominator_val);
     break;
   case AE_FLOAT___:
-    fprintf(stream, "%g", this->float_val);
+    COUNTED_FPRINTF(stream, "%g", this->float_val);
     break;
   case AE_CHAR____:
   {
@@ -208,7 +208,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     break;
   }
   default:
-    fprintf(stream, "UNPRINTABLE");
+    COUNTED_FPRINTF(stream, "UNPRINTABLE");
   }
   
   COUNTED_FPUTC(' ', stream);
