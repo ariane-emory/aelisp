@@ -213,13 +213,14 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 
   ae_obj_t * new_list = NULL;
   
-  for (const ae_obj_t * elem = list; elem; elem = CDR(elem)) {
-    if (EQ(CAR(elem), member))
+  // for (const ae_obj_t * elem = list; elem; elem = CDR(elem))
+  FOR_EACH(elem, list) {
+    if (EQ(elem, member))
       continue;
     else if (! new_list)
-      new_list = CONS(CAR(elem), NULL);
+      new_list = CONS(elem, NULL);
     else 
-      PUSH(new_list, CAR(elem));
+      PUSH(new_list, elem);
   }
   
   return new_list;
