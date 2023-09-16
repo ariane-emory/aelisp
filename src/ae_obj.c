@@ -455,15 +455,15 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 #endif
   
   if (CAR(list)) {
-    ae_obj_t * position = list;
+    ae_obj_t * new_list = list;
     
-    for (; CDR(position); position = CDR(position));
+    for (; CDR(new_list); new_list = CDR(new_list));
 
-    CDR(position)       = CONS(member, NULL);
+    CDR(new_list)       = CONS(member, NULL);
 
-    AFTER_PUSH_MESSAGE(CDR(position));
+    AFTER_PUSH_MESSAGE(CDR(new_list));
   
-    return CDR(position);
+    return CDR(new_list);
   }
   else {
     CAR(list) = member;
