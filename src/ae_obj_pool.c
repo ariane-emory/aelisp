@@ -4,6 +4,7 @@
 
 #include "ae_obj.h"
 #include "ae_obj_pool.h"
+#include "ae_obj_write.h"
 
 #ifndef AE_OBJ_POOL_SIZE
 #  define AE_OBJ_POOL_SIZE (1 << 7)
