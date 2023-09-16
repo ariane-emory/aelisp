@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 
@@ -152,8 +153,6 @@ void basic_list_checks(ae_obj_t * this) {
 void remove_elem_from_list(void) {
   SETUP_TEST;
 
-  T(1 == 1.0);
-  
   // re-use 'this' as the symbol list here:
   T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
   T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
@@ -314,6 +313,18 @@ void fwrite_lengths(void) {
   FWRITE_TEST(AE_SYMBOL__, sym_val,       "ghij"                              );
 }
 
+void truth(void) {
+  SETUP_TEST;
+
+  this = ae_obj_truth(true);
+
+  T(INTEGERP(this) && INT_VAL(this) == 1);
+  
+  that = ae_obj_truth(false);
+
+  T(CONSP(that) && (! CAR(that)) && (! CDR(that)));
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -331,6 +342,7 @@ void fwrite_lengths(void) {
   DO(pushed_and_consed_lists_write_identically)                                                    \
   DO(intern_symbols)                                                                               \
   DO(remove_elem_from_list)                                                                        \
+  DO(truth)                                                                                        \
   DO(fwrite_lengths)
 
 /* TODO: write ae_obj_remove_elem_from and a test for it. */

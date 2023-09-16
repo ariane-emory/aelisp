@@ -8,6 +8,7 @@
 - [ ] Maybe also a vector type of some sort?
 
 Completed:
+- [x] Add eql.
 - [x] _fput methods should return ints.
 - [x] Add FOR_EACH macro.
 - [x] Add whole-line comments beginning with ;; to lexer.
