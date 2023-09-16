@@ -166,9 +166,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_STRING__:
     if (STR_VAL(this) == NULL) {
-      int wrote = COUNTED_FPUTS("(null)", stream);
-      for (; wrote < 40; wrote++)
-        SPC;
+      COUNTED_FPUTS("(null)", stream);
     }
     else {
       COUNTED_FPUTC('"', stream);
