@@ -40,7 +40,9 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
            FLOAT_VAL(that) == INT_VAL  (this))
     return true;
 
-  return false;
+  /* todo: handle rationals */
+  
+  return   false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
