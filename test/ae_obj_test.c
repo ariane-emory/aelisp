@@ -279,6 +279,9 @@ void intern_symbols(void) {
 
 #define FWRITE_TEST(type, field, val)                                                              \
   {                                                                                                \
+    this          = NEW(AE_INTEGER_);                                                              \
+    this->int_val = 123;                                                                           \
+                                                                                                   \
     char * buff;                                                                                   \
     size_t size;                                                                                   \
     FILE * stream   = open_memstream(&buff, &size);                                                \
