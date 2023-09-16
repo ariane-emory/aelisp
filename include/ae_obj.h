@@ -33,7 +33,9 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 
 #define EQ(this, that)          ((this) == (that))
-#define NEQ(this, that)         ((this) != (that))
+#define NEQ(this, that)         (! EQ((this), (that)))
+#define EQL(this, that)         (ae_obj_eql((this), (that)))
+#define NEQL(this, that)        (! EQL((this), (that)))j
 
 #define ATOMP(o)                ((o)->type >= AE_INVALID_)
 #define CHARP(o)                ((o)->type == AE_CHAR____)
