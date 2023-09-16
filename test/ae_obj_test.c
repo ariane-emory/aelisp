@@ -45,7 +45,10 @@ char * write_to_new_string(const ae_obj_t * const this) {
   return buff;
 }
 
-bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const char * const strcmp_str) {
+bool shitty_write_based_equality_predicate(
+  const ae_obj_t * const this,
+  const char * const strcmp_str
+) {
   return ! strcmp(strcmp_str, SWRITE(this));
 }
 
