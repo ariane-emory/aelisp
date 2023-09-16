@@ -152,6 +152,8 @@ void basic_list_checks(ae_obj_t * this) {
 void remove_elem_from_list(void) {
   SETUP_TEST;
 
+  T(1 == 1.0);
+  
   // re-use 'this' as the symbol list here:
   T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
   T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
