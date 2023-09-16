@@ -33,8 +33,8 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     return true;
   
   if (CONSP    (this)  && CONSP    (that) &&
-     CAR      (this)  == CAR      (that) &&
-     CDR      (this)  == CDR      (that))
+      CAR      (this)  == CAR      (that) &&
+      CDR      (this)  == CDR      (that))
     return true;
   
   if (INTEGERP (this)  && INTEGERP (that) &&
@@ -43,6 +43,10 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   
   if (FLOATP   (that)  && INTEGERP (this) &&
       FLOAT_VAL(that)  == INT_VAL  (this))
+    return true;
+  
+  if (INTEGERP (that)  && FLOATP   (this) &&
+      INT_VAL  (that)  == FLOAT_VAL(this))
     return true;
   
   return false;

@@ -329,10 +329,10 @@ void equal(void) {
   SETUP_TEST;
 
   this            = NEW(AE_INTEGER_);
-  INT_VAL(this)   = 15;
+  INT_VAL(this)   = 2;
 
   that            = NEW(AE_INTEGER_);
-  INT_VAL(that)   = 15;
+  INT_VAL(that)   = 2;
 
   T(ae_obj_equal(this, this));
   T(ae_obj_equal(that, that));
