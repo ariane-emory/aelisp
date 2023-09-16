@@ -293,7 +293,7 @@ void fwrite_lengths(void) {
   T((int)strlen(buff) == (int)size);
   TM("strlen was %d but size was %d.\n", strlen(buff), size);
   T((int)strlen(buff) == (int)reported);
-  TM("strlen was %d but size was %d.\n", (int)strlen(buff), reported);
+  TM("strlen was %d but reported was %d.\n", (int)strlen(buff), reported);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
