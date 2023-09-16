@@ -49,8 +49,8 @@ bool shitty_write_based_equality_predicate(const ae_obj_t * const this, const ch
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t *  list = NEW(AE_CONS____);
-  ae_obj_t *  tail = list;
+  ae_obj_t * list = NEW(AE_CONS____);
+  ae_obj_t * tail = list;
 
   T(LENGTH(tail) == 0);
 

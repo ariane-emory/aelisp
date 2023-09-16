@@ -363,16 +363,17 @@ ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
   
   ASSERT_CONSP(list);
 
-#define MAP_RECURSES
+// #define MAP_RECURSES
 
 #ifdef MAP_RECURSES
   return CONS(fun(CAR(list) ), MAP(CDR(list), fun));
 #else
   ae_obj_t * new_list = NEW(AE_CONS____);
 
-  FOR_EACH_CONST(elem, list) {
-    ae_obj_t tail 
-  }
+  FOR_EACH_CONST(elem, list)
+    ae_list_push_back(new_list, fun(elem));
+
+  return new_list;
 #endif
 }
 
