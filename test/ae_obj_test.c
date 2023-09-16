@@ -344,6 +344,11 @@ void equal(void) {
 
   T(ae_obj_equal(this, that));
   T(ae_obj_equal(that, this));
+
+  ae_obj_t * obj_true  = ae_obj_truth(this );
+  ae_obj_t * obj_false = ae_obj_truth(false);
+  
+  T(! ae_obj_equal(obj_true, obj_false));
   
   /* unfinished */
 }
