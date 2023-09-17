@@ -328,58 +328,58 @@ void truth(void) {
 void equal(void) {
   SETUP_TEST;
 
-  this            = NEW(AE_INTEGER);
-  INT_VAL(this)   = 2;
+  ae_obj_t * int_obj_1 = NEW(AE_INTEGER);
+  INT_VAL(int_obj_1)   = 2;
 
   that            = NEW(AE_INTEGER);
   INT_VAL(that)   = 2;
 
-  T(ae_obj_equal(this, this));
+  T(ae_obj_equal(int_obj_1, int_obj_1));
   T(ae_obj_equal(that, that));
-  T(ae_obj_equal(this, that));
-  T(ae_obj_equal(that, this));
+  T(ae_obj_equal(int_obj_1, that));
+  T(ae_obj_equal(that, int_obj_1));
 
-  this            = NEW(AE_FLOAT);
-  FLOAT_VAL(this) = 2.0;
+  ae_obj_t * float_obj_1            = NEW(AE_FLOAT);
+  FLOAT_VAL(float_obj_1) = 2.0;
 
-  T(ae_obj_equal(this, that));
-  T(ae_obj_equal(that, this));
+  T(ae_obj_equal(float_obj_1, that));
+  T(ae_obj_equal(that, float_obj_1));
 
-  ae_obj_t * obj_true  = ae_obj_truth(this );
+  ae_obj_t * obj_true  = ae_obj_truth(float_obj_1 );
   ae_obj_t * obj_false = ae_obj_truth(false);
 
   T(  ae_obj_equal(obj_false, obj_false));
   T(  ae_obj_equal(obj_true,  obj_true ));
   
   T(! ae_obj_equal(obj_true,  obj_false));
-  T(! ae_obj_equal(obj_true,  this     ));
+  T(! ae_obj_equal(obj_true,  float_obj_1     ));
   T(! ae_obj_equal(obj_true,  that     ));
-  T(! ae_obj_equal(obj_false, this     ));
+  T(! ae_obj_equal(obj_false, float_obj_1     ));
   T(! ae_obj_equal(obj_false, that     ));
 
   T(! ae_obj_equal(obj_false, obj_true ));
-  T(! ae_obj_equal(this,      obj_true ));
+  T(! ae_obj_equal(float_obj_1,      obj_true ));
   T(! ae_obj_equal(that,      obj_true ));
-  T(! ae_obj_equal(this,      obj_false));
+  T(! ae_obj_equal(float_obj_1,      obj_false));
   T(! ae_obj_equal(that,      obj_false));
 
   ae_obj_t * pushed = push_together_a_list_of_ints();
   ae_obj_t * consed = cons_together_a_list_of_ints();
 
-  T(  ae_obj_equal(pushed,    pushed   ));
-  T(  ae_obj_equal(consed,    consed   ));
-  T(! ae_obj_equal(pushed,    consed   ));
-  T(! ae_obj_equal(consed,    pushed   ));
+  T(  ae_obj_equal(pushed,    pushed     ));
+  T(  ae_obj_equal(consed,    consed     ));
+  T(! ae_obj_equal(pushed,    consed     ));
+  T(! ae_obj_equal(consed,    pushed     ));
 
-  T(! ae_obj_equal(pushed,    this     ));
-  T(! ae_obj_equal(pushed,    that     ));
-  T(! ae_obj_equal(pushed,    obj_true ));
-  T(! ae_obj_equal(pushed,    obj_false));
+  T(! ae_obj_equal(pushed,    float_obj_1));
+  T(! ae_obj_equal(pushed,    that       ));
+  T(! ae_obj_equal(pushed,    obj_true   ));
+  T(! ae_obj_equal(pushed,    obj_false  ));
   
-  T(! ae_obj_equal(consed,    this     ));
-  T(! ae_obj_equal(consed,    that     ));
-  T(! ae_obj_equal(consed,    obj_true ));
-  T(! ae_obj_equal(consed,    obj_false));
+  T(! ae_obj_equal(consed,    float_obj_1));
+  T(! ae_obj_equal(consed,    that       ));
+  T(! ae_obj_equal(consed,    obj_true   ));
+  T(! ae_obj_equal(consed,    obj_false  ));
 
   /* todo: add tests for rationals */
 }
@@ -391,7 +391,7 @@ void equal(void) {
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
-  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                   \
+  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
   DO(newly_initialized_ae_obj_has_correct_type_field)                                              \
   DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
   DO(unsafe_move_an_ae_obj)                                                                        \
