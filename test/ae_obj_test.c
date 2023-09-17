@@ -362,6 +362,9 @@ void equal(void) {
 obj_int_2a
 obj_int_2b
 obj_float_2a
+obj_int_3a
+obj_int_3b
+obj_float_3a
 obj_bool_false
 obj_bool_true
 obj_list_consed
@@ -379,20 +382,20 @@ obj_list_pushed
   //  This could probably be generated with x-macros but I haven't bothered yet:
 
   //  Everything is equal to itself.
-  T(  EQL( obj_bool_false  , obj_bool_false  ));
-  T(  EQL( obj_bool_true   , obj_bool_true   ));
-  T(  EQL( obj_float_2a    , obj_float_2a    ));
-  T(  EQL( obj_int_2a      , obj_int_2a      ));
-  T(  EQL( obj_int_2b      , obj_int_2b      ));
-  T(  EQL( obj_list_consed , obj_list_consed ));
-  T(  EQL( obj_list_pushed , obj_list_pushed ));
+  ETP( obj_bool_false   , obj_bool_false  );
+  ETP( obj_bool_true    , obj_bool_true   );
+  ETP( obj_float_2a     , obj_float_2a    );
+  ETP( obj_int_2a       , obj_int_2a      );
+  ETP( obj_int_2b       , obj_int_2b      );
+  ETP( obj_list_consed  , obj_list_consed );
+  ETP( obj_list_pushed  , obj_list_pushed );
 
   //  Some numbers are equal to each other.
-  T(  EQL( obj_float_2a    , obj_int_2b      ));
-  T(  EQL( obj_int_2a      , obj_int_2b      ));
-  T(  EQL( obj_int_2b      , obj_float_2a    ));
-  T(  EQL( obj_int_2b      , obj_int_2a      ));
-
+  ETP( obj_float_2a     , obj_int_2b      );
+  ETP( obj_int_2a       , obj_int_2b      );
+  ETP( obj_int_2b       , obj_float_2a    );
+  ETP( obj_int_2b       , obj_int_2a      );
+  
   // false isn't equal to anything else.
   NETP( obj_bool_false  , obj_int_2a      );
   NETP( obj_bool_false  , obj_int_2b      );
