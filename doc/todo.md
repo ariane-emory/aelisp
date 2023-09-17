@@ -3,13 +3,14 @@ To Do:
 - [ ] Add rational support to ae_obj_eql.
 - [ ] Maybe add addressable nil value?
 - [ ] Add macro version of map?
-- [ ] Review (and test) the so-called word-oriented' puts?
+- [ ] Review (and test) the so-called 'word-oriented' puts?
 - [ ] Maybe also a vector type of some sort?
 - [ ] Review whether or not the values of pointers returned by ae_obj_truth is UB and possibly come up with something better.
 - [ ] Fix inappropriate handling of quote.
 - [ ] ... advices?!
 
 Completed:
+- [x] Rename the so called 'byte-oriented' puts (they are actually word-oriented).
 - [x] Better code for aligning type strs when printing objs.
 - [x] Test ae_obj_eql.
 - [x] Test ae_obj_truth.

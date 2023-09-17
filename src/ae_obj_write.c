@@ -43,9 +43,9 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     BSPC; 
     break;
   case AE_CONS:
-    if      (! CAR(this))
+    if   (! CAR(this))
       fputs("nil", stream);
-    else if (! CDR(this))
+    else // (! CDR(this))
       fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
     break;
   case AE_SYMBOL:
