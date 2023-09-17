@@ -43,10 +43,13 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     BSPC; 
     break;
   case AE_CONS:
-    if   (! CAR(this))
+    if (! CAR(this)) {
+      assert(! CDR(this)); // a cons with a CDR but no CAR would be illegal.
       fputs("nil", stream);
-    else // (! CDR(this))
+    }
+    else {
       fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
+    }
     break;
   case AE_SYMBOL:
   case AE_STRING:
