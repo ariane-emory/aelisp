@@ -328,34 +328,34 @@ void truth(void) {
 void equal(void) {
   SETUP_TEST;
 
-  ae_obj_t * int_obj_1 = NEW(AE_INTEGER);
-  INT_VAL(int_obj_1)   = 2;
+  ae_obj_t * int_obj_1        = NEW(AE_INTEGER);
+  INT_VAL(int_obj_1)          = 2;
 
-  that            = NEW(AE_INTEGER);
-  INT_VAL(that)   = 2;
+  that                        = NEW(AE_INTEGER);
+  INT_VAL(that)               = 2;
 
-  T(ae_obj_equal(int_obj_1, int_obj_1));
-  T(ae_obj_equal(that, that));
-  T(ae_obj_equal(int_obj_1, that));
-  T(ae_obj_equal(that, int_obj_1));
+  T(ae_obj_equal(int_obj_1,     int_obj_1));
+  T(ae_obj_equal(that,          that));
+  T(ae_obj_equal(int_obj_1,     that));
+  T(ae_obj_equal(that,          int_obj_1));
 
-  ae_obj_t * float_obj_1            = NEW(AE_FLOAT);
-  FLOAT_VAL(float_obj_1) = 2.0;
+  ae_obj_t * float_obj_1      = NEW(AE_FLOAT);
+  FLOAT_VAL(float_obj_1)      = 2.0;
 
-  T(ae_obj_equal(float_obj_1, that));
-  T(ae_obj_equal(that, float_obj_1));
+  T(ae_obj_equal(float_obj_1,   that));
+  T(ae_obj_equal(that,          float_obj_1));
 
-  ae_obj_t * obj_true  = ae_obj_truth(float_obj_1 );
-  ae_obj_t * obj_false = ae_obj_truth(false);
+  ae_obj_t * obj_true         = ae_obj_truth(float_obj_1);
+  ae_obj_t * obj_false        = ae_obj_truth(false);
 
-  T(  ae_obj_equal(obj_false, obj_false));
-  T(  ae_obj_equal(obj_true,  obj_true ));
+  T(  ae_obj_equal(obj_false,   obj_false));
+  T(  ae_obj_equal(obj_true,    obj_true ));
   
-  T(! ae_obj_equal(obj_true,  obj_false));
-  T(! ae_obj_equal(obj_true,  float_obj_1     ));
-  T(! ae_obj_equal(obj_true,  that     ));
-  T(! ae_obj_equal(obj_false, float_obj_1     ));
-  T(! ae_obj_equal(obj_false, that     ));
+  T(! ae_obj_equal(obj_true,    obj_false));
+  T(! ae_obj_equal(obj_true,    float_obj_1));
+  T(! ae_obj_equal(obj_true,    that     ));
+  T(! ae_obj_equal(obj_false,   float_obj_1));
+  T(! ae_obj_equal(obj_false,   that     ));
 
   T(! ae_obj_equal(obj_false, obj_true ));
   T(! ae_obj_equal(float_obj_1,      obj_true ));
