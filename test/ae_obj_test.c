@@ -343,43 +343,43 @@ void equal(void) {
   ae_obj_t * pushed           = push_together_a_list_of_ints();
   ae_obj_t * consed           = cons_together_a_list_of_ints();
 
-  T(ae_obj_equal(int_obj_1,     int_obj_1));
-  T(ae_obj_equal(int_obj_2,     int_obj_2));
-  T(ae_obj_equal(int_obj_1,     int_obj_2));
-  T(ae_obj_equal(int_obj_2,     int_obj_1));
+  T(EQL(int_obj_1,              int_obj_1));
+  T(EQL(int_obj_2,              int_obj_2));
+  T(EQL(int_obj_1,              int_obj_2));
+  T(EQL(int_obj_2,              int_obj_1));
 
-  T(ae_obj_equal(float_obj_1,   int_obj_2));
-  T(ae_obj_equal(int_obj_2,     float_obj_1));
+  T(EQL(float_obj_1,            int_obj_2));
+  T(EQL(int_obj_2,              float_obj_1));
 
-  T(ae_obj_equal(false_obj,     false_obj));
-  T(ae_obj_equal(true_obj,      true_obj));
+  T(EQL(false_obj,              false_obj));
+  T(EQL(true_obj,               true_obj));
   
-  T(! ae_obj_equal(true_obj,    false_obj));
-  T(! ae_obj_equal(true_obj,    float_obj_1));
-  T(! ae_obj_equal(true_obj,    int_obj_1));
-  T(! ae_obj_equal(false_obj,   float_obj_1));
-  T(! ae_obj_equal(false_obj,   int_obj_1));
+  T(! EQL(true_obj,             false_obj));
+  T(! EQL(true_obj,             float_obj_1));
+  T(! EQL(true_obj,             int_obj_1));
+  T(! EQL(false_obj,            float_obj_1));
+  T(! EQL(false_obj,            int_obj_1));
 
-  T(! ae_obj_equal(false_obj,   true_obj));
-  T(! ae_obj_equal(float_obj_1, true_obj));
-  T(! ae_obj_equal(int_obj_2,   true_obj));
-  T(! ae_obj_equal(float_obj_1, false_obj));
-  T(! ae_obj_equal(int_obj_2,   false_obj));
+  T(! EQL(false_obj,            true_obj));
+  T(! EQL(float_obj_1,          true_obj));
+  T(! EQL(int_obj_2,            true_obj));
+  T(! EQL(float_obj_1,          false_obj));
+  T(! EQL(int_obj_2,            false_obj));
 
-  T(  ae_obj_equal(pushed,      pushed));
-  T(  ae_obj_equal(consed,      consed));
-  T(! ae_obj_equal(pushed,      consed));
-  T(! ae_obj_equal(consed,      pushed));
+  T(  EQL(pushed,               pushed));
+  T(  EQL(consed,               consed));
+  T(! EQL(pushed,               consed));
+  T(! EQL(consed,               pushed));
 
-  T(! ae_obj_equal(pushed,      float_obj_1));
-  T(! ae_obj_equal(pushed,      int_obj_1));
-  T(! ae_obj_equal(pushed,      true_obj));
-  T(! ae_obj_equal(pushed,      false_obj));
+  T(! EQL(pushed,               float_obj_1));
+  T(! EQL(pushed,               int_obj_1));
+  T(! EQL(pushed,               true_obj));
+  T(! EQL(pushed,               false_obj));
   
-  T(! ae_obj_equal(consed,      float_obj_1));
-  T(! ae_obj_equal(consed,      int_obj_1));
-  T(! ae_obj_equal(consed,      true_obj));
-  T(! ae_obj_equal(consed,      false_obj));
+  T(! EQL(consed,               float_obj_1));
+  T(! EQL(consed,               int_obj_1));
+  T(! EQL(consed,               true_obj));
+  T(! EQL(consed,               false_obj));
 
   /* todo: add tests for rationals */
 }

@@ -37,7 +37,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 
 #define EQ(this, that)          ((this) == (that))
 #define NEQ(this, that)         (! EQ((this), (that)))
-#define EQL(this, that)         (ae_obj_eql((this), (that)))
+#define EQL(this, that)         (ae_obj_equal((this), (that)))
 #define NEQL(this, that)        (! EQL((this), (that)))j
 
 #define ATOMP(o)                ((o)->type >= AE_INVALID)
