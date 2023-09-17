@@ -28,7 +28,7 @@ DOC is a string where \"FUNCTION\" and \"OLDFUN\" are expected.")
     (setq f (advice--cdr f)))
   f)
 
-defun advice--cd*r (f)
+(defun advice--cd*r (f)
   (while (advice--p f)
     (setq f (advice--cdr f)))
   f)

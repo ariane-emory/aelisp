@@ -116,12 +116,12 @@ nil                                                                   TOKENIZE(L
 [-+]?[0-9]+                                                           TOKENIZE(INTEGER,  AE_INTEGER_  );
 [-+]?[0-9]+\.[0-9]* | 
 [-+]?[0-9]*\.[0-9]+                                                   TOKENIZE(FLOAT,    AE_FLOAT___  );
-  [-+]?[0-9]+\/[0-9]+                                                 TOKENIZE(RATIONAL, AE_RATIONAL  );
-  [\+\-\/\*]                                                          TOKENIZE(MATHOP,   AE_SYMBOL__  );
-  ([1-9][0-9]+)?[\+\-\/\*]                                            TOKENIZE(INCROP,   AE_SYMBOL__  );
-  !?=|(>=?)|(<=?)                                                     TOKENIZE(COMPARE,  AE_SYMBOL__  );
-  ([\-+:&])?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL__  );
-  \;\;[^\n]*\n   ; /* comments */
-  [\f\n\t\v\ ]+  ; /* ignored wItespace */
-  %%
+[-+]?[0-9]+\/[0-9]+                                                   TOKENIZE(RATIONAL, AE_RATIONAL  );
+[\+\-\/\*]                                                            TOKENIZE(MATHOP,   AE_SYMBOL__  );
+([1-9][0-9]+)?[\+\-\/\*]                                              TOKENIZE(INCROP,   AE_SYMBOL__  );
+!?=|(>=?)|(<=?)                                                       TOKENIZE(COMPARE,  AE_SYMBOL__  );
+([\-+:&])?([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]?   TOKENIZE(SYMBOL,   AE_SYMBOL__  );
+\;\;[^\n]*\n   ; /* comments */
+[\f\n\t\v\ ]+  ; /* ignored wItespace */
+%%
 
