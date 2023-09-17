@@ -25,8 +25,8 @@ int           ae_obj_put           (const ae_obj_t *  const this                
 char *        ae_obj_sput          (const ae_obj_t *  const this                                  );
 int           ae_obj_fput          (const ae_obj_t *  const this,  FILE *            stream       );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int           ae_obj_put_bytes     (const ae_obj_t *  const this                                  );
-char *        ae_obj_sput_bytes    (const ae_obj_t *  const this                                  );
-int           ae_obj_fput_bytes    (const ae_obj_t *  const this,  FILE *            stream       );
+int           ae_obj_put_words     (const ae_obj_t *  const this                                  );
+char *        ae_obj_sput_words    (const ae_obj_t *  const this                                  );
+int           ae_obj_fput_words    (const ae_obj_t *  const this,  FILE *            stream       );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
