@@ -328,11 +328,11 @@ void truth(void) {
 void equal(void) {
   SETUP_TEST;
 
-  ae_obj_t * obj_int_1a         = NEW(AE_INTEGER);
-  INT_VAL   (obj_int_1a)        = 2;
-
   ae_obj_t * obj_int_2a         = NEW(AE_INTEGER);
   INT_VAL   (obj_int_2a)        = 2;
+
+  ae_obj_t * obj_int_2b         = NEW(AE_INTEGER);
+  INT_VAL   (obj_int_2b)        = 2;
 
   ae_obj_t * obj_float_2a       = NEW(AE_FLOAT);
   FLOAT_VAL (obj_float_2a)      = 2.0;
@@ -349,37 +349,37 @@ void equal(void) {
   T(  EQL( obj_bool_false,       obj_bool_false  ));
   T(  EQL( obj_bool_true,        obj_bool_true   ));
   T(  EQL( obj_float_2a,         obj_float_2a    ));
-  T(  EQL( obj_int_1a,           obj_int_1a      ));
   T(  EQL( obj_int_2a,           obj_int_2a      ));
+  T(  EQL( obj_int_2b,           obj_int_2b      ));
   T(  EQL( obj_list_consed,      obj_list_consed ));
   T(  EQL( obj_list_pushed,      obj_list_pushed ));
   //                                             ));
   //  Some numbers are equal to each other.      ));
-  T(  EQL( obj_float_2a,          obj_int_2a     ));
-  T(  EQL( obj_int_1a,            obj_int_2a     ));
-  T(  EQL( obj_int_2a,            obj_float_2a   ));
-  T(  EQL( obj_int_2a,            obj_int_1a     ));
+  T(  EQL( obj_float_2a,          obj_int_2b     ));
+  T(  EQL( obj_int_2a,            obj_int_2b     ));
+  T(  EQL( obj_int_2b,            obj_float_2a   ));
+  T(  EQL( obj_int_2b,            obj_int_2a     ));
   //                                             ));  
   T(! EQL( obj_bool_false,       obj_bool_true   ));
   T(! EQL( obj_bool_false,       obj_float_2a    ));
-  T(! EQL( obj_bool_false,       obj_int_1a      ));
+  T(! EQL( obj_bool_false,       obj_int_2a      ));
   //                                             ));  
   T(! EQL( obj_bool_true,        obj_bool_false  ));
   T(! EQL( obj_bool_true,        obj_float_2a    ));
-  T(! EQL( obj_bool_true,        obj_int_1a      ));
+  T(! EQL( obj_bool_true,        obj_int_2a      ));
   T(! EQL( obj_float_2a,         obj_bool_false  ));
   T(! EQL( obj_float_2a,         obj_bool_true   ));
-  T(! EQL( obj_int_2a,           obj_bool_false  ));
-  T(! EQL( obj_int_2a,           obj_bool_true   ));
+  T(! EQL( obj_int_2b,           obj_bool_false  ));
+  T(! EQL( obj_int_2b,           obj_bool_true   ));
   T(! EQL( obj_list_consed,      obj_bool_false  ));
   T(! EQL( obj_list_consed,      obj_bool_true   ));
   T(! EQL( obj_list_consed,      obj_float_2a    ));
-  T(! EQL( obj_list_consed,      obj_int_1a      ));
+  T(! EQL( obj_list_consed,      obj_int_2a      ));
   T(! EQL( obj_list_consed,      obj_list_pushed ));
   T(! EQL( obj_list_pushed,      obj_bool_false  ));
   T(! EQL( obj_list_pushed,      obj_bool_true   ));
   T(! EQL( obj_list_pushed,      obj_float_2a    ));
-  T(! EQL( obj_list_pushed,      obj_int_1a      ));
+  T(! EQL( obj_list_pushed,      obj_int_2a      ));
   T(! EQL( obj_list_pushed,      obj_list_consed ));
 
   /* todo: add tests for rationals */
