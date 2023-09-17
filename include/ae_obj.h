@@ -38,19 +38,19 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define EQL(this, that)         (ae_obj_eql((this), (that)))
 #define NEQL(this, that)        (! EQL((this), (that)))j
 
-#define ATOMP(o)                ((o)->type >= AE_INVALID_)
-#define CHARP(o)                ((o)->type == AE_CHAR____)
-#define CONSP(o)                ((o)->type == AE_CONS____)
-#define FLOATP(o)               ((o)->type == AE_FLOAT___)
+#define ATOMP(o)                ((o)->type >= AE_INVALID)
+#define CHARP(o)                ((o)->type == AE_CHAR)
+#define CONSP(o)                ((o)->type == AE_CONS)
+#define FLOATP(o)               ((o)->type == AE_FLOAT)
 #define FREEP(o)                ((o)->type == AE_FREE____)
-#define INTEGERP(o)             ((o)->type == AE_INTEGER_)
-#define INVALIDP(o)             ((o)->type == AE_INVALID_)
-#define LPARENP(o)              ((o)->type == AE_LPAREN__)
-#define QUOTEP(o)               ((o)->type == AE_QUOTE___)
+#define INTEGERP(o)             ((o)->type == AE_INTEGER)
+#define INVALIDP(o)             ((o)->type == AE_INVALID)
+#define LPARENP(o)              ((o)->type == AE_LPAREN)
+#define QUOTEP(o)               ((o)->type == AE_QUOTE)
 #define RATIONALP(o)            ((o)->type == AE_RATIONAL)
-#define RPARENP(o)              ((o)->type == AE_RPAREN__)
-#define STRINGP(o)              ((o)->type == AE_STRING__)
-#define SYMBOLP(o)              ((o)->type == AE_SYMBOL__)
+#define RPARENP(o)              ((o)->type == AE_RPAREN)
+#define STRINGP(o)              ((o)->type == AE_STRING)
+#define SYMBOLP(o)              ((o)->type == AE_SYMBOL)
 
 #define ASSERT_EQ(this, that)   (assert((this) == (that)))
 #define ASSERT_NEQ(this, that)  (assert((this) != (that)))
@@ -107,18 +107,18 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_LEXED_TYPE(DO)                                                                    \
-  DO(AE_CONS____)                                                                                  \
-  DO(AE_INVALID_)                                                                                  \
-  DO(AE_CHAR____)                                                                                  \
-  DO(AE_INTEGER_)                                                                                  \
+  DO(AE_CONS)                                                                                      \
+  DO(AE_INVALID)                                                                                   \
+  DO(AE_CHAR)                                                                                      \
+  DO(AE_INTEGER)                                                                                   \
   DO(AE_RATIONAL)                                                                                  \
-  DO(AE_FLOAT___)                                                                                  \
-  DO(AE_INF_____)                                                                                  \
-  DO(AE_STRING__)                                                                                  \
-  DO(AE_SYMBOL__)                                                                                  \
-  DO(AE_LPAREN__)                                                                                  \
-  DO(AE_RPAREN__)                                                                                  \
-  DO(AE_QUOTE___)
+  DO(AE_FLOAT)                                                                                     \
+  DO(AE_INF)                                                                                       \
+  DO(AE_STRING)                                                                                    \
+  DO(AE_SYMBOL)                                                                                    \
+  DO(AE_LPAREN)                                                                                    \
+  DO(AE_RPAREN)                                                                                    \
+  DO(AE_QUOTE)
 
 #define enum_node(x) x,
 

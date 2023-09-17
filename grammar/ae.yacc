@@ -55,7 +55,7 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
-    symbols = NEW(AE_CONS____); 
+    symbols = NEW(AE_CONS); 
     
     putchar('\n');
 
@@ -148,7 +148,7 @@ LPAREN sexps RPAREN { $$ = $2; };
   printf("Initting $$ (a)  %p\n", &$$);
 #endif  
 
-  INIT(&$$, AE_CONS____);
+  INIT(&$$, AE_CONS);
 
 #ifdef NOISY_INIT
   printf("Initted $$ (a)   %p\n\n", &$$);
@@ -178,7 +178,7 @@ sexps sexp {
   printf("Initting $$ (b)  %p\n", &$$);
 #endif
 
-  INIT(&$$, AE_CONS____);
+  INIT(&$$, AE_CONS);
 
 #ifdef NOISY_INIT
   printf("Initted $$ (b)   %p\n\n", &$$);

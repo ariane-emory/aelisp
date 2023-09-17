@@ -26,14 +26,14 @@
 #endif
     
     switch (yylval.type) {
-    case AE_STRING__:
+    case AE_STRING:
       yylval.str_val = malloc(strlen(yytext) - 1);
       strncpy(yylval.str_val, yytext + 1, strlen(yytext) - 2);
       break;
-    case AE_SYMBOL__:
+    case AE_SYMBOL:
       yylval.sym_val = strdup(yytext);
       break;
-    case AE_CHAR____:
+    case AE_CHAR:
       yylval.char_val = 0;
 
       char * tmp = 0;
@@ -66,10 +66,10 @@
       free(tmp);
       
       break;
-    case AE_INTEGER_:
+    case AE_INTEGER:
       yylval.int_val = atoi(yytext);
       break;
-    case AE_FLOAT___:
+    case AE_FLOAT:
       yylval.float_val = strtod(yytext, 0);
       break;
     case AE_RATIONAL:
@@ -87,11 +87,11 @@
       free(tmp2);
       
       break;
-    case AE_INF_____:
-    case AE_QUOTE___:
-    case AE_LPAREN__:
-    case AE_RPAREN__:
-    case AE_CONS____:
+    case AE_INF:
+    case AE_QUOTE:
+    case AE_LPAREN:
+    case AE_RPAREN:
+    case AE_CONS:
       break;
     default:
       printf("Tokenized something unrecognizable!\n");
@@ -103,24 +103,24 @@
 %}
 
 %%
-∞                                                                      TOKENIZE(INF,      AE_INF_____  );
-nil                                                                     TOKENIZE(LIST,     AE_CONS____  );
-\'                                                                      TOKENIZE(QUOTE,    AE_QUOTE___  );
-\(                                                                      TOKENIZE(LPAREN,   AE_LPAREN__  );
-\)                                                                      TOKENIZE(RPAREN,   AE_RPAREN__  );
-\"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING__  );
+∞                                                                      TOKENIZE(INF,      AE_INF  );
+nil                                                                     TOKENIZE(LIST,     AE_CONS  );
+\'                                                                      TOKENIZE(QUOTE,    AE_QUOTE  );
+\(                                                                      TOKENIZE(LPAREN,   AE_LPAREN  );
+\)                                                                      TOKENIZE(RPAREN,   AE_RPAREN  );
+\"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING  );
 '[^']'       |
 '\\.'        | 
 \?\\\\.      |
-\?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR____  );
-[-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER_  );
+\?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR  );
+[-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER  );
 [-+]?[0-9]+\.[0-9]* | 
-[-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT___  );
+[-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT  );
 [-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL  );
-[\+\-\/\*]                                                              TOKENIZE(MATHOP,   AE_SYMBOL__  );
-([1-9][0-9]+)?[\+\-\/\*]                                                TOKENIZE(INCROP,   AE_SYMBOL__  );
-!?=|(>=?)|(<=?)                                                         TOKENIZE(COMPARE,  AE_SYMBOL__  );
-([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL__  );
+[\+\-\/\*]                                                              TOKENIZE(MATHOP,   AE_SYMBOL  );
+([1-9][0-9]+)?[\+\-\/\*]                                                TOKENIZE(INCROP,   AE_SYMBOL  );
+!?=|(>=?)|(<=?)                                                         TOKENIZE(COMPARE,  AE_SYMBOL  );
+([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
 \;\;[^\n]*\n   ; /* comments */
 [\f\n\t\v\ ]+  ; /* ignored wItespace */
 %%

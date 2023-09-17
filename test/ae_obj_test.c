@@ -56,13 +56,13 @@ bool shitty_write_based_equality_predicate(
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t * list    = NEW(AE_CONS____);
+  ae_obj_t * list    = NEW(AE_CONS);
   ae_obj_t * tailtip = list;
 
   T(LENGTH(tailtip) == 0);
 
   for (unsigned int ix = 0; ix < 4; ix++) { 
-    ae_obj_t * new_int = NEW(AE_INTEGER_);
+    ae_obj_t * new_int = NEW(AE_INTEGER);
     int        int_val = ix + 1;
     new_int->int_val   = int_val;
 
@@ -79,15 +79,15 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * list = NEW(AE_CONS____);
-  ae_obj_t * head = NEW(AE_INTEGER_);
+  ae_obj_t * list = NEW(AE_CONS);
+  ae_obj_t * head = NEW(AE_INTEGER);
   head->int_val = 4;
   CAR(list)       = head;
   
   T(LENGTH(list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
-    ae_obj_t * new_head = NEW(AE_INTEGER_);
+    ae_obj_t * new_head = NEW(AE_INTEGER);
     new_head->int_val = 3 - ix;
 
     ae_obj_t * tail = list;
@@ -120,14 +120,14 @@ void incr_list_length_counter(ae_obj_t * const this) {
 ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
-  ae_obj_t * new_obj = NEW(AE_INTEGER_);
+  ae_obj_t * new_obj = NEW(AE_INTEGER);
   new_obj->int_val = this->int_val * 2;
 
   return new_obj;
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  ae_obj_t * new_list = NEW(AE_CONS____);
+  ae_obj_t * new_list = NEW(AE_CONS);
   
   CAR(new_list) = (ae_obj_t *)this;
 
@@ -188,7 +188,7 @@ void newly_allocated_ae_obj_is_inside_pool(void)
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
 }
 
-void newly_allocated_ae_obj_type_is_AE_INVALID_(void)
+void newly_allocated_ae_obj_type_is_AE_INVALID(void)
 {
   SETUP_TEST;
 
@@ -304,13 +304,13 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(AE_CHAR____, int_val,       '1'                                 );
-  FWRITE_TEST(AE_CHAR____, int_val,       '\n'                                );
-  FWRITE_TEST(AE_INTEGER_, int_val,       123                                 );
-  FWRITE_TEST(AE_FLOAT___, float_val,     1.23                                );
+  FWRITE_TEST(AE_CHAR, int_val,       '1'                                 );
+  FWRITE_TEST(AE_CHAR, int_val,       '\n'                                );
+  FWRITE_TEST(AE_INTEGER, int_val,       123                                 );
+  FWRITE_TEST(AE_FLOAT, float_val,     1.23                                );
   FWRITE_TEST(AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
-  FWRITE_TEST(AE_STRING__, str_val,       "asdf"                              );
-  FWRITE_TEST(AE_SYMBOL__, sym_val,       "ghij"                              );
+  FWRITE_TEST(AE_STRING, str_val,       "asdf"                              );
+  FWRITE_TEST(AE_SYMBOL, sym_val,       "ghij"                              );
 }
 
 void truth(void) {
@@ -328,10 +328,10 @@ void truth(void) {
 void equal(void) {
   SETUP_TEST;
 
-  this            = NEW(AE_INTEGER_);
+  this            = NEW(AE_INTEGER);
   INT_VAL(this)   = 2;
 
-  that            = NEW(AE_INTEGER_);
+  that            = NEW(AE_INTEGER);
   INT_VAL(that)   = 2;
 
   T(ae_obj_equal(this, this));
@@ -339,7 +339,7 @@ void equal(void) {
   T(ae_obj_equal(this, that));
   T(ae_obj_equal(that, this));
 
-  this            = NEW(AE_FLOAT___);
+  this            = NEW(AE_FLOAT);
   FLOAT_VAL(this) = 2.0;
 
   T(ae_obj_equal(this, that));
@@ -389,7 +389,7 @@ void equal(void) {
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
-  DO(newly_allocated_ae_obj_type_is_AE_INVALID_)                                                   \
+  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                   \
   DO(newly_initialized_ae_obj_has_correct_type_field)                                              \
   DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
   DO(unsafe_move_an_ae_obj)                                                                        \

@@ -66,8 +66,8 @@ ae_obj_t * ae_obj_truth (const bool this) {
   */
   
   return this
-    ? &((ae_obj_t){ .type = AE_INTEGER_, .int_val = 1               })
-    : &((ae_obj_t){ .type = AE_CONS____, .head = NULL, .tail = NULL });
+    ? &((ae_obj_t){ .type = AE_INTEGER, .int_val = 1               })
+    : &((ae_obj_t){ .type = AE_CONS, .head = NULL, .tail = NULL });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,14 +141,14 @@ ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
 #define DUP_C_STR(field) clone->field = strdup(this->field)
   
   switch (TYPE(this)) {
-  case AE_CONS____:
+  case AE_CONS:
     clone = MAP(this, ae_obj_clone);
     break;
-  case AE_STRING__:
+  case AE_STRING:
     CLONE_USING_MEMCPY;
     DUP_C_STR(str_val);
     break;
-  case AE_SYMBOL__:
+  case AE_SYMBOL:
     CLONE_USING_MEMCPY;
     DUP_C_STR(sym_val);
     break;

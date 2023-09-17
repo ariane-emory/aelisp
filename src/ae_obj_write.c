@@ -29,13 +29,13 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   fprintf(stream, "%011p[ %s ", this, TYPE_STR(TYPE(this)));
   
   switch (TYPE(this)) {
-  case AE_LPAREN__:
-  case AE_RPAREN__:
-  case AE_INVALID_:
+  case AE_LPAREN:
+  case AE_RPAREN:
+  case AE_INVALID:
   case AE_FREE____:
-  case AE_INF_____:
+  case AE_INF:
     BSPC; break;
-  case AE_CONS____:
+  case AE_CONS:
     if      (! CAR(this))
       fputs("nil", stream);
     else if (! CDR(this))
@@ -43,11 +43,11 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     else
       fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), 666); // LENGTH(this));    
     break;
-  case AE_SYMBOL__:
-  case AE_STRING__:
-  case AE_CHAR____:
-  case AE_FLOAT___:
-  case AE_INTEGER_:
+  case AE_SYMBOL:
+  case AE_STRING:
+  case AE_CHAR:
+  case AE_FLOAT:
+  case AE_INTEGER:
   case AE_RATIONAL:
     FWRITE(this, stream);
     BSPC;
@@ -145,10 +145,10 @@ int           counter  = 0;
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
   switch (TYPE(this)) {
-  case AE_INF_____:
+  case AE_INF:
     COUNTED_FPUTS("∞", stream);
     break;
-  case AE_CONS____:
+  case AE_CONS:
     if (CONSP(this) && CAR(this) ) {
       COUNTED_FPUTC('(', stream);
 
@@ -161,10 +161,10 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     else
       COUNTED_FPUTS("nil", stream);
     break;
-  case AE_SYMBOL__:
+  case AE_SYMBOL:
     COUNTED_FPUTS(SYM_VAL(this), stream);
     break;
-  case AE_STRING__:
+  case AE_STRING:
     if (STR_VAL(this) == NULL) {
       COUNTED_FPUTS("(null)", stream);
     }
@@ -174,16 +174,16 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPUTC('"', stream);
     }
     break;
-  case AE_INTEGER_:
+  case AE_INTEGER:
     COUNTED_FPRINTF(stream, "%d", this->int_val);
     break;
   case AE_RATIONAL:
     COUNTED_FPRINTF(stream, "%d/%d", this->numerator_val, this->denominator_val);
     break;
-  case AE_FLOAT___:
+  case AE_FLOAT:
     COUNTED_FPRINTF(stream, "%g", this->float_val);
     break;
-  case AE_CHAR____:
+  case AE_CHAR:
   {
     char tmp[3] = { 0 };
 

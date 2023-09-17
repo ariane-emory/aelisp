@@ -60,11 +60,11 @@ ae_obj_t * ae_list_map(const ae_obj_t * const list, ae_list_map_fun fun) {
 
 #ifdef MAP_RECURSES
   if (! CAR(list))
-    return NEW(AE_CONS____);
+    return NEW(AE_CONS);
 
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
 #else
-  ae_obj_t * new_list = NEW(AE_CONS____);
+  ae_obj_t * new_list = NEW(AE_CONS);
   ae_obj_t * tailtip  = new_list;
 
   FOR_EACH_CONST(elem, list)
@@ -124,7 +124,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   fflush(stdout);
 #endif
   
-  ae_obj_t * new_list = NEW(AE_CONS____);
+  ae_obj_t * new_list = NEW(AE_CONS);
 
   CAR(new_list) = head;
   CDR(new_list) = tail;
@@ -185,11 +185,11 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL__); SYM_VAL(sym) = strdup(string)
+#define NEW_SYM(sym) ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   if (! *plist)
-    *plist = NEW(AE_CONS____);
+    *plist = NEW(AE_CONS);
   
   if (! CAR(*plist)) {
     // shortcut/hack for my weird imaginary nil:
