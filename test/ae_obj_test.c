@@ -358,28 +358,30 @@ void equal(void) {
   ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
   ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
 
-/*
-obj_int_2a
-obj_int_2b
-obj_float_2a
-obj_int_3a
-obj_int_3b
-obj_float_3a
-obj_bool_false
-obj_bool_true
-obj_list_consed
-obj_list_pushed
-*/
-  
+
+#define FOR_EVERY_OTHER_OBJ_DO(obj, X)                                                             \
+  X(obj_int_2a)                                                                                    \
+    X(obj_int_2b)                                                                                  \
+    X(obj_float_2a)                                                                                \
+    X(obj_float_2b)                                                                                \
+    X(obj_int_3a)                                                                                  \
+    X(obj_int_3b)                                                                                  \
+    X(obj_float_3a)                                                                                \
+    X(obj_float_3b)                                                                                \
+    X(obj_bool_false)                                                                              \
+    X(obj_bool_true)                                                                               \
+    X(obj_list_consed)\                                                                            \
+    X(obj_list_pushed)
+
 #define NETP(first, second)                                                                        \
-  T(! EQL( (first)         , (second)        ));                                                   \
-  T(! EQL( (second)        , (first)         ));
+  if (NEQ(first, second)) {                                                                        \
+    T(! EQL( (first)         , (second)        ));                                                 \
+    T(! EQL( (second)        , (first)         ));                                                 \
+}
 
 #define ETP(first, second)                                                                         \
   T(  EQL( (first)         , (second)        ));                                                   \
   T(  EQL( (second)        , (first)         ));
-
-  //  This could probably be generated with x-macros but I haven't bothered yet:
 
   //  Everything is equal to itself.
   ETP( obj_bool_false   , obj_bool_false  );
