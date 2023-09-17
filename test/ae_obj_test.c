@@ -384,63 +384,40 @@ void equal(void) {
 
 #define SELF_EQUAL(o)                                                                              \
   ETP( obj_bool_false , obj_bool_false );
-  
+
   //  Everything is equal to itself.
-  ETP( obj_bool_false   , obj_bool_false  );
-  ETP( obj_bool_true    , obj_bool_true   );
-  ETP( obj_float_2a     , obj_float_2a    );
-  ETP( obj_int_2a       , obj_int_2a      );
-  ETP( obj_int_2b       , obj_int_2b      );
-  ETP( obj_list_consed  , obj_list_consed );
-  ETP( obj_list_pushed  , obj_list_pushed );
-
+  FOR_EVERY_OBJ_DO(SELF_EQUAL);
+  
   //  Some numbers are equal to each other.
-  ETP( obj_float_2a     , obj_int_2b      );
-  ETP( obj_int_2a       , obj_int_2b      );
-  ETP( obj_int_2b       , obj_float_2a    );
-  ETP( obj_int_2b       , obj_int_2a      );
+  ETP( obj_float_2a , obj_int_2b   );
+  ETP( obj_int_2a   , obj_int_2b   );
+  ETP( obj_int_2b   , obj_float_2a );
+  ETP( obj_int_2b   , obj_int_2a   );
 
+  //  Some numbers are not equal to each other.
+  NETP( obj_int_2a   , obj_int_3a   );
+  NETP( obj_int_2a   , obj_int_3a   );
+  NETP( obj_int_2b   , obj_float_3a );
+  NETP( obj_int_2b   , obj_int_3a   );
+
+  // These aren't equal to anything other than themselves:
 #define XX(other) NETP(obj_bool_false, other);
   FOR_EVERY_OBJ_DO(XX)
 #undef XX
-  
-    // false isn't equal to anything else.
-    NETP( obj_bool_false  , obj_int_2a      );
-  NETP( obj_bool_false  , obj_int_2b      );
-  NETP( obj_bool_false  , obj_float_2a    );
-  NETP( obj_bool_false  , obj_float_2b    );
-  NETP( obj_bool_false  , obj_bool_true   );
-  NETP( obj_bool_false  , obj_list_consed );
-  NETP( obj_bool_false  , obj_list_pushed );
-                                                                                                    
-  // true isn't equal to anything else.
-  NETP( obj_bool_true   , obj_int_2a      );
-  NETP( obj_bool_true   , obj_int_2b      );
-  NETP( obj_bool_true   , obj_float_2a    );
-  NETP( obj_bool_true   , obj_float_2b    );
-  NETP( obj_bool_true   , obj_bool_false  );
-  NETP( obj_bool_true   , obj_list_consed );
-  NETP( obj_bool_true   , obj_list_pushed );
-                                                         
-  // list_consed isn't equal to anything else.
-  NETP( obj_list_consed , obj_int_2a      );
-  NETP( obj_list_consed , obj_int_2b      );
-  NETP( obj_list_consed , obj_float_2a    );
-  NETP( obj_list_consed , obj_float_2b    );
-  NETP( obj_list_consed , obj_bool_false  );
-  NETP( obj_list_consed , obj_bool_true   );
-  NETP( obj_list_consed , obj_list_pushed );
- 
-  // list_pushed isn't equal to anything else.
-  NETP( obj_list_pushed , obj_int_2a      );
-  NETP( obj_list_pushed , obj_int_2b      );
-  NETP( obj_list_pushed , obj_float_2a    );
-  NETP( obj_list_pushed , obj_float_2b    );
-  NETP( obj_list_pushed , obj_bool_false  );
-  NETP( obj_list_pushed , obj_bool_true   );
-  NETP( obj_list_pushed , obj_list_consed );
 
-  /* todo: add tests for rationals */
+#define XX(other) NETP(obj_bool_true, other);
+  FOR_EVERY_OBJ_DO(XX)
+#undef XX
+
+#define XX(other) NETP(obj_list_consed, other);
+  FOR_EVERY_OBJ_DO(XX)
+#undef XX
+                                                         
+#define XX(other) NETP(obj_list_pushed, other);
+  FOR_EVERY_OBJ_DO(XX)
+#undef XX
+
+    /* todo: add tests for rationals */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
