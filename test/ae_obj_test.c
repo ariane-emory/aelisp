@@ -357,11 +357,11 @@ void equal(void) {
   T(! ae_obj_equal(obj_false,   float_obj_1));
   T(! ae_obj_equal(obj_false,   int_obj_2));
 
-  T(! ae_obj_equal(obj_false,   obj_true ));
-  T(! ae_obj_equal(float_obj_1, obj_true ));
-  T(! ae_obj_equal(int_obj_2,        obj_true ));
+  T(! ae_obj_equal(obj_false,   obj_true));
+  T(! ae_obj_equal(float_obj_1, obj_true));
+  T(! ae_obj_equal(int_obj_2,   obj_true));
   T(! ae_obj_equal(float_obj_1, obj_false));
-  T(! ae_obj_equal(int_obj_2,        obj_false));
+  T(! ae_obj_equal(int_obj_2,   obj_false));
 
   ae_obj_t * pushed           = push_together_a_list_of_ints();
   ae_obj_t * consed           = cons_together_a_list_of_ints();
