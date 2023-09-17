@@ -26,8 +26,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  fprintf(stream, "%011p[ %s ", this, TYPE_STR(TYPE(this)));
+  fprintf(stream, "%011p[ ", this);
   
+  {
+    int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
+    while (written++ <= 10) SPC;
+  }
+   
   switch (TYPE(this)) {
   case AE_LPAREN:
   case AE_RPAREN:
@@ -39,9 +44,9 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     if      (! CAR(this))
       fputs("nil", stream);
     else if (! CDR(this))
-      fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), 666); // LENGTH(this));
+      fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), LENGTH(this));
     else
-      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), 666); // LENGTH(this));    
+      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));    
     break;
   case AE_SYMBOL:
   case AE_STRING:
@@ -58,7 +63,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     BSPC;
     RSQR;
   }
-  SPC;
+SPC;
   RSQR;
 
   return 0;
