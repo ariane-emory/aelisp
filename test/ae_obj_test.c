@@ -373,15 +373,18 @@ void equal(void) {
     X(obj_list_pushed)
 
 #define NETP(first, second)                                                                        \
-  if (NEQ(first, second)) {                                                                        \
-    T(! EQL( (first)         , (second)        ));                                                 \
-    T(! EQL( (second)        , (first)         ));                                                 \
-}
+  if (first != second) {                                                                           \
+    T(NEQL( (first)  , (second) ));                                                                \
+    T(NEQL( (second) , (first)  ));                                                                \
+  }
 
 #define ETP(first, second)                                                                         \
-  T(  EQL( (first)         , (second)        ));                                                   \
-  T(  EQL( (second)        , (first)         ));
+  T( EQL( (first)  , (second) ));                                                                  \
+  T( EQL( (second) , (first)  ));
 
+#define SELF_EQUAL(o)                                                                              \
+    ETP( obj_bool_false , obj_bool_false );
+  
   //  Everything is equal to itself.
   ETP( obj_bool_false   , obj_bool_false  );
   ETP( obj_bool_true    , obj_bool_true   );
