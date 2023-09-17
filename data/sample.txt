@@ -5,3 +5,30 @@
  look, here is the second line!"
 (a b c d "bang" 1 1.5 3/4 'x' ?\y () nil 'a' '\t' ?\\t :asd &more t (= 1 3))
 
+;;; Lightweight advice/hook
+(defvar advice--how-alist
+  (advice--make-how-alist
+   (:around (apply car cdr r))
+   (:before (apply car r) (apply cdr r))
+   (:after (prog1 (apply cdr r) (apply car r)))
+   (:override (apply car r))
+   (:after-until (or (apply cdr r) (apply car r)))
+   (:after-while (and (apply cdr r) (apply car r)))
+   (:before-until (or (apply car r) (apply cdr r)))
+   (:before-while (and (apply car r) (apply cdr r)))
+   (:filter-args (apply cdr (funcall car r)))
+   (:filter-return (funcall car (apply cdr r))))
+  "List of descriptions of how to add a function.
+Each element has the form (HOW OCL DOC) where HOW is a keyword,
+OCL is a \"prototype\" function of type `advice', and
+DOC is a string where \"FUNCTION\" and \"OLDFUN\" are expected.")
+
+(defun advice--cd*r (f)
+  (while (advice--p f)
+    (setq f (advice--cdr f)))
+  f)
+
+defun advice--cd*r (f)
+  (while (advice--p f)
+    (setq f (advice--cdr f)))
+  f)
