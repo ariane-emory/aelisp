@@ -380,6 +380,8 @@ void equal(void) {
   T(! ae_obj_equal(consed,    that     ));
   T(! ae_obj_equal(consed,    obj_true ));
   T(! ae_obj_equal(consed,    obj_false));
+
+  /* todo: add tests for rationals */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

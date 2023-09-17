@@ -1,4 +1,5 @@
 To Do:
+- [x] Add tests for using rationals with ae_obj_eql.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add rational support to ae_obj_eql.
 - [ ] Maybe add addressable nil value?
@@ -10,6 +11,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Add rational support to ae_obj_eql.
 - [x] Rename the so called 'byte-oriented' puts (they are actually word-oriented).
 - [x] Better code for aligning type strs when printing objs.
 - [x] Test ae_obj_eql.

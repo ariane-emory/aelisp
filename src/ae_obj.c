@@ -48,7 +48,28 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   if (INTEGERP (that)  && FLOATP   (this) &&
       INT_VAL  (that)  == FLOAT_VAL(this))
     return true;
-  
+
+  // This is a pretty lame way of doing this:
+  if (RATIONALP (this)  && RATIONALP(that) &&
+      (NUMER_VAL(this) / DENOM_VAL(this))        == (NUMER_VAL(that)/ DENOM_VAL(that)))
+    return true;
+
+  if (RATIONALP (this)  && INTEGERP (that) &&
+      ((int)(NUMER_VAL(this) / DENOM_VAL(this))) == INT_VAL(that))
+    return true;
+
+  if (INTEGERP (this)   && RATIONALP(that) &&
+      INT_VAL(this)                              == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
+    return true;
+
+  if (RATIONALP (this)  && FLOATP (that) &&
+      ((int)(NUMER_VAL(this) / DENOM_VAL(this))) == FLOAT_VAL(that))
+    return true;
+
+  if (FLOATP (this)   && RATIONALP(that) &&
+      FLOAT_VAL(this)                            == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
+    return true;
+
   return false;
 }
 
