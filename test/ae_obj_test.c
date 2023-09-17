@@ -374,8 +374,8 @@ void equal(void) {
 
 #define NETP(first, second)                                                                        \
   if (first != second) {                                                                           \
-    T(NEQL( (first)  , (second) ));                                                                \
-    T(NEQL( (second) , (first)  ));                                                                \
+    T( NEQL( (first)  , (second) ));                                                               \
+    T( NEQL( (second) , (first)  ));                                                               \
   }
 
 #define ETP(first, second)                                                                         \
@@ -383,7 +383,7 @@ void equal(void) {
   T( EQL( (second) , (first)  ));
 
 #define SELF_EQUAL(o)                                                                              \
-    ETP( obj_bool_false , obj_bool_false );
+  ETP( obj_bool_false , obj_bool_false );
   
   //  Everything is equal to itself.
   ETP( obj_bool_false   , obj_bool_false  );
@@ -401,11 +401,11 @@ void equal(void) {
   ETP( obj_int_2b       , obj_int_2a      );
 
 #define XX(other) NETP(obj_bool_false, other);
-FOR_EVERY_OBJ_DO(XX)
+  FOR_EVERY_OBJ_DO(XX)
 #undef XX
   
-  // false isn't equal to anything else.
-  NETP( obj_bool_false  , obj_int_2a      );
+    // false isn't equal to anything else.
+    NETP( obj_bool_false  , obj_int_2a      );
   NETP( obj_bool_false  , obj_int_2b      );
   NETP( obj_bool_false  , obj_float_2a    );
   NETP( obj_bool_false  , obj_float_2b    );
