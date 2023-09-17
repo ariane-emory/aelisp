@@ -40,7 +40,8 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INVALID:
   case AE_FREE____:
   case AE_INF:
-    BSPC; break;
+    BSPC; 
+    break;
   case AE_CONS:
     if      (! CAR(this))
       fputs("nil", stream);

@@ -1,5 +1,4 @@
 To Do:
-- [ ] Better code for aligning type strs when printing objs.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add rational support to ae_obj_eql.
 - [ ] Maybe add addressable nil value?
@@ -7,9 +6,11 @@ To Do:
 - [ ] Redo/rename the so-called 'byte oriented' puts?
 - [ ] Maybe also a vector type of some sort?
 - [ ] Review whether or not the values of pointers returned by ae_obj_truth is UB and possibly come up with something better.
+- [ ] Fix inappropriate handling of quote.
 - [ ] ... advices?!
 
 Completed:
+- [x] Better code for aligning type strs when printing objs.
 - [x] Test ae_obj_eql.
 - [x] Test ae_obj_truth.
 - [x] Add eql.
