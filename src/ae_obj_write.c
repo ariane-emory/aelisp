@@ -44,7 +44,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     if      (! CAR(this))
       fputs("nil", stream);
     else if (! CDR(this))
-      fprintf(stream, "%011p %-11p %2d",  CAR(this), CDR(this), LENGTH(this));
+      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
     else
       fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));    
     break;
