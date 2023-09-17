@@ -30,6 +30,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   
   {
     int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
+
     while (written++ <= 10) SPC;
   }
    
@@ -45,8 +46,6 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
       fputs("nil", stream);
     else if (! CDR(this))
       fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
-    else
-      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));    
     break;
   case AE_SYMBOL:
   case AE_STRING:
@@ -63,7 +62,8 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     BSPC;
     RSQR;
   }
-SPC;
+  
+  SPC;
   RSQR;
 
   return 0;
