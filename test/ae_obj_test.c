@@ -358,9 +358,8 @@ void equal(void) {
   ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
   ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
 
-
-#define FOR_EVERY_OTHER_OBJ_DO(obj, X)                                                             \
-  X(obj_int_2a)                                                                                    \
+#define FOR_EVERY_OBJ_DO(X)                                                                        \
+  X(  obj_int_2a)                                                                                  \
     X(obj_int_2b)                                                                                  \
     X(obj_float_2a)                                                                                \
     X(obj_float_2b)                                                                                \
@@ -370,7 +369,7 @@ void equal(void) {
     X(obj_float_3b)                                                                                \
     X(obj_bool_false)                                                                              \
     X(obj_bool_true)                                                                               \
-    X(obj_list_consed)\                                                                            \
+    X(obj_list_consed)                                                                             \
     X(obj_list_pushed)
 
 #define NETP(first, second)                                                                        \
@@ -397,6 +396,10 @@ void equal(void) {
   ETP( obj_int_2a       , obj_int_2b      );
   ETP( obj_int_2b       , obj_float_2a    );
   ETP( obj_int_2b       , obj_int_2a      );
+
+#define XX(other) NETP(obj_bool_false, other);
+FOR_EVERY_OBJ_DO(XX)
+#undef XX
   
   // false isn't equal to anything else.
   NETP( obj_bool_false  , obj_int_2a      );
