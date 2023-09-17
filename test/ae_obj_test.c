@@ -349,12 +349,14 @@ void equal(void) {
   T(  EQL( obj_bool_true,        obj_bool_true   ));
   T(  EQL( obj_float,            obj_int_2       ));
   T(  EQL( obj_int_1,            obj_int_1       ));
-  T(  EQL( obj_int_1,            obj_int_2       ));
-  T(  EQL( obj_int_2,            obj_float       ));
-  T(  EQL( obj_int_2,            obj_int_1       ));
   T(  EQL( obj_int_2,            obj_int_2       ));
   T(  EQL( obj_list_consed,      obj_list_consed ));
   T(  EQL( obj_list_pushed,      obj_list_pushed ));
+
+  //  Some numbers are equal to each other.
+  T(  EQL( obj_int_1,            obj_int_2       ));
+  T(  EQL( obj_int_2,            obj_float       ));
+  T(  EQL( obj_int_2,            obj_int_1       ));
   
   T(! EQL( obj_bool_false,       obj_bool_true   ));
   T(! EQL( obj_bool_false,       obj_float       ));
