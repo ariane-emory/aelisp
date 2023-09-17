@@ -1,5 +1,5 @@
 To Do:
-- [x] Add tests for using rationals with ae_obj_eql.
+- [ ] Add tests for using rationals with ae_obj_eql.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add rational support to ae_obj_eql.
 - [ ] Maybe add addressable nil value?
