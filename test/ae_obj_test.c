@@ -368,6 +368,14 @@ obj_list_consed
 obj_list_pushed
 */
   
+#define NETP(first, second)                                                                        \
+  T(! EQL( (first)         , (second)        ));                                                   \
+  T(! EQL( (second)        , (first)         ));
+
+#define ETP(first, second)                                                                         \
+  T(  EQL( (first)         , (second)        ));                                                   \
+  T(  EQL( (second)        , (first)         ));
+
   //  This could probably be generated with x-macros but I haven't bothered yet:
 
   //  Everything is equal to itself.
@@ -385,45 +393,41 @@ obj_list_pushed
   T(  EQL( obj_int_2b      , obj_float_2a    ));
   T(  EQL( obj_int_2b      , obj_int_2a      ));
 
-#define NEQL_T_PAIR(first, second)                                                                 \
-  T(! EQL( (first)         , (second)        ));                                                   \
-  T(! EQL( (second)        , (first)         ));
-  
   // false isn't equal to anything else.
-  T(! EQL( obj_bool_false  , obj_int_2a      ));  T(! EQL( obj_int_2a      , obj_bool_false  ));
-  T(! EQL( obj_bool_false  , obj_int_2b      ));  T(! EQL( obj_int_2b      , obj_bool_false  ));
-  T(! EQL( obj_bool_false  , obj_float_2a    ));  T(! EQL( obj_float_2a    , obj_bool_false  ));
-  T(! EQL( obj_bool_false  , obj_float_2b    ));  T(! EQL( obj_float_2b    , obj_bool_false  ));
-  T(! EQL( obj_bool_false  , obj_bool_true   ));  T(! EQL( obj_bool_true   , obj_bool_false  ));
-  T(! EQL( obj_bool_false  , obj_list_consed ));  T(! EQL( obj_list_consed , obj_bool_false  ));
-  T(! EQL( obj_bool_false  , obj_list_pushed ));  T(! EQL( obj_list_pushed , obj_bool_false  ));
+  NETP( obj_bool_false  , obj_int_2a      );
+  NETP( obj_bool_false  , obj_int_2b      );
+  NETP( obj_bool_false  , obj_float_2a    );
+  NETP( obj_bool_false  , obj_float_2b    );
+  NETP( obj_bool_false  , obj_bool_true   );
+  NETP( obj_bool_false  , obj_list_consed );
+  NETP( obj_bool_false  , obj_list_pushed );
                                                                                                     
   // true isn't equal to anything else.
-  T(! EQL( obj_bool_true   , obj_int_2a      ));  T(! EQL( obj_int_2a      , obj_bool_true   ));
-  T(! EQL( obj_bool_true   , obj_int_2b      ));  T(! EQL( obj_int_2b      , obj_bool_true   ));
-  T(! EQL( obj_bool_true   , obj_float_2a    ));  T(! EQL( obj_float_2a    , obj_bool_true   ));
-  T(! EQL( obj_bool_true   , obj_float_2b    ));  T(! EQL( obj_float_2b    , obj_bool_true   ));
-  T(! EQL( obj_bool_true   , obj_bool_false  ));  T(! EQL( obj_bool_false  , obj_bool_true   ));
-  T(! EQL( obj_bool_true   , obj_list_consed ));  T(! EQL( obj_list_consed , obj_bool_true   ));
-  T(! EQL( obj_bool_true   , obj_list_pushed ));  T(! EQL( obj_list_pushed , obj_bool_true   ));
-                                                                                                    
+  NETP( obj_bool_true   , obj_int_2a      );
+  NETP( obj_bool_true   , obj_int_2b      );
+  NETP( obj_bool_true   , obj_float_2a    );
+  NETP( obj_bool_true   , obj_float_2b    );
+  NETP( obj_bool_true   , obj_bool_false  );
+  NETP( obj_bool_true   , obj_list_consed );
+  NETP( obj_bool_true   , obj_list_pushed );
+                                                         
   // list_consed isn't equal to anything else.
-  T(! EQL( obj_list_consed , obj_int_2a      ));  T(! EQL( obj_int_2a      , obj_list_consed ));
-  T(! EQL( obj_list_consed , obj_int_2b      ));  T(! EQL( obj_int_2b      , obj_list_consed ));
-  T(! EQL( obj_list_consed , obj_float_2a    ));  T(! EQL( obj_float_2a    , obj_list_consed ));
-  T(! EQL( obj_list_consed , obj_float_2b    ));  T(! EQL( obj_float_2b   , obj_list_consed ));
-  T(! EQL( obj_list_consed , obj_bool_false  ));  T(! EQL( obj_bool_false  , obj_list_consed ));
-  T(! EQL( obj_list_consed , obj_bool_true   ));  T(! EQL( obj_bool_true   , obj_list_consed ));
-  T(! EQL( obj_list_consed , obj_list_pushed ));  T(! EQL( obj_list_pushed , obj_list_consed ));
+  NETP( obj_list_consed , obj_int_2a      );
+  NETP( obj_list_consed , obj_int_2b      );
+  NETP( obj_list_consed , obj_float_2a    );
+  NETP( obj_list_consed , obj_float_2b    );
+  NETP( obj_list_consed , obj_bool_false  );
+  NETP( obj_list_consed , obj_bool_true   );
+  NETP( obj_list_consed , obj_list_pushed );
  
   // list_pushed isn't equal to anything else.
-  T(! EQL( obj_list_pushed , obj_int_2a      ));  T(! EQL( obj_int_2a      , obj_list_pushed ));
-  T(! EQL( obj_list_pushed , obj_int_2b      ));  T(! EQL( obj_int_2b      , obj_list_pushed ));
-  T(! EQL( obj_list_pushed , obj_float_2a    ));  T(! EQL( obj_float_2a    , obj_list_pushed ));
-  T(! EQL( obj_list_pushed , obj_float_2b    ));  T(! EQL( obj_float_2b    , obj_list_pushed ));
-  T(! EQL( obj_list_pushed , obj_bool_false  ));  T(! EQL( obj_bool_false  , obj_list_pushed ));
-  T(! EQL( obj_list_pushed , obj_bool_true   ));  T(! EQL( obj_bool_true   , obj_list_pushed ));
-  T(! EQL( obj_list_pushed , obj_list_consed ));  T(! EQL( obj_list_consed , obj_list_pushed ));
+  NETP( obj_list_pushed , obj_int_2a      );
+  NETP( obj_list_pushed , obj_int_2b      );
+  NETP( obj_list_pushed , obj_float_2a    );
+  NETP( obj_list_pushed , obj_float_2b    );
+  NETP( obj_list_pushed , obj_bool_false  );
+  NETP( obj_list_pushed , obj_bool_true   );
+  NETP( obj_list_pushed , obj_list_consed );
 
   /* todo: add tests for rationals */
 }
