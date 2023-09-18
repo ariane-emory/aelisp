@@ -10,7 +10,7 @@
 // _length method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-size_t ae_list_length(const ae_obj_t * const list) {
+int ae_list_length(const ae_obj_t * const list) {
   ASSERT_CONSP(list);
   
   if (! CAR(list) ) return 0;

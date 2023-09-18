@@ -61,7 +61,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
   T(LENGTH(tailtip) == 0);
 
-  for (unsigned int ix = 0; ix < 4; ix++) { 
+  for (int ix = 0; ix < 4; ix++) { 
     ae_obj_t * new_int = NEW(AE_INTEGER);
     int        int_val = ix + 1;
     new_int->int_val   = int_val;
@@ -94,7 +94,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
     
     list = CONS(new_head, tail);
 
-    const size_t expected_length = 2 + ix;
+    const int expected_length = 2 + ix;
   
     T(list != head);
     T(list != new_head);
@@ -110,7 +110,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   return list;
 }
 
-static size_t list_length_counter = 0;
+static int list_length_counter = 0;
 
 void incr_list_length_counter(ae_obj_t * const this) {
   (void)this;
@@ -153,15 +153,29 @@ void basic_list_checks(ae_obj_t * this) {
 void remove_elem_from_list(void) {
   SETUP_TEST;
 
+  this = NEW(AE_CONS);
+
+#define TEST_INTERN(str)                                                                           \
+  {                                                                                                \
+    int len = LENGTH(this);                                                                        \
+    T(EQ(INTERN(&this, str), INTERN(&this, str)));                                                 \
+    T(LENGTH(this) == (len + 1));                                                                  \
+  }
+    
   // using 'this' as the symbol list here:
-  T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
-  T(LENGTH(this) == 1);
-  T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
-  T(LENGTH(this) == 2);
-  T(EQ(INTERN(&this, "c"), INTERN(&this, "c")));
-  T(LENGTH(this) == 3);
-  T(EQ(INTERN(&this, "d"), INTERN(&this, "d")));
-  T(LENGTH(this) == 4);
+  TEST_INTERN("a");
+  TEST_INTERN("b");
+  TEST_INTERN("c");
+  TEST_INTERN("d");
+  
+  /* T(EQ(INTERN(&this, "a"), INTERN(&this, "a"))); */
+  /* T(LENGTH(this) == 1); */
+  /* T(EQ(INTERN(&this, "b"), INTERN(&this, "b"))); */
+  /* T(LENGTH(this) == 2); */
+  /* T(EQ(INTERN(&this, "c"), INTERN(&this, "c"))); */
+  /* T(LENGTH(this) == 3); */
+  /* T(EQ(INTERN(&this, "d"), INTERN(&this, "d"))); */
+  /* T(LENGTH(this) == 4); */
 
   that = INTERN(&this, "b");
 
@@ -424,19 +438,19 @@ void equal(void) {
 #undef XX
 
 #define XX(other) NETP(obj_bool_true, other);
-  FOR_EVERY_OBJ_DO(XX)
+    FOR_EVERY_OBJ_DO(XX)
 #undef XX
 
 #define XX(other) NETP(obj_list_consed, other);
-  FOR_EVERY_OBJ_DO(XX)
+    FOR_EVERY_OBJ_DO(XX)
 #undef XX
                                                          
 #define XX(other) NETP(obj_list_pushed, other);
-  FOR_EVERY_OBJ_DO(XX)
+    FOR_EVERY_OBJ_DO(XX)
 #undef XX
 
     /* todo: add tests for rationals */
-}
+    }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
