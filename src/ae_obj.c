@@ -153,8 +153,8 @@ ae_obj_t * ae_obj_truth (const bool this) {
   */
   
   if (this)
-    return &true_obj;
-
+    return TRU;
+  
   return
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
   &nil_obj;
