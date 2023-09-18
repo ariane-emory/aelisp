@@ -7,7 +7,7 @@ YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Wno-address-of-packed-member \
-	-DNIL_IS_A_NULLPTR
+	-DNIL_IS_IMPLICIT
 
 STRICTER_CFLAGS = \
   -ggdb \
@@ -24,7 +24,7 @@ STRICTER_CFLAGS = \
 	-Wno-unused-variable \
 	-Wno-unused-but-set-variable \
 	-DACUTEST_SPACES=60 \
-	-DNIL_IS_A_NULLPTR
+	-DNIL_IS_IMPLICIT
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
