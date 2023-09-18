@@ -434,23 +434,23 @@ void equal(void) {
 
   // These aren't equal to anything other than themselves:
 #define XX(other) NETP(obj_bool_false, other);
-  FOR_EVERY_OBJ_DO(XX)
+  FOR_EVERY_OBJ_DO(XX);
 #undef XX
 
 #define XX(other) NETP(obj_bool_true, other);
-    FOR_EVERY_OBJ_DO(XX)
+  FOR_EVERY_OBJ_DO(XX);
 #undef XX
 
 #define XX(other) NETP(obj_list_consed, other);
-    FOR_EVERY_OBJ_DO(XX)
+  FOR_EVERY_OBJ_DO(XX);
 #undef XX
                                                          
 #define XX(other) NETP(obj_list_pushed, other);
-    FOR_EVERY_OBJ_DO(XX)
+  FOR_EVERY_OBJ_DO(XX);
 #undef XX
 
     /* todo: add tests for rationals */
-    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
