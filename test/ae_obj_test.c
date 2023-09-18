@@ -460,6 +460,10 @@ void equal(void) {
   NETP( obj_rat_2a   , obj_int_3a   );
   NETP( obj_rat_2a   , obj_rat_3a   );
 
+  // empty lists are equal:
+  ETP(  obj_empty_a  , obj_empty_b  );
+  ETP(  obj_empty_a  , ae_obj_truth(false));
+  
   // These aren't equal to anything other than themselves:
 #define XX(other) NETP(obj_bool_false, other);
   FOR_EVERY_OBJ_DO(XX);
