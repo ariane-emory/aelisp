@@ -26,7 +26,7 @@ const char * ae_type_str(const ae_type_t this) {
 // _init method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static  __attribute__((unused)) int gcd(const int left, const int right) {
+static int gcd(const int left, const int right) {
   int gcd = 0;
   
   for(int i = 1; i <= left && i <= right; ++i)
