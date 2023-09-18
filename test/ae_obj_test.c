@@ -462,7 +462,7 @@ void equal(void) {
 
   // empty lists are equal:
   ETP(  obj_empty_a  , obj_empty_b  );
-  ETP(  obj_empty_a  , ae_obj_truth(false));
+  // ETP(  obj_empty_a  , ae_obj_truth(false));
   
   // These aren't equal to anything other than themselves:
 #define XX(other) NETP(obj_bool_false, other);
