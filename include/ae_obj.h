@@ -183,7 +183,7 @@ ae_obj_t *    ae_obj_truth         (const bool              this                
 extern ae_obj_t * symbol_list;
 #endif
 
-#ifndef UNNIL_IS_AN_INTERNED_SYMBOL
+#ifndef NIL_IS_AN_INTERNED_SYMBOL
 extern ae_obj_t nil_obj;
 #endif
 
