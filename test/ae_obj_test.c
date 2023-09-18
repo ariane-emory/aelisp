@@ -137,7 +137,7 @@ void mini_test(void)
 ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * list = NEW(AE_CONS);
   ae_obj_t * head = NEW(AE_INTEGER);
-  head->int_val = 4;
+  head->int_val   = 4;
   CAR(list)       = head;
   
   T(LENGTH(list) == 1);
