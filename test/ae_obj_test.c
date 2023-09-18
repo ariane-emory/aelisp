@@ -326,13 +326,13 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(AE_CHAR, int_val,       '1'                                 );
-  FWRITE_TEST(AE_CHAR, int_val,       '\n'                                );
-  FWRITE_TEST(AE_INTEGER, int_val,       123                                 );
-  FWRITE_TEST(AE_FLOAT, float_val,     1.23                                );
+  FWRITE_TEST(AE_CHAR,     int_val,       '1'                                 );
+  FWRITE_TEST(AE_CHAR,     int_val,       '\n'                                );
+  FWRITE_TEST(AE_INTEGER,  int_val,       123                                 );
+  FWRITE_TEST(AE_FLOAT,    float_val,     1.23                                );
   FWRITE_TEST(AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
-  FWRITE_TEST(AE_STRING, str_val,       "asdf"                              );
-  FWRITE_TEST(AE_SYMBOL, sym_val,       "ghij"                              );
+  FWRITE_TEST(AE_STRING,   str_val,       "asdf"                              );
+  FWRITE_TEST(AE_SYMBOL,   sym_val,       "ghij"                              );
 }
 
 void truth(void) {
