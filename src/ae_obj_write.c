@@ -163,13 +163,15 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     if (CONSP(this) && CAR(this) ) {
       COUNTED_FPUTC('(', fwrite_stream);
 
-      for (const ae_obj_t
-             * position = (this),
-             * elem     = CAR((position));
+      for (const ae_obj_t *
+             position = this;
            ! NILP(position);
-           elem         = ! NILP(position = CDR(position))
-             ? CAR(position)
-             : NULL) {
+           position = CDR(position)) {
+        ae_obj_t * elem = CAR(position);
+        
+        /* COUNTED_FPRINTF(fwrite_stream, " %p ", position); */
+        /* fflush(fwrite_stream); */
+        
         ae_obj_fwrite_internal(elem);
         
         if (! NILP(CDR(position)))
