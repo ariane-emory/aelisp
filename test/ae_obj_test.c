@@ -162,15 +162,18 @@ void remove_elem_from_list(void) {
 
   that = INTERN(&this, "b");
 
+  // Add a duplicate element so that we can see that both instances are removed:
+  this = CONS(that, this);
+  
+  T(LENGTH(this) == 5);
+  
   T(MEMBER(this, that));
   
   this = REMOVE(this, that);
   
+  T(LENGTH(this) == 3)
   T(! MEMBER(this, that));
   T(shitty_write_based_equality_predicate(this, "(d c a \b) "));
-  T(LENGTH(this) == 3);
-
-  /* TODO: Add a case testing the removal of multiple instances of the same item. */
 }
 
 void test_setup_is_okay(void)
