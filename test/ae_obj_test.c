@@ -40,7 +40,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void before_acutest() {
-  printf("Testing with " NIL_DESCRIPTION "\n");
+  printf("Test with " NIL_DESCRIPTION "\n");
 }
 
 char * write_to_new_string(const ae_obj_t * const this) {
