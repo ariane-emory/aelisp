@@ -68,8 +68,8 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
       INT_VAL  (this)  == FLOAT_VAL(that))
     return true;
 
-  if ( FLOATP   (this) && INTEGERP (that) &&
-       FLOAT_VAL(this) == INT_VAL  (that))
+  if (FLOATP   (this)  && INTEGERP (that) &&
+      FLOAT_VAL(this)  == INT_VAL  (that))
     return true;
 
   if (RATIONALP (this)  && RATIONALP(that)) {
@@ -79,6 +79,8 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     ae_rational_simplify((ae_obj_t *)this);
     ae_rational_simplify((ae_obj_t *)that);
 
+    printf("here\n");
+    
     return (NUMER_VAL(this) == NUMER_VAL(that) &&
             DENOM_VAL(this) == DENOM_VAL(that));
   }
