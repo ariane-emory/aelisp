@@ -3,7 +3,7 @@ To Do:
 - [ ] Add tests for using rationals with ae_obj_eql.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Maybe add addressable nil value?
-- [ ] ae_obj_truth(false) and the empty list should be eq and eql.
+- [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [ ] Add macro version of map?
 - [ ] Review (and test) the 'word-oriented' puts.
 - [ ] Maybe also a vector type of some sort?
