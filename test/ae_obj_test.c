@@ -150,9 +150,9 @@ void basic_list_checks(ae_obj_t * this) {
 // Tests
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void remove_elem_from_list(void) {
+void remove_interned_elem_from_list(void) {
   SETUP_TEST;
-
+ 
   this = NEW(AE_CONS);
 
 #define TEST_INTERN(str)                                                                           \
@@ -468,12 +468,10 @@ void equal(void) {
   DO(consed_list_tests)                                                                            \
   DO(pushed_and_consed_lists_write_identically)                                                    \
   DO(intern_symbols)                                                                               \
-  DO(remove_elem_from_list)                                                                        \
+  DO(remove_interned_elem_from_list)                                                               \
   DO(truth)                                                                                        \
   DO(equal)                                                                                        \
   DO(fwrite_lengths)
-
-/* TODO: write ae_obj_remove_elem_from and a test for it. */
 
 #define pair(fun) { #fun, fun },
 
