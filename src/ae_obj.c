@@ -48,6 +48,14 @@ void ae_rational_simplify(ae_obj_t * this) {
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   /* todo: handle rationals */
 
+  fputs("\nThis ", stdout);
+  fputs(ae_type_str(this->type), stdout);
+  putchar('\n');
+
+  fputs("That ", stdout);
+  fputs(ae_type_str(that->type), stdout);
+  putchar('\n');
+
   if (this             == that)
     return true;
   
@@ -89,8 +97,12 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     WRITE(that);
     putchar('\n');
     
-    return (NUMER_VAL(this) == NUMER_VAL(that) &&
-            DENOM_VAL(this) == DENOM_VAL(that));
+    bool x =  (NUMER_VAL(this) == NUMER_VAL(that) &&
+               DENOM_VAL(this) == DENOM_VAL(that));
+
+    puts(x ? "yes" : "no");
+
+    return x;
   }
 
   if (RATIONALP (this)  && INTEGERP (that) &&
