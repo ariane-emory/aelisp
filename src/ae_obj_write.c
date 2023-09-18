@@ -152,11 +152,6 @@ static int    fwrite_counter  = 0;
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
-  /* if (CONSP(this) || SYMBOLP(this)) { */
-  /* COUNTED_FPRINTF(fwrite_stream, "%p ", this); */
-  /* fflush(fwrite_stream); */
-  /* } */
-  
   if (NILP(this) || NULLP(this))
     return 0;
   
@@ -170,11 +165,10 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
 
       FOR_EACH_CONST(elem, this) {
         ae_obj_fwrite_internal(elem);
-//        if (! NILP(CDR(position)))
-//        COUNTED_FPUTC('!', fwrite_stream);
         
-        COUNTED_FPRINTF(fwrite_stream, " %p ", position);
-        fflush(fwrite_stream);
+        /* COUNTED_FPRINTF(fwrite_stream, " %p ", position); */
+        /* fflush(fwrite_stream); */
+
         if (! NILP(position))
           COUNTED_FPUTC(' ', fwrite_stream);
       }
