@@ -345,13 +345,12 @@ void truth(void) {
   
   that = ae_obj_truth(false);
 
-#ifdef NIL_IS_IMPLICIT
+#ifdef NIL_EXISTS
+  T(NILP(that));
+#else
   T(CONSP(that) && (! CAR(that)) && (! CDR(that)));
 #endif
 
-#ifdef NIL_EXISTS
-  T(NILP(that));
-#endif
 }
 
 void equal(void) {
