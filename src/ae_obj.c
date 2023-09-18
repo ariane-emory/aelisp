@@ -16,7 +16,7 @@ ae_obj_t * symbol_list;
 #endif
 
 #ifndef UNINTERNED_SYMBOL_NIL
-ae_obj_t   obj_nil = { .type = AE_SYMBOL, .sym_val = "nil" };
+ae_obj_t   nil_obj = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

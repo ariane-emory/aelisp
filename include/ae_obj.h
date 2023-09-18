@@ -59,6 +59,16 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define STRINGP(o)              ((o)->type == AE_STRING)
 #define SYMBOLP(o)              ((o)->type == AE_SYMBOL)
 
+#ifdef NIL_IS_AN_INTERNED_SYMBOL
+#  define NIL                   (INTERN(&symbol_list, "nil"))
+#  define NILP(o)               ((o) == INTERN(&symbol_list, "nil"))
+#endif
+
+#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
+#  define NIL                   (&nil_obj)
+#  define NILP(o)               ((o) == nil_obj)
+#endif
+
 #define ASSERT_EQ(this, that)   (assert((this) == (that)))
 #define ASSERT_NEQ(this, that)  (assert((this) != (that)))
 
@@ -174,7 +184,7 @@ extern ae_obj_t * symbol_list;
 #endif
 
 #ifndef UNINTERNED_SYMBOL_NIL
-extern ae_obj_t obj_nil;
+extern ae_obj_t nil_obj;
 #endif
 
 #include "ae_obj_list.h"
