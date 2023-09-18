@@ -1,4 +1,5 @@
-UNAME_S      = $(shell uname -s)
+UNAME_S = $(shell uname -s)
+VARIANT = NIL_IS_IMPLICIT     
 
 YACC_LEX_CFLAGS = \
 	-ggdb \
@@ -7,7 +8,7 @@ YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Wno-address-of-packed-member \
-	-DNIL_IS_IMPLICIT
+	-D$(VARIANT)
 
 STRICTER_CFLAGS = \
   -ggdb \
@@ -25,7 +26,7 @@ STRICTER_CFLAGS = \
 	-Wno-unused-but-set-variable \
 	-DACUTEST_SPACES=60 \
 	-DACUTEST_IGNORE_EXIT \
-	-DNIL_IS_IMPLICIT
+	-D$(VARIANT)
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
@@ -57,9 +58,7 @@ obj/%.o: src/%.c obj
 ################################################################################
 
 bin/test/%: bin/test
-	$(CC) -o $@_implicit   $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS)
-	$(CC) -o $@_interned   $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -UNIL_IS_IMPLICIT -DNIL_IS_AN_INTERNED_SYMBOL
-	$(CC) -o $@_uninterned $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -UNIL_IS_IMPLICIT -DNIL_IS_AN_UNINTERNED_SYMBOL
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS)
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
@@ -100,9 +99,7 @@ bin/test:
 
 tests: clean all
 	./bin/ae
-	$(foreach bin, $(TEST_BINS), echo; $(bin)_implicit)
-	$(foreach bin, $(TEST_BINS), echo; $(bin)_interned)
-	$(foreach bin, $(TEST_BINS), echo; $(bin)_uninterned)
+	$(foreach bin, $(TEST_BINS), echo; $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae
