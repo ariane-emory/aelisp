@@ -2,7 +2,6 @@ To Do:
 - [ ] Revise how spaces are inserted between elements when writing lists.
 - [ ] Add tests for using rationals with ae_obj_eql.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
-- [ ] Add rational support to ae_obj_eql.
 - [ ] Maybe add addressable nil value?
 - [ ] Add macro version of map?
 - [ ] Review (and test) the so-called 'word-oriented' puts?
