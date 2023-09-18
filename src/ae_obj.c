@@ -11,11 +11,11 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef INTERNED_SYMBOL_NIL
+#ifndef NIL_IS_AN_INTERNED_SYMBOL
 ae_obj_t * symbol_list;
 #endif
 
-#ifndef UNINTERNED_SYMBOL_NIL
+#ifndef UNNIL_IS_AN_INTERNED_SYMBOL
 ae_obj_t   nil_obj = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
 

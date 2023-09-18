@@ -179,11 +179,11 @@ bool          ae_obj_equal         (const ae_obj_t *  const this,  const ae_obj_
 ae_obj_t *    ae_obj_truth         (const bool              this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef INTERNED_SYMBOL_NIL
+#ifndef NIL_IS_AN_INTERNED_SYMBOL
 extern ae_obj_t * symbol_list;
 #endif
 
-#ifndef UNINTERNED_SYMBOL_NIL
+#ifndef UNNIL_IS_AN_INTERNED_SYMBOL
 extern ae_obj_t nil_obj;
 #endif
 
