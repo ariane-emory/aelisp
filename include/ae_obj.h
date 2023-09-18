@@ -188,13 +188,16 @@ bool          ae_obj_equal         (const ae_obj_t *  const this,  const ae_obj_
 ae_obj_t *    ae_obj_truth         (const bool              this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
+extern ae_obj_t true_obj;
+#endif
+
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
 extern ae_obj_t * symbol_list;
 #endif
 
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 extern ae_obj_t nil_obj;
-extern ae_obj_t true_obj;
 #endif
 
 #include "ae_obj_list.h"

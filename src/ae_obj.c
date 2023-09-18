@@ -11,6 +11,9 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
+ae_obj_t  true_obj    = { .type = AE_SYMBOL, .sym_val = "t" };
+#endif
 
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
 ae_obj_t * symbol_list = NULL;
@@ -18,7 +21,6 @@ ae_obj_t * symbol_list = NULL;
 
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 // It would be nice if this could be const but that might not be practical:
-ae_obj_t  true_obj    = { .type = AE_SYMBOL, .sym_val = "t" };
 ae_obj_t  nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
 
@@ -151,7 +153,7 @@ ae_obj_t * ae_obj_truth (const bool this) {
   */
   
   if (this)
-    return &((ae_obj_t){ .type = AE_SYMBOL, .sym_val = "t"});
+    return &true_obj;
 
   return
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
