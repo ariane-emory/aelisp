@@ -277,6 +277,7 @@ void intern_symbols(void) {
 
   // re-use 'this' as the symbol list here:
   T(INTERN(&this, "one") == INTERN(&this, "one"));
+  T(LENGTH(this) == 1);
   T(INTERN(&this, "one") != INTERN(&this, "two"));
   T(LENGTH(this) == 2);
 }
