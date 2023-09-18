@@ -56,7 +56,9 @@ obj/%.o: src/%.c obj
 ################################################################################
 
 bin/test/%: bin/test
-	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS)
+	$(CC) -o $@_implicit   $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS)
+	$(CC) -o $@_interned   $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -UNIL_IS_IMPLICIT -DNIL_IS_AN_INTERNED_SYMBOL
+	$(CC) -o $@_uninterned $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS) -UNIL_IS_IMPLICIT -DNIL_IS_AN_UNINTERNED_SYMBOL
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
@@ -97,7 +99,9 @@ bin/test:
 
 tests: clean all
 	./bin/ae
-	$(foreach bin, $(TEST_BINS), $(bin))
+	$(foreach bin, $(TEST_BINS), echo; $(bin)_implicit)
+	$(foreach bin, $(TEST_BINS), echo; $(bin)_interned)
+	$(foreach bin, $(TEST_BINS), echo; $(bin)_uninterned)
 
 debug: clean all
 	$(GDB) ./bin/ae
