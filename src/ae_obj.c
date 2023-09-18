@@ -95,8 +95,8 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     /* WRITE(that); */
     /* putchar('\n'); */
     
-    /* bool x =  (NUMER_VAL(this) == NUMER_VAL(that) && */
-    /*            DENOM_VAL(this) == DENOM_VAL(that)); */
+    bool x =  (NUMER_VAL(this) == NUMER_VAL(that) &&
+               DENOM_VAL(this) == DENOM_VAL(that));
 
     /* puts(x ? "yes" : "no"); */
 
