@@ -1,5 +1,5 @@
 UNAME_S = $(shell uname -s)
-N     = N_IS_IMPLICIT     
+N     = NIL_IS_IMPLICIT     
 
 YACC_LEX_CFLAGS = \
 	-ggdb \

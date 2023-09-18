@@ -148,15 +148,21 @@ ae_obj_t * ae_obj_truth (const bool this) {
      Probably a good idea to come up with a less sketchy way of implementing this...
   */
   
-  return this
-    ? &((ae_obj_t){ .type = AE_SYMBOL, .sym_val = "t"             })
-    :
+  if (this)
+    return &((ae_obj_t){ .type = AE_SYMBOL, .sym_val = "t"});
+
+  
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-    &nil_obj
-#else
-  &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL })
+  return &nil_obj;
 #endif
-  ;
+  
+#ifdef NIL_IS_AN_INTERNED_SYMBOL
+  return INTERN(&symbol_list, "nil");
+#endif
+  
+#ifdef NIL_IS_IMPLICIT
+  return &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL });
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
