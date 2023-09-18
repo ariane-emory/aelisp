@@ -1,5 +1,4 @@
 To Do:
-- [ ] Revise how spaces are inserted between elements when writing lists.
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Review (and test) the 'word-oriented' puts.
@@ -11,6 +10,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Revise how spaces are inserted between elements when writing lists.
 - [x] Add tests for using rationals with ae_obj_eql.
 - [x] Add rational support to ae_obj_eql.
 - [x] Rename the so called 'byte-oriented' puts (they are actually word-oriented).

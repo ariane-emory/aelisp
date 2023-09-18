@@ -140,10 +140,10 @@ void basic_list_checks(ae_obj_t * this) {
   T(LENGTH(this) == 4);
   T(list_length_counter == 4);
   T(list_length_counter == LENGTH(this));
-  T(shitty_write_based_equality_predicate(this, "(1 2 3 4 \b) "));
-  T(shitty_write_based_equality_predicate(MAP(this, ae_obj_double), "(2 4 6 8 \b) "));
-  T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_double)), "(2 4 6 8 \b) "));
-  T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_to_pairs)), "((1 1 \b) (2 2 \b) (3 3 \b) (4 4 \b) \b) "));
+  T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
+  T(shitty_write_based_equality_predicate(MAP(this, ae_obj_double), "(2 4 6 8)"));
+  T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_double)), "(2 4 6 8)"));
+  T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_to_pairs)), "((1 1) (2 2) (3 3) (4 4))"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +189,7 @@ void remove_interned_elem_from_list(void) {
   
   T(LENGTH(this) == 3);
   T(! MEMBER(this, that));
-  T(shitty_write_based_equality_predicate(this, "(d c a \b) "));
+  T(shitty_write_based_equality_predicate(this, "(d c a)"));
 }
 
 void test_setup_is_okay(void)
