@@ -380,6 +380,22 @@ void equal(void) {
   ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
   ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
 
+  ae_obj_t * obj_rat_2a      = NEW(AE_RATIONAL);
+  NUMER_VAL (obj_rat_2a)     = 2;
+  DENOM_VAL (obj_rat_2a)     = 1;
+  
+  ae_obj_t * obj_rat_2b      = NEW(AE_RATIONAL);
+  NUMER_VAL (obj_rat_2b)     = 4;
+  DENOM_VAL (obj_rat_2b)     = 2;
+  
+  ae_obj_t * obj_rat_3a      = NEW(AE_RATIONAL);
+  NUMER_VAL (obj_rat_3a)     = 3;
+  DENOM_VAL (obj_rat_3a)     = 1;
+  
+  ae_obj_t * obj_rat_3b      = NEW(AE_RATIONAL);
+  NUMER_VAL (obj_rat_3b)     = 9;
+  DENOM_VAL (obj_rat_3b)     = 3;
+  
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \
     X(obj_int_2b)                                                                                  \
@@ -392,7 +408,12 @@ void equal(void) {
     X(obj_bool_false)                                                                              \
     X(obj_bool_true)                                                                               \
     X(obj_list_consed)                                                                             \
-    X(obj_list_pushed)
+    X(obj_list_pushed)                                                                             \
+    X(obj_rat_2a)                                                                                  \
+    X(obj_rat_2b)                                                                                  \
+    X(obj_rat_3a)                                                                                  \
+    X(obj_rat_3b)
+
 
 #define NETP(first, second)                                                                        \
   if (first != second) {                                                                           \

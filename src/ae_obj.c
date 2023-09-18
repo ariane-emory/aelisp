@@ -36,6 +36,15 @@ static int gcd(const int left, const int right) {
   return gcd;
 }
 
+void ae_rational_simplify(ae_obj_t * this) {
+  ASSERT_RATIONALP(this);
+  
+  int this_gcd = gcd(NUMER_VAL(this), DENOM_VAL(this));
+
+  NUMER_VAL((ae_obj_t *)this) /= this_gcd;
+  DENOM_VAL((ae_obj_t *)this) /= this_gcd;
+}
+
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   /* todo: handle rationals */
 
@@ -61,16 +70,10 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
 
   if (RATIONALP (this)  && RATIONALP(that)) {
     // If they're both rationals we're going to cast away const and simplify
-    // them both firdt before comparing their numerators and denominators.
+    // them both first before comparing their numerators and denominators.
 
-    int this_gcd = gcd(NUMER_VAL(this), DENOM_VAL(this));
-    int that_gcd = gcd(NUMER_VAL(that), DENOM_VAL(that));
-
-    NUMER_VAL((ae_obj_t *)this) /= this_gcd;
-    NUMER_VAL((ae_obj_t *)this) /= this_gcd;
-
-    NUMER_VAL((ae_obj_t *)that) /= that_gcd;
-    NUMER_VAL((ae_obj_t *)that) /= that_gcd;
+    ae_rational_simplify((ae_obj_t *)this);
+    ae_rational_simplify((ae_obj_t *)that);
 
     return (NUMER_VAL(this) == NUMER_VAL(that) &&
             DENOM_VAL(this) == DENOM_VAL(that));

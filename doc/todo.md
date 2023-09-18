@@ -5,7 +5,7 @@ To Do:
 - [ ] Maybe add addressable nil value?
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql.
 - [ ] Add macro version of map?
-- [ ] Review (and test) the so-called 'word-oriented' puts?
+- [ ] Review (and test) the 'word-oriented' puts.
 - [ ] Maybe also a vector type of some sort?
 - [ ] Review whether or not the values of pointers returned by ae_obj_truth are UB and possibly come up with something better.
 - [ ] Fix inappropriate handling of quote.
