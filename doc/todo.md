@@ -1,6 +1,5 @@
 To Do:
 - [ ] Revise how spaces are inserted between elements when writing lists.
-- [ ] Add tests for using rationals with ae_obj_eql.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Maybe add addressable nil value?
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
@@ -12,6 +11,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Add tests for using rationals with ae_obj_eql.
 - [x] Add rational support to ae_obj_eql.
 - [x] Rename the so called 'byte-oriented' puts (they are actually word-oriented).
 - [x] Better code for aligning type strs when printing objs.
