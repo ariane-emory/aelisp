@@ -36,7 +36,7 @@ const char * ae_type_str(const ae_type_t this) {
 #undef return_str
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _init method
+// _equal method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static int gcd(const int left, const int right) {
@@ -98,22 +98,8 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     ae_rational_simplify((ae_obj_t *)this);
     ae_rational_simplify((ae_obj_t *)that);
 
-    /* printf("here\n"); */
-    /* fputs("this ", stdout); */
-    /* WRITE(this); */
-    /* putchar('\n'); */
-    /* printf("here\n"); */
-
-    /* fputs("that ", stdout); */
-    /* WRITE(that); */
-    /* putchar('\n'); */
-    
-    bool x =  (NUMER_VAL(this) == NUMER_VAL(that) &&
-               DENOM_VAL(this) == DENOM_VAL(that));
-
-    /* puts(x ? "yes" : "no"); */
-
-    return x;
+    return (NUMER_VAL(this) == NUMER_VAL(that) &&
+             DENOM_VAL(this) == DENOM_VAL(that));
   }
 
   if (RATIONALP (this)  && INTEGERP (that) &&
@@ -136,7 +122,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _init method
+// _truth method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_truth (const bool this) {

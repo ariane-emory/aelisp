@@ -1,12 +1,12 @@
 To Do:
 - [X] Finish adding an addressable nil object:
     - [ ] FOR_EACH macro variants.
-    - [ ] _map variants.
     - [ ] _length variants.
-    - [ ] _truth variants.
-    - [ ]  _push_back variants.
+    - [ ] _map variants.
+    - [ ] _push_back variants.
     - [ ] .yacc adjustments when parsing () / nil.
-    - [X] Tests: equality/truth test variants should employ nil if it exists.
+    - [x] _truth variants.
+    - [x] Tests: equality/truth test variants should employ nil if it exists.
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add env frames.
