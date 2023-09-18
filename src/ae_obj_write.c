@@ -12,7 +12,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define NL      fputc('\n', stream)
-#define BSPC    fputc('\b', stream)
 #define SPC     fputc(' ',  stream)
 #define LPAR    fputc('(',  stream)
 #define RPAR    fputc(')',  stream)
