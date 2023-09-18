@@ -80,6 +80,14 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     ae_rational_simplify((ae_obj_t *)that);
 
     printf("here\n");
+    fputs("this ", stdout);
+    WRITE(this);
+    putchar('\n');
+    printf("here\n");
+
+    fputs("that ", stdout);
+    WRITE(that);
+    putchar('\n');
     
     return (NUMER_VAL(this) == NUMER_VAL(that) &&
             DENOM_VAL(this) == DENOM_VAL(that));
