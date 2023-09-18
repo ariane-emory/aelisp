@@ -6,7 +6,7 @@
 #include "ae_obj_pool.h"
 
 #ifndef AE_OBJ_POOL_SIZE
-#  define AE_OBJ_POOL_SIZE (1 << 6)
+#  define AE_OBJ_POOL_SIZE (1 << 10)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
