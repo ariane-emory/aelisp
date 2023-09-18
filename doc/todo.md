@@ -3,10 +3,11 @@ To Do:
 - [ ] Add tests for using rationals with ae_obj_eql.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Maybe add addressable nil value?
+_ [ ] ae_ob_truth(false) and the empty list should be eq and eql.
 - [ ] Add macro version of map?
 - [ ] Review (and test) the so-called 'word-oriented' puts?
 - [ ] Maybe also a vector type of some sort?
-- [ ] Review whether or not the values of pointers returned by ae_obj_truth is UB and possibly come up with something better.
+- [ ] Review whether or not the values of pointers returned by ae_obj_truth are UB and possibly come up with something better.
 - [ ] Fix inappropriate handling of quote.
 - [ ] ... advices?!
 
