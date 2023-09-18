@@ -496,8 +496,8 @@ void equal(void) {
   DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
   DO(unsafe_move_an_ae_obj)                                                                        \
   DO(clone_a_simple_ae_obj)                                                                        \
-  DO(pushed_list_tests)                                                                            \
   DO(consed_list_tests)                                                                            \
+  DO(pushed_list_tests)                                                                            \
   DO(pushed_and_consed_lists_write_identically)                                                    \
   DO(intern_symbols)                                                                               \
   DO(remove_interned_elem_from_list)                                                               \
