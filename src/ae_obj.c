@@ -12,11 +12,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef NIL_IS_AN_INTERNED_SYMBOL
-ae_obj_t * symbol_list;
+ae_obj_t * symbol_list = NULL;
 #endif
 
 #ifndef NIL_IS_AN_INTERNED_SYMBOL
-ae_obj_t   nil_obj = { .type = AE_SYMBOL, .sym_val = "nil" };
+ae_obj_t   nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
