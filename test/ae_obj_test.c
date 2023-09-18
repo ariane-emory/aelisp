@@ -362,16 +362,16 @@ void equal(void) {
   ae_obj_t * obj_float_2b    = NEW(AE_FLOAT);
   FLOAT_VAL (obj_float_2b)   = 2.0;
 
-  ae_obj_t * obj_int_3a      = NEW(AE_INTEGER);  // not yet used
+  ae_obj_t * obj_int_3a      = NEW(AE_INTEGER);
   INT_VAL   (obj_int_3a)     = 3;
 
-  ae_obj_t * obj_int_3b      = NEW(AE_INTEGER);  // not yet used
+  ae_obj_t * obj_int_3b      = NEW(AE_INTEGER);
   INT_VAL   (obj_int_3b)     = 3;
 
-  ae_obj_t * obj_float_3a    = NEW(AE_FLOAT);    // not yet used
+  ae_obj_t * obj_float_3a    = NEW(AE_FLOAT);
   FLOAT_VAL (obj_float_3a)   = 3.0;
 
-  ae_obj_t * obj_float_3b    = NEW(AE_FLOAT);    // not yet used
+  ae_obj_t * obj_float_3b    = NEW(AE_FLOAT);
   FLOAT_VAL (obj_float_3b)   = 3.0;
 
   ae_obj_t * obj_bool_false  = ae_obj_truth(false);
