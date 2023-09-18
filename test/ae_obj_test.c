@@ -23,8 +23,9 @@
 
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
 
+static char * tmp_str = NULL;
+
 #define SETUP_TEST                                                                                 \
-  static char * tmp_str = NULL;                                                                    \
   ae_obj_t *    this    = NULL;                                                                    \
   ae_obj_t *    that    = NULL;                                                                    \
   pool_clear();                                                                                    \
@@ -146,10 +147,18 @@ void basic_list_checks(ae_obj_t * this) {
   T(LENGTH(this) == 4);
   T(list_length_counter == 4);
   T(list_length_counter == LENGTH(this));
+
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+
   T(shitty_write_based_equality_predicate(MAP(this, ae_obj_double), "(2 4 6 8)"));
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+
   T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_double)), "(2 4 6 8)"));
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+
   T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_to_pairs)), "((1 1) (2 2) (3 3) (4 4))"));
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
