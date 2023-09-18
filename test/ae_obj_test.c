@@ -341,7 +341,7 @@ void truth(void) {
 
   this = ae_obj_truth(true);
 
-  T(INTEGERP(this) && INT_VAL(this) == 1);
+  T(SYMBOLP(this) && strcmp(SYM_VAL(this), "t") == 0);
   
   that = ae_obj_truth(false);
 
