@@ -432,16 +432,16 @@ void equal(void) {
   FOR_EVERY_OBJ_DO(SELF_EQUAL);
   
   //  Some numbers are equal to each other:
-  ETP( obj_int_2a   , obj_int_2b   );
-  ETP( obj_float_2a , obj_float_2b );
-  ETP( obj_rat_2a   , obj_rat_2b   );
-  // ... even if they have different types:
-  ETP( obj_int_2a   , obj_float_2a );
-  ETP( obj_int_2a   , obj_rat_2b   );
-  ETP( obj_rat_2a   , obj_float_2a );
-  ETP( obj_int_3a   , obj_float_3a );
-  ETP( obj_int_3a   , obj_rat_3b   );
-  ETP( obj_rat_3a   , obj_float_3a );
+  ETP( obj_int_2a    , obj_int_2b   );
+  ETP( obj_float_2a  , obj_float_2b );
+  ETP( obj_rat_2a    , obj_rat_2b   );
+  // ... even if the y have different types:
+  ETP( obj_int_2a    , obj_float_2a );
+  ETP( obj_int_2a    , obj_rat_2b   );
+  ETP( obj_rat_2a    , obj_float_2a );
+  ETP( obj_int_3a    , obj_float_3a );
+  ETP( obj_int_3a    , obj_rat_3b   );
+  ETP( obj_rat_3a    , obj_float_3a );
 
   //  Some numbers are not equal to each other.
   NETP( obj_int_2a   , obj_int_3a   );
