@@ -171,7 +171,7 @@ void remove_elem_from_list(void) {
   
   this = REMOVE(this, that);
   
-  T(LENGTH(this) == 3)
+  T(LENGTH(this) == 3);
   T(! MEMBER(this, that));
   T(shitty_write_based_equality_predicate(this, "(d c a \b) "));
 }
