@@ -1,9 +1,11 @@
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
-#include <stdbool.h>
 #include <string.h>
-#include <assert.h>
+
+#define BEFORE_ACUTEST
 
 #include "ae_obj.h"
 
@@ -36,6 +38,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void before_acutest() {
+  printf("Testing with " NIL_DESCRIPTION "\n");
+}
 
 char * write_to_new_string(const ae_obj_t * const this) {
   char * buff;
