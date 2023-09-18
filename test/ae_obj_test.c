@@ -440,7 +440,7 @@ void equal(void) {
   ETP( obj_int_2a    , obj_rat_2b   );
   ETP( obj_rat_2a    , obj_float_2a );
   ETP( obj_int_3a    , obj_float_3a );
-  ETP( obj_int_3a    , obj_rat_3b   );
+  ETP( obj_int_3a    , obj_rat_3b  );
   ETP( obj_rat_3a    , obj_float_3a );
 
   //  Some numbers are not equal to each other.
@@ -453,6 +453,11 @@ void equal(void) {
   NETP( obj_float_2a , obj_float_3a );
   NETP( obj_float_2a , obj_int_3a   );
   NETP( obj_float_2a , obj_rat_3a   );
+
+  NETP( obj_rat_2a   , obj_int_3a   );
+  NETP( obj_rat_2a   , obj_float_3a );
+  NETP( obj_rat_2a   , obj_int_3a   );
+  NETP( obj_rat_2a   , obj_rat_3a   );
 
   // These aren't equal to anything other than themselves:
 #define XX(other) NETP(obj_bool_false, other);
