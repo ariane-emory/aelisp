@@ -150,7 +150,13 @@ ae_obj_t * ae_obj_truth (const bool this) {
   
   return this
     ? &((ae_obj_t){ .type = AE_SYMBOL, .sym_val = "t"             })
-    : &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL });
+    :
+#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
+    &nil_obj
+#else
+  &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL })
+#endif
+  ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
