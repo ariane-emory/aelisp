@@ -60,12 +60,16 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
       INT_VAL  (this)  == INT_VAL  (that))
     return true;
   
-  if (FLOATP   (this)  && INTEGERP (that) &&
+  if (FLOATP   (this)  && FLOATP (that) &&
       FLOAT_VAL(this)  == FLOAT_VAL(that))
     return true;
   
   if (INTEGERP (this)  && FLOATP   (that) &&
       INT_VAL  (this)  == FLOAT_VAL(that))
+    return true;
+
+  if ( FLOATP   (this) && INTEGERP (that) &&
+       FLOAT_VAL(this) == INT_VAL  (that))
     return true;
 
   if (RATIONALP (this)  && RATIONALP(that)) {
