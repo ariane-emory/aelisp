@@ -40,7 +40,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INVALID:
   case AE_FREE:
   case AE_INF:
-    BSPC; 
+    // BSPC; 
     break;
   case AE_CONS:
     if (! CAR(this)) {
@@ -58,12 +58,12 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INTEGER:
   case AE_RATIONAL:
     FWRITE(this, stream);
-    BSPC;
+    // BSPC;
     break;
   default:
     LSQR;
     FWRITE(this, stream);
-    BSPC;
+    // BSPC;
     RSQR;
   }
   
@@ -161,11 +161,13 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     if (CONSP(this) && CAR(this) ) {
       COUNTED_FPUTC('(', fwrite_stream);
 
-      FOR_EACH_CONST(elem, this)
+      FOR_EACH_CONST(elem, this) {
         ae_obj_fwrite_internal(elem);
+        if (CDR(position))
+          COUNTED_FPUTC(' ', fwrite_stream);
+      }
       
       /// COUNTED_FPUTC('\b', fwrite_stream);
-      COUNTED_FPUTC(' ', fwrite_stream);
       COUNTED_FPUTC(')', fwrite_stream);
     }
     else
