@@ -68,7 +68,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   }
   
   SPC;
-  RSQR;
+//  RSQR;
 
   return 0;
 }
