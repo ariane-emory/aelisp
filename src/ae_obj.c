@@ -59,25 +59,37 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
       INT_VAL  (that)  == FLOAT_VAL(this))
     return true;
 
-  // This is a pretty lame way of doing this:
-  if (RATIONALP (this)  && RATIONALP(that) &&
-      (NUMER_VAL(this) / DENOM_VAL(this))        == (NUMER_VAL(that)/ DENOM_VAL(that)))
-    return true;
+  if (RATIONALP (this)  && RATIONALP(that)) {
+    // If they're both rationals we're going to cast away const and simplify
+    // them both firdt before comparing their numerators and denominators.
+
+    int this_gcd = gcd(NUMER_VAL(this), DENOM_VAL(this));
+    int that_gcd = gcd(NUMER_VAL(that), DENOM_VAL(that));
+
+    NUMER_VAL((ae_obj_t *)this) /= this_gcd;
+    NUMER_VAL((ae_obj_t *)this) /= this_gcd;
+
+    NUMER_VAL((ae_obj_t *)that) /= that_gcd;
+    NUMER_VAL((ae_obj_t *)that) /= that_gcd;
+
+    return (NUMER_VAL(this) == NUMER_VAL(that) &&
+            DENOM_VAL(this) == DENOM_VAL(that));
+  }
 
   if (RATIONALP (this)  && INTEGERP (that) &&
       ((int)(NUMER_VAL(this) / DENOM_VAL(this))) == INT_VAL(that))
     return true;
 
   if (INTEGERP (this)   && RATIONALP(that) &&
-      INT_VAL(this)                              == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
+      INT_VAL(this)     == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
     return true;
 
   if (RATIONALP (this)  && FLOATP (that) &&
       ((int)(NUMER_VAL(this) / DENOM_VAL(this))) == FLOAT_VAL(that))
     return true;
 
-  if (FLOATP (this)   && RATIONALP(that) &&
-      FLOAT_VAL(this)                            == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
+  if (FLOATP (this)     && RATIONALP(that) &&
+      FLOAT_VAL(this)   == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
     return true;
 
   return false;
