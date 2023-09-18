@@ -151,17 +151,17 @@ ae_obj_t * ae_obj_truth (const bool this) {
   if (this)
     return &((ae_obj_t){ .type = AE_SYMBOL, .sym_val = "t"});
 
-  
+  return
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-  return &nil_obj;
+  &nil_obj;
 #endif
   
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
-  return INTERN(&symbol_list, "nil");
+  INTERN(&symbol_list, "nil");
 #endif
   
 #ifdef NIL_IS_IMPLICIT
-  return &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL });
+  &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL });
 #endif
 }
 
