@@ -24,6 +24,7 @@ STRICTER_CFLAGS = \
 	-Wno-unused-variable \
 	-Wno-unused-but-set-variable \
 	-DACUTEST_SPACES=60 \
+	-DACUTEST_IGNORE_EXIT \
 	-DNIL_IS_IMPLICIT
 
 ifeq ($(UNAME_S),Darwin)

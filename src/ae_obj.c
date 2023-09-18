@@ -149,8 +149,8 @@ ae_obj_t * ae_obj_truth (const bool this) {
   */
   
   return this
-    ? &((ae_obj_t){ .type = AE_INTEGER, .int_val = 1               })
-    : &((ae_obj_t){ .type = AE_CONS, .head = NULL, .tail = NULL });
+    ? &((ae_obj_t){ .type = AE_SYMBOL, .sym_val = "t"             })
+    : &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
