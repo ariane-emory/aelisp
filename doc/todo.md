@@ -6,7 +6,7 @@ To Do:
     - [ ] _truth variants.
     - [ ]  _push_back variants.
     - [ ] .yacc adjustments when parsing () / nil.
-    - [ ] Tests: equality/truth test variants should employ nil if it exists.
+    - [X] Tests: equality/truth test variants should employ nil if it exists.
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add env frames.
