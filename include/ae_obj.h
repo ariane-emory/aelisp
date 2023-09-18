@@ -58,16 +58,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define RPARENP(o)              ((o)->type == AE_RPAREN)
 #define STRINGP(o)              ((o)->type == AE_STRING)
 #define SYMBOLP(o)              ((o)->type == AE_SYMBOL)
-
-#ifdef NIL_IS_AN_INTERNED_SYMBOL
-#  define NIL                   (INTERN(&symbol_list, "nil"))
-#  define NILP(o)               ((o) == INTERN(&symbol_list, "nil"))
-#endif
-
-#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-#  define NIL                   (&nil_obj)
-#  define NILP(o)               ((o) == nil_obj)
-#endif
+#define NULLP(o)                (! (o))
 
 #define ASSERT_EQ(this, that)   (assert((this) == (that)))
 #define ASSERT_NEQ(this, that)  (assert((this) != (that)))
@@ -86,7 +77,24 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define ASSERT_RPARENP(o)       (assert(RPARENP(o)))
 #define ASSERT_STRINGP(o)       (assert(STRINGP(o)))
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
-#define ASSERT_NULLP(o)         (assert(! (o)))
+#define ASSERT_NULLP(o)         (assert(NULLP(o)))
+
+
+#ifdef NIL_IS_AN_INTERNED_SYMBOL
+#  define NIL                   (INTERN(&symbol_list, "nil"))
+#  define NILP(o)               ((o) == INTERN(&symbol_list, "nil"))
+#endif
+
+#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
+#  define NIL                   (&nil_obj)
+#  define NILP(o)               ((o) == nil_obj)
+#endif
+
+#ifdef NIL_EXISTS
+#  define CDR_IS_NILP(o)        (NILP(CDR((o))))
+#else
+#  define CDR_IS_NILP(o)        (NULLP(CDR(())))
+#endif
 
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
