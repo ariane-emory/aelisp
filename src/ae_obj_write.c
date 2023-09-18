@@ -160,19 +160,21 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
   case AE_CONS:
-    if (CONSP(this) && CAR(this) ) {
       COUNTED_FPUTC('(', fwrite_stream);
 
       for (const ae_obj_t *
              position = this;
            ! NILP(position);
            position = CDR(position)) {
+        COUNTED_FPRINTF(fwrite_stream, " %p ", position);
+        fflush(fwrite_stream);
+
+        if (! CONSP(position)) break;
+        
         ae_obj_t * elem = CAR(position);
         
-        /* COUNTED_FPRINTF(fwrite_stream, " %p ", position); */
-        /* fflush(fwrite_stream); */
-        
         ae_obj_fwrite_internal(elem);
+        fflush(fwrite_stream);
         
         if (! NILP(CDR(position)))
           COUNTED_FPUTC(' ', fwrite_stream);
@@ -180,9 +182,6 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
       
       /// COUNTED_FPUTC('\b', fwrite_stream);
       COUNTED_FPUTC(')', fwrite_stream);
-    }
-    else
-      COUNTED_FPUTS("nil", fwrite_stream);
     break;
   case AE_SYMBOL:
     COUNTED_FPUTS(SYM_VAL(this), fwrite_stream);
