@@ -93,7 +93,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 
 #ifdef NIL_IS_IMPLICIT
 #  define NIL                   (&nil_obj)
-#  define NILP(o)               (CONSP(o) && (! CAR(o)) && (! CDR(o)))
+#  define NILP(o)               ((o) == NIL)
 #  define TRU                   (&true_obj)
 #endif
 
@@ -196,14 +196,11 @@ ae_obj_t *    ae_obj_truth         (const bool              this                
 
 #if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
 extern ae_obj_t true_obj;
+extern ae_obj_t nil_obj;
 #endif
 
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
 extern ae_obj_t * symbol_list;
-#endif
-
-#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-extern ae_obj_t nil_obj;
 #endif
 
 #include "ae_obj_list.h"
