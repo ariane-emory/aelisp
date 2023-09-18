@@ -1,5 +1,5 @@
 UNAME_S = $(shell uname -s)
-VARIANT = NIL_IS_IMPLICIT     
+N     = N_IS_IMPLICIT     
 
 YACC_LEX_CFLAGS = \
 	-ggdb \
@@ -8,7 +8,7 @@ YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Wno-address-of-packed-member \
-	-D$(VARIANT)
+	-D$(N)
 
 STRICTER_CFLAGS = \
   -ggdb \
@@ -26,7 +26,7 @@ STRICTER_CFLAGS = \
 	-Wno-unused-but-set-variable \
 	-DACUTEST_SPACES=60 \
 	-DACUTEST_IGNORE_EXIT \
-	-D$(VARIANT)
+	-D$(N)
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
