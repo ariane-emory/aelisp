@@ -1,7 +1,12 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#include "ae_preconditions.h"
 #include "ae_obj_pool.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
