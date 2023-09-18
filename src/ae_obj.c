@@ -60,12 +60,12 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
       INT_VAL  (this)  == INT_VAL  (that))
     return true;
   
-  if (FLOATP   (that)  && INTEGERP (this) &&
-      FLOAT_VAL(that)  == INT_VAL  (this))
+  if (FLOATP   (this)  && INTEGERP (that) &&
+      FLOAT_VAL(this)  == FLOAT_VAL(that))
     return true;
   
-  if (INTEGERP (that)  && FLOATP   (this) &&
-      INT_VAL  (that)  == FLOAT_VAL(this))
+  if (INTEGERP (this)  && FLOATP   (that) &&
+      INT_VAL  (this)  == FLOAT_VAL(that))
     return true;
 
   if (RATIONALP (this)  && RATIONALP(that)) {
@@ -84,7 +84,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     return true;
 
   if (INTEGERP (this)   && RATIONALP(that) &&
-      INT_VAL(this)     == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
+      INT_VAL(this)     == ((int)(NUMER_VAL(this) / DENOM_VAL(that))))
     return true;
 
   if (RATIONALP (this)  && FLOATP (that) &&
@@ -92,7 +92,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     return true;
 
   if (FLOATP (this)     && RATIONALP(that) &&
-      FLOAT_VAL(this)   == ((int)(NUMER_VAL(this) / DENOM_VAL(this))))
+      FLOAT_VAL(this)   == ((int)(NUMER_VAL(that) / DENOM_VAL(that))))
     return true;
 
   return false;
