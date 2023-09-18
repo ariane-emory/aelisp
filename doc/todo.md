@@ -1,13 +1,13 @@
 To Do:
 - [ ] Revise how spaces are inserted between elements when writing lists.
-- [ ] Add a free list allocator and make a pool to hold strings' data.
-- [ ] Maybe add addressable nil value?
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
-- [ ] Add macro version of map?
+- [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Review (and test) the 'word-oriented' puts.
-- [ ] Maybe also a vector type of some sort?
 - [ ] Review whether or not the values of pointers returned by ae_obj_truth are UB and possibly come up with something better.
 - [ ] Fix inappropriate handling of quote.
+- [ ] Maybe add addressable nil value?
+- [ ] Maybe add macro version of map?
+- [ ] Maybe also a vector type of some sort?
 - [ ] ... advices?!
 
 Completed:
