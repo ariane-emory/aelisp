@@ -153,10 +153,13 @@ void basic_list_checks(ae_obj_t * this) {
 void remove_elem_from_list(void) {
   SETUP_TEST;
 
-  // re-use 'this' as the symbol list here:
+  // using 'this' as the symbol list here:
   T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
+  T(LENGTH(this) == 1);
   T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
+  T(LENGTH(this) == 2);
   T(EQ(INTERN(&this, "c"), INTERN(&this, "c")));
+  T(LENGTH(this) == 3);
   T(EQ(INTERN(&this, "d"), INTERN(&this, "d")));
   T(LENGTH(this) == 4);
 
@@ -166,7 +169,6 @@ void remove_elem_from_list(void) {
   this = CONS(that, this);
   
   T(LENGTH(this) == 5);
-  
   T(MEMBER(this, that));
   
   this = REMOVE(this, that);
@@ -275,6 +277,8 @@ void pushed_and_consed_lists_write_identically(void) {
 void intern_symbols(void) {
   SETUP_TEST;
 
+  // deliberately avoid initializing this because INTERN should do so itself automatically.
+  
   // re-use 'this' as the symbol list here:
   T(INTERN(&this, "one") == INTERN(&this, "one"));
   T(LENGTH(this) == 1);
