@@ -162,20 +162,15 @@ void remove_interned_elem_from_list(void) {
     T(LENGTH(this) == (len + 1));                                                                  \
   }
     
-  // using 'this' as the symbol list here:
-  TEST_INTERN("a");
-  TEST_INTERN("b");
-  TEST_INTERN("c");
-  TEST_INTERN("d");
-  
-  /* T(EQ(INTERN(&this, "a"), INTERN(&this, "a"))); */
-  /* T(LENGTH(this) == 1); */
-  /* T(EQ(INTERN(&this, "b"), INTERN(&this, "b"))); */
-  /* T(LENGTH(this) == 2); */
-  /* T(EQ(INTERN(&this, "c"), INTERN(&this, "c"))); */
-  /* T(LENGTH(this) == 3); */
-  /* T(EQ(INTERN(&this, "d"), INTERN(&this, "d"))); */
-  /* T(LENGTH(this) == 4); */
+  // using 'this' as the symbol list here:  
+  T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
+  T(LENGTH(this) == 1);
+  T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
+  T(LENGTH(this) == 2);
+  T(EQ(INTERN(&this, "c"), INTERN(&this, "c")));
+  T(LENGTH(this) == 3);
+  T(EQ(INTERN(&this, "d"), INTERN(&this, "d")));
+  T(LENGTH(this) == 4);
 
   that = INTERN(&this, "b");
 
