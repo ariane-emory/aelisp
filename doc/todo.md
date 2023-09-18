@@ -6,9 +6,10 @@ To Do:
     - [ ] _truth variants.
     - [ ]  _push_back variants.
     - [ ] .yacc adjustments when parsing () / nil.
-    - [ ] Tests: equality/truth test varuants should emply nil if it exists.
+    - [ ] Tests: equality/truth test variants should emply nil if it exists.
 - [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
+- [ ] Add env frames.
 - [ ] Review (and test) the 'word-oriented' puts.
 - [ ] Review whether or not the values of pointers returned by ae_obj_truth are UB and possibly come up with something better.
 - [ ] Fix inappropriate handling of quote.
