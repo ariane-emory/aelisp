@@ -86,7 +86,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 #  define NIL                   (&nil_obj)
-#  define NILP(o)               ((o) == nil_obj)
+#  define NILP(o)               ((o) == &nil_obj)
 #endif
 
 #ifdef NIL_EXISTS
@@ -186,11 +186,11 @@ bool          ae_obj_equal         (const ae_obj_t *  const this,  const ae_obj_
 ae_obj_t *    ae_obj_truth         (const bool              this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef NIL_IS_AN_INTERNED_SYMBOL
+#ifdef NIL_IS_AN_INTERNED_SYMBOL
 extern ae_obj_t * symbol_list;
 #endif
 
-#ifndef NIL_IS_AN_INTERNED_SYMBOL
+#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 extern ae_obj_t nil_obj;
 #endif
 

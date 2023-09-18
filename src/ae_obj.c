@@ -11,11 +11,11 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef NIL_IS_AN_INTERNED_SYMBOL
+#ifdef NIL_IS_AN_INTERNED_SYMBOL
 ae_obj_t * symbol_list = NULL;
 #endif
 
-#ifndef NIL_IS_AN_UNINTERNED_SYMBOL
+#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 // It would be nice if this could be const but that might not be practical:
 ae_obj_t   nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
