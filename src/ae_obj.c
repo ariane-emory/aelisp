@@ -12,16 +12,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
-ae_obj_t  true_obj    = { .type = AE_SYMBOL, .sym_val = "t" };
+ae_obj_t  true_obj    = { .type = AE_SYMBOL, .sym_val = "t"   };
+ae_obj_t  nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
 
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
 ae_obj_t * symbol_list = NULL;
-#endif
-
-#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-// It would be nice if this could be const but that might not be practical:
-ae_obj_t  nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,21 +148,8 @@ ae_obj_t * ae_obj_truth (const bool this) {
      Probably a good idea to come up with a less sketchy way of implementing this...
   */
   
-  if (this)
-    return TRU;
-  
-  return
-#ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-  &nil_obj;
-#endif
-  
-#ifdef NIL_IS_AN_INTERNED_SYMBOL
-  INTERN(&symbol_list, "nil");
-#endif
-  
-#ifdef NIL_IS_IMPLICIT
-  &((ae_obj_t){ .type = AE_CONS,   .head = NULL, .tail = NULL });
-#endif
+  return this ? TRU : NIL;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

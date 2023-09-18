@@ -80,18 +80,19 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
 
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
-#  define NILP(o)               ((o) == INTERN(&symbol_list, "nil"))
 #  define NIL                   (INTERN(&symbol_list, "nil"))
+#  define NILP(o)               ((o) == NIL)
 #  define TRU                   (INTERN(&symbol_list, "t"))
 #endif
 
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
-#  define NILP(o)               ((o) == &nil_obj)
 #  define NIL                   (&nil_obj)
+#  define NILP(o)               ((o) == NIL)
 #  define TRU                   (&true_obj)
 #endif
 
 #ifdef NIL_IS_IMPLICIT
+#  define NIL                   (&nil_obj)
 #  define NILP(o)               (CONSP(o) && (! CAR(o)) && (! CDR(o)))
 #  define TRU                   (&true_obj)
 #endif
