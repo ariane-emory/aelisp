@@ -122,6 +122,9 @@ void mini_test(void)
   FF;
 
   pool_print();
+
+  WRITE(this);
+  putchar('\n');
   
   return;
   
