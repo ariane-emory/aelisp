@@ -135,10 +135,11 @@ void mini_test(void)
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * list = NEW(AE_CONS);
+
   ae_obj_t * head = NEW(AE_INTEGER);
   head->int_val   = 4;
-  CAR(list)       = head;
+
+  ae_obj_t * list = CONS(head, NIL);
   
   T(LENGTH(list) == 1);
 
@@ -191,12 +192,21 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
+  pool_print();
+
+  putchar('\n');
+
+  printf("NIL  is at %p.\n", NIL);
+  FF;
+
   COUNT_LIST_LENGTH(this);
 
   T(LENGTH(this) == 4);
   T(list_length_counter == 4);
   T(list_length_counter == LENGTH(this));
 
+  WRITE(this); NL;
+  
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
