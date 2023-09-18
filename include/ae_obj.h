@@ -79,7 +79,6 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
 
-
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
 #  define NIL                   (INTERN(&symbol_list, "nil"))
 #  define NILP(o)               ((o) == INTERN(&symbol_list, "nil"))
