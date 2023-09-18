@@ -162,7 +162,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
 
       FOR_EACH_CONST(elem, this) {
         ae_obj_fwrite_internal(elem);
-        if (CDR(position))
+        if (! NILP(CDR(position)))
           COUNTED_FPUTC(' ', fwrite_stream);
       }
       
