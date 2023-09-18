@@ -169,5 +169,13 @@ bool          ae_obj_equal         (const ae_obj_t *  const this,  const ae_obj_
 ae_obj_t *    ae_obj_truth         (const bool              this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef INTERNED_SYMBOL_NIL
+extern ae_obj_t * symbol_list;
+#endif
+
+#ifndef UNINTERNED_SYMBOL_NIL
+extern ae_obj_t obj_nil;
+#endif
+
 #include "ae_obj_list.h"
 #include "ae_obj_write.h"
