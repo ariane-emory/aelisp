@@ -169,7 +169,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
         /* COUNTED_FPRINTF(fwrite_stream, " %p ", position); */
         /* fflush(fwrite_stream); */
 
-        if (! NILP(position))
+        if (! NILP(CDR(position)))
           COUNTED_FPUTC(' ', fwrite_stream);
       }
       
