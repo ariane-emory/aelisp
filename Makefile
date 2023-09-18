@@ -1,5 +1,5 @@
 UNAME_S = $(shell uname -s)
-N     = NIL_IS_IMPLICIT     
+N       = NIL_IS_IMPLICIT     
 
 YACC_LEX_CFLAGS = \
 	-ggdb \
@@ -98,7 +98,7 @@ bin/test:
 ################################################################################
 
 tests: clean all
-	./bin/ae
+#	./bin/ae
 	$(foreach bin, $(TEST_BINS), echo; $(bin))
 
 debug: clean all

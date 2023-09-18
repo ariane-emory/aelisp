@@ -81,11 +81,13 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 
 #ifdef NIL_IS_AN_INTERNED_SYMBOL
 #  define NIL                   (INTERN(&symbol_list, "nil"))
+#  define TRU                   (INTERN(&symbol_list, "t"))
 #  define NILP(o)               ((o) == INTERN(&symbol_list, "nil"))
 #endif
 
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 #  define NIL                   (&nil_obj)
+#  define TRU                   (&true_obj)
 #  define NILP(o)               ((o) == &nil_obj)
 #endif
 
@@ -192,6 +194,7 @@ extern ae_obj_t * symbol_list;
 
 #ifdef NIL_IS_AN_UNINTERNED_SYMBOL
 extern ae_obj_t nil_obj;
+extern ae_obj_t true_obj;
 #endif
 
 #include "ae_obj_list.h"
