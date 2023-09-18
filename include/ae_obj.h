@@ -44,7 +44,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define CHARP(o)                ((o)->type == AE_CHAR)
 #define CONSP(o)                ((o)->type == AE_CONS)
 #define FLOATP(o)               ((o)->type == AE_FLOAT)
-#define FREEP(o)                ((o)->type == AE_FREE____)
+#define FREEP(o)                ((o)->type == AE_FREE)
 #define INTEGERP(o)             ((o)->type == AE_INTEGER)
 #define INVALIDP(o)             ((o)->type == AE_INVALID)
 #define LPARENP(o)              ((o)->type == AE_LPAREN)
@@ -125,7 +125,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define enum_node(x) x,
 
 typedef enum {
-  AE_FREE____ = 0,
+  AE_FREE = 0,
   FOR_EACH_LEXED_TYPE(enum_node)
 } ae_type_t;
 

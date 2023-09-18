@@ -15,7 +15,7 @@
 const char * ae_type_str(const ae_type_t this) {
   switch (this) {
     FOR_EACH_LEXED_TYPE(return_str);
-    return_str(AE_FREE____);
+    return_str(AE_FREE);
   default:
     return "UNRECOGNIZED";
   }
@@ -180,7 +180,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 #endif
 
   COPY(this, that);
-  INIT(that, AE_FREE____);
+  INIT(that, AE_FREE);
 
 #ifdef NOISY_INIT
   fputs("Moved            ", stdout);

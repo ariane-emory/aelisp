@@ -38,7 +38,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_LPAREN:
   case AE_RPAREN:
   case AE_INVALID:
-  case AE_FREE____:
+  case AE_FREE:
   case AE_INF:
     BSPC; 
     break;
@@ -163,8 +163,9 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
 
       FOR_EACH_CONST(elem, this)
         ae_obj_fwrite_internal(elem);
-
-      COUNTED_FPUTC('\b', fwrite_stream);
+      
+      /// COUNTED_FPUTC('\b', fwrite_stream);
+      COUNTED_FPUTC(' ', fwrite_stream);
       COUNTED_FPUTC(')', fwrite_stream);
     }
     else
@@ -220,7 +221,7 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPRINTF(fwrite_stream, "UNPRINTABLE");
   }
   
-  COUNTED_FPUTC(' ', fwrite_stream);
+  // COUNTED_FPUTC(' ', fwrite_stream);
 
   return fwrite_counter;
 }
