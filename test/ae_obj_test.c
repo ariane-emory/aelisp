@@ -201,9 +201,7 @@ void test_setup_is_okay(void)
 void newly_allocated_ae_obj_is_inside_pool(void)
 {
   SETUP_TEST;
-
   this = ALLOC();
-  
   T(this >= pool_first && this <= pool_last);
   TEST_MSG("obj @ %p is outside of pool (pool begins at %p, ends at %p).", this, pool_first, pool_last);
 }
@@ -211,7 +209,6 @@ void newly_allocated_ae_obj_is_inside_pool(void)
 void newly_allocated_ae_obj_type_is_AE_INVALID(void)
 {
   SETUP_TEST;
-
   T(INVALIDP(ALLOC()));
 }
 
@@ -219,9 +216,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 #define test(_type)                                                                                \
   {                                                                                                \
     SETUP_TEST;                                                                                    \
-                                                                                                   \
     this = NEW(_type);                                                                             \
-                                                                                                   \
     T(TYPE(this) == _type);                                                                        \
   }
   FOR_EACH_LEXED_TYPE(test);
@@ -229,21 +224,17 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
-
   this = NEW(AE_RATIONAL);
-
   T(this->numerator_val == 0 && this->denominator_val == 0);
 }
 
 void consed_list_tests(void) {
   SETUP_TEST;
-  
   basic_list_checks(cons_together_a_list_of_ints());
 }
 
 void pushed_list_tests(void) {
   SETUP_TEST;
-
   basic_list_checks(push_together_a_list_of_ints());
 }
 
@@ -282,10 +273,8 @@ void clone_a_simple_ae_obj(void) {
 
 void pushed_and_consed_lists_write_identically(void) {
   SETUP_TEST;
-
   this    = push_together_a_list_of_ints();
   tmp_str = SWRITE(this);
-
   T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
