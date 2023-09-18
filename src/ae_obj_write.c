@@ -146,7 +146,7 @@ int ae_obj_write(const ae_obj_t * const this) {
 }
 
 static FILE * fwrite_stream   = NULL;
-int           fwrite_counter  = 0;
+static int    fwrite_counter  = 0;
 
 #define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
 #define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
