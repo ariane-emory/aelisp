@@ -390,6 +390,9 @@ void equal(void) {
   ae_obj_t * obj_rat_3b      = NEW(AE_RATIONAL);
   NUMER_VAL (obj_rat_3b)     = 9;
   DENOM_VAL (obj_rat_3b)     = 3;
+
+  ae_obj_t * obj_empty_a     = NEW(AE_CONS);
+  ae_obj_t * obj_empty_b     = NEW(AE_CONS);
   
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \
@@ -408,7 +411,7 @@ void equal(void) {
     X(obj_rat_2b)                                                                                  \
     X(obj_rat_3a)                                                                                  \
     X(obj_rat_3b)
-
+//  ^ obj_empty_b is excluded.
 
 #define NETP(first, second)                                                                        \
   if (first != second) {                                                                           \
