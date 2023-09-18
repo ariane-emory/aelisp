@@ -46,15 +46,13 @@ void ae_rational_simplify(ae_obj_t * this) {
 }
 
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
-  /* todo: handle rationals */
+  /* fputs("\nThis ", stdout); */
+  /* fputs(ae_type_str(this->type), stdout); */
+  /* putchar('\n'); */
 
-  fputs("\nThis ", stdout);
-  fputs(ae_type_str(this->type), stdout);
-  putchar('\n');
-
-  fputs("That ", stdout);
-  fputs(ae_type_str(that->type), stdout);
-  putchar('\n');
+  /* fputs("That ", stdout); */
+  /* fputs(ae_type_str(that->type), stdout); */
+  /* putchar('\n'); */
 
   if (this             == that)
     return true;
@@ -87,20 +85,20 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     ae_rational_simplify((ae_obj_t *)this);
     ae_rational_simplify((ae_obj_t *)that);
 
-    printf("here\n");
-    fputs("this ", stdout);
-    WRITE(this);
-    putchar('\n');
-    printf("here\n");
+    /* printf("here\n"); */
+    /* fputs("this ", stdout); */
+    /* WRITE(this); */
+    /* putchar('\n'); */
+    /* printf("here\n"); */
 
-    fputs("that ", stdout);
-    WRITE(that);
-    putchar('\n');
+    /* fputs("that ", stdout); */
+    /* WRITE(that); */
+    /* putchar('\n'); */
     
-    bool x =  (NUMER_VAL(this) == NUMER_VAL(that) &&
-               DENOM_VAL(this) == DENOM_VAL(that));
+    /* bool x =  (NUMER_VAL(this) == NUMER_VAL(that) && */
+    /*            DENOM_VAL(this) == DENOM_VAL(that)); */
 
-    puts(x ? "yes" : "no");
+    /* puts(x ? "yes" : "no"); */
 
     return x;
   }
@@ -110,7 +108,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     return true;
 
   if (INTEGERP (this)   && RATIONALP(that) &&
-      INT_VAL(this)     == ((int)(NUMER_VAL(this) / DENOM_VAL(that))))
+      INT_VAL(this)     == ((int)(NUMER_VAL(that) / DENOM_VAL(that))))
     return true;
 
   if (RATIONALP (this)  && FLOATP (that) &&
