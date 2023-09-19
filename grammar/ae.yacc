@@ -18,7 +18,6 @@
 #define OBJ(x)  ae_obj_put(x)
 
   ae_obj_t * root    = 0;
-  ae_obj_t * symbols = 0;
   
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int  yywrap() { return 1; }
@@ -55,8 +54,6 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
-    symbols = NEW(AE_CONS); 
-    
     putchar('\n');
 
     printf("Pool first: %p.\n", pool_first);
@@ -116,7 +113,7 @@
     puts("Wrote items in program obj.");
     NL;
     puts("Writing interned symbols.");
-    ae_obj_write(symbols);
+    ae_obj_write(symbols_list);
     puts("\nWrote interned symbols.");
     NL;
     
@@ -166,7 +163,7 @@ sexps sexp {
     fflush(stdout);
 #endif
 
-    PUSH(&$$, INTERN(&symbols, $2.sym_val));
+    PUSH(&$$, INTERN(&symbols_list, $2.sym_val));
   }
   else {
     ae_obj_t * new_obj = MOVE_NEW(&$2);
@@ -178,7 +175,8 @@ sexps sexp {
   printf("Initting $$ (b)  %p\n", &$$);
 #endif
 
-  INIT(&$$, AE_CONS);
+  // INIT(&$$, AE_CONS);
+  $$ = NIL;
 
 #ifdef NOISY_INIT
   printf("Initted $$ (b)   %p\n\n", &$$);

@@ -180,7 +180,10 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   if (NOT_NULLP(*plist)) {
-    FOR_EACH(elem, *plist) {  
+    FOR_EACH(elem, *plist) {
+      fputs("Looking at ", stdout);
+      PUT(elem);
+      fflush(stdout);
       if (strcmp(string, elem->sym_val) == 0) 
         return elem;
     }

@@ -100,8 +100,8 @@ bin/test:
 ################################################################################
 
 tests: clean all
-#	./bin/ae
 	$(foreach bin, $(TEST_BINS), echo; $(bin))
+	./bin/ae
 
 debug: clean all
 	$(GDB) ./bin/ae

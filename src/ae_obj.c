@@ -11,8 +11,9 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t  true_obj    = { .type = AE_SYMBOL, .sym_val = "t"   };
-ae_obj_t  nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
+ae_obj_t   true_obj     = { .type = AE_SYMBOL, .sym_val = "t"   };
+ae_obj_t   nil_obj      = { .type = AE_SYMBOL, .sym_val = "nil" };
+ae_obj_t * symbols_list = NULL;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_type_str method
