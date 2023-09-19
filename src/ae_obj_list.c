@@ -96,14 +96,13 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 
   ae_obj_t * new_list = NIL;
   
-  FOR_EACH(elem, list) {
+  FOR_EACH(elem, list)
     if (EQ(elem, member))
       continue;
     else if (NILP(new_list))
       new_list = CONS(elem, NIL);
     else 
       PUSH(new_list, elem);
-  }
   
   return new_list;
 }
