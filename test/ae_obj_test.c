@@ -198,10 +198,10 @@ void basic_list_checks(ae_obj_t * this) {
   /* pool_print(); */
   /* NL; */
   
-  fprintf(stdout, "Checking ");
-  WRITE(this);
-  NL;
-  FF;
+  /* fprintf(stdout, "Checking "); */
+  /* WRITE(this); */
+  /* NL; */
+  /* FF; */
 
   putchar('\n');
 
@@ -222,19 +222,19 @@ void basic_list_checks(ae_obj_t * this) {
   ae_obj_t * mapped = NULL;
 
   mapped = MAP(this, ae_obj_double);
-  fprintf(stdout, "doubled "); WRITE(mapped); NL;
+  // fprintf(stdout, "doubled "); WRITE(mapped); NL;
   // pool_print();
   T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   mapped = CLONE(mapped);
-  fprintf(stdout, "cloned  "); WRITE(mapped); NL;
+  // fprintf(stdout, "cloned  "); WRITE(mapped); NL;
   // pool_print();
   T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   mapped = MAP(mapped, ae_obj_to_pairs);
-  fprintf(stdout, "paired  ");   WRITE(mapped); NL;
+  // fprintf(stdout, "paired  ");   WRITE(mapped); NL;
   // pool_print();
   T(shitty_write_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
@@ -372,10 +372,12 @@ void intern_symbols(void) {
   SETUP_TEST;
 
   // deliberately avoid initializing this because INTERN should do so itself automatically.
+
+  this = CONS(NIL,NIL);
   
   // re-use 'this' as the symbol list here:
   T(INTERN(&this, "one") == INTERN(&this, "one"));
-  pool_print();
+  // pool_print();
   /* T(LENGTH(this) == 1); */
   /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(this), 1); */
   
