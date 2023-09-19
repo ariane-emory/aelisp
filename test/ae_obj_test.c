@@ -122,7 +122,7 @@ void mini_test(void)
   printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
   FF;
 
-  pool_print();
+  // pool_print();
 
   WRITE(this);
   putchar('\n');
@@ -212,7 +212,7 @@ void basic_list_checks(ae_obj_t * this) {
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   ae_obj_t * mapped = MAP(this, ae_obj_double);
-  
+  WRITE(mapped);
   T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
 
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);

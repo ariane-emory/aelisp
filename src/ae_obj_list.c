@@ -51,11 +51,6 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
-  /* if (! list) */
-  /*   return NULL; */
-
-  /* ASSERT_CONSP(list); */
-
 #define MAP_RECURSES
 
 #ifdef MAP_RECURSES
