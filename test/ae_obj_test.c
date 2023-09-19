@@ -249,7 +249,7 @@ void basic_list_checks(ae_obj_t * this) {
 void remove_interned_elem_from_list(void) {
   SETUP_TEST;
  
-  this = NEW(AE_CONS);
+  this = 0; // NEW(AE_CONS);
 
 #define TEST_INTERN(str)                                                                           \
   {                                                                                                \
