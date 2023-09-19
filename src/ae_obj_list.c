@@ -183,7 +183,8 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
       return elem;
   }
 
-  ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string);
+  ae_obj_t * sym  = NEW(AE_SYMBOL);
+  SYM_VAL   (sym) = strdup(string);
    
   return CAR(*plist = CONS(sym, *plist));
 }
