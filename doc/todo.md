@@ -1,9 +1,9 @@
 To Do:
 - [X] Finish adding an addressable nil object:
-    - [ ] FOR_EACH macro variants.
-    - [ ] _length variants.
-    - [ ] _map variants.
-    - [ ] _push_back variants.
+    - [x] FOR_EACH macro variants.
+    - [x] _length variants.
+    - [x] _map variants.
+    - [x] _push_back variants.
     - [ ] .yacc adjustments when parsing () / nil.
     - [x] _truth variants.
     - [x] Tests: equality/truth test variants should employ nil if it exists.
