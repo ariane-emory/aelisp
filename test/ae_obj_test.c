@@ -94,8 +94,8 @@ void mini_test(void)
 
   putchar('\n');
 
-  printf("NIL  is at %p.\n", NIL);
-  FF;
+  /* printf("NIL  is at %p.\n", NIL); */
+  /* FF; */
   
   ae_obj_t * num = NEW(AE_INTEGER);
   INT_VAL(num)  = 12;
