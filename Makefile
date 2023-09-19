@@ -1,6 +1,6 @@
 # mt N=NIL_IS_IMPLICIT  ; mt N=NIL_IS_AN_UNINTERNED_SYMBOL
 UNAME_S = $(shell uname -s)
-N       = NIL_IS_IMPLICIT     
+N       = IGNORED
 
 YACC_LEX_CFLAGS = \
 	-ggdb \

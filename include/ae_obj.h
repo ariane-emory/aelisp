@@ -84,12 +84,6 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define NILP(o)                 ((o) == NIL)
 #define TRU                     (&true_obj)
 
-#ifdef NIL_EXISTS
-#  define CDR_IS_NILP(o)        (NILP(CDR((o))))
-#else
-#  define CDR_IS_NILP(o)        (NULLP(CDR(())))
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Escaped chars helper macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -40,9 +40,7 @@ static char * tmp_str = NULL;
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void before_acutest() {
-  printf("Test with " NIL_DESCRIPTION "\n");
-}
+void before_acutest() {}
 
 char * write_to_new_string(const ae_obj_t * const this) {
   char * buff;
