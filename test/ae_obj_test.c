@@ -375,11 +375,15 @@ void intern_symbols(void) {
 
   // re-use 'this' as the symbol list here:
   T(INTERN(&this, "one") == INTERN(&this, "one"));
+  T(strcmp(SYM_VAL(INTERN(&this, "one")), "one"));
+    
   // pool_print();
   /* T(LENGTH(this) == 1); */
   /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(this), 1); */
   
   T(INTERN(&this, "one") != INTERN(&this, "two"));
+  T(strcmp(SYM_VAL(INTERN(&this, "two")), "two"));
+  
   pool_print();
   /* T(LENGTH(this) == 2); */
   /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(this), 2); */
