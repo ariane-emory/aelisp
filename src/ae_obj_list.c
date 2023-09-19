@@ -174,7 +174,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DECLARE_NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
+#define INTERN_NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   if (NOT_NULLP(*plist)) {
@@ -183,17 +183,13 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
         return elem;
     }
 
-    DECLARE_NEW_SYM;
-
+    INTERN_NEW_SYM;
     *plist = CONS(sym, *plist);
-     
-    return sym; // CAR(*plist = CONS(sym, *plist));
+    return sym;
   }
   
-  DECLARE_NEW_SYM;
-     
+  INTERN_NEW_SYM;
   *plist = CONS(sym, NIL);
-  
   return sym;
 }
 
