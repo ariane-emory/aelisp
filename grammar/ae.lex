@@ -12,7 +12,7 @@
   
   enum yytokentype tokenize(
     const char * const name,
-    enum yytokentype toktype,
+    enum yytokentype yy_tok_type,
     const ae_type_t ae_type) {
     printf("Grabbed '%s'.\n", yytext);
 
@@ -98,7 +98,7 @@
       putchar('\n');
     }
     
-    return toktype;
+    return yy_tok_type;
   }
 %}
 
