@@ -45,7 +45,7 @@ ae_obj_t *    ae_list_push_back    (      ae_obj_t *  const list,  ae_obj_t *  c
 ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const member       );
 bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const member       );
 int           ae_list_length       (const ae_obj_t *  const list                                  );
-ae_obj_t *    ae_list_map          (const ae_obj_t *  const list,  ae_list_map_fun   fun          );
+ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_fun   fun          );
 void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun          );
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string       );
 ////////////////////////////////////////////////////////////////////////////////////////////////////

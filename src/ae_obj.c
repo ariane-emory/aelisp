@@ -195,7 +195,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 // _clone method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_obj_clone(const ae_obj_t * const this) {
+ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #ifdef NOISY_INIT
   fputs("Cloning          ", stdout);
   PUT(this);
