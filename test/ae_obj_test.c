@@ -63,12 +63,15 @@ bool shitty_write_based_equality_predicate(
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t * list    = NEW(AE_CONS);
+  ae_obj_t * num     = NEW(AE_INTEGER);
+  INT_VAL(num)       = 1;
+  
+  ae_obj_t * list    = CONS(num, NIL);
   ae_obj_t * tailtip = list;
 
-  T(LENGTH(tailtip) == 0);
+  T(LENGTH(tailtip) == 1);
 
-  for (int ix = 0; ix < 4; ix++) { 
+  for (int ix = 1; ix < 4; ix++) { 
     ae_obj_t * new_int = NEW(AE_INTEGER);
     int        int_val = ix + 1;
     new_int->int_val   = int_val;
