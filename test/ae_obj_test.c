@@ -40,7 +40,12 @@ static char * tmp_str = NULL;
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void before_acutest() {}
+void before_acutest() {
+  fputs("nil writes as ", stdout);
+  PUT(NIL);
+  printf(" and has sym_val '%s'", SYM_VAL(NIL));
+  NL;
+}
 
 char * write_to_new_string(const ae_obj_t * const this) {
   char * buff;
