@@ -63,6 +63,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
     return list;
 
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
+  
 #else
   ae_obj_t * new_list = NEW(AE_CONS);
   ae_obj_t * tailtip  = new_list;
