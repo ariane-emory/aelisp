@@ -174,20 +174,28 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define DECLARE_NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
+
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
-  if (! *plist)
-    *plist = CONS(NIL,NIL);
+  if (NOT_NULLP(*plist)) {
+    FOR_EACH(elem, *plist) {  
+      if (strcmp(string, elem->sym_val) == 0) 
+        return elem;
+    }
 
-  FOR_EACH(elem, *plist) {  
-    if (strcmp(string, elem->sym_val) == 0) 
-      return elem;
+    DECLARE_NEW_SYM;
+
+    *plist = CONS(sym, *plist);
+     
+    return sym; // CAR(*plist = CONS(sym, *plist));
   }
-
-  ae_obj_t * sym  = NEW(AE_SYMBOL);
-  SYM_VAL   (sym) = strdup(string);
-   
-  return CAR(*plist = CONS(sym, *plist));
+  
+  DECLARE_NEW_SYM;
+     
+  *plist = CONS(sym, NIL);
+  
+  return sym;
 }
 
-#undef NEW_SYM
+#undef DECLARE_NEW_SYM
 
