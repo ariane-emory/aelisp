@@ -195,8 +195,8 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
-  pool_print();
-  NL;
+  /* pool_print(); */
+  /* NL; */
   
   fprintf(stdout, "Checking ");
   WRITE(this);
@@ -205,8 +205,8 @@ void basic_list_checks(ae_obj_t * this) {
 
   putchar('\n');
 
-  printf("NIL  is at %p.\n", NIL);
-  FF;
+  /* printf("NIL  is at %p.\n", NIL); */
+  /* FF; */
 
   COUNT_LIST_LENGTH(this);
 
@@ -239,7 +239,7 @@ void basic_list_checks(ae_obj_t * this) {
   T(shitty_write_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
-  // pool_print();
+  pool_print();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
