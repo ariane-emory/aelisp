@@ -373,8 +373,6 @@ void intern_symbols(void) {
 
   // deliberately avoid initializing this because INTERN should do so itself automatically.
 
-  this = CONS(NIL,NIL);
-  
   // re-use 'this' as the symbol list here:
   T(INTERN(&this, "one") == INTERN(&this, "one"));
   // pool_print();
