@@ -153,32 +153,27 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_CONSP(list);
  
-#ifdef NOISY_INIT
-  fputs("Pushing          ", stdout);
-  ae_obj_put(member);
-  fputs(" into ", stdout);
-  ae_obj_put(list);
-  putchar('\n');
-#endif
+  /* fputs("Pushing          ", stdout); */
+  /* ae_obj_put(member); */
+  /* fputs(" into ", stdout); */
+  /* ae_obj_put(list); */
+  /* putchar('\n'); */
+  /* fflush(stdout); */
   
-  if (CAR(list)) {
-    ae_obj_t * new_list = list;
+  ae_obj_t * preexisting_cons = list;
     
-    for (; CDR(new_list); new_list = CDR(new_list));
+  for (;
+       ! NILP(CDR(preexisting_cons));
+       preexisting_cons = CDR(preexisting_cons));
 
-    CDR(new_list)       = CONS(member, NULL);
+  /* printf("Reached %p.\n", preexisting_cons); */
+  /* fflush(stdout); */
 
-    AFTER_PUSH_MESSAGE(CDR(new_list));
+  CDR(preexisting_cons)       = CONS(member, NIL);
+
+  AFTER_PUSH_MESSAGE(CDR(preexisting_cons));
   
-    return CDR(new_list);
-  }
-  else {
-    CAR(list) = member;
-
-    AFTER_PUSH_MESSAGE(list);
-
-    return list;
-  }
+  return CDR(preexisting_cons);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

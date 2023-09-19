@@ -108,7 +108,9 @@ void mini_test(void)
   printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
   FF;
 
-///  PUSH(this, num);
+  pool_print();
+  
+  PUSH(this, num);
   
   /* this = CONS(num, this); */
   /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
