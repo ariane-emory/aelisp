@@ -64,16 +64,18 @@
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
     
-/* #define PRINT_SIZEOF(t)      printf("sizeof(" #t ") = %d bytes.\n", sizeof(t)) */
-/*     PRINT_SIZEOF(int); */
-/*     PRINT_SIZEOF(ae_obj_t *); */
-/*     PRINT_SIZEOF(ae_obj_t); */
-/*     PRINT_SIZEOF(ae_type_t); */
-/*     printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_val)); */
+#define PRINT_SIZEOF(t)                                                                            \
+    printf("sizeof(" #t ") = %d bytes.\n", sizeof(t));                                             \
+    PRINT_SIZEOF(int);                                                                             \
+    PRINT_SIZEOF(ae_obj_t *);                                                                      \
+    PRINT_SIZEOF(ae_obj_t);                                                                        \
+    PRINT_SIZEOF(ae_type_t);                                                                       \
+    printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_val));
 
-/* #ifdef POOL_SIZE */
-/*     printf("\nUsing pool from %p to %p.\n\n", pool_first, pool_last); */
-/* #endif */
+#ifdef AE_OBJ_POOL_SIZE
+    #error "Bang"
+    printf("\nUsing pool from %p to %p.\n\n", pool_first, pool_last);
+#endif
     
     FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
