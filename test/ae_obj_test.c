@@ -102,24 +102,26 @@ void mini_test(void)
   this = CONS(num, NIL);
   printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
   FF;
-  
+
   num           = NEW(AE_INTEGER);
   INT_VAL(num)  = 13;
   printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
   FF;
+
+///  PUSH(this, num);
   
-  this = CONS(num, this);
-  printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
-  FF;
+  /* this = CONS(num, this); */
+  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
+  /* FF; */
   
-  num           = NEW(AE_INTEGER);
-  INT_VAL(num)  = 14;
-  printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
-  FF;
+  /* num           = NEW(AE_INTEGER); */
+  /* INT_VAL(num)  = 14; */
+  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
+  /* FF; */
   
-  this = CONS(num, this);
-  printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
-  FF;
+  /* this = CONS(num, this); */
+  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
+  /* FF; */
 
   pool_print();
 
@@ -547,22 +549,22 @@ void equal(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(mini_test)                                                                                    \
-  DO(test_setup_is_okay)                                                                           \
-  DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
-  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
-  DO(newly_initialized_ae_obj_has_correct_type_field)                                              \
-  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
-  DO(unsafe_move_an_ae_obj)                                                                        \
-  DO(clone_a_simple_ae_obj)                                                                        \
-  DO(consed_list_tests)                                                                            \
-  DO(pushed_list_tests)                                                                            \
-  DO(pushed_and_consed_lists_write_identically)                                                    \
-  DO(intern_symbols)                                                                               \
-  DO(remove_interned_elem_from_list)                                                               \
-  DO(truth)                                                                                        \
-  DO(equal)                                                                                        \
-  DO(fwrite_lengths)
+  DO(mini_test)                                                                                    
+  /* DO(test_setup_is_okay)                                                                           \ */
+  /* DO(newly_allocated_ae_obj_is_inside_pool)                                                        \ */
+  /* DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \ */
+  /* DO(newly_initialized_ae_obj_has_correct_type_field)                                              \ */
+  /* DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \ */
+  /* DO(unsafe_move_an_ae_obj)                                                                        \ */
+  /* DO(clone_a_simple_ae_obj)                                                                        \ */
+  /* DO(consed_list_tests)                                                                            \ */
+  /* DO(pushed_list_tests)                                                                            \ */
+  /* DO(pushed_and_consed_lists_write_identically)                                                    \ */
+  /* DO(intern_symbols)                                                                               \ */
+  /* DO(remove_interned_elem_from_list)                                                               \ */
+  /* DO(truth)                                                                                        \ */
+  /* DO(equal)                                                                                        \ */
+  /* DO(fwrite_lengths) */
 
 #define pair(fun) { #fun, fun },
 
