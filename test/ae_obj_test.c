@@ -193,7 +193,7 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
-  pool_print();
+  // pool_print();
 
   putchar('\n');
 
@@ -206,13 +206,14 @@ void basic_list_checks(ae_obj_t * this) {
   T(list_length_counter == 4);
   T(list_length_counter == LENGTH(this));
 
-  WRITE(this); NL;
+  // WRITE(this); NL;
   
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   ae_obj_t * mapped = MAP(this, ae_obj_double);
-  WRITE(mapped);
+  WRITE(mapped); NL;
+  pool_print();
   T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
 
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
