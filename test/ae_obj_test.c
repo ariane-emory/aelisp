@@ -210,8 +210,11 @@ void basic_list_checks(ae_obj_t * this) {
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
-  /* T(shitty_write_based_equality_predicate(MAP(this, ae_obj_double), "(2 4 6 8)")); */
-  /* tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str); */
+  ae_obj_t * mapped = MAP(this, ae_obj_double);
+  
+  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
+
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   /* T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_double)), "(2 4 6 8)")); */
   /* tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str); */
