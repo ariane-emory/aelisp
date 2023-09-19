@@ -59,6 +59,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define STRINGP(o)              ((o)->type == AE_STRING)
 #define SYMBOLP(o)              ((o)->type == AE_SYMBOL)
 #define NULLP(o)                (! (o))
+#define NOT_NULLP(o)            (! NULLP(o))
 
 #define ASSERT_EQ(this, that)   (assert((this) == (that)))
 #define ASSERT_NEQ(this, that)  (assert((this) != (that)))

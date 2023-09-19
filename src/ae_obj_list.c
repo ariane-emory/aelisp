@@ -110,11 +110,9 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  ASSERT_NEQ(head, tail); // consing an obj onto itself is not yet supported.
+  assert(NOT_NULLP(tail));
+  assert(NILP(tail) || NEQ(head, tail)) ; // consing an obj onto itself is not yet supported.
   
-  if (tail)
-    assert(CONSP(tail) || SYMBOLP(tail));
-
 #ifdef NOISY_INIT
   printf("Cons %p %p\n", head, tail);
   fflush(stdout);
