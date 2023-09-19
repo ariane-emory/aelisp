@@ -548,22 +548,22 @@ void equal(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(mini_test)                                                                                    
-  /* DO(test_setup_is_okay)                                                                           \ */
-  /* DO(newly_allocated_ae_obj_is_inside_pool)                                                        \ */
-  /* DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \ */
-  /* DO(newly_initialized_ae_obj_has_correct_type_field)                                              \ */
-  /* DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \ */
-  /* DO(unsafe_move_an_ae_obj)                                                                        \ */
-  /* DO(clone_a_simple_ae_obj)                                                                        \ */
-  /* DO(consed_list_tests)                                                                            \ */
-  /* DO(pushed_list_tests)                                                                            \ */
-  /* DO(pushed_and_consed_lists_write_identically)                                                    \ */
-  /* DO(intern_symbols)                                                                               \ */
-  /* DO(remove_interned_elem_from_list)                                                               \ */
-  /* DO(truth)                                                                                        \ */
-  /* DO(equal)                                                                                        \ */
-  /* DO(fwrite_lengths) */
+  DO(mini_test)                                                                                    \
+  DO(test_setup_is_okay)                                                                           \
+  DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
+  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
+  DO(newly_initialized_ae_obj_has_correct_type_field)                                              \
+  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
+  DO(unsafe_move_an_ae_obj)                                                                        \
+  DO(clone_a_simple_ae_obj)                                                                        \
+  DO(consed_list_tests)                                                                            \
+  DO(pushed_list_tests)                                                                            \
+  DO(pushed_and_consed_lists_write_identically)                                                    \
+  DO(intern_symbols)                                                                               \
+  DO(remove_interned_elem_from_list)                                                               \
+  DO(truth)                                                                                        \
+  DO(equal)                                                                                        \
+  DO(fwrite_lengths)
 
 #define pair(fun) { #fun, fun },
 
