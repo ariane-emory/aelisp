@@ -166,8 +166,8 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
              * position = this,
              * elem     = CAR(position);
            ! NILP(position);
-           position = CDR(position)) {
-        elem = CAR(position);
+           elem = CAR(position = CDR(position))) {
+//        elem = CAR(position);
         
         ae_obj_fwrite_internal(elem);
         fflush(fwrite_stream);
