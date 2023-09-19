@@ -71,9 +71,9 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
   T(LENGTH(tailtip) == 1);
 
-  for (int ix = 1; ix < 4; ix++) { 
+  for (int ix = 2; ix < 5; ix++) { 
     ae_obj_t * new_int = NEW(AE_INTEGER);
-    int        int_val = ix + 1;
+    int        int_val = ix;
     new_int->int_val   = int_val;
 
     tailtip              = PUSH(tailtip, new_int);
@@ -81,7 +81,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
     T(CONSP(tailtip));
     T(INTEGERP(CAR(tailtip)));
     T(INT_VAL(CAR(tailtip)) == int_val);
-    T(LENGTH(list) == ix + 1);
+    T(LENGTH(list) == ix);
     TM("Length is %zu.", LENGTH(tailtip));
   }
 
