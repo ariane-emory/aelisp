@@ -108,22 +108,19 @@ void mini_test(void)
   printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
   FF;
 
-  pool_print();
-  
   PUSH(this, num);
   
-  /* this = CONS(num, this); */
   /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
   /* FF; */
   
-  /* num           = NEW(AE_INTEGER); */
-  /* INT_VAL(num)  = 14; */
-  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
-  /* FF; */
+  num           = NEW(AE_INTEGER);
+  INT_VAL(num)  = 14;
+  printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
+  FF;
   
-  /* this = CONS(num, this); */
-  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
-  /* FF; */
+  this = CONS(num, this);
+  printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
+  FF;
 
   pool_print();
 
