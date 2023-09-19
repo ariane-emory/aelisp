@@ -27,7 +27,7 @@ STRICTER_CFLAGS = \
 	-Wno-unused-but-set-variable \
 	-DACUTEST_SPACES=60 \
 	-DACUTEST_IGNORE_EXIT \
-	-DAE_OBJ_POOL_SIZE=64 \
+	-DAE_OBJ_POOL_SIZE=128 \
 	-D$(N)
 
 ifeq ($(UNAME_S),Darwin)

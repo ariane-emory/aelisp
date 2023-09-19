@@ -96,17 +96,17 @@ void mini_test(void)
   
   ae_obj_t * num = NEW(AE_INTEGER);
   INT_VAL(num)  = 12;
-  printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
-  FF;
+  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
+  /* FF; */
   
   this = CONS(num, NIL);
-  printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
-  FF;
+  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
+  /* FF; */
 
   num           = NEW(AE_INTEGER);
   INT_VAL(num)  = 13;
-  printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
-  FF;
+  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
+  /* FF; */
 
   PUSH(this, num);
   
@@ -115,24 +115,19 @@ void mini_test(void)
   
   num           = NEW(AE_INTEGER);
   INT_VAL(num)  = 14;
-  printf("num  is at %p [ %d ].\n", num, INT_VAL(num));
-  FF;
+  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
+  /* FF; */
   
   this = CONS(num, this);
-  printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this));
-  FF;
+  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
+  /* FF; */
 
   // pool_print();
 
-  WRITE(this);
-  putchar('\n');
+  /* WRITE(this); */
+  /* putchar('\n'); */
   
-  return;
-  
-  putchar('\n');
-  PUT(this);
-  putchar('\n');
-  
+  return;  
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
@@ -185,11 +180,15 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  ae_obj_t * new_list = NEW(AE_CONS);
+  /* fprintf(stdout, "Pairing "); */
+  /* WRITE(this); */
+  /* NL; */
   
-  CAR(new_list) = (ae_obj_t *)this;
+  ae_obj_t * new_cons = CONS(this, CONS(this, NIL));
 
-  return CONS((ae_obj_t *)this, new_list);
+  // WRITE(new_cons);
+
+  return new_cons;
 }
 
 void basic_list_checks(ae_obj_t * this) {
@@ -211,18 +210,27 @@ void basic_list_checks(ae_obj_t * this) {
   T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
-  ae_obj_t * mapped = MAP(this, ae_obj_double);
-  WRITE(mapped); NL;
-  pool_print();
-  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
+  ae_obj_t * mapped = NULL;
 
+  mapped = MAP(this, ae_obj_double);
+  fprintf(stdout, "doubled "); WRITE(mapped); NL;
+  // pool_print();
+  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
-  /* T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_double)), "(2 4 6 8)")); */
-  /* tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str); */
+  mapped = CLONE(mapped);
+  fprintf(stdout, "cloned  "); WRITE(mapped); NL;
+  // pool_print();
+  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
-  /* T(shitty_write_based_equality_predicate(CLONE(MAP(this, ae_obj_to_pairs)), "((1 1) (2 2) (3 3) (4 4))")); */
-  /* tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str); */
+  mapped = MAP(mapped, ae_obj_to_pairs);
+  fprintf(stdout, "paired  ");   WRITE(mapped); NL;
+  // pool_print();
+  T(shitty_write_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
+  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+
+  pool_print();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
