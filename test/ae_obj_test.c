@@ -41,10 +41,12 @@ static char * tmp_str = NULL;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void before_acutest() {
-  fputs("nil writes as ", stdout);
-  PUT(NIL);
-  printf(" and has sym_val '%s'", SYM_VAL(NIL));
-  NL;
+  /* fputs("nil puts as ", stdout); */
+  /* PUT(NIL); */
+  /* fputs(" and writes as '", stdout); */
+  /* WRITE(NIL); */
+  /* printf("' and has sym_val '%s'", SYM_VAL(NIL)); */
+  /* NL; */
 }
 
 char * write_to_new_string(const ae_obj_t * const this) {

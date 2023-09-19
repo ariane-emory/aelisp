@@ -39,16 +39,12 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INVALID:
   case AE_FREE:
   case AE_INF:
-    // BSPC; 
     break;
   case AE_CONS:
-    if (! CAR(this)) {
-      assert(! CDR(this)); // a cons with a CDR but no CAR would be illegal.
-      fputs("nil", stream);
-    }
-    else {
-      fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
-    }
+    assert(CAR(this)); // a cons with a CDR but no CAR would be illegal.
+    
+    fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
+
     break;
   case AE_SYMBOL:
   case AE_STRING:
@@ -57,12 +53,10 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INTEGER:
   case AE_RATIONAL:
     FWRITE(this, stream);
-    // BSPC;
     break;
   default:
     LSQR;
     FWRITE(this, stream);
-    // BSPC;
     RSQR;
   }
   
@@ -152,9 +146,6 @@ static int    fwrite_counter  = 0;
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
-  if (NILP(this) || NULLP(this))
-    return 0;
-  
   switch (TYPE(this)) {
   case AE_INF:
     COUNTED_FPUTS("∞", fwrite_stream);
