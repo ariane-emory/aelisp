@@ -80,17 +80,9 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
 
-#ifdef NIL_IS_AN_INTERNED_SYMBOL
-#  define NIL                   (INTERN(&symbol_list, "nil"))
-#  define NILP(o)               ((o) == NIL)
-#  define TRU                   (INTERN(&symbol_list, "t"))
-#endif
-
-#if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
-#  define NIL                   (&nil_obj)
-#  define NILP(o)               ((o) == NIL)
-#  define TRU                   (&true_obj)
-#endif
+#define NIL                     (&nil_obj)
+#define NILP(o)                 ((o) == NIL)
+#define TRU                     (&true_obj)
 
 #ifdef NIL_EXISTS
 #  define CDR_IS_NILP(o)        (NILP(CDR((o))))
@@ -175,14 +167,8 @@ bool          ae_obj_equal         (const ae_obj_t *  const this,  const ae_obj_
 ae_obj_t *    ae_obj_truth         (const bool              this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
 extern ae_obj_t true_obj;
 extern ae_obj_t nil_obj;
-#endif
-
-#ifdef NIL_IS_AN_INTERNED_SYMBOL
-extern ae_obj_t * symbol_list;
-#endif
 
 #include "ae_obj_list.h"
 #include "ae_obj_write.h"

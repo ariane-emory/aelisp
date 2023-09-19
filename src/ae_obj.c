@@ -11,14 +11,8 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#if defined(NIL_IS_AN_UNINTERNED_SYMBOL) || defined(NIL_IS_IMPLICIT)
 ae_obj_t  true_obj    = { .type = AE_SYMBOL, .sym_val = "t"   };
 ae_obj_t  nil_obj     = { .type = AE_SYMBOL, .sym_val = "nil" };
-#endif
-
-#ifdef NIL_IS_AN_INTERNED_SYMBOL
-ae_obj_t * symbol_list = NULL;
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_type_str method
