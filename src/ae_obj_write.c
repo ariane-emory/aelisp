@@ -162,11 +162,12 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
   case AE_CONS:
       COUNTED_FPUTC('(', fwrite_stream);
 
-      for (const ae_obj_t *
-             position = this;
+      for (const ae_obj_t
+             * position = this,
+             * elem     = CAR(position);
            ! NILP(position);
            position = CDR(position)) {
-        ae_obj_t * elem = CAR(position);
+        elem = CAR(position);
         
         ae_obj_fwrite_internal(elem);
         fflush(fwrite_stream);
