@@ -4,54 +4,74 @@
 
 #include "ae_obj.h"
 
-#define YYSTYPE ae_obj_t
+#define YYSTYPE ae_obj_t *
+
 #include "ae.tab.h"
-  
+
 #define TOKENIZE(x, ae_type) return tokenize(#x, x, ae_type);
   
   enum yytokentype tokenize(
     const char * const name,
-    enum yytokentype x,
+    enum yytokentype toktype,
     const ae_type_t ae_type) {
-    memset(&yylval, 0, sizeof(yylval));
-    
-#ifdef NOISY_INIT
-    printf("Initting yylval  %p\n", &yylval);
-#endif
+    printf("Grabbed '%s'.\n", yytext);
 
-    INIT(&yylval, ae_type);
+    yylval = 0; 
 
-#ifdef NOISY_INIT
-    printf("Initted yylval   %p\n\n", &yylval);
-#endif
-    
-    switch (yylval.type) {
-    case AE_STRING:
-      yylval.str_val = malloc(strlen(yytext) - 1);
-      strncpy(yylval.str_val, yytext + 1, strlen(yytext) - 2);
-      break;
+    switch (ae_type) {
     case AE_SYMBOL:
-      yylval.sym_val = strdup(yytext);
+      yylval = INTERN(&symbols_list, yytext);
+    case AE_INF:
+    case AE_QUOTE:
+    case AE_LPAREN:
+    case AE_RPAREN:
+      goto end;      
+    }
+        
+    yylval = NEW(ae_type);
+      
+    switch (yylval->type) {
+    case AE_CONS:
       break;
+    case AE_INTEGER:
+      yylval->int_val = atoi(yytext);
+      break;
+    case AE_FLOAT:
+      yylval->float_val = strtod(yytext, 0);
+      break;
+    case AE_RATIONAL:
+      int slash_pos = 0;
+      for (; yytext[slash_pos] != '/'; ++slash_pos);
+
+      char * tmp2 = malloc(slash_pos + 1);
+      strncpy(tmp2, yytext, slash_pos);
+      yylval->numerator_val = atoi(tmp2);
+      free(tmp2);
+
+      tmp2 = malloc(strlen(yytext) - slash_pos);
+      strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
+      yylval->denominator_val = atoi(tmp2);
+      free(tmp2);
+      
+      break;
+    case AE_STRING:
+      yylval->str_val = malloc(strlen(yytext) - 1);
+      strncpy(yylval->str_val, yytext + 1, strlen(yytext) - 2);
+      goto end;
     case AE_CHAR:
-      yylval.char_val = 0;
+      char tmp[3];
+      memset(&tmp[0], 0, 3);
 
-      char * tmp = 0;
-
-      if (yytext[0] == '?') {
-        tmp = malloc(strlen(yytext) - 1);
+      if (yytext[0] == '?')
         strncpy(tmp, yytext + 2, strlen(yytext) - 1);
-      }
-      else {
-        tmp = malloc(strlen(yytext) - 1);
+      else
         strncpy(tmp, yytext + 1, strlen(yytext) - 2);
-      }
 
       if (tmp[0] == '\\') {
         switch(tmp[1]) {
-#define escaped_char_case(chr, replacement)                                                                                                 \
-          case chr:                                                                                                                         \
-            yylval.char_val = replacement;                                                                                           \
+#define escaped_char_case(chr, replacement)                                                        \
+          case chr:                                                                                \
+            yylval->char_val = replacement;                                                        \
             break;
           FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
         default:
@@ -60,45 +80,25 @@
         }
       }
       else {
-        yylval.char_val = tmp[0];
+        yylval->char_val = tmp[0];
       }
-      
-      free(tmp);
-      
-      break;
-    case AE_INTEGER:
-      yylval.int_val = atoi(yytext);
-      break;
-    case AE_FLOAT:
-      yylval.float_val = strtod(yytext, 0);
-      break;
-    case AE_RATIONAL:
-      int slash_pos = 0;
-      for (; yytext[slash_pos] != '/'; ++slash_pos);
-
-      char * tmp2 = malloc(slash_pos + 1);
-      strncpy(tmp2, yytext, slash_pos);
-      yylval.numerator_val = atoi(tmp2);
-      free(tmp2);
-
-      tmp2 = malloc(strlen(yytext) - slash_pos);
-      strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
-      yylval.denominator_val = atoi(tmp2);
-      free(tmp2);
-      
-      break;
-    case AE_INF:
-    case AE_QUOTE:
-    case AE_LPAREN:
-    case AE_RPAREN:
-    case AE_CONS:
       break;
     default:
       printf("Tokenized something unrecognizable!\n");
       break;
     }
 
-    return x;
+    
+  end:
+    putchar('\n');
+
+    if (yylval) {
+      printf("Tokenized ");
+      PUT(yylval);
+      putchar('\n');
+    }
+    
+    return toktype;
   }
 %}
 
