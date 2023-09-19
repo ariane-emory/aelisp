@@ -97,20 +97,6 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #  define CDR_IS_NILP(o)        (NULLP(CDR(())))
 #endif
 
-/* #define FOR_EACH(elem, list)                                                                       \ */
-/*   for (ae_obj_t                                                                                    \ */
-/*          * position = (list),                                                                      \ */
-/*          * elem     = CAR((position));                                                             \ */
-/*        position;                                                                                   \ */
-/*        elem         = (position = CDR(position)) ? CAR(position) : NULL)  */
-
-/* #define FOR_EACH_CONST(elem, list)                                                                 \ */
-/*   for (const ae_obj_t                                                                              \ */
-/*          * position = (list),                                                                      \ */
-/*          * elem     = CAR((position));                                                             \ */
-/*        position;                                                                                   \ */
-/*        elem         = (position = CDR(position)) ? CAR(position) : NULL)  */
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Escaped chars helper macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////
