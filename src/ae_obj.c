@@ -138,7 +138,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 #endif
 
   ZERO(this);
-  TYPE(this) = type;
+  this->type = type;
 
 #ifdef AE_LOG_INIT
   fputs("Initialized      ", stdout);
