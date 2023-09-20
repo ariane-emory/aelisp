@@ -88,7 +88,7 @@
     pool_print();
     NL;
 
-    return 0;
+    // return 0;
     
     puts("Describing items in program.");
     EACH(program_obj, describe);
@@ -116,14 +116,14 @@
     
     %}
 
-%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL MATHOP INCROP COMPARE SYMBOL QUOTE CHAR LIST INF NILTOK
+%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL INCROP COMPARE SYMBOL QUOTE CHAR LIST INF NILTOK
 %start program
 
 %%
 
 program: sexps { root = $$; }
 
-atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL | INF;
+atom: CHAR | COMPARE | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 list:
 LPAREN sexps RPAREN { $$ = $2; }
