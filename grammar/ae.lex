@@ -21,6 +21,18 @@
 
     yylval = 0; 
 
+    if (yy_tok_type == NILTOK) {
+      yylval = NIL;
+#ifdef AE_LOG_LEX
+      printf("Returning the nil object, ");
+      PUT(yylval);
+      putchar('\n');
+      fflush(stdout);
+#endif
+      yy_tok_type = SYMBOL;
+      goto end;
+    }
+    
     switch (ae_type) {
     case AE_SYMBOL:
       yylval = INTERN(&symbols_list, yytext);
@@ -99,7 +111,7 @@
       putchar('\n');
       printf("Tokenized ");
       PUT(yylval);
-      putchar('\n');
+      printf(" as yy_tok_type %d.\n", yy_tok_type);
       fflush(stdout);
     }
 #endif
@@ -109,20 +121,21 @@
 %}
 
 %%
-∞                                                                      TOKENIZE(INF,      AE_INF  );
-nil                                                                     TOKENIZE(LIST,     AE_CONS  );
-\'                                                                      TOKENIZE(QUOTE,    AE_QUOTE  );
+∞                                                                      TOKENIZE(INF,      AE_INF     );
+nil          |
+\([\f\n\t\v\ ]*\)                                                       TOKENIZE(NILTOK,   AE_SYMBOL  );
+\'                                                                      TOKENIZE(QUOTE,    AE_QUOTE   );
 \(                                                                      TOKENIZE(LPAREN,   AE_LPAREN  );
 \)                                                                      TOKENIZE(RPAREN,   AE_RPAREN  );
 \"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING  );
 '[^']'       |
 '\\.'        | 
 \?\\\\.      |
-\?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR  );
-[-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER  );
+\?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR    );
+[-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER );
 [-+]?[0-9]+\.[0-9]* | 
-[-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT  );
-[-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL  );
+[-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
+[-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
 [\+\-\/\*]                                                              TOKENIZE(MATHOP,   AE_SYMBOL  );
 ([1-9][0-9]+)?[\+\-\/\*]                                                TOKENIZE(INCROP,   AE_SYMBOL  );
 !?=|(>=?)|(<=?)                                                         TOKENIZE(COMPARE,  AE_SYMBOL  );
