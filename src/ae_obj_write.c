@@ -52,9 +52,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
 }
 
 int ae_obj_put(const ae_obj_t * const this) {
-  FPUT(this, stdout);
-
-  return 0;
+  return FPUT(this, stdout);
 }
 
 #define MEMSTREAM(buff, stream)                                                                    \
@@ -118,9 +116,7 @@ char * ae_obj_sput_words(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_obj_write(const ae_obj_t * const this) {
-  FWRITE(this, stdout);
-
-  return 0;
+  return FWRITE(this, stdout);
 }
 
 static FILE * fwrite_stream   = NULL;
