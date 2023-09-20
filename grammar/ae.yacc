@@ -137,7 +137,7 @@ sexp: list | atom
 sexps:
 sexps sexp {
   if (! $$)
-    $$ = CONS($$, NIL);
+    $$ = CONS($2, NIL);
   else
     PUSH($$, $2);
 }
