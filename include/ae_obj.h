@@ -26,6 +26,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 
 #define ALLOC()                 (pool_alloc_ae_obj())
 #define CLONE(this)             (ae_obj_clone((this)))
+#define CONS_NEW(this)          (CONS((this), NIL))
 #define DENOM_VAL(this)         ((this)->denominator_val)
 #define FLOAT_VAL(this)         ((this)->float_val)
 #define FREE(this)              (pool_free_ae_obj((thia)))
