@@ -103,7 +103,6 @@
       break;
     }
 
-    
   end:
 #ifdef AE_LOG_LEX
     if (yylval) {
