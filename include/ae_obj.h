@@ -79,6 +79,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t *  const);
 #define ASSERT_STRINGP(o)       (assert(STRINGP(o)))
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
+#define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
 
 #define NIL                     (&nil_obj)
 #define NILP(o)                 ((o) == NIL)
