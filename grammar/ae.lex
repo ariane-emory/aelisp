@@ -135,8 +135,8 @@ nil          |
 [-+]?[0-9]+\.[0-9]* | 
 [-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
-[\+\-\/\*]                                                              TOKENIZE(SYMBOL,   AE_SYMBOL  );
-!?=|(>=?)|(<=?)                                                         TOKENIZE(SYMBOL,   AE_SYMBOL  );
+[\+\-\/\*] |
+!?=|(>=?)|(<=?) |
 ([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
 \;\;[^\n]*\n   ; /* comments */
 [\f\n\t\v\ ]+  ; /* ignored wItespace */
