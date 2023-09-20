@@ -29,7 +29,6 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   
   {
     int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
-
     while (written++ <= 10) SPC;
   }
    
