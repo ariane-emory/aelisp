@@ -53,8 +53,6 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
-//    symbols_list      = NEW(AE_CONS);
-    
     putchar('\n');
 
     printf("nil at:     %p.\n", NIL);
@@ -79,18 +77,13 @@
     NL;
 
     pool_print();
-
     NL;
+    
     puts("Describing items in program.");
     if (CONSP(program_obj) && CAR(program_obj))
       EACH(program_obj, describe);
     puts("Described items in program.");
     NL;
-
-    /* puts("Writing program obj."); */
-    /* ae_obj_write(program_obj); */
-    /* puts("\nWrote program obj."); */
-    /* NL; */
 
     fputs("Count items in program obj: ", stdout); 
     fflush(stdout);
