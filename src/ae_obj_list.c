@@ -176,7 +176,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define INTERN_NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
+#define NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(string);
@@ -188,20 +188,20 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   fflush(stdout);
 #endif
 
-  if (NOT_NULLP(*plist)) {
-    FOR_EACH(elem, *plist) {
-      ASSERT_SYMBOLP(elem);
-      if (strcmp(string, elem->sym_val) == 0) 
-        return elem;
-    }
-
-    INTERN_NEW_SYM;
-    *plist = CONS(sym, *plist);
+  if (! *plist) {
+    NEW_SYM;
+    *plist = CONS(sym, NIL);
     return sym;
   }
+
+  FOR_EACH(elem, *plist) {
+    ASSERT_SYMBOLP(elem);
+    if (strcmp(string, elem->sym_val) == 0) 
+      return elem;
+  }
   
-  INTERN_NEW_SYM;
-  *plist = CONS(sym, NIL);
+  NEW_SYM;
+  *plist = CONS(sym, *plist);
   return sym;
 }
 
