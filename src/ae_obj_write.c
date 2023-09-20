@@ -30,12 +30,11 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
   while (written++ <= 10) SPC;
 
-  switch (TYPE(this)) {
-  case AE_CONS:
+  if (TYPE(this) == AE_CONS) {
     assert(CAR(this)); // a cons no CAR would be illegal.
     written = fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
-    break;
-  default:
+  }
+  else {
     written = FWRITE(this, stream);
   }
   
