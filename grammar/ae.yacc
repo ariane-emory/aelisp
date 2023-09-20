@@ -78,6 +78,8 @@
 
     pool_print();
     NL;
+
+    return 0;
     
     puts("Describing items in program.");
     EACH(program_obj, describe);
