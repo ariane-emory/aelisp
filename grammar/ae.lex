@@ -15,7 +15,7 @@
     enum yytokentype yy_tok_type,
     const ae_type_t ae_type) {
 #ifdef AE_LOG_LEX
-    printf("Lex grabbed '%s', a %s.\n", yytext, ae_type_str(ae_type));
+    printf("Lex grabbed '%s', a %s with yy_tok_type %d.\n", yytext, ae_type_str(ae_type), yy_tok_type);
     fflush(stdout);
 #endif
 
