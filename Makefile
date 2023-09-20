@@ -5,6 +5,7 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I. \
 	-DAE_LOG_LEX \
+	-DAE_LOG_INTERN \
 	-DAE_OBJ_POOL_SIZE=384 
 
 YACC_LEX_CFLAGS = \
