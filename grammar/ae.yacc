@@ -48,6 +48,12 @@
   extern ae_obj_t pool[POOL_SIZE];
 #endif
 
+
+  typedef struct ll_node_t {
+    struct ll_node_t * car;
+    struct ll_node_t * cdr;
+  } __attribute__ ((aligned (16))) ll_node_t;
+
   //////////////////////////////////////////////////////////////////////////////
   // main
   //////////////////////////////////////////////////////////////////////////////
@@ -79,10 +85,9 @@
     pool_print();
     NL;
 
-    struct { ae_obj_t * head; ae_obj_t * tail; } thing = { NULL, NULL };
-
-    printf("Size: %zu.\n", sizeof(thing));
-
+    size_t nodes_length = 128;
+    ll_node_t * nodes = malloc(nodes_length * sizeof(ll_node_t));
+    
     return 0;
     
     puts("Describing items in program.");

@@ -26,23 +26,29 @@
 
 int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   assert(ATOMP(this) || CAR(this));
-  
-  fprintf(stream, "%011p[ ", this);
-  
-  int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
 
-  while (written++ <= 11) SPC;
+  int total_written = fprintf(stream, "%011p[ ", this);
+
+  int last_written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
+
+  while (last_written++ <= 11) SPC;
+
+  total_written += last_written;
   
-  written = (CONSP(this))
+  last_written = (CONSP(this))
     ? fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this))
     : FWRITE(this, stream);
   
-  while (written++ <= 25) SPC;
+  while (last_written++ <= 25) SPC;
 
+  total_written += last_written;
+  
   SPC;
   RSQR;
 
-  return 0;
+  total_written += 2;
+  
+  return total_written;
 }
 
 int ae_obj_put(const ae_obj_t * const this) {
