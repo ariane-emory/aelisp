@@ -120,24 +120,24 @@
 
 %%
 ∞                                                                      TOKENIZE(INF,      AE_INF     );
-nil          |
+nil                 |
 \([\f\n\t\v\ ]*\)                                                       TOKENIZE(NILTOK,   AE_SYMBOL  );
 \'                                                                      TOKENIZE(QUOTE,    AE_QUOTE   );
 \(                                                                      TOKENIZE(LPAREN,   AE_LPAREN  );
 \)                                                                      TOKENIZE(RPAREN,   AE_RPAREN  );
 \"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING  );
-'[^']'       |
-'\\.'        | 
-\?\\\\.      |
+'[^']'              |
+'\\.'               | 
+\?\\\\.             |
 \?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR    );
+[\+\-\/\*]          |
+!?=|(>=?)|(<=?)     |
+([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
 ([1-9][0-9]+)?[\+\-\/\*]                                                TOKENIZE(SYMBOL,   AE_SYMBOL  );
 [-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER );
 [-+]?[0-9]+\.[0-9]* | 
 [-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
-[\+\-\/\*] |
-!?=|(>=?)|(<=?) |
-([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
 \;\;[^\n]*\n   ; /* comments */
 [\f\n\t\v\ ]+  ; /* ignored wItespace */
 %%
