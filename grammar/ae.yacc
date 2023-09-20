@@ -81,7 +81,8 @@
     NL;
 
     pool_print();
-    
+
+    NL;
     puts("Describing items in program.");
     if (CONSP(program_obj) && CAR(program_obj))
       EACH(program_obj, describe);

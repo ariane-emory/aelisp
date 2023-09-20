@@ -112,11 +112,25 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  assert(NOT_NULLP(tail));
-  assert(NILP(tail) || NEQ(head, tail)) ; // consing an obj onto itself is not yet supported.
+  assert(NOT_NULLP(tail) &&
+         (NILP(tail) ||
+          CONSP(tail)));
   
-#ifdef NOISY_INIT
-  printf("Cons %p %p\n", head, tail);
+#ifdef AE_LOG_CONS
+  fputs("Cons ", stdout);
+  PUT(head);
+  fputs(" onto ", stdout);
+  
+  if (NILP(tail)) {
+    fputs("nil", stdout);
+  }
+  else {
+    PUT(tail);
+    putchar(' ');
+    WRITE(tail);
+  }
+  
+  fputs("\n", stdout);
   fflush(stdout);
 #endif
   
