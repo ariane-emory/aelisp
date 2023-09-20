@@ -109,9 +109,6 @@
     puts("Writing interned symbols.");
     ae_obj_write(symbols_list);
     puts("\nWrote interned symbols.");
-    NL;
-    
-    pool_print();
   }
 
     //////////////////////////////////////////////////////////////////////////////
