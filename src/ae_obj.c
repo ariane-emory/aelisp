@@ -139,7 +139,7 @@ ae_obj_t * ae_obj_truth (const bool this) {
 
 ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 
-#ifdef NOISY_INIT
+#ifdef AE_LOG_INIT
   fputs("Initializing     ", stdout);
   PUT(this);
   putchar('\n');
@@ -148,7 +148,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
   ZERO(this);
   TYPE(this) = type;
 
-#ifdef NOISY_INIT
+#ifdef AE_LOG_INIT
   fputs("Initialized      ", stdout);
   PUT(this);
   putchar('\n');
@@ -164,7 +164,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   ASSERT_NEQ(this, that);
   
-#ifdef NOISY_INIT
+#ifdef AE_LOG_MOVE
   fputs("Moving           ", stdout);
   PUT(that);
   fputs(" to ", stdout);
@@ -175,7 +175,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   COPY(this, that);
   INIT(that, AE_FREE);
 
-#ifdef NOISY_INIT
+#ifdef AE_LOG_MOVE
   fputs("Moved            ", stdout);
   PUT(that);
   fputs(" to ", stdout);
@@ -191,7 +191,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
-#ifdef NOISY_INIT
+#ifdef AE_LOG_CLONE
   fputs("Cloning          ", stdout);
   PUT(this);
   putchar('\n');
@@ -222,7 +222,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #undef CLONE_USING_MEMCPY
 #undef DUP_C_STR
   
-#ifdef NOISY_INIT
+#ifdef AE_LOG_CLONE
   fputs("Cloned           ", stdout);
   PUT(this);
   fputs(" into ", stdout);
