@@ -1,6 +1,5 @@
 # mt N=NIL_IS_IMPLICIT  ; mt N=NIL_IS_AN_UNINTERNED_SYMBOL
 UNAME_S = $(shell uname -s)
-N       = IGNORED
 
 YACC_LEX_CFLAGS = \
 	-ggdb \
@@ -9,7 +8,7 @@ YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Wno-address-of-packed-member \
-	-D$(N)
+	-DAE_OBJ_POOL_SIZE=384 
 
 STRICTER_CFLAGS = \
   -ggdb \
@@ -25,10 +24,9 @@ STRICTER_CFLAGS = \
 	-Wno-address-of-packed-member \
 	-Wno-unused-variable \
 	-Wno-unused-but-set-variable \
+	-DAE_OBJ_POOL_SIZE=384 \
 	-DACUTEST_SPACES=60 \
 	-DACUTEST_IGNORE_EXIT \
-	-DAE_OBJ_POOL_SIZE=64 \
-	-D$(N)
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
