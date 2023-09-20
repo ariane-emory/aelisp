@@ -31,7 +31,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   
   int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
 
-  while (written++ <= 10) SPC;
+  while (written++ <= 11) SPC;
   
   written = (CONSP(this))
     ? fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this))
