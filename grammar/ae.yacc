@@ -151,14 +151,20 @@ sexps sexp {
     PUT($$);
     putchar('\n');
     fflush(stdout);
-
   }
   else {
-    printf("Embedding %p ", $$);
-    fflush(stdout);
+    printf("Embedding ");
     PUT($2);
     putchar('\n');
+    fflush(stdout);
+
     PUSH($$, $2);
+
+    printf("Made ");
+    PUT($$);
+    putchar('\n');
+    fflush(stdout);
+
   }
 }
 | {

@@ -1,4 +1,4 @@
-(a ∞ b) (a b c) ;; This is a comment.
+(a b) (a b c) ;; This is a comment.
 (a b c d (e f))
 ;; This is another comment.
 "This string spans multiple lines...
