@@ -138,9 +138,6 @@ sexps:
 sexps sexp {
   if (! $$)
     $$ = CONS($$, NIL);
-  
-  if (SYMBOLP($2))
-    PUSH($$, $2);
   else
     PUSH($$, $2);
 }
