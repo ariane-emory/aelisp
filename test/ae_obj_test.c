@@ -28,6 +28,7 @@ static char * tmp_str = NULL;
 #define SETUP_TEST                                                                                 \
   ae_obj_t *    this    = NULL;                                                                    \
   ae_obj_t *    that    = NULL;                                                                    \
+  symbols_list          = NULL;                                                                    \
   pool_clear();                                                                                    \
   if (tmp_str) {                                                                                   \
     free(tmp_str);                                                                                 \
