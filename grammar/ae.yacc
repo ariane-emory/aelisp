@@ -136,17 +136,19 @@ sexp: list | atom
 
 sexps:
 sexps sexp {
-
+  if (! $$) {
+    $$ = CONS($$, NIL);
+  }
+  
   if (SYMBOLP($2)) {
-    PUSH($$, INTERN(&symbols_list, $2->sym_val));
+    PUSH($$, $2);
   }
   else {
-    ae_obj_t * new_obj = $2;
-    PUSH($$, new_obj);
+    PUSH($$, $2);
   }
 }
 | {
-  $$ = NEW(AE_CONS);
+  $$ = NULL; // NEW(AE_CONS);
 };
    
 %%
