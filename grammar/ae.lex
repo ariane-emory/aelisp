@@ -8,13 +8,15 @@
 
 #include "ae.tab.h"
 
-#define TOKENIZE(x, ae_type) return tokenize(#x, x, ae_type);
+#define TOKENIZE(yy_tok_type, ae_type) return tokenize(#yy_tok_type, yy_tok_type, ae_type);
   
   enum yytokentype tokenize(
     const char * const name,
     enum yytokentype yy_tok_type,
     const ae_type_t ae_type) {
-    printf("Grabbed '%s'.\n", yytext);
+#ifdef AE_LOG_LEX
+    printf("Lex grabbed '%s'.\n", yytext);
+#endif
 
     yylval = 0; 
 
@@ -90,6 +92,7 @@
 
     
   end:
+#ifdef AE_LOG_LEX
     putchar('\n');
 
     if (yylval) {
@@ -97,6 +100,7 @@
       PUT(yylval);
       putchar('\n');
     }
+#endif
     
     return yy_tok_type;
   }

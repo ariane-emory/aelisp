@@ -63,14 +63,7 @@
     printf("Pool size:  %p (%zu bytes).\n\n",
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
-    
-#define PRINT_SIZEOF(t) printf("sizeof(" #t ") = %d bytes.\n", sizeof(t));
-    PRINT_SIZEOF(int);
-    PRINT_SIZEOF(ae_obj_t *);
-    PRINT_SIZEOF(ae_obj_t);
-    PRINT_SIZEOF(ae_type_t);
-    printf("ae_obj data offset: %d\n", offsetof(ae_obj_t, str_val));
-
+       
     FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
     yyparse();
@@ -79,7 +72,7 @@
     ae_obj_put(root);
     NL;
 
-    ae_obj_t * program_obj = root; // MOVE_NEW(root); // take the 'program' rule's ae_obj.
+    ae_obj_t * program_obj = root;
 
     printf("program: ");
     ae_obj_put(program_obj);
@@ -110,9 +103,9 @@
       EACH(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
-    puts("Writing interned symbols_list.");
+    puts("Writing interned symbols.");
     ae_obj_write(symbols_list);
-    puts("\nWrote interned symbols_list.");
+    puts("\nWrote interned symbols.");
     NL;
     
     pool_print();
@@ -136,18 +129,8 @@ atom: CHAR | COMPARE | FLOAT | INTEGER | MATHOP | RATIONAL | STRING | SYMBOL | I
 list:
 LPAREN sexps RPAREN { $$ = $2; };
 | LIST {
-  //memset($$, 0, sizeof(*$$));
-  
-#ifdef NOISY_INIT
-  printf("Initting $$ (a)  %p\n", $$);
-#endif  
-
   INIT($$, AE_CONS);
-
-#ifdef NOISY_INIT
-  printf("Initted $$ (a)   %p\n\n", $$);
-#endif
-  }
+}
 
 sexp: list | atom
 
@@ -155,11 +138,6 @@ sexps:
 sexps sexp {
 
   if (SYMBOLP($2)) {
-#ifdef NOISY_INIT
-    printf("Interning '%s'...\n", $2->sym_val);
-    fflush(stdout);
-#endif
-
     PUSH($$, INTERN(&symbols_list, $2->sym_val));
   }
   else {
@@ -168,16 +146,7 @@ sexps sexp {
   }
 }
 | {
-#ifdef NOISY_INIT  
-  printf("Initting $$ (b)  %p\n", $$);
-#endif
-
   $$ = NEW(AE_CONS);
-  //INIT($$, AE_CONS);
-
-#ifdef NOISY_INIT
-  printf("Initted $$ (b)   %p\n\n", $$);
-#endif
 };
    
 %%
