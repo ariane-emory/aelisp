@@ -1,18 +1,17 @@
 UNAME_S = $(shell uname -s)
 
-YACC_LEX_CFLAGS = \
+COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I. \
+	-DAE_OBJ_POOL_SIZE=384 
+
+YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
 	-Wno-address-of-packed-member \
-	-DAE_OBJ_POOL_SIZE=384 
 
 STRICTER_CFLAGS = \
-  -ggdb \
-	-Iinclude \
-	-I. \
 	-I3p/acutest/include/ \
 	-Werror \
 	-Wall \
@@ -23,7 +22,6 @@ STRICTER_CFLAGS = \
 	-Wno-address-of-packed-member \
 	-Wno-unused-variable \
 	-Wno-unused-but-set-variable \
-	-DAE_OBJ_POOL_SIZE=384 \
 	-DACUTEST_SPACES=60 \
 	-DACUTEST_IGNORE_EXIT
 
@@ -50,18 +48,18 @@ TEST_BINS = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
 all: bin/ae $(TEST_BINS)
 
 obj/%.o: src/%.c obj
-	$(CC) -o $@ $< $(LDFLAGS) $(STRICTER_CFLAGS) -c
+	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
 
 ################################################################################
 # Executables
 ################################################################################
 
 bin/test/%: bin/test
-	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(STRICTER_CFLAGS)
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS)
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(YACC_LEX_CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
 ################################################################################
 # Lexer/parser
