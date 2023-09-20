@@ -136,16 +136,13 @@ sexp: list | atom
 
 sexps:
 sexps sexp {
-  if (! $$) {
+  if (! $$)
     $$ = CONS($$, NIL);
-  }
   
-  if (SYMBOLP($2)) {
+  if (SYMBOLP($2))
     PUSH($$, $2);
-  }
-  else {
+  else
     PUSH($$, $2);
-  }
 }
 | {
   $$ = NULL; // NEW(AE_CONS);
