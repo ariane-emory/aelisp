@@ -93,51 +93,6 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   return list;
 }
 
-void mini_test(void)
-{
-  SETUP_TEST;
-
-  putchar('\n');
-
-  /* printf("NIL  is at %p.\n", NIL); */
-  /* FF; */
-  
-  ae_obj_t * num = NEW(AE_INTEGER);
-  INT_VAL(num)  = 12;
-  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
-  /* FF; */
-  
-  this = CONS(num, NIL);
-  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
-  /* FF; */
-
-  num           = NEW(AE_INTEGER);
-  INT_VAL(num)  = 13;
-  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
-  /* FF; */
-
-  PUSH(this, num);
-  
-  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
-  /* FF; */
-  
-  num           = NEW(AE_INTEGER);
-  INT_VAL(num)  = 14;
-  /* printf("num  is at %p [ %d ].\n", num, INT_VAL(num)); */
-  /* FF; */
-  
-  this = CONS(num, this);
-  /* printf("this is at %p [ %p %p ].\n", this, CAR(this), CDR(this)); */
-  /* FF; */
-
-  // pool_print();
-
-  /* WRITE(this); */
-  /* putchar('\n'); */
-  
-  return;  
-}
-
 ae_obj_t * cons_together_a_list_of_ints(void) {
 
   ae_obj_t * head = NEW(AE_INTEGER);
@@ -582,7 +537,6 @@ void equal(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(mini_test)                                                                                    \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
