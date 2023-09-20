@@ -43,7 +43,7 @@
     PUT(this);
     NL;
     
-    if (CONSP(this) && CAR(this)) {
+    if (CONSP(this)) {
       ++indent;
       EACH(this, describe);
       --indent;
