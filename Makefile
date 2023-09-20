@@ -4,6 +4,7 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I. \
+	-DAE_LOG_LEX \
 	-DAE_OBJ_POOL_SIZE=384 
 
 YACC_LEX_CFLAGS = \

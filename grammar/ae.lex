@@ -16,6 +16,7 @@
     const ae_type_t ae_type) {
 #ifdef AE_LOG_LEX
     printf("Lex grabbed '%s'.\n", yytext);
+    fflush(stdout);
 #endif
 
     yylval = 0; 
@@ -93,12 +94,13 @@
     
   end:
 #ifdef AE_LOG_LEX
-    putchar('\n');
 
     if (yylval) {
+      putchar('\n');
       printf("Tokenized ");
       PUT(yylval);
       putchar('\n');
+      fflush(stdout);
     }
 #endif
     
