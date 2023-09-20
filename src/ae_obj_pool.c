@@ -74,14 +74,14 @@ void pool_print(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pool_clear(void) {
-#ifdef NOISY_INIT
+#ifdef AE_LOG_ALLOC
   puts("\nClearing pool contents.");
 #endif
 
   for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
     pool_free_ae_obj(&pool[ix]);
 
-#ifdef NOISY_INIT
+#ifdef AE_LOG_ALLOC
   puts("Cleared pool contents.");
 #endif
 }
