@@ -54,7 +54,7 @@
   //////////////////////////////////////////////////////////////////////////////
   
   main() {
-    symbols_list = NEW(AE_CONS); 
+//    symbols_list      = NEW(AE_CONS);
     
     putchar('\n');
 

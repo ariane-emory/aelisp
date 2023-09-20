@@ -181,19 +181,16 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(string);
   
-/* #ifdef AE_LOG_INTERN */
-/*   printf("Interning \"%s\" in %p: ", string, plist); */
-/*   fflush(stdout); */
-/*   if (plist)  */
-/*     PUT(*plist); */
-/*   else */
-/*     fputs("an empty symbol list", stdout); */
-/*   putchar('\n'); */
-/*   fflush(stdout); */
-/* #endif */
+#ifdef AE_LOG_INTERN
+  // pool_print();
+  putchar('\n');
+  printf("Interning \"%s\" in %p.\n", string, *plist);
+  fflush(stdout);
+#endif
 
   if (NOT_NULLP(*plist)) {
     FOR_EACH(elem, *plist) {
+      ASSERT_SYMBOLP(elem);
       if (strcmp(string, elem->sym_val) == 0) 
         return elem;
     }
