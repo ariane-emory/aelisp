@@ -27,22 +27,20 @@
 int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   fprintf(stream, "%011p[ ", this);
   
-  {
-    int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
-    while (written++ <= 10) SPC;
-  }
-   
+  int written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
+  while (written++ <= 10) SPC;
+
   switch (TYPE(this)) {
   case AE_CONS:
-    assert(CAR(this)); // a cons with a CDR but no CAR would be illegal.
-    
-    fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
-
+    assert(CAR(this)); // a cons no CAR would be illegal.
+    written = fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
     break;
   default:
-    FWRITE(this, stream);
+    written = FWRITE(this, stream);
   }
   
+  while (written++ <= 20) SPC;
+
   SPC;
   RSQR;
 
