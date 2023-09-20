@@ -143,7 +143,7 @@ sexps sexp {
     putchar('\n');
     fflush(stdout);
 
-    $$ = CONS($2, NIL);
+    $$ = CONS_NEW($2);
 
     printf("Made ");
     PUT($$);
@@ -151,7 +151,7 @@ sexps sexp {
     fflush(stdout);
   }
   else {
-    printf("Embedding ");
+    printf("Appending ");
     PUT($2);
     putchar('\n');
     fflush(stdout);
