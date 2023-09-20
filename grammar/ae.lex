@@ -45,14 +45,14 @@
         
     yylval = NEW(ae_type);
       
-    switch (yylval->type) {
+    switch (TYPE(yylval)) {
     case AE_CONS:
       break;
     case AE_INTEGER:
-      yylval->int_val = atoi(yytext);
+      INT_VAL(yylval) = atoi(yytext);
       break;
     case AE_FLOAT:
-      yylval->float_val = strtod(yytext, 0);
+      FLOAT_VAL(yylval) = strtod(yytext, 0);
       break;
     case AE_RATIONAL:
       int slash_pos = 0;
@@ -60,18 +60,18 @@
 
       char * tmp2 = malloc(slash_pos + 1);
       strncpy(tmp2, yytext, slash_pos);
-      yylval->numerator_val = atoi(tmp2);
+      NUMER_VAL(yylval) = atoi(tmp2);
       free(tmp2);
 
       tmp2 = malloc(strlen(yytext) - slash_pos);
       strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
-      yylval->denominator_val = atoi(tmp2);
+      DENOM_VAL(yylval) = atoi(tmp2);
       free(tmp2);
       
       break;
     case AE_STRING:
       yylval->str_val = malloc(strlen(yytext) - 1);
-      strncpy(yylval->str_val, yytext + 1, strlen(yytext) - 2);
+      strncpy(STR_VAL(yylval), yytext + 1, strlen(yytext) - 2);
       goto end;
     case AE_CHAR:
       char tmp[3];
