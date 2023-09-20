@@ -1,15 +1,15 @@
 To Do:
-- [ ] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
+- [ ] _map could be iterative.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add env frames.
 - [ ] Review (and test) the 'word-oriented' puts.
-- [ ] Review whether or not the values of pointers returned by ae_obj_truth are UB and possibly come up with something better.
 - [ ] Fix inappropriate handling of quote.
 - [ ] Maybe add macro version of map?
 - [ ] Maybe also a vector type of some sort?
 - [ ] ... advices?!
 
 Completed:
+- [x] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [X] Add an addressable nil object:
     - [x] .yacc adjustments when parsing () / nil.
     - [x] FOR_EACH macro variants.
@@ -18,6 +18,7 @@ Completed:
     - [x] _push_back variants.
     - [x] _truth variants.
     - [x] Tests: equality/truth test variants should employ nil if it exists.
+- [x] Review whether or not the values of pointers returned by ae_obj_truth are UB and possibly come up with something better.
 - [x] Revise how spaces are inserted between elements when writing lists.
 - [x] Add tests for using rationals with ae_obj_eql.
 - [x] Add rational support to ae_obj_eql.
