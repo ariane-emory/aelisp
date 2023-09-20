@@ -16,6 +16,16 @@
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
 
+
+#ifdef AE_LOG_PARSE
+#  define LOG_PARSE(obj, ...)                                                                          \
+  printf(__VA_ARGS__);                                                                                 \
+  PUT((obj));                                                                                          \
+  putchar(' ');                                                                                        \
+  putchar('\n');                                                                                       \
+  fflush(stdout)
+#endif
+
   ae_obj_t * root    = 0;
   
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
@@ -123,38 +133,14 @@ sexp: list | atom
 sexps:
 sexps sexp {
   if (NILP($$)) {
-#ifdef AE_LOG_PARSE
-    printf("Beginning with ");
-    PUT($2);
-    putchar('\n');
-    fflush(stdout);
-#endif
-
+    LOG_PARSE($2, "Beginning with ");
     $$ = CONS($2, $$);
-
-#ifdef AE_LOG_PARSE
-    printf("Made ");
-    PUT($$);
-    putchar('\n');
-    fflush(stdout);
-#endif
+    LOG_PARSE($$, "Made           ");
   }
   else {
-#ifdef AE_LOG_PARSE
-    printf("Appending ");
-    PUT($2);
-    putchar('\n');
-    fflush(stdout);
-#endif
-
-    PUSH($$, $2);
-    
-#ifdef AE_LOG_PARSE
-    printf("Made ");
-    PUT($$);
-    putchar('\n');
-    fflush(stdout);
-#endif
+    LOG_PARSE($2, "Appending      ");
+    PUSH($$, $2);    
+    LOG_PARSE($$, "Made           ");
   }
 }
 | {

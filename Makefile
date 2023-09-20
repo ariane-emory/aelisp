@@ -4,6 +4,7 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
+	-DAE_LOG_PARSE \
 	-DAE_OBJ_POOL_SIZE=256
 
 LOG_CFLAGS = \
@@ -14,13 +15,12 @@ LOG_CFLAGS = \
 	-DAE_LOG_INIT \
 	-DAE_LOG_LEX \
 	-DAE_LOG_MOVE \
-	-DAE_LOG_PARSE \
   -DAE_LOG_PUSH
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
-	-Wno-address-of-packed-member \
+	-Wno-address-of-packed-member
 
 STRICTER_CFLAGS = \
 	-I3p/acutest/include/ \
