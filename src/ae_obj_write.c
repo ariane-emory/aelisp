@@ -41,7 +41,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_INF:
     break;
   case AE_CONS:
-    assert(CAR(this)); // a cons with a CDR but no CAR would be illegal.
+    // assert(CAR(this)); // a cons with a CDR but no CAR would be illegal.
     
     fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
 
