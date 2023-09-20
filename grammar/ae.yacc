@@ -58,6 +58,7 @@
     
     putchar('\n');
 
+    printf("nil at:     %p.\n", NIL);
     printf("Pool first: %p.\n", pool_first);
     printf("Pool last:  %p.\n", pool_last);
     printf("Pool size:  %p (%zu bytes).\n\n",
@@ -138,10 +139,27 @@ sexp: list | atom
 
 sexps:
 sexps sexp {
-  if (! $$)
+  if (! $$) {
+    printf("Beginning with ");
+    PUT($2);
+    putchar('\n');
+    fflush(stdout);
+
     $$ = CONS($2, NIL);
-  else
+
+    printf("Made ");
+    PUT($$);
+    putchar('\n');
+    fflush(stdout);
+
+  }
+  else {
+    printf("Embedding %p ", $$);
+    fflush(stdout);
+    PUT($2);
+    putchar('\n');
     PUSH($$, $2);
+  }
 }
 | {
   $$ = NULL;
