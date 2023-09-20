@@ -44,7 +44,7 @@ typedef char  *             ae_string_t;
 #define EQL(this, that)         (ae_obj_equal((this), (that)))
 #define NEQL(this, that)        (! EQL((this), (that)))
 
-#define ATOMP(o)                ((o)->type >= AE_INVALID)
+#define ATOMP(o)                (! CONSP((o)))
 #define CHARP(o)                ((o)->type == AE_CHAR)
 #define CONSP(o)                ((o)->type == AE_CONS)
 #define FLOATP(o)               ((o)->type == AE_FLOAT)
