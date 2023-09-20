@@ -142,7 +142,7 @@ sexps sexp {
     PUSH($$, $2);
 }
 | {
-  $$ = NULL; // NEW(AE_CONS);
+  $$ = NULL;
 };
    
 %%
