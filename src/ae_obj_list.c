@@ -191,17 +191,38 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   if (! *plist) {
     NEW_SYM;
     *plist = CONS(sym, NIL);
+
+#ifdef AE_LOG_INTERN
+    printf("\n=> ");
+    PUT(sym);
+    putchar('\n');
+#endif
+
     return sym;
   }
 
   FOR_EACH(elem, *plist) {
     ASSERT_SYMBOLP(elem);
-    if (strcmp(string, elem->sym_val) == 0) 
+    if (strcmp(string, elem->sym_val) == 0) {
+#ifdef AE_LOG_INTERN
+      printf("\n=> reused ");
+      PUT(elem);
+      putchar('\n');
+#endif
+
       return elem;
+    }
   }
   
   NEW_SYM;
   *plist = CONS(sym, *plist);
+
+#ifdef AE_LOG_INTERN
+  printf("\n=> ");
+  PUT(sym);
+  putchar('\n');
+#endif
+
   return sym;
 }
 
