@@ -79,6 +79,10 @@
     pool_print();
     NL;
 
+    struct { ae_obj_t * head; ae_obj_t * tail; } thing = { NULL, NULL };
+
+    printf("Size: %zu.\n", sizeof(thing));
+
     return 0;
     
     puts("Describing items in program.");
@@ -98,7 +102,7 @@
     NL;
     puts("Writing interned symbols.");
     ae_obj_write(symbols_list);
-    puts("\nWrote interned symbols.");
+    puts("\nWrote interned symbols.");    
   }
 
     //////////////////////////////////////////////////////////////////////////////

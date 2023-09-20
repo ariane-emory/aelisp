@@ -149,7 +149,7 @@ typedef struct ae_obj_t {
       struct ae_obj_t * tail;
     };
   };
-} ae_obj_t; // __attribute__((packed)) ae_obj_t;
+} __attribute__ ((aligned (16))) ae_obj_t; 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods
