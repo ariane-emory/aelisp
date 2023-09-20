@@ -1,4 +1,5 @@
 To Do:
+- [ ] Escaped characters in AE_STRINGS don't read quite right.
 - [ ] _map could be iterative.
 - [ ] Add a free list allocator and make a pool to hold strings' data.
 - [ ] Add env frames.
