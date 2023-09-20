@@ -122,7 +122,7 @@ sexp: list | atom
 
 sexps:
 sexps sexp {
-  if (! $$) {
+  if (NILP($$)) {
 #ifdef AE_LOG_PARSE
     printf("Beginning with ");
     PUT($2);
@@ -130,7 +130,7 @@ sexps sexp {
     fflush(stdout);
 #endif
 
-    $$ = CONS_NEW($2);
+    $$ = CONS($2, $$);
 
 #ifdef AE_LOG_PARSE
     printf("Made ");
@@ -158,7 +158,7 @@ sexps sexp {
   }
 }
 | {
-  $$ = NULL;
+  $$ = NIL;
 };
    
 %%
