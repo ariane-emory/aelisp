@@ -5,12 +5,13 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I. \
 	-DAE_LOG_ALLOC \
-	-DAE_LOG_CLONE \
-	-DAE_LOG_INIT \
 	-DAE_LOG_INTERN \
 	-DAE_LOG_LEX \
-	-DAE_LOG_MOVE \
 	-DAE_OBJ_POOL_SIZE=384 
+
+# -DAE_LOG_CLONE
+# -DAE_LOG_INIT
+# -DAE_LOG_MOVE
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
