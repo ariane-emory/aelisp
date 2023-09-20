@@ -26,7 +26,7 @@ STRICTER_CFLAGS = \
 	-Wno-unused-but-set-variable \
 	-DAE_OBJ_POOL_SIZE=384 \
 	-DACUTEST_SPACES=60 \
-	-DACUTEST_IGNORE_EXIT \
+	-DACUTEST_IGNORE_EXIT
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-13
