@@ -15,7 +15,6 @@
 #define RPAR    putchar(')')
 #define LSQR    putchar('[')
 #define RSQR    putchar(']')
-#define OBJ(x)  ae_obj_put(x)
 
   ae_obj_t * root    = 0;
   
@@ -28,7 +27,7 @@
     for (int ct = 0; ct < indent << 1; ct++)
       SPC;
     
-    OBJ(this);
+    PUT(this);
     NL;
     
     if (CONSP(this) && CAR(this)) {
@@ -89,10 +88,10 @@
     puts("Described items in program.");
     NL;
 
-    puts("Writing program obj.");
-    ae_obj_write(program_obj);
-    puts("\nWrote program obj.");
-    NL;
+    /* puts("Writing program obj."); */
+    /* ae_obj_write(program_obj); */
+    /* puts("\nWrote program obj."); */
+    /* NL; */
 
     fputs("Count items in program obj: ", stdout); 
     fflush(stdout);

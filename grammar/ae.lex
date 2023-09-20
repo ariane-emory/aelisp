@@ -106,9 +106,8 @@
     
   end:
 #ifdef AE_LOG_LEX
-
     if (yylval) {
-      putchar('\n');
+      // putchar('\n');
       printf("Tokenized ");
       PUT(yylval);
       printf(" as yy_tok_type %d.\n", yy_tok_type);

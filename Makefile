@@ -3,17 +3,18 @@ UNAME_S = $(shell uname -s)
 COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
-	-I. \
-	-DAE_LOG_ALLOC \
-	-DAE_LOG_INTERN \
-  -DAE_LOG_CONS \
-  -DAE_LOG_PUSH \
-	-DAE_LOG_LEX \
+	-I \	.
 	-DAE_OBJ_POOL_SIZE=384 
 
-# -DAE_LOG_CLONE
-# -DAE_LOG_INIT
-# -DAE_LOG_MOVE
+LOG_CFLAGS = \
+	-DAE_LOG_ALLOC \
+	-DAE_LOG_INTERN \
+	-DAE_LOG_CLONE \
+  -DAE_LOG_CONS \
+	-DAE_LOG_INIT \
+	-DAE_LOG_LEX \
+	-DAE_LOG_MOVE \
+  -DAE_LOG_PUSH
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
