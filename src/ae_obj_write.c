@@ -34,30 +34,14 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   }
    
   switch (TYPE(this)) {
-  case AE_LPAREN:
-  case AE_RPAREN:
-  case AE_INVALID:
-  case AE_FREE:
-  case AE_INF:
-    break;
   case AE_CONS:
     assert(CAR(this)); // a cons with a CDR but no CAR would be illegal.
     
     fprintf(stream, "%011p %-011p %2d", CAR(this), CDR(this), LENGTH(this));
 
     break;
-  case AE_SYMBOL:
-  case AE_STRING:
-  case AE_CHAR:
-  case AE_FLOAT:
-  case AE_INTEGER:
-  case AE_RATIONAL:
-    FWRITE(this, stream);
-    break;
   default:
-    LSQR;
     FWRITE(this, stream);
-    RSQR;
   }
   
   SPC;
@@ -151,17 +135,17 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
   case AE_CONS:
-      COUNTED_FPUTC('(', fwrite_stream);
+    COUNTED_FPUTC('(', fwrite_stream);
 
-      FOR_EACH_CONST(elem, this) {
-        ae_obj_fwrite_internal(elem);
-        fflush(fwrite_stream);
+    FOR_EACH_CONST(elem, this) {
+      ae_obj_fwrite_internal(elem);
+      fflush(fwrite_stream);
         
-        if (! NILP(CDR(position)))
-          COUNTED_FPUTC(' ', fwrite_stream);
-      }
+      if (! NILP(CDR(position)))
+        COUNTED_FPUTC(' ', fwrite_stream);
+    }
       
-      COUNTED_FPUTC(')', fwrite_stream);
+    COUNTED_FPUTC(')', fwrite_stream);
     break;
   case AE_SYMBOL:
     COUNTED_FPUTS(SYM_VAL(this), fwrite_stream);
@@ -210,11 +194,9 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
     break;
   }
   default:
-    COUNTED_FPRINTF(fwrite_stream, "UNPRINTABLE");
+    COUNTED_FPRINTF(fwrite_stream, "??");
   }
   
-  // COUNTED_FPUTC(' ', fwrite_stream);
-
   fflush(fwrite_stream);
   
   return fwrite_counter;
