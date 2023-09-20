@@ -80,8 +80,7 @@
     NL;
     
     puts("Describing items in program.");
-    if (CONSP(program_obj) && CAR(program_obj))
-      EACH(program_obj, describe);
+    EACH(program_obj, describe);
     puts("Described items in program.");
     NL;
 
