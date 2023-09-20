@@ -3,8 +3,8 @@ UNAME_S = $(shell uname -s)
 COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
-	-I \	.
-	-DAE_OBJ_POOL_SIZE=384 
+	-I . \
+	-DAE_OBJ_POOL_SIZE=256
 
 LOG_CFLAGS = \
 	-DAE_LOG_ALLOC \
@@ -14,6 +14,7 @@ LOG_CFLAGS = \
 	-DAE_LOG_INIT \
 	-DAE_LOG_LEX \
 	-DAE_LOG_MOVE \
+	-DAE_LOG_PARSE \
   -DAE_LOG_PUSH
 
 YACC_LEX_CFLAGS = \

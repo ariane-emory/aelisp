@@ -77,7 +77,6 @@
     printf("program: ");
     ae_obj_put(program_obj);
     NL;
-    NL;
 
     pool_print();
 
@@ -137,31 +136,38 @@ sexp: list | atom
 sexps:
 sexps sexp {
   if (! $$) {
+#ifdef AE_LOG_PARSE
     printf("Beginning with ");
     PUT($2);
     putchar('\n');
     fflush(stdout);
+#endif
 
     $$ = CONS_NEW($2);
 
+#ifdef AE_LOG_PARSE
     printf("Made ");
     PUT($$);
     putchar('\n');
     fflush(stdout);
+#endif
   }
   else {
+#ifdef AE_LOG_PARSE
     printf("Appending ");
     PUT($2);
     putchar('\n');
     fflush(stdout);
+#endif
 
     PUSH($$, $2);
-
+    
+#ifdef AE_LOG_PARSE
     printf("Made ");
     PUT($$);
     putchar('\n');
     fflush(stdout);
-
+#endif
   }
 }
 | {
