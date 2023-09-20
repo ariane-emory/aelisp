@@ -1,4 +1,3 @@
-# mt N=NIL_IS_IMPLICIT  ; mt N=NIL_IS_AN_UNINTERNED_SYMBOL
 UNAME_S = $(shell uname -s)
 
 YACC_LEX_CFLAGS = \
