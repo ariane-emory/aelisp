@@ -24,11 +24,14 @@
   putchar(' ');                                                                                        \
   putchar('\n');                                                                                       \
   fflush(stdout)
+#else
+#  define LOG_PARSE(obj, ...) ((void)(obj))
 #endif
 
   ae_obj_t * root    = 0;
   
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
+
   int  yywrap() { return 1; }
 
   void describe(ae_obj_t * this) {
