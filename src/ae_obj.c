@@ -54,14 +54,6 @@ void ae_rational_simplify(ae_obj_t * this) {
 }
 
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
-  /* fputs("\nThis ", stdout); */
-  /* fputs(ae_type_str(this->type), stdout); */
-  /* putchar('\n'); */
-
-  /* fputs("That ", stdout); */
-  /* fputs(ae_type_str(that->type), stdout); */
-  /* putchar('\n'); */
-
   if (this             == that)
     return true;
   
