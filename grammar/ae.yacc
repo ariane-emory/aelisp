@@ -85,13 +85,10 @@
     NL;
 
     fputs("Count items in program obj: ", stdout); 
-    fflush(stdout);
-    NL;
     printf("%d", LENGTH(program_obj));
     NL;
     NL;
-    fflush(stdout);
-
+    
     puts("Writing items in program obj.");
     if (CONSP(program_obj) && CAR(program_obj))
       EACH(program_obj, do_write);
