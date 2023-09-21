@@ -5,7 +5,7 @@ ae_obj_t *ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
   
   ae_obj_t * pos = this;
   
-  for (; pos != NIL; pos = pos->parent) {
+  for (; NOT_NILP(pos); pos = pos->parent) {
     ae_obj_t * symbols = pos->symbols;
     ae_obj_t * values  = pos->values;
         

@@ -80,6 +80,7 @@ typedef char  *             ae_string_t;
 #define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
+#define NOT_NILP(o)             (! NILP((o)))
 #define NIL                     (&nil_obj)
 #define TRU                     (&true_obj)
 
