@@ -44,11 +44,8 @@
     int written = 0;
 
     while (written++ < indent) SPC;
-    /* for (int ct = 0; ct < indent << 1; ct++) */
-    /*   SPC; */
-    
-    int written = PUT(this) + indent;
-    while (written++ < 82 - indent) SPC;
+    written += PUT(this);    
+    while (written++ < 80) SPC;
     ae_obj_put_words(this);
     NL;
     
