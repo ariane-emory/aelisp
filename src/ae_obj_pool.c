@@ -67,7 +67,8 @@ void pool_print(void) {
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
     while (written++ < 80) putchar(' ');
-    ae_obj_put_words(&pool[ix]);
+    /* ae_obj_put_words(&pool[ix]); */
+    putchar('x');
     putchar('\n');
   }
   puts("Printed pool contents.");
