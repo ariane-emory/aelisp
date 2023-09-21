@@ -63,7 +63,7 @@ void pool_print(void) {
   puts("\nPrinting pool contents.");
   for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
     int written = 0;
-    written +=  printf(" %04d: ", ix); 
+    written +=  printf(" %04d: %018p ", ix, &pool[ix]);
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
     while (written++ < 85) putchar(' ');
