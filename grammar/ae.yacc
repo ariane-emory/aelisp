@@ -46,6 +46,8 @@
     
     PUT(this);
     NL;
+    ae_obj_put_words(this);
+    NL;
     
     if (CONSP(this)) {
       ++indent;

@@ -75,6 +75,8 @@ char * ae_obj_sput(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
+  ASSERT_NOT_NULLP(this);
+  
 #define same_size_type long int
   size_t max = sizeof(ae_obj_t) / sizeof(same_size_type *);
   
