@@ -78,28 +78,27 @@ char * ae_obj_sput(const ae_obj_t * const this) {
 int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
  
-  const unsigned char * const start = (unsigned char *)this;
-
+  int                         written = 0;
+  const unsigned char * const start   = (unsigned char *)this;
+  
   // This assumes the system is little-endian and renders the values as big-endian.
   
   for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
     if (ix % 8 == 0)
-      fputs("0x", stream);
+      written += fputs("0x", stream);
     
-    fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
+    written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
 
     if ((ix + 1) % 8 == 0) {
-      fputs(" ", stream);
+      written += fputs(" ", stream);
     }
   }
 
-  return 0;
+  return written;
 }
 
 int ae_obj_put_words(const ae_obj_t * const this) {
-  ae_obj_fput_words(this, stdout);
-
-  return 0;
+  return ae_obj_fput_words(this, stdout);
 }
 
 char * ae_obj_sput_words(const ae_obj_t * const this) {
