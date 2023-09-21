@@ -6,14 +6,17 @@
 
 #include "ae_obj.h"
 
+#define TAILP(o)        (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
+#define ASSERT_TAILP(o) (assert(TAILP((o))))
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _length method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_list_length(const ae_obj_t * const list) {
-  ASSERT_CONSP(list);
+  ASSERT_TAILP(list);
   
-  if (! CAR(list) ) return 0;
+  if (NILP(list)) return 0;
 
   size_t length = 0;
 
@@ -28,7 +31,10 @@ int ae_list_length(const ae_obj_t * const list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
-  ASSERT_CONSP(list);
+  ASSERT_TAILP(list);
+
+  if (NILP(list))
+    return;
 
 #ifdef AE_LIST_EACH_RECURSES
   if (! CAR(list))
@@ -163,8 +169,9 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 #endif
 
 ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
+  ASSERT_NOT_NULLP(list);
   ASSERT_CONSP(list);
- 
+  
 #ifdef AE_LOG_PUSH
   fputs("Pushing          ", stdout);
   PUT(member);
