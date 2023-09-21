@@ -132,8 +132,7 @@ program: sexps { root = $$; }
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
-list:
-LPAREN sexps RPAREN { $$ = $2; };
+list: LPAREN sexps RPAREN { $$ = $2; };
 
 sexp: list | atom
 
