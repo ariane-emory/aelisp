@@ -137,7 +137,7 @@ nil                 |
 [-+]?[0-9]+\.[0-9]* | 
 [-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
-\;\;[^\n]*\n   ; /* comments */
-[\f\n\t\v\ ]+  ; /* ignored wItespace */
+\;\;[^\n]*\n        ; /* comments */
+[\f\n\t\v\ ]+       ; /* ignored whitespace */
 %%
 

@@ -133,8 +133,7 @@ program: sexps { root = $$; }
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 list:
-LPAREN sexps RPAREN { $$ = $2; }
-| LIST { INIT($$, AE_CONS); }
+LPAREN sexps RPAREN { $$ = $2; };
 
 sexp: list | atom
 
@@ -150,9 +149,6 @@ sexps sexp {
     PUSH($$, $2);    
     LOG_PARSE($$, "Made           ");
   }
-}
-| {
-  $$ = NIL;
-};
+} | { $$ = NIL; };
    
 %%
