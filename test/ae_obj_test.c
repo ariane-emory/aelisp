@@ -260,7 +260,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                \
     SETUP_TEST;                                                                                    \
     this = NEW(_type);                                                                             \
-    T(GET_TYPE(this) == _type);                                                                        \
+    T(GET_TYPE(this) == _type);                                                                    \
   }
   FOR_EACH_LEXED_TYPE(test);
 }
