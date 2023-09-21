@@ -25,8 +25,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
-  assert(ATOMP(this) || CAR(this));
-
+  ASSERT_NOT_NULLP(this);
+  
   int total_written = fprintf(stream, "%011p[ ", this);
 
   int last_written = fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
@@ -200,6 +200,8 @@ static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
 }
 
 int ae_obj_fwrite(const ae_obj_t * const this, FILE * stream_) {
+  ASSERT_NOT_NULLP(this);
+
   fwrite_counter = 0;
   fwrite_stream  = stream_;
 
