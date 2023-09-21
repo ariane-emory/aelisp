@@ -43,10 +43,18 @@
 
     int written = 0;
 
-    while (written++ < indent) SPC;
-    written += PUT(this);    
+    while (written++ < indent << 1) SPC;
+
+    written += printf("%016p", this);
+    
+    while (written++ < 24) SPC;
+
+    written += PUT(this);
+    
     while (written++ < 84) SPC;
+
     ae_obj_put_words(this);
+
     NL;
     
     if (CONSP(this)) {
