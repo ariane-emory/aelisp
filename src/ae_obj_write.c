@@ -44,7 +44,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     written  += FWRITE(this, stream);
   }
   
-  while (written++ <= 55) SPC;
+  while (written++ <= 70) SPC;
 
   SPC;
   RSQR;

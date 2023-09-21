@@ -51,7 +51,7 @@
 
     written += PUT(this);
     
-    while (written++ < 88) SPC;
+    while (written++ < 103) SPC;
 
     ae_obj_put_words(this);
 
