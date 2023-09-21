@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "ae_obj.h"
+#include "ae_free_list.h"
 
 #define YYSTYPE ae_obj_t *
 
@@ -70,7 +71,12 @@
     printf("Pool size:  %p (%zu bytes).\n\n",
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
-       
+
+    const size_t free_list_size = 1 << 10;
+    void * mem = malloc(free_list_size);
+    free_list_add_block(mem, free_list_size);
+    printf("string pool size: %d bytes.\n", free_list_size);
+    
     FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
     yyparse();
