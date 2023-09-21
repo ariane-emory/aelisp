@@ -1,4 +1,5 @@
 To Do:
+- [ ] Maybe add 'short symbol' type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Escaped characters in AE_STRINGS don't read quite right.
 - [ ] Add env frames.
 - [ ] Fix inappropriate handling of quote.
