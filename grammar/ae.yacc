@@ -76,10 +76,11 @@
     void * mem = malloc(free_list_size);
     free_list_add_block(mem, free_list_size);
 
-    char * str = (char*)free_list_malloc(1 << 7);
-    
-    sprintf(str, "string pool size: %d bytes.\n", free_list_size);
-    puts(str);
+    for (int ix = 0; ix < 53; ix++) {
+      char * str = (char*)free_list_malloc(1 << 7);    
+      sprintf(str, "string pool size: %d bytes.\n", free_list_size);
+      puts(str);
+    }
     
     FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
