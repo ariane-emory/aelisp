@@ -45,6 +45,7 @@ static int gcd(const int left, const int right) {
 }
 
 void ae_rational_simplify(ae_obj_t * this) {
+  ASSERT_NOT_NULLP(this);
   ASSERT_RATIONALP(this);
   
   int this_gcd = gcd(NUMER_VAL(this), DENOM_VAL(this));
@@ -54,6 +55,9 @@ void ae_rational_simplify(ae_obj_t * this) {
 }
 
 bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
+  ASSERT_NOT_NULLP(this);
+  ASSERT_NOT_NULLP(that);
+      
   if (this             == that)
     return true;
   
@@ -113,16 +117,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_truth (const bool this) {
-  /* Using GCC 13, it appears that the two possible return values' addresses are 1. distinct for
-     either possible argument and 2. consistent for each possible argument when this function is
-     called repeatedly, but I'm not sure if the standard gives any assurance that they always will
-     be. Possibly UB?
-
-     Probably a good idea to come up with a less sketchy way of implementing this...
-  */
-  
   return this ? TRU : NIL;
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +125,8 @@ ae_obj_t * ae_obj_truth (const bool this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
-
+  ASSERT_NOT_NULLP(this);
+  
 #ifdef AE_LOG_INIT
   fputs("Initializing     ", stdout);
   PUT(this);
@@ -154,6 +150,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
+  ASSERT_NOT_NULLP(this);
   ASSERT_NEQ(this, that);
   
 #ifdef AE_LOG_MOVE
@@ -183,6 +180,8 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
+  ASSERT_NOT_NULLP(this);
+  
 #ifdef AE_LOG_CLONE
   fputs("Cloning          ", stdout);
   PUT(this);
@@ -241,6 +240,8 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
+  ASSERT_NOT_NULLP(this);
+  
   ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
@@ -258,6 +259,8 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
+  ASSERT_NOT_NULLP(this);
+  
   ae_type_t old_type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
   this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
@@ -276,6 +279,8 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
 // This is not yet used and is just here as an example of how to get the next metadata region:
 
 char ae_obj_get_foo(const ae_obj_t * const this) {
+  ASSERT_NOT_NULLP(this);
+  
   char foo = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
 
 #ifdef AE_LOG_METADATA
@@ -292,6 +297,8 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
 // This is not yet used and is just here as an example of how to set the next metadata region:
 
 void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
+  ASSERT_NOT_NULLP(this);
+  
   char old_foo   = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
   this->metadata = TO_MASKED (foo, AE_FOOO_MASK, AE_FOOO_SHIFT);
 

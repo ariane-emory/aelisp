@@ -46,17 +46,17 @@ typedef char  *             ae_string_t;
 #define EQL(this, that)         (ae_obj_equal((this), (that)))
 #define NEQL(this, that)        (! EQL((this), (that)))
 
-#define ATOMP(o)                (! CONSP((o)))
-#define CHARP(o)                (GET_TYPE((o)) == AE_CHAR)
-#define CONSP(o)                (GET_TYPE((o)) == AE_CONS)
-#define FLOATP(o)               (GET_TYPE((o)) == AE_FLOAT)
-#define FREEP(o)                (GET_TYPE((o)) == AE_FREE)
-#define INTEGERP(o)             (GET_TYPE((o)) == AE_INTEGER)
-#define INVALIDP(o)             (GET_TYPE((o)) == AE_INVALID)
-#define QUOTEP(o)               (GET_TYPE((o)) == AE_QUOTE)
-#define RATIONALP(o)            (GET_TYPE((o)) == AE_RATIONAL)
-#define STRINGP(o)              (GET_TYPE((o)) == AE_STRING)
-#define SYMBOLP(o)              (GET_TYPE((o)) == AE_SYMBOL)
+#define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
+#define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
+#define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CONS))
+#define FLOATP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FLOAT))
+#define FREEP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FREE))
+#define INTEGERP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INTEGER))
+#define INVALIDP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INVALID))
+#define QUOTEP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_QUOTE))
+#define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
+#define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
+#define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
 #define NULLP(o)                (! (o))
 #define NOT_NULLP(o)            (! NULLP(o))
 
@@ -78,8 +78,8 @@ typedef char  *             ae_string_t;
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
 #define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
 
+#define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
 #define NIL                     (&nil_obj)
-#define NILP(o)                 ((o) == NIL)
 #define TRU                     (&true_obj)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
