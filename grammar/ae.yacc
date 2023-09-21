@@ -30,7 +30,7 @@
 
   ae_obj_t * root    = 0;
   
-#define free_list_size 1 << 20
+#define free_list_size (1 << 13)
 
   static char mem[free_list_size] = { 0 };
   
@@ -78,7 +78,6 @@
            sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
            sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
     printf("Strings size: %016p (%zu bytes).\n\n", free_list_size, free_list_size);
-
 
     free_list_add_block(&mem[0], free_list_size);
     
