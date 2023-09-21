@@ -72,7 +72,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   ae_obj_t * num     = NEW(AE_INTEGER);
   INT_VAL(num)       = 1;
   
-  ae_obj_t * list    = CONS_NEW(num);
+  ae_obj_t * list    = NEW_LIST(num);
   ae_obj_t * tailtip = list;
 
   T(LENGTH(tailtip) == 1);
@@ -99,7 +99,7 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * head = NEW(AE_INTEGER);
   head->int_val   = 4;
 
-  ae_obj_t * list = CONS_NEW(head);
+  ae_obj_t * list = NEW_LIST(head);
   
   T(LENGTH(list) == 1);
 
@@ -144,7 +144,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  return CONS(this, CONS_NEW(this));
+  return CONS(this, NEW_LIST(this));
 }
 
 void basic_list_checks(ae_obj_t * this) {
