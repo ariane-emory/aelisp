@@ -28,6 +28,12 @@ typedef struct ae_node_t {
        (pos) != (head);                                                                            \
        (pos) =  (pos)->next)
 
+#define AE_NODE_FOR_EACH_SAFE(pos, pos_next, head)                                                 \
+  for ((pos) = (head)->next,                                                                       \
+         (pos_next) = (pos)->next;                                                                 \
+       (pos) != (head);                                                                            \
+       (pos) = (pos_next), (pos_next) = (pos)->next)
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_node_insert
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,9 +132,10 @@ void * free_list_malloc(size_t size) {
 
 static void free_list_coalesce(void) {
   ae_node_t * node;
+  ae_node_t * node_next;
   ae_node_t * last_node = NULL;
 
-  AE_NODE_FOR_EACH(node, &free_list) {
+  AE_NODE_FOR_EACH_SAFE(node, node_next, &free_list) {
     if (last_node) {
       if (((uintptr(&last_node->data)) + last_node->size) == uintptr(node)) {
         last_node->size += ALLOC_HEADER_SIZE;
