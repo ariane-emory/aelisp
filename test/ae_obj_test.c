@@ -82,7 +82,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
     int        int_val = ix;
     new_int->int_val   = int_val;
 
-    tailtip              = PUSH(tailtip, new_int);
+    tailtip            = PUSH(&tailtip, new_int);
     
     T(CONSP(tailtip));
     T(INTEGERP(CAR(tailtip)));
@@ -204,13 +204,13 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
-  ae_list_push_back(this->symbols, INTERN(&symbols_list, "foo"));
-  ae_list_push_back(this->symbols, INTERN(&symbols_list, "bar"));
-  ae_list_push_back(this->symbols, INTERN(&symbols_list, "baz"));
+  ae_list_push_back(&this->symbols, INTERN(&symbols_list, "foo"));
+  ae_list_push_back(&this->symbols, INTERN(&symbols_list, "bar"));
+  ae_list_push_back(&this->symbols, INTERN(&symbols_list, "baz"));
   
-  ae_list_push_back(this->symbols, NEW_INT(12));
-  ae_list_push_back(this->symbols, NEW_INT(24));
-  ae_list_push_back(this->symbols, NEW_INT(36));
+  ae_list_push_back(&this->symbols, NEW_INT(12));
+  ae_list_push_back(&this->symbols, NEW_INT(24));
+  ae_list_push_back(&this->symbols, NEW_INT(36));
   
   NL;
   

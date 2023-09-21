@@ -157,7 +157,7 @@ sexps sexp {
   }
   else {
     LOG_PARSE($2, "Appending      ");
-    PUSH($$, $2);    
+    PUSH(&$$, $2);    
     LOG_PARSE($$, "Made           ");
   }
 } | { $$ = NIL; };

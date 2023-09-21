@@ -71,7 +71,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   ae_obj_t * tailtip  = new_list;
 
   FOR_EACH_CONST(elem, CDR(list))
-    tailtip = ae_list_push_back(tailtip, fun(elem));
+    tailtip = PUSH(&tailtip, fun(elem));
 
   return new_list;
 #endif
@@ -115,7 +115,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
       new_list = CONS_NEW(elem);
     else
       // this could be faster if we stashed the tailtip.
-      PUSH(new_list, elem);
+      PUSH(&new_list, elem);
   
   return new_list;
 }
@@ -171,25 +171,28 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif
 
-ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
-  ASSERT_TAILP(list);
+ae_obj_t * ae_list_push_back(ae_obj_t ** const list, ae_obj_t * const member) {
+  ASSERT_TAILP(*list);
   ASSERT_NOT_NULLP(member);
 
-  if (NILP(list))
-    return CONS(member, list);
+  if (NILP(*list)) {
+    ae_obj_t * new_list = CONS(member, *list);
+    *list = new_list;
+    return new_list;
+  }
   
 #ifdef AE_LOG_PUSH
   fputs("Pushing          ", stdout);
   PUT(member);
   fputs(" into ", stdout);
-  PUT(list);
+  PUT(*list);
   putchar(' ');
-  WRITE(list);
+  WRITE(*list);
   putchar('\n');
   fflush(stdout);
 #endif
   
-  ae_obj_t * tailtip = list;
+  ae_obj_t * tailtip = *list;
     
   for (;
        ! NILP(CDR(tailtip));
