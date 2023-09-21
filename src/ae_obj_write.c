@@ -36,10 +36,13 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
 
   total_written += last_written;
 
-  if (CONSP(this))
+  switch (GET_TYPE(this)) {
+  case AE_CONS:
     last_written = fprintf(stream, "%018p %018p %2d", CAR(this), CDR(this), LENGTH(this));
-  else
+    break;
+  default:
     last_written = FWRITE(this, stream);
+  }
   
   while (last_written++ <= 39) SPC;
 
