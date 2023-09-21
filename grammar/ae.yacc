@@ -45,7 +45,7 @@
 
     while (written++ < indent) SPC;
     written += PUT(this);    
-    while (written++ < 80) SPC;
+    while (written++ < 82) SPC;
     ae_obj_put_words(this);
     NL;
     
@@ -70,10 +70,10 @@
   main() {
     putchar('\n');
 
-    printf("nil at:     %p.\n", NIL);
-    printf("Pool first: %p.\n", pool_first);
-    printf("Pool last:  %p.\n", pool_last);
-    printf("Pool size:  %p (%zu bytes).\n\n",
+    printf("nil at:     %016p.\n", NIL);
+    printf("Pool first: %016p.\n", pool_first);
+    printf("Pool last:  %016p.\n", pool_last);
+    printf("Pool size:  %016p (%zu bytes).\n\n",
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
 
