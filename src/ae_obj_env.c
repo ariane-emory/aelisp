@@ -20,3 +20,14 @@ ae_obj_t *ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
   return NIL;
 }
 
+ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
+  ae_obj_t * symbols = CONS_NEW(symbol);
+  ae_obj_t * values  = CONS_NEW(value);
+  
+  CDR(symbols)  = this->symbols;
+  this->symbols = symbols;
+  CDR(values)   = this->values;
+  this->values  = values;
+
+  return value;
+}
