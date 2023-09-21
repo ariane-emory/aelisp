@@ -174,6 +174,9 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_TAILP(list);
   ASSERT_NOT_NULLP(member);
+
+  if (NILP(list))
+    return CONS(member, list);
   
 #ifdef AE_LOG_PUSH
   fputs("Pushing          ", stdout);

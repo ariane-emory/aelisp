@@ -204,9 +204,16 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
+  ae_list_push_back(this->symbols, INTERN(&symbols_list, "boop"));
+  
+  that          = NEW(AE_INTEGER);
+  INT_VAL(that) = 12;
+
+  ae_list_push_back(this->symbols, that);
+  
   NL;
   
-  PUT(this);
+  pool_print();
 
   NL;
 }
