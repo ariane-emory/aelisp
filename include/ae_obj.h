@@ -113,6 +113,9 @@ typedef char  *             ae_string_t;
   DO(AE_FLOAT)                                                                                     \
   DO(AE_INF)                                                                                       \
   DO(AE_QUOTE)                                                                                     \
+  DO(AE_ENV)                                                                                       \
+  DO(AE_LAMBDA)                                                                                    \
+  DO(AE_MACRO)                                                                                     \
   DO(AE_INVALID)
 
 #define enum_entry(x) x,
@@ -145,11 +148,21 @@ typedef struct ae_obj_t {
     struct {
       long long int          numerator_val;
       unsigned long long int denominator_val;
-    };
+    }; // AE_RATIONAL
     struct {
       struct ae_obj_t *      head;
       struct ae_obj_t *      tail;
-    };
+    }; // AE_CONS
+    struct {
+      struct ae_obj_t *      parent;
+      struct ae_obj_t *      symbols;
+      struct ae_obj_t *      values;
+    }; // AE_ENV
+    struct {
+      struct ae_obj_t *      params;
+      struct ae_obj_t *      body;
+      struct ae_obj_t *      env;
+    }; // AE_LAMBDA
   };
 }
 #ifdef AE_ALIGN_OBJS
