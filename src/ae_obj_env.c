@@ -31,3 +31,25 @@ ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
 
   return value;
 }
+
+ae_obj_t *ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t  * val) {
+  ae_obj_t * pos = this;
+  
+  while (true) {
+    ae_obj_t * symbols = this->symbols;
+    ae_obj_t * vals    = this->values;
+
+    for (; CONSP(symbols); symbols = CDR(symbols), vals = CDR(vals)) {
+      if (EQ(CAR(symbols), symbol))
+        return CAR(vals) = val;
+      if (EQ(CDR(symbols),symbol))
+        return CDR(vals) = val;
+    }
+
+    if (NILP(pos->parent))
+      return ae_env_add(pos, symbol, val);
+    else
+      pos = pos->parent;
+  }
+}
+
