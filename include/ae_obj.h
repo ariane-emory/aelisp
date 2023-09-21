@@ -113,8 +113,6 @@ typedef char  *             ae_string_t;
   DO(AE_INF)                                                                                       \
   DO(AE_STRING)                                                                                    \
   DO(AE_SYMBOL)                                                                                    \
-  DO(AE_LPAREN)                                                                                    \
-  DO(AE_RPAREN)                                                                                    \
   DO(AE_QUOTE)
 
 #define enum_entry(x) x,

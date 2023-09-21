@@ -37,9 +37,8 @@
     case AE_SYMBOL:
       yylval = INTERN(&symbols_list, yytext);
     case AE_INF:
+    case AE_INVALID:
     case AE_QUOTE:
-    case AE_LPAREN:
-    case AE_RPAREN:
       goto end;      
     }
         
@@ -123,8 +122,8 @@
 nil                 |
 \([\f\n\t\v\ ]*\)                                                       TOKENIZE(NILTOK,   AE_SYMBOL  );
 \'                                                                      TOKENIZE(QUOTE,    AE_QUOTE   );
-\(                                                                      TOKENIZE(LPAREN,   AE_LPAREN  );
-\)                                                                      TOKENIZE(RPAREN,   AE_RPAREN  );
+\(                                                                      TOKENIZE(LPAREN,   AE_INVALID );
+\)                                                                      TOKENIZE(RPAREN,   AE_INVALID );
 \"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING  );
 '[^']'              |
 '\\.'               | 

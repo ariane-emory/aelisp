@@ -76,22 +76,7 @@
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
 
-    // void * mem = malloc(free_list_size);
     free_list_add_block(&mem[0], free_list_size);
-
-    if (true) 
-      for (int ix = 0; ix < 32000; ix++) {
-        char * str = (char*)free_list_malloc(1 << 7);
-        if (! str) {
-          free_list_reset();
-          memset(mem, 0, free_list_size);
-          free_list_add_block(mem, free_list_size);
-        
-          continue;
-        } 
-        sprintf(str, "string pool size: %d bytes.\n", free_list_size);
-        puts(str);
-      }
     
     FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
