@@ -3,7 +3,7 @@ To Do:
 - [ ] Add env frame-related functions.
 - [ ] Escaped characters in AE_STRINGs don't read quite right.
 - [ ] Lexer will svvrpt valid tokens even if there's no whitespace separating them from adjacent tokens, it shouldn't.
-- [ ] Fix inappropriate handling of quote.
+- [ ] Fix inappropriate handling of quote. Probably requires a new lexer token and a new yacc rule.
 - [ ] Maybe add macro version of map?
 - [ ] Maybe also a vector type of some sort?
 - [ ] ... advices?!
