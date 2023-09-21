@@ -62,8 +62,12 @@ void pool_free_ae_obj(ae_obj_t * const this) {
 void pool_print(void) {
   puts("\nPrinting pool contents.");
   for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
-    printf("# %5d: ", ix); 
-    PUT(&pool[ix]);
+    int written = 0;
+    written +=  printf("# %5d: ", ix); 
+    written +=  PUT(&pool[ix]);
+    written ++; putchar(' ');
+    while (written++ < 80) putchar(' ');
+    ae_obj_put_words(&pool[ix]);
     putchar('\n');
   }
   puts("Printed pool contents.");
