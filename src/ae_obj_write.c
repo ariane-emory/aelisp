@@ -27,36 +27,31 @@
 int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
   
-  // int total_written = fprintf(stream, "%018p [ ", this);
-  int total_written = fprintf(stream, "[ ", this);
+  int written = fprintf(stream, "[ ", this);
 
-  int last_written = fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
+  written    += fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
 
-  while (last_written++ <= 11) SPC;
-
-  total_written += last_written;
+  while (written++ <= 13) SPC;
 
   switch (GET_TYPE(this)) {
   case AE_CONS:
-    last_written = fprintf(stream, "%018p %018p %2d", CAR(this), CDR(this), LENGTH(this));
+    written  += fprintf(stream, "%018p %018p %2d", CAR(this), CDR(this), LENGTH(this));
     break;
   case AE_ENV:
-    last_written = fprintf(stream, "%018p %018p %018p", this->parent, this->symbols, this->values);
+    written  += fprintf(stream, "%018p %018p %018p", this->parent, this->symbols, this->values);
     break;
   default:
-    last_written = FWRITE(this, stream);
+    written  += FWRITE(this, stream);
   }
   
-  while (last_written++ <= 55) SPC;
+  while (written++ <= 55) SPC;
 
-  total_written += last_written;
-  
   SPC;
   RSQR;
 
-  total_written += 2;
+  written    += 2;
   
-  return total_written;
+  return written;
 }
 
 int ae_obj_put(const ae_obj_t * const this) {
