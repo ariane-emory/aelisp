@@ -79,10 +79,10 @@ int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
  
   const unsigned char * start = (unsigned char *)this;
 
-  for (int ix =  sizeof(*this); ix >= 0; ix--) {
+  for (int ix = sizeof(*this) - 1; ix >= 0; ix--) {
     fprintf(stream, "%02x", start[ix]);
 
-    if ((ix + 1) % 4 == 0)
+    if ((ix) % 4 == 0)
       putchar(' ');
   }
 
