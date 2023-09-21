@@ -29,7 +29,6 @@ STRICTER_CFLAGS = \
 	-Wall \
 	-Wextra \
 	-Wshadow \
-	-Wpedantic \
 	-Wno-format \
 	-Wno-address-of-packed-member \
 	-Wno-unused-variable \

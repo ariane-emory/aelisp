@@ -95,7 +95,6 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-
   ae_obj_t * head = NEW(AE_INTEGER);
   head->int_val   = 4;
 
@@ -198,6 +197,19 @@ void basic_list_checks(ae_obj_t * this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Tests
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void envs(void)
+{
+  SETUP_TEST;
+
+  this = NEW_ENV(NIL);
+
+  NL;
+  
+  PUT(this);
+
+  NL;
+}
 
 void remove_interned_elem_from_list(void) {
   SETUP_TEST;
@@ -544,6 +556,7 @@ void equal(void) {
   DO(remove_interned_elem_from_list)                                                               \
   DO(truth)                                                                                        \
   DO(equal)                                                                                        \
+  DO(envs)                                                                                         \
   DO(fwrite_lengths)
 
 #define pair(fun) { #fun, fun },

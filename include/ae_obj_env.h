@@ -6,12 +6,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_EMV(parent)                                                                            \
+#define NEW_ENV(parent_)                                                                           \
 ({                                                                                                 \
-assert(ENVP((parent)) || NILP((parent)));                                                          \
-{ .metadata = AE_ENV, .parent = (parent), .symbols = NIL, .values = NIL };                         \
+ae_obj_t * env = NEW(AE_ENV);                                                                      \
+env->parent    = (parent_);                                                                        \
+env->symbols   = NIL;                                                                              \
+env->values    = NIL;                                                                              \
+env;                                                                                               \
 })
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t *ae_env_find(ae_obj_t * const env, ae_obj_t * const var);
