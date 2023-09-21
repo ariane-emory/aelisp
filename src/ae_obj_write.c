@@ -27,7 +27,7 @@
 int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
   
-  int total_written = fprintf(stream, "%011p[ ", this);
+  int total_written = fprintf(stream, "%011x[ ", this);
 
   int last_written = fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
 
