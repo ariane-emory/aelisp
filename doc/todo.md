@@ -1,13 +1,15 @@
 To Do:
 - [ ] Maybe add 'short symbol' type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
-- [ ] Escaped characters in AE_STRINGS don't read quite right.
-- [ ] Add env frames.
+- [ ] Add env frame-related functions.
+- [ ] Escaped characters in AE_STRINGs don't read quite right.
+- [ ] Lexer will svvrpt valid tokens even if there's no whitespace separating them from adjacent tokens, it shouldn't.
 - [ ] Fix inappropriate handling of quote.
 - [ ] Maybe add macro version of map?
 - [ ] Maybe also a vector type of some sort?
 - [ ] ... advices?!
 
 Completed:
+- [x] Add env frames to obj struct.
 - [x] Review (and test) the 'word-oriented' puts.
 - [x] Add a free list allocator and make a pool to hold strings' data.
 - [x] _map could be iterative.
