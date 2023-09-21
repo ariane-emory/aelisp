@@ -31,6 +31,10 @@
 
   ae_obj_t * root    = 0;
   
+#define free_list_size 1 << 20
+
+  static char mem[free_list_size] = { 0 };
+  
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
 
   int  yywrap() { return 1; }
@@ -61,7 +65,7 @@
   //////////////////////////////////////////////////////////////////////////////
   // main
   //////////////////////////////////////////////////////////////////////////////
-  
+
   main() {
     putchar('\n');
 
@@ -72,11 +76,10 @@
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
            sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
 
-    const size_t free_list_size = 1 << 11;
-    void * mem = malloc(free_list_size);
-    free_list_add_block(mem, free_list_size);
+    // void * mem = malloc(free_list_size);
+    free_list_add_block(&mem[0], free_list_size);
 
-    if (false) 
+    if (true) 
       for (int ix = 0; ix < 32000; ix++) {
         char * str = (char*)free_list_malloc(1 << 7);
         if (! str) {
