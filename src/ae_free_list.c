@@ -23,8 +23,8 @@
 typedef struct ae_alloc_node_t {
   struct ae_alloc_node_t * next;
   struct ae_alloc_node_t * prev;
-  size_t             size;
-  char *             data;
+  size_t                   size;
+  char *                   data;
 } ae_alloc_node_t;
 
 #define AE_NODE_FOR_EACH(pos, head)                                                                \
