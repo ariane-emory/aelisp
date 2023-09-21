@@ -70,6 +70,7 @@
   main() {
     putchar('\n');
 
+    printf("obj size:   %d.\n",    sizeof(ae_obj_t));
     printf("nil at:     %016p.\n", NIL);
     printf("Pool first: %016p.\n", pool_first);
     printf("Pool last:  %016p.\n", pool_last);
