@@ -44,7 +44,7 @@ typedef char  *             ae_string_t;
 #define EQ(this, that)          (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) == ((that)))
 #define NEQ(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) != ((that)))
 #define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_equal((this), (that))))
-#define NEQL(this, that)        (! EQL((this), (that)))
+#define NEQL(this, that)        (NOT_NULLP((this)) && NOT_NULLP((that)) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
