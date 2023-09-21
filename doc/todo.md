@@ -1,5 +1,5 @@
 To Do:
-- [ ] Maybe add 'short symbol' type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
+- [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Add env frame-related functions.
 - [ ] Escaped characters in AE_STRINGs don't read quite right.
 - [ ] Lexer will svvrpt valid tokens even if there's no whitespace separating them from adjacent tokens, it shouldn't.
