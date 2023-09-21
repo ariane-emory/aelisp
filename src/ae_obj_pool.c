@@ -29,7 +29,7 @@ ae_obj_t * pool_alloc_ae_obj() {
     if (! FREEP(obj))
       continue;
 
-    obj->type = AE_INVALID;
+    SET_TYPE(obj, AE_INVALID);
     
 #ifdef NOISY_INIT
     fputs("Allocated        ", stdout);

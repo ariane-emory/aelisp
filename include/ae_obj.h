@@ -35,9 +35,11 @@ typedef char  *             ae_string_t;
 #define NUMER_VAL(this)         ((this)->numerator_val)
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
-#define TYPE(this)              ((this)->type)
 #define TYPE_STR(type)          (ae_type_str((type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
+
+#define GET_TYPE(this)          (ae_obj_get_type((this)))
+#define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
 
 #define EQ(this, that)          ((this) == (that))
 #define NEQ(this, that)         (! EQ((this), (that)))
@@ -45,18 +47,16 @@ typedef char  *             ae_string_t;
 #define NEQL(this, that)        (! EQL((this), (that)))
 
 #define ATOMP(o)                (! CONSP((o)))
-#define CHARP(o)                (TYPE((o)) == AE_CHAR)
-#define CONSP(o)                (TYPE((o)) == AE_CONS)
-#define FLOATP(o)               (TYPE((o)) == AE_FLOAT)
-#define FREEP(o)                (TYPE((o)) == AE_FREE)
-#define INTEGERP(o)             (TYPE((o)) == AE_INTEGER)
-#define INVALIDP(o)             (TYPE((o)) == AE_INVALID)
-#define LPARENP(o)              (TYPE((o)) == AE_LPAREN)
-#define QUOTEP(o)               (TYPE((o)) == AE_QUOTE)
-#define RATIONALP(o)            (TYPE((o)) == AE_RATIONAL)
-#define RPARENP(o)              (TYPE((o)) == AE_RPAREN)
-#define STRINGP(o)              (TYPE((o)) == AE_STRING)
-#define SYMBOLP(o)              (TYPE((o)) == AE_SYMBOL)
+#define CHARP(o)                (GET_TYPE((o)) == AE_CHAR)
+#define CONSP(o)                (GET_TYPE((o)) == AE_CONS)
+#define FLOATP(o)               (GET_TYPE((o)) == AE_FLOAT)
+#define FREEP(o)                (GET_TYPE((o)) == AE_FREE)
+#define INTEGERP(o)             (GET_TYPE((o)) == AE_INTEGER)
+#define INVALIDP(o)             (GET_TYPE((o)) == AE_INVALID)
+#define QUOTEP(o)               (GET_TYPE((o)) == AE_QUOTE)
+#define RATIONALP(o)            (GET_TYPE((o)) == AE_RATIONAL)
+#define STRINGP(o)              (GET_TYPE((o)) == AE_STRING)
+#define SYMBOLP(o)              (GET_TYPE((o)) == AE_SYMBOL)
 #define NULLP(o)                (! (o))
 #define NOT_NULLP(o)            (! NULLP(o))
 
@@ -71,10 +71,8 @@ typedef char  *             ae_string_t;
 #define ASSERT_INFP(o)          (assert(INFP(o)))
 #define ASSERT_INTEGERP(o)      (assert(INTEGERP(o)))
 #define ASSERT_INVALIDP(o)      (assert(INVALIDP(o)))
-#define ASSERT_LPARENP(o)       (assert(LPARENP(o)))
 #define ASSERT_QUOTEP(o)        (assert(QUOTEP(o)))
 #define ASSERT_RATIONALP(o)     (assert(RATIONALP(o)))
-#define ASSERT_RPARENP(o)       (assert(RPARENP(o)))
 #define ASSERT_STRINGP(o)       (assert(STRINGP(o)))
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
@@ -119,11 +117,11 @@ typedef char  *             ae_string_t;
   DO(AE_RPAREN)                                                                                    \
   DO(AE_QUOTE)
 
-#define enum_node(x) x,
+#define enum_entry(x) x,
 
 typedef enum {
   AE_FREE = 0,
-  FOR_EACH_LEXED_TYPE(enum_node)
+  FOR_EACH_LEXED_TYPE(enum_entry)
 } ae_type_t;
 
 const char * ae_type_str(const ae_type_t this);
@@ -133,7 +131,13 @@ const char * ae_type_str(const ae_type_t this);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t {
-  ae_type_t             type;
+  // Currently, this field is only used to store an ae_obj_t in it's bottom 4 bits, but in the future
+  // it's remaining bits will store other info such as GC related flags:
+  unsigned int          metadata;
+
+#define AE_TYPE_BITS  4
+#define AE_FOOO_BITS  8
+
   union {
     ae_string_t         str_val;
     ae_string_t         sym_val;
@@ -154,11 +158,17 @@ typedef struct ae_obj_t {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_obj_init          (      ae_obj_t *  const this,  ae_type_t         type         );
-ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t *  const this,  ae_obj_t *  const that         );
-ae_obj_t *    ae_obj_clone         (      ae_obj_t *  const this                                  );
-bool          ae_obj_equal         (const ae_obj_t *  const this,  const ae_obj_t *  const that   );
-ae_obj_t *    ae_obj_truth         (const bool              this                                  );
+ae_obj_t *    ae_obj_init          (      ae_obj_t * const this,       ae_type_t        type      );
+ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t * const this,       ae_obj_t * const that      );
+ae_obj_t *    ae_obj_clone         (      ae_obj_t * const this                                   );
+bool          ae_obj_equal         (const ae_obj_t * const this, const ae_obj_t * const that      );
+ae_obj_t *    ae_obj_truth         (const bool             this                                   );
+ae_type_t     ae_obj_get_type      (const ae_obj_t * const this                                   );
+void          ae_obj_set_type      (      ae_obj_t * const this, const ae_type_t        type      );
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// These two are not yet used and are just here as an example of how to set the next metadata region:
+char          ae_obj_get_foo       (const ae_obj_t * const this                                   );
+void          ae_obj_set_foo       (      ae_obj_t * const this, const char             foo       );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 extern ae_obj_t   true_obj;

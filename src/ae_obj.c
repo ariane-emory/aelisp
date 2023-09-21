@@ -11,12 +11,12 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t   true_obj     = { .type = AE_SYMBOL, .sym_val = "t"   };
-ae_obj_t   nil_obj      = { .type = AE_SYMBOL, .sym_val = "nil" };
+ae_obj_t   true_obj     = { .metadata = AE_SYMBOL, .sym_val = "t"   };
+ae_obj_t   nil_obj      = { .metadata = AE_SYMBOL, .sym_val = "nil" };
 ae_obj_t * symbols_list = NULL;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// ae_type_str method
+// ae_type_str function
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define return_str(x) case x: return #x;
@@ -86,7 +86,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     ae_rational_simplify((ae_obj_t *)that);
 
     return (NUMER_VAL(this) == NUMER_VAL(that) &&
-             DENOM_VAL(this) == DENOM_VAL(that));
+            DENOM_VAL(this) == DENOM_VAL(that));
   }
 
   if (RATIONALP (this)  && INTEGERP (that) &&
@@ -138,7 +138,7 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 #endif
 
   ZERO(this);
-  this->type = type;
+  SET_TYPE(this, type);
 
 #ifdef AE_LOG_INIT
   fputs("Initialized      ", stdout);
@@ -195,7 +195,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #define CLONE_USING_MEMCPY clone = ALLOC(); memcpy(clone, this, sizeof(ae_obj_t))
 #define DUP_C_STR(field) clone->field = strdup(this->field)
   
-  switch (TYPE(this)) {
+  switch (GET_TYPE(this)) {
   case AE_CONS:
     clone = MAP(this, ae_obj_clone);
     break;
@@ -224,4 +224,78 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #endif
 
   return clone;
+}
+
+#define AE_TYPE_SHIFT 0
+#define AE_FOOO_SHIFT AE_TYPE_BITS
+
+#define AE_TYPE_MASK  (MASK(AE_TYPE_BITS, AE_TYPE_SHIFT))
+#define AE_FOOO_MASK  (MASK(AE_FOOO_BITS, AE_FOOO_SHIFT))
+
+#define MASK(size, shift)                   ((unsigned int) (((1 << (size)) - 1) << (shift)))
+#define GET_MASKED(type, from, mask, shift) ((type) (((from) & (mask)) >> (shift)))
+#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | ((unsigned int)(value) << (shift))
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get_type method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
+  ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
+
+#ifdef AE_LOG_METADATA
+  printf("While getting type, metadata was 0x%016X, type is %d.\n", this->metadata, type);
+#endif
+  
+  // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
+  assert(this->metadata == type);
+
+  return type;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_type method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
+  ae_type_t old_type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
+  this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
+
+#ifdef AE_LOG_METADATA
+  printf("While setting type to %d, type was %d. Metadata is now 0x%016X.\n", type, old_type, this->metadata); 
+#endif
+
+  // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
+  assert(this->metadata == type);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get_foo method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This is not yet used and is just here as an example of how to get the next metadata region:
+
+char ae_obj_get_foo(const ae_obj_t * const this) {
+  char foo = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
+
+#ifdef AE_LOG_METADATA
+  printf("While getting foo, metadata was 0x%016X, foo is '%c' (%d).\n", this->metadata, foo, foo);
+#endif
+
+  return foo;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_foo method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This is not yet used and is just here as an example of how to set the next metadata region:
+
+void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
+  char old_foo   = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
+  this->metadata = TO_MASKED (foo, AE_FOOO_MASK, AE_FOOO_SHIFT);
+
+#ifdef AE_LOG_METADATA 
+  printf("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);
+#endif
 }

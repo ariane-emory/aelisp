@@ -45,7 +45,7 @@
         
     yylval = NEW(ae_type);
       
-    switch (TYPE(yylval)) {
+    switch (GET_TYPE(yylval)) {
     case AE_CONS:
       break;
     case AE_INTEGER:

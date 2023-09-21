@@ -29,7 +29,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
 
   int total_written = fprintf(stream, "%011p[ ", this);
 
-  int last_written = fprintf(stream, "%s ", TYPE_STR(TYPE(this)));
+  int last_written = fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
 
   while (last_written++ <= 11) SPC;
 
@@ -127,7 +127,7 @@ static int    fwrite_counter  = 0;
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
 
 static int ae_obj_fwrite_internal(const ae_obj_t * const this) {
-  switch (TYPE(this)) {
+  switch (GET_TYPE(this)) {
   case AE_INF:
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
