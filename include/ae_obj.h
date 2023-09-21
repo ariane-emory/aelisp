@@ -17,10 +17,9 @@ typedef char  *             ae_string_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ALLOC()                 (pool_alloc_ae_obj())
 #define CLONE(this)             (ae_obj_clone((this)))
 #define DENOM_VAL(this)         ((this)->denominator_val)
@@ -35,18 +34,18 @@ typedef char  *             ae_string_t;
 #define SYM_VAL(this)           ((this)->sym_val)
 #define TYPE_STR(type)          (ae_type_str((type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NULLP(o)                (! (o))
 #define NOT_NULLP(o)            (! NULLP(o))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)          (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) == ((that)))
 #define NEQ(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) != ((that)))
 #define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_equal((this), (that))))
 #define NEQL(this, that)        (! EQL((this), (that)))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
 #define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CONS))
@@ -58,10 +57,10 @@ typedef char  *             ae_string_t;
 #define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_EQ(this, that)   (assert(EQ((this), (that))))
 #define ASSERT_NEQ(this, that)  (assert(NEQ((this), (that))))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))
 #define ASSERT_CONSP(o)         (assert((CONSP(o))))
@@ -76,7 +75,7 @@ typedef char  *             ae_string_t;
 #define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
 #define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
 #define NIL                     (&nil_obj)
 #define TRU                     (&true_obj)
