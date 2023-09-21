@@ -193,3 +193,4 @@ extern ae_obj_t * symbols_list;
 
 #include "ae_obj_list.h"
 #include "ae_obj_write.h"
+#include "ae_obj_env.h"
