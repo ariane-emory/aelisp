@@ -19,11 +19,11 @@
 
 
 #ifdef AE_LOG_PARSE
-#  define LOG_PARSE(obj, ...)                                                                          \
-  printf(__VA_ARGS__);                                                                                 \
-  PUT((obj));                                                                                          \
-  putchar(' ');                                                                                        \
-  putchar('\n');                                                                                       \
+#  define LOG_PARSE(obj, ...)                                                                      \
+  printf(__VA_ARGS__);                                                                             \
+  PUT((obj));                                                                                      \
+  putchar(' ');                                                                                    \
+  putchar('\n');                                                                                   \
   fflush(stdout)
 #else
 #  define LOG_PARSE(obj, ...) ((void)(obj))
@@ -76,19 +76,19 @@
     void * mem = malloc(free_list_size);
     free_list_add_block(mem, free_list_size);
 
-    for (int ix = 0; ix < 32000; ix++) {
-      char * str = (char*)free_list_malloc(1 << 7);
-      if (! str) {
-        free_list_reset();
-        memset(mem, 0, free_list_size);
-        free_list_add_block(mem, free_list_size);
+    if (false) 
+      for (int ix = 0; ix < 32000; ix++) {
+        char * str = (char*)free_list_malloc(1 << 7);
+        if (! str) {
+          free_list_reset();
+          memset(mem, 0, free_list_size);
+          free_list_add_block(mem, free_list_size);
         
-        continue;
-      } else {
+          continue;
+        } 
         sprintf(str, "string pool size: %d bytes.\n", free_list_size);
         puts(str);
       }
-    }
     
     FILE * fp = fopen("data/sample.txt", "r");
     yyin = fp;
