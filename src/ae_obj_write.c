@@ -40,6 +40,9 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_CONS:
     last_written = fprintf(stream, "%018p %018p %2d", CAR(this), CDR(this), LENGTH(this));
     break;
+  case AE_ENV:
+    last_written = fprintf(stream, "%018p %018p %2d", this->parent, this->symbols, this->values);
+    break;
   default:
     last_written = FWRITE(this, stream);
   }
