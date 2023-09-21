@@ -76,10 +76,18 @@
     void * mem = malloc(free_list_size);
     free_list_add_block(mem, free_list_size);
 
-    for (int ix = 0; ix < 53; ix++) {
-      char * str = (char*)free_list_malloc(1 << 7);    
-      sprintf(str, "string pool size: %d bytes.\n", free_list_size);
-      puts(str);
+    for (int ix = 0; ix < 32000; ix++) {
+      char * str = (char*)free_list_malloc(1 << 7);
+      if (! str) {
+        free_list_reset();
+        memset(mem, 0, free_list_size);
+        free_list_add_block(mem, free_list_size);
+        
+        continue;
+      } else {
+        sprintf(str, "string pool size: %d bytes.\n", free_list_size);
+        puts(str);
+      }
     }
     
     FILE * fp = fopen("data/sample.txt", "r");
