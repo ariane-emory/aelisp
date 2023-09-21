@@ -30,9 +30,7 @@ int ae_list_length(const ae_obj_t * const list) {
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
   ASSERT_CONSP(list);
 
-// #define EACH_RECURSES
-
-#ifdef EACH_RECURSES
+#ifdef AE_LIST_EACH_RECURSES
   if (! CAR(list))
     return;
 
@@ -51,9 +49,9 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
-// #define MAP_RECURSES
+  ASSERT_CONSP(list);
 
-#ifdef MAP_RECURSES
+#ifdef AE_LIST_MAP_RECURSES
   if (NILP(list))
     return list;
 
