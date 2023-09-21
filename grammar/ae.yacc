@@ -45,7 +45,7 @@
 
     while (written++ < indent) SPC;
     written += PUT(this);    
-    while (written++ < 82) SPC;
+    while (written++ < 84) SPC;
     ae_obj_put_words(this);
     NL;
     
@@ -70,13 +70,15 @@
   main() {
     putchar('\n');
 
-    printf("obj size:   %d.\n",    sizeof(ae_obj_t));
-    printf("nil at:     %016p.\n", NIL);
-    printf("Pool first: %016p.\n", pool_first);
-    printf("Pool last:  %016p.\n", pool_last);
-    printf("Pool size:  %016p (%zu bytes).\n\n",
-           sizeof(ae_obj_t) * ((pool_last - pool_first) + 1),
-           sizeof(ae_obj_t) * ((pool_last - pool_first) + 1));
+    printf("obj size:     %d.\n",    sizeof(ae_obj_t));
+    printf("nil at:       %016p.\n", NIL);
+    printf("Pool first:   %016p.\n", pool_first);
+    printf("Pool last:    %016p.\n", pool_last);
+    printf("Pool size:    %016p (%zu bytes).\n",
+           sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
+           sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
+    printf("Strings size: %016p (%zu bytes).\n\n", free_list_size, free_list_size);
+
 
     free_list_add_block(&mem[0], free_list_size);
     
@@ -97,8 +99,6 @@
     pool_print();
     NL;
 
-    // return 0;
-    
     puts("Describing items in program.");
     EACH(program_obj, describe);
     puts("Described items in program.");
