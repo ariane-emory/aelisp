@@ -84,9 +84,7 @@ int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
     if (ix % 8 == 0)
       fputs("0x", stream);
     
-    fprintf(stream, "%02x", start[
-              (7 - (ix % 8)) + ((ix >> 3) << 3)
-            ]);
+    fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
 
     if ((ix + 1) % 8 == 0) {
       fputs(" ", stream);
