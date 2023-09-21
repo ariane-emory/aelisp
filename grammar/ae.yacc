@@ -104,6 +104,8 @@
     ae_obj_put(program_obj);
     NL;
 
+    ae_obj_t * env = NEW_ENV(NIL);
+    
     pool_print();
     NL;
 
