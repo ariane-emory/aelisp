@@ -80,6 +80,8 @@ int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
  
   const unsigned char * const start = (unsigned char *)this;
 
+  // This assumes the system is little-endian.
+  
   for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
     if (ix % 8 == 0)
       fputs("0x", stream);
