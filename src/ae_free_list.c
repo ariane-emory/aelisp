@@ -1,9 +1,13 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <assert.h>
 
-#define offsetof(type, member) ((size_t)&((type *)0)->member)
+#ifndef offsetof
+#  define offsetof(type, member) ((size_t)&((type *)0)->member)
+#endif
+
 #define ALLOC_HEADER_SIZE      (offsetof(ae_node_t, data))
 #define MIN_ALLOC_SIZE         (ALLOC_HEADER_SIZE + 64)
 #define uintptr(p)             ((uintptr_t)(p))
