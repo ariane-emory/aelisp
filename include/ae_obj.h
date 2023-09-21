@@ -153,8 +153,11 @@ typedef struct ae_obj_t {
     };
   };
 }
-#ifdef AE_ALIGN_OBJECTS
-  __attribute__ ((aligned (32)))
+#ifdef AE_ALIGN_OBJS
+#  ifndef AE_OBJ_ALIGNMENT
+#    define AE_OBJ_ALIGNMENT 32
+#  endif
+  __attribute__ ((aligned (AE_OBJ_ALIGNMENT)))
 #endif
   ae_obj_t; 
 

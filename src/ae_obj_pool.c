@@ -23,7 +23,6 @@ const ae_obj_t * const pool_last              = &pool[AE_OBJ_POOL_SIZE - 1];
 
 ae_obj_t * pool_alloc_ae_obj() {
   for (int ix = AE_OBJ_POOL_SIZE - 1; ix >= 0; ix--) {
-
     ae_obj_t * obj = &pool[ix];
 
     if (! FREEP(obj))
