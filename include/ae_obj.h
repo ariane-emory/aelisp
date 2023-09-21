@@ -138,18 +138,18 @@ typedef struct ae_obj_t {
 #define AE_FOOO_BITS  8
 
   union {
-    ae_string_t         str_val;
-    ae_string_t         sym_val;
-    char                char_val;
-    int                 int_val;
-    double              float_val;
+    ae_string_t              str_val;
+    ae_string_t              sym_val;
+    char                     char_val;
+    long long int            int_val;
+    double                   float_val;
     struct {
-      int               numerator_val;
-      unsigned int      denominator_val;
+      long long int          numerator_val;
+      unsigned long long int denominator_val;
     };
     struct {
-      struct ae_obj_t * head;
-      struct ae_obj_t * tail;
+      struct ae_obj_t *      head;
+      struct ae_obj_t *      tail;
     };
   };
 }
