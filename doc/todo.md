@@ -1,6 +1,5 @@
 To Do:
 - [ ] Escaped characters in AE_STRINGS don't read quite right.
-- [ ] _map could be iterative.
 - [ ] Add env frames.
 - [ ] Review (and test) the 'word-oriented' puts.
 - [ ] Fix inappropriate handling of quote.
@@ -10,6 +9,7 @@ To Do:
 
 Completed:
 - [x] Add a free list allocator and make a pool to hold strings' data.
+- [x] _map could be iterative.
 - [x] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
 - [X] Add an addressable nil object:
     - [x] .yacc adjustments when parsing () / nil.
