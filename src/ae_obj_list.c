@@ -55,14 +55,13 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
-  ASSERT_CONSP(list);
+  ASSERT_TAILP(list);
 
-#ifdef AE_LIST_MAP_RECURSES
   if (NILP(list))
     return list;
 
+#ifdef AE_LIST_MAP_RECURSES
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
-  
 #else
   ae_obj_t * new_list = CONS_NEW(fun(CAR(list)));
 
@@ -83,8 +82,12 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
-  ASSERT_CONSP(list);
-
+  ASSERT_TAILP(list);
+  ASSERT_NOT_NULLP(member);
+  
+  if (NILP(list))
+    return false;
+  
   FOR_EACH_CONST(elem, list)
     if (EQ(elem, member))
       return true;
@@ -97,11 +100,12 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
+  ASSERT_TAILP(list);
+  ASSERT_NOT_NULLP(member);
+  
   if (NILP(list))
     return list;
   
-  ASSERT_CONSP(list);
-
   ae_obj_t * new_list = NIL;
   
   FOR_EACH(elem, list)
@@ -121,10 +125,9 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  assert(NOT_NULLP(tail) &&
-         (NILP(tail) ||
-          CONSP(tail)));
-  
+  ASSERT_TAILP(tail);
+  ASSERT_NOT_NULLP(head);
+
 #ifdef AE_LOG_CONS
   fputs("Cons ", stdout);
   PUT(head);
@@ -169,8 +172,8 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 #endif
 
 ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
-  ASSERT_NOT_NULLP(list);
-  ASSERT_CONSP(list);
+  ASSERT_TAILP(list);
+  ASSERT_NOT_NULLP(member);
   
 #ifdef AE_LOG_PUSH
   fputs("Pushing          ", stdout);
@@ -203,7 +206,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t * const list, ae_obj_t * const member) {
 #define NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
-  assert(string);
+  assert(NULLP(*plist) || TAILP(*plist));
+  ASSERT_NOT_NULLP(string);
   
 #ifdef AE_LOG_INTERN
   // pool_print();
