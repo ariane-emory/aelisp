@@ -51,7 +51,7 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
-#define MAP_RECURSES
+// #define MAP_RECURSES
 
 #ifdef MAP_RECURSES
   if (NILP(list))
@@ -60,10 +60,14 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
   
 #else
-  ae_obj_t * new_list = NEW(AE_CONS);
+  ae_obj_t * new_list = CONS_NEW(fun(CAR(list)));
+
+  if (NILP(CDR(list)))
+    return new_list;
+  
   ae_obj_t * tailtip  = new_list;
 
-  FOR_EACH_CONST(elem, list)
+  FOR_EACH_CONST(elem, CDR(list))
     tailtip = ae_list_push_back(tailtip, fun(elem));
 
   return new_list;
