@@ -41,9 +41,12 @@ typedef char  *             ae_string_t;
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
 
+#define NULLP(o)                (! (o))
+#define NOT_NULLP(o)            (! NULLP(o))
+
 #define EQ(this, that)          (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) == ((that)))
 #define NEQ(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) != ((that)))
-#define EQL(this, that)         (ae_obj_equal((this), (that)))
+#define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_equal((this), (that))))
 #define NEQL(this, that)        (! EQL((this), (that)))
 
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
@@ -57,8 +60,6 @@ typedef char  *             ae_string_t;
 #define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
-#define NULLP(o)                (! (o))
-#define NOT_NULLP(o)            (! NULLP(o))
 
 #define ASSERT_EQ(this, that)   (assert(EQ((this), (that))))
 #define ASSERT_NEQ(this, that)  (assert(NEQ((this), (that))))
