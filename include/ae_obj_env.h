@@ -8,9 +8,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_EMV(parent)                                                                            \
 ({                                                                                                 \
-ASSERT_ENVP((parent));                                                                             \
+assert(ENVP((parent)) || NILP((parent)));                                                          \
 { .metadata = AE_ENV, .parent = (parent), .symbols = NIL, .values = NIL };                         \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+ae_obj_t *ae_env_find(ae_obj_t * const env, ae_obj_t * const var);
