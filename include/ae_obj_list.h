@@ -52,5 +52,3 @@ ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_f
 void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun          );
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string       );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include "ae_obj_write.h"
