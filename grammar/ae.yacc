@@ -45,13 +45,13 @@
 
     while (written++ < indent << 1) SPC;
 
-    written += printf("%016p", this);
+    written += printf("%018p", this);
     
-    while (written++ < 24) SPC;
+    while (written++ < 27) SPC;
 
     written += PUT(this);
     
-    while (written++ < 84) SPC;
+    while (written++ < 87) SPC;
 
     ae_obj_put_words(this);
 

@@ -66,7 +66,7 @@ void pool_print(void) {
     written +=  printf(" %04d: ", ix); 
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
-    while (written++ < 82) putchar(' ');
+    while (written++ < 85) putchar(' ');
     ae_obj_put_words(&pool[ix]);
     // putchar('x');
     putchar('\n');

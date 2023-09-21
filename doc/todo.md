@@ -1,13 +1,13 @@
 To Do:
 - [ ] Escaped characters in AE_STRINGS don't read quite right.
 - [ ] Add env frames.
-- [ ] Review (and test) the 'word-oriented' puts.
 - [ ] Fix inappropriate handling of quote.
 - [ ] Maybe add macro version of map?
 - [ ] Maybe also a vector type of some sort?
 - [ ] ... advices?!
 
 Completed:
+- [x] Review (and test) the 'word-oriented' puts.
 - [x] Add a free list allocator and make a pool to hold strings' data.
 - [x] _map could be iterative.
 - [x] ae_obj_truth(false) and the empty list should be eq and eql but probably isn't right now? Check.
