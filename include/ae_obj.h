@@ -195,6 +195,15 @@ extern ae_obj_t   true_obj;
 extern ae_obj_t   nil_obj;
 extern ae_obj_t * symbols_list;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NEW_INT(val)                                                                               \
+({                                                                                                 \
+   ae_obj_t * tmp  = NEW(AE_INTEGER);                                                              \
+   INT_VAL   (tmp) = (val);                                                                        \
+   tmp;                                                                                            \
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "ae_obj_list.h"
 #include "ae_obj_write.h"
 #include "ae_obj_env.h"
