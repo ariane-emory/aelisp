@@ -1,4 +1,4 @@
-// gcc -Iinclude scraps/fl_test.c src/ae_free_list.c -o fl_test && ./fl_test
+// gcc -Iinclude scraps/fl_test.c src/ae_free_list.c -o ./bin/fl_test && ./bin/fl_test
 #include "ae_free_list.h"
 #include "stdio.h"
 #include "stdbool.h"
