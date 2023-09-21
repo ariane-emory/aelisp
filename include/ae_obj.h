@@ -106,15 +106,15 @@ typedef char  *             ae_string_t;
 
 #define FOR_EACH_LEXED_TYPE(DO)                                                                    \
   DO(AE_CONS)                                                                                      \
-  DO(AE_INVALID)                                                                                   \
+  DO(AE_SYMBOL)                                                                                    \
+  DO(AE_STRING)                                                                                    \
   DO(AE_CHAR)                                                                                      \
   DO(AE_INTEGER)                                                                                   \
   DO(AE_RATIONAL)                                                                                  \
   DO(AE_FLOAT)                                                                                     \
   DO(AE_INF)                                                                                       \
-  DO(AE_STRING)                                                                                    \
-  DO(AE_SYMBOL)                                                                                    \
-  DO(AE_QUOTE)
+  DO(AE_QUOTE)                                                                                     \
+  DO(AE_INVALID)
 
 #define enum_entry(x) x,
 

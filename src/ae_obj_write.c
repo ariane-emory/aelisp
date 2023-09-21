@@ -76,22 +76,14 @@ char * ae_obj_sput(const ae_obj_t * const this) {
 
 int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
-  
-#define same_size_type long int
-  size_t max = sizeof(ae_obj_t) / sizeof(same_size_type *);
-  
-  const same_size_type * start = (same_size_type *)this;
+ 
+  const unsigned char * start = (unsigned char *)this;
 
-  for (size_t ix = 0; ix < max; ix++)  {
-    switch (ix) {
-    case 0:
-      fprintf(stream, "type ");
-      break;
-    case 1:
-      fprintf(stream, "data ");
-      break;
-    }
-    fprintf(stream, "%016x ", start[ix]);
+  for (size_t ix = 0; ix < sizeof(*this); ix++)  {
+    fprintf(stream, "%02x", start[ix]);
+
+    if ((ix + 1) % 4 == 0)
+      putchar(' ');
   }
 
   return 0;
