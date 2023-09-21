@@ -1,12 +1,16 @@
 #pragma once
 
 #include "ae_obj.h"
+#include "ae_obj_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_EMV(parent) \
-    ({ .metadata = AE_ENV, .parent = (parent), .symbols = NIL, .values = NIL })
+#define NEW_EMV(parent)                                                                            \
+({                                                                                                 \
+ASSERT_ENVP((parent));                                                                             \
+{ .metadata = AE_ENV, .parent = (parent), .symbols = NIL, .values = NIL };                         \
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
