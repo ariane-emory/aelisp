@@ -78,10 +78,10 @@ char * ae_obj_sput(const ae_obj_t * const this) {
 int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
  
-  const unsigned char * start = (unsigned char *)this;
+  const unsigned char * const start = (unsigned char *)this;
 
-  for (int ix = 0; ix < 32; ix++) {
-    if      (ix % 8 == 0)
+  for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
+    if (ix % 8 == 0)
       fputs("0x", stream);
     
     fprintf(stream, "%02x", start[(7 - (ix % 8)) + ((ix / 8) * 8)]);
