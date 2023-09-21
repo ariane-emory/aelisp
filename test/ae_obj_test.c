@@ -208,17 +208,8 @@ void envs(void)
   ae_list_push_back(this->symbols, INTERN(&symbols_list, "bar"));
   ae_list_push_back(this->symbols, INTERN(&symbols_list, "baz"));
   
-  that          = NEW(AE_INTEGER);
-  INT_VAL(that) = 12;
-  ae_list_push_back(this->symbols, that);
-  
-  that          = NEW(AE_INTEGER);
-  INT_VAL(that) = 24;
-  ae_list_push_back(this->symbols, that);
-  
-  /* that          = NEW(AE_INTEGER); */
-  /* INT_VAL(that) = 36; */
-  /* ae_list_push_back(this->symbols, that); */
+  ae_list_push_back(this->symbols, NEW_INT(12));
+  ae_list_push_back(this->symbols, NEW_INT(24));
   ae_list_push_back(this->symbols, NEW_INT(36));
   
   NL;
