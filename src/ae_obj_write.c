@@ -71,10 +71,10 @@ char * ae_obj_sput(const ae_obj_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's fput_words / put_words
+// obj's fput_bytes / put_bytes
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
+int ae_obj_fput_bytes(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
   
 #define same_size_type long int
@@ -97,16 +97,16 @@ int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
   return 0;
 }
 
-int ae_obj_put_words(const ae_obj_t * const this) {
-  ae_obj_fput_words(this, stdout);
+int ae_obj_put_bytes(const ae_obj_t * const this) {
+  ae_obj_fput_bytes(this, stdout);
 
   return 0;
 }
 
-char * ae_obj_sput_words(const ae_obj_t * const this) {
+char * ae_obj_sput_bytes(const ae_obj_t * const this) {
   MEMSTREAM(buff, stream);
 
-  ae_obj_fput_words(this, stream);
+  ae_obj_fput_bytes(this, stream);
   
   fclose(stream);
 

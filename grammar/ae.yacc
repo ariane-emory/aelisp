@@ -47,7 +47,7 @@
     int written = PUT(this) + indent;
     // printf("%d", written);
     while (written++ < 68 - indent) SPC;
-    ae_obj_put_words(this);
+    ae_obj_put_bytes(this);
     NL;
     
     if (CONSP(this)) {
