@@ -80,24 +80,15 @@ int ae_obj_fput_words(const ae_obj_t * const this, FILE * stream) {
  
   const unsigned char * start = (unsigned char *)this;
 
-  /* for (int ix = sizeof(*this) - 1; ix >= 0; ix--) { */
-  /*   if      ((ix + 1) % 8 == 0) */
-  /*     fputs("0x", stream); */
-
-  /*   fprintf(stream, "%02x", start[ix]); */
-
-  /*   if ((ix    ) % 8 == 0) */
-  /*     fputs(" ",  stream); */
-  /* } */
-
   for (int ix = 0; ix < 32; ix++) {
-        int value = (7 - (ix % 8)) + ((ix / 8) * 8);
+    if      (ix % 8 == 0)
+      fputs("0x", stream);
+    
+    fprintf(stream, "%02x", start[(7 - (ix % 8)) + ((ix / 8) * 8)]);
 
-        fprintf(stream, "%02x", start[value]);
-
-        if ((ix + 1) % 8 == 0) {
-            fputs(" ", stream);
-        }
+    if ((ix + 1) % 8 == 0) {
+      fputs(" ", stream);
+    }
   }
 
   return 0;
