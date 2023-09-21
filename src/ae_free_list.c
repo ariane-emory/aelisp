@@ -8,7 +8,7 @@
 #  define offsetof(type, member) ((size_t)&((type *)0)->member)
 #endif
 
-#define ALLOC_HEADER_SIZE      (offsetof(ae_node_t, data))
+#define ALLOC_HEADER_SIZE      (offsetof(ae_alloc_node_t, data))
 #define MIN_ALLOC_SIZE         (ALLOC_HEADER_SIZE + 64)
 #define uintptr(p)             ((uintptr_t)(p))
 
@@ -17,15 +17,15 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// ae_node_t struct
+// ae_alloc_node_t struct
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct ae_node_t {
-  struct ae_node_t * next;
-  struct ae_node_t * prev;
+typedef struct ae_alloc_node_t {
+  struct ae_alloc_node_t * next;
+  struct ae_alloc_node_t * prev;
   size_t             size;
   char *             data;
-} ae_node_t;
+} ae_alloc_node_t;
 
 #define AE_NODE_FOR_EACH(pos, head)                                                                \
   for ((pos) =  (head)->next;                                                                      \
@@ -39,10 +39,10 @@ typedef struct ae_node_t {
        (pos) = (pos_next), (pos_next) = (pos)->next)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// ae_node_insert
+// ae_alloc_node_insert
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static void ae_node_insert(ae_node_t * prev, ae_node_t * this, ae_node_t * next) {
+static void ae_alloc_node_insert(ae_alloc_node_t * prev, ae_alloc_node_t * this, ae_alloc_node_t * next) {
   next->prev = this;
   this->next = next;
   this->prev = prev;
@@ -50,12 +50,12 @@ static void ae_node_insert(ae_node_t * prev, ae_node_t * this, ae_node_t * next)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// ae_node_remove
+// ae_alloc_node_remove
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static void ae_node_remove(ae_node_t * this) {
-  ae_node_t * prev = this->prev;
-  ae_node_t * next = this->next;
+static void ae_alloc_node_remove(ae_alloc_node_t * this) {
+  ae_alloc_node_t * prev = this->prev;
+  ae_alloc_node_t * next = this->next;
 
   next->prev = prev;
   prev->next = next;
@@ -68,19 +68,19 @@ static void ae_node_remove(ae_node_t * this) {
 // free_list data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_node_t free_list = { &free_list, &free_list, 0, NULL };
+static ae_alloc_node_t free_list = { &free_list, &free_list, 0, NULL };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // free_list_add_block
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void free_list_add_block(void * addr, size_t size) {
-  ae_node_t * node;  
+  ae_alloc_node_t * node;  
 
   node       = (void *)   align_up(uintptr(addr), sizeof(void *));
   node->size = (uintptr_t)addr + size - uintptr(node) - ALLOC_HEADER_SIZE;
 
-  ae_node_insert(&free_list, node, free_list.next);
+  ae_alloc_node_insert(&free_list, node, free_list.next);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ void free_list_reset(void) {
 
 void * free_list_malloc(size_t size) {
   void      * ptr  = NULL;
-  ae_node_t * node = NULL;
+  ae_alloc_node_t * node = NULL;
 
   assert(size != 0);
     
@@ -119,7 +119,7 @@ void * free_list_malloc(size_t size) {
   if (ptr) {
     // Maybe split the data
     if ((node->size - size) >= MIN_ALLOC_SIZE) {
-      ae_node_t * new_node = (ae_node_t *)(uintptr(&node->data) + size);
+      ae_alloc_node_t * new_node = (ae_alloc_node_t *)(uintptr(&node->data) + size);
       new_node->size       = node->size - size - ALLOC_HEADER_SIZE;
       node->size           = size;
 
@@ -127,10 +127,10 @@ void * free_list_malloc(size_t size) {
       printf("Split         %p.\n", new_node);
 #endif
 
-      ae_node_insert(node, new_node, node->next);
+      ae_alloc_node_insert(node, new_node, node->next);
     }
 
-    ae_node_remove(node);
+    ae_alloc_node_remove(node);
   }
 
 #ifdef AE_LOG_FREE_LIST
@@ -145,9 +145,9 @@ void * free_list_malloc(size_t size) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static void free_list_coalesce(void) {
-  ae_node_t * node;
-  ae_node_t * node_next;
-  ae_node_t * last_node = NULL;
+  ae_alloc_node_t * node;
+  ae_alloc_node_t * node_next;
+  ae_alloc_node_t * last_node = NULL;
 
   AE_NODE_FOR_EACH_SAFE(node, node_next, &free_list) {
     if (last_node) {
@@ -155,7 +155,7 @@ static void free_list_coalesce(void) {
         last_node->size += ALLOC_HEADER_SIZE;
         last_node->size += node->size;
 
-        ae_node_remove(node);
+        ae_alloc_node_remove(node);
 
         continue;
       }
@@ -173,23 +173,23 @@ void free_list_free(void * ptr) {
   printf("free          %p\n", ptr);
 #endif
 
-  ae_node_t * node = (ae_node_t *)(uintptr(ptr) - ALLOC_HEADER_SIZE);
+  ae_alloc_node_t * node = (ae_alloc_node_t *)(uintptr(ptr) - ALLOC_HEADER_SIZE);
 
 #ifdef AE_LOG_FREE_LIST
   printf("node          %p\n", node);
 #endif
   
-  ae_node_t * free_node;
+  ae_alloc_node_t * free_node;
 
   AE_NODE_FOR_EACH(free_node, &free_list) {
     if (free_node > node) {
-      ae_node_insert(free_node->prev, node, free_node);
+      ae_alloc_node_insert(free_node->prev, node, free_node);
 
       goto end;
     }
   }
 
-  ae_node_insert(free_list.prev, node, &free_list);
+  ae_alloc_node_insert(free_list.prev, node, &free_list);
 
 end:
   free_list_coalesce();
