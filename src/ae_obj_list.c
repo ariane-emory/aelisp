@@ -213,7 +213,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM ae_obj_t * sym = NEW(AE_SYMBOL); SYM_VAL(sym) = strdup(string)
+#define NEW_SYM ae_obj_t * sym = NEW_SYMBOL(strdup(string));
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(NULLP(*plist) || TAILP(*plist));
