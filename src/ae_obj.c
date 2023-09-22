@@ -68,6 +68,11 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
       CDR      (this)  == CDR      (that))
     return true;
   
+  if (STRINGP  (this)  && STRINGP  (that) &&
+      ((STR_VAL (this) == STR_VAL  (that)) ||
+       (strcmp(STR_VAL(this), STR_VAL(that)) == 0)))
+    return true;
+
   if (CHARP    (this)  && CHARP    (that) &&
       CHAR_VAL  (this) == CHAR_VAL  (that))
     return true;
