@@ -93,7 +93,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
       FLOAT_VAL(this)  == INT_VAL  (that))
     return true;
 
-  if (RATIONALP (this)  && RATIONALP(that)) {
+  if (RATIONALP (this) && RATIONALP(that)) {
     // If they're both rationals we're going to cast away const and simplify
     // them both first before comparing their numerators and denominators.
 
