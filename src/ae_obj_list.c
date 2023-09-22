@@ -201,7 +201,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   
   ae_obj_t * tailtip = *plist;
   
-  FOR_EACH(elem, *plist) 
+  FOR_EACH(ignored, *plist) 
     tailtip = position;
 
   CDR(tailtip) = CONS_NIL(member);
@@ -226,7 +226,8 @@ ae_obj_t * sym;                                                                 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(NULLP(*plist) || TAILP(*plist));
   ASSERT_NOT_NULLP(string);
-
+  assert(strlen(string) != 0);
+  
   if (strcmp(string, "nil") == 0)
     return NIL;
 
