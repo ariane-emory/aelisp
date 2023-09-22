@@ -197,6 +197,7 @@ extern ae_obj_t * symbols_list;
 #define TRU                     (&true_obj)
 #define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
 #define NOT_NILP(o)             (! NILP((o)))
+#define ASSERT_NILP(o)          (assert(NILP((o))))
 #define ASSERT_NOT_NILP(o)      (assert(NOT_NILP((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \

@@ -9,14 +9,10 @@
 
 ae_obj_t *ae_lisp_car(ae_obj_t * const args) {
   ASSERT_CONSP(args);
+  ASSERT_NILP(CDR(args));  // takes only one arg.
+  ASSERT_TAILP(CAR(args)); // which must be a tail.
   
-  ae_obj_t * first = CAR(args); // should be a list or nil
-  ASSERT_TAILP(first);
-  
-  if (NILP(first))
-    return NIL;
-
-  return CAR(first);
+  return CAAR(args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,14 +21,10 @@ ae_obj_t *ae_lisp_car(ae_obj_t * const args) {
 
 ae_obj_t *ae_lisp_cdr(ae_obj_t * const args) {
   ASSERT_CONSP(args);
+  ASSERT_NILP(CDR(args));  // takes only one arg.
+  ASSERT_TAILP(CAR(args)); // which must be a tail
   
-  ae_obj_t * first = CAR(args); // should be a list or nil
-  ASSERT_TAILP(first);
-  
-  if (NILP(first))
-    return NIL;
-
-  return CDR(first);
+  return CDAR(args); 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,12 +33,7 @@ ae_obj_t *ae_lisp_cdr(ae_obj_t * const args) {
 
 ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
   ASSERT_CONSP(args);
-  
-  ae_obj_t * first = CAR(args); // should be a list or nil
-  ASSERT_TAILP(first);
-  
-  if (NILP(first))
-    return NIL;
+  ASSERT_TAILP(CDR(args)); // 2nd arg must be a tail.
 
-  return CDR(first);
+  return CONS(CAR(args), CDR(args));
 }
