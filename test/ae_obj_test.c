@@ -262,25 +262,25 @@ void remove_interned_symbol_from_list(void) {
     
   // using 'symbols_list' as the symbol list here:  
   T(EQ(INTERN("a"), INTERN("a")));
-  T(LENGTH(symbols_list) == 1);
+  T(EQ(LENGTH(symbols_list), 1));
   T(EQ(INTERN("b"), INTERN("b")));
-  T(LENGTH(symbols_list) == 2);
+  T(EQ(LENGTH(symbols_list), 2));
   T(EQ(INTERN("c"), INTERN("c")));
-  T(LENGTH(symbols_list) == 3);
+  T(EQ(LENGTH(symbols_list), 3));
   T(EQ(INTERN("d"), INTERN("d")));
-  T(LENGTH(symbols_list) == 4);
+  T(EQ(LENGTH(symbols_list), 4));
 
   that = INTERN("b");
 
   // Add a duplicate element so that we can see that both instances are removed:
   symbols_list = CONS(that, symbols_list);
   
-  T(LENGTH(symbols_list) == 5);
+  T(EQ(LENGTH(symbols_list), 5));
   T(MEMBERP(symbols_list, that));
   
   symbols_list = REMOVE(symbols_list, that);
   
-  T(LENGTH(symbols_list) == 3);
+  T(EQ(LENGTH(symbols_list), 3));
   T(NOT_MEMBERP(symbols_list, that));
   T(shitty_write_based_equality_predicate(symbols_list, "(d c a)"));
 }
