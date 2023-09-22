@@ -4,6 +4,29 @@
 #define PR(...) (fprintf(stdout, __VA_ARGS__))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _add
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
+  ASSERT_ENVP(this);
+  ASSERT_SYMBOLP(symbol);
+  ASSERT_NOT_NULLP(value);
+  
+  /* ae_obj_t * symbols = CONS_NIL(symbol); */
+  /* ae_obj_t * values  = CONS_NIL(value); */
+  
+  /* CDR(symbols)       = ENV_SYMS(this); */
+  /* ENV_SYMS(this)     = symbols; */
+  /* CDR(values)        = ENV_VALS(this); */
+  /* ENV_VALS(this)     = values; */
+
+  ENV_SYMS(this)     = CONS(symbol, ENV_SYMS(this));
+  ENV_VALS(this)     = CONS(value,  ENV_VALS(this));
+  
+  return value;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,26 +66,6 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
   }
 
   return NIL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _add
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
-  ASSERT_ENVP(this);
-  ASSERT_SYMBOLP(symbol);
-  ASSERT_NOT_NULLP(value);
-  
-  ae_obj_t * symbols = CONS_NIL(symbol);
-  ae_obj_t * values  = CONS_NIL(value);
-  
-  CDR(symbols)       = ENV_SYMS(this);
-  ENV_SYMS(this)     = symbols;
-  CDR(values)        = ENV_VALS(this);
-  ENV_VALS(this)     = values;
-
-  return value;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
