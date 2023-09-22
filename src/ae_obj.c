@@ -69,7 +69,7 @@ bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
     return true;
   
   if (STRINGP  (this)  && STRINGP  (that) &&
-      ((STR_VAL (this) == STR_VAL  (that)) ||
+      ((STR_VAL(this)  == STR_VAL  (that)) ||
        (! strcmp(STR_VAL(this), STR_VAL(that)))))
     return true;
 
