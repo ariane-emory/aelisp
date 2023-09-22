@@ -161,6 +161,9 @@ extern ae_obj_t * symbols_list;
 #define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_equal((this), (that))))
 #define NEQL(this, that)        (NOT_NULLP((this)) && NOT_NULLP((that)) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ASSERT_EQ(this, that)   (assert(EQ((this), (that))))
+#define ASSERT_NEQ(this, that)  (assert(NEQ((this), (that))))
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
 #define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CONS))
@@ -173,9 +176,6 @@ extern ae_obj_t * symbols_list;
 #define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ASSERT_EQ(this, that)   (assert(EQ((this), (that))))
-#define ASSERT_NEQ(this, that)  (assert(NEQ((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))
@@ -193,10 +193,11 @@ extern ae_obj_t * symbols_list;
 #define ASSERT_NULLP(o)         (assert(NULLP(o)))
 #define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
-#define NOT_NILP(o)             (! NILP((o)))
 #define NIL                     (&nil_obj)
 #define TRU                     (&true_obj)
+#define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
+#define NOT_NILP(o)             (! NILP((o)))
+#define ASSERT_NOT_NILP(o)      (assert(NOT_NILP((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
