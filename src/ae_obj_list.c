@@ -224,10 +224,10 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   ASSERT_NOT_NULLP(string);
   assert(strlen(string) != 0);
   
-  if (strcmp(string, "nil") == 0)
+  if (! strcmp(string, "nil"))
     return NIL;
 
-  if (strcmp(string, "t")   == 0)
+  if (! strcmp(string, "t")  )
     return TRU;
   
 #ifdef AE_LOG_INTERN
