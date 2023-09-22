@@ -20,8 +20,8 @@ ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   NL;
 #endif
   
-  ENV_SYMS(this)     = CONS(symbol, ENV_SYMS(this));
-  ENV_VALS(this)     = CONS(value,  ENV_VALS(this));
+  ENV_SYMS(this) = CONS(symbol, ENV_SYMS(this));
+  ENV_VALS(this) = CONS(value,  ENV_VALS(this));
   
   return value;
 }
