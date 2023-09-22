@@ -321,7 +321,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   ASSERT_NOT_NULLP(this);
   
   char old_foo   = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
-  this->metadata = TO_MASKED (foo, AE_FOOO_MASK, AE_FOOO_SHIFT);
+  this->metadata = TO_MASKED (      foo,            AE_FOOO_MASK, AE_FOOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
   printf("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);
