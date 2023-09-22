@@ -189,8 +189,8 @@ void envs(void)
   
   T(NOT_MEMBERP(ENV_SYMS(this), INTERN("foo")));
   ENV_ADD(this, INTERN("foo"), NEW_INT(12));
-  T(LENGTH(ENV_SYMS(this)) == 1);
-  T(LENGTH(ENV_VALS(this)) == 1);
+  T(EQ(LENGTH(ENV_SYMS(this)), 1));
+  T(EQ(LENGTH(ENV_VALS(this)), 1));
   T(MEMBERP(ENV_SYMS(this), INTERN("foo")));
   
   T(NOT_NILP(ENV_SYMS(this)));
