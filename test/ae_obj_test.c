@@ -139,10 +139,7 @@ void incr_list_length_counter(ae_obj_t * const this) {
 ae_obj_t * ae_obj_double(ae_obj_t * const this) {
   ASSERT_INTEGERP(this);
 
-  ae_obj_t * new_obj = NEW(AE_INTEGER);
-  new_obj->int_val = this->int_val * 2;
-
-  return new_obj;
+  return NEW_INT(this->int_val * 2);
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
