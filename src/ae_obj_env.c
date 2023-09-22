@@ -110,12 +110,13 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
         NL;
 #endif
         
-        if (EQ(sym, symbol)) {
+        if (EQ(symbol, sym)) {
 #ifdef AE_LOG_ENV
           PR("  Found it in car of: ");
           PUT(vals);
           NL;
 #endif
+          
           CAR(vals) = value;
 
 #ifdef AE_LOG_ENV
@@ -123,10 +124,11 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
           PUT(vals);
           NL;
 #endif
+          
           return;
         }
         
-        if (EQ(CDR(ENV_SYMS(position)), symbol)) {
+        if (EQ(symbol, CDR(ENV_SYMS(position)))) {
 #ifdef AE_LOG_ENV
           PR("  Found it in cdr of: ");
           PUT(vals);
@@ -140,6 +142,7 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
           PUT(vals);
           NL;
 #endif
+          
           return;
         }
         
@@ -151,6 +154,7 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
 #ifdef AE_LOG_ENV
       PR("  Adding new.\n");
 #endif
+      
         ENV_ADD(this, symbol, value);
         
         return;
@@ -159,6 +163,7 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
 #ifdef AE_LOG_ENV
       PR("  Going up.\n");
 #endif
+      
       env = ENV_PARENT(env);
     }
   }
