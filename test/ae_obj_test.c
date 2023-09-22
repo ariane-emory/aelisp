@@ -342,8 +342,8 @@ void unsafe_move_an_ae_obj(void) {
   this = MOVE_NEW(that);
 
   T(RATIONALP(this));
-  T(this->numerator_val   == 123);
-  T(this->denominator_val == 321);
+  T(EQ(this->numerator_val  , 123));
+  T(EQ(this->denominator_val, 321));
 
   T(FREEP(that));
   T(that->numerator_val   == 0);
