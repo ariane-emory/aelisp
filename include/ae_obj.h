@@ -134,6 +134,7 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ALLOC()                 (pool_alloc_ae_obj())
 #define CLONE(this)             (ae_obj_clone((this)))
+#define CHAR_VAL(this)          ((this)->char_val)
 #define DENOM_VAL(this)         ((this)->denominator_val)
 #define FLOAT_VAL(this)         ((this)->float_val)
 #define FREE(this)              (pool_free_ae_obj((thia)))
