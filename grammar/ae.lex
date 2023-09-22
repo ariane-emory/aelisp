@@ -131,7 +131,7 @@ nil                      |
 \?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR    );
 [\+\-\/\*]               |
 !?=|(>=?)|(<=?)          |
-([1-9][0-9]+)?[\+\-\/\*]                                                TOKENIZE(SYMBOL,   AE_SYMBOL  );
+([1-9][0-9]+)?[\+\-\/\*] |
 ([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
 [-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*      | 
