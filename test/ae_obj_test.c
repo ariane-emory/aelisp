@@ -249,14 +249,22 @@ void envs(void)
 
   that = NEW_ENV(NIL); // unlinked for now.
 
-  ENV_ADD(this, INTERN("quux"), NEW_INT(48));
-  
-  T(INT_VAL(ENV_FIND(this, INTERN("quux"))) == 48);
+  ENV_ADD(that, INTERN("quux"), NEW_INT(48));
 
-  PUT(ENV_FIND(this, INTERN("foo"))); NL;
-  PUT(ENV_FIND(this, INTERN("bar"))); NL;
-  PUT(ENV_FIND(this, INTERN("baz"))); NL;
+  T(NILP(ENV_FIND(this, INTERN("quux"))));
+
+  ENV_PARENT(this) = that;
+  
+  T(INT_VAL(ENV_FIND(that, INTERN("quux"))) == 48);
+
+  T(NILP(ENV_FIND(this, INTERN("zot"))));
+
+  PUT(ENV_FIND(this, INTERN("foo")));  NL;
+  PUT(ENV_FIND(this, INTERN("bar")));  NL;
+  PUT(ENV_FIND(this, INTERN("baz")));  NL;
   PUT(ENV_FIND(this, INTERN("quux"))); NL;
+  PUT(ENV_FIND(this, INTERN("zot")));  NL;
+
   
   NL;
 }
