@@ -20,14 +20,6 @@ ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   NL;
 #endif
   
-  /* ae_obj_t * symbols = CONS_NIL(symbol); */
-  /* ae_obj_t * values  = CONS_NIL(value); */
-  
-  /* CDR(symbols)       = ENV_SYMS(this); */
-  /* ENV_SYMS(this)     = symbols; */
-  /* CDR(values)        = ENV_VALS(this); */
-  /* ENV_VALS(this)     = values; */
-
   ENV_SYMS(this)     = CONS(symbol, ENV_SYMS(this));
   ENV_VALS(this)     = CONS(value,  ENV_VALS(this));
   

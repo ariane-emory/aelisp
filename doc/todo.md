@@ -1,5 +1,4 @@
 To Do:
-- [ ] Add env frame-related functions.
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] ae_obj_equal could support AE_CHARSs.
 - [ ] ae_obj_equal could maybe support AE_STRINGs too? Might as well?
@@ -11,6 +10,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Add env frame-related functions.
 - [x] Get rid of strdup call in ae_obj.c.
 - [x] Add env frames to obj struct.
 - [x] Review (and test) the 'word-oriented' puts.
