@@ -11,6 +11,9 @@ ae_obj_t *ae_lisp_car(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NILP(CDR(args));  // takes only one arg.
   ASSERT_TAILP(CAR(args)); // which must be a tail.
+
+  if (NILP(CAR(args)))     // car of nil is nil.
+    return NIL;
   
   return CAAR(args);
 }
@@ -22,8 +25,11 @@ ae_obj_t *ae_lisp_car(ae_obj_t * const args) {
 ae_obj_t *ae_lisp_cdr(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NILP(CDR(args));  // takes only one arg.
-  ASSERT_TAILP(CAR(args)); // which must be a tail
+  ASSERT_TAILP(CAR(args)); // which must be a tail.
   
+  if (NILP(CAR(args)))     // cdr of nil is nil.
+    return NIL;
+
   return CDAR(args); 
 }
 
@@ -36,5 +42,5 @@ ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
   ASSERT_TAILP(CDR(args)); // 2nd arg must be a tail.
   ASSERT_NILP(CDDR(args)); // only 2 args.
   
-  return CONS(CAR(args), CADR(args));
+  return CONS(CAAR(args), CADAR(args));
 }
