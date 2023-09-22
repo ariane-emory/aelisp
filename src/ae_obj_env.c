@@ -56,10 +56,10 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 #endif
 
     for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
-      if (EQ(CAR(symbols), symbol))
+      if (EQ(symbol, CAR(symbols)))
         return CAR(values);
 
-    if (EQ(symbols, symbol))
+    if (EQ(symbol, symbols))
       return values;
   }
 
