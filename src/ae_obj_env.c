@@ -4,6 +4,30 @@
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
+  ASSERT_ENVP(this);
+  
+  ae_obj_t * pos = this;
+  
+  for (; NOT_NILP(pos); pos = ENV_PARENT(pos)) {
+    ae_obj_t * symbols = ENV_SYMS(pos);
+    ae_obj_t * values  = ENV_VALS(pos);
+        
+    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
+      if (EQ(CAR(symbols), symbol))
+        return CAR(values);
+
+    if (EQ(symbols, symbol))
+      return values;
+  }
+
+  return NIL;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _add
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ae_obj_t * symbols = CONS_NEW(symbol);
   ae_obj_t * values  = CONS_NEW(value);
@@ -37,7 +61,7 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * values) {
     if (NILP(pos->parent))
       return ENV_ADD(pos, symbol, values);
     else
-      pos = pos->parent;
+      pos = ENV_PARENT(pos);
   }
 }
 
