@@ -77,7 +77,6 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
 
-  
   while (true) {
 #ifdef AE_LOG_ENV
     PR("Looking for '");
