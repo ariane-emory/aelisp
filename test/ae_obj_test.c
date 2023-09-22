@@ -251,11 +251,13 @@ void envs(void)
   T(NILP(ENV_FIND(this, INTERN("zot"))));
   T(NILP(ENV_FIND(that, INTERN("foo"))));
 
-  /* ENV_SET(this, INTERN("bar"), NEW_INT(99)); */
-  /* NL; */
-  /* pool_print(); */
-  /* NL; */
-  /* T(INT_VAL(ENV_FIND(this, INTERN("foo"))) == 99); */
+  pool_print();
+
+  NL;
+
+  ENV_SET(this, INTERN("bar"), NEW_INT(99));
+
+  T(INT_VAL(ENV_FIND(this, INTERN("foo"))) == 99);
   
   /* PUT(ENV_FIND(this, INTERN("foo")));  NL; */
   /* PUT(ENV_FIND(this, INTERN("bar")));  NL; */

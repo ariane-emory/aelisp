@@ -80,8 +80,25 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * values) {
   ae_obj_t *   pos       = this;
   
   while (true) {
+// #ifdef AE_LOG_ENV
+    PR("Looking for '");
+    WRITE(symbol);
+    PR(" in env ");
+    PUT(this);
+    NL;
+// #endif
+    
     ae_obj_t * symbols   = ENV_SYMS(this);
     ae_obj_t * vals      = ENV_VALS(this);
+
+// #ifdef AE_LOG_ENV
+    PR("  symbols: ");
+    WRITE(symbols);
+    NL;
+    PR("  values:  ");
+    WRITE(values);
+    NL;
+// #endif
 
     for (; CONSP(symbols); symbols = CDR(symbols), vals = CDR(vals)) {
       if (EQ(CAR(symbols), symbol))
