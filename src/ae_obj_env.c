@@ -7,7 +7,7 @@
 // _add
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_add(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
+void ae_env_add(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
   ASSERT_ENVP(this);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
@@ -22,8 +22,6 @@ ae_obj_t * ae_env_add(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
   
   ENV_SYMS(this) = CONS(symbol, ENV_SYMS(this));
   ENV_VALS(this) = CONS(value,  ENV_VALS(this));
-  
-  return value;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
