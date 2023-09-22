@@ -212,11 +212,11 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define NEW_SYM                                                                                    \
-ae_obj_t * sym;                                                                                    \
+ae_obj_t * new_sym;                                                                                \
 {                                                                                                  \
   char * _tmp_str = free_list_malloc(strlen(string) + 1);                                          \
   strcpy(_tmp_str, string);                                                                        \
-  sym = NEW_SYMBOL(_tmp_str);                                                                      \
+  new_sym = NEW_SYMBOL(_tmp_str);                                                                  \
 }
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
@@ -239,7 +239,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
 
   if (NULLP(*plist)) {
     NEW_SYM;
-    *plist = CONS_NIL(sym);
+    *plist = CONS_NIL(new_sym);
     
 #ifdef AE_LOG_INTERN
     printf("Intern in new symbol list ");
@@ -247,11 +247,11 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
     putchar('\n');
 
     printf("=> ");
-    PUT(sym);
+    PUT(new_sym);
     putchar('\n');
 #endif
 
-    return sym;
+    return new_sym;
   }
 
   FOR_EACH(elem, *plist) {
@@ -272,7 +272,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   }
   
   NEW_SYM;
-  *plist = CONS(sym, *plist);
+  *plist = CONS(new_sym, *plist);
 
 #ifdef AE_LOG_INTERN
   printf("Intern in symbol list ");
@@ -280,11 +280,11 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   putchar('\n');
 
   printf("=> ");
-  PUT(sym);
+  PUT(new_sym);
   putchar('\n');
 #endif
 
-  return sym;
+  return new_sym;
 }
 
 #undef DECLARE_NEW_SYM
