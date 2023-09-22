@@ -393,15 +393,15 @@ void intern_symbols(void) {
   // deliberately avoid initializing symbols_list because INTERN2 should do so itself automatically.
 
   // re-use 'symbols_list' as the symbol list here:
-  T(INTERN("one") == INTERN("one"));
   T(strcmp(SYM_VAL(INTERN("one")), "one") == 0);
+  T(INTERN("one") == INTERN("one"));
   T(LENGTH(symbols_list) == 1);
     
   // pool_print();
   /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(symbols_list), 1); */
   
-  T(INTERN("one") != INTERN("two"));
   T(strcmp(SYM_VAL(INTERN("two")), "two") == 0);
+  T(INTERN("one") != INTERN("two"));
   T(LENGTH(symbols_list) == 2);
     
   // pool_print();
@@ -436,8 +436,8 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(AE_CHAR,     int_val,       '1'                                 );
-  FWRITE_TEST(AE_CHAR,     int_val,       '\n'                                );
+  FWRITE_TEST(AE_CHAR,     char_val,      '1'                                 );
+  FWRITE_TEST(AE_CHAR,     char_val,      '\n'                                );
   FWRITE_TEST(AE_INTEGER,  int_val,       123                                 );
   FWRITE_TEST(AE_FLOAT,    float_val,     1.23                                );
   FWRITE_TEST(AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
