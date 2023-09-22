@@ -15,11 +15,12 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CONS_NIL(this)          (CONS((this), NIL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define CAR(this)               ((this)->head)
+#define CDR(this)               ((this)->tail)
 #define CAAR(this)              (CAR(CAR(this)))
 #define CADR(this)              (CAR(CDR(this)))
 #define CDAR(this)              (CDR(CAR(this)))
-#define CAR(this)               ((this)->head)
-#define CDR(this)               ((this)->tail)
+#define CADAR(this)             (CAR(CDR(CAR(this))))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
