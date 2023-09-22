@@ -241,9 +241,17 @@ void envs(void)
   T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
   
   NL;
-  
   pool_print();
+  NL;
 
+  T(INT_VAL(ENV_FIND(this, INTERN("foo"))) == 12);
+  T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 24);
+  T(INT_VAL(ENV_FIND(this, INTERN("baz"))) == 36);
+
+  PUT(ENV_FIND(this, INTERN("foo"))); NL;
+  PUT(ENV_FIND(this, INTERN("bar"))); NL;
+  PUT(ENV_FIND(this, INTERN("baz"))); NL;
+  
   NL;
 }
 
