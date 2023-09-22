@@ -458,7 +458,7 @@ void equal(void) {
   ae_obj_t * obj_char_b_b    = NEW_CHAR('b');
   char     * pchar_a         = "a";
   ae_obj_t * obj_string_a_a  = NEW_STRING(pchar_a);
-  ae_obj_t * obj_string_a_b  = NEW_STRING("a");
+  ae_obj_t * obj_string_a_b  = NEW_STRING(pchar_a);
   ae_obj_t * obj_string_a_c  = NEW_STRING("a");
   ae_obj_t * obj_string_b_a  = NEW_STRING("b");
   
