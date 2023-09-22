@@ -116,11 +116,11 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
 
     const int expected_length = 2 + ix;
   
-    T(list != head);
-    T(list != new_head);
-    T(CAR(list) == new_head);
-    T(CDR(list) == tail);
-    T(LENGTH(list) == expected_length);
+    T(NEQ(list, head));
+    T(NEQ(list, new_head));
+    T(EQ(CAR(list), new_head));
+    T(EQ(CDR(list), tail));
+    T(EQ(LENGTH(list), expected_length));
     TEST_MSG(
       "Incorrect length %d, expected %d.",
       LENGTH(list),
@@ -340,10 +340,9 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
   this = NEW(AE_ENV);
-  T(this->parent  == NULL);
-  T(this->symbols == NULL);
-  T(this->values  == NULL);
-
+  T(NULLP(ENV_PARENT(this)));
+  T(NULLP(ENV_SYMS  (this)));
+  T(NULLP(ENV_VALS  (this))); 
 }
 
 void consed_list_tests(void) {
