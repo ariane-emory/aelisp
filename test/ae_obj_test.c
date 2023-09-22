@@ -252,7 +252,7 @@ void remove_interned_elem_from_list(void) {
   this = REMOVE(this, that);
   
   T(LENGTH(this) == 3);
-  T(! MEMBERP(this, that));
+  T(NOT_MEMBERP(this, that));
   T(shitty_write_based_equality_predicate(this, "(d c a)"));
 }
 
