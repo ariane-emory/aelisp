@@ -117,6 +117,7 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
           NL;
 #endif
           CAR(vals) = value;
+
 #ifdef AE_LOG_ENV
           PR("  After:              ");
           PUT(vals);
