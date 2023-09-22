@@ -136,7 +136,7 @@ extern ae_obj_t * symbols_list;
 #define FREE(this)              (pool_free_ae_obj((thia)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)          (UNSAFE_MOVE(ALLOC(), that))
-#define NEW(type)               (ae_obj_init((ALLOC()), (type)))
+#define NEW(type)               (INIT((ALLOC()), (type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define TRUTH(o)                (ae_obj_truth((o)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
