@@ -27,7 +27,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 #define INTERN2(sym_list, str)  (ae_list_intern_string((sym_list), (str)))
-#define INTERN(str)             (INTERN(&symbols_list, (str)))
+#define INTERN(str)             (INTERN2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
