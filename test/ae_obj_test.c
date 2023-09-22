@@ -72,8 +72,7 @@ char * write_to_new_string(const ae_obj_t * const this) {
 
 bool shitty_write_based_equality_predicate(
   const ae_obj_t * const this,
-  const char * const strcmp_str
-) {
+  const char * const strcmp_str) {
   return ! strcmp(strcmp_str, SWRITE(this));
 }
 
@@ -87,9 +86,8 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   T(LENGTH(tailtip) == 1);
 
   for (int ix = 2; ix < 5; ix++) { 
-    ae_obj_t * new_int = NEW(AE_INTEGER);
     int        int_val = ix;
-    new_int->int_val   = int_val;
+    ae_obj_t * new_int = NEW_INT(int_val);
 
     tailtip            = PUSH(&tailtip, new_int);
     
