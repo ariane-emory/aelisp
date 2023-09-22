@@ -20,7 +20,7 @@ ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t  * values) {
+ae_obj_t *ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * values) {
   ae_obj_t * pos = this;
   
   while (true) {
@@ -35,7 +35,7 @@ ae_obj_t *ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t  * values) {
     }
 
     if (NILP(pos->parent))
-      return ae_env_add(pos, symbol, values);
+      return ENV_ADD(pos, symbol, values);
     else
       pos = pos->parent;
   }
