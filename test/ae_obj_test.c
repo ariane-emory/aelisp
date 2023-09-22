@@ -324,8 +324,6 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
-  /* this = NEW(AE_RATIONAL); */
-  /* T(this->numerator_val == 0 && this->denominator_val == 0); */
   this = NEW(AE_ENV);
   T(this->parent  == NULL);
   T(this->symbols == NULL);
@@ -388,22 +386,13 @@ void intern_symbols(void) {
 
   // deliberately avoid initializing symbols_list because INTERN2 should do so itself automatically.
 
-  // re-use 'symbols_list' as the symbol list here:
   T(strcmp(SYM_VAL(INTERN("one")), "one") == 0);
   T(INTERN("one") == INTERN("one"));
   T(LENGTH(symbols_list) == 1);
-    
-  // pool_print();
-  /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(symbols_list), 1); */
   
   T(strcmp(SYM_VAL(INTERN("two")), "two") == 0);
   T(INTERN("one") != INTERN("two"));
   T(LENGTH(symbols_list) == 2);
-    
-  // pool_print();
-  /* T(LENGTH(this) == 2); */
-  /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(this), 2); */
-
 }
 
 #define FWRITE_TEST(type, field, val, ...)                                                         \
