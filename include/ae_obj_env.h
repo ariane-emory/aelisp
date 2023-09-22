@@ -18,7 +18,7 @@ env;                                                                            
 #define ENV_PARENT(this)           ((this)->parent)
 #define ENV_SYMS(this)             ((this)->symbols)
 #define ENV_VALS(this)             ((this)->values)
-#define ENV_FIND(this, member)     (ae_env_find((this), (member)))
+#define ENV_FIND(this, sym)        (ae_env_find((this), (sym)))
 #define ENV_ADD(this, sym, val)    (ae_env_add ((this), (sym), (val)))
 #define ENV_SET(this, sym, val)    (ae_env_set ((this), (sym), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
