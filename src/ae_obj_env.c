@@ -36,7 +36,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
   
   ae_obj_t * pos = this;
   
-  for (; NOT_NILP(pos); pos = ENV_PARENT(pos)) {
+  for (; ENVP(pos); pos = ENV_PARENT(pos)) {
 #ifdef AE_LOG_ENV
     PR("Looking for '");
     WRITE(symbol);
@@ -133,7 +133,9 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
           PUT(vals);
           NL;
 #endif
+          
           CDR(vals) = value;
+          
 #ifdef AE_LOG_ENV
           PR("  After:              ");
           PUT(vals);
