@@ -227,21 +227,21 @@ void remove_interned_elem_from_list(void) {
 #define TEST_INTERN(str)                                                                           \
   {                                                                                                \
     int len = LENGTH(symbols_list);                                                                        \
-    T(EQ(INTERN2(&symbols_list, str), INTERN2(&symbols_list, str)));                                                 \
+    T(EQ(INTERN(str), INTERN(str)));                                                 \
     T(LENGTH(symbols_list) == (len + 1));                                                                  \
   }
     
   // using 'symbols_list' as the symbol list here:  
-  T(EQ(INTERN2(&symbols_list, "a"), INTERN2(&symbols_list, "a")));
+  T(EQ(INTERN("a"), INTERN("a")));
   T(LENGTH(symbols_list) == 1);
-  T(EQ(INTERN2(&symbols_list, "b"), INTERN2(&symbols_list, "b")));
+  T(EQ(INTERN("b"), INTERN("b")));
   T(LENGTH(symbols_list) == 2);
-  T(EQ(INTERN2(&symbols_list, "c"), INTERN2(&symbols_list, "c")));
+  T(EQ(INTERN("c"), INTERN("c")));
   T(LENGTH(symbols_list) == 3);
-  T(EQ(INTERN2(&symbols_list, "d"), INTERN2(&symbols_list, "d")));
+  T(EQ(INTERN("d"), INTERN("d")));
   T(LENGTH(symbols_list) == 4);
 
-  that = INTERN2(&symbols_list, "b");
+  that = INTERN("b");
 
   // Add a duplicate element so that we can see that both instances are removed:
   symbols_list = CONS(that, symbols_list);
