@@ -100,54 +100,54 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
       ae_obj_t * syms = ENV_SYMS(env);
       ae_obj_t * vals = ENV_VALS(env);
 
-    FOR_EACH(sym, syms) {
-      syms = position;
-      
+      FOR_EACH(sym, syms) {
+        syms = position;
+        
 #ifdef AE_LOG_ENV
-      PR("  Looking at sym ");
-      WRITE(sym);
-      NL;
-      PR("    syms ");
-      WRITE(syms);
-      NL;
-      PR("    vals ");
-      WRITE(vals);
-      NL;
-#endif
-
-      if (EQ(sym, symbol)) {
-#ifdef AE_LOG_ENV
-        PR("  Found it in car of: ");
-        PUT(vals);
+        PR("  Looking at sym ");
+        WRITE(sym);
+        NL;
+        PR("    syms ");
+        WRITE(syms);
+        NL;
+        PR("    vals ");
+        WRITE(vals);
         NL;
 #endif
-        CAR(vals) = value;
+        
+        if (EQ(sym, symbol)) {
 #ifdef AE_LOG_ENV
-        PR("  After:              ");
-        PUT(vals);
-        NL;
+          PR("  Found it in car of: ");
+          PUT(vals);
+          NL;
 #endif
-        return CAR(vals);
+          CAR(vals) = value;
+#ifdef AE_LOG_ENV
+          PR("  After:              ");
+          PUT(vals);
+          NL;
+#endif
+          return CAR(vals);
+        }
+        
+        if (EQ(CDR(syms), symbol)) {
+#ifdef AE_LOG_ENV
+          PR("  Found it in cdr of: ");
+          PUT(vals);
+          NL;
+#endif
+          CDR(vals) = value;
+#ifdef AE_LOG_ENV
+          PR("  After:              ");
+          PUT(vals);
+          NL;
+#endif
+          return CDR(vals);
+        }
+        
+        vals = CDR(vals);
       }
-      
-      if (EQ(CDR(syms), symbol)) {
-#ifdef AE_LOG_ENV
-        PR("  Found it in cdr of: ");
-        PUT(vals);
-        NL;
-#endif
-        CDR(vals) = value;
-#ifdef AE_LOG_ENV
-        PR("  After:              ");
-        PUT(vals);
-        NL;
-#endif
-        return CDR(vals);
-      }
-      
-      vals = CDR(vals);
     }
-  }
     
     if (NILP(env->parent)) {
 #ifdef AE_LOG_ENV
