@@ -98,11 +98,20 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
   while (true) {
     ae_obj_t * syms = ENV_SYMS(env);
     ae_obj_t * vals = ENV_VALS(env);
-    
+
+//    FOR_EACH(sym, syms) {
+//    vals = CDR(vals);
     for (; CONSP(syms); syms = CDR(syms), vals = CDR(vals)) {
+      
 #ifdef AE_LOG_ENV
       PR("  Looking at ");
       WRITE(CAR(syms));
+      NL;
+      PR("    syms ");
+      WRITE(syms);
+      NL;
+      PR("    vals ");
+      WRITE(vals);
       NL;
 #endif
 
