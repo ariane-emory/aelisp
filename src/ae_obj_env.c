@@ -23,7 +23,6 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 #endif
     
     ae_obj_t * symbols = ENV_SYMS(pos);
-    ae_obj_t * values  = ENV_VALS(pos);
 
 #ifdef AE_LOG_ENV
     PR("  symbols: ");
@@ -34,7 +33,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
     NL;
 #endif
 
-    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
+    for (ae_obj_t * values  = ENV_VALS(pos); CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
       if (EQ(CAR(symbols), symbol))
         return CAR(values);
 

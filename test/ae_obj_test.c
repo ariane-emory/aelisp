@@ -215,7 +215,6 @@ void envs(void)
 
   T(LENGTH(ENV_SYMS(this)) == 0);
   T(LENGTH(ENV_VALS(this)) == 0);
-
   T(NILP(ENV_SYMS(this)));
   T(NILP(ENV_VALS(this)));
   
@@ -248,9 +247,16 @@ void envs(void)
   T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 24);
   T(INT_VAL(ENV_FIND(this, INTERN("baz"))) == 36);
 
+  that = NEW_ENV(NIL); // unlinked for now.
+
+  ENV_ADD(this, INTERN("quux"), NEW_INT(48));
+  
+  T(INT_VAL(ENV_FIND(this, INTERN("quux"))) == 48);
+
   PUT(ENV_FIND(this, INTERN("foo"))); NL;
   PUT(ENV_FIND(this, INTERN("bar"))); NL;
   PUT(ENV_FIND(this, INTERN("baz"))); NL;
+  PUT(ENV_FIND(this, INTERN("quux"))); NL;
   
   NL;
 }
