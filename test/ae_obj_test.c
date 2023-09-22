@@ -222,38 +222,38 @@ void envs(void)
 void remove_interned_elem_from_list(void) {
   SETUP_TEST;
  
-  this = 0; // NEW(AE_CONS);
+  // this = 0; // NEW(AE_CONS);
 
 #define TEST_INTERN(str)                                                                           \
   {                                                                                                \
-    int len = LENGTH(this);                                                                        \
-    T(EQ(INTERN2(&this, str), INTERN2(&this, str)));                                                 \
-    T(LENGTH(this) == (len + 1));                                                                  \
+    int len = LENGTH(symbols_list);                                                                        \
+    T(EQ(INTERN2(&symbols_list, str), INTERN2(&symbols_list, str)));                                                 \
+    T(LENGTH(symbols_list) == (len + 1));                                                                  \
   }
     
-  // using 'this' as the symbol list here:  
-  T(EQ(INTERN2(&this, "a"), INTERN2(&this, "a")));
-  T(LENGTH(this) == 1);
-  T(EQ(INTERN2(&this, "b"), INTERN2(&this, "b")));
-  T(LENGTH(this) == 2);
-  T(EQ(INTERN2(&this, "c"), INTERN2(&this, "c")));
-  T(LENGTH(this) == 3);
-  T(EQ(INTERN2(&this, "d"), INTERN2(&this, "d")));
-  T(LENGTH(this) == 4);
+  // using 'symbols_list' as the symbol list here:  
+  T(EQ(INTERN2(&symbols_list, "a"), INTERN2(&symbols_list, "a")));
+  T(LENGTH(symbols_list) == 1);
+  T(EQ(INTERN2(&symbols_list, "b"), INTERN2(&symbols_list, "b")));
+  T(LENGTH(symbols_list) == 2);
+  T(EQ(INTERN2(&symbols_list, "c"), INTERN2(&symbols_list, "c")));
+  T(LENGTH(symbols_list) == 3);
+  T(EQ(INTERN2(&symbols_list, "d"), INTERN2(&symbols_list, "d")));
+  T(LENGTH(symbols_list) == 4);
 
-  that = INTERN2(&this, "b");
+  that = INTERN2(&symbols_list, "b");
 
   // Add a duplicate element so that we can see that both instances are removed:
-  this = CONS(that, this);
+  symbols_list = CONS(that, symbols_list);
   
-  T(LENGTH(this) == 5);
-  T(MEMBERP(this, that));
+  T(LENGTH(symbols_list) == 5);
+  T(MEMBERP(symbols_list, that));
   
-  this = REMOVE(this, that);
+  symbols_list = REMOVE(symbols_list, that);
   
-  T(LENGTH(this) == 3);
-  T(NOT_MEMBERP(this, that));
-  T(shitty_write_based_equality_predicate(this, "(d c a)"));
+  T(LENGTH(symbols_list) == 3);
+  T(NOT_MEMBERP(symbols_list, that));
+  T(shitty_write_based_equality_predicate(symbols_list, "(d c a)"));
 }
 
 void test_setup_is_okay(void)
