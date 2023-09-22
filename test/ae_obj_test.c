@@ -21,11 +21,10 @@ static char mem[free_list_size] = { 0 };
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define T  TEST_CHECK
-#define TM TEST_MSG
-
-#define NL putchar('\n');
-#define FF fflush(stdout);
+#define T       TEST_CHECK
+#define TM      TEST_MSG
+#define NL      putchar('\n');
+#define FF      fflush(stdout);
 #define PR(...) (fprintf(stdout, __VA_ARGS__))
 
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
