@@ -63,11 +63,10 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
 #else
   ae_obj_t * new_list = CONS_NIL(fun(CAR(list)));
+  ae_obj_t * tailtip  = new_list;
 
   if (NILP(CDR(list)))
     return new_list;
-  
-  ae_obj_t * tailtip  = new_list;
 
   FOR_EACH_CONST(elem, CDR(list))
     tailtip = PUSH(&tailtip, fun(elem));
@@ -102,11 +101,11 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
   ASSERT_TAILP(list);
   ASSERT_NOT_NULLP(member);
   
-  // This is non-mutating: it 'removes' member by returning a new list that doesn't contain it.
-  
   if (NILP(list))
     return list;
   
+  // This is non-mutating: it 'removes' member by returning a new list that doesn't contain it.
+
   ae_obj_t * new_list = NIL;
   
   FOR_EACH(elem, list)
@@ -184,8 +183,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 
   if (NILP(*plist)) {
     ae_obj_t * new_list = CONS(member, *plist);
-    *plist = new_list;
-    return new_list;
+    return *plist = new_list;
+//    return new_list;
   }
   
 #ifdef AE_LOG_PUSH

@@ -15,7 +15,7 @@
 
 ae_obj_t   true_obj     = { .metadata = AE_SYMBOL, .sym_val = "t"   };
 ae_obj_t   nil_obj      = { .metadata = AE_SYMBOL, .sym_val = "nil" };
-ae_obj_t * symbols_list = NULL;
+ae_obj_t * symbols_list = NIL;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_type_str function
