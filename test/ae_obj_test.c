@@ -26,6 +26,7 @@ static char mem[free_list_size] = { 0 };
 
 #define NL putchar('\n');
 #define FF fflush(stdout);
+#define PR(...) (fprintf(stdout, __VA_ARGS__))
 
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
 
@@ -258,8 +259,14 @@ void envs(void)
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
 
   T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 99);
+
+  ENV_SET(this, INTERN("bar"), NEW_INT(99));
+
+//  ENV_SET(this, INTERN("zot"), NEW_INT(66));  
   
-  // pool_print();
+//  T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
+
+// pool_print();
 }
 
 void remove_interned_elem_from_list(void) {
