@@ -212,13 +212,13 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
-  ae_list_push_back(&this->symbols, INTERN("foo"));
-  ae_list_push_back(&this->symbols, INTERN("bar"));
-  ae_list_push_back(&this->symbols, INTERN("baz"));
+  PUSH_BACK(&this->symbols, INTERN("foo"));
+  PUSH_BACK(&this->symbols, INTERN("bar"));
+  PUSH_BACK(&this->symbols, INTERN("baz"));
   
-  ae_list_push_back(&this->values,  NEW_INT(12));
-  ae_list_push_back(&this->values,  NEW_INT(24));
-  ae_list_push_back(&this->values,  NEW_INT(36));
+  PUSH_BACK(&this->values,  NEW_INT(12));
+  PUSH_BACK(&this->values,  NEW_INT(24));
+  PUSH_BACK(&this->values,  NEW_INT(36));
   
   NL;
   
