@@ -1,3 +1,4 @@
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -212,13 +213,13 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
-  PUSH(&this->symbols, INTERN("foo"));
-  PUSH(&this->symbols, INTERN("bar"));
-  PUSH(&this->symbols, INTERN("baz"));
+  /* PUSH(&this->symbols, INTERN("foo")); */
+  /* PUSH(&this->symbols, INTERN("bar")); */
+  /* PUSH(&this->symbols, INTERN("baz")); */
   
-  PUSH(&this->values,  NEW_INT(12));
-  PUSH(&this->values,  NEW_INT(24));
-  PUSH(&this->values,  NEW_INT(36));
+  /* PUSH(&this->values,  NEW_INT(12)); */
+  /* PUSH(&this->values,  NEW_INT(24)); */
+  /* PUSH(&this->values,  NEW_INT(36)); */
   
   NL;
   
@@ -230,12 +231,10 @@ void envs(void)
 void remove_interned_elem_from_list(void) {
   SETUP_TEST;
  
-  // this = 0; // NEW(AE_CONS);
-
-#define TEST_INTERN(str)                                                                           \
-  {                                                                                                \
+#define TEST_INTERN(str)                                                                                   \
+  {                                                                                                        \
     int len = LENGTH(symbols_list);                                                                        \
-    T(EQ(INTERN(str), INTERN(str)));                                                 \
+    T(EQ(INTERN(str), INTERN(str)));                                                                       \
     T(LENGTH(symbols_list) == (len + 1));                                                                  \
   }
     
