@@ -57,7 +57,7 @@ char * write_to_new_string(const ae_obj_t * const this) {
   size_t size;
   FILE * stream = open_memstream(&buff, &size);
 
-  ae_obj_fwrite(this, stream);
+  FWRITE(this, stream);
   fclose(stream);
 
   return buff;
