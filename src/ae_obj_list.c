@@ -171,13 +171,19 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif
 
-ae_obj_t * ae_list_push_back(ae_obj_t ** const list, ae_obj_t * const member) {
-  ASSERT_TAILP(*list);
+ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
+  // This takes a ** because: if the caller tries to push onto NIL, it might create a new list and
+  // fix their pointer.
+
+  // Return value is the tailtip of the list, so repeated pushes can be performed more performantly
+  // by pushing onto the return value of a prior push.
+  
+  ASSERT_TAILP(*plist);
   ASSERT_NOT_NULLP(member);
 
-  if (NILP(*list)) {
-    ae_obj_t * new_list = CONS(member, *list);
-    *list = new_list;
+  if (NILP(*plist)) {
+    ae_obj_t * new_list = CONS(member, *plist);
+    *plist = new_list;
     return new_list;
   }
   
@@ -185,18 +191,16 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const list, ae_obj_t * const member) {
   fputs("Pushing          ", stdout);
   PUT(member);
   fputs(" into ", stdout);
-  PUT(*list);
+  PUT(*plist);
   putchar(' ');
-  WRITE(*list);
+  WRITE(*plist);
   putchar('\n');
   fflush(stdout);
 #endif
   
-  ae_obj_t * tailtip = *list;
+  ae_obj_t * tailtip = *plist;
     
-  for (;
-       ! NILP(CDR(tailtip));
-       tailtip = CDR(tailtip));
+  for (; NOT_NILP(CDR(tailtip)); tailtip = CDR(tailtip));
 
   CDR(tailtip) = CONS_NEW(member);
 

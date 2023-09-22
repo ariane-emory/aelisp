@@ -208,9 +208,9 @@ void envs(void)
   ae_list_push_back(&this->symbols, INTERN(&symbols_list, "bar"));
   ae_list_push_back(&this->symbols, INTERN(&symbols_list, "baz"));
   
-  ae_list_push_back(&this->symbols, NEW_INT(12));
-  ae_list_push_back(&this->symbols, NEW_INT(24));
-  ae_list_push_back(&this->symbols, NEW_INT(36));
+  ae_list_push_back(&this->values,  NEW_INT(12));
+  ae_list_push_back(&this->values,  NEW_INT(24));
+  ae_list_push_back(&this->values,  NEW_INT(36));
   
   NL;
   
