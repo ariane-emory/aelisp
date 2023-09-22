@@ -476,6 +476,10 @@ void equal(void) {
   ae_obj_t * obj_rat_2b      = NEW_RATIONAL(4, 2);
   ae_obj_t * obj_rat_3a      = NEW_RATIONAL(3, 1);
   ae_obj_t * obj_rat_3b      = NEW_RATIONAL(9, 3);
+  ae_obj_t * obj_char_a_a    = NEW_CHAR('a');
+  ae_obj_t * obj_char_a_b    = NEW_CHAR('a');
+  ae_obj_t * obj_char_b_a    = NEW_CHAR('b');
+  ae_obj_t * obj_char_b_b    = NEW_CHAR('b');
   
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \
@@ -493,7 +497,11 @@ void equal(void) {
     X(obj_rat_2a)                                                                                  \
     X(obj_rat_2b)                                                                                  \
     X(obj_rat_3a)                                                                                  \
-    X(obj_rat_3b)
+    X(obj_rat_3b)                                                                                  \
+    X(obj_char_a_a)                                                                                \
+    X(obj_char_a_b)                                                                                \
+    X(obj_char_b_a)                                                                                \
+    X(obj_char_b_b)
 
 #define NETP(first, second)                                                                        \
   if (first != second) {                                                                           \
@@ -510,6 +518,10 @@ void equal(void) {
 
   //  Everything is equal to itself.
   FOR_EVERY_OBJ_DO(SELF_EQUAL);
+
+  // characters:
+  ETP( obj_char_a_a   , obj_char_a_b);
+  NETP(obj_char_a_a   , obj_char_b_a);
   
   //  Some numbers are equal to each other:
   ETP( obj_int_2a    , obj_int_2b   );

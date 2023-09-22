@@ -1,5 +1,4 @@
 To Do:
-- [ ] ae_obj_equal could support AE_CHARSs.
 - [ ] ae_obj_equal could maybe support AE_STRINGs too? Might as well.
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
@@ -10,6 +9,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] ae_obj_equal should support AE_CHARSs.
 - [x] Add env frame-related functions.
 - [x] Get rid of strdup call in ae_obj.c.
 - [x] Add env frames to obj struct.
