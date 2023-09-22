@@ -87,9 +87,9 @@ typedef struct ae_obj_t {
       struct ae_obj_t *      tail;
     }; // AE_CONS
     struct {
-      struct ae_obj_t *      parent;
       struct ae_obj_t *      symbols;
       struct ae_obj_t *      values;
+      struct ae_obj_t *      parent;
     }; // AE_ENV
     struct {
       struct ae_obj_t *      params;
