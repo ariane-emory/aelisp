@@ -148,8 +148,8 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   
   ae_obj_t * new_list = NEW(AE_CONS);
 
-  CAR(new_list) = head;
-  CDR(new_list) = tail;
+  CAR(new_list)       = head;
+  CDR(new_list)       = tail;
 
   return new_list;
 }
