@@ -209,10 +209,9 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #else
 #  define DUP_C_STR(field)                                                                         \
   {                                                                                                \
-    int _str_len = strlen(this->field);                                                            \
-    clone->field = free_list_malloc(_str_len + 1);                                                 \
+    clone->field = free_list_malloc(strlen(this->field) + 1);                                      \
     strcpy(clone->field, this->field);                                                             \
-}
+  }
 #endif
   
   switch (GET_TYPE(this)) {
