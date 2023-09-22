@@ -483,7 +483,8 @@ void equal(void) {
   char     * pchar_a         = "a";
   ae_obj_t * obj_string_a_a  = NEW_STRING(pchar_a);
   ae_obj_t * obj_string_a_b  = NEW_STRING("a");
-  ae_obj_t * obj_string_b_b  = NEW_STRING("b");
+  ae_obj_t * obj_string_a_c  = NEW_STRING("a");
+  ae_obj_t * obj_string_b_a  = NEW_STRING("b");
   
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \
@@ -523,6 +524,19 @@ void equal(void) {
   //  Everything is equal to itself.
   FOR_EVERY_OBJ_DO(SELF_EQUAL);
 
+/*
+    char     * pchar_a         = "a";
+  ae_obj_t * obj_string_a_a  = NEW_STRING(pchar_a);
+  ae_obj_t * obj_string_a_b  = NEW_STRING("a");
+  ae_obj_t * obj_string_a_c  = NEW_STRING("a");
+  ae_obj_t * obj_string_b_a  = NEW_STRING("b");
+*/
+
+  // strings:
+  ETP( obj_string_a_a , obj_string_a_b);
+  ETP( obj_string_a_a , obj_string_a_c);
+  NETP(obj_string_a_a , obj_string_b_a);
+  
   // characters:
   ETP( obj_char_a_a   , obj_char_a_b);
   NETP(obj_char_a_a   , obj_char_b_a);
