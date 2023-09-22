@@ -71,7 +71,6 @@ bool shitty_write_based_equality_predicate(
 
 ae_obj_t * push_together_a_list_of_ints(void) {
   ae_obj_t * num     = NEW_INT(1);
-  
   ae_obj_t * list    = CONS_NIL(num);
   ae_obj_t * tailtip = list;
 
@@ -97,12 +96,11 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * head = NEW_INT(4);
   ae_obj_t * list = CONS_NIL(head);
   
-  T(LENGTH(list) == 1);
+  T(EQ(LENGTH(list), 1));
 
-  for (unsigned int ix = 0; ix < 3; ix++) { 
+  for (unsigned int ix  = 0; ix < 3; ix++) { 
     ae_obj_t * new_head = NEW_INT(3 - ix);
-
-    ae_obj_t * tail = list;
+    ae_obj_t * tail     = list;
     
     list = CONS(new_head, tail);
 
@@ -140,19 +138,6 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
-  /* pool_print(); */
-  /* NL; */
-  
-  /* fprintf(stdout, "Checking "); */
-  /* WRITE(this); */
-  /* NL; */
-  /* FF; */
-
-  /* putchar('\n'); */
-
-  /* printf("NIL  is at %p.\n", NIL); */
-  /* FF; */
-
   COUNT_LIST_LENGTH(this);
 
   T(LENGTH(this) == 4);
