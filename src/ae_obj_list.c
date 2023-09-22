@@ -246,7 +246,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   
   FOR_EACH(elem, *plist) {
     ASSERT_SYMBOLP(elem);
-    if (strcmp(string, elem->sym_val) == 0) {
+    if (! strcmp(string, elem->sym_val)) {
 #ifdef AE_LOG_INTERN
       printf("Intern in symbol list ");
       PUT(*plist);
