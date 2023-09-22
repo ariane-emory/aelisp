@@ -401,10 +401,10 @@ void intern_symbols(void) {
     fclose(stream);                                                                                \
     free(buff);                                                                                    \
                                                                                                    \
-    T((int)strlen(buff) == (int)size);                                                             \
+    T(EQ((int)strlen(buff), (int)size));                                                           \
     TM("strlen was %d but size was %d:\n\"%s\".\n",                                                \
        (int)strlen(buff), (int)size, buff);                                                        \
-    T((int)strlen(buff) == (int)reported);                                                         \
+    T(EQ((int)strlen(buff), (int)reported));                                                       \
     TM("strlen was %d but reported was %d:\n\"%s\".\n",                                            \
        (int)strlen(buff), (int)reported, buff);                                                    \
   }
