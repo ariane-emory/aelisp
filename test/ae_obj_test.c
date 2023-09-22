@@ -505,13 +505,13 @@ void equal(void) {
   FOR_EVERY_OBJ_DO(SELF_EQUAL);
 
   // strings:
-  ETP( obj_string_a_a , obj_string_a_b);
-  ETP( obj_string_a_a , obj_string_a_c);
-  NETP(obj_string_a_a , obj_string_b_a);
+  ETP( obj_string_a_a, obj_string_a_b);
+  ETP( obj_string_a_a, obj_string_a_c);
+  NETP(obj_string_a_a, obj_string_b_a);
   
   // characters:
-  ETP( obj_char_a_a   , obj_char_a_b);
-  NETP(obj_char_a_a   , obj_char_b_a);
+  ETP( obj_char_a_a  , obj_char_a_b);
+  NETP(obj_char_a_a  , obj_char_b_a);
   
   //  Some numbers are equal to each other:
   ETP( obj_int_2a    , obj_int_2b   );
