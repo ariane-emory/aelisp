@@ -324,8 +324,13 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
-  this = NEW(AE_RATIONAL);
-  T(this->numerator_val == 0 && this->denominator_val == 0);
+  /* this = NEW(AE_RATIONAL); */
+  /* T(this->numerator_val == 0 && this->denominator_val == 0); */
+  this = NEW(AE_ENV);
+  T(this->parent  == NULL);
+  T(this->symbols == NULL);
+  T(this->values  == NULL);
+
 }
 
 void consed_list_tests(void) {
