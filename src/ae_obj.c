@@ -202,7 +202,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   
   ae_obj_t * clone = NULL;
 
-#define CLONE_USING_MEMCPY clone = ALLOC(); memcpy(clone, this, sizeof(ae_obj_t))
+#define CLONE_USING_MEMCPY clone = ALLOC(); COPY(clone, this)
 
 #ifdef NO_AE_FREE_LIST
 #  define DUP_C_STR(field) clone->field = strdup(this->field)

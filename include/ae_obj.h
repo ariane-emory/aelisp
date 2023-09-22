@@ -129,25 +129,26 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
-#define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ALLOC()                 (pool_alloc_ae_obj())
 #define CLONE(this)             (ae_obj_clone((this)))
-#define CHAR_VAL(this)          ((this)->char_val)
-#define DENOM_VAL(this)         ((this)->denominator_val)
-#define FLOAT_VAL(this)         ((this)->float_val)
 #define FREE(this)              (pool_free_ae_obj((thia)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
-#define INT_VAL(this)           ((this)->int_val)
 #define MOVE_NEW(that)          (ae_obj_unsafe_move((ALLOC()), (that)))
 #define NEW(type)               (ae_obj_init((ALLOC()), (type)))
+#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
+#define TRUTH(o)                (ae_obj_truth((o)))
+#define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
+#define TYPE_STR(type)          (ae_type_str((type)))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define FLOAT_VAL(this)         ((this)->float_val)
+#define CHAR_VAL(this)          ((this)->char_val)
+#define DENOM_VAL(this)         ((this)->denominator_val)
+#define INT_VAL(this)           ((this)->int_val)
 #define NUMER_VAL(this)         ((this)->numerator_val)
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
-#define TYPE_STR(type)          (ae_type_str((type)))
-#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
-#define TRUTH(o)                (ae_obj_truth((o)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
