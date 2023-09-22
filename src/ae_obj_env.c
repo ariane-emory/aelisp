@@ -11,6 +11,14 @@ ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ASSERT_ENVP(this);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
+
+#ifdef AE_LOG_ENV
+  PR("\nAdding %018p", value);
+  PUT(value);
+  PR(" to %018p", this);
+  PUT(this);
+  NL;
+#endif
   
   /* ae_obj_t * symbols = CONS_NIL(symbol); */
   /* ae_obj_t * values  = CONS_NIL(value); */
@@ -140,7 +148,7 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
 #ifdef AE_LOG_ENV
       PR("  Adding new.\n");
 #endif
-      return ENV_ADD(this, symbol, vals);
+      return ENV_ADD(this, symbol, value);
     }
     else {
 #ifdef AE_LOG_ENV

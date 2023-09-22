@@ -258,8 +258,12 @@ void envs(void)
 
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
 
+  PR("\nPLACING ZOT!\n");
+  
   ENV_SET(this, INTERN("zot"), NEW_INT(66));  
   
+  PR("\nDONE PLACING ZOT!\n");
+
   T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
 
   pool_print();

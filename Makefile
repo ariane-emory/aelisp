@@ -4,8 +4,8 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-DAE_OBJ_POOL_SIZE=256 \
-	-DAE_LOG_ENV
+	-DAE_OBJ_POOL_SIZE=256 # \
+#	-DAE_LOG_ENV
 
 LOG_CFLAGS = \
 	-DAE_LOG_ALLOC \
