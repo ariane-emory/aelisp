@@ -361,8 +361,8 @@ void clone_a_simple_ae_obj(void) {
 
   T(this != that);
   T(RATIONALP(that));
-  T(that->numerator_val   == 123);
-  T(that->denominator_val == 321);
+  T(EQ(that->numerator_val  , 123));
+  T(EQ(that->denominator_val, 321));
 }
 
 void pushed_and_consed_lists_write_identically(void) {
@@ -377,12 +377,12 @@ void intern_symbols(void) {
 
   // deliberately avoid initializing symbols_list because INTERN2 should do so itself automatically.
 
-  T(strcmp(SYM_VAL(INTERN("one")), "one") == 0);
-  T(INTERN("one") == INTERN("one"));
+  T(! strcmp(SYM_VAL(INTERN("one")), "one"));
+  T(EQ(INTERN("one"), INTERN("one")));
   T(LENGTH(symbols_list) == 1);
   
-  T(strcmp(SYM_VAL(INTERN("two")), "two") == 0);
-  T(INTERN("one") != INTERN("two"));
+  T(! strcmp(SYM_VAL(INTERN("two")), "two"));
+  T(NEQ(INTERN("one"), INTERN("two")));
   T(LENGTH(symbols_list) == 2);
 }
 
