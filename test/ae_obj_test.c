@@ -213,15 +213,32 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
-  /* PUSH(&this->symbols, INTERN("foo")); */
-  /* PUSH(&this->symbols, INTERN("bar")); */
-  /* PUSH(&this->symbols, INTERN("baz")); */
-  
-  /* PUSH(&this->values,  NEW_INT(12)); */
-  /* PUSH(&this->values,  NEW_INT(24)); */
-  /* PUSH(&this->values,  NEW_INT(36)); */
+  T(LENGTH(ENV_SYMS(this)) == 0);
+  T(LENGTH(ENV_VALS(this)) == 0);
 
+  T(NILP(ENV_SYMS(this)));
+  T(NILP(ENV_VALS(this)));
+  
+  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("foo")));
   ENV_ADD(this, INTERN("foo"), NEW_INT(12));
+  T(LENGTH(ENV_SYMS(this)) == 1);
+  T(LENGTH(ENV_VALS(this)) == 1);
+  T(MEMBERP(ENV_SYMS(this), INTERN("foo")));
+  
+  T(NOT_NILP(ENV_SYMS(this)));
+  T(NOT_NILP(ENV_VALS(this)));
+
+  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  ENV_ADD(this, INTERN("bar"), NEW_INT(12));
+  T(LENGTH(ENV_SYMS(this)) == 2);
+  T(LENGTH(ENV_VALS(this)) == 2);
+  T(MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  
+  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("baz")));
+  ENV_ADD(this, INTERN("baz"), NEW_INT(12));
+  T(LENGTH(ENV_SYMS(this)) == 3);
+  T(LENGTH(ENV_VALS(this)) == 3);
+  T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
   
   NL;
   
