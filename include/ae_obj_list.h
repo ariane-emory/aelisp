@@ -20,6 +20,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define CAAR(this)              (CAR(CAR(this)))
 #define CADR(this)              (CAR(CDR(this)))
 #define CDAR(this)              (CDR(CAR(this)))
+#define CDDR(this)              (CDR(CDR(this)))
 #define CADAR(this)             (CAR(CDR(CAR(this))))
 #define CONS(head, tail)        (ae_obj_cons((head), (tail)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////

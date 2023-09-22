@@ -34,6 +34,7 @@ ae_obj_t *ae_lisp_cdr(ae_obj_t * const args) {
 ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_TAILP(CDR(args)); // 2nd arg must be a tail.
-
-  return CONS(CAR(args), CDR(args));
+  ASSERT_NILP(CDDR(args)); // only 2 args.
+  
+  return CONS(CAR(args), CADR(args));
 }
