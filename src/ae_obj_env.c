@@ -77,26 +77,27 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
 
-  while (true) {
 #ifdef AE_LOG_ENV
-    PR("Looking for '");
-    WRITE(symbol);
-    PR(" in env ");
-    PUT(this);
-    PR(" to place %018p.", value);
-    NL;
-    PR("  syms: ");
-    WRITE(ENV_SYMS(this));
-    NL;
-    PR("  vals:  ");
-    WRITE(ENV_VALS(this));
-    NL;
-    NL;
+  PR("Looking for '");
+  WRITE(symbol);
+  PR(" in env ");
+  PUT(this);
+  PR(" to place %018p.", value);
+  NL;
+  PR("  syms: ");
+  WRITE(ENV_SYMS(this));
+  NL;
+  PR("  vals:  ");
+  WRITE(ENV_VALS(this));
+  NL;
+  NL;
 #endif
 
-    ae_obj_t * syms      = ENV_SYMS(this);
-    ae_obj_t * vals      = ENV_VALS(this);
-    ae_obj_t * env       = this;
+  ae_obj_t * env    = this;
+
+  while (true) {
+    ae_obj_t * syms = ENV_SYMS(env);
+    ae_obj_t * vals = ENV_VALS(env);
     
     for (; CONSP(syms); syms = CDR(syms), vals = CDR(vals)) {
 #ifdef AE_LOG_ENV

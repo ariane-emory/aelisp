@@ -262,7 +262,7 @@ void envs(void)
 
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
 
-//  ENV_SET(this, INTERN("zot"), NEW_INT(66));  
+  ENV_SET(this, INTERN("zot"), NEW_INT(66));  
   
 //  T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
 

@@ -5,8 +5,8 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-DAE_OBJ_POOL_SIZE=256
+#	-DAE_LOG_ENV
 
-#-DAE_LOG_ENV 
 LOG_CFLAGS = \
 	-DAE_LOG_ALLOC \
 	-DAE_LOG_INTERN \
