@@ -1,9 +1,9 @@
 To Do:
 - [ ] Add in-world primitive functions.
-- [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] Fix inappropriate handling of quote. Probably requires a new lexer token and a new yacc rule.
+- [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Maybe add macro version of map?
 - [ ] Maybe also a vector type of some sort?
 - [ ] ... advices?!
