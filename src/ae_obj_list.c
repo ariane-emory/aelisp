@@ -181,11 +181,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   ASSERT_TAILP(*plist);
   ASSERT_NOT_NULLP(member);
 
-  if (NILP(*plist)) {
-    ae_obj_t * new_list = CONS(member, *plist);
-    return *plist = new_list;
-//    return new_list;
-  }
+  if (NILP(*plist))
+    return *plist = CONS(member, *plist);
   
 #ifdef AE_LOG_PUSH
   fputs("Pushing          ", stdout);
