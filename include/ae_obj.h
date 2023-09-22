@@ -196,6 +196,13 @@ extern ae_obj_t * symbols_list;
 #define NIL                     (&nil_obj)
 #define TRU                     (&true_obj)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NEW_CHAR(val)                                                                              \
+({                                                                                                 \
+ae_obj_t * _tmp  = NEW(AE_CHAR);                                                                   \
+CHAR_VAL  (_tmp) = (val);                                                                          \
+_tmp;                                                                                              \
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_STRING(val)                                                                            \
 ({                                                                                                 \
 ae_obj_t * _tmp  = NEW(AE_STRING);                                                                 \
