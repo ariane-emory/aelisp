@@ -96,11 +96,12 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
   ae_obj_t * env    = this;
 
   while (true) {
-    ae_obj_t * syms = ENV_SYMS(env);
-    ae_obj_t * vals = ENV_VALS(env);
+    {
+      ae_obj_t * syms = ENV_SYMS(env);
+      ae_obj_t * vals = ENV_VALS(env);
 
-//    FOR_EACH(sym, syms) {
-//    vals = CDR(vals);
+    /* FOR_EACH(sym, syms) { */
+    /*   vals = CDR(vals); */
     for (; CONSP(syms); syms = CDR(syms), vals = CDR(vals)) {
       ae_obj_t * sym = CAR(syms);
       
@@ -145,7 +146,8 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
         return CDR(vals);
       }
     }
-
+  }
+    
     if (NILP(env->parent)) {
 #ifdef AE_LOG_ENV
       PR("  Adding new.\n");
