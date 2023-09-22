@@ -506,7 +506,11 @@ void equal(void) {
     X(obj_char_a_a)                                                                                \
     X(obj_char_a_b)                                                                                \
     X(obj_char_b_a)                                                                                \
-    X(obj_char_b_b)
+    X(obj_char_b_b)                                                                                \
+    X(obj_string_a_a)                                                                              \
+    X(obj_string_a_b)                                                                              \
+    X(obj_string_a_c)                                                                              \
+    X(obj_string_b_a)
 
 #define NETP(first, second)                                                                        \
   if (first != second) {                                                                           \
@@ -523,14 +527,6 @@ void equal(void) {
 
   //  Everything is equal to itself.
   FOR_EVERY_OBJ_DO(SELF_EQUAL);
-
-/*
-    char     * pchar_a         = "a";
-  ae_obj_t * obj_string_a_a  = NEW_STRING(pchar_a);
-  ae_obj_t * obj_string_a_b  = NEW_STRING("a");
-  ae_obj_t * obj_string_a_c  = NEW_STRING("a");
-  ae_obj_t * obj_string_b_a  = NEW_STRING("b");
-*/
 
   // strings:
   ETP( obj_string_a_a , obj_string_a_b);

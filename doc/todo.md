@@ -1,5 +1,5 @@
 To Do:
-- [ ] ae_obj_equal could maybe support AE_STRINGs too? Might as well.
+- [ ] Add in-world primitive functions.
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
@@ -9,6 +9,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] ae_obj_equal could maybe support AE_STRINGs too? Might as well.
 - [x] ae_obj_equal should support AE_CHARSs.
 - [x] Add env frame-related functions.
 - [x] Get rid of strdup call in ae_obj.c.
