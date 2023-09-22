@@ -118,7 +118,6 @@
 %}
 
 %%
-∞                                                                      TOKENIZE(INF,      AE_INF     );
 nil                                                                     |
 \([\f\n\t\v\ ]*\)                                                       TOKENIZE(NILTOK,   AE_SYMBOL  );
 \'                                                                      TOKENIZE(QUOTE,    AE_QUOTE   );
@@ -138,6 +137,7 @@ nil                                                                     |
 [-+]?[0-9]+\.[0-9]*                                                     | 
 [-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
+∞                                                                      TOKENIZE(INF,      AE_INF     );
 \;\;[^\n]*\n                                                            ; /* comments */
 [\f\n\t\v\ ]+                                                           ; /* ignored whitespace */
 %%
