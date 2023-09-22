@@ -460,51 +460,22 @@ void truth(void) {
 void equal(void) {
   SETUP_TEST;
 
-  ae_obj_t * obj_int_2a      = NEW(AE_INTEGER);
-  INT_VAL   (obj_int_2a)     = 2;
-
-  ae_obj_t * obj_int_2b      = NEW(AE_INTEGER);
-  INT_VAL   (obj_int_2b)     = 2;
-
-  ae_obj_t * obj_float_2a    = NEW(AE_FLOAT);
-  FLOAT_VAL (obj_float_2a)   = 2.0;
-
-  ae_obj_t * obj_float_2b    = NEW(AE_FLOAT);
-  FLOAT_VAL (obj_float_2b)   = 2.0;
-
-  ae_obj_t * obj_int_3a      = NEW(AE_INTEGER);
-  INT_VAL   (obj_int_3a)     = 3;
-
-  ae_obj_t * obj_int_3b      = NEW(AE_INTEGER);
-  INT_VAL   (obj_int_3b)     = 3;
-
-  ae_obj_t * obj_float_3a    = NEW(AE_FLOAT);
-  FLOAT_VAL (obj_float_3a)   = 3.0;
-
-  ae_obj_t * obj_float_3b    = NEW(AE_FLOAT);
-  FLOAT_VAL (obj_float_3b)   = 3.0;
-
-  ae_obj_t * obj_bool_false  = ae_obj_truth(false);
-  ae_obj_t * obj_bool_true   = ae_obj_truth(obj_float_2a);
-
+  ae_obj_t * obj_int_2a      = NEW_INT(2);
+  ae_obj_t * obj_int_2b      = NEW_INT(2);
+  ae_obj_t * obj_float_2a    = NEW_FLOAT(2.0);
+  ae_obj_t * obj_float_2b    = NEW_FLOAT(2.0);
+  ae_obj_t * obj_int_3a      = NEW_INT(3);
+  ae_obj_t * obj_int_3b      = NEW_INT(3);
+  ae_obj_t * obj_float_3a    = NEW_FLOAT(3.0);
+  ae_obj_t * obj_float_3b    = NEW_FLOAT(3.0);
+  ae_obj_t * obj_bool_false  = TRUTH(false);
+  ae_obj_t * obj_bool_true   = TRUTH(obj_float_2a);
   ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
   ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
-
-  ae_obj_t * obj_rat_2a      = NEW(AE_RATIONAL);
-  NUMER_VAL (obj_rat_2a)     = 2;
-  DENOM_VAL (obj_rat_2a)     = 1;
-  
-  ae_obj_t * obj_rat_2b      = NEW(AE_RATIONAL);
-  NUMER_VAL (obj_rat_2b)     = 4;
-  DENOM_VAL (obj_rat_2b)     = 2;
-  
-  ae_obj_t * obj_rat_3a      = NEW(AE_RATIONAL);
-  NUMER_VAL (obj_rat_3a)     = 3;
-  DENOM_VAL (obj_rat_3a)     = 1;
-  
-  ae_obj_t * obj_rat_3b      = NEW(AE_RATIONAL);
-  NUMER_VAL (obj_rat_3b)     = 9;
-  DENOM_VAL (obj_rat_3b)     = 3;
+  ae_obj_t * obj_rat_2a      = NEW_RATIONAL(2, 1);
+  ae_obj_t * obj_rat_2b      = NEW_RATIONAL(4, 2);
+  ae_obj_t * obj_rat_3a      = NEW_RATIONAL(3, 1);
+  ae_obj_t * obj_rat_3b      = NEW_RATIONAL(9, 3);
   
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \

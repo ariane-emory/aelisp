@@ -147,6 +147,7 @@ extern ae_obj_t * symbols_list;
 #define SYM_VAL(this)           ((this)->sym_val)
 #define TYPE_STR(type)          (ae_type_str((type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
+#define TRUTH(o)                (ae_obj_truth((o)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
