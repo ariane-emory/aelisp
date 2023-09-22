@@ -379,11 +379,11 @@ void intern_symbols(void) {
 
   T(! strcmp(SYM_VAL(INTERN("one")), "one"));
   T(EQ(INTERN("one"), INTERN("one")));
-  T(LENGTH(symbols_list) == 1);
+  T(EQ(LENGTH(symbols_list), 1));
   
   T(! strcmp(SYM_VAL(INTERN("two")), "two"));
   T(NEQ(INTERN("one"), INTERN("two")));
-  T(LENGTH(symbols_list) == 2);
+  T(EQ(LENGTH(symbols_list), 2));
 }
 
 #define FWRITE_TEST(type, field, val, ...)                                                         \
