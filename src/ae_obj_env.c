@@ -72,7 +72,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
+void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
   ASSERT_ENVP(this);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
@@ -124,7 +124,7 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
           PUT(vals);
           NL;
 #endif
-          return CAR(vals);
+          return;
         }
         
         if (EQ(CDR(ENV_SYMS(position)), symbol)) {
@@ -141,7 +141,7 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
           PUT(vals);
           NL;
 #endif
-          return value;
+          return;
         }
         
         vals = CDR(vals);
@@ -152,7 +152,9 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
 #ifdef AE_LOG_ENV
       PR("  Adding new.\n");
 #endif
-      return ENV_ADD(this, symbol, value);
+        ENV_ADD(this, symbol, value);
+        
+        return;
     }
     else {
 #ifdef AE_LOG_ENV
