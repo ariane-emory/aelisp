@@ -247,10 +247,10 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 }
 
 #define AE_TYPE_SHIFT 0
-#define AE_FOOO_SHIFT AE_TYPE_BITS
+#define AE_FOO_SHIFT AE_TYPE_BITS
 
 #define AE_TYPE_MASK  (MASK(AE_TYPE_BITS, AE_TYPE_SHIFT))
-#define AE_FOOO_MASK  (MASK(AE_FOOO_BITS, AE_FOOO_SHIFT))
+#define AE_FOO_MASK  (MASK(AE_FOO_BITS, AE_FOO_SHIFT))
 
 #define MASK(size, shift)                   ((unsigned int) (((1 << (size)) - 1) << (shift)))
 #define GET_MASKED(type, from, mask, shift) ((type) (((from) & (mask)) >> (shift)))
@@ -302,7 +302,7 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
 char ae_obj_get_foo(const ae_obj_t * const this) {
   ASSERT_NOT_NULLP(this);
   
-  char foo = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
+  char foo = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA
   printf("While getting foo, metadata was 0x%016X, foo is '%c' (%d).\n", this->metadata, foo, foo);
@@ -320,8 +320,8 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
 void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   ASSERT_NOT_NULLP(this);
   
-  char old_foo   = GET_MASKED(char, this->metadata, AE_FOOO_MASK, AE_FOOO_SHIFT);
-  this->metadata = TO_MASKED (      foo,            AE_FOOO_MASK, AE_FOOO_SHIFT);
+  char old_foo   = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
+  this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
   printf("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);

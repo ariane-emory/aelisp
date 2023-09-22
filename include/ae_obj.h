@@ -70,7 +70,7 @@ typedef struct ae_obj_t {
   unsigned int          metadata;
 
 #define AE_TYPE_BITS  4
-#define AE_FOOO_BITS  8
+#define AE_FOO_BITS  8
 
   union {
     ae_string_t              str_val;
