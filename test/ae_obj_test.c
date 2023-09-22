@@ -230,10 +230,6 @@ void envs(void)
   T(LENGTH(ENV_SYMS(this)) == 3);
   T(LENGTH(ENV_VALS(this)) == 3);
   T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
-  
-  /* NL; */
-  /* pool_print(); */
-  /* NL; */
 
   T(INT_VAL(ENV_FIND(this, INTERN("foo"))) == 12);
   T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 24);
@@ -245,7 +241,7 @@ void envs(void)
 
   T(NILP(ENV_FIND(this, INTERN("quux"))));
 
-  ENV_PARENT(this) = that; // link this to that..
+  ENV_PARENT(this) = that; // link this to that.
   
   T(INT_VAL(ENV_FIND(this, INTERN("quux"))) == 48);
   T(EQ(ENV_FIND(this, INTERN("quux")), ENV_FIND(that, INTERN("quux"))));
@@ -253,21 +249,13 @@ void envs(void)
   T(NILP(ENV_FIND(that, INTERN("foo"))));
 
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
-
   T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 99);
 
-  ENV_SET(this, INTERN("bar"), NEW_INT(99));
-
-  PR("\nPLACING ZOT!\n");
-  
   ENV_SET(this, INTERN("zot"), NEW_INT(66));  
-  
-  PR("\nDONE PLACING ZOT!\n");
-
   T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
 
+#ifdef AE_LOG_ENV_TEST
   pool_print();
-
   PR("Upper:\n");
   PR("  syms ");
   WRITE(ENV_SYMS(that));
@@ -282,9 +270,10 @@ void envs(void)
   PR("  vals ");
   WRITE(ENV_VALS(this));
   NL;
+#endif
 }
 
-void remove_interned_elem_from_list(void) {
+void remove_interned_symbol_from_list(void) {
   SETUP_TEST;
  
 #define TEST_INTERN(str)                                                                                   \
@@ -598,8 +587,6 @@ void equal(void) {
 #define XX(other) NETP(obj_list_pushed, other);
   FOR_EVERY_OBJ_DO(XX);
 #undef XX
-
-    /* todo: add tests for rationals */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -618,11 +605,11 @@ void equal(void) {
   DO(pushed_list_tests)                                                                            \
   DO(pushed_and_consed_lists_write_identically)                                                    \
   DO(intern_symbols)                                                                               \
-  DO(remove_interned_elem_from_list)                                                               \
+  DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(equal)                                                                                        \
-  DO(envs)                                                                                         \
-  DO(fwrite_lengths)
+  DO(fwrite_lengths)                                                                               \
+  DO(envs)
 
 #define pair(fun) { #fun, fun },
 
