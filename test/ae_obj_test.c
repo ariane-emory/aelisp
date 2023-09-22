@@ -8,8 +8,13 @@
 #define BEFORE_ACUTEST
 
 #include "ae_obj.h"
+#include "ae_free_list.h"
 
 #include "acutest.h"
+
+#define free_list_size (1 << 12)
+
+static char mem[free_list_size] = { 0 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Macros
@@ -29,6 +34,9 @@ static char * tmp_str = NULL;
   ae_obj_t *    this    = NULL;                                                                    \
   ae_obj_t *    that    = NULL;                                                                    \
   symbols_list          = NULL;                                                                    \
+  memset(mem, 0, free_list_size);                                                                  \
+  free_list_reset();                                                                               \
+  free_list_add_block(&mem[0], free_list_size);                                                    \
   pool_clear();                                                                                    \
   if (tmp_str) {                                                                                   \
     free(tmp_str);                                                                                 \

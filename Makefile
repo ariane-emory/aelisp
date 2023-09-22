@@ -4,7 +4,6 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-DAE_LOG_FREE_LIST \
 	-DAE_OBJ_POOL_SIZE=256
 
 LOG_CFLAGS = \
@@ -12,6 +11,7 @@ LOG_CFLAGS = \
 	-DAE_LOG_INTERN \
 	-DAE_LOG_CLONE \
   -DAE_LOG_CONS \
+	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_INIT \
 	-DAE_LOG_LEX \
 	-DAE_LOG_MOVE \

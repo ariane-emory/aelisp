@@ -217,8 +217,9 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 #define NEW_SYM                                                                                    \
 ae_obj_t * sym;                                                                                    \
 {                                                                                                  \
-  char * _tmp_str = NULL;                                                                          \
-  sym = NEW_SYMBOL(strdup(string));                                                                \
+  char * _tmp_str = free_list_malloc(strlen(string) + 1);                                          \
+  strcpy(_tmp_str, string);                                                                        \
+  sym = NEW_SYMBOL(_tmp_str);                                                                      \
 }
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {

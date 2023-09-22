@@ -14,7 +14,12 @@ env->symbols   = NIL;                                                           
 env->values    = NIL;                                                                              \
 env;                                                                                               \
 })
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ENV_PARENT(this)           ((this)->parent)
+#define ENV_SYMS(this)             ((this)->symbols)
+#define ENV_VALS(this)             ((this)->values)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_env_find(ae_obj_t * const env, ae_obj_t * const var);
+ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const var);
+ae_obj_t * ae_env_add (ae_obj_t *       this, ae_obj_t * symbol, ae_obj_t * value);
+ae_obj_t * ae_env_set (ae_obj_t *       this, ae_obj_t * symbol, ae_obj_t  * val);
