@@ -46,7 +46,7 @@ static int gcd(const int left, const int right) {
   return gcd;
 }
 
-void ae_rational_simplify(ae_obj_t * this) {
+void ae_rational_simplify(ae_obj_t * const this) {
   ASSERT_NOT_NULLP(this);
   ASSERT_RATIONALP(this);
   
