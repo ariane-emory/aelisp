@@ -204,9 +204,9 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
-  ae_list_push_back(&this->symbols, INTERN(&symbols_list, "foo"));
-  ae_list_push_back(&this->symbols, INTERN(&symbols_list, "bar"));
-  ae_list_push_back(&this->symbols, INTERN(&symbols_list, "baz"));
+  ae_list_push_back(&this->symbols, INTERN2(&symbols_list, "foo"));
+  ae_list_push_back(&this->symbols, INTERN2(&symbols_list, "bar"));
+  ae_list_push_back(&this->symbols, INTERN2(&symbols_list, "baz"));
   
   ae_list_push_back(&this->values,  NEW_INT(12));
   ae_list_push_back(&this->values,  NEW_INT(24));
@@ -224,24 +224,24 @@ void remove_interned_elem_from_list(void) {
  
   this = 0; // NEW(AE_CONS);
 
-#define TEST_INTERN(str)                                                                           \
+#define TEST_INTERN2(str)                                                                           \
   {                                                                                                \
     int len = LENGTH(this);                                                                        \
-    T(EQ(INTERN(&this, str), INTERN(&this, str)));                                                 \
+    T(EQ(INTERN2(&this, str), INTERN2(&this, str)));                                                 \
     T(LENGTH(this) == (len + 1));                                                                  \
   }
     
   // using 'this' as the symbol list here:  
-  T(EQ(INTERN(&this, "a"), INTERN(&this, "a")));
+  T(EQ(INTERN2(&this, "a"), INTERN2(&this, "a")));
   T(LENGTH(this) == 1);
-  T(EQ(INTERN(&this, "b"), INTERN(&this, "b")));
+  T(EQ(INTERN2(&this, "b"), INTERN2(&this, "b")));
   T(LENGTH(this) == 2);
-  T(EQ(INTERN(&this, "c"), INTERN(&this, "c")));
+  T(EQ(INTERN2(&this, "c"), INTERN2(&this, "c")));
   T(LENGTH(this) == 3);
-  T(EQ(INTERN(&this, "d"), INTERN(&this, "d")));
+  T(EQ(INTERN2(&this, "d"), INTERN2(&this, "d")));
   T(LENGTH(this) == 4);
 
-  that = INTERN(&this, "b");
+  that = INTERN2(&this, "b");
 
   // Add a duplicate element so that we can see that both instances are removed:
   this = CONS(that, this);
@@ -344,18 +344,18 @@ void pushed_and_consed_lists_write_identically(void) {
 void intern_symbols(void) {
   SETUP_TEST;
 
-  // deliberately avoid initializing this because INTERN should do so itself automatically.
+  // deliberately avoid initializing this because INTERN2 should do so itself automatically.
 
   // re-use 'this' as the symbol list here:
-  T(INTERN(&this, "one") == INTERN(&this, "one"));
-  T(strcmp(SYM_VAL(INTERN(&this, "one")), "one") == 0);
+  T(INTERN2(&this, "one") == INTERN2(&this, "one"));
+  T(strcmp(SYM_VAL(INTERN2(&this, "one")), "one") == 0);
   T(LENGTH(this) == 1);
     
   // pool_print();
   /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(this), 1); */
   
-  T(INTERN(&this, "one") != INTERN(&this, "two"));
-  T(strcmp(SYM_VAL(INTERN(&this, "two")), "two") == 0);
+  T(INTERN2(&this, "one") != INTERN2(&this, "two"));
+  T(strcmp(SYM_VAL(INTERN2(&this, "two")), "two") == 0);
   T(LENGTH(this) == 2);
     
   // pool_print();
