@@ -212,13 +212,13 @@ void envs(void)
 
   this = NEW_ENV(NIL);
 
-  PUSH_BACK(&this->symbols, INTERN("foo"));
-  PUSH_BACK(&this->symbols, INTERN("bar"));
-  PUSH_BACK(&this->symbols, INTERN("baz"));
+  PUSH(&this->symbols, INTERN("foo"));
+  PUSH(&this->symbols, INTERN("bar"));
+  PUSH(&this->symbols, INTERN("baz"));
   
-  PUSH_BACK(&this->values,  NEW_INT(12));
-  PUSH_BACK(&this->values,  NEW_INT(24));
-  PUSH_BACK(&this->values,  NEW_INT(36));
+  PUSH(&this->values,  NEW_INT(12));
+  PUSH(&this->values,  NEW_INT(24));
+  PUSH(&this->values,  NEW_INT(36));
   
   NL;
   
