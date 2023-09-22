@@ -252,10 +252,6 @@ void envs(void)
   T(NILP(ENV_FIND(this, INTERN("zot"))));
   T(NILP(ENV_FIND(that, INTERN("foo"))));
 
-  pool_print();
-
-  NL;
-
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
 
   T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 99);
@@ -264,9 +260,24 @@ void envs(void)
 
   ENV_SET(this, INTERN("zot"), NEW_INT(66));  
   
-//  T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
+  T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
 
-// pool_print();
+  pool_print();
+
+  PR("Upper:\n");
+  PR("  syms ");
+  WRITE(ENV_SYMS(that));
+  NL;
+  PR("  vals ");
+  WRITE(ENV_VALS(that));
+  NL;
+  PR("Lower:\n");
+  PR("  syms ");
+  WRITE(ENV_SYMS(this));
+  NL;
+  PR("  vals ");
+  WRITE(ENV_VALS(this));
+  NL;
 }
 
 void remove_interned_elem_from_list(void) {
