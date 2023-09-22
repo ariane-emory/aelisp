@@ -200,10 +200,9 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 #endif
   
   ae_obj_t * tailtip = *plist;
-    
-  for (; NOT_NILP(CDR(tailtip)); tailtip = CDR(tailtip));
-  /* FOR_EACH(elem, *plist) */
-  /*   tailtip = CDR(tailtip); */
+  
+  FOR_EACH(elem, *plist) 
+    tailtip = position;
 
   CDR(tailtip) = CONS_NIL(member);
 
