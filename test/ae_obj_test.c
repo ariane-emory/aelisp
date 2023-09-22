@@ -220,6 +220,8 @@ void envs(void)
   /* PUSH(&this->values,  NEW_INT(12)); */
   /* PUSH(&this->values,  NEW_INT(24)); */
   /* PUSH(&this->values,  NEW_INT(36)); */
+
+  ENV_ADD(this, INTERN("foo"), NEW_INT(12));
   
   NL;
   

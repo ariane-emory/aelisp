@@ -1,4 +1,5 @@
 To Do:
+- [ ] Get rid of strdup call in ae_obj.c.
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Add env frame-related functions.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
