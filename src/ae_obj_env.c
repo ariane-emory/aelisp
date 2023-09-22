@@ -72,10 +72,10 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * values) {
+ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ASSERT_ENVP(this);
   ASSERT_SYMBOLP(symbol);
-  ASSERT_NOT_NULLP(values);
+  ASSERT_NOT_NULLP(value);
 
   ae_obj_t *   pos       = this;
   
@@ -89,7 +89,7 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * values) {
 // #endif
     
     ae_obj_t * symbols   = ENV_SYMS(this);
-    ae_obj_t * vals      = ENV_VALS(this);
+    ae_obj_t * values    = ENV_VALS(this);
 
 // #ifdef AE_LOG_ENV
     PR("  symbols: ");
@@ -98,19 +98,32 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * values) {
     PR("  values:  ");
     WRITE(values);
     NL;
+    NL;
 // #endif
 
-    for (; CONSP(symbols); symbols = CDR(symbols), vals = CDR(vals)) {
-      if (EQ(CAR(symbols), symbol))
-        return CAR(vals) = values;
-      if (EQ(CDR(symbols),symbol))
-        return CDR(vals) = values;
+    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
+      PR("  Looking at ");
+      WRITE(CAR(symbols));
+      NL;
+
+      if (EQ(CAR(symbols), symbol)) {
+        PR("  Found it in car.\n");
+        return CAR(values) = values;
+      }
+      if (EQ(CDR(symbols),symbol)) {
+        PR("  Found it in cdr.\n");
+        return CDR(values) = values;
+      }
     }
 
-    if (NILP(pos->parent))
-      return ENV_ADD(pos, symbol, values);
-    else
+    if (NILP(pos->parent)) {
+      PR("  Adding new.\n");
+      return ENV_ADD(this, symbol, values);
+    }
+    else {
+      PR("  Going up.\n");
       pos = ENV_PARENT(pos);
+    }
   }
 }
 
