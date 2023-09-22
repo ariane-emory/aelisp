@@ -220,16 +220,16 @@ void envs(void)
 
   ENV_PARENT(this) = that; // link this to that.
   
-  T(INT_VAL(ENV_FIND(this, INTERN("quux"))) == 48);
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("quux"))), 48));
   T(EQ(ENV_FIND(this, INTERN("quux")), ENV_FIND(that, INTERN("quux"))));
   T(NILP(ENV_FIND(this, INTERN("zot"))));
   T(NILP(ENV_FIND(that, INTERN("foo"))));
 
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
-  T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 99);
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 99));
 
   ENV_SET(this, INTERN("zot"), NEW_INT(66));  
-  T(INT_VAL(ENV_FIND(this, INTERN("zot"))) == 66);
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("zot"))), 66));
 
 #ifdef AE_LOG_ENV_TEST
   pool_print();
@@ -257,7 +257,7 @@ void remove_interned_symbol_from_list(void) {
   {                                                                                                        \
     int len = LENGTH(symbols_list);                                                                        \
     T(EQ(INTERN(str), INTERN(str)));                                                                       \
-    T(LENGTH(symbols_list) == (len + 1));                                                                  \
+    T(EQ(LENGTH(symbols_list), (len + 1)));                                                                \
   }
     
   // using 'symbols_list' as the symbol list here:  
