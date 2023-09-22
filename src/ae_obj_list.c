@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "ae_obj.h"
+#include "ae_free_list.h"
 
 #define TAILP(o)        (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
 #define ASSERT_TAILP(o) (assert(TAILP((o))))

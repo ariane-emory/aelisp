@@ -197,45 +197,45 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_STRING(val)                                                                            \
 ({                                                                                                 \
-ae_obj_t * tmp  = NEW(AE_STRING);                                                                  \
-STR_VAL   (tmp) = (val);                                                                           \
-tmp;                                                                                               \
+ae_obj_t * _tmp  = NEW(AE_STRING);                                                                 \
+STR_VAL   (_tmp) = (val);                                                                          \
+_tmp;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_SYMBOL(val)                                                                            \
 ({                                                                                                 \
-ae_obj_t * tmp  = NEW(AE_SYMBOL);                                                                  \
-SYM_VAL   (tmp) = (val);                                                                           \
-tmp;                                                                                               \
+ae_obj_t * _tmp  = NEW(AE_SYMBOL);                                                                 \
+SYM_VAL   (_tmp) = (val);                                                                          \
+_tmp;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
-ae_obj_t * tmp  = NEW(AE_CHAR);                                                                    \
-CHAR_VAL   (tmp) = (val);                                                                          \
-tmp;                                                                                               \
+ae_obj_t * _tmp  = NEW(AE_CHAR);                                                                   \
+CHAR_VAL   (_tmp) = (val);                                                                         \
+_tmp;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_INT(val)                                                                               \
 ({                                                                                                 \
-ae_obj_t * tmp  = NEW(AE_INTEGER);                                                                 \
-INT_VAL   (tmp) = (val);                                                                           \
-tmp;                                                                                               \
+ae_obj_t * _tmp  = NEW(AE_INTEGER);                                                                \
+INT_VAL   (_tmp) = (val);                                                                          \
+_tmp;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_FLOAT(val)                                                                             \
 ({                                                                                                 \
-ae_obj_t * tmp  = NEW(AE_FLOAT);                                                                   \
-FLOAT_VAL   (tmp) = (val);                                                                         \
-tmp;                                                                                               \
+ae_obj_t * _tmp  = NEW(AE_FLOAT);                                                                  \
+FLOAT_VAL   (_tmp) = (val);                                                                        \
+_tmp;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_RATIONAL(numer, denom)                                                                 \
 ({                                                                                                 \
-ae_obj_t * tmp  = NEW(AE_RATIONAL);                                                                \
-NUMER_VAL (tmp) = (numer);                                                                         \
-DENOM_VAL (tmp) = (denom);                                                                         \
-tmp;                                                                                               \
+ae_obj_t * _tmp  = NEW(AE_RATIONAL);                                                               \
+NUMER_VAL (_tmp) = (numer);                                                                        \
+DENOM_VAL (_tmp) = (denom);                                                                        \
+_tmp;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
