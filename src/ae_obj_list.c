@@ -237,26 +237,6 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   fflush(stdout);
 #endif
 
-
-/*   if (false) { */
-/*     if (NULLP(*plist)) { */
-/*     NEW_SYM; */
-/*     *plist = CONS_NIL(new_sym); */
-    
-/* #ifdef AE_LOG_INTERN */
-/*     printf("Intern in new symbol list "); */
-/*     PUT(*plist); */
-/*     putchar('\n'); */
-
-/*     printf("=> "); */
-/*     PUT(new_sym); */
-/*     putchar('\n'); */
-/* #endif */
-
-/*     return new_sym; */
-/*     } */
-/*   } */
-
   if (NILP(*plist)) {
     NEW_SYM;
     *plist = CONS_NIL(new_sym);
