@@ -217,6 +217,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 #define NEW_SYM                                                                                    \
 ae_obj_t * sym;                                                                                    \
 {                                                                                                  \
+  char * _tmp_str = NULL;                                                                          \
   sym = NEW_SYMBOL(strdup(string));                                                                \
 }
 
