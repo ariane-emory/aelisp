@@ -141,7 +141,7 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
           PUT(vals);
           NL;
 #endif
-          return CDR(vals);
+          return value;
         }
         
         vals = CDR(vals);
