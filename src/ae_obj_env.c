@@ -7,7 +7,7 @@
 // _add
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
+ae_obj_t * ae_env_add(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
   ASSERT_ENVP(this);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
@@ -72,7 +72,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
+ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
   ASSERT_ENVP(this);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
