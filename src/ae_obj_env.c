@@ -1,5 +1,8 @@
 #include "ae_obj_env.h"
 
+#define NL (putchar('\n'))
+#define PR(...) (fprintf(stdout, __VA_ARGS__))
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,9 +14,22 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
   ae_obj_t * pos = this;
   
   for (; NOT_NILP(pos); pos = ENV_PARENT(pos)) {
+    PR("Looking for '");
+    WRITE(symbol);
+    PR(" in env ");
+    PUT(this);
+    NL;
+    
     ae_obj_t * symbols = ENV_SYMS(pos);
     ae_obj_t * values  = ENV_VALS(pos);
-        
+
+    PR("  symbols: ");
+    WRITE(symbols);
+    NL;
+    PR("  values:  ");
+    WRITE(values);
+    NL;
+
     for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
       if (EQ(CAR(symbols), symbol))
         return CAR(values);

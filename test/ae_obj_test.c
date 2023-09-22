@@ -229,13 +229,13 @@ void envs(void)
   T(NOT_NILP(ENV_VALS(this)));
 
   T(NOT_MEMBERP(ENV_SYMS(this), INTERN("bar")));
-  ENV_ADD(this, INTERN("bar"), NEW_INT(12));
+  ENV_ADD(this, INTERN("bar"), NEW_INT(24));
   T(LENGTH(ENV_SYMS(this)) == 2);
   T(LENGTH(ENV_VALS(this)) == 2);
   T(MEMBERP(ENV_SYMS(this), INTERN("bar")));
   
   T(NOT_MEMBERP(ENV_SYMS(this), INTERN("baz")));
-  ENV_ADD(this, INTERN("baz"), NEW_INT(12));
+  ENV_ADD(this, INTERN("baz"), NEW_INT(36));
   T(LENGTH(ENV_SYMS(this)) == 3);
   T(LENGTH(ENV_VALS(this)) == 3);
   T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
