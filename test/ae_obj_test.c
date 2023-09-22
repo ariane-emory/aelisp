@@ -224,7 +224,7 @@ void remove_interned_elem_from_list(void) {
  
   this = 0; // NEW(AE_CONS);
 
-#define TEST_INTERN2(str)                                                                           \
+#define TEST_INTERN(str)                                                                           \
   {                                                                                                \
     int len = LENGTH(this);                                                                        \
     T(EQ(INTERN2(&this, str), INTERN2(&this, str)));                                                 \

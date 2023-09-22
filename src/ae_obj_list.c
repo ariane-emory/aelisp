@@ -219,7 +219,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(NULLP(*plist) || TAILP(*plist));
   ASSERT_NOT_NULLP(string);
   
-#ifdef AE_LOG_INTERN2
+#ifdef AE_LOG_INTERN
   // pool_print();
   // putchar('\n');
   printf("Interning \"%s\" in %p.\n", string, *plist);
@@ -230,7 +230,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
     NEW_SYM;
     *plist = CONS_NEW(sym);
     
-#ifdef AE_LOG_INTERN2
+#ifdef AE_LOG_INTERN
     printf("Intern in new symbol list ");
     PUT(*plist);
     putchar('\n');
@@ -246,7 +246,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   FOR_EACH(elem, *plist) {
     ASSERT_SYMBOLP(elem);
     if (strcmp(string, elem->sym_val) == 0) {
-#ifdef AE_LOG_INTERN2
+#ifdef AE_LOG_INTERN
       printf("Intern in symbol list ");
       PUT(*plist);
       putchar('\n');
@@ -263,7 +263,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   NEW_SYM;
   *plist = CONS(sym, *plist);
 
-#ifdef AE_LOG_INTERN2
+#ifdef AE_LOG_INTERN
   printf("Intern in symbol list ");
   PUT(*plist);
   putchar('\n');
