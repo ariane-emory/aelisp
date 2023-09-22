@@ -344,19 +344,19 @@ void pushed_and_consed_lists_write_identically(void) {
 void intern_symbols(void) {
   SETUP_TEST;
 
-  // deliberately avoid initializing this because INTERN2 should do so itself automatically.
+  // deliberately avoid initializing symbols_list because INTERN2 should do so itself automatically.
 
-  // re-use 'this' as the symbol list here:
-  T(INTERN2(&this, "one") == INTERN2(&this, "one"));
-  T(strcmp(SYM_VAL(INTERN2(&this, "one")), "one") == 0);
-  T(LENGTH(this) == 1);
+  // re-use 'symbols_list' as the symbol list here:
+  T(INTERN2(&symbols_list, "one") == INTERN2(&symbols_list, "one"));
+  T(strcmp(SYM_VAL(INTERN2(&symbols_list, "one")), "one") == 0);
+  T(LENGTH(symbols_list) == 1);
     
   // pool_print();
-  /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(this), 1); */
+  /* TEST_MSG("Incorrect length %d, expected %d.", LENGTH(symbols_list), 1); */
   
-  T(INTERN2(&this, "one") != INTERN2(&this, "two"));
-  T(strcmp(SYM_VAL(INTERN2(&this, "two")), "two") == 0);
-  T(LENGTH(this) == 2);
+  T(INTERN2(&symbols_list, "one") != INTERN2(&symbols_list, "two"));
+  T(strcmp(SYM_VAL(INTERN2(&symbols_list, "two")), "two") == 0);
+  T(LENGTH(symbols_list) == 2);
     
   // pool_print();
   /* T(LENGTH(this) == 2); */
