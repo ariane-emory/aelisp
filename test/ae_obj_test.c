@@ -239,34 +239,32 @@ void envs(void)
   T(LENGTH(ENV_VALS(this)) == 3);
   T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
   
-  NL;
-  pool_print();
-  NL;
+  /* NL; */
+  /* pool_print(); */
+  /* NL; */
 
   T(INT_VAL(ENV_FIND(this, INTERN("foo"))) == 12);
   T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 24);
   T(INT_VAL(ENV_FIND(this, INTERN("baz"))) == 36);
 
-  that = NEW_ENV(NIL); // unlinked for now.
+  that = NEW_ENV(NIL); // not yet linked to.
 
   ENV_ADD(that, INTERN("quux"), NEW_INT(48));
 
   T(NILP(ENV_FIND(this, INTERN("quux"))));
 
-  ENV_PARENT(this) = that;
+  ENV_PARENT(this) = that; // link this to that..
   
-  T(INT_VAL(ENV_FIND(that, INTERN("quux"))) == 48);
-
+  T(INT_VAL(ENV_FIND(this, INTERN("quux"))) == 48);
+  T(EQ(ENV_FIND(this, INTERN("quux")), ENV_FIND(that, INTERN("quux"))));
   T(NILP(ENV_FIND(this, INTERN("zot"))));
+  T(NILP(ENV_FIND(that, INTERN("foo"))));
 
-  PUT(ENV_FIND(this, INTERN("foo")));  NL;
-  PUT(ENV_FIND(this, INTERN("bar")));  NL;
-  PUT(ENV_FIND(this, INTERN("baz")));  NL;
-  PUT(ENV_FIND(this, INTERN("quux"))); NL;
-  PUT(ENV_FIND(this, INTERN("zot")));  NL;
-
-  
-  NL;
+  /* PUT(ENV_FIND(this, INTERN("foo")));  NL; */
+  /* PUT(ENV_FIND(this, INTERN("bar")));  NL; */
+  /* PUT(ENV_FIND(this, INTERN("baz")));  NL; */
+  /* PUT(ENV_FIND(this, INTERN("quux"))); NL; */
+  /* PUT(ENV_FIND(this, INTERN("zot")));  NL; */
 }
 
 void remove_interned_elem_from_list(void) {
