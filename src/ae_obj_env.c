@@ -97,18 +97,15 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
 
   while (true) {
     {
-      ae_obj_t * syms = ENV_SYMS(env);
       ae_obj_t * vals = ENV_VALS(env);
 
-      FOR_EACH(sym, syms) {
-        syms = position;
-        
+      FOR_EACH(sym, ENV_SYMS(env)) {
 #ifdef AE_LOG_ENV
         PR("  Looking at sym ");
         WRITE(sym);
         NL;
         PR("    syms ");
-        WRITE(syms);
+        WRITE(ENV_SYMS(position));
         NL;
         PR("    vals ");
         WRITE(vals);
@@ -130,7 +127,7 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
           return CAR(vals);
         }
         
-        if (EQ(CDR(syms), symbol)) {
+        if (EQ(CDR(ENV_SYMS(position)), symbol)) {
 #ifdef AE_LOG_ENV
           PR("  Found it in cdr of: ");
           PUT(vals);
