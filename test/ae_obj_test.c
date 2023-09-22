@@ -140,9 +140,9 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 void basic_list_checks(ae_obj_t * this) {
   COUNT_LIST_LENGTH(this);
 
-  T(LENGTH(this) == 4);
-  T(list_length_counter == 4);
-  T(list_length_counter == LENGTH(this));
+  T(EQ(LENGTH(this)       , 4));
+  T(EQ(list_length_counter, 4));
+  T(EQ(list_length_counter, LENGTH(this)));
 
   // WRITE(this); NL;
   
