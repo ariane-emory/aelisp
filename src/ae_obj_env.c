@@ -77,7 +77,7 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
 
-  ae_obj_t *   pos       = this;
+  ae_obj_t *   env       = this;
   
   while (true) {
 // #ifdef AE_LOG_ENV
@@ -85,44 +85,80 @@ ae_obj_t * ae_env_set(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
     WRITE(symbol);
     PR(" in env ");
     PUT(this);
+    PR(" to place %018p.", value);
     NL;
 // #endif
     
-    ae_obj_t * symbols   = ENV_SYMS(this);
-    ae_obj_t * values    = ENV_VALS(this);
-
 // #ifdef AE_LOG_ENV
-    PR("  symbols: ");
-    WRITE(symbols);
+    PR("  syms: ");
+    WRITE(ENV_SYMS(this));
     NL;
-    PR("  values:  ");
-    WRITE(values);
+    PR("  vals:  ");
+    WRITE(ENV_VALS(this));
     NL;
     NL;
 // #endif
 
-    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
+    ae_obj_t * syms      = ENV_SYMS(this);
+    ae_obj_t * vals      = ENV_VALS(this);
+    ae_obj_t * prev_syms = NIL;
+    ae_obj_t * prev_vals = NIL;
+    
+    for (; CONSP(syms);
+         syms = CDR(syms), vals = CDR(vals),
+           prev_syms = syms, prev_vals = vals
+    ) {
       PR("  Looking at ");
-      WRITE(CAR(symbols));
+      WRITE(CAR(syms));
       NL;
 
-      if (EQ(CAR(symbols), symbol)) {
-        PR("  Found it in car.\n");
-        return CAR(values) = values;
+      if (EQ(CAR(syms), symbol)) {
+        PR("  Found it in car of: ");
+        PUT(vals);
+        NL;
+        CAR(vals) = value; 
+        PR("  After:              ");
+        PUT(vals);
+        NL;
+// #ifdef AE_LOG_ENV
+        PR("  syms: ");
+        WRITE(ENV_SYMS(this));
+        NL;
+        PR("  vals:  ");
+        WRITE(ENV_VALS(this));
+        NL;
+        NL;
+// #endif
+        return CAR(vals);
       }
-      if (EQ(CDR(symbols),symbol)) {
-        PR("  Found it in cdr.\n");
-        return CDR(values) = values;
+      if (EQ(CDR(syms), symbol)) {
+        PR("  Found it in cdr of: ");
+        PUT(vals);
+        NL;
+        CDR(vals) = value;
+        PR("  After:              ");
+        PUT(vals);
+        NL;
+// #ifdef AE_LOG_ENV
+        PR("  syms: ");
+        WRITE(ENV_SYMS(this));
+        NL;
+        PR("  vals:  ");
+        WRITE(ENV_VALS(this));
+        NL;
+        NL;
+// #endif
+        return CDR(vals);
       }
     }
 
-    if (NILP(pos->parent)) {
+    if (NILP(env->parent)) {
       PR("  Adding new.\n");
-      return ENV_ADD(this, symbol, values);
+      return ENV_ADD(this, symbol, vals);
     }
     else {
       PR("  Going up.\n");
-      pos = ENV_PARENT(pos);
+      env = ENV_PARENT(env);
     }
   }
 }

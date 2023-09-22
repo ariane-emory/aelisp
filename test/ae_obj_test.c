@@ -257,13 +257,9 @@ void envs(void)
 
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
 
-  T(INT_VAL(ENV_FIND(this, INTERN("foo"))) == 99);
+  T(INT_VAL(ENV_FIND(this, INTERN("bar"))) == 99);
   
-  /* PUT(ENV_FIND(this, INTERN("foo")));  NL; */
-  /* PUT(ENV_FIND(this, INTERN("bar")));  NL; */
-  /* PUT(ENV_FIND(this, INTERN("baz")));  NL; */
-  /* PUT(ENV_FIND(this, INTERN("quux"))); NL; */
-  /* PUT(ENV_FIND(this, INTERN("zot")));  NL; */
+  // pool_print();
 }
 
 void remove_interned_elem_from_list(void) {
