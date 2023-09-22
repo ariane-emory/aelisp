@@ -23,13 +23,17 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
 #define MAP(this, fun)          (ae_list_map(this, (ae_list_map_fun)fun))
 #define LENGTH(this)            (ae_list_length(this))
-#define MEMBERP(this, that)     (ae_list_has_member((this), (that)))
-#define NOT_MEMBERP(this, that) (! MEMBERP((this), (that)))
 #define PUSH(this, that)        (ae_list_push_back((this), (that)))
 #define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
 #define INTERN2(sym_list, str)  (ae_list_intern_string((sym_list), (str)))
 #define INTERN(str)             (INTERN2(&symbols_list, (str)))
-////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////j/////////////////////////////////////
+#define TAILP(o)                (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
+#define MEMBERP(this, that)     (ae_list_has_member((this), (that)))
+#define NOT_MEMBERP(this, that) (! MEMBERP((this), (that)))
+#define NOT_TAILP(this, that)   (! TAILP((this), (that))) 
+#define ASSERT_TAILP(o)         (assert(TAILP((o))))
+///////////////////////////////////////////////////////////////j/////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
          * position = (list),                                                                      \
@@ -40,7 +44,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
   for (const ae_obj_t                                                                              \
          * position = (list),                                                                      \
          * elem     = CAR(position);                                                               \
-       CONSP(position);                                                                           \
+       CONSP(position);                                                                            \
            elem = CAR(position = CDR(position)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods

@@ -7,9 +7,6 @@
 #include "ae_obj.h"
 #include "ae_free_list.h"
 
-#define TAILP(o)        (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
-#define ASSERT_TAILP(o) (assert(TAILP((o))))
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _length method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +14,8 @@
 int ae_list_length(const ae_obj_t * const list) {
   ASSERT_TAILP(list);
   
-  if (NILP(list)) return 0;
+  if (NILP(list))
+    return 0;
 
   size_t length = 0;
 
@@ -103,6 +101,8 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
   ASSERT_TAILP(list);
   ASSERT_NOT_NULLP(member);
+  
+  // This is non-mutating: it 'removes' member by returning a new list that doesn't contain it.
   
   if (NILP(list))
     return list;
@@ -202,6 +202,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   ae_obj_t * tailtip = *plist;
     
   for (; NOT_NILP(CDR(tailtip)); tailtip = CDR(tailtip));
+  /* FOR_EACH(elem, *plist) */
+  /*   tailtip = CDR(tailtip); */
 
   CDR(tailtip) = CONS_NIL(member);
 
