@@ -6,6 +6,8 @@
 
 #include "ae_obj.h"
 #include "ae_obj_list.h"
+#include "ae_obj_pool.h"
+#include "ae_free_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Data
@@ -192,7 +194,17 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   ae_obj_t * clone = NULL;
 
 #define CLONE_USING_MEMCPY clone = ALLOC(); memcpy(clone, this, sizeof(ae_obj_t))
-#define DUP_C_STR(field) clone->field = strdup(this->field)
+
+#ifdef NO_AE_FREE_LIST
+#  define DUP_C_STR(field) clone->field = strdup(this->field)
+#else
+#  define DUP_C_STR(field)                                                                         \
+  {                                                                                                \
+    int _str_len = strlen(this->field);                                                            \
+    clone->field = free_list_malloc(_str_len + 1);                                                 \
+    strcpy(clone->field, this->field);                                                             \
+}
+#endif
   
   switch (GET_TYPE(this)) {
   case AE_CONS:

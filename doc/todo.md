@@ -1,7 +1,6 @@
 To Do:
-- [ ] Get rid of strdup call in ae_obj.c.
-- [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Add env frame-related functions.
+- [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] Fix inappropriate handling of quote. Probably requires a new lexer token and a new yacc rule.
@@ -10,6 +9,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Get rid of strdup call in ae_obj.c.
 - [x] Add env frames to obj struct.
 - [x] Review (and test) the 'word-oriented' puts.
 - [x] Add a free list allocator and make a pool to hold strings' data.
