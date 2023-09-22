@@ -102,10 +102,11 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
 //    FOR_EACH(sym, syms) {
 //    vals = CDR(vals);
     for (; CONSP(syms); syms = CDR(syms), vals = CDR(vals)) {
+      ae_obj_t * sym = CAR(syms);
       
 #ifdef AE_LOG_ENV
-      PR("  Looking at ");
-      WRITE(CAR(syms));
+      PR("  Looking at sym ");
+      WRITE(sym);
       NL;
       PR("    syms ");
       WRITE(syms);
@@ -115,7 +116,7 @@ ae_obj_t * ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t *
       NL;
 #endif
 
-      if (EQ(CAR(syms), symbol)) {
+      if (EQ(sym, symbol)) {
 #ifdef AE_LOG_ENV
         PR("  Found it in car of: ");
         PUT(vals);
