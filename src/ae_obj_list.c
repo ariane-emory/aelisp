@@ -64,7 +64,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
 #ifdef AE_LIST_MAP_RECURSES
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
 #else
-  ae_obj_t * new_list = CONS_NEW(fun(CAR(list)));
+  ae_obj_t * new_list = CONS_NIL(fun(CAR(list)));
 
   if (NILP(CDR(list)))
     return new_list;
@@ -113,7 +113,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
     if (EQ(elem, member))
       continue;
     else if (NILP(new_list))
-      new_list = CONS_NEW(elem);
+      new_list = CONS_NIL(elem);
     else
       // this could be faster if we stashed the tailtip.
       PUSH(&new_list, elem);
@@ -203,7 +203,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
     
   for (; NOT_NILP(CDR(tailtip)); tailtip = CDR(tailtip));
 
-  CDR(tailtip) = CONS_NEW(member);
+  CDR(tailtip) = CONS_NIL(member);
 
   AFTER_PUSH_MESSAGE(CDR(tailtip));
   
@@ -235,7 +235,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
 
   if (! *plist) {
     NEW_SYM;
-    *plist = CONS_NEW(sym);
+    *plist = CONS_NIL(sym);
     
 #ifdef AE_LOG_INTERN
     printf("Intern in new symbol list ");

@@ -77,10 +77,9 @@ bool shitty_write_based_equality_predicate(
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t * num     = NEW(AE_INTEGER);
-  INT_VAL(num)       = 1;
+  ae_obj_t * num     = NEW_INT(1);
   
-  ae_obj_t * list    = CONS_NEW(num);
+  ae_obj_t * list    = CONS_NIL(num);
   ae_obj_t * tailtip = list;
 
   T(LENGTH(tailtip) == 1);
@@ -102,16 +101,13 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 }
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * head = NEW(AE_INTEGER);
-  head->int_val   = 4;
-
-  ae_obj_t * list = CONS_NEW(head);
+  ae_obj_t * head = NEW_INT(4);
+  ae_obj_t * list = CONS_NIL(head);
   
   T(LENGTH(list) == 1);
 
   for (unsigned int ix = 0; ix < 3; ix++) { 
-    ae_obj_t * new_head = NEW(AE_INTEGER);
-    new_head->int_val = 3 - ix;
+    ae_obj_t * new_head = NEW_INT(3 - ix);
 
     ae_obj_t * tail = list;
     
@@ -150,7 +146,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  return CONS(this, CONS_NEW(this));
+  return CONS(this, CONS_NIL(this));
 }
 
 void basic_list_checks(ae_obj_t * this) {

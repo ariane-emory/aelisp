@@ -54,8 +54,8 @@ ae_obj_t * ae_env_add(ae_obj_t * this, ae_obj_t * symbol, ae_obj_t * value) {
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
   
-  ae_obj_t * symbols = CONS_NEW(symbol);
-  ae_obj_t * values  = CONS_NEW(value);
+  ae_obj_t * symbols = CONS_NIL(symbol);
+  ae_obj_t * values  = CONS_NIL(value);
   
   CDR(symbols)       = ENV_SYMS(this);
   ENV_SYMS(this)     = symbols;
