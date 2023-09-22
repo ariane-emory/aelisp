@@ -228,6 +228,9 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
 
   if (strcmp(string, "nil") == 0)
     return NIL;
+
+  if (strcmp(string, "t")   == 0)
+    return TRU;
   
 #ifdef AE_LOG_INTERN
   // pool_print();
