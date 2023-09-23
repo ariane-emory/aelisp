@@ -79,7 +79,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 
   NL;
   PR("if:   ");
-  WRITE(args);
+  WRITE(CAR(args));
   NL;
   PR("then: ");
   WRITE(args);
