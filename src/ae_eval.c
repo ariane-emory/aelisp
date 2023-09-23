@@ -46,18 +46,19 @@ static const struct { ae_type_t type; ae_obj_t * (*func)(ae_obj_t *, ae_obj_t *)
   { AE_LAMBDA,   &apply_lambda   },
 };
 
-#define DISPATCH(array, thing, args)                                                                \
+#define DISPATCH(table, thing, args)                                                                \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                 \
-    if (table[ix].type == GET_TYPE(fun))                                                            \
-      return (*table[ix].func)(fun, args);
+    if (table[ix].type == GET_TYPE(thing))                                                          \
+      return (*table[ix].func)(thing, args);
 
 
 ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
   ASSERT_ENVP(env);
-  
-  for (size_t ix = 0; ix < ARRAY_SIZE(eval_dispatch); ix++)
-    if (eval_dispatch[ix].type == GET_TYPE(obj))
-      return (*eval_dispatch[ix].func)(obj, env);
+
+  DISPATCH(eval_dispatch, obj, env);
+  /* for (size_t ix = 0; ix < ARRAY_SIZE(eval_dispatch); ix++) */
+  /*   if (eval_dispatch[ix].type == GET_TYPE(obj)) */
+  /*     return (*eval_dispatch[ix].func)(obj, env); */
 
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
   assert(0);
