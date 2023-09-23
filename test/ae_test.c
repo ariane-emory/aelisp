@@ -367,8 +367,8 @@ void eql(void) {
   ae_obj_t * obj_int_3b      = NEW_INT(3);
   ae_obj_t * obj_float_3a    = NEW_FLOAT(3.0);
   ae_obj_t * obj_float_3b    = NEW_FLOAT(3.0);
-  ae_obj_t * obj_bool_false  = TRUETH(false);
-  ae_obj_t * obj_bool_true   = TRUETH(obj_float_2a);
+  ae_obj_t * obj_bool_false  = TRUTH(false);
+  ae_obj_t * obj_bool_true   = TRUTH(obj_float_2a);
   ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
   ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
   ae_obj_t * obj_rat_2a      = NEW_RATIONAL(2, 1);

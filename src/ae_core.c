@@ -78,19 +78,25 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
   NL;
-  PR("if:   ");
+  PR("if:          ");
   WRITE(CAR(args));
   NL;
-  PR("then: ");
+  PR("then:        ");
   WRITE(CADR(args));
   NL;
-  PR("else: ");
-  WRITE(CDDR(args));
+  PR("else:        ");
+  WRITE(CONS(INTERN("progn"), CDDR(args)));
   NL;
 
   ASSERT_NOT_NILP(CAR(args));
   ASSERT_NOT_NILP(CADR(args));
+
+  ae_obj_t * cond_result = TRUTH(EVAL(env, CAR(args)));
   
+  PR("cond_result: ");
+  WRITE(cond_result);
+  NL;
+
   return NIL;
 }
 

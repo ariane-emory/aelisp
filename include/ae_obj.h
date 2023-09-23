@@ -145,7 +145,7 @@ extern ae_obj_t * symbols_list;
 #define MOVE_NEW(that)          (UNSAFE_MOVE(ALLOC(), that))
 #define NEW(type)               (INIT((ALLOC()), (type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
-#define TRUETH(o)                (ae_obj_truth((o)))
+#define TRUTH(o)                (ae_obj_truth((o)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 #define TYPE_STR(type)          (ae_type_str((type)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
