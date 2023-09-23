@@ -60,12 +60,12 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
     // special funs get their un-evaluated args, plus the env.
 
     ae_obj_t * env_and_args = CONS(env, LIST(args)); 
-#ifdef AE_LOG_EVAL
-    NL;
-    PR("Un-evaled args   ");
-    PRINC(env_and_args);
-    NL;
-#endif
+/* #ifdef AE_LOG_EVAL */
+/*     NL; */
+/*     PR("Un-evaled args   "); */
+/*     PRINC(env_and_args); */
+/*     NL; */
+/* #endif */
 
     ret = (*FUN_VAL(fun))(env_and_args);
   }
@@ -75,17 +75,20 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
     FOR_EACH(elem,  args)
       PUSH(evaled_args, EVAL(env, elem));
     
-#ifdef AE_LOG_EVAL
-    PR("Evaled args   ");
-    PRINC(evaled_args);
-    NL;
-#endif
+/* #ifdef AE_LOG_EVAL */
+/*     PR("Evaled args   "); */
+/*     PRINC(evaled_args); */
+/*     NL; */
+/* #endif */
 
     ret = (*FUN_VAL(fun))(evaled_args);
   }
   
 #ifdef AE_LOG_EVAL
-  PR("  ret ");
+  NL;
+  PR("Apply returns ");
+  PUT(ret);
+  SPC;
   PRINC(ret);
   NL;
 #endif
@@ -146,25 +149,23 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
   assert(0);
 }
-
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("Apply  ");
+  PR("\n[Dicpatch fun]\n");
+  PR("fun    ");
   PUT(fun);
   SPC;
   PRINC(fun);
   NL;
   
-  PR("to      ");
+  PR("to     ");
   PUT(args);
   SPC;
   PRINC(args);
   NL;
-  
 #endif
 
-  fun = EVAL(env, fun);
-  
+  fun = EVAL(env, fun); 
 
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
