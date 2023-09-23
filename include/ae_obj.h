@@ -236,7 +236,7 @@ _obj;                                                                           
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_CHAR);                                                                   \
-CHAR_VAL   (_obj) = (val);                                                                         \
+CHAR_VAL  (_obj) = (val);                                                                          \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +250,7 @@ _obj;                                                                           
 #define NEW_CORE_FUN(name, val)                                                                    \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_CORE_FUN);                                                               \
-FUN_VAL    (_obj) = (val);                                                                         \
+FUN_VAL   (_obj) = (val);                                                                          \
 strcpy(NAME_VAL(_obj), name);                                                                      \
 _obj;                                                                                              \
 })
@@ -258,7 +258,7 @@ _obj;                                                                           
 #define NEW_FLOAT(val)                                                                             \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_FLOAT);                                                                  \
-FLOAT_VAL   (_obj) = (val);                                                                        \
+FLOAT_VAL (_obj) = (val);                                                                          \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
