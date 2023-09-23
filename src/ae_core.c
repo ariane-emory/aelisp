@@ -82,10 +82,10 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   WRITE(CAR(args));
   NL;
   PR("then: ");
-  WRITE(args);
+  WRITE(CADR(args));
   NL;
   PR("else: ");
-  WRITE(args);
+  WRITE(CDDR(args));
   NL;
   
   return CAR(args);
