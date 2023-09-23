@@ -51,6 +51,14 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
   
+  PR("progn env:    ");
+  WRITE(env);
+  NL;
+
+  PR("progn args:   ");
+  WRITE(args);
+  NL;
+
   ae_obj_t * ret = NIL;
   
   FOR_EACH(elem, args)
@@ -100,10 +108,14 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   WRITE(cond_result ? TRUE : NIL);
   NL;
 
-  if (cond_result)
+  if (cond_result) {
+    PR("Choose then.\n");
     return EVAL(env, CADR(args));
-  else
+  }
+  else {
+    PR("Choose else.\n");
     return EVAL(env, CDDR(args));
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
