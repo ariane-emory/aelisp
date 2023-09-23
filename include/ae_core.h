@@ -17,7 +17,7 @@
   DO(write) 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
-  DO(setq)                                                                                         \
+  DO(setq)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_MATH_OP(DO)                                                                       \
   DO(add, +, 0)                                                                                    \
@@ -36,7 +36,7 @@
 #define DECL_CORE_FUN(name, ...) ae_obj_t * ae_core_##name  (ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 FOR_EACH_MATH_OP(DECL_CORE_FUN);
-FOR_EACH_MATH_OP(DECL_CORE_SPECIAL_FUN);
 FOR_EACH_CMP_OP(DECL_CORE_FUN);
 FOR_EACH_CORE_FUN(DECL_CORE_FUN);
+FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE_FUN);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
