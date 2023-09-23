@@ -593,7 +593,7 @@ void primitive_cons_car_cdr(void) {
 void primitive_eq_eql(void) {
   SETUP_TEST;
   
-  this = CONS(NEW_INT(1), CONS_NIL(NEW_INT(5)));
+  this = CONS(NEW_INT(1), CONS_NIL(NEW_INT(2)));
   that = CONS(NEW_INT(1), CONS_NIL(NEW_INT(2)));
 
   T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  ))             )))); // 5 and 5 are equal numbers
