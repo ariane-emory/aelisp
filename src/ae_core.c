@@ -88,12 +88,16 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
 #ifdef AE_LOG_CORE  
-  PR("progn env:    ");
-  PRINC(env);
+  PR("args:      ");
+  PRINC(args);
   NL;
 
-  PR("progn args:   ");
-  PRINC(args);
+  PR("params:    ");
+  PRINC(CADR(args));
+  NL;
+
+  PR("body   :   ");
+  PRINC(CDDR(args));
   NL;
 #endif
 
