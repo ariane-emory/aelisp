@@ -145,3 +145,12 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
 
   return NEW_INT(written);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This only deals with AE_INTEGERS properly for now:
+// #define DEF_MATH_OP(name, oper, default)                                                           \
+// ae_obj_t * ae_lisp_##name(ae_obj_t * const args) { \
+//   ASSERT_CONSP(args); \
+// \
+  

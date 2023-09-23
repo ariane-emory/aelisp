@@ -32,6 +32,7 @@ STRICTER_CFLAGS = \
 	-Wextra \
 	-Wshadow \
 	-Wno-format \
+	-Wno-comment \
 	-Wno-address-of-packed-member \
 	-Wno-unused-variable \
 	-Wno-unused-but-set-variable \
