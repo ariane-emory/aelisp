@@ -146,13 +146,13 @@ apply_dispatch[] = {
       return (*table[ix].handler)(obj, __VA_ARGS__);
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
- #ifdef AE_LOG_EVAL
-  PR("Eval ");
-  PRINC(obj);
-  PR(" in ");
-  PRINC(env);
-  NL;
-#endif
+/*  #ifdef AE_LOG_EVAL */
+/*   PR("Eval "); */
+/*   PRINC(obj); */
+/*   PR(" in "); */
+/*   PRINC(env); */
+/*   NL; */
+/* #endif */
   
   ASSERT_ENVP(env);
   DISPATCH(eval_dispatch, obj, env);
