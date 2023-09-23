@@ -6,7 +6,6 @@
 #include "ae_env.h"
 
 #define NL (putchar('\n'))
-#define ERR(...) (fprintf(stderr, __VA_ARGS__), assert(0))
 #define PR(...)  (fprintf(stdout, __VA_ARGS__))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -55,7 +54,13 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env
   
   (void)env;
 
-  return (*FUN_VAL(fun))(args);
+  ae_obj_t * ret = (*FUN_VAL(fun))(args);
+
+  PR("  ret ");
+  WRITE(ret);
+  NL;
+  
+  return ret;
 }                                                                               
                                                                                 
 static ae_obj_t * apply_lambda  (ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
@@ -111,7 +116,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
   WRITE(evaled_args);
   NL;   
   
-  DISPATCH(apply_dispatch, fun, args, env);
+  DISPATCH(apply_dispatch, fun, evaled_args, env);
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
 }
