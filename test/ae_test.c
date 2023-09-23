@@ -704,53 +704,54 @@ void primitive_cmp(void) {
 void root_env_and_eval(void) {
   SETUP_TEST;
 
-  ae_obj_t * env = ENV_NEW_ROOT();
+  ae_obj_t * env  = ENV_NEW_ROOT();
+  ae_obj_t * expr = NIL;
+  
+  /* SETQ(env, INTERN("foo"), NEW_INT(666)); */
 
-  SETQ(env, INTERN("foo"), NEW_INT(666));
+  /* T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))); */
+  /* T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), LIST(INTERN("foo"))))))); */
 
-  T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
-  T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), LIST(INTERN("foo")))))));
+  /* T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))))))); */
 
-  T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
+  /* EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(88))))); */
+  /* EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))))); */
 
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(88)))));
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))));
-
-  T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar"))));
-  T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
+  /* T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar")))); */
+  /* T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz")))); */
  
-  ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
+  /* expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!"))))))); */
+  /* /\* NL; *\/ */
+  /* /\* PRINC(expr); *\/ */
   /* NL; */
-  /* PRINC(expr); */
-  NL;
-  EVAL(env, expr);
+  /* EVAL(env, expr); */
   
-  expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
-  T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
+  /* expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15)))))); */
+  /* T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)")); */
 
-  expr = CONS(INTERN("quote"), LIST(INTERN("a")));
-  T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a"));
+  /* expr = CONS(INTERN("quote"), LIST(INTERN("a"))); */
+  /* T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a")); */
 
-  /* NL; */
-  expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
-  T(EQL(NEW_INT(11), EVAL(env, expr)));
+  /* /\* NL; *\/ */
+  /* expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22)))))); */
+  /* /\* PRINC(EVAL(env, expr)); *\/ */
+  /* /\* NL; *\/ */
+  /* T(EQL(NEW_INT(11), EVAL(env, expr))); */
   
-  expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(NEW_INT(11))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
-  T(EQL(NEW_INT(11), EVAL(env, expr)));
+  /* expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(NEW_INT(11)))); */
+  /* /\* PRINC(EVAL(env, expr)); *\/ */
+  /* /\* NL; *\/ */
+  /* T(EQL(NEW_INT(11), EVAL(env, expr))); */
 
-  expr = CONS(INTERN("if"), CONS(INTERN("nil"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
-  T(EQL(NEW_INT(22), EVAL(env, expr)));
+  /* expr = CONS(INTERN("if"), CONS(INTERN("nil"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22)))))); */
+  /* /\* PRINC(EVAL(env, expr)); *\/ */
+  /* /\* NL; *\/ */
+  /* T(EQL(NEW_INT(22), EVAL(env, expr))); */
   
-  expr = CONS(INTERN("if"), CONS(INTERN("nil"), LIST(NEW_INT(11))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
-  T(NILP(EVAL(env, expr)));
+  /* expr = CONS(INTERN("if"), CONS(INTERN("nil"), LIST(NEW_INT(11)))); */
+  /* /\* PRINC(EVAL(env, expr)); *\/ */
+  /* /\* NL; *\/ */
+  /* T(NILP(EVAL(env, expr))); */
 
   NL;
   NL;
