@@ -52,20 +52,29 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   WRITE(env);
   NL;
 #endif
-  
-  ae_obj_t * evaled_args = NIL;
-  
-  FOR_EACH(elem,  args)
-    PUSH(evaled_args, EVAL(env, elem));
 
+  ae_obj_t * ret = NIL;
+
+  if (SPECIAL_FUNP(fun)) {
+    // special funs get their un-evaluated args, plus the env.
+    
+    ret = (*FUN_VAL(fun))(CONS(env, args));
+  }
+  else {
+    ae_obj_t * evaled_args = NIL;
+    
+    FOR_EACH(elem,  args)
+      PUSH(evaled_args, EVAL(env, elem));
+    
 #ifdef AE_LOG_EVAL
-  PR("Evaled args   ");
-  WRITE(evaled_args);
-  NL;
+    PR("Evaled args   ");
+    WRITE(evaled_args);
+    NL;
 #endif
 
-  ae_obj_t * ret = (*FUN_VAL(fun))(evaled_args);
-
+    ret = (*FUN_VAL(fun))(evaled_args);
+  }
+  
 #ifdef AE_LOG_EVAL
   PR("  ret ");
   WRITE(ret);
