@@ -10,6 +10,7 @@
 #include "ae_obj.h"
 #include "ae_free_list.h"
 #include "ae_core.h"
+#include "ae_eval.h"
 
 #include "acutest.h"
 
@@ -710,6 +711,8 @@ void root_env(void) {
     NL;
   }
   WRITE(symbols_list);
+  NL;
+  WRITE(ae_eval(INTERN("foo"), env));
   NL;
 }
 

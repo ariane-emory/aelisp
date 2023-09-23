@@ -70,7 +70,7 @@ const char * ae_type_str(const ae_type_t this);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t {
-  // Currently, this field is only used to store an ae_obj_t in it's bottom 4 bits, but in the future
+  // Currently, this field is only used to store an ae_obj_t in it's bottom 5 bits, but in the future
   // it's remaining bits will store other info such as GC related flags:
   unsigned int                metadata;
 
@@ -181,10 +181,12 @@ extern ae_obj_t * symbols_list;
 #define FREEP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FREE))
 #define INTEGERP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INTEGER))
 #define INVALIDP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INVALID))
+#define LAMBDAP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_LAMBDA))
 #define QUOTEP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_QUOTE))
 #define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
+#define FUNP(o)                 (LAMBDAP  ((o)) || CORE_FUNP((o)))
 #define SPECIAL_FUNP(o)         (CORE_FUNP((o)) && ((o)->special))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
@@ -192,10 +194,12 @@ extern ae_obj_t * symbols_list;
 #define ASSERT_CONSP(o)         (assert((CONSP(o))))
 #define ASSERT_ENVP(o)          (assert((ENVP(o))))
 #define ASSERT_FLOATP(o)        (assert(FLOATP(o)))
+#define ASSERT_FUNP(o)          (assert(FUNP(o)))
 #define ASSERT_FREEP(o)         (assert(FREEP(o)))
 #define ASSERT_INFP(o)          (assert(INFP(o)))
 #define ASSERT_INTEGERP(o)      (assert(INTEGERP(o)))
 #define ASSERT_INVALIDP(o)      (assert(INVALIDP(o)))
+#define ASSERT_LAMBDAP(o)       (assert(LAMBDAP(o)))
 #define ASSERT_QUOTEP(o)        (assert(QUOTEP(o)))
 #define ASSERT_RATIONALP(o)     (assert(RATIONALP(o)))
 #define ASSERT_STRINGP(o)       (assert(STRINGP(o)))
