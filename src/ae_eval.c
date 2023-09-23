@@ -84,11 +84,20 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
   PUT(fun);
   NL;
 
-  /* if (SYMBOLP(fun)) */
-  /*   sym = ENV_FIND */
-  
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
+
+  ae_obj_t * evaled_args = NIL;
+
+  FOR_EACH(elem,  args) {
+    PUSH(&evaled_args, ae_eval(elem, env));
+  }
+      
+  PR("Evaled args   ");
+  WRITE(evaled_args);
+  NL;
+   
+  
   DISPATCH(apply_dispatch, fun, args, env);
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
