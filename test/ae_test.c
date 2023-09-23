@@ -751,6 +751,13 @@ void root_env_and_eval(void) {
   /* PRINC(EVAL(env, expr)); */
   /* NL; */
   T(NILP(EVAL(env, expr)));
+
+  NL;
+  NL;
+  PR("Here:\n");
+  expr = CONS(INTERN("lambda"), CONS(LIST(INTERN("x")), LIST(CONS(INTERN("princ"), LIST(INTERN("x"))))));
+  PRINC(expr); // EVAL(env, expr));
+  NL;
   
   NL;
   NL;
