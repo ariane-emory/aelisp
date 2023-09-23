@@ -572,8 +572,7 @@ ae_obj_t * make_args_containing_one_list(void) {
 }
 
 ae_obj_t * make_args_for_cons(void) {
-  return CONS(NIL,
-              CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c"))))));
+  return CONS(NIL, CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c"))))));
 }
 
 void primitive_cons_car_cdr(void) {
