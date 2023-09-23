@@ -69,7 +69,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
     return new_list;
 
   FOR_EACH_CONST(elem, CDR(list))
-    tailtip = PUSH(&tailtip, fun(elem));
+    tailtip = PUSH(tailtip, fun(elem));
 
   return new_list;
 #endif
@@ -115,7 +115,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
       new_list = CONS_NIL(elem);
     else
       // this could be faster if we stashed the tailtip.
-      PUSH(&new_list, elem);
+      PUSH(new_list, elem);
   
   return new_list;
 }
