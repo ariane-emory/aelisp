@@ -732,7 +732,7 @@ void root_env_and_eval(void) {
   NL;
   WRITE(expr3);
   NL;
-  WRITE(CONS(expr2, LIST(expr3)));
+  WRITE(CONS(INTERN("progn"), CONS(expr1, CONS(expr2, LIST(expr3)))));
   
   NL;
   WRITE(ENV_SYMS(env));
