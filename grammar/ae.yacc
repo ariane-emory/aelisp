@@ -64,8 +64,8 @@
     }
   }
 
-  void do_princ(ae_obj_t * this) {
-    ae_princ(this);
+  void do_write(ae_obj_t * this) {
+    ae_write(this);
     NL;
   }
 
@@ -121,11 +121,11 @@
     
     puts("Writing items in program obj.");
     if (CONSP(program_obj) && CAR(program_obj))
-      EACH(program_obj, do_princ);
+      EACH(program_obj, do_write);
     puts("Wrote items in program obj.");
     NL;
     puts("Writing interned symbols.");
-    ae_princ(symbols_list);
+    ae_write(symbols_list);
     puts("\nWrote interned symbols.");    
   }
 

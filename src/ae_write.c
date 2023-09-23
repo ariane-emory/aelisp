@@ -271,7 +271,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPUTC(')', fprinc_stream);
     break;
   case AE_SYMBOL:
-    COUNTED_FPUTC('\'', fprinc_stream);
     COUNTED_FPUTS(SYM_VAL(this), fprinc_stream);
     break;
   case AE_STRING:
