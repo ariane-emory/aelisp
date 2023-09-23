@@ -1,5 +1,8 @@
 To Do:
+- [ ] Implement and test macros.
+- [ ] Maybe core 'let'?
 - [ ] DRY up princ and print.
+- [ ] Review printing of characters needing escaping.
 - [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
 - [ ] Implement math for non-integer types.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.

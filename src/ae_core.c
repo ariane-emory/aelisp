@@ -117,9 +117,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   ASSERT_TAILP(CAR(args));
   ASSERT_TAILP(CDR(args));
 
-  ae_obj_t * lambda = NEW_LAMBDA(CAR(args), CDR(args), env);
-
-  return lambda;
+  return NEW_LAMBDA(CAR(args), CDR(args), env);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,9 +132,7 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env_and_args) {
   ASSERT_TAILP(CAR(args));
   ASSERT_TAILP(CDR(args));
 
-  ae_obj_t * macro = NEW_MACRO(CAR(args), CDR(args), env);
-
-  return macro;
+  return NEW_MACRO(CAR(args), CDR(args), env);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
