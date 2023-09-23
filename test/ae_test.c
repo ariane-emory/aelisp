@@ -690,10 +690,10 @@ void root_env(void) {
 
   ae_obj_t * env  = ENV_NEW_ROOT();
   ae_obj_t * args = CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(666)))));
+
   WRITE(args);
   NL;
   ae_core_setq(args);
-
   NL;
   pool_print();
   NL;
