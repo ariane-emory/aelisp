@@ -643,11 +643,7 @@ void primitive_print_math(void) {
   SETUP_TEST;
 
   this = ae_lisp_add(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
-  //T(
-  EQL(this, NEW_INT(31));
-  //);
-
-  goto end;
+  T(EQL(this, NEW_INT(31)));
   
   this = ae_lisp_sub(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
   T(EQL(this, NEW_INT(17)));
@@ -657,10 +653,6 @@ void primitive_print_math(void) {
 
   this = ae_lisp_div(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
   T(EQL(this, NEW_INT(2)));
-
-end:
-  NL;
-  pool_print();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
