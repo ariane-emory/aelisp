@@ -723,6 +723,13 @@ void root_env_and_eval(void) {
   NL;
   NL;
   EVAL(env, expr);
+
+  expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
+
+  NL;
+  WRITE(expr);
+  NL;
+  WRITE(EVAL(env, expr));
   
   NL;
   NL;
