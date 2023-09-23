@@ -165,8 +165,8 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) { \
   else { \
     ASSERT_INTEGERP(CAR(args)); \
  \
-    head = CAR(args); PR("head "); \
-    tail = CDR(args); PR("tail "); \
+    head = CAR(args); \
+    tail = CDR(args); \
   } \
    \
   FOR_EACH(elem, tail) { \
