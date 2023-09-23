@@ -562,7 +562,7 @@ void envs(void) {
 #endif
 }
 
-ae_obj_t * make_args(void) {
+ae_obj_t * make_args_containing_one_list(void) {
   ae_obj_t * sym_a = INTERN("a");
   ae_obj_t * sym_b = INTERN("b");
   ae_obj_t * sym_c = INTERN("c");
@@ -574,7 +574,7 @@ ae_obj_t * make_args(void) {
 void primitive_cons_car_cdr(void) {
   SETUP_TEST;
 
-  ae_obj_t * args  = make_args();
+  ae_obj_t * args  = make_args_containing_one_list();
 
   NL;
   PR("Built ");
