@@ -731,7 +731,7 @@ void root_env_and_eval(void) {
   WRITE(EVAL(env, expr));
   T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
-  expr = CONS(INTERN("if"), CONS(LIST(INTERN("t")), CONS(LIST(INTERN("yes")), LIST(INTERN("no")))));
+  expr = CONS(INTERN("if"), CONS(LIST(INTERN("t")), CONS(LIST(INTERN("yes")), CONS(INTERN("ignored"), LIST(INTERN("no"))))));
   NL;
   WRITE(expr);
   NL;
