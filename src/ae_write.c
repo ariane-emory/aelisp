@@ -243,25 +243,25 @@ int ae_fwrite(const ae_obj_t * const this, FILE * stream) {
   case AE_STRING:
   {
     DQUO;
-    int written = ae_fprinc_internal(this);
+    int written = ae_fprinc(this, stream);
     DQUO;
     return written + 2;
   }
   case AE_CHAR:
   {
     SQUO;
-    int written = ae_fprinc_internal(this);
+    int written = ae_fprinc(this, stream);
     SQUO;
     return written + 2;
   }
   case AE_SYMBOL:
   {
     SQUO;
-    int written = ae_fprinc_internal(this);
+    int written = ae_fprinc(this, stream);
     return written + 1;
   }
   default:
-    return ae_fprinc_internal(this);
+    return ae_fprinc(this, stream);
   }
 }
 
