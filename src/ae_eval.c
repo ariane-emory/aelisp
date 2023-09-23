@@ -24,7 +24,7 @@ static ae_obj_t * lookup(ae_obj_t * obj, ae_obj_t * env) {
 }
 
 static ae_obj_t * apply_car_to_cdr(ae_obj_t * obj, ae_obj_t * env) {
-  (void)obj, (void)env; assert(0); // not yet implemented
+  return ae_apply(CAR(obj), CDR(env));
 }
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
@@ -57,9 +57,7 @@ apply_dispatch[] = {
 
 ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
   ASSERT_ENVP(env);
-
   DISPATCH(eval_dispatch, obj, env);
-
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
   assert(0);
 }
@@ -67,9 +65,7 @@ ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args) {
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
-
   DISPATCH(apply_dispatch, fun, args);
-  
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
 }
