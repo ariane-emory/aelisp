@@ -766,7 +766,7 @@ void root_env_and_eval(void) {
 
   result = EVAL(env, expr);
 
-  T(LAMBDAP(resylt));
+  T(LAMBDAP(result));
   
   expr = CONS(CONS(INTERN("lambda"),
                    CONS(LIST(INTERN("x")),
