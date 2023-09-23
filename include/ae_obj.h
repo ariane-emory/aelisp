@@ -177,7 +177,6 @@ extern ae_obj_t * symbols_list;
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
 #define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CONS))
 #define CORE_FUNP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CORE_FUN))
-#define ENVP(o)                 (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_ENV))
 #define FLOATP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FLOAT))
 #define FREEP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FREE))
 #define INTEGERP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INTEGER))

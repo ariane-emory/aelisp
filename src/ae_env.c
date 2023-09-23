@@ -177,12 +177,14 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
 ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * env = NEW_ENV(NIL);
 
-#define add_core_fun(name, ...)     ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name, false));  
-#define add_core_op(name, sym, ...) ae_env_set(env, INTERN(#sym),  NEW_CORE_FUN(#name, &ae_core_##name, false));
-
+#define add_core_fun(name, ...)          ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name, false));  
+#define add_core_special_fun(name, ...)  ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name, true));
+#define add_core_op(name, sym, ...)      ae_env_set(env, INTERN(#sym),  NEW_CORE_FUN(#name, &ae_core_##name, false));
+  
   FOR_EACH_CORE_FUN(add_core_fun);
   FOR_EACH_CMP_OP(add_core_op);
   FOR_EACH_MATH_OP(add_core_op);
+  FOR_EACH_CORE_SPECIAL_FUN(add_core_fun);
   ae_env_set(env, NIL,  NIL);
   ae_env_set(env, TRUE, TRUE);
 
