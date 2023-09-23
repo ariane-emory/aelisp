@@ -777,9 +777,13 @@ void root_env_and_eval(void) {
               LIST(NEW_INT(12)));
   PRINC(expr);
   NL;
-  PRINC(EVAL(env, expr));  
-  NL;
 
+  ae_obj_t * result = EVAL(env, expr);
+
+  PRINC(result);  
+  NL;
+  
+  T(EQL(NEW_INT(100), result));
 
   NL;
   NL;
