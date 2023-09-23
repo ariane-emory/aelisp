@@ -160,14 +160,10 @@ static int ae_fprinc_internal(const ae_obj_t * const this) {
     COUNTED_FPUTS(SYM_VAL(this), fprinc_stream);
     break;
   case AE_STRING:
-    if (STR_VAL(this) == NULL) {
+    if (STR_VAL(this) == NULL)
       COUNTED_FPUTS("(null)", fprinc_stream);
-    }
-    else {
-      // COUNTED_FPUTC('"', fprinc_stream);
+    else
       COUNTED_FPUTS(STR_VAL(this), fprinc_stream);
-      // COUNTED_FPUTC('"', fprinc_stream);
-    }
     break;
   case AE_INTEGER:
     COUNTED_FPRINTF(fprinc_stream, "%d", this->int_val);
@@ -196,9 +192,7 @@ static int ae_fprinc_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_val;
     }
 
-    // COUNTED_FPUTC('\'', fprinc_stream);
     COUNTED_FPUTS(tmp, fprinc_stream);
-    // COUNTED_FPUTC('\'', fprinc_stream);
     
     break;
   }
