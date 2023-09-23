@@ -174,7 +174,6 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                              
                                                                                                    \
   return accum;                                                                                    \
 }
-  
 
 FOR_EACH_MATH_OP(DEF_MATH_OP);
 
