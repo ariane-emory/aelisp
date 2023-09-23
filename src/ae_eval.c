@@ -81,11 +81,10 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   }
   else {
     ae_obj_t * evaled_args = NIL;
-    // ae_obj_t * tailtip     = evaled_args;
     
     FOR_EACH(elem,  args)
       PUSH(evaled_args, EVAL(env, elem));
-    
+
     ret = (*FUN_VAL(fun))(evaled_args);
   }
   
