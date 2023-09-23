@@ -46,6 +46,12 @@ static const struct { ae_type_t type; ae_obj_t * (*func)(ae_obj_t *, ae_obj_t *)
   { AE_LAMBDA,   &apply_lambda   },
 };
 
+#define DISPATCH(array, thing, args)                                                                \
+  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                 \
+    if (table[ix].type == GET_TYPE(fun))                                                            \
+      return (*table[ix].func)(fun, args);
+
+
 ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
   ASSERT_ENVP(env);
   
