@@ -175,7 +175,7 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_env_new_root(void) {
-  ae_obj_t * env = NEW_ENV(NIL);
+  ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
 
 #define add_core_fun(name, ...)          ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name, false));  
 #define add_core_special_fun(name, ...)  ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name, true));

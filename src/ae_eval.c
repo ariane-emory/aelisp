@@ -143,11 +143,9 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   fflush(stdout);
 #endif
 
-  ENV_PARENT(new_env) = fun->env;
-  ENV_SYMS(new_env)   = fun->params;
-  ENV_VALS(new_env)   = fun->vals;
+  ae_obj_t * new_env = NEW_ENV(fun->env, fun->params, fun->vals);
   
-    (void)env, (void)fun, (void)args; assert(0);
+  (void)env, (void)fun, (void)args; assert(0);
 }
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }

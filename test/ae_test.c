@@ -507,7 +507,7 @@ void truth(void) {
 void envs(void) {
   SETUP_TEST;
 
-  this = NEW_ENV(NIL);
+  this = NEW_ENV(NIL, NIL, NIL);
 
   T(LENGTH(ENV_SYMS(this)) == 0);
   T(LENGTH(ENV_VALS(this)) == 0);
@@ -543,7 +543,7 @@ void envs(void) {
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 24));
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("baz"))), 36));
 
-  that = NEW_ENV(NIL); // not yet linked to.
+  that = NEW_ENV(NIL, NIL, NIL); // not yet linked to.
 
   ENV_ADD(that, INTERN("quux"), NEW_INT(48));
 
