@@ -150,6 +150,22 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _write
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_lisp_write(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
+  
+  int written = 0;
+  
+  FOR_EACH(elem, args) {
+    written += WRITE(elem);
+  }
+
+  return NEW_INT(written);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This only deals with AE_INTEGERS for now. It mutates it's first argument.
 #define DEF_MATH_OP(name, oper, default)                                                           \

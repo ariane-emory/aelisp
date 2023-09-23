@@ -624,19 +624,19 @@ void primitive_eq_eql_atomp_not(void) {
   T(NILP (ae_lisp_not  (CONS(NIL       , CONS(NIL          , CONS_NIL(TRUE                 ))))));
 }
 
-void primitive_print_princ(void) {
+void primitive_print_princ_write(void) {
   SETUP_TEST;
 
   {
-    ae_obj_t * written = ae_lisp_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("a")))));
+    ae_obj_t * written = ae_lisp_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
     NL;
-    T(INT_VAL(written) == 8);
+    T(INT_VAL(written) == 10);
   }
   
   {
-    ae_obj_t * written = ae_lisp_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("a")))));
+    ae_obj_t * written = ae_lisp_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
     NL;
-    T(INT_VAL(written) == 5);
+    T(INT_VAL(written) == 7);
   }
 }
 
@@ -704,7 +704,7 @@ void primitive_cmp(void) {
   DO(envs)                                                                                         \
   DO(primitive_cons_car_cdr)                                                                       \
   DO(primitive_eq_eql_atomp_not)                                                                   \
-  DO(primitive_print_princ)                                                                        \
+  DO(primitive_print_princ_write)                                                                  \
   DO(primitive_math)                                                                               \
   DO(primitive_cmp)
 

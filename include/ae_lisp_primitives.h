@@ -13,6 +13,7 @@ ae_obj_t * ae_lisp_atomp(ae_obj_t * const args);
 ae_obj_t * ae_lisp_not  (ae_obj_t * const args);
 ae_obj_t * ae_lisp_print(ae_obj_t * const args);
 ae_obj_t * ae_lisp_princ(ae_obj_t * const args);
+ae_obj_t * ae_lisp_write(ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_MATH_OP(DO)                                                                       \
   DO(add, +, 0)                                                                                    \
