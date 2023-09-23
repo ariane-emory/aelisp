@@ -40,7 +40,21 @@ eval_dispatch[] = {
 };
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
-  (void)env, (void)fun, (void)args; assert(0);                                  
+  PR("Apply:");
+  PR("  fun  ");
+  PUT(fun);
+  NL;
+  PR("  args ");
+  WRITE(args);
+  NL;
+  
+  PR("  env ");
+  PUT(args);
+  NL;
+  
+  (void)env;
+
+  return (*FUN_VAL(fun))(args);
 }                                                                               
                                                                                 
 static ae_obj_t * apply_lambda  (ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {

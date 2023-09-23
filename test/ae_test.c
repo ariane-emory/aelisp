@@ -692,32 +692,30 @@ void root_env(void) {
   ae_obj_t * env  = ENV_NEW_ROOT();
   ae_obj_t * args = CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(666)))));
 
-  NL;
-  WRITE(args);
-  NL;
+  /* NL; */
+  /* WRITE(args); */
+  /* NL; */
   ae_core_setq(args);
-  NL;
-  // pool_print();
-  NL;
-  PR("syms ");
-  WRITE(ENV_SYMS(env));
-  NL;
-  PR("vals ");
-  WRITE(ENV_VALS(env));
-  NL;
-  FOR_EACH(elem, ENV_VALS(env)) {
-    PR("%018p", elem);
-    PUT(elem);    
-    NL;
-  }
-  WRITE(symbols_list);
+  /* NL; */
+  /* // pool_print(); */
+  /* NL; */
+  /* PR("syms "); */
+  /* WRITE(ENV_SYMS(env)); */
+  /* NL; */
+  /* PR("vals "); */
+  /* WRITE(ENV_VALS(env)); */
+  /* NL; */
+  /* FOR_EACH(elem, ENV_VALS(env)) { */
+  /*   PR("%018p", elem); */
+  /*   PUT(elem);     */
+  /*   NL; */
+  /* } */
+
   NL;
   WRITE(ae_eval(INTERN("foo"), env));
   NL;
 
-  WRITE(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))));
-  NL;
-  ae_eval(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))), env);
+  WRITE(ae_eval(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))), env));
   NL;
 }
 
