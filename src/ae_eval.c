@@ -27,7 +27,7 @@ static ae_obj_t * apply_car_to_cdr(ae_obj_t * obj, ae_obj_t * env) {
   (void)obj, (void)env; assert(0); // not yet implemented
 }
 
-static const struct { ae_type_t type; ae_obj_t * (*func)(ae_obj_t *, ae_obj_t *); }
+static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
 eval_dispatch[] = {
   { AE_INTEGER,  &self             },
   { AE_RATIONAL, &self             },
