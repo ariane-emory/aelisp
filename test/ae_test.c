@@ -315,7 +315,7 @@ void intern_symbols(void) {
   T(EQ(LENGTH(symbols_list), 2));
 }
 
-#define FPRINC_TEST(expect, type, field, val, ...)                                                 \
+#define LENGTH_TEST(fun, expect, type, field, val, ...)                                            \
   {                                                                                                \
     this        = NEW(type);                                                                       \
     this->field = val;                                                                             \
@@ -325,7 +325,7 @@ void intern_symbols(void) {
     char * buff;                                                                                   \
     size_t size;                                                                                   \
     FILE * stream   = open_memstream(&buff, &size);                                                \
-    int    reported = ae_fprinc(this, stream);                                                     \
+    int    reported = ae_##fun(this, stream);                                                      \
                                                                                                    \
     fclose(stream);                                                                                \
     free(buff);                                                                                    \
@@ -344,16 +344,20 @@ void intern_symbols(void) {
        (int)strlen(buff), (int)reported, buff);                                                    \
   }
 
-void fprinc_lengths(void) {
+void fprinc_fwrite_lengths(void) {
   SETUP_TEST;
 
-  FPRINC_TEST(1, AE_CHAR,     char_val,      '1'                                 );
-  FPRINC_TEST(2, AE_CHAR,     char_val,      '\n'                                );
-  FPRINC_TEST(3, AE_INTEGER,  int_val,       123                                 );
-  FPRINC_TEST(4, AE_FLOAT,    float_val,     1.23                                );
-  FPRINC_TEST(7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
-  FPRINC_TEST(4, AE_STRING,   str_val,       "asdf"                              );
-  FPRINC_TEST(4, AE_SYMBOL,   sym_val,       "ghij"                              );
+  LENGTH_TEST(fprinc, 1, AE_CHAR,     char_val,      '1'                                 );
+  LENGTH_TEST(fwrite, 3, AE_CHAR,     char_val,      '1'                                 );
+  LENGTH_TEST(fprinc, 2, AE_CHAR,     char_val,      '\n'                                );
+  LENGTH_TEST(fwrite, 4, AE_CHAR,     char_val,      '\n'                                );
+  LENGTH_TEST(fprinc, 3, AE_INTEGER,  int_val,       123                                 );
+  LENGTH_TEST(fprinc, 4, AE_FLOAT,    float_val,     1.23                                );
+  LENGTH_TEST(fprinc, 7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
+  LENGTH_TEST(fprinc, 4, AE_STRING,   str_val,       "asdf"                              );
+  LENGTH_TEST(fwrite, 6, AE_SYMBOL,   sym_val,       "ghij"                              );
+  LENGTH_TEST(fprinc, 4, AE_STRING,   str_val,       "asdf"                              );
+  LENGTH_TEST(fprinc, 4, AE_SYMBOL,   sym_val,       "ghij"                              );
 }
 
 void eql(void) {
@@ -781,7 +785,7 @@ void root_env_and_eval(void) {
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
-  DO(fprinc_lengths)                                                                               \
+  DO(fprinc_fwrite_lengths)                                                                        \
   DO(envs)                                                                                         \
   DO(primitive_cons_car_cdr)                                                                       \
   DO(primitive_eq_eql_atomp_not)                                                                   \
