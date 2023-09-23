@@ -1,6 +1,5 @@
 To Do:
 - [ ] FOR_EACH2 macro.
-- [ ] Load the root environment up.
 - [ ] Implement math for non-integer types.
 - [ ] Implement eval functions.
 - [ ] fwrite_lengths test passes normally but fails when run in lldb? Investigate.
@@ -13,6 +12,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Load the root environment up (added ae_env_new_root).
 - [x] Add in-world primitive functions.
 - [x] ae_obj_eql could maybe support AE_STRINGs too? Might as well.
 - [x] ae_obj_eql should support AE_CHARSs.
