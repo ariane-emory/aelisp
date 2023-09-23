@@ -163,9 +163,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPUTS("(null)", fwrite_stream);
     }
     else {
-      COUNTED_FPUTC('"', fwrite_stream);
+      // COUNTED_FPUTC('"', fwrite_stream);
       COUNTED_FPUTS(STR_VAL(this), fwrite_stream);
-      COUNTED_FPUTC('"', fwrite_stream);
+      // COUNTED_FPUTC('"', fwrite_stream);
     }
     break;
   case AE_INTEGER:
@@ -195,9 +195,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_val;
     }
 
-    COUNTED_FPUTC('\'', fwrite_stream);
+    // COUNTED_FPUTC('\'', fwrite_stream);
     COUNTED_FPUTS(tmp, fwrite_stream);
-    COUNTED_FPUTC('\'', fwrite_stream);
+    // COUNTED_FPUTC('\'', fwrite_stream);
     
     break;
   }

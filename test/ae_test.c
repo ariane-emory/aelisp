@@ -345,12 +345,12 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(3, AE_CHAR,     char_val,      '1'                                 );
-  FWRITE_TEST(4, AE_CHAR,     char_val,      '\n'                                );
+  FWRITE_TEST(1, AE_CHAR,     char_val,      '1'                                 );
+  FWRITE_TEST(2, AE_CHAR,     char_val,      '\n'                                );
   FWRITE_TEST(3, AE_INTEGER,  int_val,       123                                 );
   FWRITE_TEST(4, AE_FLOAT,    float_val,     1.23                                );
   FWRITE_TEST(7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
-  FWRITE_TEST(6, AE_STRING,   str_val,       "asdf"                              );
+  FWRITE_TEST(4, AE_STRING,   str_val,       "asdf"                              );
   FWRITE_TEST(4, AE_SYMBOL,   sym_val,       "ghij"                              );
 
   NL;
@@ -643,17 +643,17 @@ void primitive_print_princ_write(void) {
   {
     ae_obj_t * written = ae_core_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
     NL;
-    T(INT_VAL(written) == 10);
+    T(INT_VAL(written) == 8);
   }
   {
     ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
     NL;
-    T(INT_VAL(written) == 7);
+    T(INT_VAL(written) == 5);
   }
   {
     ae_obj_t * written = ae_core_write(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
     NL;
-    T(INT_VAL(written) == 7);
+    T(INT_VAL(written) == 5);
   }
 }
 
