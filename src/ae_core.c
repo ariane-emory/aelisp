@@ -32,7 +32,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 
 #ifdef AE_LOG_CORE
   NL;
-  PR("args ");
+  PR("setq's args ");
   WRITE(args);
   NL;
 #endif

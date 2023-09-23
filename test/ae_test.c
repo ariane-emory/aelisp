@@ -691,28 +691,18 @@ void root_env_and_eval(void) {
 
   ae_obj_t * env = ENV_NEW_ROOT();
 
-  /* SETQ(env, INTERN("foo"), NEW_INT(666)); */
+  SETQ(env, INTERN("foo"), NEW_INT(666));
 
-  /* T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))); */
-  /* T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo"))))))); */
+  T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))))));
+  T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo")))))));
 
-  /* T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))))))))); */
+  T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))))));
 
-  /* EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), CONS_NIL(NEW_INT(88))))); */
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), CONS_NIL(NEW_INT(88)))));
   EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))));
 
-  NL;
-  WRITE(ENV_SYMS(env));
-  NL;
-  WRITE(ENV_VALS(env));
-  NL;
-  PUT(ENV_FIND(env, INTERN("baz")));
-  NL;
-  WRITE(ENV_FIND(env, INTERN("baz")));
-  NL;
-    
-  /* T(EQL(NEW_INT(88), EVAL(env, INTERN("bar")))); */
-  T(EQL(NEW_INT(25), EVAL(env, INTERN("baz"))));
+  T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar"))));
+  T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
 
   NL;
   WRITE(ENV_SYMS(env));
