@@ -6,7 +6,8 @@
 #include "ae_env.h"
 
 #define NL (putchar('\n'))
-#define PR(...) (fprintf(stdout, __VA_ARGS__))
+#define ERR(...) (fprintf(stderr, __VA_ARGS__), assert(0))
+#define PR(...)  (fprintf(stdout, __VA_ARGS__))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
