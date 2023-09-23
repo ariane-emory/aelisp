@@ -2,6 +2,7 @@
 
 #include "ae_core.h"
 #include "ae_list.h"
+#include "ae_eval.h"
 
 #define DIE     (assert(0))
 #define NL      (putchar('\n'))
@@ -28,7 +29,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   ASSERT_CONSP(CDR(args));
 
   ae_obj_t * sym  = CAR(args);
-  ae_obj_t * val  = CADR(args); // allowed to be NIL.
+  ae_obj_t * val  = EVAL(env, CADR(args)); // allowed to be NIL.
 
   // eventually, call something that evals val here.
   

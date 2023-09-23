@@ -709,9 +709,7 @@ void root_env_and_eval(void) {
   /* NL; */
     
   T(EQL(NEW_INT(88), ENV_FIND(env, INTERN("bar"))));
-  NL;
-  NL;
-  T(EQL(NEW_INT(88), EVAL(env, CONS_NIL(INTERN("bar")))));
+  T(EQL(NEW_INT(88), EVAL(env, INTERN("bar"))));
 
 }
 
