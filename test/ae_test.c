@@ -763,9 +763,10 @@ void root_env_and_eval(void) {
                      CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(
                        CONS(INTERN("+"),
                             CONS(INTERN("x"), LIST(NEW_INT(2))))))));
-  PRINC(expr);
-  NL;
-  PRINC(EVAL(env, expr));
+
+  result = EVAL(env, expr);
+
+  T(LAMBDAP(resylt));
   
   expr = CONS(CONS(INTERN("lambda"),
                    CONS(LIST(INTERN("x")),
@@ -778,12 +779,8 @@ void root_env_and_eval(void) {
   
   result = EVAL(env, expr);
 
-  /* PRINC(expr); */
-  /* NL; */
-  /* PRINC(result);   */
-  /* NL; */
-  
   T(EQL(NEW_INT(100), result));
+  
 
   NL;
   NL;
