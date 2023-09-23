@@ -197,15 +197,6 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                              
     ASSERT_INTEGERP(elem);                                                                         \
     ASSERT_INTEGERP(CADR(position));                                                               \
                                                                                                    \
-    NL;                                                                                            \
-    PR("Compare " #name " ");                                                                      \
-    NL;                                                                                            \
-    WRITE(elem);                                                                                   \
-    NL;                                                                                            \
-    WRITE(CADR(position));                                                                         \
-    NL;                                                                                            \
-    PR((INT_VAL(elem) oper INT_VAL(CADR(position))) ? "true" : "false");                           \
-                                                                                                   \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
                                                                                                    \
