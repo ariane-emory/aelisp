@@ -41,5 +41,5 @@ FOR_EACH_CMP_OP(DECL_CORE_FUN);
 FOR_EACH_CORE_FUN(DECL_CORE_FUN);
 FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE_FUN);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SETQ(env, sym, val) ae_core_setq(CONS(env, CONS_NIL(CONS(sym, CONS_NIL(val)))))
+#define SETQ(env, sym, val) ae_core_setq(CONS(env, LIST(CONS(sym, LIST(val)))))
 

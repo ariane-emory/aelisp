@@ -72,7 +72,7 @@ bool shitty_write_based_equality_predicate(
 
 ae_obj_t * push_together_a_list_of_ints(void) {
   ae_obj_t * num     = NEW_INT(1);
-  ae_obj_t * list    = CONS_NIL(num);
+  ae_obj_t * list    = LIST(num);
   ae_obj_t * tailtip = list;
 
   T(EQ(LENGTH(tailtip), 1));
@@ -95,7 +95,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
 
 ae_obj_t * cons_together_a_list_of_ints(void) {
   ae_obj_t * head = NEW_INT(4);
-  ae_obj_t * list = CONS_NIL(head);
+  ae_obj_t * list = LIST(head);
   
   T(EQ(LENGTH(list), 1));
 
@@ -135,7 +135,7 @@ ae_obj_t * ae_obj_double(ae_obj_t * const this) {
 }
 
 ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
-  return CONS(this, CONS_NIL(this));
+  return CONS(this, LIST(this));
 }
 
 void basic_list_checks(ae_obj_t * this) {
@@ -581,77 +581,77 @@ void envs(void) {
 }
 
 ae_obj_t * make_args_containing_one_list(void) {
-  return CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c")))));
+  return LIST(CONS(INTERN("a"), CONS(INTERN("b"), LIST(INTERN("c")))));
 }
 
 ae_obj_t * make_args_for_cons(void) {
-  return CONS(NIL, CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c"))))));
+  return CONS(NIL, LIST(CONS(INTERN("a"), CONS(INTERN("b"), LIST(INTERN("c"))))));
 }
 
 void primitive_cons_car_cdr(void) {
   SETUP_TEST;
   
   T(EQ(ae_core_car(make_args_containing_one_list()), INTERN("a")                                       ));
-  T(EQ(ae_core_car(CONS_NIL(ae_core_cdr(make_args_containing_one_list()))), INTERN("b")                ));
-  T(shitty_write_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"        )); // cons 'a onto nil and get (a).
+  T(EQ(ae_core_car(LIST(ae_core_cdr(make_args_containing_one_list()))), INTERN("b")                ));
+  T(shitty_write_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), LIST(NIL))), "(a)"        )); // cons 'a onto nil and get (a).
   T(shitty_write_based_equality_predicate(ae_core_cdr (make_args_containing_one_list() ), "(b c)"      ));
   T(shitty_write_based_equality_predicate(ae_core_cons(make_args_for_cons()            ), "(nil a b c)"));
-  T(NILP(ae_core_car(                     CONS_NIL(NIL))                                               ));
-  T(NILP(ae_core_cdr(                     CONS_NIL(NIL))                                               ));
-  T(NILP(ae_core_car(CONS_NIL(ae_core_car(CONS_NIL(NIL))))                                             ));
-  T(NILP(ae_core_cdr(CONS_NIL(ae_core_cdr(CONS_NIL(NIL))))                                             ));
-  T(NILP(ae_core_car(CONS_NIL(ae_core_cdr(CONS_NIL(NIL))))                                             ));
-  T(NILP(ae_core_cdr(CONS_NIL(ae_core_car(CONS_NIL(NIL))))                                             ));
+  T(NILP(ae_core_car(                     LIST(NIL))                                               ));
+  T(NILP(ae_core_cdr(                     LIST(NIL))                                               ));
+  T(NILP(ae_core_car(LIST(ae_core_car(LIST(NIL))))                                             ));
+  T(NILP(ae_core_cdr(LIST(ae_core_cdr(LIST(NIL))))                                             ));
+  T(NILP(ae_core_car(LIST(ae_core_cdr(LIST(NIL))))                                             ));
+  T(NILP(ae_core_cdr(LIST(ae_core_car(LIST(NIL))))                                             ));
 }
 
 void primitive_eq_eql_atomp_not(void) {
   SETUP_TEST;
   
-  this = CONS(NEW_INT(1), CONS_NIL(NEW_INT(2)));
-  that = CONS(NEW_INT(1), CONS_NIL(NEW_INT(2)));
+  this = CONS(NEW_INT(1), LIST(NEW_INT(2)));
+  that = CONS(NEW_INT(1), LIST(NEW_INT(2)));
 
-  T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  ))                           )))); // 5 and 5 are equal numbers...
-  T(NILP (ae_core_eq   (CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  ))                           )))); // ... but they are not the same object.
-  T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), CONS_NIL(NEW_FLOAT(5.0))                           )))); // 5 and 5.0 are equal-enough numbers...
-  T(NILP (ae_core_eql  (CONS(NEW_INT(5), CONS_NIL(NEW_INT  (6  ))                           )))); // ... but 5 and 6 are not.
+  T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), LIST(NEW_INT  (5  ))                           )))); // 5 and 5 are equal numbers...
+  T(NILP (ae_core_eq   (CONS(NEW_INT(5), LIST(NEW_INT  (5  ))                           )))); // ... but they are not the same object.
+  T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), LIST(NEW_FLOAT(5.0))                           )))); // 5 and 5.0 are equal-enough numbers...
+  T(NILP (ae_core_eql  (CONS(NEW_INT(5), LIST(NEW_INT  (6  ))                           )))); // ... but 5 and 6 are not.
   
-  T(TRUEP(ae_core_eq   (CONS(this      , CONS_NIL(this)                                     )))); // These are the same object and so are eq
-  T(TRUEP(ae_core_eql  (CONS(this      , CONS_NIL(this)                                     )))); // and also eql.
-  T(NILP (ae_core_eq   (CONS(this      , CONS_NIL(that)                                     )))); // These are the NOT the same object and so
-  T(NILP (ae_core_eql  (CONS(this      , CONS_NIL(that)                                     )))); // neither eq or eql.
-  T(NILP (ae_core_eq   (CONS(that      , CONS_NIL(this)                                     )))); // eq is commutative.
-  T(NILP (ae_core_eql  (CONS(that      , CONS_NIL(this)                                     )))); // eql too.
+  T(TRUEP(ae_core_eq   (CONS(this      , LIST(this)                                     )))); // These are the same object and so are eq
+  T(TRUEP(ae_core_eql  (CONS(this      , LIST(this)                                     )))); // and also eql.
+  T(NILP (ae_core_eq   (CONS(this      , LIST(that)                                     )))); // These are the NOT the same object and so
+  T(NILP (ae_core_eql  (CONS(this      , LIST(that)                                     )))); // neither eq or eql.
+  T(NILP (ae_core_eq   (CONS(that      , LIST(this)                                     )))); // eq is commutative.
+  T(NILP (ae_core_eql  (CONS(that      , LIST(this)                                     )))); // eql too.
 
-  T(TRUEP(ae_core_eq   (CONS(this      , CONS(this         , CONS_NIL(this                 )))))); // eq can take 3+ arguments...
-  T(NILP (ae_core_eq   (CONS(this      , CONS(this         , CONS_NIL(that                 ))))));
-  T(TRUEP(ae_core_eq   (CONS(NIL       , CONS(NIL          , CONS_NIL(NIL                  ))))));
-  T(NILP (ae_core_eq   (CONS(NIL       , CONS(NIL          , CONS_NIL(TRUE                 ))))));
+  T(TRUEP(ae_core_eq   (CONS(this      , CONS(this         , LIST(this                 )))))); // eq can take 3+ arguments...
+  T(NILP (ae_core_eq   (CONS(this      , CONS(this         , LIST(that                 ))))));
+  T(TRUEP(ae_core_eq   (CONS(NIL       , CONS(NIL          , LIST(NIL                  ))))));
+  T(NILP (ae_core_eq   (CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
     
-  T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), CONS(NEW_INT(5)   , CONS_NIL(NEW_INT(5)           )))))); // ...so can eql.
-  T(NILP (ae_core_eql  (CONS(NEW_INT(5), CONS(NEW_INT(5)   , CONS_NIL(NEW_INT(6)           ))))));
+  T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(5)           )))))); // ...so can eql.
+  T(NILP (ae_core_eql  (CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(6)           ))))));
 
-  T(TRUEP(ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("a")          )))))); // These are all atoms.
-  T(NILP (ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(CONS_NIL(INTERN("a")))))))); // but these are not.
+  T(TRUEP(ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("a")          )))))); // These are all atoms.
+  T(NILP (ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(LIST(INTERN("a")))))))); // but these are not.
 
-  T(TRUEP(ae_core_not  (CONS(NIL       , CONS(NIL          , CONS_NIL(NIL                  ))))));
-  T(NILP (ae_core_not  (CONS(NIL       , CONS(NIL          , CONS_NIL(TRUE                 ))))));
+  T(TRUEP(ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(NIL                  ))))));
+  T(NILP (ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
 }
 
 void primitive_print_princ_write(void) {
   SETUP_TEST;
 
   {
-    ae_obj_t * written = ae_core_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
+    ae_obj_t * written = ae_core_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 8);
   }
   {
-    ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
+    ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 5);
   }
   {
-    ae_obj_t * written = ae_core_write(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
+    ae_obj_t * written = ae_core_write(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 5);
   }
@@ -660,42 +660,42 @@ void primitive_print_princ_write(void) {
 void primitive_math(void) {
   SETUP_TEST;
 
-  this = ae_core_add(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
+  this = ae_core_add(CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(31)));
   
-  this = ae_core_sub(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
+  this = ae_core_sub(CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(17)));
 
-  this = ae_core_sub(CONS(NEW_INT(3),  CONS(NEW_INT(4), CONS_NIL(NEW_INT(24)))));
+  this = ae_core_sub(CONS(NEW_INT(3),  CONS(NEW_INT(4), LIST(NEW_INT(24)))));
   T(EQL(this, NEW_INT(-25)));
 
-  this = ae_core_mul(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
+  this = ae_core_mul(CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(288)));
 
-  this = ae_core_div(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
+  this = ae_core_div(CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(2)));
 }
 
 void primitive_cmp(void) {
   SETUP_TEST;
   
-  T(TRUEP(ae_core_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(2)))))));
-  T(NILP (ae_core_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(3)))))));
+  T(TRUEP(ae_core_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(2)))))));
+  T(NILP (ae_core_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(3)))))));
 
-  T(NILP (ae_core_nequal(CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(2)))))));
-  T(TRUEP(ae_core_nequal(CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(3)))))));
+  T(NILP (ae_core_nequal(CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(2)))))));
+  T(TRUEP(ae_core_nequal(CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(3)))))));
 
-  T(TRUEP(ae_core_lt (CONS(NEW_INT(2), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6)))))));
-  T(NILP (ae_core_gt (CONS(NEW_INT(2), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6)))))));
+  T(TRUEP(ae_core_lt (CONS(NEW_INT(2), CONS(NEW_INT(4), LIST(NEW_INT(6)))))));
+  T(NILP (ae_core_gt (CONS(NEW_INT(2), CONS(NEW_INT(4), LIST(NEW_INT(6)))))));
 
-  T(TRUEP(ae_core_gt (CONS(NEW_INT(6), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2)))))));
-  T(NILP (ae_core_lt (CONS(NEW_INT(6), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2)))))));
+  T(TRUEP(ae_core_gt (CONS(NEW_INT(6), CONS(NEW_INT(4), LIST(NEW_INT(2)))))));
+  T(NILP (ae_core_lt (CONS(NEW_INT(6), CONS(NEW_INT(4), LIST(NEW_INT(2)))))));
 
-  T(TRUEP(ae_core_lte(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6))))))));
-  T(NILP (ae_core_gte(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6))))))));
+  T(TRUEP(ae_core_lte(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(6))))))));
+  T(NILP (ae_core_gte(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(6))))))));
                                                                         
-  T(TRUEP(ae_core_gte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2))))))));
-  T(NILP (ae_core_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2))))))));
+  T(TRUEP(ae_core_gte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(2))))))));
+  T(NILP (ae_core_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(2))))))));
 }
 
 void root_env_and_eval(void) {
@@ -705,29 +705,34 @@ void root_env_and_eval(void) {
 
   SETQ(env, INTERN("foo"), NEW_INT(666));
 
-  T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))))));
-  T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo")))))));
+  T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
+  T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), LIST(INTERN("foo")))))));
 
-  T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))))));
+  T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
 
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), CONS_NIL(NEW_INT(88)))));
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))));
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(88)))));
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))));
 
   T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
 
   NL;
-  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Hello "))));
-  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("from Ash"))));
-  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("lisp!"))));
+  EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))));
+  EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))));
+  EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("lisp!"))));
   NL;
 
-  // CONS_NIL(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Hello ")))),
-  WRITE(
-  CONS(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Hello "))),
-       CONS(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("from Ash"))),
-       CONS_NIL(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Lisp!")))))));
+  // LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")))),
+  ae_obj_t * expr1 = CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")));
+  ae_obj_t * expr2 = CONS(INTERN("princ"), LIST(NEW_STRING("from Ash")));
+  ae_obj_t * expr3 = CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")));
+  WRITE(expr1);
   NL;
+  WRITE(expr2);
+  NL;
+  WRITE(expr3);
+  NL;
+  WRITE(CONS(expr2, LIST(expr3)));
   
   NL;
   WRITE(ENV_SYMS(env));
