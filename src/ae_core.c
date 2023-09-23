@@ -87,16 +87,23 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-#ifdef AE_LOG_CORE  
-  PR("args:      ");
+#ifdef AE_LOG_CORE
+  PR("\n[Create lambda]\n");
+  PR("args   ");
+  PUT(args);
+  SPC;
   PRINC(args);
   NL;
 
-  PR("params:    ");
+  PR("params ");
+  PUT(CAR(args));
+  SPC;
   PRINC(CAR(args));
   NL;
 
-  PR("body:      ");
+  PR("body   ");
+  PUT(CDR(args));
+  SPC;
   PRINC(CDR(args));
   NL;
 #endif
