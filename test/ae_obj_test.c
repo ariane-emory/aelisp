@@ -596,20 +596,22 @@ void primitive_eq_eql(void) {
   this = CONS(NEW_INT(1), CONS_NIL(NEW_INT(5)));
   that = CONS(NEW_INT(1), CONS_NIL(NEW_INT(2)));
 
-  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  )))))); // 5 and 5 are equal numbers
-  T(NILP (ae_lisp_eq (CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  )))))); // but they are not the same object.
-  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_FLOAT(5.0)))))); // 5 and 5.0 are equal-enough numbers
-  T(NILP (ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (6  )))))); // 5 and 6 are not.
+  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  ))             )))); // 5 and 5 are equal numbers
+  T(NILP (ae_lisp_eq (CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  ))             )))); // but they are not the same object.
+  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_FLOAT(5.0))             )))); // 5 and 5.0 are equal-enough numbers
+  T(NILP (ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (6  ))             )))); // 5 and 6 are not.
   
-  T(TRUEP(ae_lisp_eq (CONS(this      , CONS_NIL(this)          )))); // These are the same object and are eq
-  T(TRUEP(ae_lisp_eql(CONS(this      , CONS_NIL(this)          )))); // and also eql.
-  T(NILP (ae_lisp_eq (CONS(this      , CONS_NIL(that)          )))); // These are the NOT the same object and
-  T(NILP (ae_lisp_eql(CONS(this      , CONS_NIL(that)          )))); // neither eq or eql.
-  T(NILP (ae_lisp_eq (CONS(that      , CONS_NIL(this)          )))); // eq is commutative.
-  T(NILP (ae_lisp_eql(CONS(that      , CONS_NIL(this)          )))); // eql too.
+  T(TRUEP(ae_lisp_eq (CONS(this      , CONS_NIL(this)                       )))); // These are the same object and are eq
+  T(TRUEP(ae_lisp_eql(CONS(this      , CONS_NIL(this)                       )))); // and also eql.
+  T(NILP (ae_lisp_eq (CONS(this      , CONS_NIL(that)                       )))); // These are the NOT the same object and
+  T(NILP (ae_lisp_eql(CONS(this      , CONS_NIL(that)                       )))); // neither eq or eql.
+  T(NILP (ae_lisp_eq (CONS(that      , CONS_NIL(this)                       )))); // eq is commutative.
+  T(NILP (ae_lisp_eql(CONS(that      , CONS_NIL(this)                       )))); // eql too.
 
   T(TRUEP(ae_lisp_eq (CONS(this      , CONS(this      , CONS_NIL(this      )))))); // eq can take 3+ arguments.
   T(NILP (ae_lisp_eq (CONS(this      , CONS(this      , CONS_NIL(that      ))))));
+  T(TRUEP(ae_lisp_eq (CONS(NIL       , CONS(NIL       , CONS_NIL(NIL       ))))));
+  T(NILP (ae_lisp_eq (CONS(NIL       , CONS(NIL       , CONS_NIL(TRUE      ))))));
     
   T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS(NEW_INT(5), CONS_NIL(NEW_INT(5))))))); // so can eql.
   T(NILP (ae_lisp_eql(CONS(NEW_INT(5), CONS(NEW_INT(5), CONS_NIL(NEW_INT(6)))))));
