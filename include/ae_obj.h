@@ -53,7 +53,7 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
   DO(AE_ENV)                                                                                       \
   DO(AE_LAMBDA)                                                                                    \
   DO(AE_MACRO)                                                                                     \
-  DO(AE_LISP_FUN)                                                                                  \
+  DO(AE_CORE_FUN)                                                                                  \
   DO(AE_INVALID)
 
 #define enum_entry(x) x,
@@ -100,7 +100,7 @@ typedef struct ae_obj_t {
     }; // AE_LAMBDA
     struct {
       ae_core_fun             fun_val;
-    }; // AE_LISP_FUN
+    }; // AE_CORE_FUN
   };
 }
 #ifdef AE_ALIGN_OBJS
@@ -247,7 +247,7 @@ _obj;                                                                           
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CORE_FUN(val)                                                                          \
 ({                                                                                                 \
-ae_obj_t * _obj  = NEW(AE_INTEGER);                                                                \
+ae_obj_t * _obj  = NEW(AE_CORE_FUN);                                                               \
 FUN_VAL   (_obj) = (val);                                                                          \
 _obj;                                                                                              \
 })
