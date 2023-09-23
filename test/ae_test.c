@@ -688,7 +688,11 @@ void primitive_cmp(void) {
 void root_env(void) {
   SETUP_TEST;
 
-  ae_obj_t * env = ENV_NEW_ROOT();
+  ae_obj_t * env  = ENV_NEW_ROOT();
+  ae_obj_t * args = CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(17)))));
+  WRITE(args);
+  NL;
+  ae_core_setq(args);
 
   NL;
   PR("syms ");
@@ -705,9 +709,6 @@ void root_env(void) {
   pool_print();
   NL;
   WRITE(symbols_list);
-  NL;
-  
-  WRITE(CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(17))))));
   NL;
 }
 
