@@ -19,7 +19,8 @@
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(setq)                                                                                         \
   DO(progn)                                                                                        \
-  DO(quote)
+  DO(quote)                                                                                        \
+  DO(if)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_MATH_OP(DO)                                                                       \
   DO(add, +, 0)                                                                                    \
