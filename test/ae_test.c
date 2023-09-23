@@ -714,7 +714,7 @@ void root_env_and_eval(void) {
 
   /* T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))))))); */
 
-  /* EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(88))))); */
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(88)))));
   /* EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))))); */
 
   /* T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar")))); */
@@ -773,7 +773,7 @@ void root_env_and_eval(void) {
                                   LIST(INTERN("x"))),
                              LIST(CONS(INTERN("+"),
                                        CONS(INTERN("x"),
-                                            LIST(NEW_INT(2)))))))),
+                                            LIST(INTERN("bar")))))))),
               LIST(NEW_INT(12)));
   PRINC(expr);
   NL;
