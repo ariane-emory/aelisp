@@ -686,43 +686,19 @@ void primitive_cmp(void) {
   T(NILP (ae_core_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2))))))));
 }
 
-void root_env(void) {
+void root_env_and_eval(void) {
   SETUP_TEST;
 
   ae_obj_t * env  = ENV_NEW_ROOT();
   ae_obj_t * args = CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(666)))));
 
-  /* NL; */
-  /* WRITE(args); */
-  /* NL; */
   ae_core_setq(args);
-  /* NL; */
-  /* // pool_print(); */
-  /* NL; */
-  /* PR("syms "); */
-  /* WRITE(ENV_SYMS(env)); */
-  /* NL; */
-  /* PR("vals "); */
-  /* WRITE(ENV_VALS(env)); */
-  /* NL; */
-  /* FOR_EACH(elem, ENV_VALS(env)) { */
-  /*   PR("%018p", elem); */
-  /*   PUT(elem);     */
-  /*   NL; */
-  /* } */
 
-  /* NL; */
-  /* WRITE(ae_eval(INTERN("foo"), env)); */
-  /* NL; */
+  T(EQL(NEW_INT(25),  EVAL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))),  env)));
+  T(EQL(NEW_INT(672), EVAL(CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo")))), env)));
 
-  /* WRITE(ae_eval(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))), env)); */
-  /* NL; */
+  T(EQL(NEW_INT(75), EVAL(CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))), env)));
 
-  /* WRITE(CONS(INTERN("*"), CONS(NEW_INT(3), CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))))))); */
-  /* NL; */
-
-  WRITE(ae_eval(CONS(INTERN("*"), CONS(NEW_INT(3), CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))), env));
-  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -751,7 +727,7 @@ void root_env(void) {
   DO(primitive_print_princ_write)                                                                  \
   DO(primitive_math)                                                                               \
   DO(primitive_cmp)                                                                                \
-  DO(root_env)
+  DO(root_env_and_eval)
 
 #define pair(fun) { #fun, fun },
 
