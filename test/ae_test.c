@@ -734,25 +734,16 @@ void root_env_and_eval(void) {
   expr = CONS(INTERN("quote"), LIST(INTERN("a")));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a"));
 
-  /* NL; */
   expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
   T(EQL(NEW_INT(11), EVAL(env, expr)));
   
   expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(NEW_INT(11))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
   expr = CONS(INTERN("if"), CONS(INTERN("nil"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
   T(EQL(NEW_INT(22), EVAL(env, expr)));
   
   expr = CONS(INTERN("if"), CONS(INTERN("nil"), LIST(NEW_INT(11))));
-  /* PRINC(EVAL(env, expr)); */
-  /* NL; */
   T(NILP(EVAL(env, expr)));
 
   expr = CONS(INTERN("lambda"),
