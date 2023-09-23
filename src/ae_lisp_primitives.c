@@ -152,5 +152,30 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
 // #define DEF_MATH_OP(name, oper, default)                                                           \
 // ae_obj_t * ae_lisp_##name(ae_obj_t * const args) { \
 //   ASSERT_CONSP(args); \
-// \
+//
+
+ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
+
+  ae_obj_t * head = NIL;
+  ae_obj_t * tail = NIL;
+  
+  if (NILP(CDR(args))) {
+    head = NEW_INT(0);
+    tail = args;
+  }
+  else {
+    ASSERT_INTEGERP(CAR(args));
+    
+    head = CAR(args);
+    tail = CDR(args);
+  }
+
+  FOR_EACH(elem, tail) {
+    ASSERT_INTEGERP(elem);
+    INT_VAL(head) = INT_VAL(head) + INT_VAL(elem);
+  }
+
+  return head;
+}
   
