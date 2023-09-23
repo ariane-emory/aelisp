@@ -96,7 +96,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   
 #ifdef AE_LOG_EVAL
   NL;
-  PR("Apply returns ");
+  PR("apply returns ");
   PUT(ret);
   SPC;
   PRINC(ret);
