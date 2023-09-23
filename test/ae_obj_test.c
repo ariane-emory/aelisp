@@ -562,7 +562,7 @@ void envs(void) {
 }
 
 ae_obj_t * make_args_containing_one_list(void) {
-  ae_obj_t * sym_a = INTERN("q");
+  ae_obj_t * sym_a = INTERN("a");
   ae_obj_t * sym_b = INTERN("b");
   ae_obj_t * sym_c = INTERN("c");
   ae_obj_t * args  = CONS_NIL(CONS(sym_a, CONS(sym_b, CONS_NIL(sym_c))));
@@ -583,48 +583,16 @@ ae_obj_t * make_args_for_cons(void) {
 void primitive_cons_car_cdr(void) {
   SETUP_TEST;
 
-  ae_obj_t * args  = make_args_containing_one_list();
-  
-  /* NL; */
-  /* PR("Built    "); */
-  /* WRITE(args); */
-  /* NL; */
+  ae_obj_t * args   = make_args_containing_one_list();
 
-  ae_obj_t * car    = ae_lisp_car(args);
-  ae_obj_t * cdr    = ae_lisp_cdr(args);
+  T(EQ(ae_lisp_car(args), INTERN("a")));
+  T(shitty_write_based_equality_predicate(ae_lisp_cdr(args), "(b c)"));
 
-  /* PR("car    = "); */
-  /* WRITE(car); */
-  /* NL; */
-
-  /* T(EQ(car, INTERN("q"))); */
-
-  /* PR("cdr    = "); */
-  /* WRITE(cdr); */
-  /* NL; */
-
-  T(shitty_write_based_equality_predicate(cdr, "(b c)"));
-
-  args = make_args_for_cons();
-
-  /* NL; */
-  /* PR("Built    "); */
-  /* WRITE(args); */
-  /* NL; */
-
-  ae_obj_t * consed = ae_lisp_cons(args);
-
-  /* PR("consed = "); */
-  /* WRITE(consed); */
-  /* NL; */
+  ae_obj_t * consed = ae_lisp_cons(make_args_for_cons());
 
   T(shitty_write_based_equality_predicate(consed, "(a b c d)"));
-
-  /* WRITE(ae_lisp_car(CONS_NIL(NIL))); NL; */
-  /* WRITE(ae_lisp_cdr(CONS_NIL(NIL))); NL; */
-
-  T(NILP(ae_lisp_car(CONS_NIL(NIL))                       ));
-  T(NILP(ae_lisp_cdr(CONS_NIL(NIL))                       ));
+  T(NILP(ae_lisp_car(                     CONS_NIL(NIL))  ));
+  T(NILP(ae_lisp_cdr(                     CONS_NIL(NIL))  ));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
