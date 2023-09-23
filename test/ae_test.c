@@ -695,6 +695,8 @@ void root_env(void) {
   ae_core_setq(args);
 
   NL;
+  pool_print();
+  NL;
   PR("syms ");
   WRITE(ENV_SYMS(env));
   NL;
@@ -706,8 +708,6 @@ void root_env(void) {
     PUT(elem);    
     NL;
   }
-  pool_print();
-  NL;
   WRITE(symbols_list);
   NL;
 }
