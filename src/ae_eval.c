@@ -160,7 +160,7 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   PR("values        ");
   PUT(new_env->values);
   SPC;
-  PRINC(new_env->values);
+  PRINC(new_env->ivalues);
   NL;
 #endif
   
