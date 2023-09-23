@@ -774,6 +774,8 @@ void root_env_and_eval(void) {
                                        CONS(INTERN("x"),
                                             LIST(INTERN("bar")))))))),
               LIST(NEW_INT(12)));
+
+  NL;
   
   result = EVAL(env, expr);
 
