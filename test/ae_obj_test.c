@@ -63,7 +63,7 @@ char * write_to_new_string(const ae_obj_t * const this) {
   return buff;
 }
 
-bool shitty_write_based_eqlity_predicate(
+bool shitty_write_based_equality_predicate(
   const ae_obj_t * const this,
   const char * const strcmp_str) {
   return ! strcmp(strcmp_str, SWRITE(this));
@@ -146,7 +146,7 @@ void basic_list_checks(ae_obj_t * this) {
 
   // WRITE(this); NL;
   
-  T(shitty_write_based_eqlity_predicate(this, "(1 2 3 4)"));
+  T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   ae_obj_t * mapped = NULL;
@@ -154,19 +154,19 @@ void basic_list_checks(ae_obj_t * this) {
   mapped = MAP(this, ae_obj_double);
   // fprintf(stdout, "doubled "); WRITE(mapped); NL;
   // pool_print();
-  T(shitty_write_based_eqlity_predicate(mapped, "(2 4 6 8)"));
+  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   mapped = CLONE(mapped);
   // fprintf(stdout, "cloned  "); WRITE(mapped); NL;
   // pool_print();
-  T(shitty_write_based_eqlity_predicate(mapped, "(2 4 6 8)"));
+  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   mapped = MAP(mapped, ae_obj_to_pairs);
   // fprintf(stdout, "paired  ");   WRITE(mapped); NL;
   // pool_print();
-  T(shitty_write_based_eqlity_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
+  T(shitty_write_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
   tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
 
   // pool_print();
@@ -208,7 +208,7 @@ void remove_interned_symbol_from_list(void) {
   
   T(EQ(LENGTH(symbols_list), 3));
   T(NOT_MEMBERP(symbols_list, that));
-  T(shitty_write_based_eqlity_predicate(symbols_list, "(d c a)"));
+  T(shitty_write_based_equality_predicate(symbols_list, "(d c a)"));
 }
 
 void test_setup_is_okay(void)
@@ -295,7 +295,7 @@ void pushed_and_consed_lists_write_identically(void) {
   SETUP_TEST;
   this    = push_together_a_list_of_ints();
   tmp_str = SWRITE(this);
-  T(shitty_write_based_eqlity_predicate(cons_together_a_list_of_ints(), tmp_str));
+  T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
 void intern_symbols(void) {
@@ -579,9 +579,9 @@ void primitive_cons_car_cdr(void) {
   SETUP_TEST;
   
   T(EQ(ae_lisp_car(make_args_containing_one_list()), INTERN("a")                                       ));
-  T(shitty_write_based_eqlity_predicate(ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"        )); // cons a onto nil and get (a).
-  T(shitty_write_based_eqlity_predicate(ae_lisp_cdr (make_args_containing_one_list() ), "(b c)"      ));
-  T(shitty_write_based_eqlity_predicate(ae_lisp_cons(make_args_for_cons()            ), "(nil a b c)"));
+  T(shitty_write_based_equality_predicate(ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"        )); // cons a onto nil and get (a).
+  T(shitty_write_based_equality_predicate(ae_lisp_cdr (make_args_containing_one_list() ), "(b c)"      ));
+  T(shitty_write_based_equality_predicate(ae_lisp_cons(make_args_for_cons()            ), "(nil a b c)"));
   T(NILP(ae_lisp_car(                     CONS_NIL(NIL))                                               ));
   T(NILP(ae_lisp_cdr(                     CONS_NIL(NIL))                                               ));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))                                             ));
