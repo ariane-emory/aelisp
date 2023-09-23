@@ -195,9 +195,9 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                              
         break;                                                                                     \
                                                                                                    \
     ASSERT_INTEGERP(elem);                                                                         \
-    ASSERT_INTEGERP(CDR(position));                                                                \
+    ASSERT_INTEGERP(CADR(position));                                                               \
                                                                                                    \
-    result &= INT_VAL(elem) oper INT_VAL(CDR(position));                                           \
+    result &= INT_VAL(elem) oper INT_VAL(CADR(position));                                          \
   }                                                                                                \
                                                                                                    \
   return ae_obj_truth(result);                                                                     \
