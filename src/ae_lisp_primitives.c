@@ -180,7 +180,7 @@ ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
   
   FOR_EACH(elem, tail) {
     ASSERT_INTEGERP(elem);
-    PR("Add        "); PUT(elem); NL;
+    PR("Oper with  "); PUT(elem); NL;
     INT_VAL(head) = INT_VAL(head) + INT_VAL(elem);
   }
 
