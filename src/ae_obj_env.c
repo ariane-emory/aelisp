@@ -1,4 +1,5 @@
 #include "ae_obj_env.h"
+#include "ae_core.h"
 
 #define NL (putchar('\n'))
 #define PR(...) (fprintf(stdout, __VA_ARGS__))
