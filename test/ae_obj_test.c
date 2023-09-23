@@ -1,4 +1,3 @@
-
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -591,6 +590,9 @@ void primitive_cons_car_cdr(void) {
   PR("cdr = ");
   WRITE(cdr);
   NL;
+
+  T(EQ(car, INTERN("b")));
+  T(shitty_write_based_equality_predicate(cdr, "(c d)"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
