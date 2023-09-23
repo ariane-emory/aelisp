@@ -20,5 +20,14 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args);
   DO(mul, *, 1)                                                                                    \
   DO(div, /, 1)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DECL_MATH_OP(name, ...) ae_obj_t * ae_lisp_##name(ae_obj_t * const args);
-FOR_EACH_MATH_OP(DECL_MATH_OP);
+#define FOR_EACH_CMP_OP(DO)                                                                        \
+  DO(equal,   ==)                                                                                  \
+  DO(nequal,  !=)                                                                                  \
+  DO(less,    < )                                                                                  \
+  DO(lte,     <=)                                                                                  \
+  DO(greater, > )                                                                                  \
+  DO(gte,     >=) 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define DECL_OP(name, ...) ae_obj_t * ae_lisp_##name(ae_obj_t * const args);
+FOR_EACH_MATH_OP(DECL_OP);
+FOR_EACH_CMP_OP(DECL_OP);
