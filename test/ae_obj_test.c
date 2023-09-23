@@ -177,80 +177,6 @@ void basic_list_checks(ae_obj_t * this) {
 // Tests
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void envs(void)
-{
-  SETUP_TEST;
-
-  this = NEW_ENV(NIL);
-
-  T(LENGTH(ENV_SYMS(this)) == 0);
-  T(LENGTH(ENV_VALS(this)) == 0);
-  T(NILP(ENV_SYMS(this)));
-  T(NILP(ENV_VALS(this)));
-  
-  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("foo")));
-  ENV_ADD(this, INTERN("foo"), NEW_INT(12));
-  T(EQ(LENGTH(ENV_SYMS(this)), 1));
-  T(EQ(LENGTH(ENV_VALS(this)), 1));
-  T(MEMBERP(ENV_SYMS(this), INTERN("foo")));
-  
-  T(NOT_NILP(ENV_SYMS(this)));
-  T(NOT_NILP(ENV_VALS(this)));
-
-  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("bar")));
-  ENV_ADD(this, INTERN("bar"), NEW_INT(24));
-  T(EQ(LENGTH(ENV_SYMS(this)), 2));
-  T(EQ(LENGTH(ENV_VALS(this)), 2));
-  T(MEMBERP(ENV_SYMS(this), INTERN("bar")));
-  
-  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("baz")));
-  ENV_ADD(this, INTERN("baz"), NEW_INT(36));
-  T(EQ(LENGTH(ENV_SYMS(this)), 3));
-  T(EQ(LENGTH(ENV_VALS(this)), 3));
-  T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
-
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("foo"))), 12));
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 24));
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("baz"))), 36));
-
-  that = NEW_ENV(NIL); // not yet linked to.
-
-  ENV_ADD(that, INTERN("quux"), NEW_INT(48));
-
-  T(NILP(ENV_FIND(this, INTERN("quux"))));
-
-  ENV_PARENT(this) = that; // link this to that.
-  
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("quux"))), 48));
-  T(EQ(ENV_FIND(this, INTERN("quux")), ENV_FIND(that, INTERN("quux"))));
-  T(NILP(ENV_FIND(this, INTERN("zot"))));
-  T(NILP(ENV_FIND(that, INTERN("foo"))));
-
-  ENV_SET(this, INTERN("bar"), NEW_INT(99));
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 99));
-
-  ENV_SET(this, INTERN("zot"), NEW_INT(66));  
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("zot"))), 66));
-
-#ifdef AE_LOG_ENV_TEST
-  pool_print();
-  PR("Upper:\n");
-  PR("  syms ");
-  WRITE(ENV_SYMS(that));
-  NL;
-  PR("  vals ");
-  WRITE(ENV_VALS(that));
-  NL;
-  PR("Lower:\n");
-  PR("  syms ");
-  WRITE(ENV_SYMS(this));
-  NL;
-  PR("  vals ");
-  WRITE(ENV_VALS(this));
-  NL;
-#endif
-}
-
 void remove_interned_symbol_from_list(void) {
   SETUP_TEST;
  
@@ -422,18 +348,6 @@ void fwrite_lengths(void) {
   FWRITE_TEST(AE_SYMBOL,   sym_val,       "ghij"                              );
 }
 
-void truth(void) {
-  SETUP_TEST;
-
-  this = ae_obj_truth(true);
-
-  T(SYMBOLP(this) && ! strcmp(SYM_VAL(this), "t"));
-  
-  that = ae_obj_truth(false);
-
-  T(NILP(that));
-}
-
 void equal(void) {
   SETUP_TEST;
 
@@ -563,6 +477,94 @@ void equal(void) {
 #undef XX
 }
 
+void truth(void) {
+  SETUP_TEST;
+
+  this = ae_obj_truth(true);
+
+  T(SYMBOLP(this) && ! strcmp(SYM_VAL(this), "t"));
+  
+  that = ae_obj_truth(false);
+
+  T(NILP(that));
+}
+
+void envs(void) {
+  SETUP_TEST;
+
+  this = NEW_ENV(NIL);
+
+  T(LENGTH(ENV_SYMS(this)) == 0);
+  T(LENGTH(ENV_VALS(this)) == 0);
+  T(NILP(ENV_SYMS(this)));
+  T(NILP(ENV_VALS(this)));
+  
+  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("foo")));
+  ENV_ADD(this, INTERN("foo"), NEW_INT(12));
+  T(EQ(LENGTH(ENV_SYMS(this)), 1));
+  T(EQ(LENGTH(ENV_VALS(this)), 1));
+  T(MEMBERP(ENV_SYMS(this), INTERN("foo")));
+  
+  T(NOT_NILP(ENV_SYMS(this)));
+  T(NOT_NILP(ENV_VALS(this)));
+
+  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  ENV_ADD(this, INTERN("bar"), NEW_INT(24));
+  T(EQ(LENGTH(ENV_SYMS(this)), 2));
+  T(EQ(LENGTH(ENV_VALS(this)), 2));
+  T(MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  
+  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("baz")));
+  ENV_ADD(this, INTERN("baz"), NEW_INT(36));
+  T(EQ(LENGTH(ENV_SYMS(this)), 3));
+  T(EQ(LENGTH(ENV_VALS(this)), 3));
+  T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
+
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("foo"))), 12));
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 24));
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("baz"))), 36));
+
+  that = NEW_ENV(NIL); // not yet linked to.
+
+  ENV_ADD(that, INTERN("quux"), NEW_INT(48));
+
+  T(NILP(ENV_FIND(this, INTERN("quux"))));
+
+  ENV_PARENT(this) = that; // link this to that.
+  
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("quux"))), 48));
+  T(EQ(ENV_FIND(this, INTERN("quux")), ENV_FIND(that, INTERN("quux"))));
+  T(NILP(ENV_FIND(this, INTERN("zot"))));
+  T(NILP(ENV_FIND(that, INTERN("foo"))));
+
+  ENV_SET(this, INTERN("bar"), NEW_INT(99));
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 99));
+
+  ENV_SET(this, INTERN("zot"), NEW_INT(66));  
+  T(EQ(INT_VAL(ENV_FIND(this, INTERN("zot"))), 66));
+
+#ifdef AE_LOG_ENV_TEST
+  pool_print();
+  PR("Upper:\n");
+  PR("  syms ");
+  WRITE(ENV_SYMS(that));
+  NL;
+  PR("  vals ");
+  WRITE(ENV_VALS(that));
+  NL;
+  PR("Lower:\n");
+  PR("  syms ");
+  WRITE(ENV_SYMS(this));
+  NL;
+  PR("  vals ");
+  WRITE(ENV_VALS(this));
+  NL;
+#endif
+}
+
+voidd primitive_cons_car_cdr(void) {
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -583,7 +585,8 @@ void equal(void) {
   DO(truth)                                                                                        \
   DO(equal)                                                                                        \
   DO(fwrite_lengths)                                                                               \
-  DO(envs)
+  DO(envs)                                                                                         \
+  DO(primitive_cons_car_cdr)
 
 #define pair(fun) { #fun, fun },
 
