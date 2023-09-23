@@ -142,8 +142,27 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 
   fflush(stdout);
 #endif
-
+  
   ae_obj_t * new_env = NEW_ENV(fun->env, fun->params, fun->vals);
+
+#ifdef AE_LOG_EVAL
+  PR("\n[Created exec env]\n");
+  PR("parent        ");
+  PUT(new_env->parent);
+  SPC;
+  PRINC(new_env->parent);
+  NL;
+  PR("symbols       ");
+  PUT(new_env->symbols);
+  SPC;
+  PRINC(new_env->symbols);
+  NL;
+  PR("values        ");
+  PUT(new_env->values);
+  SPC;
+  PRINC(new_env->values);
+  NL;
+#endif
   
   (void)env, (void)fun, (void)args; assert(0);
 }
