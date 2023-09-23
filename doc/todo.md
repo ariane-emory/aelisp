@@ -1,5 +1,8 @@
 To Do:
-_ [ ] fwrite_lengths test passes normally but fails when run in lldb? Investigate.
+- [ ] Load the root environment up.
+- [ ] Implement math for non-integer types.
+- [ ] Implement eval functions.
+- [ ] fwrite_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] Fix inappropriate handling of quote. Probably requires a new lexer token and a new yacc rule.

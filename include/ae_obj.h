@@ -72,34 +72,34 @@ const char * ae_type_str(const ae_type_t this);
 typedef struct ae_obj_t {
   // Currently, this field is only used to store an ae_obj_t in it's bottom 4 bits, but in the future
   // it's remaining bits will store other info such as GC related flags:
-  unsigned int          metadata;
+  unsigned int                metadata;
 
   union {
-    ae_string_t              str_val;
-    ae_string_t              sym_val;
-    char                     char_val;
-    long long int            int_val;
-    double                   float_val;
+    ae_string_t               str_val;
+    ae_string_t               sym_val;
+    char                      char_val;
+    long long int             int_val;
+    double                    float_val;
     struct {
-      long long int          numerator_val;
-      unsigned long long int denominator_val;
+      long long int           numerator_val;
+      unsigned long long int  denominator_val;
     }; // AE_RATIONAL
     struct {
-      struct ae_obj_t *      head;
-      struct ae_obj_t *      tail;
+      struct ae_obj_t *       head;
+      struct ae_obj_t *       tail;
     }; // AE_CONS
     struct {
-      struct ae_obj_t *      symbols;
-      struct ae_obj_t *      values;
-      struct ae_obj_t *      parent;
+      struct ae_obj_t *       symbols;
+      struct ae_obj_t *       values;
+      struct ae_obj_t *       parent;
     }; // AE_ENV
     struct {
-      struct ae_obj_t *      params;
-      struct ae_obj_t *      body;
-      struct ae_obj_t *      env;
+      struct ae_obj_t *       params;
+      struct ae_obj_t *       body;
+      struct ae_obj_t *       env;
     }; // AE_LAMBDA
     struct {
-      ae_core_fun            fun;
+      ae_core_fun             fun;
     }; // AE_LISP_FUN
   };
 }

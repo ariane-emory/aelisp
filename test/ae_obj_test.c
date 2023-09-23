@@ -685,6 +685,10 @@ void primitive_cmp(void) {
   T(NILP (ae_core_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2))))))));
 }
 
+void root_env(void) {
+  SETUP_TEST;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -710,7 +714,8 @@ void primitive_cmp(void) {
   DO(primitive_eq_eql_atomp_not)                                                                   \
   DO(primitive_print_princ_write)                                                                  \
   DO(primitive_math)                                                                               \
-  DO(primitive_cmp)
+  DO(primitive_cmp)                                                                                \
+  DO(root_env)
 
 #define pair(fun) { #fun, fun },
 
