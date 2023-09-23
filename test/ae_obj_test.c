@@ -642,7 +642,7 @@ void primitive_print_princ(void) {
 void primitive_print_math(void) {
   SETUP_TEST;
 
-  this = ae_lisp_add(CONS(NEW_INT(1), CONS(NEW_INT(2), CONS_NIL(NEW_INT(1)))));
+  this = ae_lisp_add(CONS(NEW_INT(1), CONS(NEW_INT(2), CONS_NIL(NEW_INT(3)))));
 
 //  PUT(this);
 

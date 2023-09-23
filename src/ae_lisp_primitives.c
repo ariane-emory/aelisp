@@ -160,6 +160,9 @@ ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
 
   ae_obj_t * head = NIL;
   ae_obj_t * tail = NIL;
+
+  NL;
+  PR("args "); WRITE(args); NL;
   
   if (NILP(CDR(args))) {
     head = NEW_INT(0);
@@ -167,9 +170,9 @@ ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
   }
   else {
     ASSERT_INTEGERP(CAR(args));
-    
-    head = CAR(args);
-    tail = CDR(args);
+
+    head = CAR(args); PR("head "); PUT(head); NL;
+    tail = CDR(args); PR("tail "); WRITE(tail); NL;
   }
   
   NL;
