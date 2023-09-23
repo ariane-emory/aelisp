@@ -640,7 +640,7 @@ void primitive_print_princ(void) {
   }
 }
 
-void primitive_print_math(void) {
+void primitive_math(void) {
   SETUP_TEST;
 
   this = ae_lisp_add(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
@@ -683,7 +683,8 @@ void primitive_print_math(void) {
   DO(primitive_cons_car_cdr)                                                                       \
   DO(primitive_eq_eql_atomp_not)                                                                   \
   DO(primitive_print_princ)                                                                        \
-  DO(primitive_print_math)
+  DO(primitive_math)                                                                               \
+  DO(primitive_cmp)
 
 #define pair(fun) { #fun, fun },
 
