@@ -571,11 +571,11 @@ ae_obj_t * make_args_containing_one_list(void) {
 }
 
 ae_obj_t * make_args_for_cons(void) {
-  ae_obj_t * sym_a = INTERN("b");
-  ae_obj_t * sym_b = INTERN("c");
-  ae_obj_t * sym_c = INTERN("d");
+  ae_obj_t * sym_a = INTERN("a");
+  ae_obj_t * sym_b = INTERN("b");
+  ae_obj_t * sym_c = INTERN("c");
   ae_obj_t * list  = CONS_NIL(CONS(sym_a, CONS(sym_b, CONS_NIL(sym_c))));
-  ae_obj_t * args  = CONS(INTERN("a"), list);
+  ae_obj_t * args  = CONS(INTERN("nil"), list);
 
   return args;
 }
@@ -583,22 +583,16 @@ ae_obj_t * make_args_for_cons(void) {
 void primitive_cons_car_cdr(void) {
   SETUP_TEST;
 
-  ae_obj_t * args   = make_args_containing_one_list();
-
-  T(EQ(ae_lisp_car(args), INTERN("a")));
-  T(shitty_write_based_equality_predicate(ae_lisp_cdr(args), "(b c)"));
-
-  ae_obj_t * consed = ae_lisp_cons(make_args_for_cons());
-
-  T(shitty_write_based_equality_predicate(consed, "(a b c d)"));
+  T(EQ(ae_lisp_car(make_args_containing_one_list()), INTERN("a")));
+  T(shitty_write_based_equality_predicate(ae_lisp_cdr(make_args_containing_one_list()),   "(b c)"));
+  T(shitty_write_based_equality_predicate(ae_lisp_cons(make_args_for_cons()),             "(nil a b c)"));
+  T(shitty_write_based_equality_predicate(ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"));
   T(NILP(ae_lisp_car(                     CONS_NIL(NIL))  ));
   T(NILP(ae_lisp_cdr(                     CONS_NIL(NIL))  ));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
-
-  T(shitty_write_based_equality_predicate( ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
