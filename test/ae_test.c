@@ -705,6 +705,10 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
 
   NL;
+  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("hello "))));
+  NL;
+  
+  NL;
   WRITE(ENV_SYMS(env));
   NL;
   WRITE(ENV_VALS(env));
