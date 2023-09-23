@@ -352,12 +352,6 @@ void fwrite_lengths(void) {
   FWRITE_TEST(7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
   FWRITE_TEST(4, AE_STRING,   str_val,       "asdf"                              );
   FWRITE_TEST(4, AE_SYMBOL,   sym_val,       "ghij"                              );
-
-  NL;
-  PR("<");
-  WRITE(NEW_STRING("asdf"));
-  PR(">");
-  NL;
 }
 
 void eql(void) {
@@ -716,15 +710,16 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
 
-  NL;
-  EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))));
-  EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))));
-  EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("lisp!"))));
+  /* NL; */
+  /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")))); */
+  /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("from Ash")))); */
+  /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("lisp!")))); */
   NL;
 
   ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
-  
   WRITE(expr);
+  NL;
+  EVAL(env, expr);
   
   NL;
   WRITE(ENV_SYMS(env));
