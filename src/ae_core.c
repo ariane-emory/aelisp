@@ -94,13 +94,13 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   // ASSERT_NOT_NILP(CAR(args));
   // ASSERT_NOT_NILP(CADR(args));
 
-  ae_obj_t * cond_result = TRUTH(EVAL(env, CAR(args)));
+  bool cond_result = NOT_NILP(EVAL(env, CAR(args)));
   
   PR("cond_result: ");
-  WRITE(cond_result);
+  WRITE(cond_result ? TRUE : NIL);
   NL;
 
-  if (NOT_NILP(cond_result))
+  if (cond_result)
     return EVAL(env, CADR(args));
   else
     return EVAL(env, CDDR(args));
