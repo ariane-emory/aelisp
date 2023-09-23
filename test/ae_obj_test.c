@@ -642,16 +642,19 @@ void primitive_print_princ(void) {
 void primitive_print_math(void) {
   SETUP_TEST;
 
-  this = ae_lisp_add(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
+  this = ae_lisp_add(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(31)));
   
-  this = ae_lisp_sub(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
+  this = ae_lisp_sub(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(17)));
 
-  this = ae_lisp_mul(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
+  this = ae_lisp_sub(CONS(NEW_INT(3),  CONS(NEW_INT(4), CONS_NIL(NEW_INT(24)))));
+  T(EQL(this, NEW_INT(-25)));
+
+  this = ae_lisp_mul(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(288)));
 
-  this = ae_lisp_div(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3)))));
+  this = ae_lisp_div(CONS(NEW_INT(24), CONS(NEW_INT(4), CONS_NIL(NEW_INT(3) ))));
   T(EQL(this, NEW_INT(2)));
 }
 
