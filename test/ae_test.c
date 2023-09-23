@@ -594,17 +594,17 @@ ae_obj_t * make_args_for_cons(void) {
 void primitive_cons_car_cdr(void) {
   SETUP_TEST;
   
-  T(EQ(ae_core_car(make_args_containing_one_list()), INTERN("a")                                       ));
-  T(EQ(ae_core_car(LIST(ae_core_cdr(make_args_containing_one_list()))), INTERN("b")                ));
-  T(shitty_princ_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), LIST(NIL))), "(a)"        )); // cons 'a onto nil and get (a).
-  T(shitty_princ_based_equality_predicate(ae_core_cdr (make_args_containing_one_list() ), "(b c)"      ));
-  T(shitty_princ_based_equality_predicate(ae_core_cons(make_args_for_cons()            ), "(nil a b c)"));
-  T(NILP(ae_core_car(                     LIST(NIL))                                               ));
-  T(NILP(ae_core_cdr(                     LIST(NIL))                                               ));
-  T(NILP(ae_core_car(LIST(ae_core_car(LIST(NIL))))                                             ));
-  T(NILP(ae_core_cdr(LIST(ae_core_cdr(LIST(NIL))))                                             ));
-  T(NILP(ae_core_car(LIST(ae_core_cdr(LIST(NIL))))                                             ));
-  T(NILP(ae_core_cdr(LIST(ae_core_car(LIST(NIL))))                                             ));
+  T(EQ(ae_core_car(make_args_containing_one_list()), INTERN("a")                                        ));
+  T(EQ(ae_core_car(LIST(ae_core_cdr(make_args_containing_one_list()))), INTERN("b")                     ));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), LIST(NIL))), "(a)"             )); // cons 'a onto nil and get (a).
+  T(shitty_princ_based_equality_predicate(ae_core_cdr (make_args_containing_one_list() ), "(b c)"       ));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(make_args_for_cons()            ), "(nil a b c)" ));
+  T(NILP(ae_core_car(                 LIST(NIL))                                                        ));
+  T(NILP(ae_core_cdr(                 LIST(NIL))                                                        ));
+  T(NILP(ae_core_car(LIST(ae_core_car(LIST(NIL))))                                                      ));
+  T(NILP(ae_core_cdr(LIST(ae_core_cdr(LIST(NIL))))                                                      ));
+  T(NILP(ae_core_car(LIST(ae_core_cdr(LIST(NIL))))                                                      ));
+  T(NILP(ae_core_cdr(LIST(ae_core_car(LIST(NIL))))                                                      ));
 }
 
 void primitive_eq_eql_atomp_not(void) {
