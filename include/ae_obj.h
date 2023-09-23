@@ -99,9 +99,9 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       env;
     }; // AE_LAMBDA
     struct {
-      ae_core_fun             fun_val;
       char                    name[8]; // this name is just for printing purposes.
       bool                    special;
+      ae_core_fun             fun_val;
     }; // AE_CORE_FUN
   };
 }
@@ -250,11 +250,12 @@ INT_VAL   (_obj) = (val);                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_CORE_FUN(name, val)                                                                    \
+#define NEW_CORE_FUN(name, val, _special)                                                          \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_CORE_FUN);                                                               \
 FUN_VAL   (_obj) = (val);                                                                          \
 strcpy(NAME_VAL(_obj), name);                                                                      \
+_obj->special = _special;                                                                          \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
