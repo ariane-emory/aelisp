@@ -730,6 +730,8 @@ void root_env_and_eval(void) {
   WRITE(expr);
   NL;
   WRITE(EVAL(env, expr));
+
+  T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
   
   NL;
   NL;
