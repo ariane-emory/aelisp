@@ -99,7 +99,7 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       env;
     }; // AE_LAMBDA
     struct {
-      ae_core_fun             fun;
+      ae_core_fun             fun_val;
     }; // AE_LISP_FUN
   };
 }
@@ -245,7 +245,7 @@ INT_VAL   (_obj) = (val);                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_LISP_FUN(val)                                                                          \
+#define NEW_CORE_FUN(val)                                                                          \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_INTEGER);                                                                \
 FUN_VAL   (_obj) = (val);                                                                          \

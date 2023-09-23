@@ -8,11 +8,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_ENV(parent_)                                                                           \
 ({                                                                                                 \
-ae_obj_t * env = NEW(AE_ENV);                                                                      \
-env->parent    = (parent_);                                                                        \
-env->symbols   = NIL;                                                                              \
-env->values    = NIL;                                                                              \
-env;                                                                                               \
+ae_obj_t * _obj = NEW(AE_ENV);                                                                     \
+_obj->parent    = (parent_);                                                                       \
+_obj->symbols   = NIL;                                                                             \
+_obj->values    = NIL;                                                                             \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_PARENT(this)           ((this)->parent)
