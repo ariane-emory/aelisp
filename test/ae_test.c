@@ -753,6 +753,12 @@ void root_env_and_eval(void) {
   PR("vals: ");
   PRINC(ENV_VALS(env));
   NL;
+  PR("syms: ");
+  WRITE(ENV_SYMS(env));
+  NL;
+  PR("vals: ");
+  WRITE(ENV_VALS(env));
+  NL;
   NL;
 }
 
