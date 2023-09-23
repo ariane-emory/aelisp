@@ -9,7 +9,7 @@
 
 #include "ae_obj.h"
 #include "ae_free_list.h"
-#include "ae_lisp_primitives.h"
+#include "ae_lisp.h"
 
 #include "acutest.h"
 

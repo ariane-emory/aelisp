@@ -1,6 +1,6 @@
 #include <stdbool.h>
 
-#include "ae_lisp_primitives.h"
+#include "ae_lisp.h"
 #include "ae_obj_list.h"
 
 #define DIE     (assert(0))
