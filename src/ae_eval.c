@@ -39,7 +39,7 @@ eval_dispatch[] = {
   { AE_CONS,     &apply          },
 };
 
-static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
+static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("Apply:");
   PR("  fun  ");
@@ -66,7 +66,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env
   return ret;
 }                                                                               
                                                                                 
-static ae_obj_t * apply_lambda  (ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
+static ae_obj_t * apply_lambda  (ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env, (void)fun, (void)args; assert(0); 
 }
 
@@ -127,7 +127,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
   NL;
 #endif
   
-  DISPATCH(apply_dispatch, fun, evaled_args, env);
+  DISPATCH(apply_dispatch, fun, env, evaled_args);
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
 }
