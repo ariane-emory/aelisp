@@ -116,8 +116,8 @@ ae_obj_t * ae_lisp_not(ae_obj_t * const args) {
 ae_obj_t * ae_lisp_print(ae_obj_t * const args) {
   ASSERT_CONSP(args);
 
-  NL;
-  WRITE(args);
+  /* NL; */
+  /* WRITE(args); */
   
   NL;
   
