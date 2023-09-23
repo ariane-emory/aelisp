@@ -313,7 +313,7 @@ void intern_symbols(void) {
   T(EQ(LENGTH(symbols_list), 2));
 }
 
-#define FWRITE_TEST(type, field, val, ...)                                                         \
+#define FWRITE_TEST(expect, type, field, val, ...)                                                 \
   {                                                                                                \
     this        = NEW(type);                                                                       \
     this->field = val;                                                                             \
@@ -323,11 +323,17 @@ void intern_symbols(void) {
     char * buff;                                                                                   \
     size_t size;                                                                                   \
     FILE * stream   = open_memstream(&buff, &size);                                                \
-    int    reported = ae_fwrite(this, stream);                                                 \
+    int    reported = ae_fwrite(this, stream);                                                     \
                                                                                                    \
     fclose(stream);                                                                                \
     free(buff);                                                                                    \
                                                                                                    \
+    NL;                                                                                            \
+    PR("Writing <");                                                                               \
+    WRITE(this);                                                                                   \
+    PR("> wrote %d characters, expected %d.", strlen(buff), expect);                               \
+                                                                                                   \
+    T(EQ(strlen(buff), expect));                                                                   \
     T(EQ((int)strlen(buff), (int)size));                                                           \
     TM("strlen was %d but size was %d:\n\"%s\".\n",                                                \
        (int)strlen(buff), (int)size, buff);                                                        \
@@ -339,13 +345,19 @@ void intern_symbols(void) {
 void fwrite_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(AE_CHAR,     char_val,      '1'                                 );
-  FWRITE_TEST(AE_CHAR,     char_val,      '\n'                                );
-  FWRITE_TEST(AE_INTEGER,  int_val,       123                                 );
-  FWRITE_TEST(AE_FLOAT,    float_val,     1.23                                );
-  FWRITE_TEST(AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
-  FWRITE_TEST(AE_STRING,   str_val,       "asdf"                              );
-  FWRITE_TEST(AE_SYMBOL,   sym_val,       "ghij"                              );
+  FWRITE_TEST(3, AE_CHAR,     char_val,      '1'                                 );
+  FWRITE_TEST(4, AE_CHAR,     char_val,      '\n'                                );
+  FWRITE_TEST(3, AE_INTEGER,  int_val,       123                                 );
+  FWRITE_TEST(4, AE_FLOAT,    float_val,     1.23                                );
+  FWRITE_TEST(7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
+  FWRITE_TEST(6, AE_STRING,   str_val,       "asdf"                              );
+  FWRITE_TEST(4, AE_SYMBOL,   sym_val,       "ghij"                              );
+
+  NL;
+  PR("<");
+  WRITE(NEW_STRING("asdf"));
+  PR(">");
+  NL;
 }
 
 void eql(void) {
