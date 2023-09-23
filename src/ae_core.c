@@ -21,7 +21,7 @@
   CAR(env_and_args);                \
 })
 
-#define SPECIAL_ARGS(env, args)     \
+#define SPECIAL_FUN_ARGS(env, args) \
   ae_obj_t * env  = ENV_ARG(bundle) \
   ae_obj_t * args = CADR(bundle)
 
