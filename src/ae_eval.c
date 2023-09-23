@@ -89,14 +89,12 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
 
   ae_obj_t * evaled_args = NIL;
 
-  FOR_EACH(elem,  args) {
+  FOR_EACH(elem,  args)
     PUSH(evaled_args, ae_eval(elem, env));
-  }
       
   PR("Evaled args   ");
   WRITE(evaled_args);
-  NL;
-   
+  NL;   
   
   DISPATCH(apply_dispatch, fun, args, env);
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
