@@ -714,20 +714,16 @@ void root_env_and_eval(void) {
 
   ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
   NL;
-  NL;
   EVAL(env, expr);
-  NL;
-
+  
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
   expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(INTERN("yes"), CONS(INTERN("ignored"), LIST(INTERN("no"))))));
-  NL;
   WRITE(EVAL(env, expr));
   NL;
   
   expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(INTERN("yes"))));
-  NL;
   WRITE(EVAL(env, expr));
   NL;
   
