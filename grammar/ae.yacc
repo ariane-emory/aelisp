@@ -53,7 +53,7 @@
     
     while (written++ < 103) SPC;
 
-    ae_obj_put_words(this);
+    ae_put_words(this);
 
     NL;
     
@@ -95,13 +95,13 @@
     yyparse();
 
     printf("root:    ");
-    ae_obj_put(root);
+    ae_put(root);
     NL;
 
     ae_obj_t * program_obj = root;
 
     printf("program: ");
-    ae_obj_put(program_obj);
+    ae_put(program_obj);
     NL;
 
     ae_obj_t * env = NEW_ENV(NIL);

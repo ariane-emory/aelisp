@@ -322,7 +322,7 @@ void intern_symbols(void) {
     char * buff;                                                                                   \
     size_t size;                                                                                   \
     FILE * stream   = open_memstream(&buff, &size);                                                \
-    int    reported = ae_obj_fwrite(this, stream);                                                 \
+    int    reported = ae_fwrite(this, stream);                                                 \
                                                                                                    \
     fclose(stream);                                                                                \
     free(buff);                                                                                    \
