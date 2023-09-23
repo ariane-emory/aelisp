@@ -150,19 +150,21 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("Apply  ");
+  PUT(fun);
+  SPC;
   PRINC(fun);
-  PR(" to    ");
+  NL;
+  
+  PR("to      ");
+  PUT(args);
+  SPC;
   PRINC(args);
   NL;
+  
 #endif
 
   fun = EVAL(env, fun);
   
-#ifdef AE_LOG_EVAL
-  PR("Fun    ");
-  PUT(fun);
-  NL;
-#endif
 
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
