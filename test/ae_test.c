@@ -704,9 +704,10 @@ void primitive_cmp(void) {
 void root_env_and_eval(void) {
   SETUP_TEST;
 
-  ae_obj_t * env  = ENV_NEW_ROOT();
-  ae_obj_t * expr = NIL;
-  
+  ae_obj_t * env    = ENV_NEW_ROOT();
+  ae_obj_t * expr   = NIL;
+  ae_obj_t * result = NIL;
+
   /* SETQ(env, INTERN("foo"), NEW_INT(666)); */
 
   /* T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))); */
@@ -756,16 +757,15 @@ void root_env_and_eval(void) {
   NL;
   NL;
   PR("Here:\n");
-  /* expr = CONS(INTERN("lambda"), */
-  /*             CONS(LIST(INTERN("x")), */
-  /*                  CONS( */
-  /*                    CONS(INTERN("princ"), LIST(INTERN("x"))), LIST( */
-  /*                      CONS(INTERN("+"), */
-  /*                           CONS(INTERN("x"), LIST(NEW_INT(2)))))))); */
-  /* PRINC(expr); */
-  /* NL; */
-  /* PRINC(EVAL(env, expr));   */
-  /* NL; */
+  expr = CONS(INTERN("lambda"),
+              CONS(LIST(INTERN("x")),
+                   CONS(
+                     CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(
+                       CONS(INTERN("+"),
+                            CONS(INTERN("x"), LIST(NEW_INT(2))))))));
+  PRINC(expr);
+  NL;
+  PRINC(EVAL(env, expr));
   
   expr = CONS(CONS(INTERN("lambda"),
                    CONS(LIST(INTERN("x")),
@@ -775,13 +775,13 @@ void root_env_and_eval(void) {
                                        CONS(INTERN("x"),
                                             LIST(INTERN("bar")))))))),
               LIST(NEW_INT(12)));
-  PRINC(expr);
-  NL;
+  
+  result = EVAL(env, expr);
 
-  ae_obj_t * result = EVAL(env, expr);
-
-  PRINC(result);  
-  NL;
+  /* PRINC(expr); */
+  /* NL; */
+  /* PRINC(result);   */
+  /* NL; */
   
   T(EQL(NEW_INT(100), result));
 
