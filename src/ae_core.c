@@ -14,8 +14,8 @@
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   ASSERT_CONSP(env_and_args);
-  ASSERT_CONSP(CDR(env_and_args));
   ASSERT_ENVP(CAR(env_and_args));
+  ASSERT_CONSP(CDR(env_and_args));
   ASSERT_TAILP(CADR(env_and_args));
     
   ae_obj_t * env  = CAR(env_and_args);
