@@ -51,6 +51,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
   
+#ifdef AE_LOG_CORE
   PR("progn env:    ");
   WRITE(env);
   NL;
@@ -58,7 +59,8 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   PR("progn args:   ");
   WRITE(args);
   NL;
-
+#endif
+  
   ae_obj_t * ret = NIL;
   
   FOR_EACH(elem, args)
@@ -85,6 +87,7 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
+#ifdef AE_LOG_CORE
   NL;
   PR("if:          ");
   WRITE(CAR(args));
@@ -98,23 +101,30 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   PR("else:        ");
   WRITE(CONS(INTERN("progn"), CDDR(args)));
   NL;
+#endif
 
   // ASSERT_NOT_NILP(CAR(args));
   // ASSERT_NOT_NILP(CADR(args));
 
   bool cond_result = NOT_NILP(EVAL(env, CAR(args)));
-  
+
+#ifdef AE_LOG_CORE
   PR("cond_result: ");
   WRITE(cond_result ? TRUE : NIL);
   NL;
+#endif
 
   if (cond_result) {
+#ifdef AE_LOG_CORE
     PR("Choose then.\n");
+#endif
     return EVAL(env, CADR(args));
   }
   else {
+#ifdef AE_LOG_CORE
     PR("Choose else.\n");
-    return EVAL(env, CDDR(args));
+#endif
+    return EVAL(env, CONS(INTERN("progn"), CDDR(args)));
   }
 }
 
