@@ -107,6 +107,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 }                                                                               
  
 static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
+  (void)env;
 #ifdef AE_LOG_EVAL
   PR("\n[Apply lambda]\n");
   
