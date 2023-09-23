@@ -721,6 +721,13 @@ void root_env_and_eval(void) {
   EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("from Ash"))));
   EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("lisp!"))));
   NL;
+
+  // CONS_NIL(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Hello ")))),
+  WRITE(
+  CONS(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Hello "))),
+       CONS(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("from Ash"))),
+       CONS_NIL(CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Lisp!")))))));
+  NL;
   
   NL;
   WRITE(ENV_SYMS(env));
