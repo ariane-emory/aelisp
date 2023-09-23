@@ -13,8 +13,8 @@
   DO(atomp)                                                                                        \
   DO(not)                                                                                          \
   DO(print)                                                                                        \
-  DO(princ)                                                                                        \
-  DO(write) 
+  DO(princ) 
+//  DO(princ)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(setq)                                                                                         \

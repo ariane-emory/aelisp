@@ -8,7 +8,7 @@
 #include "ae_write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// write helpers
+// princ helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define NL      fputc('\n', stream)
@@ -44,7 +44,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     written  += fprintf(stream, "% -18s %-18s %018p", NAME_VAL(this), (SPECIAL_FUNP(this) ? "special" : "-"), FUN_VAL(this));
     break;
   default:
-    written  += FWRITE(this, stream);
+    written  += FPRINC(this, stream);
   }
   
   while (written++ <= 70) SPC;
@@ -117,65 +117,65 @@ char * ae_sput_words(const ae_obj_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's _write methods
+// obj's _princ methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ae_write(const ae_obj_t * const this) {
-  return FWRITE(this, stdout);
+int ae_princ(const ae_obj_t * const this) {
+  return FPRINC(this, stdout);
 }
 
-static FILE * fwrite_stream   = NULL;
-static int    fwrite_counter  = 0;
+static FILE * fprinc_stream   = NULL;
+static int    fprinc_counter  = 0;
 
-#define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
-#define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
-#define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
+#define COUNTED_FPUTC(c, stream)     fprinc_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
+#define COUNTED_FPUTS(s, stream)     fprinc_counter += (fputs((s), (stream)))
+#define COUNTED_FPRINTF(stream, ...) fprinc_counter += (fprintf((stream), __VA_ARGS__))
 
-static int ae_fwrite_internal(const ae_obj_t * const this) {
+static int ae_fprinc_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_ENV:
     if (NILP(ENV_PARENT(this)))
-      COUNTED_FPRINTF(fwrite_stream, "env<nil←%018p>", ENV_PARENT(this), this);
+      COUNTED_FPRINTF(fprinc_stream, "env<nil←%018p>", ENV_PARENT(this), this);
     else
-      COUNTED_FPRINTF(fwrite_stream, "env<%018p←%018p>", ENV_PARENT(this), this);
+      COUNTED_FPRINTF(fprinc_stream, "env<%018p←%018p>", ENV_PARENT(this), this);
     break;
   case AE_INF:
-    COUNTED_FPUTS("∞", fwrite_stream);
+    COUNTED_FPUTS("∞", fprinc_stream);
     break;
   case AE_CONS:
-    COUNTED_FPUTC('(', fwrite_stream);
+    COUNTED_FPUTC('(', fprinc_stream);
 
     FOR_EACH_CONST(elem, this) {
-      ae_fwrite_internal(elem);
-      fflush(fwrite_stream);
+      ae_fprinc_internal(elem);
+      fflush(fprinc_stream);
         
       if (! NILP(CDR(position)))
-        COUNTED_FPUTC(' ', fwrite_stream);
+        COUNTED_FPUTC(' ', fprinc_stream);
     }
       
-    COUNTED_FPUTC(')', fwrite_stream);
+    COUNTED_FPUTC(')', fprinc_stream);
     break;
   case AE_SYMBOL:
-    COUNTED_FPUTS(SYM_VAL(this), fwrite_stream);
+    COUNTED_FPUTS(SYM_VAL(this), fprinc_stream);
     break;
   case AE_STRING:
     if (STR_VAL(this) == NULL) {
-      COUNTED_FPUTS("(null)", fwrite_stream);
+      COUNTED_FPUTS("(null)", fprinc_stream);
     }
     else {
-      // COUNTED_FPUTC('"', fwrite_stream);
-      COUNTED_FPUTS(STR_VAL(this), fwrite_stream);
-      // COUNTED_FPUTC('"', fwrite_stream);
+      // COUNTED_FPUTC('"', fprinc_stream);
+      COUNTED_FPUTS(STR_VAL(this), fprinc_stream);
+      // COUNTED_FPUTC('"', fprinc_stream);
     }
     break;
   case AE_INTEGER:
-    COUNTED_FPRINTF(fwrite_stream, "%d", this->int_val);
+    COUNTED_FPRINTF(fprinc_stream, "%d", this->int_val);
     break;
   case AE_RATIONAL:
-    COUNTED_FPRINTF(fwrite_stream, "%d/%d", this->numerator_val, this->denominator_val);
+    COUNTED_FPRINTF(fprinc_stream, "%d/%d", this->numerator_val, this->denominator_val);
     break;
   case AE_FLOAT:
-    COUNTED_FPRINTF(fwrite_stream, "%g", this->float_val);
+    COUNTED_FPRINTF(fprinc_stream, "%g", this->float_val);
     break;
   case AE_CHAR:
   {
@@ -195,35 +195,35 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_val;
     }
 
-    // COUNTED_FPUTC('\'', fwrite_stream);
-    COUNTED_FPUTS(tmp, fwrite_stream);
-    // COUNTED_FPUTC('\'', fwrite_stream);
+    // COUNTED_FPUTC('\'', fprinc_stream);
+    COUNTED_FPUTS(tmp, fprinc_stream);
+    // COUNTED_FPUTC('\'', fprinc_stream);
     
     break;
   }
   default:
-    COUNTED_FPRINTF(fwrite_stream, "??");
+    COUNTED_FPRINTF(fprinc_stream, "??");
   }
   
-  fflush(fwrite_stream);
+  fflush(fprinc_stream);
   
-  return fwrite_counter;
+  return fprinc_counter;
 }
 
-int ae_fwrite(const ae_obj_t * const this, FILE * stream_) {
+int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
   ASSERT_NOT_NULLP(this);
 
-  fwrite_counter = 0;
-  fwrite_stream  = stream_;
+  fprinc_counter = 0;
+  fprinc_stream  = stream_;
 
-  return ae_fwrite_internal(this);
+  return ae_fprinc_internal(this);
 }
 
-char * ae_swrite(const ae_obj_t * const this) {
+char * ae_sprinc(const ae_obj_t * const this) {
   MEMSTREAM(buff, stream_);
 
-  ae_fwrite(this, stream_);
-  fclose(fwrite_stream);
+  ae_fprinc(this, stream_);
+  fclose(fprinc_stream);
 
   return buff; // free this when you're done with it.
 }

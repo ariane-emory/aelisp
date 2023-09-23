@@ -38,7 +38,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
   for (; ENVP(pos); pos = ENV_PARENT(pos)) {
 #ifdef AE_LOG_ENV
     PR("Looking for '");
-    WRITE(symbol);
+    PRINC(symbol);
     PR(" in env ");
     PUT(this);
     NL;
@@ -49,10 +49,10 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 
 #ifdef AE_LOG_ENV
     PR("  symbols: ");
-    WRITE(symbols);
+    PRINC(symbols);
     NL;
     PR("  values:  ");
-    WRITE(values);
+    PRINC(values);
     NL;
 #endif
 
@@ -78,16 +78,16 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
 
 #ifdef AE_LOG_ENV
   PR("Looking for '");
-  WRITE(symbol);
+  PRINC(symbol);
   PR(" in env ");
   PUT(this);
   PR(" to place %018p.", value);
   NL;
   PR("  syms: ");
-  WRITE(ENV_SYMS(this));
+  PRINC(ENV_SYMS(this));
   NL;
   PR("  vals:  ");
-  WRITE(ENV_VALS(this));
+  PRINC(ENV_VALS(this));
   NL;
   NL;
 #endif
@@ -101,13 +101,13 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
       FOR_EACH(sym, ENV_SYMS(env)) {
 #ifdef AE_LOG_ENV
         PR("  Looking at sym ");
-        WRITE(sym);
+        PRINC(sym);
         NL;
         PR("    syms ");
-        WRITE(ENV_SYMS(position));
+        PRINC(ENV_SYMS(position));
         NL;
         PR("    vals ");
-        WRITE(vals);
+        PRINC(vals);
         NL;
 #endif
         

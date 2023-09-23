@@ -12,17 +12,17 @@
 #define FPUT(this, stream)      (ae_fput((this), (stream)))
 #define SPUT(this, stream)      (ae_fput((this))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define WRITE(this)             (ae_write(this))
-#define FWRITE(this, stream)    (ae_fwrite((this), (stream)))
-#define SWRITE(this)            (ae_swrite(this))
+#define PRINC(this)             (ae_princ(this))
+#define FPRINC(this, stream)    (ae_fprinc((this), (stream)))
+#define SPRINC(this)            (ae_sprinc(this))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods writing / printing methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int           ae_write             (const ae_obj_t *  const this                                  );
-char *        ae_swrite            (const ae_obj_t *  const this                                  );
-int           ae_fwrite            (const ae_obj_t *  const this,  FILE * stream                  );
+int           ae_princ             (const ae_obj_t *  const this                                  );
+char *        ae_sprinc            (const ae_obj_t *  const this                                  );
+int           ae_fprinc            (const ae_obj_t *  const this,  FILE * stream                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int           ae_put               (const ae_obj_t *  const this                                  );
 char *        ae_sput              (const ae_obj_t *  const this                                  );

@@ -139,7 +139,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   else {
     PUT(tail);
     putchar(' ');
-    WRITE(tail);
+    PRINC(tail);
   }
   
   fputs("\n", stdout);
@@ -190,7 +190,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   fputs(" into ", stdout);
   PUT(*plist);
   putchar(' ');
-  WRITE(*plist);
+  PRINC(*plist);
   putchar('\n');
   fflush(stdout);
 #endif

@@ -46,10 +46,10 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   PUT(fun);
   NL;
   PR("  args ");
-  WRITE(args);
+  PRINC(args);
   NL;
   PR("  env ");
-  WRITE(env);
+  PRINC(env);
   NL;
 #endif
 
@@ -62,7 +62,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 #ifdef AE_LOG_EVAL
     NL;
     PR("Un-evaled args   ");
-    WRITE(env_and_args);
+    PRINC(env_and_args);
     NL;
 #endif
 
@@ -76,7 +76,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
     
 #ifdef AE_LOG_EVAL
     PR("Evaled args   ");
-    WRITE(evaled_args);
+    PRINC(evaled_args);
     NL;
 #endif
 
@@ -85,7 +85,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   
 #ifdef AE_LOG_EVAL
   PR("  ret ");
-  WRITE(ret);
+  PRINC(ret);
   NL;
 #endif
   
@@ -110,9 +110,9 @@ apply_dispatch[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
  #ifdef AE_LOG_EVAL
   PR("Eval ");
-  WRITE(obj);
+  PRINC(obj);
   PR(" in ");
-  WRITE(env);
+  PRINC(env);
   NL;
 #endif
   
@@ -125,9 +125,9 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("Apply ");
-  WRITE(fun);
+  PRINC(fun);
   PR(" to ");
-  WRITE(args);
+  PRINC(args);
   NL;
 #endif
 

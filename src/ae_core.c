@@ -33,7 +33,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 #ifdef AE_LOG_CORE
   NL;
   PR("setq's args ");
-  WRITE(args);
+  PRINC(args);
   NL;
 #endif
   
@@ -53,11 +53,11 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   
 #ifdef AE_LOG_CORE
   PR("progn env:    ");
-  WRITE(env);
+  PRINC(env);
   NL;
 
   PR("progn args:   ");
-  WRITE(args);
+  PRINC(args);
   NL;
 #endif
   
@@ -90,16 +90,16 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 #ifdef AE_LOG_CORE
   NL;
   PR("if:          ");
-  WRITE(CAR(args));
+  PRINC(CAR(args));
   NL;
   PR("args:        ");
-  WRITE(args);
+  PRINC(args);
   NL;
   PR("then:        ");
-  WRITE(CADR(args));
+  PRINC(CADR(args));
   NL;
   PR("else:        ");
-  WRITE(CONS(INTERN("progn"), CDDR(args)));
+  PRINC(CONS(INTERN("progn"), CDDR(args)));
   NL;
 #endif
 
@@ -110,7 +110,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 
 #ifdef AE_LOG_CORE
   PR("cond_result: ");
-  WRITE(cond_result ? TRUE : NIL);
+  PRINC(cond_result ? TRUE : NIL);
   NL;
 #endif
 
@@ -242,7 +242,7 @@ ae_obj_t * ae_core_print(ae_obj_t * const args) {
   int written = 1;
   
   FOR_EACH(elem, args) {
-    written += WRITE(elem);
+    written += PRINC(elem);
 
     if (NOT_NILP(CDR(position))) {
       SPC;
@@ -263,29 +263,29 @@ ae_obj_t * ae_core_princ(ae_obj_t * const args) {
   int written = 0;
   
   FOR_EACH(elem, args) {
-    written += WRITE(elem);
+    written += PRINC(elem);
   }
 
   return NEW_INT(written);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _write
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/* //////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* // _write */
+/* //////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-// _write is temporarily identical to _princ.
+/* // _write is temporarily identical to _princ. */
 
-ae_obj_t * ae_core_write(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
+/* ae_obj_t * ae_core_write(ae_obj_t * const args) { */
+/*   ASSERT_CONSP(args); */
   
-  int written = 0;
+/*   int written = 0; */
   
-  FOR_EACH(elem, args) {
-    written += WRITE(elem);
-  }
+/*   FOR_EACH(elem, args) { */
+/*     written += WRITE(elem); */
+/*   } */
 
-  return NEW_INT(written);
-}
+/*   return NEW_INT(written); */
+/* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

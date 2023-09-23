@@ -53,21 +53,21 @@ static char * tmp_str = NULL;
 
 void before_acutest() {}
 
-char * write_to_new_string(const ae_obj_t * const this) {
+char * princ_to_new_string(const ae_obj_t * const this) {
   char * buff;
   size_t size;
   FILE * stream = open_memstream(&buff, &size);
 
-  FWRITE(this, stream);
+  FPRINC(this, stream);
   fclose(stream);
 
   return buff;
 }
 
-bool shitty_write_based_equality_predicate(
+bool shitty_princ_based_equality_predicate(
   const ae_obj_t * const this,
   const char * const strcmp_str) {
-  return ! strcmp(strcmp_str, SWRITE(this));
+  return ! strcmp(strcmp_str, SPRINC(this));
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
@@ -147,30 +147,30 @@ void basic_list_checks(ae_obj_t * this) {
   T(EQ(list_length_counter, 4));
   T(EQ(list_length_counter, LENGTH(this)));
 
-  // WRITE(this); NL;
+  // PRINC(this); NL;
   
-  T(shitty_write_based_equality_predicate(this, "(1 2 3 4)"));
-  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+  T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
+  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   ae_obj_t * mapped = NULL;
 
   mapped = MAP(this, ae_obj_double);
-  // fprintf(stdout, "doubled "); WRITE(mapped); NL;
+  // fprintf(stdout, "doubled "); PRINC(mapped); NL;
   // pool_print();
-  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
-  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+  T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
+  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   mapped = CLONE(mapped);
-  // fprintf(stdout, "cloned  "); WRITE(mapped); NL;
+  // fprintf(stdout, "cloned  "); PRINC(mapped); NL;
   // pool_print();
-  T(shitty_write_based_equality_predicate(mapped, "(2 4 6 8)"));
-  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+  T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
+  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   mapped = MAP(mapped, ae_obj_to_pairs);
-  // fprintf(stdout, "paired  ");   WRITE(mapped); NL;
+  // fprintf(stdout, "paired  ");   PRINC(mapped); NL;
   // pool_print();
-  T(shitty_write_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
-  tmp_str = SWRITE(this); TM("Got \"%s\".", tmp_str);
+  T(shitty_princ_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
+  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   // pool_print();
 }
@@ -211,7 +211,7 @@ void remove_interned_symbol_from_list(void) {
   
   T(EQ(LENGTH(symbols_list), 3));
   T(NOT_MEMBERP(symbols_list, that));
-  T(shitty_write_based_equality_predicate(symbols_list, "(d c a)"));
+  T(shitty_princ_based_equality_predicate(symbols_list, "(d c a)"));
 }
 
 void test_setup_is_okay(void)
@@ -294,11 +294,11 @@ void clone_a_simple_ae_obj(void) {
   T(EQ(that->denominator_val, 321));
 }
 
-void pushed_and_consed_lists_write_identically(void) {
+void pushed_and_consed_lists_princ_identically(void) {
   SETUP_TEST;
   this    = push_together_a_list_of_ints();
-  tmp_str = SWRITE(this);
-  T(shitty_write_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
+  tmp_str = SPRINC(this);
+  T(shitty_princ_based_equality_predicate(cons_together_a_list_of_ints(), tmp_str));
 }
 
 void intern_symbols(void) {
@@ -315,7 +315,7 @@ void intern_symbols(void) {
   T(EQ(LENGTH(symbols_list), 2));
 }
 
-#define FWRITE_TEST(expect, type, field, val, ...)                                                 \
+#define FPRINC_TEST(expect, type, field, val, ...)                                                 \
   {                                                                                                \
     this        = NEW(type);                                                                       \
     this->field = val;                                                                             \
@@ -325,14 +325,14 @@ void intern_symbols(void) {
     char * buff;                                                                                   \
     size_t size;                                                                                   \
     FILE * stream   = open_memstream(&buff, &size);                                                \
-    int    reported = ae_fwrite(this, stream);                                                     \
+    int    reported = ae_fprinc(this, stream);                                                     \
                                                                                                    \
     fclose(stream);                                                                                \
     free(buff);                                                                                    \
                                                                                                    \
     NL;                                                                                            \
     PR("Writing <");                                                                               \
-    WRITE(this);                                                                                   \
+    PRINC(this);                                                                                   \
     PR("> wrote %d characters, expected %d.", strlen(buff), expect);                               \
                                                                                                    \
     T(EQ(strlen(buff), expect));                                                                   \
@@ -344,16 +344,16 @@ void intern_symbols(void) {
        (int)strlen(buff), (int)reported, buff);                                                    \
   }
 
-void fwrite_lengths(void) {
+void fprinc_lengths(void) {
   SETUP_TEST;
 
-  FWRITE_TEST(1, AE_CHAR,     char_val,      '1'                                 );
-  FWRITE_TEST(2, AE_CHAR,     char_val,      '\n'                                );
-  FWRITE_TEST(3, AE_INTEGER,  int_val,       123                                 );
-  FWRITE_TEST(4, AE_FLOAT,    float_val,     1.23                                );
-  FWRITE_TEST(7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
-  FWRITE_TEST(4, AE_STRING,   str_val,       "asdf"                              );
-  FWRITE_TEST(4, AE_SYMBOL,   sym_val,       "ghij"                              );
+  FPRINC_TEST(1, AE_CHAR,     char_val,      '1'                                 );
+  FPRINC_TEST(2, AE_CHAR,     char_val,      '\n'                                );
+  FPRINC_TEST(3, AE_INTEGER,  int_val,       123                                 );
+  FPRINC_TEST(4, AE_FLOAT,    float_val,     1.23                                );
+  FPRINC_TEST(7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
+  FPRINC_TEST(4, AE_STRING,   str_val,       "asdf"                              );
+  FPRINC_TEST(4, AE_SYMBOL,   sym_val,       "ghij"                              );
 }
 
 void eql(void) {
@@ -561,17 +561,17 @@ void envs(void) {
   pool_print();
   PR("Upper:\n");
   PR("  syms ");
-  WRITE(ENV_SYMS(that));
+  PRINC(ENV_SYMS(that));
   NL;
   PR("  vals ");
-  WRITE(ENV_VALS(that));
+  PRINC(ENV_VALS(that));
   NL;
   PR("Lower:\n");
   PR("  syms ");
-  WRITE(ENV_SYMS(this));
+  PRINC(ENV_SYMS(this));
   NL;
   PR("  vals ");
-  WRITE(ENV_VALS(this));
+  PRINC(ENV_VALS(this));
   NL;
 #endif
 }
@@ -589,9 +589,9 @@ void primitive_cons_car_cdr(void) {
   
   T(EQ(ae_core_car(make_args_containing_one_list()), INTERN("a")                                       ));
   T(EQ(ae_core_car(LIST(ae_core_cdr(make_args_containing_one_list()))), INTERN("b")                ));
-  T(shitty_write_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), LIST(NIL))), "(a)"        )); // cons 'a onto nil and get (a).
-  T(shitty_write_based_equality_predicate(ae_core_cdr (make_args_containing_one_list() ), "(b c)"      ));
-  T(shitty_write_based_equality_predicate(ae_core_cons(make_args_for_cons()            ), "(nil a b c)"));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), LIST(NIL))), "(a)"        )); // cons 'a onto nil and get (a).
+  T(shitty_princ_based_equality_predicate(ae_core_cdr (make_args_containing_one_list() ), "(b c)"      ));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(make_args_for_cons()            ), "(nil a b c)"));
   T(NILP(ae_core_car(                     LIST(NIL))                                               ));
   T(NILP(ae_core_cdr(                     LIST(NIL))                                               ));
   T(NILP(ae_core_car(LIST(ae_core_car(LIST(NIL))))                                             ));
@@ -633,7 +633,7 @@ void primitive_eq_eql_atomp_not(void) {
   T(NILP (ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
 }
 
-void primitive_print_princ_write(void) {
+void primitive_print_princ_princ(void) {
   SETUP_TEST;
 
   {
@@ -647,7 +647,7 @@ void primitive_print_princ_write(void) {
     T(INT_VAL(written) == 5);
   }
   {
-    ae_obj_t * written = ae_core_write(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
+    ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 5);
   }
@@ -714,44 +714,44 @@ void root_env_and_eval(void) {
  
   ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
   /* NL; */
-  /* WRITE(expr); */
+  /* PRINC(expr); */
   /* NL; */
   /* EVAL(env, expr); */
   
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
-  T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
+  T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
   expr = CONS(INTERN("quote"), LIST(INTERN("a")));
-  T(shitty_write_based_equality_predicate(EVAL(env, expr), "a"));
+  T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a"));
 
   /* NL; */
   expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
-  /* WRITE(EVAL(env, expr)); */
+  /* PRINC(EVAL(env, expr)); */
   /* NL; */
   T(EQL(NEW_INT(11), EVAL(env, expr)));
   
   expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(NEW_INT(11))));
-  /* WRITE(EVAL(env, expr)); */
+  /* PRINC(EVAL(env, expr)); */
   /* NL; */
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
   expr = CONS(INTERN("if"), CONS(INTERN("nil"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
-  /* WRITE(EVAL(env, expr)); */
+  /* PRINC(EVAL(env, expr)); */
   /* NL; */
   T(EQL(NEW_INT(22), EVAL(env, expr)));
   
   expr = CONS(INTERN("if"), CONS(INTERN("nil"), LIST(NEW_INT(11))));
-  /* WRITE(EVAL(env, expr)); */
+  /* PRINC(EVAL(env, expr)); */
   /* NL; */
   T(NILP(EVAL(env, expr)));
   
   NL;
   NL;
   PR("syms: ");
-  WRITE(ENV_SYMS(env));
+  PRINC(ENV_SYMS(env));
   NL;
   PR("vals: ");
-  WRITE(ENV_VALS(env));
+  PRINC(ENV_VALS(env));
   NL;
   NL;
 }
@@ -770,16 +770,16 @@ void root_env_and_eval(void) {
   DO(clone_a_simple_ae_obj)                                                                        \
   DO(consed_list_tests)                                                                            \
   DO(pushed_list_tests)                                                                            \
-  DO(pushed_and_consed_lists_write_identically)                                                    \
+  DO(pushed_and_consed_lists_princ_identically)                                                    \
   DO(intern_symbols)                                                                               \
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
-  DO(fwrite_lengths)                                                                               \
+  DO(fprinc_lengths)                                                                               \
   DO(envs)                                                                                         \
   DO(primitive_cons_car_cdr)                                                                       \
   DO(primitive_eq_eql_atomp_not)                                                                   \
-  DO(primitive_print_princ_write)                                                                  \
+  DO(primitive_print_princ_princ)                                                                  \
   DO(primitive_math)                                                                               \
   DO(primitive_cmp)                                                                                \
   DO(root_env_and_eval)
