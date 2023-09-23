@@ -707,8 +707,8 @@ void root_env(void) {
   WRITE(symbols_list);
   NL;
   
-//  WRITE(CONS(INTERN("foo"), CONS_NIL(NEW_INT(17))))
-  WRITE(env);
+  WRITE(CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(17))))));
+  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
