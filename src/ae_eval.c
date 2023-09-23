@@ -40,6 +40,7 @@ eval_dispatch[] = {
 };
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
+#ifdef AE_LOG_EVAL
   PR("Apply:");
   PR("  fun  ");
   PUT(fun);
@@ -47,18 +48,20 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env
   PR("  args ");
   WRITE(args);
   NL;
-  
   PR("  env ");
   PUT(args);
   NL;
+#endif
   
   (void)env;
 
   ae_obj_t * ret = (*FUN_VAL(fun))(args);
 
+#ifdef AE_LOG_EVAL
   PR("  ret ");
   WRITE(ret);
   NL;
+#endif
   
   return ret;
 }                                                                               
@@ -78,12 +81,14 @@ apply_dispatch[] = {
     if (table[ix].type == GET_TYPE(obj))                                                           \
       return (*table[ix].handler)(obj, __VA_ARGS__);
 
-ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
+ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
+ #ifdef AE_LOG_EVAL
   PR("Eval ");
   WRITE(obj);
   PR(" in ");
   WRITE(env);
   NL;
+#endif
   
   ASSERT_ENVP(env);
   DISPATCH(eval_dispatch, obj, env);
@@ -92,17 +97,21 @@ ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
 }
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
+#ifdef AE_LOG_EVAL
   PR("Apply ");
   WRITE(fun);
   PR(" to ");
   WRITE(args);
   NL;
+#endif
 
-  fun = EVAL(fun, env);
+  fun = EVAL(env, fun);
   
+#ifdef AE_LOG_EVAL
   PR("Fun   ");
   PUT(fun);
   NL;
+#endif
 
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
@@ -110,11 +119,13 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
   ae_obj_t * evaled_args = NIL;
 
   FOR_EACH(elem,  args)
-    PUSH(evaled_args, EVAL(elem, env));
-      
+    PUSH(evaled_args, EVAL(env, elem));
+
+#ifdef AE_LOG_EVAL
   PR("Evaled args   ");
   WRITE(evaled_args);
-  NL;   
+  NL;
+#endif
   
   DISPATCH(apply_dispatch, fun, evaled_args, env);
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));

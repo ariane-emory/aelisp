@@ -689,17 +689,14 @@ void primitive_cmp(void) {
 void root_env_and_eval(void) {
   SETUP_TEST;
 
-  ae_obj_t * env  = ENV_NEW_ROOT();
-  ae_obj_t * args = CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(666)))));
+  ae_obj_t * env = ENV_NEW_ROOT();
 
   SETQ(env, INTERN("foo"), NEW_INT(666));
 
-  // ae_core_setq(args);
+  T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))))));
+  T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo")))))));
 
-  T(EQL(NEW_INT(25),  EVAL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))),  env)));
-  T(EQL(NEW_INT(672), EVAL(CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo")))), env)));
-
-  T(EQL(NEW_INT(75), EVAL(CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))), env)));
+  T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))))));
 
 }
 
