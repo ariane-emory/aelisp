@@ -765,7 +765,8 @@ void root_env_and_eval(void) {
   expr = CONS(CONS(INTERN("lambda"), CONS(LIST(INTERN("x")), CONS(CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(CONS(INTERN("+"), CONS(INTERN("x"), LIST(NEW_INT(2)))))))), LIST(NEW_INT(12)));
   PRINC(expr);
   NL;
-
+  PRINC(EVAL(env, expr));  
+  NL;
 
 
   NL;
