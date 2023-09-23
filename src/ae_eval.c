@@ -19,26 +19,26 @@ static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
   return obj;
 }
 
-static ae_obj_t * lookup(ae_obj_t * obj, ae_obj_t * env) {
-  return ENV_FIND(env, obj);
+static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
+  return ENV_FIND(env, sym);
 }
 
-static ae_obj_t * apply_car_to_cdr(ae_obj_t * obj, ae_obj_t * env) {
-  return ae_apply(CAR(obj), CDR(env));
+static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
+  return ae_apply(CAR(list), CDR(env));
 }
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
 eval_dispatch[] = {
-  { AE_INTEGER,  &self             },
-  { AE_RATIONAL, &self             },
-  { AE_FLOAT,    &self             },
-  { AE_INF,      &self             },
-  { AE_CHAR,     &self             },
-  { AE_STRING,   &self             },
-  { AE_LAMBDA,   &self             },
-  { AE_CORE_FUN, &self             },
-  { AE_SYMBOL,   &lookup           },
-  { AE_CONS,     &apply_car_to_cdr },
+  { AE_INTEGER,  &self           },
+  { AE_RATIONAL, &self           },
+  { AE_FLOAT,    &self           },
+  { AE_INF,      &self           },
+  { AE_CHAR,     &self           },
+  { AE_STRING,   &self           },
+  { AE_LAMBDA,   &self           },
+  { AE_CORE_FUN, &self           },
+  { AE_SYMBOL,   &lookup         },
+  { AE_CONS,     &apply          },
 };
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * args) {
@@ -51,8 +51,8 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * args) {
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
 apply_dispatch[] = {
-  { AE_CORE_FUN, &apply_core_fun   },
-  { AE_LAMBDA,   &apply_lambda     },
+  { AE_CORE_FUN, &apply_core_fun },
+  { AE_LAMBDA,   &apply_lambda   },
 };
 
 ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
