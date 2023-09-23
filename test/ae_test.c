@@ -698,6 +698,8 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))))));
 
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), CONS_NIL(NEW_INT(88)))));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
