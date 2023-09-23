@@ -18,13 +18,38 @@
   ae_obj_t * env  = CAR(env_and_args);                                                             \
   ae_obj_t * args = CADR(bundle)
 
+#ifdef AE_LOG_CORE
+#  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
+  PR("\n[Create " name "]\n");                                                                     \
+  PR("args          ");                                                                            \
+  PUT(args);                                                                                       \
+  SPC;                                                                                             \
+  PRINC(args);                                                                                     \
+  NL;                                                                                              \
+                                                                                                   \
+  PR("params        ");                                                                            \
+  PUT(CAR(args));                                                                                  \
+  SPC;                                                                                             \
+  PRINC(CAR(args));                                                                                \
+  NL;                                                                                              \
+                                                                                                   \
+  PR("body          ");                                                                            \
+  PUT(CDR(args));                                                                                  \
+  SPC;                                                                                             \
+  PRINC(CDR(args));                                                                                \
+  NL
+#else
+#  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
+#endif
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _setq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-  
+
   ASSERT_SYMBOLP(CAR(args));
   ASSERT_CONSP(CDR(args));
 
@@ -36,11 +61,11 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   PRINC(args);
   NL;
 #endif
-  
+
   ae_obj_t * val  = EVAL(env, CADR(args)); // allowed to be NIL.
 
   ENV_SET(env, sym, val);
-  
+
   return val;
 }
 
@@ -50,7 +75,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 
 ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-  
+
 #ifdef AE_LOG_CORE
   PR("progn env:    ");
   PRINC(env);
@@ -60,12 +85,12 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   PRINC(args);
   NL;
 #endif
-  
+
   ae_obj_t * ret = NIL;
-  
+
   FOR_EACH(elem, args)
     ret = EVAL(env, elem);
-  
+
   return ret;
 }
 
@@ -87,26 +112,7 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-#ifdef AE_LOG_CORE
-  PR("\n[Create lambda]\n");
-  PR("args          ");
-  PUT(args);
-  SPC;
-  PRINC(args);
-  NL;
-
-  PR("params        ");
-  PUT(CAR(args));
-  SPC;
-  PRINC(CAR(args));
-  NL;
-
-  PR("body          ");
-  PUT(CDR(args));
-  SPC;
-  PRINC(CDR(args));
-  NL;
-#endif
+  LOG_CREATE_LAMBDA_OR_MACRO("lambda");
 
   ASSERT_TAILP(CAR(args));
   ASSERT_TAILP(CDR(args));
@@ -123,27 +129,8 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_macro(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-#ifdef AE_LOG_CORE
-  PR("\n[Create macro]\n");
-  PR("args          ");
-  PUT(args);
-  SPC;
-  PRINC(args);
-  NL;
-
-  PR("params        ");
-  PUT(CAR(args));
-  SPC;
-  PRINC(CAR(args));
-  NL;
-
-  PR("body          ");
-  PUT(CDR(args));
-  SPC;
-  PRINC(CDR(args));
-  NL;
-#endif
-
+  LOG_CREATE_LAMBDA_OR_MACRO("macro");
+  
   ASSERT_TAILP(CAR(args));
   ASSERT_TAILP(CDR(args));
 
@@ -211,7 +198,7 @@ ae_obj_t * ae_core_car(ae_obj_t * const args) {
 
   if (NILP(CAR(args)))     // car of nil is nil.
     return NIL;
-  
+
   return CAAR(args);
 }
 
@@ -223,11 +210,11 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NILP(CDR(args));  // takes only one arg.
   ASSERT_TAILP(CAR(args)); // which must be a tail.
-  
+
   if (NILP(CAR(args)))     // cdr of nil is nil.
     return NIL;
 
-  return CDAR(args); 
+  return CDAR(args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +228,7 @@ ae_obj_t * ae_core_cons(ae_obj_t * const args) {
 
   ae_obj_t * head = CAR(args);
   ae_obj_t * tail = CADR(args);
-  
+
   return CONS(head, tail);
 }
 
@@ -310,9 +297,9 @@ ae_obj_t * ae_core_not(ae_obj_t * const args) {
 ae_obj_t * ae_core_print(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   NL;
-  
+
   int written = 1;
-  
+
   FOR_EACH(elem, args) {
     written += PRINC(elem);
 
@@ -331,9 +318,9 @@ ae_obj_t * ae_core_print(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_princ(ae_obj_t * const args) {
   ASSERT_CONSP(args);
-  
+
   int written = 0;
-  
+
   FOR_EACH(elem, args) {
     written += PRINC(elem);
   }
@@ -349,9 +336,9 @@ ae_obj_t * ae_core_princ(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_write(ae_obj_t * const args) {
   ASSERT_CONSP(args);
-  
+
   int written = 0;
-  
+
   FOR_EACH(elem, args) {
     written += WRITE(elem);
   }
@@ -393,7 +380,7 @@ FOR_EACH_MATH_OP(DEF_MATH_OP);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// This only deals with AE_INTEGERS for now. 
+// This only deals with AE_INTEGERS for now.
 #define DEF_CMP_OP(name, oper, assign, init)                                                       \
 ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
   ASSERT_CONSP(args);                                                                              \
@@ -414,5 +401,3 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
 }
 
 FOR_EACH_CMP_OP(DEF_CMP_OP);
-
-  
