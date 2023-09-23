@@ -21,7 +21,7 @@ LOG_CFLAGS = \
   -DAE_LOG_PUSH
 
 TEST_CFLAGS = \
-	-Wno-unused-value;
+	-Wno-unused-value
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
