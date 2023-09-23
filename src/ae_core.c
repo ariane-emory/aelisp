@@ -117,6 +117,42 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _macro
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_macro(ae_obj_t * const env_and_args) {
+  SPECIAL_FUN_ARGS(env, args, env_and_args);
+
+#ifdef AE_LOG_CORE
+  PR("\n[Create macro]\n");
+  PR("args          ");
+  PUT(args);
+  SPC;
+  PRINC(args);
+  NL;
+
+  PR("params        ");
+  PUT(CAR(args));
+  SPC;
+  PRINC(CAR(args));
+  NL;
+
+  PR("body          ");
+  PUT(CDR(args));
+  SPC;
+  PRINC(CDR(args));
+  NL;
+#endif
+
+  ASSERT_TAILP(CAR(args));
+  ASSERT_TAILP(CDR(args));
+
+  ae_obj_t * macro = NEW_MACRO(CAR(args), CDR(args), env);
+
+  return macro;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _if
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

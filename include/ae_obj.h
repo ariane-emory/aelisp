@@ -97,7 +97,7 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       params;
       struct ae_obj_t *       body;
       struct ae_obj_t *       env;
-    }; // AE_LAMBDA
+    }; // AE_LAMBDA / AE_MACRO
     struct {
       char                    name[8]; // this name is just for printing purposes.
       bool                    special;
@@ -280,6 +280,15 @@ _obj;                                                                           
 #define NEW_LAMBDA(params_, body_, env_)                                                           \
 ({                                                                                                 \
 ae_obj_t * _obj = NEW(AE_LAMBDA);                                                                  \
+_obj->params    = params_;                                                                         \
+_obj->body      = body_;                                                                           \
+_obj->env       = env_;                                                                            \
+_obj;                                                                                              \
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NEW_MACRO(params_, body_, env_)                                                            \
+({                                                                                                 \
+ae_obj_t * _obj = NEW(AE_MACRO);                                                                   \
 _obj->params    = params_;                                                                         \
 _obj->body      = body_;                                                                           \
 _obj->env       = env_;                                                                            \
