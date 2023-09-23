@@ -23,8 +23,8 @@ static char mem[free_list_size] = { 0 };
 
 #define T       TEST_CHECK
 #define TM      TEST_MSG
-#define NL      putchar('\n');
-#define FF      fflush(stdout);
+#define NL      (putchar('\n'))
+#define FF      (fflush(stdout))
 #define PR(...) (fprintf(stdout, __VA_ARGS__))
 
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
@@ -639,6 +639,16 @@ void primitive_print_princ(void) {
   }
 }
 
+void primitive_print_math(void) {
+  SETUP_TEST;
+
+  this = ae_lisp_add(CONS(NEW_INT(1), CONS(NEW_INT(2), CONS_NIL(NEW_INT(1)))));
+
+  PUT(this);
+
+  T(EQL(NEW_INT(6), ae_lisp_add(CONS(NEW_INT(1), CONS(NEW_INT(2), CONS_NIL(NEW_INT(1)))))));
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -662,7 +672,8 @@ void primitive_print_princ(void) {
   DO(envs)                                                                                         \
   DO(primitive_cons_car_cdr)                                                                       \
   DO(primitive_eq_eql_atomp_not)                                                                   \
-  DO(primitive_print_princ)
+  DO(primitive_print_princ)                                                                        \
+  DO(primitive_print_math)
 
 #define pair(fun) { #fun, fun },
 

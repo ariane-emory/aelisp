@@ -1,9 +1,10 @@
 #include "ae_lisp_primitives.h"
 #include "ae_obj_list.h"
 
-#define DIE assert(0)
-#define NL  putchar('\n');
-#define SPC putchar(' ');
+#define DIE     (assert(0))
+#define NL      (putchar('\n'))
+#define SPC     (putchar(' '))
+#define PR(...) (fprintf(stdout, __VA_ARGS__))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _car
@@ -171,6 +172,8 @@ ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
     tail = CDR(args);
   }
 
+  
+  
   FOR_EACH(elem, tail) {
     ASSERT_INTEGERP(elem);
     INT_VAL(head) = INT_VAL(head) + INT_VAL(elem);
