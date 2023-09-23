@@ -5,7 +5,8 @@
 #include "ae_list.h"
 #include "ae_env.h"
 
-#define NL (putchar('\n'))
+#define NL  (putchar('\n'))
+#define SPC (putchar(' '))
 #define PR(...)  (fprintf(stdout, __VA_ARGS__))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -93,7 +94,31 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 }                                                                               
  
 static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
-  (void)env, (void)fun, (void)args; assert(0);
+#ifdef AE_LOG_EVAL
+  PR("\n[Apply lambda]\n");
+  
+  PR("fun    ");
+  PUT(fun);
+  SPC;
+  PRINC(fun);
+  NL;
+
+  PR("env    ");
+  PUT(env);
+  SPC;
+  PRINC(env);
+  NL;
+
+  PR("args   ");
+  PUT(args);
+  SPC;
+  PRINC(args);
+  NL;
+
+  fflush(stdout);
+#endif
+  
+    (void)env, (void)fun, (void)args; assert(0);
 }
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
