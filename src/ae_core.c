@@ -12,6 +12,19 @@
 // _setq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define ENV_ARG(bundle)             \
+({                                  \
+  ASSERT_CONSP(env_and_args);       \
+  ASSERT_ENVP(CAR(env_and_args));   \
+  ASSERT_CONSP(CDR(env_and_args));  \
+  ASSERT_TAILP(CADR(env_and_args)); \
+  CAR(env_and_args);                \
+})
+
+#define SPECIAL_ARGS(env, args)     \
+  ae_obj_t * env  = ENV_ARG(bundle) \
+  ae_obj_t * args = CADR(bundle)
+
 ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   ASSERT_CONSP(env_and_args);
   ASSERT_ENVP(CAR(env_and_args));
