@@ -113,12 +113,6 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
 
   ae_obj_t * lambda = NEW_LAMBDA(CAR(args), CDR(args), env);
 
-#ifdef AE_LOG_CORE  
-  PR("lambda:    ");
-  PUT(lambda);
-  NL;
-#endif
-
   return lambda;
 }
 
