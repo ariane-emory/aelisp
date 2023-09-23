@@ -7,7 +7,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "ae_obj_pool.h"
+#include "ae_pool.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Typedefs
@@ -276,5 +276,5 @@ _obj;                                                                           
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "ae_list.h"
-#include "ae_obj_write.h"
+#include "ae_write.h"
 #include "ae_env.h"

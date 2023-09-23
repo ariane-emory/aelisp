@@ -65,7 +65,7 @@
   }
 
   void do_write(ae_obj_t * this) {
-    ae_obj_write(this);
+    ae_write(this);
     NL;
   }
 
@@ -125,7 +125,7 @@
     puts("Wrote items in program obj.");
     NL;
     puts("Writing interned symbols.");
-    ae_obj_write(symbols_list);
+    ae_write(symbols_list);
     puts("\nWrote interned symbols.");    
   }
 
