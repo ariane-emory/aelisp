@@ -87,6 +87,16 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
+#ifdef AE_LOG_CORE  
+  PR("progn env:    ");
+  PRINC(env);
+  NL;
+
+  PR("progn args:   ");
+  PRINC(args);
+  NL;
+#endif
+
   return args;
 }
 
