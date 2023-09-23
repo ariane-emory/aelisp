@@ -717,7 +717,9 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
 
   NL;
-  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("hello "))));
+  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("Hello "))));
+  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("from Ash"))));
+  EVAL(env, CONS(INTERN("princ"), CONS_NIL(NEW_STRING("lisp!"))));
   NL;
   
   NL;
