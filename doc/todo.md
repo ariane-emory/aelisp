@@ -1,4 +1,5 @@
 To Do:
+- [ ] FOR_EACH2 macro.
 - [ ] Load the root environment up.
 - [ ] Implement math for non-integer types.
 - [ ] Implement eval functions.
