@@ -245,6 +245,9 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   return clone;
 }
 
+#define AE_TYPE_BITS  4
+#define AE_FOO_BITS  8
+
 #define AE_TYPE_SHIFT 0
 #define AE_FOO_SHIFT  AE_TYPE_BITS
 

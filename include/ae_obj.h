@@ -74,9 +74,6 @@ typedef struct ae_obj_t {
   // it's remaining bits will store other info such as GC related flags:
   unsigned int          metadata;
 
-#define AE_TYPE_BITS  4
-#define AE_FOO_BITS  8
-
   union {
     ae_string_t              str_val;
     ae_string_t              sym_val;
