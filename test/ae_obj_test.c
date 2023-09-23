@@ -626,7 +626,10 @@ void primitive_eq_eql_atomp_not(void) {
 void primitive_print_princ(void) {
   SETUP_TEST;
   
-  ae_lisp_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("a")))));
+  ae_obj_t * written = ae_lisp_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("a")))));
+  NL;
+
+  T(INT_VAL(written) == 7);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
