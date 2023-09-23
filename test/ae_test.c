@@ -697,7 +697,7 @@ void root_env(void) {
   NL;
   ae_core_setq(args);
   NL;
-  pool_print();
+  // pool_print();
   NL;
   PR("syms ");
   WRITE(ENV_SYMS(env));
@@ -713,6 +713,11 @@ void root_env(void) {
   WRITE(symbols_list);
   NL;
   WRITE(ae_eval(INTERN("foo"), env));
+  NL;
+
+  WRITE(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))));
+  NL;
+  ae_eval(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))), env);
   NL;
 }
 

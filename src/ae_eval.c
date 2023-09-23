@@ -5,6 +5,8 @@
 #include "ae_list.h"
 #include "ae_env.h"
 
+#define NL (putchar('\n'))
+#define PR(...) (fprintf(stdout, __VA_ARGS__))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 #define DISPATCH(table, obj, args)                                                                 \
@@ -56,6 +58,12 @@ apply_dispatch[] = {
 };
 
 ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
+  PR("Eval ");
+  WRITE(obj);
+  PR(" in ");
+  WRITE(env);
+  NL;
+  
   ASSERT_ENVP(env);
   DISPATCH(eval_dispatch, obj, env);
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
@@ -63,6 +71,12 @@ ae_obj_t * ae_eval(ae_obj_t * obj, ae_obj_t * env) {
 }
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args) {
+  PR("Apply ");
+  WRITE(fun);
+  PR(" to ");
+  WRITE(args);
+  NL;
+  
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
   DISPATCH(apply_dispatch, fun, args);
