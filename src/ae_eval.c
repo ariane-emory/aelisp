@@ -116,16 +116,16 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   PRINC(fun);
   NL;
 
-  PR("params           ");
-  PUT(params);
+  PR("params        ");
+  PUT(fun->params);
   SPC;
-  PRINC(params);
+  PRINC(fun->params);
   NL;
 
-  PR("body           ");
-  PUT(body);
+  PR("body          ");
+  PUT(fun->body);
   SPC;
-  PRINC(body);
+  PRINC(fun->body);
   NL;
 
   PR("env           ");
