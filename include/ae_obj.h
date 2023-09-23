@@ -100,6 +100,7 @@ typedef struct ae_obj_t {
     }; // AE_LAMBDA
     struct {
       ae_core_fun             fun_val;
+      char                    name[8]; // this name is just for printing purposes.
     }; // AE_CORE_FUN
   };
 }
@@ -152,6 +153,7 @@ extern ae_obj_t * symbols_list;
 #define FLOAT_VAL(this)         ((this)->float_val)
 #define FUN_VAL(this)           ((this)->fun_val)
 #define INT_VAL(this)           ((this)->int_val)
+#define NAME_VAL(this)          ((this)->name)
 #define NUMER_VAL(this)         ((this)->numerator_val)
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
@@ -245,10 +247,11 @@ INT_VAL   (_obj) = (val);                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_CORE_FUN(val)                                                                          \
+#define NEW_CORE_FUN(name, val)                                                                    \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_CORE_FUN);                                                               \
-FUN_VAL   (_obj) = (val);                                                                          \
+FUN_VAL    (_obj) = (val);                                                                         \
+strcpy(NAME_VAL(_obj), name);                                                                      \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////

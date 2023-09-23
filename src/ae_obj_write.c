@@ -41,7 +41,7 @@ int ae_obj_fput(const ae_obj_t * const this, FILE * stream) {
     written  += fprintf(stream, "%018p %018p %018p", this->parent, this->symbols, this->values);
     break;
   case AE_CORE_FUN:
-    written  += fprintf(stream, "%018p", FUN_VAL(this));
+    written  += fprintf(stream, "% -18s %018p", NAME_VAL(this), FUN_VAL(this));
     break;
   default:
     written  += FWRITE(this, stream);

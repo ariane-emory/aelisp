@@ -690,8 +690,8 @@ void root_env(void) {
 
   ae_obj_t * env = NEW_ENV(NIL);
 
-#define add_core_fun(name, ...)     ae_env_set(env, INTERN(#name), NEW_CORE_FUN(&ae_core_##name));  
-#define add_core_op(name, sym, ...) ae_env_set(env, INTERN(#sym), NEW_CORE_FUN(&ae_core_##name));
+#define add_core_fun(name, ...)     ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name));  
+#define add_core_op(name, sym, ...) ae_env_set(env, INTERN(#sym),  NEW_CORE_FUN(#name, &ae_core_##name));
 
   FOR_EACH_CORE_FUN(add_core_fun);
   FOR_EACH_CMP_OP(add_core_op);
@@ -711,6 +711,7 @@ void root_env(void) {
     PUT(elem);    
     NL;
   }
+  pool_print();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
