@@ -22,7 +22,7 @@ static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
 
 static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
   (void)env;
-  return ae_apply(CAR(list), CDR(list), env);
+  return ae_apply(CAR(list), env, CDR(list));
 }
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
@@ -96,7 +96,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(0);
 }
 
-ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * args, ae_obj_t * env) {
+ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("Apply ");
   WRITE(fun);
