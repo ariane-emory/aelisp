@@ -88,7 +88,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   WRITE(CDDR(args));
   NL;
 
-  ASSERT_NOT_NILP(CDR(args));
+  ASSERT_NOT_NILP(CAR(args));
   ASSERT_NOT_NILP(CADR(args));
   
   return NIL;
