@@ -105,3 +105,22 @@ ae_obj_t *ae_lisp_not(ae_obj_t * const args) {
 
   return TRUE;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _print
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t *ae_lisp_print(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
+
+  putchar('\n');
+  
+  FOR_EACH(elem, args) {
+    WRITE(elem);
+
+    if (CDR(position))
+      putchar(' ');
+  }
+
+  return NIL;
+}
