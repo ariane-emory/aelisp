@@ -632,9 +632,13 @@ void primitive_print_princ_write(void) {
     NL;
     T(INT_VAL(written) == 10);
   }
-  
   {
     ae_obj_t * written = ae_lisp_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
+    NL;
+    T(INT_VAL(written) == 7);
+  }
+  {
+    ae_obj_t * written = ae_lisp_write(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), CONS_NIL(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 7);
   }
