@@ -332,7 +332,7 @@ void intern_symbols(void) {
                                                                                                    \
     NL;                                                                                            \
     PR("Writing <");                                                                               \
-    PRINC(this);                                                                                   \
+    PR(buff);                                                                                      \
     PR("> wrote %d characters, expected %d.", strlen(buff), expect);                               \
                                                                                                    \
     T(EQ(strlen(buff), expect));                                                                   \
@@ -355,9 +355,9 @@ void fprinc_fwrite_lengths(void) {
   LENGTH_TEST(fprinc, 4, AE_FLOAT,    float_val,     1.23                                );
   LENGTH_TEST(fprinc, 7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
   LENGTH_TEST(fprinc, 4, AE_STRING,   str_val,       "asdf"                              );
-  LENGTH_TEST(fwrite, 6, AE_SYMBOL,   sym_val,       "ghij"                              );
-  LENGTH_TEST(fprinc, 4, AE_STRING,   str_val,       "asdf"                              );
   LENGTH_TEST(fprinc, 4, AE_SYMBOL,   sym_val,       "ghij"                              );
+  LENGTH_TEST(fwrite, 6, AE_STRING,   str_val,       "asdf"                              );
+  LENGTH_TEST(fwrite, 4, AE_SYMBOL,   sym_val,       "ghij"                              );
 }
 
 void eql(void) {
