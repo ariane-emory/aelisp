@@ -1,17 +1,18 @@
 To Do:
-- [ ] Split princ into princ and print.
-- [ ] FOR_EACH2 macro.
+- [ ] DRY up princ and print.
+- [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
 - [ ] Implement math for non-integer types.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
-- [ ] Fix inappropriate handling of quote. Probably requires a new lexer token and a new yacc rule.
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
-- [ ] Maybe add macro version of map?
+- [ ] Maybe FOR_EACH2 macro? Unsure, may not need it.
 - [ ] Maybe also a vector type of some sort?
+- [ ] Maybe add macro version of map?
 - [ ] ... advices?!
 
 Completed:
+- [x] Split princ into princ and print.
 - [x] Implement eval functions.
 - [x] Load the root environment up (added ae_env_new_root).
 - [x] Add in-world primitive functions.
