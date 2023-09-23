@@ -57,8 +57,15 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
   if (SPECIAL_FUNP(fun)) {
     // special funs get their un-evaluated args, plus the env.
-    
-    ret = (*FUN_VAL(fun))(CONS(env, args));
+
+    ae_obj_t * env_and_args = CONS(env, CONS_NIL(args)); 
+#ifdef AE_LOG_EVAL
+    PR("Un-evaled args   ");
+    WRITE(env_and_args);
+    NL;
+#endif
+
+    ret = (*FUN_VAL(fun))(env_and_args);
   }
   else {
     ae_obj_t * evaled_args = NIL;
