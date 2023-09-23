@@ -716,10 +716,11 @@ void root_env_and_eval(void) {
   /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")))); */
   /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("from Ash")))); */
   /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("lisp!")))); */
-  NL;
+  /* NL; */
 
   ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
-  WRITE(expr);
+  /* WRITE(expr); */
+  NL;
   NL;
   EVAL(env, expr);
   
