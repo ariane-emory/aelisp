@@ -49,14 +49,11 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   SPC;
   PRINC(fun);
   NL;
-  
   PR("args          ");
   PUT(args);
   SPC;
   PRINC(args);
-  NL;
-
-  
+  NL;  
   PR("env           ");
   PUT(env);
   SPC;
@@ -68,35 +65,23 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
   if (SPECIAL_FUNP(fun)) {
     // special funs get their un-evaluated args, plus the env.
-
     ae_obj_t * env_and_args = CONS(env, LIST(args)); 
-/* #ifdef AE_LOG_EVAL */
-/*     NL; */
-/*     PR("Un-evaled args   "); */
-/*     PRINC(env_and_args); */
-/*     NL; */
-/* #endif */
 
     ret = (*FUN_VAL(fun))(env_and_args);
   }
   else {
     ae_obj_t * evaled_args = NIL;
+    ae_obj_t * tailtip     = evaled_args;
     
     FOR_EACH(elem,  args)
-      PUSH(evaled_args, EVAL(env, elem));
+      tailtip = PUSH(evaled_args, EVAL(env, elem));
     
-/* #ifdef AE_LOG_EVAL */
-/*     PR("Evaled args   "); */
-/*     PRINC(evaled_args); */
-/*     NL; */
-/* #endif */
-
     ret = (*FUN_VAL(fun))(evaled_args);
   }
   
 #ifdef AE_LOG_EVAL
   NL;
-  PR("apply returns ");
+  PR("apply core fun returns ");
   PUT(ret);
   SPC;
   PRINC(ret);
