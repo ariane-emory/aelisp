@@ -101,7 +101,10 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   NL;
 #endif
 
-  return args;
+  ASSERT_TAILP(CAR(args));
+  ASSERT_TAILP(CDR(args));
+
+  return NEW_LAMBDA(CAR(args), CDR(args), env);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
