@@ -42,14 +42,24 @@ eval_dispatch[] = {
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("Apply:");
-  PR("  fun  ");
-  PUT(fun);
+  PR("\n[Apply core fun]");
   NL;
-  PR("  args ");
+  PR("fun           ");
+  PUT(fun);
+  SPC;
+  PRINC(fun);
+  NL;
+  
+  PR("args          ");
+  PUT(args);
+  SPC;
   PRINC(args);
   NL;
-  PR("  env ");
+
+  
+  PR("env           ");
+  PUT(env);
+  SPC;
   PRINC(env);
   NL;
 #endif
@@ -100,19 +110,19 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 #ifdef AE_LOG_EVAL
   PR("\n[Apply lambda]\n");
   
-  PR("fun    ");
+  PR("fun           ");
   PUT(fun);
   SPC;
   PRINC(fun);
   NL;
 
-  PR("env    ");
+  PR("env           ");
   PUT(env);
   SPC;
   PRINC(env);
   NL;
 
-  PR("args   ");
+  PR("args          ");
   PUT(args);
   SPC;
   PRINC(args);
@@ -151,14 +161,14 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 }
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n[Dicpatch fun]\n");
-  PR("fun    ");
+  PR("\n[Dispatch fun]\n");
+  PR("fun            ");
   PUT(fun);
   SPC;
   PRINC(fun);
   NL;
   
-  PR("to     ");
+  PR("args           ");
   PUT(args);
   SPC;
   PRINC(args);
