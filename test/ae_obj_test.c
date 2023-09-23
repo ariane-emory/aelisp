@@ -625,6 +625,8 @@ void primitive_cons_car_cdr(void) {
 
   T(ae_lisp_car(CONS_NIL(NIL)) == NIL);
   T(ae_lisp_cdr(CONS_NIL(NIL)) == NIL);
+  T(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL)))) == NIL);
+  T(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL)))) == NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
