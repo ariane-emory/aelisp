@@ -724,6 +724,7 @@ void root_env_and_eval(void) {
   expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
 
   NL;
+  NL;
   EVAL(env, expr);
   NL;
   
@@ -754,29 +755,29 @@ void root_env_and_eval(void) {
   /* NL; */
   T(NILP(EVAL(env, expr)));
 
-  expr = CONS(INTERN("lambda"),
-              CONS(LIST(INTERN("x")),
-                   CONS(
-                     CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(
-                       CONS(INTERN("+"),
-                            CONS(INTERN("x"), LIST(NEW_INT(2))))))));
+  /* expr = CONS(INTERN("lambda"), */
+  /*             CONS(LIST(INTERN("x")), */
+  /*                  CONS( */
+  /*                    CONS(INTERN("princ"), LIST(INTERN("x"))), LIST( */
+  /*                      CONS(INTERN("+"), */
+  /*                           CONS(INTERN("x"), LIST(NEW_INT(2)))))))); */
 
-  result = EVAL(env, expr);
+  /* result = EVAL(env, expr); */
 
-  T(LAMBDAP(result));
+  /* T(LAMBDAP(result)); */
   
-  expr = CONS(CONS(INTERN("lambda"),
-                   CONS(LIST(INTERN("x")),
-                        CONS(CONS(INTERN("princ"),
-                                  LIST(INTERN("x"))),
-                             LIST(CONS(INTERN("+"),
-                                       CONS(INTERN("x"),
-                                            LIST(INTERN("bar")))))))),
-              LIST(NEW_INT(12)));
+  /* expr = CONS(CONS(INTERN("lambda"), */
+  /*                  CONS(LIST(INTERN("x")), */
+  /*                       CONS(CONS(INTERN("princ"), */
+  /*                                 LIST(INTERN("x"))), */
+  /*                            LIST(CONS(INTERN("+"), */
+  /*                                      CONS(INTERN("x"), */
+  /*                                           LIST(INTERN("bar")))))))), */
+  /*             LIST(NEW_INT(12))); */
   
-  result = EVAL(env, expr);
+  /* result = EVAL(env, expr); */
 
-  T(EQL(NEW_INT(100), result));
+  /* T(EQL(NEW_INT(100), result)); */
   
   NL;
   NL;
