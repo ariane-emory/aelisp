@@ -19,6 +19,7 @@
 #define RSQR    fputc(']',  stream)
 #define DQUO    fputc('"',  stream)
 #define SQUO    fputc('\'', stream)
+#define PR(...) (fprintf(stdout, __VA_ARGS__))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
@@ -239,6 +240,8 @@ int ae_write(const ae_obj_t * const this) {
 int ae_fwrite(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
+  PR("Enter fwrite!\n");
+  
   switch (GET_TYPE(this)) {
   case AE_STRING:
   {
