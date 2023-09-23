@@ -725,14 +725,17 @@ void root_env_and_eval(void) {
   EVAL(env, expr);
 
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
-
   NL;
   WRITE(expr);
   NL;
   WRITE(EVAL(env, expr));
-
   T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
-  
+
+  expr = CONS(INTERN("if"), CONS(LIST(INTERN("t")), CONS(LIST(INTERN("yes")), LIST(INTERN("no")))));
+  NL;
+  WRITE(expr);
+  NL;
+
   NL;
   NL;
   PR("syms: ");
