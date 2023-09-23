@@ -644,9 +644,7 @@ void primitive_print_math(void) {
 
   this = ae_lisp_add(CONS(NEW_INT(1), CONS(NEW_INT(2), CONS_NIL(NEW_INT(3)))));
 
-//  PUT(this);
-
-//  T(EQL(NEW_INT(6), ae_lisp_add(CONS(NEW_INT(1), CONS(NEW_INT(2), CONS_NIL(NEW_INT(1)))))));
+  T(EQL(NEW_INT(6), this));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
