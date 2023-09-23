@@ -53,6 +53,7 @@ typedef struct ae_obj_t * (*ae_lisp_fun)(struct ae_obj_t * const);
   DO(AE_ENV)                                                                                       \
   DO(AE_LAMBDA)                                                                                    \
   DO(AE_MACRO)                                                                                     \
+  DO(AE_LISP_FUN)                                                                                  \
   DO(AE_INVALID)
 
 #define enum_entry(x) x,
@@ -100,6 +101,9 @@ typedef struct ae_obj_t {
       struct ae_obj_t *      body;
       struct ae_obj_t *      env;
     }; // AE_LAMBDA
+    struct {
+      ae_lisp_fun            fun;
+    }; // AE_LISP_FUN
   };
 }
 #ifdef AE_ALIGN_OBJS
