@@ -271,6 +271,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPUTC(')', fprinc_stream);
     break;
   case AE_SYMBOL:
+    COUNTED_FPUTC('\'', fprinc_stream);
     COUNTED_FPUTS(SYM_VAL(this), fprinc_stream);
     break;
   case AE_STRING:
@@ -278,9 +279,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPUTS("(null)", fprinc_stream);
     }
     else {
-      // COUNTED_FPUTC('"', fprinc_stream);
+      COUNTED_FPUTC('"', fprinc_stream);
       COUNTED_FPUTS(STR_VAL(this), fprinc_stream);
-      // COUNTED_FPUTC('"', fprinc_stream);
+      COUNTED_FPUTC('"', fprinc_stream);
     }
     break;
   case AE_INTEGER:
@@ -310,9 +311,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_val;
     }
 
-    // COUNTED_FPUTC('\'', fprinc_stream);
+    COUNTED_FPUTC('\'', fprinc_stream);
     COUNTED_FPUTS(tmp, fprinc_stream);
-    // COUNTED_FPUTC('\'', fprinc_stream);
+    COUNTED_FPUTC('\'', fprinc_stream);
     
     break;
   }
