@@ -77,6 +77,17 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
+  NL;
+  PR("if:   ");
+  WRITE(args);
+  NL;
+  PR("then: ");
+  WRITE(args);
+  NL;
+  PR("else: ");
+  WRITE(args);
+  NL;
+  
   return CAR(args);
 }
 
