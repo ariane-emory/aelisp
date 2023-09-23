@@ -727,6 +727,14 @@ void root_env_and_eval(void) {
   expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(INTERN("yes"))));
   WRITE(EVAL(env, expr));
   NL;
+
+  expr = CONS(INTERN("if"), CONS(INTERN("nil"), CONS(INTERN("yes"), CONS(INTERN("ignored"), LIST(INTERN("no"))))));
+  WRITE(EVAL(env, expr));
+  NL;
+  
+  expr = CONS(INTERN("if"), CONS(INTERN("nil"), LIST(INTERN("yes"))));
+  WRITE(EVAL(env, expr));
+  NL;
   
   NL;
   PR("syms: ");
