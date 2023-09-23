@@ -49,13 +49,22 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   WRITE(args);
   NL;
   PR("  env ");
-  PUT(args);
+  WRITE(env);
   NL;
 #endif
   
-  (void)env;
+  ae_obj_t * evaled_args = NIL;
+  
+  FOR_EACH(elem,  args)
+    PUSH(evaled_args, EVAL(env, elem));
 
-  ae_obj_t * ret = (*FUN_VAL(fun))(args);
+#ifdef AE_LOG_EVAL
+  PR("Evaled args   ");
+  WRITE(evaled_args);
+  NL;
+#endif
+
+  ae_obj_t * ret = (*FUN_VAL(fun))(evaled_args);
 
 #ifdef AE_LOG_EVAL
   PR("  ret ");
@@ -116,18 +125,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
 
-  ae_obj_t * evaled_args = NIL;
-
-  FOR_EACH(elem,  args)
-    PUSH(evaled_args, EVAL(env, elem));
-
-#ifdef AE_LOG_EVAL
-  PR("Evaled args   ");
-  WRITE(evaled_args);
-  NL;
-#endif
-  
-  DISPATCH(apply_dispatch, fun, env, evaled_args);
+  DISPATCH(apply_dispatch, fun, env, args);
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
 }
