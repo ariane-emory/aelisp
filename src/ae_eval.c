@@ -142,6 +142,10 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 
   fflush(stdout);
 #endif
+
+  ENV_PARENT(new_env) = fun->env;
+  ENV_SYMS(new_env)   = fun->params;
+  ENV_VALS(new_env)   = fun->vals;
   
     (void)env, (void)fun, (void)args; assert(0);
 }
