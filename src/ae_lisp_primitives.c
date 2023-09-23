@@ -2,6 +2,8 @@
 #include "ae_obj_list.h"
 
 #define DIE assert(0)
+#define NL  putchar('\n');
+#define SPC putchar(' ');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _car
@@ -110,18 +112,11 @@ ae_obj_t * ae_lisp_not(ae_obj_t * const args) {
 // _print
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define NL      putchar('\n');
-#define SPC     putchar(' ');
-
 ae_obj_t * ae_lisp_print(ae_obj_t * const args) {
   ASSERT_CONSP(args);
-
-  /* NL; */
-  /* WRITE(args); */
-  
   NL;
   
-  int written = 0;
+  int written = 1;
   
   FOR_EACH(elem, args) {
     written += WRITE(elem);
@@ -132,20 +127,21 @@ ae_obj_t * ae_lisp_print(ae_obj_t * const args) {
     }
   }
 
-  /* NL; */
-  
-  /* FOR_EACH(elem, args) { */
-  /*   printf("%018p", position); */
-  /*   PUT(position); */
-  /*   NL; */
-  /*   printf("%018p", elem); */
-  /*   PUT(elem); */
-  /*   NL; */
-  /* } */
+  return NEW_INT(written);
+}
 
-  /* printf("%018p", NIL); */
-  /* PUT(NIL); */
-  /* NL; */
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _princ
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
   
+  int written = 0;
+  
+  FOR_EACH(elem, args) {
+    written += WRITE(elem);
+  }
+
   return NEW_INT(written);
 }
