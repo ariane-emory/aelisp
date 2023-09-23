@@ -661,8 +661,24 @@ void primitive_math(void) {
 
 void primitive_cmp(void) {
   SETUP_TEST;
+  
+  T(TRUEP(ae_lisp_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(2)))))));
+  T(NILP (ae_lisp_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(3)))))));
 
-  T(TRUEP(ae_lisp_lt(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6)))))));
+  T(NILP (ae_lisp_nequal(CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(2)))))));
+  T(TRUEP(ae_lisp_nequal(CONS(NEW_INT(2), CONS(NEW_INT(2), CONS_NIL(NEW_INT(3)))))));
+
+  T(TRUEP(ae_lisp_lt (CONS(NEW_INT(2), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6)))))));
+  T(NILP (ae_lisp_gt (CONS(NEW_INT(2), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6)))))));
+
+  T(TRUEP(ae_lisp_gt (CONS(NEW_INT(6), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2)))))));
+  T(NILP (ae_lisp_lt (CONS(NEW_INT(6), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2)))))));
+
+  T(TRUEP(ae_lisp_lte(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6))))))));
+  T(NILP (ae_lisp_gte(CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(6))))))));
+                                                                        
+  T(TRUEP(ae_lisp_gte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2))))))));
+  T(NILP (ae_lisp_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), CONS_NIL(NEW_INT(2))))))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

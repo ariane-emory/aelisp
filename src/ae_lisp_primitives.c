@@ -184,11 +184,11 @@ FOR_EACH_MATH_OP(DEF_MATH_OP);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This only deals with AE_INTEGERS for now. 
-#define DEF_CMP_OP(name, oper)                                                                     \
+#define DEF_CMP_OP(name, oper, assign, init)                                                       \
 ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                                                 \
   ASSERT_CONSP(args);                                                                              \
                                                                                                    \
-  bool result = true;                                                                              \
+  bool result = init;                                                                              \
                                                                                                    \
   FOR_EACH(elem, args) {                                                                           \
     if (NILP(CDR(position)))                                                                       \
@@ -197,7 +197,16 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                              
     ASSERT_INTEGERP(elem);                                                                         \
     ASSERT_INTEGERP(CADR(position));                                                               \
                                                                                                    \
-    result &= INT_VAL(elem) oper INT_VAL(CADR(position));                                          \
+    NL;                                                                                            \
+    PR("Compare " #name " ");                                                                      \
+    NL;                                                                                            \
+    WRITE(elem);                                                                                   \
+    NL;                                                                                            \
+    WRITE(CADR(position));                                                                         \
+    NL;                                                                                            \
+    PR((INT_VAL(elem) oper INT_VAL(CADR(position))) ? "true" : "false");                           \
+                                                                                                   \
+    result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
                                                                                                    \
   return ae_obj_truth(result);                                                                     \
