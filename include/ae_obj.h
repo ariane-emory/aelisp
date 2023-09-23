@@ -16,7 +16,7 @@
 typedef char * ae_string_t;
 
 struct ae_obj_t; // forward decl.
-typedef struct ae_obj_t * (*ae_lisp_fun)(struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ typedef struct ae_obj_t {
       struct ae_obj_t *      env;
     }; // AE_LAMBDA
     struct {
-      ae_lisp_fun            fun;
+      ae_core_fun            fun;
     }; // AE_LISP_FUN
   };
 }

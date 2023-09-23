@@ -4,16 +4,16 @@
 #include "ae_obj_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_lisp_car  (ae_obj_t * const args);
-ae_obj_t * ae_lisp_cdr  (ae_obj_t * const args);
-ae_obj_t * ae_lisp_cons (ae_obj_t * const args);
-ae_obj_t * ae_lisp_eq   (ae_obj_t * const args);
-ae_obj_t * ae_lisp_eql  (ae_obj_t * const args);
-ae_obj_t * ae_lisp_atomp(ae_obj_t * const args);
-ae_obj_t * ae_lisp_not  (ae_obj_t * const args);
-ae_obj_t * ae_lisp_print(ae_obj_t * const args);
-ae_obj_t * ae_lisp_princ(ae_obj_t * const args);
-ae_obj_t * ae_lisp_write(ae_obj_t * const args);
+ae_obj_t * ae_core_car  (ae_obj_t * const args);
+ae_obj_t * ae_core_cdr  (ae_obj_t * const args);
+ae_obj_t * ae_core_cons (ae_obj_t * const args);
+ae_obj_t * ae_core_eq   (ae_obj_t * const args);
+ae_obj_t * ae_core_eql  (ae_obj_t * const args);
+ae_obj_t * ae_core_atomp(ae_obj_t * const args);
+ae_obj_t * ae_core_not  (ae_obj_t * const args);
+ae_obj_t * ae_core_print(ae_obj_t * const args);
+ae_obj_t * ae_core_princ(ae_obj_t * const args);
+ae_obj_t * ae_core_write(ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_MATH_OP(DO)                                                                       \
   DO(add, +, 0)                                                                                    \
@@ -29,6 +29,6 @@ ae_obj_t * ae_lisp_write(ae_obj_t * const args);
   DO(gt,     > , &=, true)                                                                         \
   DO(gte,    >=, &=, true) 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DECL_OP(name, ...) ae_obj_t * ae_lisp_##name(ae_obj_t * const args);
+#define DECL_OP(name, ...) ae_obj_t * ae_core_##name(ae_obj_t * const args);
 FOR_EACH_MATH_OP(DECL_OP);
 FOR_EACH_CMP_OP(DECL_OP);
