@@ -568,22 +568,11 @@ void envs(void) {
 }
 
 ae_obj_t * make_args_containing_one_list(void) {
-  ae_obj_t * sym_a = INTERN("a");
-  ae_obj_t * sym_b = INTERN("b");
-  ae_obj_t * sym_c = INTERN("c");
-  ae_obj_t * args  = CONS_NIL(CONS(sym_a, CONS(sym_b, CONS_NIL(sym_c))));
-
-  return args;
+  return CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c")))));
 }
 
 ae_obj_t * make_args_for_cons(void) {
-  ae_obj_t * sym_a = INTERN("a");
-  ae_obj_t * sym_b = INTERN("b");
-  ae_obj_t * sym_c = INTERN("c");
-  ae_obj_t * list  = CONS_NIL(CONS(sym_a, CONS(sym_b, CONS_NIL(sym_c))));
-  ae_obj_t * args  = CONS(INTERN("nil"), list);
-
-  return args;
+  return CONS(INTERN("nil"), CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c"))))));
 }
 
 void primitive_cons_car_cdr(void) {
