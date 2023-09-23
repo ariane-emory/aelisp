@@ -623,12 +623,12 @@ void primitive_cons_car_cdr(void) {
   /* WRITE(ae_lisp_car(CONS_NIL(NIL))); NL; */
   /* WRITE(ae_lisp_cdr(CONS_NIL(NIL))); NL; */
 
-  T(ae_lisp_car(CONS_NIL(NIL))                        == NIL);
-  T(ae_lisp_cdr(CONS_NIL(NIL))                        == NIL);
-  T(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL)))) == NIL);
-  T(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL)))) == NIL);
-  T(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL)))) == NIL);
-  T(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL)))) == NIL);
+  T(NILP(ae_lisp_car(CONS_NIL(NIL))                       ));
+  T(NILP(ae_lisp_cdr(CONS_NIL(NIL))                       ));
+  T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
+  T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
+  T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
+  T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
