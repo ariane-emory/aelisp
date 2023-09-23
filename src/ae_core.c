@@ -100,7 +100,10 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   WRITE(cond_result);
   NL;
 
-  return NIL;
+  if (NOT_NILP(cond_result))
+    return EVAL(env, CADR(args));
+  else
+    return EVAL(env, CDDR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
