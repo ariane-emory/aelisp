@@ -21,8 +21,9 @@ _obj;                                                                           
 #define ENV_FIND(this, sym)        (ae_env_find((this), (sym)))
 #define ENV_ADD(this, sym, val)    (ae_env_add ((this), (sym), (val)))
 #define ENV_SET(this, sym, val)    (ae_env_set ((this), (sym), (val)))
+#define ENV_NEW_ROOT()             (ae_env_new_root())
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(                                                                        );
+ae_obj_t * ae_env_new_root(void                                                                    );
 ae_obj_t * ae_env_find    (ae_obj_t * const this, ae_obj_t * const symbol                          );
 void       ae_env_add     (ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value  );
 void       ae_env_set     (ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value  );

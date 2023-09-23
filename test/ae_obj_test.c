@@ -688,16 +688,7 @@ void primitive_cmp(void) {
 void root_env(void) {
   SETUP_TEST;
 
-  ae_obj_t * env = NEW_ENV(NIL);
-
-#define add_core_fun(name, ...)     ae_env_set(env, INTERN(#name), NEW_CORE_FUN(#name, &ae_core_##name, false));  
-#define add_core_op(name, sym, ...) ae_env_set(env, INTERN(#sym),  NEW_CORE_FUN(#name, &ae_core_##name, false));
-
-  FOR_EACH_CORE_FUN(add_core_fun);
-  FOR_EACH_CMP_OP(add_core_op);
-  FOR_EACH_MATH_OP(add_core_op);
-  ae_env_set(env, NIL,  NIL);
-  ae_env_set(env, TRUE, TRUE);
+  ae_obj_t * env = ENV_NEW_ROOT();
 
   NL;
   PR("syms ");
