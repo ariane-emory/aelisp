@@ -11,6 +11,8 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval dispatch handlers
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
   (void)env;
@@ -26,6 +28,10 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
   return ae_apply(CAR(list), env, CDR(list));
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval dispatch table
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
 eval_dispatch[] = {
   { AE_INTEGER,  &self           },
@@ -39,6 +45,10 @@ eval_dispatch[] = {
   { AE_SYMBOL,   &lookup         },
   { AE_CONS,     &apply          },
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _apply dispatch handlers
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
@@ -71,10 +81,10 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   }
   else {
     ae_obj_t * evaled_args = NIL;
-    ae_obj_t * tailtip     = evaled_args;
+    // ae_obj_t * tailtip     = evaled_args;
     
     FOR_EACH(elem,  args)
-      tailtip = PUSH(evaled_args, EVAL(env, elem));
+      PUSH(evaled_args, EVAL(env, elem));
     
     ret = (*FUN_VAL(fun))(evaled_args);
   }
