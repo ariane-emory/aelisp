@@ -756,16 +756,16 @@ void root_env_and_eval(void) {
   NL;
   NL;
   PR("Here:\n");
-  expr = CONS(INTERN("lambda"),
-              CONS(LIST(INTERN("x")),
-                   CONS(
-                     CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(
-                       CONS(INTERN("+"),
-                            CONS(INTERN("x"), LIST(NEW_INT(2))))))));
-  PRINC(expr);
-  NL;
-  PRINC(EVAL(env, expr));  
-  NL;
+  /* expr = CONS(INTERN("lambda"), */
+  /*             CONS(LIST(INTERN("x")), */
+  /*                  CONS( */
+  /*                    CONS(INTERN("princ"), LIST(INTERN("x"))), LIST( */
+  /*                      CONS(INTERN("+"), */
+  /*                           CONS(INTERN("x"), LIST(NEW_INT(2)))))))); */
+  /* PRINC(expr); */
+  /* NL; */
+  /* PRINC(EVAL(env, expr));   */
+  /* NL; */
   
   expr = CONS(CONS(INTERN("lambda"),
                    CONS(LIST(INTERN("x")),

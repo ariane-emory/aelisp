@@ -144,6 +144,7 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 #endif
   
   ae_obj_t * new_env = NEW_ENV(fun->env, fun->params, args);
+  ae_obj_t * body    = CONS(INTERN("progn"), fun->body);
 
 #ifdef AE_LOG_EVAL
   PR("\n[Created exec env]\n");
@@ -162,9 +163,24 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   SPC;
   PRINC(new_env->values);
   NL;
+  PR("body          ");
+  PUT(body);
+  SPC;
+  PRINC(body);
+  NL;
 #endif
-  
-  (void)env, (void)fun, (void)args; assert(0);
+
+  ae_obj_t * result = EVAL(new_env, body);
+
+#ifdef AE_LOG_EVAL
+  PR("result        ");
+  PUT(result);
+  SPC;
+  PRINC(result);
+  NL;
+#endif
+
+  return result;
 }
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
