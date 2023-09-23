@@ -10,8 +10,8 @@
 ({                                                                                                 \
 ae_obj_t * _obj = NEW(AE_ENV);                                                                     \
 _obj->parent    = (parent_);                                                                       \
-_obj->symbols   = NIL;                                                                             \
-_obj->values    = NIL;                                                                             \
+_obj->symbols   = (symbols_);                                                                      \
+_obj->values    = (values_);                                                                       \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////

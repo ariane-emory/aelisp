@@ -143,7 +143,7 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   fflush(stdout);
 #endif
   
-  ae_obj_t * new_env = NEW_ENV(fun->env, fun->params, fun->vals);
+  ae_obj_t * new_env = NEW_ENV(fun->env, fun->params, fun->values);
 
 #ifdef AE_LOG_EVAL
   PR("\n[Created exec env]\n");
