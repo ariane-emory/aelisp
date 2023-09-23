@@ -721,6 +721,9 @@ void root_env_and_eval(void) {
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
+  expr = CONS(INTERN("quote"), LIST(INTERN("a")));
+  T(shitty_write_based_equality_predicate(EVAL(env, expr), "a"));
+
   /* NL; */
   expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
   /* WRITE(EVAL(env, expr)); */
