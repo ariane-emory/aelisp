@@ -149,43 +149,35 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// This only deals with AE_INTEGERS properly for now:
-// #define DEF_MATH_OP(name, oper, default)                                                           \
-// ae_obj_t * ae_lisp_##name(ae_obj_t * const args) { \
-//   ASSERT_CONSP(args); \
-//
-
-ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-
-  ae_obj_t * head = NIL;
-  ae_obj_t * tail = NIL;
-
-  NL;
-  PR("args "); WRITE(args); NL;
-  
-  if (NILP(CDR(args))) {
-    head = NEW_INT(0);
-    tail = args;
-  }
-  else {
-    ASSERT_INTEGERP(CAR(args));
-
-    head = CAR(args); PR("head "); PUT(head); NL;
-    tail = CDR(args); PR("tail "); WRITE(tail); NL;
-  }
-  
-  NL;
-  PR("Start with "); PUT(head); NL;
-  
-  FOR_EACH(elem, tail) {
-    ASSERT_INTEGERP(elem);
-    PR("Oper with  "); PUT(elem); NL;
-    INT_VAL(head) = INT_VAL(head) + INT_VAL(elem);
-  }
-
-  PR("Return     "); PUT(head); NL;
-
-  return head;
+// This only deals with AE_INTEGERS for now:
+#define DEF_MATH_OP(name, oper, default)                                                           \
+ae_obj_t * ae_lisp_##name(ae_obj_t * const args) { \
+  ASSERT_CONSP(args); \
+ \
+  ae_obj_t * head = NIL; \
+  ae_obj_t * tail = NIL; \
+ \
+   \
+  if (NILP(CDR(args))) { \
+    head = NEW_INT(default); \
+    tail = args; \
+  } \
+  else { \
+    ASSERT_INTEGERP(CAR(args)); \
+ \
+    head = CAR(args); PR("head "); \
+    tail = CDR(args); PR("tail "); \
+  } \
+   \
+  FOR_EACH(elem, tail) { \
+    ASSERT_INTEGERP(elem); \
+    INT_VAL(head) = INT_VAL(head) oper INT_VAL(elem); \
+  } \
+ \
+  return head; \
 }
+  
+
+FOR_EACH_MATH_OP(DEF_MATH_OP);
+
   
