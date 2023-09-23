@@ -41,6 +41,9 @@ ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_TAILP(CDR(args)); // 2nd arg must be a tail.
   ASSERT_NILP(CDDR(args)); // only 2 args.
+
+  ae_obj_t * head = CAR(args);
+  ae_obj_t * tail = CADR(args);
   
-  return CONS(CAAR(args), CADAR(args));
+  return CONS(head, tail);
 }

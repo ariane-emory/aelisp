@@ -1,4 +1,5 @@
 To Do:
+_ [ ] fwrite_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] Add in-world primitive functions.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
