@@ -20,6 +20,9 @@ LOG_CFLAGS = \
 	-DAE_LOG_PARSE \
   -DAE_LOG_PUSH
 
+TEST_CFLAGS = \
+	-Wno-unused-value;
+
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
@@ -69,7 +72,7 @@ obj/%.o: src/%.c obj
 ################################################################################
 
 bin/test/%: bin/test
-	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS)
+	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin

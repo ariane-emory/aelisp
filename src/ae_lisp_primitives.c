@@ -149,7 +149,7 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// This only deals with AE_INTEGERS for now:
+// This only deals with AE_INTEGERS for now. It mutates it's first argument.
 #define DEF_MATH_OP(name, oper, default)                                                           \
 ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                                                 \
   ASSERT_CONSP(args);                                                                              \
