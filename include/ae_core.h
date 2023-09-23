@@ -12,9 +12,9 @@
   DO(eql)                                                                                          \
   DO(atomp)                                                                                        \
   DO(not)                                                                                          \
+  DO(write)                                                                                        \
   DO(print)                                                                                        \
   DO(princ) 
-//  DO(princ)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(setq)                                                                                         \
