@@ -574,7 +574,7 @@ ae_obj_t * make_args_for_cons(void) {
   ae_obj_t * sym_a = INTERN("b");
   ae_obj_t * sym_b = INTERN("c");
   ae_obj_t * sym_c = INTERN("d");
-  ae_obj_t * list  = CONS(sym_a, CONS(sym_b, CONS_NIL(sym_c)));
+  ae_obj_t * list  = CONS_NIL(CONS(sym_a, CONS(sym_b, CONS_NIL(sym_c))));
   ae_obj_t * args  = CONS(INTERN("a"), list);
 
   return args;
