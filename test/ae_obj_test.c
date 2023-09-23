@@ -629,6 +629,8 @@ void primitive_cons_car_cdr(void) {
   T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
   T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
+
+  T(shitty_write_based_equality_predicate( ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
