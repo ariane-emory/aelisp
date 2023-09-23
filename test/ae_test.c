@@ -352,11 +352,14 @@ void fprinc_fwrite_lengths(void) {
   LENGTH_TEST(fprinc, 2, AE_CHAR,     char_val,      '\n'                                );
   LENGTH_TEST(fwrite, 4, AE_CHAR,     char_val,      '\n'                                );
   LENGTH_TEST(fprinc, 3, AE_INTEGER,  int_val,       123                                 );
+  LENGTH_TEST(fwrite, 3, AE_INTEGER,  int_val,       123                                 );
   LENGTH_TEST(fprinc, 4, AE_FLOAT,    float_val,     1.23                                );
+  LENGTH_TEST(fwrite, 4, AE_FLOAT,    float_val,     1.23                                );
   LENGTH_TEST(fprinc, 7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
+  LENGTH_TEST(fwrite, 7, AE_RATIONAL, numerator_val, 123,   this->denominator_val = 456; );
   LENGTH_TEST(fprinc, 4, AE_STRING,   str_val,       "asdf"                              );
-  LENGTH_TEST(fprinc, 4, AE_SYMBOL,   sym_val,       "ghij"                              );
   LENGTH_TEST(fwrite, 6, AE_STRING,   str_val,       "asdf"                              );
+  LENGTH_TEST(fprinc, 4, AE_SYMBOL,   sym_val,       "ghij"                              );
   LENGTH_TEST(fwrite, 4, AE_SYMBOL,   sym_val,       "ghij"                              );
 }
 
@@ -719,8 +722,8 @@ void root_env_and_eval(void) {
   ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
   /* NL; */
   /* PRINC(expr); */
-  /* NL; */
-  /* EVAL(env, expr); */
+  NL;
+  EVAL(env, expr);
   
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
