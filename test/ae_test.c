@@ -712,32 +712,25 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
 
-  /* NL; */
-  /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")))); */
-  /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("from Ash")))); */
-  /* EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("lisp!")))); */
-  /* NL; */
-
   ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
-  /* WRITE(expr); */
   NL;
   NL;
   EVAL(env, expr);
+  NL;
 
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
-  /* NL; */
-  /* WRITE(expr); */
-  /* NL; */
-  /* WRITE(EVAL(env, expr)); */
   T(shitty_write_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
   expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(INTERN("yes"), CONS(INTERN("ignored"), LIST(INTERN("no"))))));
   NL;
-  WRITE(expr);
+  WRITE(EVAL(env, expr));
+  NL;
+  
+  expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(INTERN("yes"))));
   NL;
   WRITE(EVAL(env, expr));
-  
   NL;
+  
   NL;
   PR("syms: ");
   WRITE(ENV_SYMS(env));
