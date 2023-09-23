@@ -572,22 +572,23 @@ ae_obj_t * make_args_containing_one_list(void) {
 }
 
 ae_obj_t * make_args_for_cons(void) {
-  return CONS(INTERN("nil"), CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c"))))));
+  return CONS(INTERN("nil"),
+              CONS_NIL(CONS(INTERN("a"), CONS(INTERN("b"), CONS_NIL(INTERN("c"))))));
 }
 
 void primitive_cons_car_cdr(void) {
   SETUP_TEST;
 
   T(EQ(ae_lisp_car(make_args_containing_one_list()), INTERN("a")));
-  T(shitty_write_based_equality_predicate(ae_lisp_cdr(make_args_containing_one_list()),   "(b c)"      ));
-  T(shitty_write_based_equality_predicate(ae_lisp_cons(make_args_for_cons()),             "(nil a b c)"));
+  T(shitty_write_based_equality_predicate(ae_lisp_cdr (make_args_containing_one_list() ), "(b c)"      ));
+  T(shitty_write_based_equality_predicate(ae_lisp_cons(make_args_for_cons()            ), "(nil a b c)"));
   T(shitty_write_based_equality_predicate(ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"        ));
-  T(NILP(ae_lisp_car(                     CONS_NIL(NIL))  ));
-  T(NILP(ae_lisp_cdr(                     CONS_NIL(NIL))  ));
-  T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
-  T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
-  T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))));
-  T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
+  T(NILP(ae_lisp_car(                     CONS_NIL(NIL))                                               ));
+  T(NILP(ae_lisp_cdr(                     CONS_NIL(NIL))                                               ));
+  T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))                                             ));
+  T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))                                             ));
+  T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_cdr(CONS_NIL(NIL))))                                             ));
+  T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))                                             ));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
