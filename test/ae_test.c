@@ -735,7 +735,8 @@ void root_env_and_eval(void) {
   NL;
   WRITE(expr);
   NL;
-
+  WRITE(EVAL(env, expr));
+  
   NL;
   NL;
   PR("syms: ");

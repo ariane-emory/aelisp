@@ -76,7 +76,6 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 
 ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-  ASSERT_NILP(CDR(args)); // for now, this supports 1 argument.
 
   return CAR(args);
 }
