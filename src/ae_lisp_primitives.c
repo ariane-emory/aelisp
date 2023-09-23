@@ -84,10 +84,23 @@ ae_obj_t *ae_lisp_eql(ae_obj_t * const args) {
 
 ae_obj_t *ae_lisp_atomp(ae_obj_t * const args) {
   ASSERT_CONSP(args);
-  ASSERT_NOT_NILP(CAR(args));
 
   FOR_EACH(elem, args)
     if (! ATOMP(elem))
+      return NIL;
+
+  return TRUE;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _not
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t *ae_lisp_not(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
+
+  FOR_EACH(elem, args)
+    if (NOT_NILP(elem))
       return NIL;
 
   return TRUE;
