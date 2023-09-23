@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #include "ae_lisp_primitives.h"
 #include "ae_obj_list.h"
 
@@ -163,12 +165,14 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                              
   }                                                                                                \
   else {                                                                                           \
     ASSERT_INTEGERP(CAR(args));                                                                    \
+                                                                                                   \
     accum = CAR(args);                                                                             \
     rest = CDR(args);                                                                              \
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
     ASSERT_INTEGERP(elem);                                                                         \
+                                                                                                   \
     INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem);                                            \
   }                                                                                                \
                                                                                                    \
@@ -176,5 +180,29 @@ ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                              
 }
 
 FOR_EACH_MATH_OP(DEF_MATH_OP);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This only deals with AE_INTEGERS for now. 
+#define DEF_CMP_OP(name, oper)                                                                     \
+ae_obj_t * ae_lisp_##name(ae_obj_t * const args) {                                                 \
+  ASSERT_CONSP(args);                                                                              \
+                                                                                                   \
+  bool result = true;                                                                              \
+                                                                                                   \
+  FOR_EACH(elem, args) {                                                                           \
+    if (NILP(CDR(position)))                                                                       \
+        break;                                                                                     \
+                                                                                                   \
+    ASSERT_INTEGERP(elem);                                                                         \
+    ASSERT_INTEGERP(CDR(position));                                                                \
+                                                                                                   \
+    result &= INT_VAL(elem) oper INT_VAL(CDR(position));                                           \
+  }                                                                                                \
+                                                                                                   \
+  return ae_obj_truth(result);                                                                     \
+}
+
+FOR_EACH_CMP_OP(DEF_CMP_OP);
 
   
