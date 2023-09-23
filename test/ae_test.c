@@ -726,7 +726,6 @@ void root_env_and_eval(void) {
   NL;
   NL;
   EVAL(env, expr);
-  NL;
   
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
@@ -755,16 +754,16 @@ void root_env_and_eval(void) {
   /* NL; */
   T(NILP(EVAL(env, expr)));
 
-  /* expr = CONS(INTERN("lambda"), */
-  /*             CONS(LIST(INTERN("x")), */
-  /*                  CONS( */
-  /*                    CONS(INTERN("princ"), LIST(INTERN("x"))), LIST( */
-  /*                      CONS(INTERN("+"), */
-  /*                           CONS(INTERN("x"), LIST(NEW_INT(2)))))))); */
+  expr = CONS(INTERN("lambda"),
+              CONS(LIST(INTERN("x")),
+                   CONS(
+                     CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(
+                       CONS(INTERN("+"),
+                            CONS(INTERN("x"), LIST(NEW_INT(2))))))));
 
-  /* result = EVAL(env, expr); */
+  result = EVAL(env, expr);
 
-  /* T(LAMBDAP(result)); */
+  T(LAMBDAP(result));
   
   /* expr = CONS(CONS(INTERN("lambda"), */
   /*                  CONS(LIST(INTERN("x")), */
