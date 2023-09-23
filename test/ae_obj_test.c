@@ -605,17 +605,17 @@ void primitive_cons_car_cdr(void) {
 
   T(shitty_write_based_equality_predicate(cdr, "(b c)"));
 
-  args  = make_args_for_cons();
+  args = make_args_for_cons();
   NL;
   PR("Built    ");
   WRITE(args);
   NL;
 
-  /* ae_obj_t * consed = ae_lisp_cons(INTERN("a"), cdr); */
+  ae_obj_t * consed = ae_lisp_cons(args);
 
-  /* PR("consed = "); */
-  /* WRITE(cdr); */
-  /* NL; */
+  PR("consed = ");
+  WRITE(consed);
+  NL;
 
 }
 
