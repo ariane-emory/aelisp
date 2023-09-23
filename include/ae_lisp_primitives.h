@@ -5,6 +5,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_car  (ae_obj_t * const args);
-ae_obj_t *ae_lisp_cdr  (ae_obj_t * const args);
-ae_obj_t *ae_lisp_consr(ae_obj_t * const args);
+ae_obj_t * ae_lisp_car  (ae_obj_t * const args);
+ae_obj_t * ae_lisp_cdr  (ae_obj_t * const args);
+ae_obj_t * ae_lisp_consr(ae_obj_t * const args);
