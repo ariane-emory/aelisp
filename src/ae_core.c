@@ -93,11 +93,11 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   NL;
 
   PR("params:    ");
-  PRINC(CADR(args));
+  PRINC(CAR(args));
   NL;
 
-  PR("body   :   ");
-  PRINC(CDDR(args));
+  PR("body:      ");
+  PRINC(CDR(args));
   NL;
 #endif
 
