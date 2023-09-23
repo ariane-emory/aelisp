@@ -717,6 +717,12 @@ void root_env(void) {
 
   WRITE(ae_eval(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))), env));
   NL;
+
+  WRITE(CONS(INTERN("*"), CONS(NEW_INT(3), CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))));
+  NL;
+
+  WRITE(ae_eval(CONS(INTERN("*"), CONS(NEW_INT(3), CONS_NIL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9))))))), env));
+  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
