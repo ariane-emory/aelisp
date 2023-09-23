@@ -10,8 +10,8 @@ _ [ ] fwrite_lengths test passes normally but fails when run in lldb? Investigat
 - [ ] ... advices?!
 
 Completed:
-- [x] ae_obj_equal could maybe support AE_STRINGs too? Might as well.
-- [x] ae_obj_equal should support AE_CHARSs.
+- [x] ae_obj_eql could maybe support AE_STRINGs too? Might as well.
+- [x] ae_obj_eql should support AE_CHARSs.
 - [x] Add env frame-related functions.
 - [x] Get rid of strdup call in ae_obj.c.
 - [x] Add env frames to obj struct.

@@ -112,7 +112,7 @@ typedef struct ae_obj_t {
 ae_obj_t *    ae_obj_init          (      ae_obj_t * const this,       ae_type_t        type      );
 ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t * const this,       ae_obj_t * const that      );
 ae_obj_t *    ae_obj_clone         (      ae_obj_t * const this                                   );
-bool          ae_obj_equal         (const ae_obj_t * const this, const ae_obj_t * const that      );
+bool          ae_obj_eql         (const ae_obj_t * const this, const ae_obj_t * const that      );
 ae_obj_t *    ae_obj_truth         (const bool             this                                   );
 ae_type_t     ae_obj_get_type      (const ae_obj_t * const this                                   );
 void          ae_obj_set_type      (      ae_obj_t * const this, const ae_type_t        type      );
@@ -158,7 +158,7 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)          (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) == ((that)))
 #define NEQ(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) != ((that)))
-#define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_equal((this), (that))))
+#define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_eql((this), (that))))
 #define NEQL(this, that)        (NOT_NULLP((this)) && NOT_NULLP((that)) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_EQ(this, that)   (assert(EQ((this), (that))))

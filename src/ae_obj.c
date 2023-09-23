@@ -33,7 +33,7 @@ const char * ae_type_str(const ae_type_t this) {
 #undef return_str
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _equal method
+// _eql method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static int gcd(const int left, const int right) {
@@ -56,7 +56,7 @@ void ae_rational_simplify(ae_obj_t * const this) {
   DENOM_VAL((ae_obj_t *)this) /= this_gcd;
 }
 
-bool ae_obj_equal (const ae_obj_t * const this,  const ae_obj_t *  const that) {
+bool ae_obj_eql (const ae_obj_t * const this,  const ae_obj_t *  const that) {
   ASSERT_NOT_NULLP(this);
   ASSERT_NOT_NULLP(that);
       
