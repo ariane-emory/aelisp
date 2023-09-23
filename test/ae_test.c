@@ -707,8 +707,8 @@ void root_env(void) {
   WRITE(symbols_list);
   NL;
   
-  ae_obj_t * f = NEW_CORE_FUN("sdf", NULL, true);
-  PUT(f); NL;
+//  WRITE(CONS(INTERN("foo"), CONS_NIL(NEW_INT(17))))
+  WRITE(env);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

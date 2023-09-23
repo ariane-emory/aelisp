@@ -133,6 +133,9 @@ static int    fwrite_counter  = 0;
 
 static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
+  case AE_ENV:
+    COUNTED_FPRINTF(fwrite_stream, "env<%018p>", ENV_PARENT(this));
+    break;
   case AE_INF:
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
