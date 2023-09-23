@@ -692,7 +692,9 @@ void root_env_and_eval(void) {
   ae_obj_t * env  = ENV_NEW_ROOT();
   ae_obj_t * args = CONS(env, CONS_NIL(CONS(INTERN("foo"), CONS_NIL(NEW_INT(666)))));
 
-  ae_core_setq(args);
+  SETQ(env, INTERN("foo"), NEW_INT(666));
+
+  // ae_core_setq(args);
 
   T(EQL(NEW_INT(25),  EVAL(CONS(INTERN("+"), CONS(NEW_INT(16), CONS_NIL(NEW_INT(9)))),  env)));
   T(EQL(NEW_INT(672), EVAL(CONS(INTERN("+"), CONS(NEW_INT(6), CONS_NIL(INTERN("foo")))), env)));
