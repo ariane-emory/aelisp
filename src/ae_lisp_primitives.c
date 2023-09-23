@@ -7,7 +7,7 @@
 // _car
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_car(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_car(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NILP(CDR(args));  // takes only one arg.
   ASSERT_TAILP(CAR(args)); // which must be a tail.
@@ -22,7 +22,7 @@ ae_obj_t *ae_lisp_car(ae_obj_t * const args) {
 // _cdr
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_cdr(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_cdr(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NILP(CDR(args));  // takes only one arg.
   ASSERT_TAILP(CAR(args)); // which must be a tail.
@@ -37,7 +37,7 @@ ae_obj_t *ae_lisp_cdr(ae_obj_t * const args) {
 // _cons
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_cons(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_TAILP(CDR(args)); // 2nd arg must be a tail.
   ASSERT_NILP(CDDR(args)); // only 2 args.
@@ -52,7 +52,7 @@ ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
 // _eq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_eq(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_eq(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NOT_NILP(CDR(args));
 
@@ -67,7 +67,7 @@ ae_obj_t *ae_lisp_eq(ae_obj_t * const args) {
 // _eql
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_eql(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_eql(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NOT_NILP(CDR(args));
 
@@ -82,7 +82,7 @@ ae_obj_t *ae_lisp_eql(ae_obj_t * const args) {
 // _atomp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_atomp(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_atomp(ae_obj_t * const args) {
   ASSERT_CONSP(args);
 
   FOR_EACH(elem, args)
@@ -96,7 +96,7 @@ ae_obj_t *ae_lisp_atomp(ae_obj_t * const args) {
 // _not
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_not(ae_obj_t * const args) {
+ae_obj_t * ae_lisp_not(ae_obj_t * const args) {
   ASSERT_CONSP(args);
 
   FOR_EACH(elem, args)
@@ -110,17 +110,38 @@ ae_obj_t *ae_lisp_not(ae_obj_t * const args) {
 // _print
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t *ae_lisp_print(ae_obj_t * const args) {
+#define NL      putchar('\n');
+#define SPC     putchar(' ');
+
+ae_obj_t * ae_lisp_print(ae_obj_t * const args) {
   ASSERT_CONSP(args);
 
-  putchar('\n');
+  NL;
+  WRITE(args);
+  
+  NL;
   
   FOR_EACH(elem, args) {
     WRITE(elem);
 
-    if (CDR(position))
-      putchar(' ');
+    if (NOT_NILP(CDR(position)))
+      SPC;
   }
 
+  /* NL; */
+  
+  /* FOR_EACH(elem, args) { */
+  /*   printf("%018p", position); */
+  /*   PUT(position); */
+  /*   NL; */
+  /*   printf("%018p", elem); */
+  /*   PUT(elem); */
+  /*   NL; */
+  /* } */
+
+  /* printf("%018p", NIL); */
+  /* PUT(NIL); */
+  /* NL; */
+  
   return NIL;
 }
