@@ -121,11 +121,15 @@ ae_obj_t * ae_lisp_print(ae_obj_t * const args) {
   
   NL;
   
+  int written = 0;
+  
   FOR_EACH(elem, args) {
-    WRITE(elem);
+    written += WRITE(elem);
 
-    if (NOT_NILP(CDR(position)))
+    if (NOT_NILP(CDR(position))) {
       SPC;
+      written++;
+    }
   }
 
   /* NL; */
@@ -143,5 +147,5 @@ ae_obj_t * ae_lisp_print(ae_obj_t * const args) {
   /* PUT(NIL); */
   /* NL; */
   
-  return NIL;
+  return NEW_INT(written);
 }
