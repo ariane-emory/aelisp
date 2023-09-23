@@ -609,9 +609,10 @@ void primitive_eq_eql(void) {
   T(NILP (ae_lisp_eql(CONS(that      , CONS_NIL(this)          )))); // eql too.
 
   T(TRUEP(ae_lisp_eq (CONS(this      , CONS(this      , CONS_NIL(this      )))))); // eq can take 3+ arguments.
-  T(NILP (ae_lisp_eq (CONS(this      , CONS(this      , CONS_NIL(that      )))))); // eq can take 3+ arguments.
+  T(NILP (ae_lisp_eq (CONS(this      , CONS(this      , CONS_NIL(that      ))))));
     
-//  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS(NEW_INT(5), CONS_NIL(NEW_INT(5))))))); // so can eql.
+  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS(NEW_INT(5), CONS_NIL(NEW_INT(5))))))); // so can eql.
+  T(NILP (ae_lisp_eql(CONS(NEW_INT(5), CONS(NEW_INT(5), CONS_NIL(NEW_INT(6)))))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

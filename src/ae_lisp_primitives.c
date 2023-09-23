@@ -55,7 +55,6 @@ ae_obj_t *ae_lisp_cons(ae_obj_t * const args) {
 ae_obj_t *ae_lisp_eq(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NOT_NILP(CDR(args));
-  // ASSERT_NILP(CDDR(args)); // only supports exactly 2 args for now.
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQ(CAR(args), tailarg))
@@ -71,7 +70,10 @@ ae_obj_t *ae_lisp_eq(ae_obj_t * const args) {
 ae_obj_t *ae_lisp_eql(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   ASSERT_NOT_NILP(CDR(args));
-  ASSERT_NILP(CDDR(args)); // only supports exactly 2 args for now.
 
-  return ae_obj_truth(ae_obj_eql(CAR(args), CADR(args)));
+  FOR_EACH(tailarg, CDR(args))
+    if (NEQL(CAR(args), tailarg))
+      return NIL;
+
+  return TRUE;
 }
