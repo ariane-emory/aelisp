@@ -92,14 +92,14 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   return ret;
 }                                                                               
  
-/* static ae_obj_t * apply_lambda  (ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) { */
-/*   (void)env, (void)fun, (void)args; assert(0);  */
-/* } */
+static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
+  (void)env, (void)fun, (void)args; assert(0);
+}
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
 apply_dispatch[] = {
   { AE_CORE_FUN, &apply_core_fun },
-  // { AE_LAMBDA,   &apply_lambda   },
+  { AE_LAMBDA,   &apply_lambda   },
 };
 
 #define DISPATCH(table, obj, ...)                                                                  \
