@@ -101,6 +101,7 @@ typedef struct ae_obj_t {
     struct {
       ae_core_fun             fun_val;
       char                    name[8]; // this name is just for printing purposes.
+      bool                    special;
     }; // AE_CORE_FUN
   };
 }
@@ -175,6 +176,7 @@ extern ae_obj_t * symbols_list;
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
 #define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CONS))
+#define CORE_FUNP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CORE_FUN))
 #define ENVP(o)                 (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_ENV))
 #define FLOATP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FLOAT))
 #define FREEP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FREE))
@@ -184,6 +186,7 @@ extern ae_obj_t * symbols_list;
 #define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
+#define SPECIAL_FUNP(o)         (CORE_FUNP((o)) && ((o)->special))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))
