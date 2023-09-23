@@ -499,26 +499,30 @@ void envs(void) {
   T(NILP(ENV_VALS(this)));
   
   T(NOT_MEMBERP(ENV_SYMS(this), INTERN("foo")));
+
   ENV_ADD(this, INTERN("foo"), NEW_INT(12));
+
   T(EQ(LENGTH(ENV_SYMS(this)), 1));
   T(EQ(LENGTH(ENV_VALS(this)), 1));
   T(MEMBERP(ENV_SYMS(this), INTERN("foo")));
-  
   T(NOT_NILP(ENV_SYMS(this)));
   T(NOT_NILP(ENV_VALS(this)));
 
   T(NOT_MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  
   ENV_ADD(this, INTERN("bar"), NEW_INT(24));
+
   T(EQ(LENGTH(ENV_SYMS(this)), 2));
   T(EQ(LENGTH(ENV_VALS(this)), 2));
   T(MEMBERP(ENV_SYMS(this), INTERN("bar")));
   
   T(NOT_MEMBERP(ENV_SYMS(this), INTERN("baz")));
+
   ENV_ADD(this, INTERN("baz"), NEW_INT(36));
+
   T(EQ(LENGTH(ENV_SYMS(this)), 3));
   T(EQ(LENGTH(ENV_VALS(this)), 3));
   T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
-
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("foo"))), 12));
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 24));
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("baz"))), 36));
@@ -537,9 +541,11 @@ void envs(void) {
   T(NILP(ENV_FIND(that, INTERN("foo"))));
 
   ENV_SET(this, INTERN("bar"), NEW_INT(99));
+  
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 99));
 
-  ENV_SET(this, INTERN("zot"), NEW_INT(66));  
+  ENV_SET(this, INTERN("zot"), NEW_INT(66));
+  
   T(EQ(INT_VAL(ENV_FIND(this, INTERN("zot"))), 66));
 
 #ifdef AE_LOG_ENV_TEST
@@ -584,9 +590,9 @@ void primitive_cons_car_cdr(void) {
   SETUP_TEST;
 
   T(EQ(ae_lisp_car(make_args_containing_one_list()), INTERN("a")));
-  T(shitty_write_based_equality_predicate(ae_lisp_cdr(make_args_containing_one_list()),   "(b c)"));
+  T(shitty_write_based_equality_predicate(ae_lisp_cdr(make_args_containing_one_list()),   "(b c)"      ));
   T(shitty_write_based_equality_predicate(ae_lisp_cons(make_args_for_cons()),             "(nil a b c)"));
-  T(shitty_write_based_equality_predicate(ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"));
+  T(shitty_write_based_equality_predicate(ae_lisp_cons(CONS(INTERN("a"), CONS_NIL(NIL))), "(a)"        ));
   T(NILP(ae_lisp_car(                     CONS_NIL(NIL))  ));
   T(NILP(ae_lisp_cdr(                     CONS_NIL(NIL))  ));
   T(NILP(ae_lisp_car(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))));
