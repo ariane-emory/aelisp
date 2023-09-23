@@ -722,17 +722,9 @@ void root_env_and_eval(void) {
   EVAL(env, CONS(INTERN("princ"), LIST(NEW_STRING("lisp!"))));
   NL;
 
-  // LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")))),
-  ae_obj_t * expr1 = CONS(INTERN("princ"), LIST(NEW_STRING("Hello ")));
-  ae_obj_t * expr2 = CONS(INTERN("princ"), LIST(NEW_STRING("from Ash")));
-  ae_obj_t * expr3 = CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")));
-  WRITE(expr1);
-  NL;
-  WRITE(expr2);
-  NL;
-  WRITE(expr3);
-  NL;
-  WRITE(CONS(INTERN("progn"), CONS(expr1, CONS(expr2, LIST(expr3)))));
+  ae_obj_t * expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
+  
+  WRITE(expr);
   
   NL;
   WRITE(ENV_SYMS(env));
