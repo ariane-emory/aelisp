@@ -184,7 +184,7 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_FUN(add_core_fun);
   FOR_EACH_CMP_OP(add_core_op);
   FOR_EACH_MATH_OP(add_core_op);
-  FOR_EACH_CORE_SPECIAL_FUN(add_core_fun);
+  FOR_EACH_CORE_SPECIAL_FUN(add_core_special_fun);
   ae_env_set(env, NIL,  NIL);
   ae_env_set(env, TRUE, TRUE);
 
