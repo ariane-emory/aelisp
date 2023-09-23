@@ -5,10 +5,15 @@
 #include "ae_list.h"
 #include "ae_env.h"
 
-#define NL  (putchar('\n'))
-#define SPC (putchar(' '))
-#define PR(...)  (fprintf(stdout, __VA_ARGS__))
+#define NL            (putchar('\n'))
+#define SPC           (putchar(' '))
+#define PR(...)       (fprintf(stdout, __VA_ARGS__))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
+#define DISPATCH(table, obj, ...)                                                                  \
+  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
+    if (table[ix].type == GET_TYPE(obj))                                                           \
+      return (*table[ix].handler)(obj, __VA_ARGS__);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
@@ -29,26 +34,12 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _eval dispatch table
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
-eval_dispatch[] = {
-  { AE_INTEGER,  &self           },
-  { AE_RATIONAL, &self           },
-  { AE_FLOAT,    &self           },
-  { AE_INF,      &self           },
-  { AE_CHAR,     &self           },
-  { AE_STRING,   &self           },
-  { AE_LAMBDA,   &self           },
-  { AE_CORE_FUN, &self           },
-  { AE_SYMBOL,   &lookup         },
-  { AE_CONS,     &apply          },
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply dispatch handlers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//==================================================================================================
+// apply core funs
+//==================================================================================================
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
@@ -100,6 +91,10 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   return ret;
 }                                                                               
  
+//==================================================================================================
+// apply lambda funs
+//==================================================================================================
+
 static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
 #ifdef AE_LOG_EVAL
@@ -178,31 +173,51 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   return result;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval dispatch table
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *); }
+eval_dispatch[] = {
+  { AE_INTEGER,  &self           },
+  { AE_RATIONAL, &self           },
+  { AE_FLOAT,    &self           },
+  { AE_INF,      &self           },
+  { AE_CHAR,     &self           },
+  { AE_STRING,   &self           },
+  { AE_LAMBDA,   &self           },
+  { AE_CORE_FUN, &self           },
+  { AE_SYMBOL,   &lookup         },
+  { AE_CONS,     &apply          },
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
+  ASSERT_ENVP(env);
+
+  DISPATCH(eval_dispatch, obj, env);
+
+  fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
+  assert(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _apply dispatch table
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
 apply_dispatch[] = {
   { AE_CORE_FUN, &apply_core_fun },
   { AE_LAMBDA,   &apply_lambda   },
 };
 
-#define DISPATCH(table, obj, ...)                                                                  \
-  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
-    if (table[ix].type == GET_TYPE(obj))                                                           \
-      return (*table[ix].handler)(obj, __VA_ARGS__);
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _apply
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
-/*  #ifdef AE_LOG_EVAL */
-/*   PR("Eval "); */
-/*   PRINC(obj); */
-/*   PR(" in "); */
-/*   PRINC(env); */
-/*   NL; */
-/* #endif */
-  
-  ASSERT_ENVP(env);
-  DISPATCH(eval_dispatch, obj, env);
-  fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
-  assert(0);
-}
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("\n[Dispatch fun]\n");
@@ -225,6 +240,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ASSERT_TAILP(args);
 
   DISPATCH(apply_dispatch, fun, env, args);
+
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
 }
