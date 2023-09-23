@@ -171,13 +171,17 @@ ae_obj_t * ae_lisp_add(ae_obj_t * const args) {
     head = CAR(args);
     tail = CDR(args);
   }
-
   
+  NL;
+  PR("Start with "); PUT(head); NL;
   
   FOR_EACH(elem, tail) {
     ASSERT_INTEGERP(elem);
+    PR("Add        "); PUT(elem); NL;
     INT_VAL(head) = INT_VAL(head) + INT_VAL(elem);
   }
+
+  PR("Return     "); PUT(head); NL;
 
   return head;
 }
