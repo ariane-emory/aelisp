@@ -153,6 +153,8 @@ ae_obj_t * ae_lisp_princ(ae_obj_t * const args) {
 // _write
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// _write is temporarily identical to _princ.
+
 ae_obj_t * ae_lisp_write(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   
