@@ -358,8 +358,8 @@ void eql(void) {
   ae_obj_t * obj_int_3b      = NEW_INT(3);
   ae_obj_t * obj_float_3a    = NEW_FLOAT(3.0);
   ae_obj_t * obj_float_3b    = NEW_FLOAT(3.0);
-  ae_obj_t * obj_bool_false  = TRUTH(false);
-  ae_obj_t * obj_bool_true   = TRUTH(obj_float_2a);
+  ae_obj_t * obj_bool_false  = TRUETH(false);
+  ae_obj_t * obj_bool_true   = TRUETH(obj_float_2a);
   ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
   ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
   ae_obj_t * obj_rat_2a      = NEW_RATIONAL(2, 1);
@@ -590,6 +590,25 @@ void primitive_cons_car_cdr(void) {
   T(NILP(ae_lisp_cdr(CONS_NIL(ae_lisp_car(CONS_NIL(NIL))))                                             ));
 }
 
+void primitive_eq_eql(void) {
+  SETUP_TEST;
+  
+  this = CONS(NEW_INT(1), CONS_NIL(NEW_INT(5)));
+  that = CONS(NEW_INT(1), CONS_NIL(NEW_INT(2)));
+
+  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  )))))); // 5 and 5 are equal numbers
+  T(NILP (ae_lisp_eq (CONS(NEW_INT(5), CONS_NIL(NEW_INT  (5  )))))); // but they are not the same object.
+  T(TRUEP(ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_FLOAT(5.0)))))); // 5 and 5.0 are equal-enough numbers
+  T(NILP (ae_lisp_eql(CONS(NEW_INT(5), CONS_NIL(NEW_INT  (6  )))))); // 5 and 6 are not.
+  
+  T(TRUEP(ae_lisp_eq (CONS(this      , CONS_NIL(this)          )))); // These are the same object and are eq
+  T(TRUEP(ae_lisp_eql(CONS(this      , CONS_NIL(this)          )))); // and also eql.
+  T(NILP (ae_lisp_eq (CONS(this      , CONS_NIL(that)          )))); // These are the NOT the same object and
+  T(NILP (ae_lisp_eql(CONS(this      , CONS_NIL(that)          )))); // neither eq or eql.
+  T(NILP (ae_lisp_eq (CONS(that      , CONS_NIL(this)          )))); // eq is commutative.
+  T(NILP (ae_lisp_eql(CONS(that      , CONS_NIL(this)          )))); // eql too.
+
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -611,7 +630,8 @@ void primitive_cons_car_cdr(void) {
   DO(eql)                                                                                          \
   DO(fwrite_lengths)                                                                               \
   DO(envs)                                                                                         \
-  DO(primitive_cons_car_cdr)
+  DO(primitive_cons_car_cdr)                                                                       \
+  DO(primitive_eq_eql)
 
 #define pair(fun) { #fun, fun },
 

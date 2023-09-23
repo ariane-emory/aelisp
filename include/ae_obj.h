@@ -138,7 +138,7 @@ extern ae_obj_t * symbols_list;
 #define MOVE_NEW(that)          (UNSAFE_MOVE(ALLOC(), that))
 #define NEW(type)               (INIT((ALLOC()), (type)))
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
-#define TRUTH(o)                (ae_obj_truth((o)))
+#define TRUETH(o)                (ae_obj_truth((o)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 #define TYPE_STR(type)          (ae_type_str((type)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,11 +194,15 @@ extern ae_obj_t * symbols_list;
 #define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NIL                     (&nil_obj)
-#define TRU                     (&true_obj)
 #define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
 #define NOT_NILP(o)             (! NILP((o)))
 #define ASSERT_NILP(o)          (assert(NILP((o))))
 #define ASSERT_NOT_NILP(o)      (assert(NOT_NILP((o))))
+#define TRUE                    (&true_obj)
+#define TRUEP(o)                (NOT_NULLP((o)) && ((o) == TRUE))
+#define NOT_TRUEP(o)            (! TRUEP((o)))
+#define ASSERT_TRUEP(o)         (assert(TRUEP((o))))
+#define ASSERT_NOT_TRUEP(o)     (assert(NOT_TRUEP((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
