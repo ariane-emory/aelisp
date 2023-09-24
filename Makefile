@@ -4,12 +4,12 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
+	-DAE_LOG_EVAL \
 	-DAE_LOG_CORE \
 	-DAE_OBJ_POOL_SIZE=512 \
 
 LOG_CFLAGS = \
 	-DAE_LOG_ENV \
-	-DAE_LOG_EVAL \
 	-DAE_LOG_ALLOC \
 	-DAE_LOG_INTERN \
 	-DAE_LOG_CLONE \
