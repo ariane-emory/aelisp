@@ -647,17 +647,22 @@ void core_eq_eql_atomp_not(void) {
 void core_print_princ_princ(void) {
   SETUP_TEST;
 
+  NL;
+  
   {
+    PR("Printing '5 a abc' oo the next line: ");
     ae_obj_t * written = ae_core_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 8);
   }
   {
+    PR("Printing '5aabc' here: ");
     ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 5);
   }
   {
+    PR("Printing '5aabc' here: ");
     ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
     NL;
     T(INT_VAL(written) == 5);
