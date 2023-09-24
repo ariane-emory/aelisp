@@ -779,16 +779,16 @@ void root_env_and_eval(void) {
 
   SETQ(env, INTERN("a"), NEW_INT(2));
 
-  expr             = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST( NEW_INT(2 )));
+  ae_obj_t * expr1 = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST( NEW_INT(2 )));
   ae_obj_t * expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(12)))), LIST( NEW_INT(5 )));
   ae_obj_t * expr3 = CONS(TRUE, LIST(INTERN("nil")));
-  ae_obj_t * cond  = CONS(INTERN("cond"), CONS(expr, CONS(expr2, LIST(expr3))));
+  expr             = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
-  WRITE(cond);
+  WRITE(expr);
   NL;
   
   SETQ(env, INTERN("a"), NEW_INT(2));
-  this = EVAL(env, cond);
+  this = EVAL(env, expr);
   NL;
   PR("<");
   WRITE(this);
@@ -796,7 +796,7 @@ void root_env_and_eval(void) {
   NL;
   
   SETQ(env, INTERN("a"), NEW_INT(20));  
-  this = EVAL(env, cond);
+  this = EVAL(env, expr);
   NL;
   PR("<");
   WRITE(this);
