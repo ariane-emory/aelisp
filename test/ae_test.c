@@ -782,54 +782,35 @@ void root_env_and_eval(void) {
   NL;
   PR("[This test]\n");
   NL;
-  {
-    ae_obj_t * cmp_with = NIL;
-    ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
-    ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
-    ae_obj_t *    expr3 = CONS(TRUE, LIST(INTERN("nil")));
-    expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
-    WRITE(expr);
-    NL;
-    NL;
-    
-    SETQ(env, INTERN("a"), NEW_INT(1));  
-    this     = EVAL(env, expr);
-    cmp_with = NEW_INT(10);
-    NL;
-    PR("<this ");
-    WRITE(this);
-    PR(" == cmp_with ");
-    WRITE(cmp_with);
-    PR(">");
-    NL;
-    T(EQL(this, cmp_with));
-
-    SETQ(env, INTERN("a"), NEW_INT(2));
-    this     = EVAL(env, expr);
-    cmp_with = NEW_INT(20);
-    NL;
-    PR("<this ");
-    WRITE(this);
-    PR(" == cmp_with ");
-    WRITE(cmp_with);
-    PR(">");
-    NL;
-    T(EQL(this, cmp_with));
-
-    SETQ(env, INTERN("a"), NEW_INT(3));  
-    this     = EVAL(env, expr);
-    cmp_with = NIL;
-    NL;
-    PR("<this ");
-    WRITE(this);
-    PR(" == cmp_with ");
-    WRITE(cmp_with);
-    PR(">");
-    NL;
-    T(EQL(this, cmp_with));
-
+  ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
+  ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
+  ae_obj_t *    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
+  expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
+  
+  WRITE(expr);
+  NL;
+  NL;
+  
+#define TEST_COND(input, expected)                                                                            \
+  {                                                                                                           \
+    SETQ(env, INTERN("a"), NEW_INT(input));                                                                   \
+    this = EVAL(env, expr);                                                                                   \
+    if (NEQL(this, NEW_INT(expected))) {                                                                      \
+      NL;                                                                                                     \
+      PR("<this ");                                                                                           \
+      WRITE(this);                                                                                            \
+      PR(" == expected ");                                                                                    \
+      WRITE(NEW_INT(expected));                                                                               \
+      PR(">");                                                                                                \
+      NL;                                                                                                     \
+    }                                                                                                         \
+    T(EQL(this, NEW_INT(expected)));                                                                          \
   }
+
+  TEST_COND(1, 10);
+  TEST_COND(2, 20);
+  TEST_COND(3, 30);
   
   NL;
   PR("syms: ");
