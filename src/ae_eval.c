@@ -80,38 +80,11 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   (void)env;
 #ifdef AE_LOG_EVAL
   PR("\n[Apply lambda]\n");
-  
-  PR("fun           ");
-  PUT(fun);
-  SPC;
-  PRINC(fun);
-  NL;
-
-  PR("params        ");
-  PUT(fun->params);
-  SPC;
-  PRINC(fun->params);
-  NL;
-
-  PR("body          ");
-  PUT(fun->body);
-  SPC;
-  PRINC(fun->body);
-  NL;
-
-  PR("env           ");
-  PUT(env);
-  SPC;
-  PRINC(env);
-  NL;
-
-  PR("args          ");
-  PUT(args);
-  SPC;
-  PRINC(args);
-  NL;
-
-  fflush(stdout);
+  OLOG(fun);
+  LOG(fun->params, "params");
+  LOG(fun->body,   "body");
+  OLOG(env);
+  OLOG(args);
 #endif
   
   ae_obj_t * new_env = NEW_ENV(fun->env, fun->params, args);
