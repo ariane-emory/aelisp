@@ -42,10 +42,10 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  NL;
   LOG(fun, "[apply core fun %s]", fun->name)
   OLOG(env);
   OLOG(args);
+  NL;
 #endif
 
   ae_obj_t * ret = NIL;
@@ -201,17 +201,8 @@ apply_dispatch[] = {
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n[Dispatch fun]\n");
-  PR("fun            ");
-  PUT(fun);
-  SPC;
-  PRINC(fun);
-  NL;
-  
-  PR("args           ");
-  PUT(args);
-  SPC;
-  PRINC(args);
+  LOG(fun,"[Dispatch fun]\n");
+  OLOG(args);
   NL;
 #endif
 
