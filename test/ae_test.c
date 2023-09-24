@@ -779,75 +779,57 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(21), result));
 
-  SETQ(env, INTERN("a"), NEW_INT(2));
-
-  /* { */
-  /*   ae_obj_t * expr1 = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST( NEW_INT(2 ))); */
-  /*   ae_obj_t * expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(12)))), LIST( NEW_INT(5 ))); */
-  /*   ae_obj_t * expr3 = CONS(TRUE, LIST(INTERN("nil"))); */
-  /*   expr             = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3)))); */
-
-  /*   WRITE(expr); */
-  /*   NL; */
-    
-  /*   SETQ(env, INTERN("a"), NEW_INT(2)); */
-  /*   this = EVAL(env, expr); */
-  /*   T(NILP(this)); */
-  /*   NL; */
-  /*   PR("<"); */
-  /*   WRITE(this); */
-  /*   PR(">"); */
-  /*   NL; */
-
-  /*   SETQ(env, INTERN("a"), NEW_INT(20));   */
-  /*   this = EVAL(env, expr); */
-  /*   T(EQL(NEW_INT(2), this)); */
-  /*   NL; */
-  /*   PR("<"); */
-  /*   WRITE(this); */
-  /*   PR(">"); */
-  /*   NL; */
-  /* } */
   NL;
   PR("[This test]\n");
   NL;
   {
-    ae_obj_t * expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
-    ae_obj_t * expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
-    ae_obj_t * expr3 = CONS(TRUE, LIST(INTERN("nil")));
-    expr             = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
+    ae_obj_t * cmp_with = NIL;
+    ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
+    ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
+    ae_obj_t *    expr3 = CONS(TRUE, LIST(INTERN("nil")));
+    expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
     WRITE(expr);
     NL;
     NL;
     
     SETQ(env, INTERN("a"), NEW_INT(1));  
-    this = EVAL(env, expr);
-    T(EQL(NEW_INT(10), this));
+    this     = EVAL(env, expr);
+    cmp_with = NEW_INT(10);
     NL;
-    PR("<");
+    PR("<this ");
     WRITE(this);
+    PR(" == cmp_with ");
+    WRITE(cmp_with);
     PR(">");
     NL;
+    T(EQL(this, cmp_with));
 
     SETQ(env, INTERN("a"), NEW_INT(2));
-    this = EVAL(env, expr);
-    T(EQL(NEW_INT(10), this));
+    this     = EVAL(env, expr);
+    cmp_with = NEW_INT(20);
     NL;
-    PR("<");
+    PR("<this ");
     WRITE(this);
+    PR(" == cmp_with ");
+    WRITE(cmp_with);
     PR(">");
     NL;
+    T(EQL(this, cmp_with));
 
-    SETQ(env, INTERN("a"), NEW_INT(3));
-    this = EVAL(env, expr);
-    T(NILP(this));
+    SETQ(env, INTERN("a"), NEW_INT(3));  
+    this     = EVAL(env, expr);
+    cmp_with = NIL;
     NL;
-    PR("<");
+    PR("<this ");
     WRITE(this);
+    PR(" == cmp_with ");
+    WRITE(cmp_with);
     PR(">");
     NL;
-}
+    T(EQL(this, cmp_with));
+
+  }
   
   NL;
   PR("syms: ");
