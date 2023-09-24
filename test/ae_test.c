@@ -847,10 +847,8 @@ void improper_list(void) {
   this = cons_together_a_list_of_ints();
   OLOG(this); NL;
   basic_list_checks(this);
-
-  return;
   
-  this = CONS(NEW_INT(10), CONS(NEW_INT(20), CONS(NEW_INT(30), LIST(NEW_INT(40)))));
+  this = CONS(NEW_INT(1), CONS(NEW_INT(2), CONS(NEW_INT(3), LIST(NEW_INT(4)))));
   OLOG(this); NL;
   basic_list_checks(this);
 
