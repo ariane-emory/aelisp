@@ -42,8 +42,8 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
 static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n[Apply core fun]");
-  OLOG(fun);
+  NL;
+  LOG(fun, "[apply core fun %s]", fun->name)
   OLOG(env);
   OLOG(args);
 #endif
@@ -66,12 +66,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   }
   
 #ifdef AE_LOG_EVAL
-  NL;
-  PR("apply core fun %s returns ", fun->name);
-  PUT(ret);
-  SPC;
-  PRINC(ret);
-  NL;
+  LOG(ret, "apply core fun %s returns", fun->name)
 #endif
   
   return ret;
