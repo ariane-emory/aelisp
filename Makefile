@@ -40,7 +40,7 @@ STRICTER_CFLAGS = \
 	-Wno-address-of-packed-member \
 	-Wno-unused-variable \
 	-Wno-unused-but-set-variable \
-	-DACUTEST_SPACES=60 \
+	-DACUTEST_SPACES=80 \
 	-DACUTEST_IGNORE_EXIT
 
 ifeq ($(UNAME_S),Darwin)
