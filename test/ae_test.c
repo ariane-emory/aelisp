@@ -650,7 +650,7 @@ void core_print_princ_write(void) {
   NL;
   
   {
-    PR("Printing '\"hello\" 5 a abc' oo the next line: ");
+    PR("\nPrinting '\"hello\" 5 a abc' oo the next line: ");
     NL;
     
     int        written2 = ae_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
@@ -663,14 +663,14 @@ void core_print_princ_write(void) {
 
   }
   {
-    PR("Printing 'hello 5 a abc' oo the next line: ");
+    PR("\nPrinting 'hello 5 a abc' oo the next line: ");
     ae_obj_t * written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
     NL;
     T(INT_VAL(written) == 14);
     TM("Expected %d, wrote %d.", 14, INT_VAL(written));
   }
   {
-    PR("Printing 'hello 5aabc' on the next line: ");
+    PR("\nPrinting 'hello 5aabc' on the next line: ");
     NL;
     ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));;
     NL;
@@ -678,7 +678,7 @@ void core_print_princ_write(void) {
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
   }
   {
-    PR("Printing 'hello5aabc' on the next line: ");
+    PR("\nPrinting 'hello5aabc' on the next line: ");
     NL;
     ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
     NL;
