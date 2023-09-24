@@ -784,15 +784,16 @@ void root_env_and_eval(void) {
   ae_obj_t *    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
   expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
-  PR("evaluating this cond: ");
+  PR("Evaluating this cond: ");
   WRITE(expr);
+  PR(".");
   NL;
   
 #define TEST_COND(input, expected)                                                                            \
   {                                                                                                           \
     SETQ(env, INTERN("a"), NEW_INT(input));                                                                   \
     this = EVAL(env, expr);                                                                                   \
-    PR("result for " #input " is ");                                                                          \
+    PR("Result for " #input " is ");                                                                          \
     PRINC(this);                                                                                              \
     PR(", as expected.");                                                                                     \
     NL;                                                                                                       \
