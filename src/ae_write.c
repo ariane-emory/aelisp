@@ -159,14 +159,16 @@ int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
   return ae_fwrite_internal(this);
 }
 
-char * ae_sprinc(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream_);
+DEF_S_METHOD(princ);
 
-  ae_fprinc(this, stream_);
-  fclose(fwrite_stream);
+/* char * ae_sprinc(const ae_obj_t * const this) { */
+/*   MEMSTREAM(buff, stream_); */
 
-  return buff; // free this when you're done with it.
-}
+/*   ae_fprinc(this, stream_); */
+/*   fclose(fwrite_stream); */
+
+/*   return buff; // free this when you're done with it. */
+/* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's _write methods
