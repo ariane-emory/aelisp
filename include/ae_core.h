@@ -5,12 +5,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN(DO)                                                                      \
+  DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(cons)                                                                                         \
   DO(eq)                                                                                           \
   DO(eql)                                                                                          \
-  DO(atomp)                                                                                        \
   DO(not)                                                                                          \
   DO(write)                                                                                        \
   DO(print)                                                                                        \
