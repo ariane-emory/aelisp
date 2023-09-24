@@ -367,6 +367,10 @@ ae_obj_t * ae_core_write(ae_obj_t * const args) {
 
   FOR_EACH(elem, args) {
     written += WRITE(elem);
+    if (NOT_NILP(CDR(position))) {
+      SPC;
+      written++;
+    }
   }
 
   return NEW_INT(written);

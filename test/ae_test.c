@@ -652,15 +652,11 @@ void core_print_princ_write(void) {
   {
     PR("\nPrinting '\"hello\" 5 a abc' oo the next line: ");
     NL;
-    
-    int        written2 = ae_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
-    T(written2 == 19);
-    TM("Expected %d, wrote %d.", 19, written2);
-    
+   
     ae_obj_t * written  = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
     NL;
-    T(INT_VAL(written) == 14);
-
+    T(INT_VAL(written) == 17);
+    TM("Expected %d, wrote %d.", 17, INT_VAL(written));
   }
   {
     PR("\nPrinting 'hello 5 a abc' oo the next line: ");
@@ -670,7 +666,7 @@ void core_print_princ_write(void) {
     TM("Expected %d, wrote %d.", 14, INT_VAL(written));
   }
   {
-    PR("\nPrinting 'hello 5aabc' on the next line: ");
+    PR("\nPrinting 'hello5aabc' on the next line: ");
     NL;
     ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));;
     NL;
@@ -869,8 +865,8 @@ void root_env_and_eval(void) {
   DO(core_eq_eql_atomp_not)                                                                        \
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
-  DO(core_cmp)                                                                                     //\
-//  DO(root_env_and_eval)
+  DO(core_cmp)                                                                                     \
+  DO(root_env_and_eval)
 
 #define pair(fun) { #fun, fun },
 
