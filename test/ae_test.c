@@ -859,12 +859,15 @@ void improper_list_checks(ae_obj_t * this) {
 void improper_list(void) {
   SETUP_TEST;
 
+  goto improper;
+  
   this = cons_together_a_list_of_ints();
   OLOG(this);
   basic_list_checks(this);
 
   // NL;
   
+improper:
   this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
   OLOG(this); NL;
   basic_list_checks(this);
