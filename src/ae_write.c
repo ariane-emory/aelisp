@@ -46,7 +46,7 @@ static bool   fwrite_quoting  = false;
 
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
-  
+
   int written = fprintf(stream, "[ ", this);
 
   written    += fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
@@ -69,14 +69,14 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   default:
     written  += FPRINC(this, stream);
   }
-  
+
   while (written++ <= 70) FSPC;
 
   FSPC;
   FRSQR;
 
   written    += 2;
-  
+
   return written;
 }
 
@@ -88,6 +88,14 @@ int ae_put(const ae_obj_t * const this) {
   char * buff;                                                                                     \
   size_t size;                                                                                     \
   FILE * stream = open_memstream(&buff, &size);
+
+#define DEF_S_METHOD(name)                                                                         \
+char * ae_sput(const ae_obj_t * const this) {                                                      \
+  MEMSTREAM(buff, stream);                                                                         \
+  ae_fput(this, stream);                                                                           \
+  fclose(stream);                                                                                  \
+  return buff; // free this when you're done with it.                                              \
+}
 
 char * ae_sput(const ae_obj_t * const this) {
   MEMSTREAM(buff, stream);
@@ -102,16 +110,16 @@ char * ae_sput(const ae_obj_t * const this) {
 
 int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
- 
+
   int                         written = 0;
   const unsigned char * const start   = (unsigned char *)this;
-  
+
   // This assumes the system is little-endian and renders the values as big-endian.
-  
+
   for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
     if (ix % 8 == 0)
       written += fputs("0x", stream);
-    
+
     written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
 
     if ((ix + 1) % 8 == 0) {
@@ -130,7 +138,7 @@ char * ae_sput_words(const ae_obj_t * const this) {
   MEMSTREAM(buff, stream);
 
   ae_fput_words(this, stream);
-  
+
   fclose(stream);
 
   return buff; // free this when you're done with it.
@@ -168,7 +176,7 @@ char * ae_sprinc(const ae_obj_t * const this) {
 // obj's _write methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
+
 int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
 }
@@ -212,11 +220,11 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
-        
+
       if (! NILP(CDR(position)))
         FSPC;
     }
-      
+
     FRPAR;
     break;
   case AE_SYMBOL:
@@ -229,7 +237,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else {
       if (fwrite_quoting)
         COUNTED_FPUTC('"', fwrite_stream);
-      
+
       COUNTED_FPUTS(STR_VAL(this), fwrite_stream);
 
       if (fwrite_quoting)
@@ -265,20 +273,19 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
     if (fwrite_quoting)
       COUNTED_FPUTC('\'', fwrite_stream);
-    
+
     COUNTED_FPUTS(tmp, fwrite_stream);
 
     if (fwrite_quoting)
       COUNTED_FPUTC('\'', fwrite_stream);
-    
+
     break;
   }
   default:
     COUNTED_FPRINTF(fwrite_stream, "??");
   }
-  
+
   fflush(fwrite_stream);
-  
+
   return fwrite_counter;
 }
-
