@@ -13,7 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FNL      fputc('\n', stream)
-#define FSCP     fputc(' ',  stream)
+#define FSPC     fputc(' ',  stream)
 #define FLPAR    fputc('(',  stream)
 #define FRPAR    fputc(')',  stream)
 #define FLSQR    fputc('[',  stream)
@@ -53,7 +53,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   
   while (written++ <= 70) SPC;
 
-  SPC;
+  FSPC;
   FRSQR;
 
   written    += 2;
