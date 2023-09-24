@@ -840,6 +840,10 @@ void root_env_and_eval(void) {
   NL;
 }
 
+void improper_list(void) {
+  SETUP_TEST;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -866,7 +870,8 @@ void root_env_and_eval(void) {
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
-  DO(root_env_and_eval)
+  DO(root_env_and_eval)                                                                            \
+  DO(improper_list)
 
 #define pair(fun) { #fun, fun },
 

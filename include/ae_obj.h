@@ -217,6 +217,14 @@ extern ae_obj_t * symbols_list;
 #define ASSERT_TRUEP(o)         (assert(TRUEP((o))))
 #define ASSERT_NOT_TRUEP(o)     (assert(NOT_TRUEP((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NEW_CONS(head, tail)                                                                       \
+({                                                                                                 \
+ae_obj_t * _obj  = NEW(AE_CONS);                                                                   \
+CAR       (_obj) = (head);                                                                         \
+CDR       (_obj) = (tail);                                                                         \
+_obj;                                                                                              \
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_CHAR);                                                                   \
