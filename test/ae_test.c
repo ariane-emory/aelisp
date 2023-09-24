@@ -13,6 +13,7 @@
 #include "ae_eval.h"
 #include "ae_write.h"
 #include "ae_env.h"
+#include "ae_util.h"
 
 #include "acutest.h"
 
@@ -842,6 +843,9 @@ void root_env_and_eval(void) {
 
 void improper_list(void) {
   SETUP_TEST;
+
+  this = CONS(NEW_INT(10), LIST(NEW_INT(20)));
+  OLOG(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
