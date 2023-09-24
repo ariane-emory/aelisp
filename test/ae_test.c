@@ -790,7 +790,6 @@ void root_env_and_eval(void) {
   
   WRITE(expr);
   NL;
-  NL;
   
 #define TEST_COND(input, expected)                                                                            \
   {                                                                                                           \
