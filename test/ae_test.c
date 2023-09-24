@@ -332,10 +332,13 @@ void intern_symbols(void) {
     fclose(stream);                                                                                \
     free(buff);                                                                                    \
                                                                                                    \
-    NL;                                                                                            \
-    PR("With " #fun ",  <");                                                                               \
-    PR(buff);                                                                                      \
-    PR("> wrote %d characters, expected %d.", strlen(buff), expect);                               \
+    if (strlen(buff) != expect)                                                                    \
+    {                                                                                              \
+      NL;                                                                                          \
+      PR("With " #fun ",  <");                                                                     \
+      PR(buff);                                                                                    \
+      PR("> wrote %d characters, expected %d.", strlen(buff), expect);                             \
+    }                                                                                              \
                                                                                                    \
     T(EQ(strlen(buff), expect));                                                                   \
     T(EQ((int)strlen(buff), (int)size));                                                           \

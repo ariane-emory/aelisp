@@ -1,5 +1,4 @@
 To Do:
-- [ ] fwrite_lengths test is failing.
 - [ ] Implement and test macros.
 - [ ] Dotted pairs. 
 - [ ] Maybe core 'let'?
@@ -17,6 +16,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] fwrite_lengths test is noisy.
 - [x] Split princ into princ and print.
 - [x] Implement eval functions.
 - [x] Load the root environment up (added ae_env_new_root).
