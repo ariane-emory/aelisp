@@ -4,7 +4,7 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-DAE_OBJ_POOL_SIZE=1024 \
+	-DAE_OBJ_POOL_SIZE=512 \
 
 LOG_CFLAGS = \
 	-DAE_LOG_ALLOC \
