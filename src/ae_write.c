@@ -29,14 +29,14 @@ static bool   fprinc_quoting  = false;
 // princ helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FNL      fputc('\n', stream)
-#define FSPC     fputc(' ',  stream)
-#define FLPAR    fputc('(',  stream)
-#define FRPAR    fputc(')',  stream)
-#define FLSQR    fputc('[',  stream)
-#define FRSQR    fputc(']',  stream)
-#define FDQUO    fputc('"',  stream)
-#define FSQUO    fputc('\'', stream)
+#define F_NL      fputc('\n', stream)
+#define FSPC      COUNTED_FPUTC(' ',  stream)
+#define F_LPAR    fputc('(',  stream)
+#define F_RPAR    fputc(')',  stream)
+#define FLSQR    COUNTED_FPUTC('[',  stream)
+#define FRSQR    COUNTED_FPUTC(']',  stream)
+#define F_DQUO    fputc('"',  stream)
+#define F_SQUO    fputc('\'', stream)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
