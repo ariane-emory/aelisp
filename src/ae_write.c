@@ -153,16 +153,17 @@ int ae_princ(const ae_obj_t * const this) {
 }
 
 
-int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
-  ASSERT_NOT_NULLP(this);
+/* int ae_fprinc(const ae_obj_t * const this, FILE * stream_) { */
+/*   ASSERT_NOT_NULLP(this); */
 
-  fwrite_quoting = false;
-  fwrite_counter = 0;
-  fwrite_stream  = stream_;
+/*   fwrite_quoting = false; */
+/*   fwrite_counter = 0; */
+/*   fwrite_stream  = stream_; */
 
-  return ae_fwrite_internal(this);
-}
+/*   return ae_fwrite_internal(this); */
+/* } */
 
+DEF_F_METHOD(princ, false, ae_fwrite_internal);
 DEF_S_METHOD(princ);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
