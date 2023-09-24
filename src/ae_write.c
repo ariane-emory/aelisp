@@ -9,6 +9,21 @@
 #include "ae_util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// macros
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define COUNTED_FPUTC(c, stream)     fprinc_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
+#define COUNTED_FPUTS(s, stream)     fprinc_counter += (fputs((s), (stream)))
+#define COUNTED_FPRINTF(stream, ...) fprinc_counter += (fprintf((stream), __VA_ARGS__))
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// data
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static FILE * fprinc_stream   = NULL;
+static int    fprinc_counter  = 0;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // princ helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -127,13 +142,6 @@ char * ae_sput_words(const ae_obj_t * const this) {
 int ae_princ(const ae_obj_t * const this) {
   return FPRINC(this, stdout);
 }
-
-static FILE * fprinc_stream   = NULL;
-static int    fprinc_counter  = 0;
-
-#define COUNTED_FPUTC(c, stream)     fprinc_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
-#define COUNTED_FPUTS(s, stream)     fprinc_counter += (fputs((s), (stream)))
-#define COUNTED_FPRINTF(stream, ...) fprinc_counter += (fprintf((stream), __VA_ARGS__))
 
 static int ae_fprinc_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
