@@ -1,5 +1,6 @@
 To Do:
 - [ ] Implement and test macros.
+- [ ] Dotted pairs. 
 - [ ] Maybe core 'let'?
 - [ ] DRY up princ and print.
 - [ ] Review printing of characters needing escaping.
