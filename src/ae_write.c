@@ -29,6 +29,18 @@ char * ae_s ## name(const ae_obj_t * const this) {                              
   return buff;                                                                                     \
 }
 
+#define DEF_F_METHOD(name, quotes, calls)                                                          \
+int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                                    \
+  ASSERT_NOT_NULLP(this);                                                                          \
+                                                                                                   \
+  fwrite_quoting = quotes;                                                                         \
+  fwrite_counter = 0;                                                                              \
+  fwrite_stream  = stream_;                                                                        \
+                                                                                                   \
+  return calls(this);                                                                              \
+}
+
+
 #define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
 #define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
@@ -160,15 +172,6 @@ int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
 }
 
 DEF_S_METHOD(princ);
-
-/* char * ae_sprinc(const ae_obj_t * const this) { */
-/*   MEMSTREAM(buff, stream_); */
-
-/*   ae_fprinc(this, stream_); */
-/*   fclose(fwrite_stream); */
-
-/*   return buff; // free this when you're done with it. */
-/* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's _write methods
