@@ -5,11 +5,7 @@
 #include "ae_eval.h"
 #include "ae_env.h"
 #include "ae_write.h"
-
-#define DIE     (assert(0))
-#define NL      (putchar('\n'))
-#define SPC     (putchar(' '))
-#define PR(...) (fprintf(stdout, __VA_ARGS__))
+#include "ae_util.h"
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   ASSERT_CONSP(env_and_args);                                                                      \
