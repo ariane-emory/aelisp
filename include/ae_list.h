@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "ae_obj.h"
 #include "ae_list.h"
 
@@ -37,7 +39,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define NOT_MEMBERP(this, that) (! MEMBERP((this), (that)))
 #define NOT_TAILP(this)         (! TAILP((this)))
 #define ASSERT_TAILP(o)         (assert(TAILP((o))))
-///////////////////////////////////////////////////////////////j/////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
          * position = (list),                                                                      \
@@ -61,4 +63,5 @@ int           ae_list_length       (const ae_obj_t *  const list                
 ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_fun   fun          );
 void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun          );
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string       );
+bool          ae_list_is_proper    (const ae_obj_t *  const list                                   );
 ////////////////////////////////////////////////////////////////////////////////////////////////////

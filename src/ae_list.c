@@ -277,5 +277,18 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   return new_sym;
 }
 
-#undef DECLARE_NEW_SYM
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _is_proper
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_list_is_proper(const ae_obj_t * const list) {
+  ASSERT_TAILP(list);
+
+  FOR_EACH_CONST(elem, list)
+    if (NOT_TAILP(CDR(position)))
+      return false;
+
+  return true;
+}
 
