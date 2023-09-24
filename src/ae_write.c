@@ -138,10 +138,39 @@ char * ae_sput_words(const ae_obj_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's _write methods
+// obj's _princ methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static int ae_fwrite_internal(const ae_obj_t * const this);
+
+int ae_princ(const ae_obj_t * const this) {
+  return FPRINC(this, stdout);
+}
+
+
+int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
+  ASSERT_NOT_NULLP(this);
+
+  fwrite_quoting = false;
+  fwrite_counter = 0;
+  fwrite_stream  = stream_;
+
+  return ae_fwrite_internal(this);
+}
+
+char * ae_sprinc(const ae_obj_t * const this) {
+  MEMSTREAM(buff, stream_);
+
+  ae_fprinc(this, stream_);
+  fclose(fwrite_stream);
+
+  return buff; // free this when you're done with it.
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// obj's _write methods
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
   
 int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
@@ -254,33 +283,5 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   fflush(fwrite_stream);
   
   return fwrite_counter;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's _princ methods
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-int ae_princ(const ae_obj_t * const this) {
-  return FPRINC(this, stdout);
-}
-
-
-int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
-  ASSERT_NOT_NULLP(this);
-
-  fwrite_quoting = false;
-  fwrite_counter = 0;
-  fwrite_stream  = stream_;
-
-  return ae_fwrite_internal(this);
-}
-
-char * ae_sprinc(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream_);
-
-  ae_fprinc(this, stream_);
-  fclose(fwrite_stream);
-
-  return buff; // free this when you're done with it.
 }
 
