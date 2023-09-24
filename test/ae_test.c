@@ -730,7 +730,6 @@ void root_env_and_eval(void) {
   expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
 
   NL;
-  NL;
   PR("Printing \"Hello from Ash Lisp!\" here: ");
   this = EVAL(env, expr);
   T(EQL(NEW_INT(5), this));
@@ -774,23 +773,18 @@ void root_env_and_eval(void) {
                                             LIST(INTERN("bar")))))))),
               LIST(NEW_INT(12)));
 
-  NL;
-
+  PR("Printing 12 here: ");
   result = EVAL(env, expr);
-
   NL;
 
   T(EQL(NEW_INT(21), result));
-
-  /* NL; */
-  /* PR("[This test]\n"); */
-  /* NL; */
 
   ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
   ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
   ae_obj_t *    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
   expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
-  
+
+  PR("evaluating this cond: ");
   WRITE(expr);
   NL;
   
@@ -798,6 +792,10 @@ void root_env_and_eval(void) {
   {                                                                                                           \
     SETQ(env, INTERN("a"), NEW_INT(input));                                                                   \
     this = EVAL(env, expr);                                                                                   \
+    PR("result for " #input " is ");                                                                          \
+    PRINC(this);                                                                                              \
+    PR(", as expected.");                                                                                     \
+    NL;                                                                                                       \
     if (NEQL(this, NEW_INT(expected))) {                                                                      \
       NL;                                                                                                     \
       PR("<this ");                                                                                           \
