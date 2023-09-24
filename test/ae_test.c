@@ -771,6 +771,16 @@ void root_env_and_eval(void) {
   result = EVAL(env, expr);
 
   T(EQL(NEW_INT(100), result));
+
+  expr = CONS(INTERN(">="), CONS(INTERN("a"), LIST(INTERN("b"))));
+  expr = CONS(expr, LIST(INTERN("yes")));
+
+  NL;
+  WRITE(expr);
+
+
+
+
   
   NL;
   NL;
