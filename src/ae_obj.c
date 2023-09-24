@@ -8,6 +8,7 @@
 #include "ae_list.h"
 #include "ae_pool.h"
 #include "ae_free_list.h"
+#include "ae_util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Data
@@ -266,7 +267,7 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
   ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  printf("While getting type, metadata was 0x%016X, type is %d.\n", this->metadata, type);
+  PR("While getting type, metadata was 0x%016X, type is %d.\n", this->metadata, type);
 #endif
   
   // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
@@ -286,7 +287,7 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
   this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  printf("While setting type to %d, type was %d. Metadata is now 0x%016X.\n", type, old_type, this->metadata); 
+  PR("While setting type to %d, type was %d. Metadata is now 0x%016X.\n", type, old_type, this->metadata); 
 #endif
 
   // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
@@ -305,7 +306,7 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
   char foo = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  printf("While getting foo, metadata was 0x%016X, foo is '%c' (%d).\n", this->metadata, foo, foo);
+  PR("While getting foo, metadata was 0x%016X, foo is '%c' (%d).\n", this->metadata, foo, foo);
 #endif
 
   return foo;
@@ -324,6 +325,6 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
-  printf("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);
+  PR("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);
 #endif
 }

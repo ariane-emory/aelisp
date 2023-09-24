@@ -4,13 +4,9 @@
 #include "ae_obj.h"
 #include "ae_list.h"
 #include "ae_env.h"
+#include "ae_util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define NL            (putchar('\n'))
-#define SPC           (putchar(' '))
-#define PR(...)       (fprintf(stdout, __VA_ARGS__))
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 #define DISPATCH(table, obj, ...)                                                                  \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
