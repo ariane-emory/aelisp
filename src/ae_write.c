@@ -22,9 +22,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this);
 
 // free this string when you're done with it:
 #define DEF_S_METHOD(name)                                                                         \
-char * ae_s ## nameput(const ae_obj_t * const this) {                                              \
+char * ae_s ## name(const ae_obj_t * const this) {                                                 \
   MEMSTREAM(buff, stream);                                                                         \
-  ae_f ## put(this, stream);                                                                       \
+  ae_f ## name(this, stream);                                                                      \
   fclose(stream);                                                                                  \
   return buff;                                                                                     \
 }
