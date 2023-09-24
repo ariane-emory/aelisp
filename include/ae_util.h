@@ -17,7 +17,7 @@ extern char obj_log_buffer[64];
 
 void obj_log(ae_obj_t * obj, char * desc);
 
-#define LOG(o, desc)  \
+#define LOG(o, desc, ...)  \
 ({ \
   (obj_log((o), (desc))); \
 })
