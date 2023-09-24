@@ -808,33 +808,33 @@ void root_env_and_eval(void) {
     PR(">");
     NL;
   }
+  NL;
+  {
+    ae_obj_t * expr1 = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST( NEW_INT(2 )));
+    ae_obj_t * expr3 = CONS(TRUE, LIST(INTERN("nil")));
+    expr             = CONS(INTERN("cond"), CONS(expr1, LIST(expr3)));
 
-  /* { */
-  /*   ae_obj_t * expr1 = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST( NEW_INT(2 ))); */
-  /*   ae_obj_t * expr3 = CONS(TRUE, LIST(INTERN("nil"))); */
-  /*   expr             = CONS(INTERN("cond"), CONS(expr1, LIST(expr3))); */
-
-  /*   WRITE(expr); */
-  /*   NL; */
+    WRITE(expr);
+    NL;
     
-  /*   SETQ(env, INTERN("a"), NEW_INT(2)); */
-  /*   this = EVAL(env, expr); */
-  /*   T(NILP(this)); */
-  /*   NL; */
-  /*   PR("<"); */
-  /*   WRITE(this); */
-  /*   PR(">"); */
-  /*   NL; */
+    SETQ(env, INTERN("a"), NEW_INT(2));
+    this = EVAL(env, expr);
+    T(NILP(this));
+    NL;
+    PR("<");
+    WRITE(this);
+    PR(">");
+    NL;
     
-  /*   SETQ(env, INTERN("a"), NEW_INT(20));   */
-  /*   this = EVAL(env, expr); */
-  /*   T(EQL(NEW_INT(2), this)); */
-  /*   NL; */
-  /*   PR("<"); */
-  /*   WRITE(this); */
-  /*   PR(">"); */
-  /*   NL; */
-  /* } */
+    SETQ(env, INTERN("a"), NEW_INT(20));
+    this = EVAL(env, expr);
+    T(EQL(NEW_INT(2), this));
+    NL;
+    PR("<");
+    WRITE(this);
+    PR(">");
+    NL;
+  }
 
   NL;
   PR("syms: ");
