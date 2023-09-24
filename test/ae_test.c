@@ -715,10 +715,10 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
 
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(88)))));
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(9)))));
   EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))));
 
-  T(EQL(NEW_INT(88),  EVAL(env, INTERN("bar"))));
+  T(EQL(NEW_INT(9),   EVAL(env, INTERN("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
  
   expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
@@ -770,11 +770,14 @@ void root_env_and_eval(void) {
   
   result = EVAL(env, expr);
 
-  T(EQL(NEW_INT(100), result));
+  T(EQL(NEW_INT(21), result));
 
   expr             = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST(INTERN("maybe")));
   ae_obj_t * expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(12)))), LIST(INTERN("yes")));
   ae_obj_t * expr3 = CONS(LIST(TRUE), LIST(INTERN("nil")));
+  ae_obj_t * cond  = CONS(INTERN("cond"), CONS(expr, CONS(expr2, LIST(expr3))));
+
+  WRITE(EVAL(env, cond));
 
   NL;
   WRITE(expr);
@@ -782,6 +785,8 @@ void root_env_and_eval(void) {
   WRITE(expr2);
   NL;
   WRITE(expr3);
+  NL;
+  WRITE(cond);
 
 
 
