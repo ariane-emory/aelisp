@@ -91,11 +91,8 @@ int ae_put(const ae_obj_t * const this) {
 
 char * ae_sput(const ae_obj_t * const this) {
   MEMSTREAM(buff, stream);
-
   ae_fput(this, stream);
-  
   fclose(stream);
-
   return buff; // free this when you're done with it.
 }
 
