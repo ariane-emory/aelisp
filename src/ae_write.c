@@ -90,9 +90,9 @@ int ae_put(const ae_obj_t * const this) {
   FILE * stream = open_memstream(&buff, &size);
 
 #define DEF_S_METHOD(name)                                                                         \
-char * ae_sput(const ae_obj_t * const this) {                                                      \
+char * ae_s ## nameput(const ae_obj_t * const this) {                                              \
   MEMSTREAM(buff, stream);                                                                         \
-  ae_fput(this, stream);                                                                           \
+  ae_f ## put(this, stream);                                                                       \
   fclose(stream);                                                                                  \
   return buff; // free this when you're done with it.                                              \
 }
