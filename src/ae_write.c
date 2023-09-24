@@ -32,7 +32,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   written    += fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
 
-  while (written++ <= 13) SPC;
+  while (written++ <= 13) FSPC;
 
   switch (GET_TYPE(this)) {
   case AE_CONS:
@@ -51,7 +51,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     written  += FPRINC(this, stream);
   }
   
-  while (written++ <= 70) SPC;
+  while (written++ <= 70) FSPC;
 
   FSPC;
   FRSQR;
