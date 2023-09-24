@@ -831,7 +831,6 @@ void root_env_and_eval(void) {
   NL;
 }
 
-
 void improper_list_checks(ae_obj_t * this) {
   COUNT_LIST_LENGTH(this);
 
