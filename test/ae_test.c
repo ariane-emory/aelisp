@@ -726,11 +726,15 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(9),   EVAL(env, INTERN("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
- 
+
   expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
 
+  NL;
+  NL;
+  PR("Printing \"Hello from Ash Lisp!\" here: ");
   this = EVAL(env, expr);
-  T(EQ(NEW_INT(5), this));
+  T(EQL(NEW_INT(5), this));
+  NL;
   
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
@@ -778,9 +782,9 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(21), result));
 
-  NL;
-  PR("[This test]\n");
-  NL;
+  /* NL; */
+  /* PR("[This test]\n"); */
+  /* NL; */
 
   ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
   ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
