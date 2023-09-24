@@ -13,4 +13,4 @@
 
 #define LOG(desc, o)  (obj_log(#desc, o))
 
-void obj_log(char * desc, struct ae_obj_t * obj);
+void obj_log(ae_obj_t * obj, char * desc);
