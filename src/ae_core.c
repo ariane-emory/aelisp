@@ -139,9 +139,11 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_cond(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
+#ifdef AE_LOG_CORE
   NL;
   PR("cond? ");
   WRITE(args);
+#endif
 
   if (NILP(args))
     return NIL;
@@ -151,12 +153,14 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env_and_args) {
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
 
+#ifdef AE_LOG_CORE
   NL;
   PR("caar ");
   WRITE(caar);
   NL;
   PR("cdar  ");
   WRITE(cdar);
+#endif
 
   if (NOT_NILP(EVAL(env, caar)))
     return EVAL(env, ae_core_progn(CONS(env, cdar)));
