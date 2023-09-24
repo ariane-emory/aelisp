@@ -12,11 +12,10 @@
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   ASSERT_CONSP(env_and_args);                                                                      \
   ASSERT_ENVP(CAR(env_and_args));                                                                  \
-  ASSERT_CONSP(CDR(env_and_args));                                                                 \
-  ASSERT_TAILP(CADR(env_and_args));                                                                \
+  ASSERT_TAILP(CDR(env_and_args));                                                                 \
                                                                                                    \
   ae_obj_t * env  = CAR(env_and_args);                                                             \
-  ae_obj_t * args = CADR(bundle)
+  ae_obj_t * args = CDR(bundle)
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
@@ -50,18 +49,16 @@
 ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
+// #ifdef AE_LOG_CORE
+  NL; PR("env_and_args "); PUT(env_and_args); SPC; PRINC(env_and_args);
+  NL; PR("env          "); PUT(env         ); SPC; PRINC(env         );
+  NL; PR("args         "); PUT(args        ); SPC; PRINC(args        );
+// #endif
+
   ASSERT_SYMBOLP(CAR(args));
   ASSERT_CONSP(CDR(args));
 
   ae_obj_t * sym  = CAR(args);
-
-#ifdef AE_LOG_CORE
-  NL;
-  PR("setq's args ");
-  PRINC(args);
-  NL;
-#endif
-
   ae_obj_t * val  = EVAL(env, CADR(args)); // allowed to be NIL.
 
   ENV_SET(env, sym, val);

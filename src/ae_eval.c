@@ -68,7 +68,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
   if (SPECIAL_FUNP(fun)) {
     // special funs get their un-evaluated args, plus the env.
-    ae_obj_t * env_and_args = CONS(env, LIST(args)); 
+    ae_obj_t * env_and_args = CONS(env, args); 
 
     ret = (*FUN_VAL(fun))(env_and_args);
   }
