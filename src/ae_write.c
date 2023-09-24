@@ -160,6 +160,7 @@ char * ae_swrite(const ae_obj_t * const this) {
 int ae_fwrite(const ae_obj_t * const this, FILE * stream_) {
   ASSERT_NOT_NULLP(this);
 
+  fprinc_quoting = true;
   fprinc_counter = 0;
   fprinc_stream  = stream_;
 
@@ -198,9 +199,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPUTS("(null)", fprinc_stream);
     }
     else {
-      COUNTED_FPUTC('"', fprinc_stream);
+      if (fprinc_quoting)
+        COUNTED_FPUTC('"', fprinc_stream);
+      
       COUNTED_FPUTS(STR_VAL(this), fprinc_stream);
-      COUNTED_FPUTC('"', fprinc_stream);
+
+      if (fprinc_quoting)
+        COUNTED_FPUTC('"', fprinc_stream);
     }
     break;
   case AE_INTEGER:
@@ -230,9 +235,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       tmp[0] = this->char_val;
     }
 
-    COUNTED_FPUTC('\'', fprinc_stream);
+    if (fprinc_quoting)
+      COUNTED_FPUTC('\'', fprinc_stream);
+    
     COUNTED_FPUTS(tmp, fprinc_stream);
-    COUNTED_FPUTC('\'', fprinc_stream);
+
+    if (fprinc_quoting)
+      COUNTED_FPUTC('\'', fprinc_stream);
     
     break;
   }
