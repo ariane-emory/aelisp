@@ -6,20 +6,20 @@
 
 #include "ae_write.h"
 #include "ae_env.h"
+#include "ae_util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // princ helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define NL      fputc('\n', stream)
-#define SPC     fputc(' ',  stream)
-#define LPAR    fputc('(',  stream)
-#define RPAR    fputc(')',  stream)
-#define LSQR    fputc('[',  stream)
-#define RSQR    fputc(']',  stream)
-#define DQUO    fputc('"',  stream)
-#define SQUO    fputc('\'', stream)
-#define PR(...) (fprintf(stdout, __VA_ARGS__))
+#define FNL      fputc('\n', stream)
+#define FSCP     fputc(' ',  stream)
+#define FLPAR    fputc('(',  stream)
+#define FRPAR    fputc(')',  stream)
+#define FLSQR    fputc('[',  stream)
+#define FRSQR    fputc(']',  stream)
+#define FDQUO    fputc('"',  stream)
+#define FSQUO    fputc('\'', stream)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
@@ -54,7 +54,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   while (written++ <= 70) SPC;
 
   SPC;
-  RSQR;
+  FRSQR;
 
   written    += 2;
   
