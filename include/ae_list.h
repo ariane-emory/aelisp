@@ -43,13 +43,13 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
          * position = (list),                                                                      \
          * elem     = CAR(position);                                                               \
        CONSP(position);                                                                            \
-           elem = CAR(position = CDR(position)))
+       elem = CAR(position = CDR(position)))
 #define FOR_EACH_CONST(elem, list)                                                                 \
   for (const ae_obj_t                                                                              \
          * position = (list),                                                                      \
          * elem     = CAR(position);                                                               \
        CONSP(position);                                                                            \
-           elem = CAR(position = CDR(position)))
+       elem = CAR(position = CDR(position)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
