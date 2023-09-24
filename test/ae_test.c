@@ -729,12 +729,8 @@ void root_env_and_eval(void) {
  
   expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
 
-  NL;
-  NL;
   this = EVAL(env, expr);
-  NL; PR("progn returned "); PUT(this); SPC; WRITE(this); NL;
-  NL; PR("progn was      "); PUT(expr); SPC; WRITE(expr); NL;
-  NL;
+  T(EQ(NEW_INT(5), this));
   
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));

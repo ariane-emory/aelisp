@@ -1,6 +1,5 @@
 To Do:
-- [ ] progn's return value appears to be incorrect under tests?
-- [ ] Implement and test macros.
+- [ ] Implement and test macro expansion.
 - [ ] Dotted pairs. 
 - [ ] Maybe core 'let'?
 - [ ] DRY up princ and print.
@@ -17,6 +16,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] progn's return value appears to be incorrect under tests? (No it wasn't, I was just confused.)
 - [x] fwrite_lengths test is noisy.
 - [x] Split princ into princ and print.
 - [x] Implement eval functions.
