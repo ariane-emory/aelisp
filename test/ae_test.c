@@ -784,13 +784,6 @@ void root_env_and_eval(void) {
   ae_obj_t * expr3 = CONS(TRUE, LIST(INTERN("nil")));
   ae_obj_t * cond  = CONS(INTERN("cond"), CONS(expr, CONS(expr2, LIST(expr3))));
 
-  NL;
-  WRITE(expr);
-  NL;
-  WRITE(expr2);
-  NL;
-  WRITE(expr3);
-  NL;
   WRITE(cond);
   NL;
   
