@@ -26,6 +26,7 @@ static char mem[free_list_size] = { 0 };
 
 #define T       TEST_CHECK
 #define TM      TEST_MSG
+#define SPC     (putchar(' '))
 #define NL      (putchar('\n'))
 #define FF      (fflush(stdout))
 #define PR(...) (fprintf(stdout, __VA_ARGS__))
@@ -730,7 +731,9 @@ void root_env_and_eval(void) {
 
   NL;
   NL;
-  EVAL(env, expr);
+  this = EVAL(env, expr);
+  NL; PR("progn returned "); PUT(this); SPC; PRINC(this); NL;
+  NL; PR("progn was      "); PUT(expr); SPC; PRINC(expr); NL;
   NL;
   
   expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
