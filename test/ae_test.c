@@ -644,28 +644,41 @@ void core_eq_eql_atomp_not(void) {
   T(NILP (ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
 }
 
-void core_print_princ_princ(void) {
+void core_print_princ_write(void) {
   SETUP_TEST;
 
   NL;
   
   {
-    PR("Printing '5 a abc' oo the next line: ");
-    ae_obj_t * written = ae_core_print(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
+    PR("Printing '\"hello\" 5 a abc' oo the next line: ");
     NL;
-    T(INT_VAL(written) == 8);
+    ae_obj_t * written = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
+    NL;
+    T(INT_VAL(written) == 14);
+    TM("Expected %d, wrote %d.", 14, INT_VAL(written));
   }
   {
-    PR("Printing '5aabc' here: ");
-    ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
+    PR("Printing 'hello 5 a abc' oo the next line: ");
+    ae_obj_t * written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
     NL;
-    T(INT_VAL(written) == 5);
+    T(INT_VAL(written) == 14);
+    TM("Expected %d, wrote %d.", 14, INT_VAL(written));
   }
   {
-    PR("Printing '5aabc' here: ");
-    ae_obj_t * written = ae_core_princ(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc")))));
+    PR("Printing 'hello 5aabc' on the next line: ");
     NL;
-    T(INT_VAL(written) == 5);
+    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));;
+    NL;
+    T(INT_VAL(written) == 10);
+    TM("Expected %d, wrote %d.", 10, INT_VAL(written));
+  }
+  {
+    PR("Printing 'hello5aabc' on the next line: ");
+    NL;
+    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
+    NL;
+    T(INT_VAL(written) == 10);
+    TM("Expected %d, wrote %d.", 10, INT_VAL(written));
   }
 }
 
@@ -849,7 +862,7 @@ void root_env_and_eval(void) {
   DO(envs)                                                                                         \
   DO(core_cons_car_cdr)                                                                            \
   DO(core_eq_eql_atomp_not)                                                                        \
-  DO(core_print_princ_princ)                                                                       \
+  DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
   DO(root_env_and_eval)
