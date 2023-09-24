@@ -258,8 +258,29 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 // obj's _princ methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+static int ae_fprinc_internal(const ae_obj_t * const this);
+
 int ae_princ(const ae_obj_t * const this) {
   return FPRINC(this, stdout);
+}
+
+
+int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
+  ASSERT_NOT_NULLP(this);
+
+  fprinc_counter = 0;
+  fprinc_stream  = stream_;
+
+  return ae_fprinc_internal(this);
+}
+
+char * ae_sprinc(const ae_obj_t * const this) {
+  MEMSTREAM(buff, stream_);
+
+  ae_fprinc(this, stream_);
+  fclose(fprinc_stream);
+
+  return buff; // free this when you're done with it.
 }
 
 static int ae_fprinc_internal(const ae_obj_t * const this) {
@@ -333,22 +354,4 @@ static int ae_fprinc_internal(const ae_obj_t * const this) {
   fflush(fprinc_stream);
   
   return fprinc_counter;
-}
-
-int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
-  ASSERT_NOT_NULLP(this);
-
-  fprinc_counter = 0;
-  fprinc_stream  = stream_;
-
-  return ae_fprinc_internal(this);
-}
-
-char * ae_sprinc(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream_);
-
-  ae_fprinc(this, stream_);
-  fclose(fprinc_stream);
-
-  return buff; // free this when you're done with it.
 }
