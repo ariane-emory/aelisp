@@ -164,25 +164,8 @@ int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
 }
 
-char * ae_swrite(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream_);
-
-  ae_fwrite(this, stream_);
-  fclose(fwrite_stream);
-
-  return buff; // free this when you're done with it.
-}
-
-
-int ae_fwrite(const ae_obj_t * const this, FILE * stream_) {
-  ASSERT_NOT_NULLP(this);
-
-  fwrite_quoting = true;
-  fwrite_counter = 0;
-  fwrite_stream  = stream_;
-
-  return ae_fwrite_internal(this);
-}
+DEF_S_METHOD(write);
+DEF_F_METHOD(write, true, ae_fwrite_internal);
 
 static int ae_fwrite_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
