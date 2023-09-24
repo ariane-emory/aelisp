@@ -201,7 +201,7 @@ apply_dispatch[] = {
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(fun,"[Dispatch fun]\n");
+  LOG(fun,"[Dispatch fun]");
   OLOG(args);
   NL;
 #endif
