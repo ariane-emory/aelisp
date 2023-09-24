@@ -121,8 +121,6 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
       expected_length);
   }
 
-  NL;
-  
   return list;
 }
 
@@ -597,7 +595,7 @@ ae_obj_t * make_args_for_cons(void) {
   return CONS(NIL, LIST(CONS(INTERN("a"), CONS(INTERN("b"), LIST(INTERN("c"))))));
 }
 
-void primitive_cons_car_cdr(void) {
+void core_cons_car_cdr(void) {
   SETUP_TEST;
   
   T(EQ(ae_core_car(make_args_containing_one_list()), INTERN("a")                                        ));
@@ -613,7 +611,7 @@ void primitive_cons_car_cdr(void) {
   T(NILP(ae_core_cdr(LIST(ae_core_car(LIST(NIL))))                                                      ));
 }
 
-void primitive_eq_eql_atomp_not(void) {
+void core_eq_eql_atomp_not(void) {
   SETUP_TEST;
   
   this = CONS(NEW_INT(1), LIST(NEW_INT(2)));
@@ -646,7 +644,7 @@ void primitive_eq_eql_atomp_not(void) {
   T(NILP (ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
 }
 
-void primitive_print_princ_princ(void) {
+void core_print_princ_princ(void) {
   SETUP_TEST;
 
   {
@@ -666,7 +664,7 @@ void primitive_print_princ_princ(void) {
   }
 }
 
-void primitive_math(void) {
+void core_math(void) {
   SETUP_TEST;
 
   this = ae_core_add(CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
@@ -685,7 +683,7 @@ void primitive_math(void) {
   T(EQL(this, NEW_INT(2)));
 }
 
-void primitive_cmp(void) {
+void core_cmp(void) {
   SETUP_TEST;
   
   T(TRUEP(ae_core_equal (CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(2)))))));
@@ -844,11 +842,11 @@ void root_env_and_eval(void) {
   DO(eql)                                                                                          \
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(envs)                                                                                         \
-  DO(primitive_cons_car_cdr)                                                                       \
-  DO(primitive_eq_eql_atomp_not)                                                                   \
-  DO(primitive_print_princ_princ)                                                                  \
-  DO(primitive_math)                                                                               \
-  DO(primitive_cmp)                                                                                \
+  DO(core_cons_car_cdr)                                                                            \
+  DO(core_eq_eql_atomp_not)                                                                        \
+  DO(core_print_princ_princ)                                                                       \
+  DO(core_math)                                                                                    \
+  DO(core_cmp)                                                                                     \
   DO(root_env_and_eval)
 
 #define pair(fun) { #fun, fun },
