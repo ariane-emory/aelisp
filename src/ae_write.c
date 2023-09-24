@@ -142,15 +142,7 @@ int ae_put_words(const ae_obj_t * const this) {
   return ae_fput_words(this, stdout);
 }
 
-char * ae_sput_words(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream);
-
-  ae_fput_words(this, stream);
-
-  fclose(stream);
-
-  return buff; // free this when you're done with it.
-}
+DEF_S_METHOD(put_words);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's _princ methods
