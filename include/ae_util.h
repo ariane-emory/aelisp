@@ -13,11 +13,4 @@
 
 #define LOG(desc, o)  (obj_log(#desc, o))
 
-inline void obj_log(char * desc, struct ae_obj_t * obj) {
-  NL;
-  PR("%-20s", desc);
-  SPC;
-  ae_put(obj);
-  SPC;
-  ae_write(obj);
-}
+void obj_log(char * desc, struct ae_obj_t * obj);
