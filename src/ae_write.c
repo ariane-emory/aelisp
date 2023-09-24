@@ -186,11 +186,11 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
 
-      if (NOT_NILP(CDR(position)))
-        FSPC;
       if (NOT_TAILP(CDR(position))) {
         COUNTED_FPRINTF(fwrite_stream, " . ");
         ae_fwrite_internal(CDR(position));
+      } else if (NOT_NILP(CDR(position))) {
+        FSPC;
       }
     }
 
