@@ -15,6 +15,20 @@ static int ae_fwrite_internal(const ae_obj_t * const this);
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define MEMSTREAM(buff, stream)                                                                    \
+  char * buff;                                                                                     \
+  size_t size;                                                                                     \
+  FILE * stream = open_memstream(&buff, &size);
+
+// free this string when you're done with it:
+#define DEF_S_METHOD(name)                                                                         \
+char * ae_s ## nameput(const ae_obj_t * const this) {                                              \
+  MEMSTREAM(buff, stream);                                                                         \
+  ae_f ## put(this, stream);                                                                       \
+  fclose(stream);                                                                                  \
+  return buff;                                                                                     \
+}
+
 #define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
 #define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
@@ -84,25 +98,14 @@ int ae_put(const ae_obj_t * const this) {
   return FPUT(this, stdout);
 }
 
-#define MEMSTREAM(buff, stream)                                                                    \
-  char * buff;                                                                                     \
-  size_t size;                                                                                     \
-  FILE * stream = open_memstream(&buff, &size);
+DEF_S_METHOD(put)
 
-#define DEF_S_METHOD(name)                                                                         \
-char * ae_s ## nameput(const ae_obj_t * const this) {                                              \
-  MEMSTREAM(buff, stream);                                                                         \
-  ae_f ## put(this, stream);                                                                       \
-  fclose(stream);                                                                                  \
-  return buff; // free this when you're done with it.                                              \
-}
-
-char * ae_sput(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream);
-  ae_fput(this, stream);
-  fclose(stream);
-  return buff; // free this when you're done with it.
-}
+/* char * ae_sput(const ae_obj_t * const this) { */
+/*   MEMSTREAM(buff, stream); */
+/*   ae_fput(this, stream); */
+/*   fclose(stream); */
+/*   return buff; // free this when you're done with it. */
+/* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput_words / put_words
