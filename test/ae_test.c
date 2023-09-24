@@ -11,6 +11,8 @@
 #include "ae_free_list.h"
 #include "ae_core.h"
 #include "ae_eval.h"
+#include "ae_write.h"
+#include "ae_env.h"
 
 #include "acutest.h"
 

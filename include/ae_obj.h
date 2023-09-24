@@ -192,7 +192,6 @@ extern ae_obj_t * symbols_list;
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))
 #define ASSERT_CONSP(o)         (assert((CONSP(o))))
-#define ASSERT_ENVP(o)          (assert((ENVP(o))))
 #define ASSERT_FLOATP(o)        (assert(FLOATP(o)))
 #define ASSERT_FUNP(o)          (assert(FUNP(o)))
 #define ASSERT_FREEP(o)         (assert(FREEP(o)))
@@ -296,6 +295,6 @@ _obj;                                                                           
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "ae_list.h"
-#include "ae_write.h"
-#include "ae_env.h"
+/* #include "ae_list.h" */
+/* #include "ae_write.h" */
+/* #include "ae_env.h" */

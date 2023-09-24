@@ -3,7 +3,8 @@
 #include <string.h>
 
 #include "ae_obj.h"
-
+#include "ae_env.h"
+  
 #define YYSTYPE ae_obj_t *
 
 #include "ae.tab.h"

@@ -3,6 +3,8 @@
 #include "ae_core.h"
 #include "ae_list.h"
 #include "ae_eval.h"
+#include "ae_env.h"
+#include "ae_write.h"
 
 #define DIE     (assert(0))
 #define NL      (putchar('\n'))

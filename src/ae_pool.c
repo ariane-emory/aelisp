@@ -2,8 +2,9 @@
 #include <stddef.h>
 #include <assert.h>
 
-#include "ae_obj.h"
 #include "ae_pool.h"
+#include "ae_obj.h"
+#include "ae_write.h"
 
 #ifndef AE_OBJ_POOL_SIZE
 #  define AE_OBJ_POOL_SIZE (1 << 10)
