@@ -219,87 +219,87 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CONS(head, tail)                                                                       \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_CONS);                                                                   \
-CAR       (_obj_##__LINE__) = (head);                                                                         \
-CDR       (_obj_##__LINE__) = (tail);                                                                         \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_CONS);                                                                   \
+CAR       (_obj) = (head);                                                                         \
+CDR       (_obj) = (tail);                                                                         \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_CHAR);                                                                   \
-CHAR_VAL  (_obj_##__LINE__) = (val);                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_CHAR);                                                                   \
+CHAR_VAL  (_obj) = (val);                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_STRING(val)                                                                            \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_STRING);                                                                 \
-STR_VAL   (_obj_##__LINE__) = (val);                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_STRING);                                                                 \
+STR_VAL   (_obj) = (val);                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_SYMBOL(val)                                                                            \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_SYMBOL);                                                                 \
-SYM_VAL   (_obj_##__LINE__) = (val);                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_SYMBOL);                                                                 \
+SYM_VAL   (_obj) = (val);                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_CHAR);                                                                   \
-CHAR_VAL  (_obj_##__LINE__) = (val);                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_CHAR);                                                                   \
+CHAR_VAL  (_obj) = (val);                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_INT(val)                                                                               \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_INTEGER);                                                                \
-INT_VAL   (_obj_##__LINE__) = (val);                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_INTEGER);                                                                \
+INT_VAL   (_obj) = (val);                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CORE_FUN(name, val, _special)                                                          \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_CORE_FUN);                                                               \
-FUN_VAL   (_obj_##__LINE__) = (val);                                                                          \
-strcpy(NAME_VAL(_obj_##__LINE__), name);                                                                      \
-_obj_##__LINE__->special = _special;                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_CORE_FUN);                                                               \
+FUN_VAL   (_obj) = (val);                                                                          \
+strcpy(NAME_VAL(_obj), name);                                                                      \
+_obj->special = _special;                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_FLOAT(val)                                                                             \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_FLOAT);                                                                  \
-FLOAT_VAL (_obj_##__LINE__) = (val);                                                                          \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_FLOAT);                                                                  \
+FLOAT_VAL (_obj) = (val);                                                                          \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_RATIONAL(numer, denom)                                                                 \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__  = NEW(AE_RATIONAL);                                                               \
-NUMER_VAL (_obj_##__LINE__) = (numer);                                                                        \
-DENOM_VAL (_obj_##__LINE__) = (denom);                                                                        \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj  = NEW(AE_RATIONAL);                                                               \
+NUMER_VAL (_obj) = (numer);                                                                        \
+DENOM_VAL (_obj) = (denom);                                                                        \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_LAMBDA(params_, body_, env_)                                                           \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__ = NEW(AE_LAMBDA);                                                                  \
-_obj_##__LINE__->params    = params_;                                                                         \
-_obj_##__LINE__->body      = body_;                                                                           \
-_obj_##__LINE__->env       = env_;                                                                            \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj = NEW(AE_LAMBDA);                                                                  \
+_obj->params    = params_;                                                                         \
+_obj->body      = body_;                                                                           \
+_obj->env       = env_;                                                                            \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_MACRO(params_, body_, env_)                                                            \
 ({                                                                                                 \
-ae_obj_t * _obj_##__LINE__ = NEW(AE_MACRO);                                                                   \
-_obj_##__LINE__->params    = params_;                                                                         \
-_obj_##__LINE__->body      = body_;                                                                           \
-_obj_##__LINE__->env       = env_;                                                                            \
-_obj_##__LINE__;                                                                                              \
+ae_obj_t * _obj = NEW(AE_MACRO);                                                                   \
+_obj->params    = params_;                                                                         \
+_obj->body      = body_;                                                                           \
+_obj->env       = env_;                                                                            \
+_obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
