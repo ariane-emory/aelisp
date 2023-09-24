@@ -844,8 +844,19 @@ void root_env_and_eval(void) {
 void improper_list(void) {
   SETUP_TEST;
 
-  this = CONS(NEW_INT(10), LIST(NEW_INT(20)));
-  OLOG(this);
+  this = cons_together_a_list_of_ints();
+  OLOG(this); NL;
+  basic_list_checks(this);
+
+  return;
+  
+  this = CONS(NEW_INT(10), CONS(NEW_INT(20), CONS(NEW_INT(30), LIST(NEW_INT(40)))));
+  OLOG(this); NL;
+  basic_list_checks(this);
+
+  /* this = CONS(NEW_INT(10), CONS(NEW_INT(20), LIST(NEW_INT(30)))); */
+  /* basic_list_checks(this); */
+  /* OLOG(this); NL; */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
