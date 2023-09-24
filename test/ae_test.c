@@ -811,7 +811,6 @@ void root_env_and_eval(void) {
   NL;
   
   NL;
-  NL;
   PR("syms: ");
   PRINC(ENV_SYMS(env));
   NL;
