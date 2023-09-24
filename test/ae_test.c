@@ -772,7 +772,7 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(100), result));
 
-  expr = CONS(INTERN(">="), CONS(INTERN("a"), LIST(INTERN("b"))));
+  expr = CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8))));
   expr = CONS(expr, LIST(INTERN("yes")));
 
   NL;
