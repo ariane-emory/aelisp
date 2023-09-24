@@ -70,6 +70,8 @@ static bool   fwrite_quoting  = false;
 // obj's fput / put
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_S_METHOD(put);
+
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
@@ -110,11 +112,11 @@ int ae_put(const ae_obj_t * const this) {
   return FPUT(this, stdout);
 }
 
-DEF_S_METHOD(put);
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput_words / put_words
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DEF_S_METHOD(put_words);
 
 int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
@@ -142,30 +144,27 @@ int ae_put_words(const ae_obj_t * const this) {
   return ae_fput_words(this, stdout);
 }
 
-DEF_S_METHOD(put_words);
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's _princ methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DEF_F_METHOD(princ, false, ae_fwrite_internal);
+DEF_S_METHOD(princ);
 
 int ae_princ(const ae_obj_t * const this) {
   return FPRINC(this, stdout);
 }
 
-DEF_F_METHOD(princ, false, ae_fwrite_internal);
-DEF_S_METHOD(princ);
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's _write methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_F_METHOD(write, true, ae_fwrite_internal);
+DEF_S_METHOD(write);
 
 int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
 }
-
-DEF_S_METHOD(write);
-DEF_F_METHOD(write, true, ae_fwrite_internal);
 
 static int ae_fwrite_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
@@ -187,8 +186,14 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
 
-      if (! NILP(CDR(position)))
+      if (NOT_NILP(CDR(position)))
         FSPC;
+      if (NOT_TAILP(CDR(position))) {
+        COUNTED_FPRINTF(fwrite_stream, " . ");
+        ae_fwrite_internal(CDR(position));
+      }
+      
+      
     }
 
     FRPAR;
