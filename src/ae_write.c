@@ -98,7 +98,7 @@ int ae_put(const ae_obj_t * const this) {
   return FPUT(this, stdout);
 }
 
-DEF_S_METHOD(put)
+DEF_S_METHOD(put);
 
 /* char * ae_sput(const ae_obj_t * const this) { */
 /*   MEMSTREAM(buff, stream); */
