@@ -1,6 +1,6 @@
 #include "ae_util.h"
 
-char log_buffer[64];
+char obj_log_buffer[64];
 
 void obj_log(ae_obj_t * obj, char * desc) {
   NL;
