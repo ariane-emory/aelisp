@@ -148,9 +148,7 @@ void basic_list_checks(ae_obj_t * this) {
   T(EQ(LENGTH(this)       , 4));
   T(EQ(list_length_counter, 4));
   T(EQ(list_length_counter, LENGTH(this)));
-
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
-  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   ae_obj_t * mapped = NULL;
 
@@ -837,9 +835,7 @@ void improper_list_checks(ae_obj_t * this) {
   T(EQ(LENGTH(this)       , 4));
   T(EQ(list_length_counter, 4));
   T(EQ(list_length_counter, LENGTH(this)));
-
-  T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
-  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
+  T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
 
   ae_obj_t * mapped = NULL;
 

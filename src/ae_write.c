@@ -192,8 +192,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         COUNTED_FPRINTF(fwrite_stream, " . ");
         ae_fwrite_internal(CDR(position));
       }
-      
-      
     }
 
     FRPAR;
