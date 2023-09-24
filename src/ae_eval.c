@@ -92,36 +92,16 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 
 #ifdef AE_LOG_EVAL
   PR("\n[Created exec env]\n");
-  PR("parent        ");
-  PUT(new_env->parent);
-  SPC;
-  PRINC(new_env->parent);
-  NL;
-  PR("symbols       ");
-  PUT(new_env->symbols);
-  SPC;
-  PRINC(new_env->symbols);
-  NL;
-  PR("values        ");
-  PUT(new_env->values);
-  SPC;
-  PRINC(new_env->values);
-  NL;
-  PR("body          ");
-  PUT(body);
-  SPC;
-  PRINC(body);
-  NL;
+  LOG(new_env->parent,  "parent");
+  LOG(new_env->symbols, "symbols");
+  LOG(new_env->values,  "values");
+  OLOG(body);
 #endif
 
   ae_obj_t * result = EVAL(new_env, body);
 
 #ifdef AE_LOG_EVAL
-  PR("result        ");
-  PUT(result);
-  SPC;
-  PRINC(result);
-  NL;
+  OLOG(result);
 #endif
 
   return result;
