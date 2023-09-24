@@ -333,7 +333,7 @@ void intern_symbols(void) {
     free(buff);                                                                                    \
                                                                                                    \
     NL;                                                                                            \
-    PR("Writing <");                                                                               \
+    PR("With " #fun ",  <");                                                                               \
     PR(buff);                                                                                      \
     PR("> wrote %d characters, expected %d.", strlen(buff), expect);                               \
                                                                                                    \
