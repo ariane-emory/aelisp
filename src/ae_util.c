@@ -9,4 +9,5 @@ void obj_log(ae_obj_t * obj, char * desc) {
   ae_put(obj);
   SPC;
   ae_write(obj);
+  fflush(stdout);
 }
