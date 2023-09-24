@@ -29,14 +29,14 @@ static bool   fprinc_quoting  = false;
 // princ helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define F_NL      fputc('\n', stream)
-#define FSPC      COUNTED_FPUTC(' ',  stream)
-#define F_LPAR    fputc('(',  stream)
-#define F_RPAR    fputc(')',  stream)
+#define FNL      COUNTED_FPUTC('\n', stream)
+#define FSPC     COUNTED_FPUTC(' ',  stream)
+#define FLPAR    COUNTED_FPUTC('(',  stream)
+#define FRPAR    COUNTED_FPUTC(')',  stream)
 #define FLSQR    COUNTED_FPUTC('[',  stream)
 #define FRSQR    COUNTED_FPUTC(']',  stream)
-#define F_DQUO    fputc('"',  stream)
-#define F_SQUO    fputc('\'', stream)
+#define FDQUO    COUNTED_FPUTC('"',  stream)
+#define FSQUO    COUNTED_FPUTC('\'', stream)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
@@ -168,6 +168,8 @@ int ae_fwrite(const ae_obj_t * const this, FILE * stream_) {
 }
 
 static int ae_fwrite_internal(const ae_obj_t * const this) {
+  FILE * stream = fprinc_stream;
+
   switch (GET_TYPE(this)) {
   case AE_ENV:
     if (NILP(ENV_PARENT(this)))
@@ -179,17 +181,17 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPUTS("∞", fprinc_stream);
     break;
   case AE_CONS:
-    COUNTED_FPUTC('(', fprinc_stream);
+    FLPAR;
 
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fprinc_stream);
         
       if (! NILP(CDR(position)))
-        COUNTED_FPUTC(' ', fprinc_stream);
+        FSPC;
     }
       
-    COUNTED_FPUTC(')', fprinc_stream);
+    FRPAR;
     break;
   case AE_SYMBOL:
     COUNTED_FPUTS(SYM_VAL(this), fprinc_stream);
