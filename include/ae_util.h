@@ -15,3 +15,5 @@
 #define OLOG(o)       (obj_log((o), (#o)))
 
 void obj_log(ae_obj_t * obj, char * desc);
+
+extern char log_buffer[64];
