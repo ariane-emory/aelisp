@@ -772,12 +772,12 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(21), result));
 
+  SETQ(env, INTERN("a"), NEW_INT(9));
+
   expr             = CONS(CONS(INTERN(">="), CONS(INTERN("a"), LIST(NEW_INT(8)))),  LIST(INTERN("maybe")));
   ae_obj_t * expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(12)))), LIST(INTERN("yes")));
   ae_obj_t * expr3 = CONS(LIST(TRUE), LIST(INTERN("nil")));
   ae_obj_t * cond  = CONS(INTERN("cond"), CONS(expr, CONS(expr2, LIST(expr3))));
-
-  WRITE(EVAL(env, cond));
 
   NL;
   WRITE(expr);
@@ -787,8 +787,23 @@ void root_env_and_eval(void) {
   WRITE(expr3);
   NL;
   WRITE(cond);
-
-
+  NL;
+  
+  this = EVAL(env, cond);
+  NL;
+  PR("<");
+  WRITE(this);
+  PR(">");
+  NL;
+  
+  SETQ(env, INTERN("a"), NEW_INT(20));
+  
+  this = EVAL(env, cond);
+  NL;
+  PR("<");
+  WRITE(this);
+  PR(">");
+  NL;
 
   
   NL;
