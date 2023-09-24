@@ -2,7 +2,7 @@
 
 void obj_log(ae_obj_t * obj, char * desc) {
   NL;
-  PR("%018p %-20s", obj, desc);
+  PR("%-20s %018p ", desc, obj);
   SPC;
   ae_put(obj);
   SPC;
