@@ -164,18 +164,6 @@ sexps: sexp sexps {
   $$ = NIL;
  };
 
-sexps:
-sexps sexp {
-  if (NILP($$)) {
-    LOG_PARSE($2, "Beginning with ");
-    $$ = CONS($2, $$);
-    LOG_PARSE($$, "Made           ");
-  }
-  else {
-    PUSH($$, $2);
-  }
-}; 
-
 sexp: dotpair | list | atom;
 
 list: LPAREN sexps RPAREN { $$ = $2; };
