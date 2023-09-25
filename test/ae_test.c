@@ -890,6 +890,7 @@ void macros(void) {
   LOG(OBJ_ENV(fun), "env");                \
   LOG(OBJ_BODY(fun), "body")               \
 
+  DESCR(list_fun);
   DESCR(incr_fun);
 
   return;
