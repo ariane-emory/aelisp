@@ -47,6 +47,8 @@
   void describe(ae_obj_t * this, bool dotted) {
     static unsigned int indent = 0;
 
+    char buff[128] = { 0 };
+    
     int written = 0;
 
     while (written++ < indent << 1) SPC;
@@ -57,10 +59,14 @@
 
     written += PUT(this);
 
-    if (dotted)
+    if (dotted) {
       PR(" * ");
-    
-    while (written++ < 103) SPC;
+      written += 3;
+    }
+
+    while (written++ < 105) SPC;
+
+    // PR("x");
 
     // ae_put_words(this);
 
