@@ -186,15 +186,19 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   GET_DISPATCH(dispatch, apply_dispatch, fun);
 
+  ae_obj_t * ret = NIL;
+  
   if (dispatch.special) {
-    return (*dispatch.handler)(fun, env, args);
+    ret = (*dispatch.handler)(fun, env, args);
   }
   else {
     ae_obj_t * evaled_args = NIL;    
     FOR_EACH(elem, args)
       PUSH(evaled_args, EVAL(env, elem));
-    return (*dispatch.handler)(fun, env, evaled_args);
+    ret = (*dispatch.handler)(fun, env, evaled_args);
   }
+
+  return ret;
   
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
