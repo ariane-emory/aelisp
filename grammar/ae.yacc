@@ -61,10 +61,13 @@
     PR("%d", strlen(tmp));
 
     
-    if (dotted)
+    if (dotted) {
+      const int  pos = 64;
+      
       sprintf(tmp+64, "dotted");
 
-    tmp[70] = ' ';
+      tmp[pos + 6] = ' ';
+    }
     
     written += PR(tmp);
 
