@@ -941,7 +941,8 @@ void macros(void) {
 
   NL;
   
-  this = CONS(INTERN("x"), CONS(INTERN("y"), NIL));
+  this = CONS(CONS(CONS(INTERN("+"), CONS(INTERN("x"), CONS(INTERN("y"), NIL))), NIL), NIL);
+  this = CONS(INTERN("x"), CONS(INTERN("y"), this));
   PR("my macro: "); PRINC(this); NL;
   
   return;
