@@ -962,18 +962,14 @@ void core_sleep(void) {
   {
     ae_obj_t * expr = NIL;
 
-    for (int ix = 0; ix < 6; ix++) {
+    for (int ix = 0; ix < 10; ix++) {
       expr            = CONS(print, expr);
       expr            = CONS(sleep, expr);
       expr            = CONS(incr2, expr);
-      // PRINC(expr); NL;
     }
 
-    expr            = CONS(INTERN("progn"), expr);
+    expr              = CONS(INTERN("progn"), expr);
 
-    NL;
-    PRINC(expr);
-    NL;
     EVAL(env, expr);
     NL;
   }
