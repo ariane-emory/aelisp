@@ -985,7 +985,7 @@ void core_sleep(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_TEST_FUN_DISABLED(DO)                                                             \
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1009,10 +1009,8 @@ void core_sleep(void) {
   DO(core_cmp)                                                                                     \
   DO(root_env_and_eval)                                                                            \
   DO(improper_list)                                                                                \
+  DO(core_sleep)                                                                                   \
   DO(macros)
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(core_sleep)
 
 #define pair(fun) { #fun, fun },
 
