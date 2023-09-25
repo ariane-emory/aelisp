@@ -165,9 +165,9 @@ typedef struct {
 } apply_dispatch_t;
 
 static const apply_dispatch_t apply_dispatch[] = {
-    { AE_CORE_FUN, false, &apply_core_fun }, // 2nd param is ignored by apply_core_fun.
-    { AE_LAMBDA,   true,  &apply_user_fun },
-    { AE_MACRO,    false, &apply_user_fun },
+    { AE_CORE_FUN, true,   &apply_core_fun }, // 2nd param may be ignored internally by apply_core_fun.
+    { AE_LAMBDA,   false,  &apply_user_fun },
+    { AE_MACRO,    true,   &apply_user_fun },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,17 +190,17 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   DISPATCH(dispatch, apply_dispatch, fun);
 
-  /* if (dispatch.special) { */
+  if (dispatch.special) {
     return (*dispatch.handler)(fun, env, args);
-  /* } */
-  /* else { */
-  /*   ae_obj_t * evaled_args = NIL; */
+  }
+  else {
+    ae_obj_t * evaled_args = NIL;
     
-  /*   FOR_EACH(elem, args) */
-  /*     PUSH(evaled_args, EVAL(env, elem)); */
+    FOR_EACH(elem, args)
+      PUSH(evaled_args, EVAL(env, elem));
 
-  /*   return (*dispatch.handler)(fun, env, evaled_args); */
-  /* } */
+    return (*dispatch.handler)(fun, env, evaled_args);
+  }
   
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
