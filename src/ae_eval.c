@@ -92,6 +92,11 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
 #ifdef AE_LOG_EVAL
   PR("\n[Created exec env]");
+
+  if (! new_env) PR("\nShit!\n");
+
+  PUT(new_env);
+  NL;
   LOG(new_env->parent,  "parent");
   LOG(new_env->symbols, "symbols");
   LOG(new_env->values,  "values");
@@ -140,6 +145,8 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   
   GET_DISPATCH(dispatch, eval_dispatch, obj);
 
+  PR("[Dispatching to %d]\n", TYPE_STR(dispatch.type));
+  
   return (*dispatch.handler)(obj, env);
   
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));

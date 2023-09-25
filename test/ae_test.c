@@ -913,7 +913,9 @@ void macros(void) {
   NL;
   NL;
   
-  LOG(apply_user_fun(defmacro, env, body), "apply_user_fun(defmacro, env, body)");
+  // LOG(
+    apply_user_fun(defmacro, env, body);
+    // , "apply_user_fun(defmacro, env, body)");
 
   
   NL;
@@ -949,7 +951,7 @@ void macros(void) {
   DO(root_env_and_eval)                                                                            \
   DO(improper_list)                                                                                \
 
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
+#define FOR_EACH_TEST_FUN(DO)                                                                     \
   DO(macros)
 
 #define pair(fun) { #fun, fun },

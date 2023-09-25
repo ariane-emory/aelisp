@@ -4,6 +4,7 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
+	-Wno-misleading-indentation \
 	-DAE_LOG_EVAL \
 	-DAE_OBJ_POOL_SIZE=1024
 
