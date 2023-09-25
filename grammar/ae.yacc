@@ -164,24 +164,22 @@
 
 %%
 
-program: sexps { root = $$; }
 sexp: atom | list;
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
-
-sexps: sexp sexps_tail {
-  LOG_PARSE($1, "Consing  ");
-  $$ = CONS($1, $2);
-  LOG_PARSE($$, "Made     ");
-} | { $$ = NIL; };
-
-sexps_tail: sexp sexps_tail {
-  LOG_PARSE($1, "Consing  ");
-  $$ = CONS($1, $2);
-  LOG_PARSE($$, "Made     ");
-} | { $$ = NIL; };
-
-
 list: LPAREN sexp_list RPAREN  { $$ = $2; };
+program: sexps { root = $$; }
+
+sexps: sexp sexps {
+  LOG_PARSE($1, "Consing  ");
+  $$ = CONS($1, $2);
+  LOG_PARSE($$, "Made     ");
+} | { $$ = NIL; };
+
+/* sexps_tail: sexp sexps_tail { */
+/*   LOG_PARSE($1, "Consing  "); */
+/*   $$ = CONS($1, $2); */
+/*   LOG_PARSE($$, "Made     "); */
+/* } | { $$ = NIL; }; */
 
 sexp_list: sexp sexp_list {
   LOG_PARSE($1, "Consing  ");
@@ -189,9 +187,7 @@ sexp_list: sexp sexp_list {
   LOG_PARSE($$, "Made     ");
 } | sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
-} | {
-  $$ = NIL;
-};
+} | { $$ = NIL; };
  
 %%
 
