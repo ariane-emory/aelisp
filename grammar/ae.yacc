@@ -152,10 +152,32 @@
 
 %%
 
-
 program: sexps { root = $$; }
 
+sexps: sexp sexps {
+    $$ = CONS($1, $2);
+} | /* empty */ {
+    $$ = NIL;
+};
+
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
+
+sexp: LPAREN sexp_list RPAREN {
+    $$ = $2;
+} | atom {
+    $$ = $1; // This assumes SYMBOL represents an atom.
+} /* | sexp DOT SYMBOL { */
+/*     fprintf(stderr, "Error: Dotted pair in invalid format\n"); */
+/*     exit(1); */
+/* } */
+;
+
+sexp_list: sexp sexp_list {
+    $$ = CONS($1, $2);
+} | /* empty */ {
+    $$ = NIL;
+};
+
 
 list: LPAREN sexps RPAREN { $$ = $2; };
 
