@@ -9,7 +9,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DISPATCH(table, obj)                                                                       \
+#define DISPATCH(handler_t, table, obj)                                                            \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj))                                                           \
 
@@ -139,9 +139,9 @@ eval_dispatch[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
   ASSERT_ENVP(env);
 
-  for (size_t ix = 0; ix < ARRAY_SIZE(eval_dispatch); ix++)
-    if (eval_dispatch[ix].type == GET_TYPE(obj))
+  DISPATCH(eval_handler_t, eval_dispatch, obj) {  
       return (*eval_dispatch[ix].handler)(obj, env);
+  }
 
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
   assert(0);
@@ -175,7 +175,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
 
-  DISPATCH(apply_dispatch, fun) {
+  DISPATCH(apply_handler_t, apply_dispatch, fun) {
     return (*apply_dispatch[ix].handler)(fun, env, args);
   }
 
