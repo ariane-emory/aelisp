@@ -64,7 +64,6 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "appl core %s rtrns", fun->name);
-  NL;
 #endif
   
   return ret;
@@ -84,7 +83,6 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(OBJ_BODY(fun), "appl user fun body");
   LOG(env, "appl user fun env");
   LOG(args, "appl user fun args");
-  NL;
 #endif
   
   ae_obj_t * new_env = NIL;
@@ -106,7 +104,6 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(new_env->symbols, "exec env symbols");
   LOG(new_env->values,  "exec env values");
   LOG(body, "exec env body");
-  NL;
 #endif
   
   ae_obj_t * result = EVAL(new_env, body);
@@ -149,7 +146,6 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   PR("\n[Dispatching eval...]");
   LOG(env, "disp eval env");
   LOG(obj, "disp eval obj");
-  NL;
 #endif
 
   ASSERT_ENVP(env);
@@ -192,7 +188,6 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(fun, "disp appl fun");
   LOG(env, "disp appl env");
   LOG(args, "disp appl args");
-  NL;
 #endif
 
   fun = EVAL(env, fun); 

@@ -11,7 +11,6 @@
   ASSERT_CONSP(env_and_args);                                                                      \
   ASSERT_ENVP(CAR(env_and_args));                                                                  \
   ASSERT_TAILP(CDR(env_and_args));                                                                 \
-                                                                                                   \
   ae_obj_t * env  = CAR(env_and_args);                                                             \
   ae_obj_t * args = CDR(bundle)
 
@@ -20,8 +19,7 @@
   PR("\n[CREATE " name "]");                                                                       \
   LOG(args, "create args");                                                                        \
   LOG(CAR(args), "fun args");                                                                      \
-  LOG(CDR(args), "fun body");                                                                      \
-  NL
+  LOG(CDR(args), "fun body");
 #else
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
 #endif
@@ -122,7 +120,6 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   PR("\n[core progn]");
   LOG(env, "progn env");
   LOG(args, "progn args");
-  NL;
 #endif
 
   ae_obj_t * ret = NIL;
@@ -229,7 +226,6 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   NL;
   PR("else:        ");
   PRINC(CONS(INTERN("progn"), CDDR(args)));
-  NL;
 #endif
 
   // ASSERT_NOT_NILP(CAR(args));
@@ -245,13 +241,13 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 
   if (cond_result) {
 #ifdef AE_LOG_CORE
-    PR("Choose then.\n");
+    PR("Choose then.");
 #endif
     return EVAL(env, CADR(args));
   }
   else {
 #ifdef AE_LOG_CORE
-    PR("Choose else.\n");
+    PR("Choose else.");
 #endif
     return EVAL(env, CONS(INTERN("progn"), CDDR(args)));
   }
