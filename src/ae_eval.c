@@ -1,4 +1,4 @@
-s#include <stdio.h>
+#include <stdio.h>
 
 #include "ae_eval.h"
 #include "ae_obj.h"
@@ -58,7 +58,6 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 #endif
 
   MAYBE_EVAL(SPECIAL_FUNP(fun), args);
-  
   ae_obj_t * ret = SPECIAL_FUNP(fun)
     ? (*FUN_VAL(fun))(CONS(env, args))
     : (*FUN_VAL(fun))(args);
@@ -124,7 +123,7 @@ static const eval_dispatch_t eval_dispatch[] = {
     {AE_CHAR,     &self},
     {AE_STRING,   &self},
     {AE_LAMBDA,   &self},
-    {AE_CORE_FUN, &self},
+    {AE_CORE, &self},
     {AE_SYMBOL,   &lookup},
     {AE_CONS,     &apply},
 };
@@ -157,7 +156,7 @@ typedef struct {
 } apply_dispatch_t;
 
 static const apply_dispatch_t apply_dispatch[] = {
-    { AE_CORE_FUN, true,   &apply_core_fun }, // 2nd param may be ignored internally by apply_core_fun.
+    { AE_CORE, true,   &apply_core_fun }, // 2nd param may be ignored internally by apply_core_fun.
     { AE_LAMBDA,   false,  &apply_user_fun },
     { AE_MACRO,    true,   &apply_user_fun },
 };
@@ -181,8 +180,8 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   apply_dispatch_t dispatch = {0};
   
   GET_DISPATCH(dispatch, apply_dispatch, fun);
-  MAYBE_EVAL(dispatch.special, args);
 
+  MAYBE_EVAL(dispatch.special, args);
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)
     : (*dispatch.handler)(fun, env, args);

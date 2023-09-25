@@ -99,7 +99,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_ENV:
     written  += fprintf(stream, "%018p %018p %018p", this->parent, this->symbols, this->values);
     break;
-  case AE_CORE_FUN:
+  case AE_CORE:
     written  += fprintf(stream, "% -18s %-18s %018p", NAME_VAL(this), (SPECIAL_FUNP(this) ? "special" : "-"), FUN_VAL(this));
     break;
   default:
