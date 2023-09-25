@@ -906,8 +906,6 @@ void macros(void) {
   ae_obj_t * env = ENV_NEW_ROOT();
   ae_obj_t * list_fun      = ae_env_define_list_fun(env);
 
-  NL;
-
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
