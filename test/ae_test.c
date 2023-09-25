@@ -887,40 +887,7 @@ void macros(void) {
   ae_obj_t * ret = EVAL(env, list_fun_call);
 
   LOG(ret, "<= list call");
-}
 
-void core_sleep(void) {
-  SETUP_TEST;
-  
-  ae_obj_t * env   = ENV_NEW_ROOT();  
-  ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * expr  = NIL;
-  ae_obj_t * incr2 = CONS(INTERN("setq"),  CONS(INTERN("xx"), add));
-  ae_obj_t * print = CONS(INTERN("print"), CONS(INTERN("xx"), NIL));
-  
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
-      
-  {
-    ae_obj_t * expr = NIL;
-
-    for (int ix = 0; ix < 6; ix++) {
-      expr            = CONS(incr2, expr);
-      expr            = CONS(print, expr);
-      expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-      PRINC(expr); NL;
-    }
-
-    expr            = CONS(INTERN("progn"), expr);
-
-    NL;
-    PRINC(expr);
-
-    NL;
-    EVAL(env, expr);
-  }
-  
-  return;
-  
   ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
                                        CONS(LIST(INTERN("x")),
                                             CONS(CONS(INTERN("+"),
@@ -978,6 +945,40 @@ void core_sleep(void) {
   
   NL;
   NL;
+}
+
+void core_sleep(void) {
+  SETUP_TEST;
+  
+  ae_obj_t * env   = ENV_NEW_ROOT();  
+  ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
+  ae_obj_t * expr  = NIL;
+  ae_obj_t * incr2 = CONS(INTERN("setq"),  CONS(INTERN("xx"), add));
+  ae_obj_t * print = CONS(INTERN("print"), CONS(INTERN("xx"), NIL));
+  ae_obj_t * sleep = CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL));
+  
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
+      
+  {
+    ae_obj_t * expr = NIL;
+
+    for (int ix = 0; ix < 6; ix++) {
+      expr            = CONS(print, expr);
+      expr            = CONS(sleep, expr);
+      expr            = CONS(incr2, expr);
+      // PRINC(expr); NL;
+    }
+
+    expr            = CONS(INTERN("progn"), expr);
+
+    NL;
+    PRINC(expr);
+    NL;
+    EVAL(env, expr);
+    NL;
+  }
+  
+  return;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
