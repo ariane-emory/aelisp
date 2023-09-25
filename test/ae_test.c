@@ -892,8 +892,8 @@ void macros(void) {
   ae_obj_t * ret = EVAL(env, list_fun_call);
   LOG(ret, "list call rtn");
   
-  DESCR(list_fun);
-
+  DESCR(list_fun); NL;
+  
   return;
 
   ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
@@ -901,7 +901,7 @@ void macros(void) {
                                             CONS(CONS(INTERN("+"),
                                                       CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL))));
   
-  DESCR(incr_fun);
+  DESCR(incr_fun); NL;
 
   ae_obj_t * and_def = ae_generate_macro_and();
   NL;
