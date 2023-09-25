@@ -61,7 +61,8 @@
     
     if (CONSP(this)) {
       ++indent;
-      EACH(this, describe);
+      FOR_EACH(elem, this)
+        describe(elem);
       --indent;
     }
   }
