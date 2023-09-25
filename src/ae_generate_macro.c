@@ -23,7 +23,7 @@ ae_obj_t * ae_generate_macro_defmacro(void) {
   return final_expr;
 }
 
-ae_obj_t * ae_generate_macro_defun   (void) {
+ae_obj_t * ae_generate_macro_defun(void) {
   // (name params . body):
   ae_obj_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body")));
 
@@ -45,9 +45,9 @@ ae_obj_t * ae_generate_macro_defun   (void) {
   return final_expr;
 }
 
-ae_obj_t * ae_generate_macro_and     (void) {
+ae_obj_t * ae_generate_macro_and(void) {
+  // args
   ae_obj_t* args_part = INTERN("args");
-  // printf("%-16s", "args_part"); PRINC(args_part); NL;
 
   // (null args)
   ae_obj_t* null_args_expr = CONS(INTERN("null"), CONS(args_part, NIL));
@@ -92,6 +92,29 @@ ae_obj_t * ae_generate_macro_and     (void) {
   return final_expr;
 }
 
-ae_obj_t * ae_generate_macro_or      (void) {
-  return NIL;
+ae_obj_t * ae_generate_macro_or(void) {
+  ae_obj_t* args_part = INTERN("args");
+
+  // (null args)
+  ae_obj_t* null_args = CONS(INTERN("null"), CONS(args_part, NIL));
+
+  // (quote nil)
+  ae_obj_t* quote_nil = CONS(INTERN("quote"), CONS(INTERN("nil"), NIL));
+
+  // (quote cond)
+  ae_obj_t* quote_cond = CONS(INTERN("quote"), CONS(INTERN("cond"), NIL));
+
+  // (mapcar list args)
+  ae_obj_t* mapcar_expr = CONS(INTERN("mapcar"), CONS(INTERN("list"), CONS(args_part, NIL)));
+
+  // (cons (quote cond) (mapcar list args))
+  ae_obj_t* cons_expr = CONS(INTERN("cons"), CONS(quote_cond, CONS(mapcar_expr, NIL)));
+
+  // (if (null args) nil (cons (quote cond) (mapcar list args)))
+  ae_obj_t* if_expr = CONS(INTERN("if"), CONS(null_args, CONS(NIL, CONS(cons_expr, NIL))));
+
+  // (defmacro or args ...)
+  ae_obj_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("or"), CONS(args_part, CONS(if_expr, NIL))));
+
+  return final_expr;
 }

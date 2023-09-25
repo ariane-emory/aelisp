@@ -581,6 +581,27 @@ void envs(void) {
 #endif
 }
 
+void improper_list(void) {
+  SETUP_TEST;
+
+  this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
+  // OLOG(this); NL;
+  T(EQ(LENGTH(this)       , 3));
+  TM("Expected length 3, got %d.", LENGTH(this));
+  
+  COUNT_LIST_LENGTH(this);
+  T(EQ(list_length_counter, 3));
+  T(EQ(list_length_counter, LENGTH(this)));
+
+  T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
+
+  ae_obj_t * mapped = MAP(this, ae_obj_double);
+  T(shitty_princ_based_equality_predicate(mapped, "nil"));
+  T(NILP(mapped));
+
+  // PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
+}
+
 ae_obj_t * make_args_containing_one_list(void) {
   return LIST(CONS(INTERN("a"), CONS(INTERN("b"), LIST(INTERN("c")))));
 }
@@ -675,6 +696,7 @@ void core_print_princ_write(void) {
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
   }
+  NL;
 }
 
 void core_math(void) {
@@ -842,91 +864,35 @@ void root_env_and_eval(void) {
   TEST_COND(2, 20);
   TEST_COND(3, 30);
 
-
-  ae_obj_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
-
   {
-    ae_obj_t* final_expr = ae_generate_macro_defmacro();
+    ae_obj_t * final_expr = ae_generate_macro_defmacro();
     NL;
     PR("Got      "); PRINC(final_expr); NL;
     PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
     NL;
   }
-
   {
 
-    ae_obj_t* final_expr = ae_generate_macro_defun();
+    ae_obj_t * final_expr = ae_generate_macro_defun();
     NL;
     PR("Got      "); PRINC(final_expr); NL;
     PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
     NL;
   }
-
   {
-    ae_obj_t* final_expr = ae_generate_macro_and();
+    ae_obj_t * final_expr = ae_generate_macro_and();
     NL;
     PR("Got      "); PRINC(final_expr); NL;
     PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
     NL;
   }
-
   {
-    // (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))
-
-ae_obj_t* args_part = INTERN("args");
-
-// (null args)
-ae_obj_t* null_args = CONS(INTERN("null"), CONS(args_part, NIL));
-
-// (quote nil)
-ae_obj_t* quote_nil = CONS(INTERN("quote"), CONS(INTERN("nil"), NIL));
-
-// (quote cond)
-ae_obj_t* quote_cond = CONS(INTERN("quote"), CONS(INTERN("cond"), NIL));
-
-// (mapcar list args)
-ae_obj_t* mapcar_expr = CONS(INTERN("mapcar"), CONS(INTERN("list"), CONS(args_part, NIL)));
-
-// (cons (quote cond) (mapcar list args))
-ae_obj_t* cons_expr = CONS(INTERN("cons"), CONS(quote_cond, CONS(mapcar_expr, NIL)));
-
-// (if (null args) nil (cons (quote cond) (mapcar list args)))
-ae_obj_t* if_expr = CONS(INTERN("if"), CONS(null_args, CONS(NIL, CONS(cons_expr, NIL))));
-
-// (defmacro or args ...)
-ae_obj_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("or"), CONS(args_part, CONS(if_expr, NIL))));
-
-
-    NL;
+    ae_obj_t * final_expr = ae_generate_macro_or();
     NL;
     PR("Got      "); PRINC(final_expr); NL;
     PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
     NL;
-    NL;
-
   }
-}
-
-
-void improper_list(void) {
-  SETUP_TEST;
-
-  this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
-  // OLOG(this); NL;
-  T(EQ(LENGTH(this)       , 3));
-  TM("Expected length 3, got %d.", LENGTH(this));
-  
-  COUNT_LIST_LENGTH(this);
-  T(EQ(list_length_counter, 3));
-  T(EQ(list_length_counter, LENGTH(this)));
-
-  T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
-
-  ae_obj_t * mapped = MAP(this, ae_obj_double);
-  T(shitty_princ_based_equality_predicate(mapped, "nil"));
-  T(NILP(mapped));
-
-  // PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
