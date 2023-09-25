@@ -874,6 +874,10 @@ void macros(void) {
 
   ae_obj_t * list_def = CONS(INTERN("setq"), CONS(INTERN("list"), CONS(CONS(INTERN("lambda"), CONS(INTERN("args"),  CONS(INTERN("args"), NIL)  )), NIL)));
   OLOG(list_def);
+
+  ae_obj_t * list_fun = EVAL(env, list_def);
+  OLOG(list_fun);
+
   
   return;
   

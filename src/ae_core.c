@@ -18,15 +18,8 @@
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
   PR("\n[Create " name "]\n");                                                                     \
-  PR("args          ");                                                                            \
   OLOG(args);                                                                                      \
-  NL;                                                                                              \
-                                                                                                   \
-  PR("params        ");                                                                            \
   OLOG(CAR(args));                                                                                 \
-  NL;                                                                                              \
-                                                                                                   \
-  PR("body          ");                                                                            \
   OLOG(CDR(args));                                                                                 \
   NL
 #else
@@ -162,7 +155,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
 
   LOG_CREATE_LAMBDA_OR_MACRO("lambda");
 
-  ASSERT_TAILP(CAR(args));
+  assert(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   ASSERT_TAILP(CDR(args));
 
   return NEW_LAMBDA(CAR(args), CDR(args), env);
