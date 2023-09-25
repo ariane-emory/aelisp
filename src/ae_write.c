@@ -84,7 +84,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   switch (GET_TYPE(this)) {
   case AE_CONS:
     if (NOT_TAILP(CDR(this)))
-      written  += fprintf(stream, "%018p %018p %-18s", CAR(this), CDR(this), "(dotted pair)");
+      written  += fprintf(stream, "%018p %018p %-18s", CAR(this), CDR(this), "(pair)");
     else
       written  += fprintf(stream, "%018p %018p %18d", CAR(this), CDR(this), LENGTH(this));
     break;
