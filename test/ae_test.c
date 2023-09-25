@@ -921,7 +921,7 @@ expr_t* null_args = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), CONS(NIL, N
 printf("%-16s", "null_args"); PRINC(null_args); NL;
 
 // (null (cdr args))
-expr_t* null_cdr_args = CONS(CONS(CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), CONS(args_part, NIL)), NIL)), CONS(CONS(INTERN("car"), CONS(args_part, NIL)), NIL)), NIL);
+expr_t* null_cdr_args = CONS(CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), CONS(args_part, NIL)), NIL)), CONS(CONS(INTERN("car"), CONS(args_part, NIL)), NIL));
 printf("%-16s", "null_cdr_args"); PRINC(null_cdr_args); NL;
 
 // (list (quote if) (car args) (cons (quote and) (cdr args)))
