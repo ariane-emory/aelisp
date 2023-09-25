@@ -165,39 +165,45 @@
 
 program: sexps { root = $$; }
 
-sexps: sexps sexp {
-  LOG_PARSE($2, "Consing  ");
-  $$ = CONS($2, $1);
-  LOG_PARSE($$, "Made     ");
-} | sexp {
+sexps: sexp sexps_tail {
   LOG_PARSE($1, "Consing  ");
-  $$ = CONS($1, NIL);
+  $$ = CONS($1, $2);
   LOG_PARSE($$, "Made     ");
 } | {
   $$ = NIL;
 };
 
-sexp: optional_dot sexp {
-  if ($1 != NULL) {
-    LOG_PARSE($2, "Consing  ");
-    $$ = NEW_CONS($2, $1);
-    LOG_PARSE($$, "Made     ");
-  } else {
-    $$ = $2;
-  }
+sexps_tail: sexp sexps_tail {
+  LOG_PARSE($1, "Consing  ");
+  $$ = CONS($1, $2);
+  LOG_PARSE($$, "Made     ");
+} | {
+  $$ = NIL;
+};
+
+sexp: LPAREN sexp_list RPAREN {
+  $$ = $2;
 } | atom;
 
-optional_dot: DOT {
-  $$ = NULL;
+sexp_list: sexp sexp_list {
+  LOG_PARSE($1, "Consing  ");
+  $$ = CONS($1, $2);
+  LOG_PARSE($$, "Made     ");
+} | {
+  $$ = NIL;
 };
 
-dotpair: LPAREN sexp DOT sexp RPAREN {
-  $$ = NEW_CONS($2, $4);
-  LOG_PARSE($$, "dotpair  ");
+sexp_list: sexp {
+  $$ = $1;
+} | sexp DOT sexp {
+  $$ = NEW_CONS($1, $3);
 };
 
-list: LPAREN sexps RPAREN { $$ = $2; };
+list: LPAREN sexp_list RPAREN {
+  $$ = $2;
+};
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 %%
+
