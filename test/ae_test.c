@@ -955,23 +955,25 @@ void macros(void) {
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(this, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
+  ae_obj_t * macro = EVAL(env, this);
+  DESCR(macro); NL;
   
   NL;
   return;
 
-  ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro());
-  T(EQ(macro, ae_generate_macro_defmacro()));
+  /* ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro()); */
+  /* T(EQ(macro, ae_generate_macro_defmacro())); */
 
-  OLOG(macro->params);
-  OLOG(macro->body);
-  OLOG(macro->env);
+  /* OLOG(macro->params); */
+  /* OLOG(macro->body); */
+  /* OLOG(macro->env); */
 
-  ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
-                                       CONS(LIST(INTERN("x")),
-                                            CONS(CONS(INTERN("+"),
-                                                      CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL))));
+  /* ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"), */
+  /*                                      CONS(LIST(INTERN("x")), */
+  /*                                           CONS(CONS(INTERN("+"), */
+  /*                                                     CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL)))); */
 
-  DESCR(incr_fun); NL;
+  /* DESCR(incr_fun); NL; */
 
 /*   ae_obj_t * name  = INTERN("test"); */
 /*   ae_obj_t * args  = CONS(INTERN("xx"), CONS(INTERN("yy"), NIL)); */
