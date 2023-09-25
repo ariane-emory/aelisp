@@ -9,7 +9,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DISPATCH(row, table, obj)                                                                  \
+#define GET_DISPATCH(row, table, obj)                                                                  \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
       row = table[ix];                                                                             \
@@ -142,7 +142,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   eval_dispatch_t dispatch = {0};
   
-  DISPATCH(dispatch, eval_dispatch, obj);
+  GET_DISPATCH(dispatch, eval_dispatch, obj);
 
   return (*dispatch.handler)(obj, env);
   
@@ -184,7 +184,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 
   apply_dispatch_t dispatch = {0};
   
-  DISPATCH(dispatch, apply_dispatch, fun);
+  GET_DISPATCH(dispatch, apply_dispatch, fun);
 
   if (dispatch.special) {
     return (*dispatch.handler)(fun, env, args);
