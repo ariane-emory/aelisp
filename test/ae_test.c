@@ -844,27 +844,16 @@ void root_env_and_eval(void) {
   TEST_COND(3, 30);
 
 
-  expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); //  (name params . body)
-  OLOG(args_part);
-
-
-  // Create (quote macro)
+  //  (name params . body):
+  expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); 
+  // (quote macro):
   expr_t* quote_macro = CONS(INTERN("quote"), CONS(INTERN("macro"), NIL));
-OLOG(quote_macro);
-
-// Create (quote setq)
+   // (quote setq):
   expr_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
-OLOG(quote_setq);
-
-// Create (list (quote macro) params . body)
-expr_t* list_expr = CONS(CONS(INTERN("list"), CONS(quote_setq, CONS(INTERN("name"), CONS(CONS(INTERN("list"), CONS(quote_macro, DOT(INTERN("params"), INTERN("body")))), NIL)))), NIL);
-OLOG(list_expr);
-
-// Now, list_expr contains the desired Lisp expression (list (quote macro) params . body)
-
-
-// Create the final expression (setq defmacro ...)
-expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(CONS(INTERN("macro"), CONS(args_part, list_expr)), NIL)));
+  // ((list (quote setq) name (list (quote macro) params . body))):
+  expr_t* list_expr = CONS(CONS(INTERN("list"), CONS(quote_setq, CONS(INTERN("name"), CONS(CONS(INTERN("list"), CONS(quote_macro, DOT(INTERN("params"), INTERN("body")))), NIL)))), NIL);
+  // (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body)))):
+  expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(CONS(INTERN("macro"), CONS(args_part, list_expr)), NIL)));
   
 NL;
 NL;
