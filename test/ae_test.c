@@ -866,6 +866,13 @@ void root_env_and_eval(void) {
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
+#define DESCR(fun)                         \
+  PR("\n[Describe fun " #fun  ":] ");      \
+  LOG(OBJ_PARAMS(fun), "params");          \
+  LOG(OBJ_ENV(fun), "env");                \
+  LOG(OBJ_BODY(fun), "body") 
+
+ 
 void macros(void) {
   SETUP_TEST;
   ae_obj_t * env = ENV_NEW_ROOT();
@@ -879,28 +886,23 @@ void macros(void) {
   OLOG(list_fun);
 
 
-  ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
-                                       CONS(LIST(INTERN("x")),
-                                            CONS(CONS(INTERN("+"),
-                                                      CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL))));
-
-#define DESCR(fun)                         \
-  PR("\n[Describe fun " #fun  ":] ");      \
-  LOG(OBJ_PARAMS(fun), "params");          \
-  LOG(OBJ_ENV(fun), "env");                \
-  LOG(OBJ_BODY(fun), "body")               \
-
-  DESCR(list_fun);
-  DESCR(incr_fun);
-
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
 
   PR("\nCalling list_fun with (1 2 3) on the next line:\n");
   ae_obj_t * ret = EVAL(env, list_fun_call);
   LOG(ret, "list call rtn");
   
+  DESCR(list_fun);
+
   return;
+
+  ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
+                                       CONS(LIST(INTERN("x")),
+                                            CONS(CONS(INTERN("+"),
+                                                      CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL))));
   
+  DESCR(incr_fun);
+
   ae_obj_t * and_def = ae_generate_macro_and();
   NL;
   PR("Got      "); PRINC(and_def); NL;
