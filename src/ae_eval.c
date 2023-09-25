@@ -51,18 +51,14 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
   ae_obj_t * ret = NIL;
 
+  // special funs get their un-evaluated args, plus the env.
   if (SPECIAL_FUNP(fun)) {
-    // special funs get their un-evaluated args, plus the env.
-    ae_obj_t * env_and_args = CONS(env, args); 
-
-    ret = (*FUN_VAL(fun))(env_and_args);
+    ret = (*FUN_VAL(fun))(CONS(env, args));
   }
   else {
     ae_obj_t * evaled_args = NIL;
-    
     FOR_EACH(elem,  args)
       PUSH(evaled_args, EVAL(env, elem));
-
     ret = (*FUN_VAL(fun))(evaled_args);
   }
   
@@ -194,11 +190,9 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
     return (*dispatch.handler)(fun, env, args);
   }
   else {
-    ae_obj_t * evaled_args = NIL;
-    
+    ae_obj_t * evaled_args = NIL;    
     FOR_EACH(elem, args)
       PUSH(evaled_args, EVAL(env, elem));
-
     return (*dispatch.handler)(fun, env, evaled_args);
   }
   
