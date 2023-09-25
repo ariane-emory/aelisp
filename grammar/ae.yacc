@@ -142,16 +142,14 @@
 %start program
 
 %%
-
 program: sexps { root = $$; }
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
-sexp: dotpair | list | atom
+sexp: atom | list | dotpair;
 
-list: LPAREN sexps RPAREN { $$ = $2; } | dotpair { $$ = $1; }
+list: LPAREN sexps RPAREN { $$ = $2; };
 
-// this rule matches the contents inside the parentheses in lisp-style lists:
 sexps:
 sexps sexp {
   if (NILP($$)) {
@@ -167,16 +165,13 @@ sexps sexp {
 } | { $$ = NIL; };
 
 dotpair: LPAREN sexp DOT sexp RPAREN {
-    if (NILP($2)) {
-        LOG_PARSE($4, "Beginning with ");
-        PR("\ndotpair 1:"); NL;
-        $$ = CONS($4, NIL);
-        LOG_PARSE($$, "Made           ");
-    } else {
-        LOG_PARSE($4, "Appending      ");
-        PR("\ndotpair 2:"); NL;
-        PUSH($2, $4);
-        LOG_PARSE($$, "Made           ");
-    }
+  LOG_PARSE($4, "Beginning with ");
+  PR("\ndotpair 1:"); NL;
+  LOG($2, "head");
+  LOG($4, "tail");
+  $$ = NEW_CONS($2, $4);
+  LOG($$, "consed");
+  LOG_PARSE($$, "Made           ");
 };
+
 %%
