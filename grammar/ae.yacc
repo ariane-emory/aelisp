@@ -154,13 +154,13 @@
 
 program: sexps { root = $$; }
 
+atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
+
 sexps: sexp sexps {
     $$ = CONS($1, $2);
 } | /* empty */ {
     $$ = NIL;
 };
-
-atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 sexp: LPAREN sexp_list RPAREN {
     $$ = $2;
@@ -171,6 +171,7 @@ sexp: LPAREN sexp_list RPAREN {
 /*     exit(1); */
 /* } */
 ;
+sexp: dotpair | list | atom;
 
 sexp_list: sexp sexp_list {
     $$ = CONS($1, $2);
@@ -179,7 +180,6 @@ sexp_list: sexp sexp_list {
 
 list: LPAREN sexps RPAREN { $$ = $2; };
 
-sexp: dotpair | list | atom;
 
 dotpair: LPAREN sexp DOT sexp RPAREN {
   $$ = NEW_CONS($2, $4);
