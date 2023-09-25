@@ -147,24 +147,29 @@
 
 %%
 
-program: sexps { root = $1; }
+
+program: sexps { root = $$; }
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
-sexp: atom | list | dotpair;
+list: LPAREN sexps RPAREN { $$ = $2; };
 
-list: LPAREN sexps RPAREN { $$ = $2; } ;
+sexp: list | dotpair | atom;
 
-sexps: sexp | sexps sexp;
+dotpair: sexp DOT sexp { $$ = NEW_CONS($1, $3); };
 
-dotpair: LPAREN sexp DOT sexp RPAREN {
-  LOG_PARSE($4, "Beginning with ");
-  PR("\ndotpair 1:"); NL;
-  LOG($2, "head");
-  LOG($4, "tail");
-  $$ = NEW_CONS($2, $4);
-  LOG($$, "consed");
-  LOG_PARSE($$, "Made           ");
-};
+sexps:
+sexps sexp {
+  if (NILP($$)) {
+    LOG_PARSE($2, "Beginning with ");
+    $$ = CONS($2, $$);
+    LOG_PARSE($$, "Made           ");
+  }
+  else {
+    LOG_PARSE($2, "Appending      ");
+    PUSH($$, $2);    
+    LOG_PARSE($$, "Made           ");
+  }
+} | { $$ = NIL; };
 
 %%
