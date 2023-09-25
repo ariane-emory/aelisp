@@ -880,7 +880,7 @@ void macros(void) {
 
   ae_obj_t * list_fun = ae_env_define_list_fun(env);
 
-  DESCR(list_fun); NL;
+  DESCR(list_fun);
   
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
 
