@@ -947,7 +947,38 @@ printf("%-16s", "final_expr"); PRINC(final_expr); NL;
   }
 
   {
-    //   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))
+    // (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))
+
+expr_t* args_part = CONS(INTERN("args"), NIL);
+
+// (null args)
+expr_t* null_args = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), NIL);
+
+// (quote nil)
+expr_t* quote_nil = CONS(INTERN("quote"), CONS(INTERN("nil"), NIL));
+
+// (if (null args) nil ...)
+expr_t* if_expr = CONS(CONS(INTERN("if"), CONS(null_args, CONS(quote_nil, NIL))), NIL);
+
+// (quote cond)
+expr_t* quote_cond = CONS(INTERN("quote"), CONS(INTERN("cond"), NIL));
+
+// (mapcar list args)
+expr_t* mapcar_expr = CONS(INTERN("mapcar"), CONS(INTERN("list"), CONS(args_part, NIL)));
+
+// (cons (quote cond) (mapcar list args))
+expr_t* cons_expr = CONS(CONS(INTERN("cons"), CONS(quote_cond, CONS(mapcar_expr, NIL))), NIL);
+
+// (defmacro or args ...)
+expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("or"), CONS(args_part, CONS(if_expr, NIL))));
+
+    NL;
+    NL;
+    PR("Got      "); PRINC(final_expr); NL;
+    PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
+    NL;
+    NL;
+
   }
 }
 
