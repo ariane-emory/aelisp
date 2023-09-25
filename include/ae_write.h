@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PUT(this)               (ae_put(this))
 #define FPUT(this, stream)      (ae_fput((this), (stream)))
-#define SPUT(this, stream)      (ae_fput((this))
+#define SPUT(this)              (ae_sput((this)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PRINC(this)             (ae_princ(this))
 #define FPRINC(this, stream)    (ae_fprinc((this), (stream)))

@@ -7,11 +7,40 @@
 
 #include "ae_write.h"
 #include "ae_env.h"
+#include "ae_list.h"
 #include "ae_util.h"
+
+static int ae_fwrite_internal(const ae_obj_t * const this);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define MEMSTREAM(buff, stream)                                                                    \
+  char * buff;                                                                                     \
+  size_t size;                                                                                     \
+  FILE * stream = open_memstream(&buff, &size);
+
+// free this string when you're done with it:
+#define DEF_S_METHOD(name)                                                                         \
+char * ae_s ## name(const ae_obj_t * const this) {                                                 \
+  MEMSTREAM(buff, stream);                                                                         \
+  ae_f ## name(this, stream);                                                                      \
+  fclose(stream);                                                                                  \
+  return buff;                                                                                     \
+}
+
+#define DEF_F_METHOD(name, quotes, calls)                                                          \
+int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                                    \
+  ASSERT_NOT_NULLP(this);                                                                          \
+                                                                                                   \
+  fwrite_quoting = quotes;                                                                         \
+  fwrite_counter = 0;                                                                              \
+  fwrite_stream  = stream_;                                                                        \
+                                                                                                   \
+  return calls(this);                                                                              \
+}
+
 
 #define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
 #define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
@@ -42,9 +71,11 @@ static bool   fwrite_quoting  = false;
 // obj's fput / put
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_S_METHOD(put);
+
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
-  
+
   int written = fprintf(stream, "[ ", this);
 
   written    += fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
@@ -53,7 +84,14 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   switch (GET_TYPE(this)) {
   case AE_CONS:
-    written  += fprintf(stream, "%018p %018p %18d", CAR(this), CDR(this), LENGTH(this));
+    /* if (NOT_TAILP(CDR(this))) */
+    /*   written  += fprintf(stream, "%018p %018p %-18s", CAR(this), CDR(this), "(pair)"); */
+    /* else */
+    written  += fprintf(stream, "%018p %018p %-9s % 8d",
+                        CAR(this),
+                        CDR(this),
+                        (PROPER_LISTP(this) ? "" : ""), // "improper"),
+                        LENGTH(this));
     break;
   case AE_LAMBDA:
     written  += fprintf(stream, "%018p %018p %018p", this->params, this->body, this->env);
@@ -67,14 +105,14 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   default:
     written  += FPRINC(this, stream);
   }
-  
+
   while (written++ <= 70) FSPC;
 
   FSPC;
   FRSQR;
 
   written    += 2;
-  
+
   return written;
 }
 
@@ -82,37 +120,24 @@ int ae_put(const ae_obj_t * const this) {
   return FPUT(this, stdout);
 }
 
-#define MEMSTREAM(buff, stream)                                                                    \
-  char * buff;                                                                                     \
-  size_t size;                                                                                     \
-  FILE * stream = open_memstream(&buff, &size);
-
-char * ae_sput(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream);
-
-  ae_fput(this, stream);
-  
-  fclose(stream);
-
-  return buff; // free this when you're done with it.
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput_words / put_words
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_S_METHOD(put_words);
+
 int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
- 
+
   int                         written = 0;
   const unsigned char * const start   = (unsigned char *)this;
-  
+
   // This assumes the system is little-endian and renders the values as big-endian.
-  
+
   for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
     if (ix % 8 == 0)
       written += fputs("0x", stream);
-    
+
     written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
 
     if ((ix + 1) % 8 == 0) {
@@ -127,44 +152,26 @@ int ae_put_words(const ae_obj_t * const this) {
   return ae_fput_words(this, stdout);
 }
 
-char * ae_sput_words(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream);
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// obj's _princ methods
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  ae_fput_words(this, stream);
-  
-  fclose(stream);
+DEF_F_METHOD(princ, false, ae_fwrite_internal);
+DEF_S_METHOD(princ);
 
-  return buff; // free this when you're done with it.
+int ae_princ(const ae_obj_t * const this) {
+  return FPRINC(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's _write methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static int ae_fwrite_internal(const ae_obj_t * const this);
-  
+DEF_F_METHOD(write, true, ae_fwrite_internal);
+DEF_S_METHOD(write);
+
 int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
-}
-
-char * ae_swrite(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream_);
-
-  ae_fwrite(this, stream_);
-  fclose(fwrite_stream);
-
-  return buff; // free this when you're done with it.
-}
-
-
-int ae_fwrite(const ae_obj_t * const this, FILE * stream_) {
-  ASSERT_NOT_NULLP(this);
-
-  fwrite_quoting = true;
-  fwrite_counter = 0;
-  fwrite_stream  = stream_;
-
-  return ae_fwrite_internal(this);
 }
 
 static int ae_fwrite_internal(const ae_obj_t * const this) {
@@ -186,11 +193,15 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
-        
-      if (! NILP(CDR(position)))
+
+      if (NOT_TAILP(CDR(position))) {
+        COUNTED_FPRINTF(fwrite_stream, " . ");
+        ae_fwrite_internal(CDR(position));
+      } else if (NOT_NILP(CDR(position))) {
         FSPC;
+      }
     }
-      
+
     FRPAR;
     break;
   case AE_SYMBOL:
@@ -203,7 +214,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else {
       if (fwrite_quoting)
         COUNTED_FPUTC('"', fwrite_stream);
-      
+
       COUNTED_FPUTS(STR_VAL(this), fwrite_stream);
 
       if (fwrite_quoting)
@@ -239,48 +250,19 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
     if (fwrite_quoting)
       COUNTED_FPUTC('\'', fwrite_stream);
-    
+
     COUNTED_FPUTS(tmp, fwrite_stream);
 
     if (fwrite_quoting)
       COUNTED_FPUTC('\'', fwrite_stream);
-    
+
     break;
   }
   default:
     COUNTED_FPRINTF(fwrite_stream, "??");
   }
-  
+
   fflush(fwrite_stream);
-  
+
   return fwrite_counter;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's _princ methods
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-int ae_princ(const ae_obj_t * const this) {
-  return FPRINC(this, stdout);
-}
-
-
-int ae_fprinc(const ae_obj_t * const this, FILE * stream_) {
-  ASSERT_NOT_NULLP(this);
-
-  fwrite_quoting = false;
-  fwrite_counter = 0;
-  fwrite_stream  = stream_;
-
-  return ae_fwrite_internal(this);
-}
-
-char * ae_sprinc(const ae_obj_t * const this) {
-  MEMSTREAM(buff, stream_);
-
-  ae_fprinc(this, stream_);
-  fclose(fwrite_stream);
-
-  return buff; // free this when you're done with it.
-}
-

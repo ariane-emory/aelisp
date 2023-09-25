@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "ae_obj.h"
 #include "ae_list.h"
 
@@ -13,43 +15,52 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define LIST(this)          (CONS((this), NIL))
+#define LIST(this)                    (CONS((this), NIL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CAR(this)               ((this)->head)
-#define CDR(this)               ((this)->tail)
-#define CAAR(this)              (CAR(CAR(this)))
-#define CADR(this)              (CAR(CDR(this)))
-#define CDAR(this)              (CDR(CAR(this)))
-#define CDDR(this)              (CDR(CDR(this)))
-#define CADAR(this)             (CAR(CDR(CAR(this))))
-#define CONS(head, tail)        (ae_obj_cons((head), (tail)))
+#define CAR(this)                     ((this)->head)
+#define CDR(this)                     ((this)->tail)
+#define CAAR(this)                    (CAR(CAR(this)))
+#define CADR(this)                    (CAR(CDR(this)))
+#define CDAR(this)                    (CDR(CAR(this)))
+#define CDDR(this)                    (CDR(CDR(this)))
+#define CADAR(this)                   (CAR(CDR(CAR(this))))
+#define CONS(head, tail)              (ae_obj_cons((head), (tail)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EACH(this, fun)         (ae_list_each(this, (ae_list_each_fun)fun))
-#define MAP(this, fun)          (ae_list_map(this, (ae_list_map_fun)fun))
-#define LENGTH(this)            (ae_list_length(this))
-#define PUSH(this, that)        (ae_list_push_back(&(this), (that)))
-#define REMOVE(list, elem)      (ae_list_remove_member(list, elem))
-#define INTERN2(sym_list, str)  (ae_list_intern_string((sym_list), (str)))
-#define INTERN(str)             (INTERN2(&symbols_list, (str)))
-///////////////////////////////////////////////////////////////j/////////////////////////////////////
-#define TAILP(o)                (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
-#define MEMBERP(this, that)     (ae_list_has_member((this), (that)))
-#define NOT_MEMBERP(this, that) (! MEMBERP((this), (that)))
-#define NOT_TAILP(this, that)   (! TAILP((this), (that))) 
-#define ASSERT_TAILP(o)         (assert(TAILP((o))))
-///////////////////////////////////////////////////////////////j/////////////////////////////////////
+#define EACH(this, fun)               (ae_list_each(this, (ae_list_each_fun)fun))
+#define MAP(this, fun)                (ae_list_map(this, (ae_list_map_fun)fun))
+#define LENGTH(this)                  (ae_list_length(this))
+#define PUSH(this, that)              (ae_list_push_back(&(this), (that)))
+#define REMOVE(list, elem)            (ae_list_remove_member(list, elem))
+#define INTERN2(sym_list, str)        (ae_list_intern_string((sym_list), (str)))
+#define INTERN(str)                   (INTERN2(&symbols_list, (str)))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TAILP(o)                      (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
+#define NOT_TAILP(o)                  (! TAILP((o)))
+#define ASSERT_TAILP(o)               (assert(TAILP((o))))
+#define ASSERT_NOT_TAILP(o)           (assert(NOT_TAILP((o))))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
+#define NOT_MEMBERP(this, that)       (! MEMBERP((this), (that)))
+#define ASSERT_MEMBERP(this, that)    (assert(MEMBERP((this), (that))))j
+#define ASSERT_NOT_MEMERP(this, that) (assert(NOT_MEMBERP((this), (that))))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define PROPER_LISTP(o)               (ae_list_is_proper((o)))
+#define NOT_PROPER_LISTP(o)           (! PROPER_LISTP((o)))
+#define ASSERT_PROPER_LISTP(o)        (assert(PROPER_LISTP((o))))
+#define ASSERT_NOT_PROPER_LISTP(o)    (assert(NOT_PROPER_LISTP((o))))
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
          * position = (list),                                                                      \
          * elem     = CAR(position);                                                               \
        CONSP(position);                                                                            \
-           elem = CAR(position = CDR(position)))
+       elem = CAR(position = CDR(position)))
 #define FOR_EACH_CONST(elem, list)                                                                 \
   for (const ae_obj_t                                                                              \
          * position = (list),                                                                      \
          * elem     = CAR(position);                                                               \
        CONSP(position);                                                                            \
-           elem = CAR(position = CDR(position)))
+       elem = CAR(position = CDR(position)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,4 +72,5 @@ int           ae_list_length       (const ae_obj_t *  const list                
 ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_fun   fun          );
 void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun          );
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string       );
+bool          ae_list_is_proper    (const ae_obj_t *  const list                                   );
 ////////////////////////////////////////////////////////////////////////////////////////////////////

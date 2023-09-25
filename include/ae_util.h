@@ -7,7 +7,9 @@
 
 #define NL            (putchar('\n'))
 #define SPC           (putchar(' '))
-#define DOT           (putchar('.'))
+#ifndef DOT
+#  define DOT           (putchar('.'))
+#endif
 #define PR(...)       (fprintf(stdout, __VA_ARGS__))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -15,7 +17,7 @@
 
 extern char obj_log_buffer[64];
 
-void obj_log(ae_obj_t * obj, char * desc);
+void obj_log(const ae_obj_t * const obj, char * desc);
 
 #define LOG(o, ...)  \
 { \

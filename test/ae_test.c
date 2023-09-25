@@ -13,6 +13,7 @@
 #include "ae_eval.h"
 #include "ae_write.h"
 #include "ae_env.h"
+#include "ae_util.h"
 
 #include "acutest.h"
 
@@ -142,38 +143,27 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
-  COUNT_LIST_LENGTH(this);
-
   T(EQ(LENGTH(this)       , 4));
+  
+  COUNT_LIST_LENGTH(this);
   T(EQ(list_length_counter, 4));
   T(EQ(list_length_counter, LENGTH(this)));
 
-  // PRINC(this); NL;
-  
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
-  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   ae_obj_t * mapped = NULL;
 
   mapped = MAP(this, ae_obj_double);
-  // fprintf(stdout, "doubled "); PRINC(mapped); NL;
-  // pool_print();
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   mapped = CLONE(mapped);
-  // fprintf(stdout, "cloned  "); PRINC(mapped); NL;
-  // pool_print();
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
   mapped = MAP(mapped, ae_obj_to_pairs);
-  // fprintf(stdout, "paired  ");   PRINC(mapped); NL;
-  // pool_print();
   T(shitty_princ_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
-
-  // pool_print();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -840,6 +830,28 @@ void root_env_and_eval(void) {
   NL;
 }
 
+
+void improper_list(void) {
+  SETUP_TEST;
+
+  this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
+  // OLOG(this); NL;
+  T(EQ(LENGTH(this)       , 3));
+  TM("Expected length 3, got %d.", LENGTH(this));
+  
+  COUNT_LIST_LENGTH(this);
+  T(EQ(list_length_counter, 3));
+  T(EQ(list_length_counter, LENGTH(this)));
+
+  T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
+
+  ae_obj_t * mapped = MAP(this, ae_obj_double);
+  T(shitty_princ_based_equality_predicate(mapped, "nil"));
+  T(NILP(mapped));
+
+  PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -866,7 +878,8 @@ void root_env_and_eval(void) {
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
-  DO(root_env_and_eval)
+  DO(root_env_and_eval)                                                                            \
+  DO(improper_list)
 
 #define pair(fun) { #fun, fun },
 

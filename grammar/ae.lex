@@ -4,6 +4,7 @@
 
 #include "ae_obj.h"
 #include "ae_env.h"
+#include "ae_write.h"
   
 #define YYSTYPE ae_obj_t *
 
@@ -122,6 +123,7 @@
 nil                                                                     |
 \([\f\n\t\v\ ]*\)                                                       TOKENIZE(NILTOK,   AE_SYMBOL  );
 \'                                                                      TOKENIZE(QUOTE,    AE_QUOTE   );
+\.                                                                      TOKENIZE(DOT,      AE_INVALID );
 \(                                                                      TOKENIZE(LPAREN,   AE_INVALID );
 \)                                                                      TOKENIZE(RPAREN,   AE_INVALID );
 \"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING  );

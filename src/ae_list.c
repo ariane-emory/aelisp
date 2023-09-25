@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "ae_list.h"
+#include "ae_util.h"
 #include "ae_free_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,7 +13,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_list_length(const ae_obj_t * const list) {
-  ASSERT_TAILP(list);
+  // assert(NILP((list)) || (CONSP((list)) && CAR((list))));
+  assert(NILP((list)) || (CONSP((list))));
   
   if (NILP(list))
     return 0;
@@ -54,7 +56,8 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
-  ASSERT_TAILP(list);
+  if (NOT_PROPER_LISTP(list))
+    return NIL;
 
   if (NILP(list))
     return list;
@@ -277,5 +280,18 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   return new_sym;
 }
 
-#undef DECLARE_NEW_SYM
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _is_proper
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_list_is_proper(const ae_obj_t * const list) {
+  ASSERT_TAILP(list);
+
+  FOR_EACH_CONST(elem, list)
+    if (NOT_TAILP(CDR(position)))
+      return false;
+
+  return true;
+}
 

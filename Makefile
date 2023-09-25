@@ -4,9 +4,11 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-DAE_OBJ_POOL_SIZE=512 \
+	-DAE_LOG_PARSE \
+	-DAE_OBJ_POOL_SIZE=450
 
 LOG_CFLAGS = \
+	-DAE_LOG_LEX \
 	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
 	-DAE_LOG_ENV \
@@ -16,9 +18,7 @@ LOG_CFLAGS = \
   -DAE_LOG_CONS \
 	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_INIT \
-	-DAE_LOG_LEX \
 	-DAE_LOG_MOVE \
-	-DAE_LOG_PARSE \
   -DAE_LOG_PUSH
 
 TEST_CFLAGS = \
@@ -34,7 +34,6 @@ STRICTER_CFLAGS = \
 	-Werror \
 	-Wall \
 	-Wextra \
-	-Wshadow \
 	-Wno-format \
 	-Wno-comment \
 	-Wno-address-of-packed-member \
@@ -114,7 +113,7 @@ bin/test:
 
 tests: clean all
 	$(foreach bin, $(TEST_BINS), echo; $(bin))
-#	./bin/ae
+	./bin/ae
 
 debug: clean all
 	$(GDB) ./bin/ae

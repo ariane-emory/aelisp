@@ -8,21 +8,17 @@
 #include "ae_env.h"
 #include "ae_free_list.h"
 #include "ae_write.h"
+#include "ae_util.h"
 
 #define YYSTYPE ae_obj_t *
-
-#define NL      putchar('\n')
-#define BSPC    putchar('\b')
-#define SPC     putchar(' ')
-#define LPAR    putchar('(')
-#define RPAR    putchar(')')
-#define LSQR    putchar('[')
-#define RSQR    putchar(']')
 
 #ifdef AE_LOG_PARSE
 #  define LOG_PARSE(obj, ...)                                                                      \
   printf(__VA_ARGS__);                                                                             \
-  PUT((obj));                                                                                      \
+  if (obj)                                                                                         \
+    PUT((obj));                                                                                    \
+  else                                                                                             \
+    PR("NULL!");                                                                                   \
   putchar(' ');                                                                                    \
   putchar('\n');                                                                                   \
   fflush(stdout)
@@ -40,30 +36,42 @@
 
   int  yywrap() { return 1; }
 
-  void describe(ae_obj_t * this) {
+  void describe(ae_obj_t * this, bool dotted) {
     static unsigned int indent = 0;
 
+    char buff[128] = { 0 };
+    
     int written = 0;
 
-    while (written++ < indent << 1) SPC;
+    while (written++ < (indent - (dotted ? 2 : 0))) SPC;
 
-    written += printf("%018p", this);
+    if (dotted)
+      written += PR("• "); 
+    
+    written += PR("%018p", this);
     
     while (written++ < 27) SPC;
 
+    // This hacky extra print is required because we printed a multi-byte character earlier:
+    if (dotted)
+      written += PR("  ");
+    
     written += PUT(this);
     
-    while (written++ < 103) SPC;
+    while (written++ < 105) SPC;
 
-    ae_put_words(this);
+    // ae_put_words(this);
 
     NL;
     
     if (CONSP(this)) {
-      ++indent;
-      FOR_EACH(elem, this)
-        describe(elem);
-      --indent;
+      indent += 2;
+      FOR_EACH(elem, this) {
+        describe(elem, false);
+        if (NOT_TAILP(CDR(position)))
+          describe(CDR(position), true);
+      }
+      indent -= 2;
     }
   }
 
@@ -98,13 +106,24 @@
     yyparse();
 
     printf("root:    ");
-    ae_put(root);
+    if (root)
+      ae_put(root);
+    else
+      PR("NULL!");
     NL;
 
     ae_obj_t * program_obj = root;
 
     printf("program: ");
-    ae_put(program_obj);
+
+    if (! program_obj) {
+      PR("NULL!");
+      return 0;
+    }
+    else {
+      ae_put(program_obj);
+    }
+    
     NL;
 
     ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
@@ -113,7 +132,8 @@
     NL;
 
     puts("Describing items in program.");
-    EACH(program_obj, describe);
+    FOR_EACH(obj, program_obj)
+      describe(obj, false);
     puts("Described items in program.");
     NL;
 
@@ -138,31 +158,30 @@
     
     %}
 
-%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK
+%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT
+
 %start program
 
 %%
 
+sexp: atom | list;
+atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
+list: LPAREN list_sexps RPAREN  { $$ = $2; };
 program: sexps { root = $$; }
 
-atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
-
-list: LPAREN sexps RPAREN { $$ = $2; };
-
-sexp: list | atom
-
-sexps:
-sexps sexp {
-  if (NILP($$)) {
-    LOG_PARSE($2, "Beginning with ");
-    $$ = CONS($2, $$);
-    LOG_PARSE($$, "Made           ");
-  }
-  else {
-    LOG_PARSE($2, "Appending      ");
-    PUSH($$, $2);    
-    LOG_PARSE($$, "Made           ");
-  }
+sexps: sexp sexps {
+  LOG_PARSE($1, "Consing  ");
+  $$ = CONS($1, $2);
+  LOG_PARSE($$, "Made     ");
 } | { $$ = NIL; };
-   
+
+list_sexps: sexp list_sexps {
+  LOG_PARSE($1, "Consing  ");
+  $$ = CONS($1, $2);
+  LOG_PARSE($$, "Made     ");
+} | sexp DOT sexp {
+  $$ = NEW_CONS($1, $3);
+} | { $$ = NIL; };
+ 
 %%
+

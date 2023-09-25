@@ -159,6 +159,10 @@ extern ae_obj_t * symbols_list;
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define OBJ_PARAMS(this)        ((this)->params)
+#define OBJ_BODY(this)          ((this)->body)
+#define OBJ_ENV(this)           ((this)->env)
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,6 +220,14 @@ extern ae_obj_t * symbols_list;
 #define NOT_TRUEP(o)            (! TRUEP((o)))
 #define ASSERT_TRUEP(o)         (assert(TRUEP((o))))
 #define ASSERT_NOT_TRUEP(o)     (assert(NOT_TRUEP((o))))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NEW_CONS(head, tail)                                                                       \
+({                                                                                                 \
+ae_obj_t * _obj  = NEW(AE_CONS);                                                                   \
+CAR       (_obj) = (head);                                                                         \
+CDR       (_obj) = (tail);                                                                         \
+_obj;                                                                                              \
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
