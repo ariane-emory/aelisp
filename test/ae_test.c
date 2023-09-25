@@ -844,30 +844,29 @@ void root_env_and_eval(void) {
   TEST_COND(3, 30);
 
 
-  expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); //  (name params . body)
+  expr_t* args_part = CONS(INTERN("macro"), CONS( CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))), NIL)); ; //  (name params . body)
   OLOG(args_part);
 
 
-// Now, setq_expr contains the desired Lisp expression
-
 // Create (quote macro)
-expr_t* quote_macro = CONS(INTERN("quote"), CONS(INTERN("macro"), NIL));
-OLOG(quote_macro);
+  expr_t* quote_macro = CONS(INTERN("quote"), NIL);
+  OLOG(quote_macro);
 
 // Create (list (quote setq) name (list (quote macro) params . body))
-expr_t* list_expr = CONS(quote_macro, CONS(INTERN("params"), CONS(INTERN("body"), NIL)));
-OLOG(list_expr);
+  expr_t* list_expr = CONS(CONS(INTERN("params"), CONS(INTERN("body"), NIL)), NIL);
+  OLOG(list_expr);
 
 // Create the final expression (setq defmacro ...)
-expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(INTERN("macro"), CONS(args_part, list_expr))));
-OLOG(final_expr);
+  expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(INTERN("macro"), CONS(args_part, list_expr))));
+  OLOG(final_expr);
+
+  
+NL;
 NL;
 PR("Got     "); PRINC(final_expr); NL;
 PR("Wanted  (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-// Now, final_expr contains the desired Lisp expression
+NL;
 
-// Now, setq_expr contains the desired Lisp expression
-// Now, setq_expr contains the desired Lisp expression
 
 
   NL;
