@@ -151,7 +151,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   
   GET_DISPATCH(dispatch, eval_dispatch, obj);
 
-  PR("[Dispatching eval to %s]\n", TYPE_STR(dispatch.type));
+  PR("[... dispatching eval to %s.]\n", TYPE_STR(dispatch.type));
   
   return (*dispatch.handler)(obj, env);
   
@@ -197,7 +197,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   GET_DISPATCH(dispatch, apply_dispatch, fun);
 
-  PR("[Dispatching apply to %s]\n", TYPE_STR(dispatch.type));
+  PR("[... dispatching apply to %s.]\n", TYPE_STR(dispatch.type));
   
   MAYBE_EVAL(dispatch.special, args);
   ae_obj_t * ret = dispatch.special
