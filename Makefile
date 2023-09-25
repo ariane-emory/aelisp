@@ -5,6 +5,7 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-DAE_LOG_PARSE \
+	-DAE_LOG_LEX \
 	-DAE_OBJ_POOL_SIZE=512 \
 
 LOG_CFLAGS = \
@@ -17,7 +18,6 @@ LOG_CFLAGS = \
   -DAE_LOG_CONS \
 	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_INIT \
-	-DAE_LOG_LEX \
 	-DAE_LOG_MOVE \
   -DAE_LOG_PUSH
 
