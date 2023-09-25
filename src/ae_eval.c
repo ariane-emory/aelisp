@@ -52,9 +52,9 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
 ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(fun, "[apply core %s]", fun->name)
-  OLOG(env);
-  OLOG(args);
+  LOG(fun, "[apply core %s]", fun->name);
+  LOG(env, "apply core env");
+  LOG(args, "apply core args");
   NL;
 #endif
 
