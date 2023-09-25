@@ -938,14 +938,12 @@ void macros(void) {
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
 
-
   NL;
   
-  this = CONS(CONS(INTERN("+"), CONS(INTERN("x"), CONS(INTERN("y"), NIL))), NIL);
-  this = CONS(CONS(INTERN("x"), CONS(INTERN("y"), NIL)), this);
-  this = CONS(INTERN("macro"), this);
-  PR("my macro "); PRINC(this); NL;
-
+  /* this = CONS(CONS(INTERN("+"), CONS(INTERN("x"), CONS(INTERN("y"), NIL))), NIL); */
+  /* this = CONS(CONS(INTERN("x"), CONS(INTERN("y"), NIL)), this); */
+  /* this = CONS(INTERN("macro"), this); */
+  /* PR("my macro "); PRINC(this); NL; */
 
   this = CONS(CONS(INTERN("quote"), CONS(INTERN("+"), NIL)), CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)));
   this = CONS(CONS(INTERN("list"), this), NIL);
