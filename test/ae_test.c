@@ -938,6 +938,12 @@ void macros(void) {
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
 
+
+  NL;
+  
+  this = CONS(INTERN("x"), CONS(INTERN("y"), NIL));
+  PR("my macro: "); PRINC(this); NL;
+  
   return;
 
   ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro());
