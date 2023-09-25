@@ -19,6 +19,10 @@
 
 #define free_list_size (1 << 12)
 
+#undef DOT
+
+#define DOT NEW_CONS
+
 static char mem[free_list_size] = { 0 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -782,6 +786,7 @@ void root_env_and_eval(void) {
                                             LIST(subexpr))))))),
               LIST(NEW_INT(12)));
 
+
   PR("Printing 12 on the next line:\n");
   result = EVAL(env, expr);
   NL;
@@ -836,7 +841,33 @@ void root_env_and_eval(void) {
   TEST_COND(1, 10);
   TEST_COND(2, 20);
   TEST_COND(3, 30);
+
+  {
+  ae_obj_t* params = CONS(INTERN("params"), CONS(INTERN("body"), NIL));
+  ae_obj_t* name = CONS(INTERN("name"), params);
+  ae_obj_t* macro_expr = CONS(INTERN("macro"), name);
+  ae_obj_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
+  ae_obj_t* list_params_body = CONS(INTERN("list"), CONS(macro_expr, params));
+  ae_obj_t* tail_tip = CONS(INTERN("TAIL_TIP"), list_params_body);
+  ae_obj_t* defmacro_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(tail_tip, quote_setq)));
+  OLOG(defmacro_expr);
+  }
+  {
+// Define the components of the Lisp expression
+ae_obj_t* name = DOT(INTERN("name"));
+ae_obj_t* params_body = CONS(INTERN("params"), CONS(INTERN("body"), NIL));
+ae_obj_t* macro_expr = CONS(INTERN("macro"), CONS(name, params_body));
+ae_obj_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
+ae_obj_t* defmacro_expr = CONS(INTERN("setq"),
+                             CONS(INTERN("defmacro"),
+                                  CONS(defmacro_expr, CONS(quote_setq, name))));
+
+// Now, defmacro_expr contains the desired Lisp expression
+    OLOG(defmacro_expr);
+  }
+
   
+
   NL;
   PR("syms: ");
   PRINC(ENV_SYMS(env));
