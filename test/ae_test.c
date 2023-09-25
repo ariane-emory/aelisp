@@ -952,26 +952,25 @@ void core_sleep(void) {
   
   ae_obj_t * env   = ENV_NEW_ROOT();  
   ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * expr  = NIL;
   ae_obj_t * incr2 = CONS(INTERN("setq"),  CONS(INTERN("xx"), add));
   ae_obj_t * print = CONS(INTERN("print"), CONS(INTERN("xx"), NIL));
-  ae_obj_t * sleep = CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL));
+  ae_obj_t * sleep = CONS(INTERN("sleep"), CONS(NEW_INT(250), NIL));
   
   EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
       
   {
     ae_obj_t * expr = NIL;
 
-    for (int ix = 0; ix < 10; ix++) {
-      expr            = CONS(print, expr);
-      expr            = CONS(sleep, expr);
+    for (int ix = 0; ix < 11; ix++) {
       expr            = CONS(incr2, expr);
+      expr            = CONS(sleep, expr);
+      expr            = CONS(print, expr);
     }
 
     expr              = CONS(INTERN("progn"), expr);
 
-    PRINC(expr);
-    NL;
+    NL; PRINC(expr);
+    NL; PR("Counting from 10 to 30 (in steps of 2), 1/4 of a second apart.");
     EVAL(env, expr);
     NL;
   }
