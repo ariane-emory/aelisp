@@ -115,7 +115,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 
 ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-
+ 
 #ifdef AE_LOG_CORE
   PR("\n[core progn]");
   LOG(env, "progn env");
