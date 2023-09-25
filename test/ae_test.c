@@ -967,7 +967,7 @@ expr_t* mapcar_expr = CONS(INTERN("mapcar"), CONS(INTERN("list"), CONS(args_part
 expr_t* cons_expr = CONS(CONS(INTERN("cons"), CONS(quote_cond, CONS(mapcar_expr, NIL))), NIL);
 
 // (if (null args) nil (cons (quote cond) (mapcar list args)))
-expr_t* if_expr = CONS(CONS(INTERN("if"), CONS(null_args, CONS(quote_nil, CONS(cons_expr, NIL)))), NIL);
+expr_t* if_expr = CONS(INTERN("if"), CONS(null_args, CONS(NIL, CONS(cons_expr, NIL))));
 
 // (defmacro or args ...)
 expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("or"), CONS(args_part, CONS(if_expr, NIL))));
