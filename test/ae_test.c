@@ -935,7 +935,6 @@ void macros(void) {
   LOG(all,   "all");
 
   NL;
-  NL;
 
   ae_obj_t * macro = EVAL(env, defmacro_def);
 
