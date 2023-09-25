@@ -893,6 +893,8 @@ void macros(void) {
   ae_obj_t * ret = EVAL(env, list_fun_call);
 
   LOG(ret, "list call rtn");
+
+  NL;
   
   return;
 
