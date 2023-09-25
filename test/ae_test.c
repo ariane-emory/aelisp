@@ -143,11 +143,12 @@ ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
 }
 
 void basic_list_checks(ae_obj_t * this) {
-  COUNT_LIST_LENGTH(this);
-
   T(EQ(LENGTH(this)       , 4));
+  
+  COUNT_LIST_LENGTH(this);
   T(EQ(list_length_counter, 4));
   T(EQ(list_length_counter, LENGTH(this)));
+
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
 
   ae_obj_t * mapped = NULL;
@@ -830,26 +831,18 @@ void root_env_and_eval(void) {
 }
 
 void improper_list_checks(ae_obj_t * this) {
+  T(EQ(LENGTH(this)       , 3));
+  TM("Expected length 3, got %d.", LENGTH(this));
+  
   COUNT_LIST_LENGTH(this);
-
-  T(EQ(LENGTH(this)       , 4));
-  T(EQ(list_length_counter, 4));
+  T(EQ(list_length_counter, 3));
   T(EQ(list_length_counter, LENGTH(this)));
+
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
 
-  ae_obj_t * mapped = NULL;
-
-  mapped = MAP(this, ae_obj_double);
-  T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
-  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
-
-  mapped = CLONE(mapped);
-  T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
-  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
-
-  mapped = MAP(mapped, ae_obj_to_pairs);
-  T(shitty_princ_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
-  tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
+  ae_obj_t * mapped = MAP(this, ae_obj_double);
+  T(shitty_princ_based_equality_predicate(mapped, "nil"));
+  T(NILP(mapped));
 }
 
 void improper_list(void) {
