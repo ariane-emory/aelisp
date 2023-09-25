@@ -848,13 +848,16 @@ void root_env_and_eval(void) {
   OLOG(args_part);
 
 
-// Create (quote macro)
-  expr_t* quote_macro = CONS(INTERN("quote"), NIL);
-  OLOG(quote_macro);
+  // Create (quote macro)
+  expr_t* quote_macro = CONS(INTERN("quote"), CONS(INTERN("macro"), NIL));
+OLOG(quote_macro);
 
-// Create (list (quote setq) name (list (quote macro) params . body))
-  expr_t* list_expr = CONS(CONS(INTERN("params"), CONS(INTERN("body"), NIL)), NIL);
-  OLOG(list_expr);
+// Create (list (quote macro) params . body)
+expr_t* list_expr = CONS(quote_macro, CONS(INTERN("params"), DOT(INTERN("body"), NIL)));
+OLOG(list_expr);
+
+// Now, list_expr contains the desired Lisp expression (list (quote macro) params . body)
+
 
 // Create the final expression (setq defmacro ...)
   expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(INTERN("macro"), CONS(args_part, list_expr))));
