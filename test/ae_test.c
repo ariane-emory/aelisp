@@ -913,7 +913,7 @@ expr_t* cons_quote_and = CONS(INTERN("cons"), CONS(quote_and, CONS(CONS(INTERN("
 printf("%-16s", "cons_quote_and"); PRINC(cons_quote_and); NL;
 
 // (list (quote if) (car args) (cons (quote and) (cdr args)))
-expr_t* inner_list_expr = CONS(INTERN("list"), CONS(quote_if, CONS(CONS(INTERN("car"), CONS(args_part, NIL)), CONS(cons_quote_and, NIL))));
+expr_t* inner_list_expr = CONS(INTERN("t"), CONS(INTERN("list"), CONS(quote_if, CONS(CONS(INTERN("car"), CONS(args_part, NIL)), CONS(cons_quote_and, NIL)))));
 printf("%-16s", "inner_list_expr"); PRINC(inner_list_expr); NL;
 
 // (null args)
