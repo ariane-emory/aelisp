@@ -1,4 +1,5 @@
 To Do:
+- [ ] root_env_and_eval test is too big, slice it up.
 - [ ] Test macro expansion.
 - [ ] Maybe core 'let'?
 - [ ] Review printing of characters needing escaping.
