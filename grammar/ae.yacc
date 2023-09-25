@@ -154,6 +154,14 @@
 
 program: sexps { root = $$; }
 
+sexps: sexps sexp {
+  LOG_PARSE($2, "Consing  ");
+  $$ = CONS($2, $1);
+  LOG_PARSE($$, "Made     ");
+} | {
+  $$ = NIL;
+};
+
 sexps: sexp sexps {
   LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
@@ -172,5 +180,5 @@ dotpair: LPAREN sexp DOT sexp RPAREN {
 list: LPAREN sexps RPAREN { $$ = $2; };
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
- 
+
 %%
