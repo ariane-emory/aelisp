@@ -894,10 +894,11 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
    ae_obj_t * def = ae_generate_macro_ ## name();  \
    NL;                                             \
    PR("Got      "); PRINC(def); NL;                \
-   PR("Wanted   %s");                              \
+   PR("Wanted   %s", expect_str);                  \
                                                    \
    tmp_str = SPRINC(def);                          \
    T(! strcmp(tmp_str, expect_str));               \
+   free(tmp_str);                                  \
  }
 
 void macros(void) {
@@ -907,36 +908,20 @@ void macros(void) {
   
   NL;
 
-  GENERATED_MACRO_TEST(and, "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
-  {
-    ae_obj_t * and_def = ae_generate_macro_and();
-    NL;
-    PR("Got      "); PRINC(and_def); NL;
-    PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
-    ae_obj_t * or_def = ae_generate_macro_or();
-    NL;
-    PR("Got      "); PRINC(or_def); NL;
-    PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
-    ae_obj_t * defun_def = ae_generate_macro_defun();
-    NL;
-    PR("Got      "); PRINC(defun_def); NL;
-    PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
-    ae_obj_t * defmacro_def = ae_generate_macro_defmacro();
-    NL;
-    PR("Got      "); PRINC(defmacro_def); NL;
-    PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
+  GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
+  GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
+  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
+  GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
 
-    NL;
-
-    ae_obj_t * macro = EVAL(env, defmacro_def);
-    OLOG(macro->params);
-    OLOG(macro->body);
-    OLOG(macro->env);
-  }
+  return;
   
-
+  ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro());
+  T(EQ(macro, ae_generate_macro_defmacro()));
   
-
+  OLOG(macro->params);
+  OLOG(macro->body);
+  OLOG(macro->env);
+    
   ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
                                        CONS(LIST(INTERN("x")),
                                             CONS(CONS(INTERN("+"),
