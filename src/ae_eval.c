@@ -30,6 +30,7 @@
 
 static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
   (void)env;
+  LOG(obj, "return self =>");
   return obj;
 }
 

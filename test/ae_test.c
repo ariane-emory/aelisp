@@ -892,7 +892,7 @@ void macros(void) {
   NL;
 
   ae_obj_t * progn = NIL;
-  progn = CONS(CONS(INTERN("print"), CONS(INTERN("three"),  NIL)), NIL);
+  progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("three"),  NIL)), NIL);
   NL;
   OLOG(progn);
 
@@ -900,7 +900,7 @@ void macros(void) {
   NL;
   OLOG(progn);
 
-  progn = CONS(CONS(INTERN("print"), CONS(INTERN("two"),  NIL)), progn);
+  progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("two"),  NIL)), progn);
   NL;
   OLOG(progn);
 
@@ -908,11 +908,10 @@ void macros(void) {
   NL;
   OLOG(progn);
 
-  progn = CONS(CONS(INTERN("print"), CONS(INTERN("one"),  NIL)), progn);
+  progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("one"),  NIL)), progn);
   NL;
   OLOG(progn);
   
-
   progn = CONS(INTERN("progn"), CONS(progn, NIL));
   NL;
   OLOG(progn);
