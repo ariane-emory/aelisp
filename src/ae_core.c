@@ -18,9 +18,9 @@
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
   PR("\n[CREATE " name "]");                                                                       \
-  OLOG(args);                                                                                      \
-  OLOG(CAR(args));                                                                                 \
-  OLOG(CDR(args));                                                                                 \
+  LOG(args, "create args");                                                                        \
+  LOG(CAR(args), "fun args");                                                                      \
+  LOG(CDR(args), "fun body");                                                                      \
   NL
 #else
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
