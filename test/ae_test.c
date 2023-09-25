@@ -878,7 +878,14 @@ void macros(void) {
   ae_obj_t * list_fun = EVAL(env, list_def);
   OLOG(list_fun);
 
-  
+
+  ae_obj_t * incr_fun = CONS(INTERN("lambda"),
+                             CONS(LIST(INTERN("x")),
+                                      CONS(INTERN("+"),
+                                           CONS(INTERN("x"), LIST(NEW_INT(2))))));
+
+  OLOG(incr_fun);
+
   return;
   
   ae_obj_t * and_def = ae_generate_macro_and();
