@@ -916,6 +916,9 @@ void macros(void) {
   progn = CONS(INTERN("progn"), CONS(progn, NIL));
   NL;
   OLOG(progn);
+
+  NL;
+  EVAL(env, progn);
   
   return;
 
