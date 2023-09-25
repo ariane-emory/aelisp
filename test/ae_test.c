@@ -889,15 +889,6 @@ expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_pa
     NL;
   }
 
-
-  NL;
-  PR("syms: ");
-  PRINC(ENV_SYMS(env));
-  NL;
-  PR("vals: ");
-  PRINC(ENV_VALS(env));
-  NL;
-  NL;
 }
 
 
