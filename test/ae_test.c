@@ -899,14 +899,25 @@ void macros(void) {
   expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
   expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
   expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-//  expr            = CONS(  CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), NIL)     , expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
   expr            = CONS(INTERN("progn"), expr);
 
   NL;
   PRINC(expr);
 
   NL;
-  return;
+//  return;
 
   EVAL(env, expr);
 
