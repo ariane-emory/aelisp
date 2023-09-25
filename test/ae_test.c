@@ -932,7 +932,9 @@ printf("%-16s", "cond_expr"); PRINC(cond_expr); NL;
 expr_t* final_expr = CONS(
   INTERN("defmacro"),
   CONS(INTERN("and"),
-       CONS(args_part, CONS(CONS(cond_expr, NIL), NIL))));
+       CONS(args_part,
+            CONS(cond_expr,
+                 NIL))));
 
 printf("%-16s", "final_expr"); PRINC(final_expr); NL;
 
