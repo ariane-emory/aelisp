@@ -964,7 +964,7 @@ expr_t* quote_cond = CONS(INTERN("quote"), CONS(INTERN("cond"), NIL));
 expr_t* mapcar_expr = CONS(INTERN("mapcar"), CONS(INTERN("list"), CONS(args_part, NIL)));
 
 // (cons (quote cond) (mapcar list args))
-expr_t* cons_expr = CONS(CONS(INTERN("cons"), CONS(quote_cond, CONS(mapcar_expr, NIL))), NIL);
+expr_t* cons_expr = CONS(INTERN("cons"), CONS(quote_cond, CONS(mapcar_expr, NIL)));
 
 // (if (null args) nil (cons (quote cond) (mapcar list args)))
 expr_t* if_expr = CONS(INTERN("if"), CONS(null_args, CONS(NIL, CONS(cons_expr, NIL))));
