@@ -94,11 +94,11 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
 #ifdef AE_LOG_CORE
-  NL; PR("env_and_args "); PUT(env_and_args); SPC; PRINC(env_and_args);
-  NL; PR("env          "); PUT(env         ); SPC; PRINC(env         );
-  NL; PR("args         "); PUT(args        ); SPC; PRINC(args        );
+  OLOG(env_and_args);
+  OLOG(env);
+  OLOG(args);
 #endif
-
+ 
   ASSERT_SYMBOLP(CAR(args));
   ASSERT_CONSP(CDR(args));
 
