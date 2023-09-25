@@ -55,6 +55,7 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(fun, "[apply core %s]", fun->name)
   OLOG(env);
   OLOG(args);
+  NL;
 #endif
 
   MAYBE_EVAL(SPECIAL_FUNP(fun), args);
@@ -78,12 +79,13 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  PR("\n[Apply lambda]");
+  PR("\n[Apply user fun]");
   OLOG(fun);
   LOG(OBJ_PARAMS(fun), "params");
   LOG(OBJ_BODY(fun),   "body");
   OLOG(env);
   OLOG(args);
+  NL;
 #endif
   
   ae_obj_t * new_env = NIL;
@@ -145,7 +147,7 @@ static const eval_dispatch_t eval_dispatch[] = {
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
 #ifdef AE_LOG_EVAL
-  PR("[Dispatching eval...]");
+  PR("\n[Dispatching eval...]");
   OLOG(env);
   OLOG(obj);
   NL;
@@ -187,7 +189,7 @@ static const apply_dispatch_t apply_dispatch[] = {
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("[Dispatching apply...]");
+  PR("\n[Dispatching apply...]");
   OLOG(fun);
   OLOG(env);
   OLOG(args);
