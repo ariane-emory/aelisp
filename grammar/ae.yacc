@@ -8,16 +8,17 @@
 #include "ae_env.h"
 #include "ae_free_list.h"
 #include "ae_write.h"
+#include "ae_util.h"
 
 #define YYSTYPE ae_obj_t *
 
-#define NL      putchar('\n')
-#define BSPC    putchar('\b')
-#define SPC     putchar(' ')
-#define LPAR    putchar('(')
-#define RPAR    putchar(')')
-#define LSQR    putchar('[')
-#define RSQR    putchar(']')
+/* #define NL      putchar('\n') */
+/* #define BSPC    putchar('\b') */
+/* #define SPC     putchar(' ') */
+/* #define LPAR    putchar('(') */
+/* #define RPAR    putchar(')') */
+/* #define LSQR    putchar('[') */
+/* #define RSQR    putchar(']') */
 
 #ifdef AE_LOG_PARSE
 #  define LOG_PARSE(obj, ...)                                                                      \
@@ -137,7 +138,7 @@
     
     %}
 
-%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK
+%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT
 %start program
 
 %%
@@ -146,10 +147,11 @@ program: sexps { root = $$; }
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
-list: LPAREN sexps RPAREN { $$ = $2; };
+sexp: dotpair | list | atom
 
-sexp: list | atom
+list: LPAREN sexps RPAREN { $$ = $2; } | dotpair { $$ = $1; }
 
+// this rule matches the contents inside the parentheses in lisp-style lists:
 sexps:
 sexps sexp {
   if (NILP($$)) {
@@ -163,5 +165,18 @@ sexps sexp {
     LOG_PARSE($$, "Made           ");
   }
 } | { $$ = NIL; };
-   
+
+dotpair: LPAREN sexp DOT sexp RPAREN {
+    if (NILP($2)) {
+        LOG_PARSE($4, "Beginning with ");
+        PR("\ndotpair 1:"); NL;
+        $$ = CONS($4, NIL);
+        LOG_PARSE($$, "Made           ");
+    } else {
+        LOG_PARSE($4, "Appending      ");
+        PR("\ndotpair 2:"); NL;
+        PUSH($2, $4);
+        LOG_PARSE($$, "Made           ");
+    }
+};
 %%
