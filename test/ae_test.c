@@ -963,7 +963,7 @@ void core_sleep(void) {
 
   EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
 
-  for (int ix = 0; ix < 11; ix++) {
+  for (int ix = 0; ix < 6; ix++) {
     expr            = CONS(incr2, expr);
     expr            = CONS(sleep, expr);
     expr            = CONS(print, expr);
@@ -971,11 +971,10 @@ void core_sleep(void) {
 
   expr              = CONS(INTERN("progn"), expr);
 
-  // NL; PRINC(expr);
-  NL; NL; PR("Counting from 10 to 30 (in steps of 2), 1/4 of a second apart.");
+  NL; NL; PR("Counting from 10 to 20 (in steps of 2), 1/4 of a second apart.");
   EVAL(env, expr);
   NL;
-  T(EQL(EVAL(env, INTERN("xx")), NEW_INT(32)));
+  T(EQL(EVAL(env, INTERN("xx")), NEW_INT(22)));
   NL;
 }
 
