@@ -805,7 +805,7 @@ here:
   result = EVAL(env, expr);
   NL;
 
-  // OLOG(result);
+  LOG(result, "RESULT");
 
   return;
   

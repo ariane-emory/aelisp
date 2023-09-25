@@ -78,6 +78,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
 static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
+
 #ifdef AE_LOG_EVAL
   PR("\n[Apply lambda]");
   OLOG(fun);
@@ -86,8 +87,15 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   OLOG(env);
   OLOG(args);
 #endif
-  ae_obj_t * new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
+  
+  ae_obj_t * evaled_args = NIL;
+    
+  FOR_EACH(elem,  args)
+    PUSH(evaled_args, EVAL(env, elem));
+
+  ae_obj_t * new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), evaled_args);
   ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(fun));
+  
 #ifdef AE_LOG_EVAL
   PR("\n[Created exec env]");
   LOG(new_env->parent,  "parent");
@@ -95,10 +103,13 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   LOG(new_env->values,  "values");
   OLOG(body);
 #endif
+  
   ae_obj_t * result = EVAL(new_env, body);
+
 #ifdef AE_LOG_EVAL
   OLOG(result);
 #endif
+
   return result;
 }
 
@@ -108,6 +119,7 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 
 ae_obj_t * expand_macro(ae_obj_t * macro, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
+
 #ifdef AE_LOG_CORE
   PR("\n[Expand macro]\n");
   OLOG(macro);
@@ -116,8 +128,10 @@ ae_obj_t * expand_macro(ae_obj_t * macro, ae_obj_t * env, ae_obj_t * args) {
   OLOG(env);
   OLOG(args);
 #endif
+
   ae_obj_t * new_env = NEW_ENV(OBJ_ENV(macro), OBJ_PARAMS(macro), args);
   ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(macro));
+
 #ifdef AE_LOG_EVAL
   PR("\n[Created expand env]\n");
   LOG(new_env->parent,  "parent");
@@ -125,11 +139,14 @@ ae_obj_t * expand_macro(ae_obj_t * macro, ae_obj_t * env, ae_obj_t * args) {
   LOG(new_env->values,  "values");
   OLOG(body);
 #endif
+
   ae_obj_t * result = EVAL(new_env, body);
+  
 #ifdef AE_LOG_EVAL
   OLOG(result);
 #endif
-  return result;
+
+ return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
