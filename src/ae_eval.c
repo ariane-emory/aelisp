@@ -158,6 +158,8 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   PR("\n=> dispatching eval to %s", TYPE_STR(dispatch.type));
 #endif
+
+  assert(*dispatch.handler);
   
   return (*dispatch.handler)(obj, env);
   
