@@ -830,7 +830,12 @@ void root_env_and_eval(void) {
   NL;
 }
 
-void improper_list_checks(ae_obj_t * this) {
+
+void improper_list(void) {
+  SETUP_TEST;
+
+  this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
+  // OLOG(this); NL;
   T(EQ(LENGTH(this)       , 3));
   TM("Expected length 3, got %d.", LENGTH(this));
   
@@ -843,24 +848,6 @@ void improper_list_checks(ae_obj_t * this) {
   ae_obj_t * mapped = MAP(this, ae_obj_double);
   T(shitty_princ_based_equality_predicate(mapped, "nil"));
   T(NILP(mapped));
-}
-
-void improper_list(void) {
-  SETUP_TEST;
-
-  goto improper;
-  
-  this = cons_together_a_list_of_ints();
-  OLOG(this);
-  basic_list_checks(this);
-
-  // NL;
-  
-improper:
-  
-  this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
-  OLOG(this); NL;
-  improper_list_checks(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
