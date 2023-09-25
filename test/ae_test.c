@@ -908,11 +908,11 @@ expr_t* quote_if = CONS(INTERN("quote"), CONS(INTERN("if"), NIL));
 // (quote and)
 expr_t* quote_and = CONS(INTERN("quote"), CONS(INTERN("and"), NIL));
 
-/* // (cons (quote and) (cdr args)) */
-/* expr_t* cons_quote_and = CONS(INTERN("cons"), CONS(quote_and, CONS(CONS(INTERN("cdr"), args_part), NIL))); */
+// (cons (quote and) (cdr args))
+expr_t* cons_quote_and = CONS(INTERN("cons"), CONS(quote_and, CONS(CONS(INTERN("cdr"), args_part), NIL)));
 
-/* // (list (quote if) (car args) (cons (quote and) (cdr args))) */
-/* expr_t* inner_list = CONS(INTERN("list"), CONS(quote_if, CONS(car_args, CONS(cons_quote_and, NIL)))); */
+// (list (quote if) (car args) (cons (quote and) (cdr args)))
+expr_t* inner_list = CONS(INTERN("list"), CONS(quote_if, CONS(car_args, CONS(cons_quote_and, NIL))));
 
 /* // (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))) */
 /* expr_t* cond_expr = CONS(INTERN("cond"), CONS( */
