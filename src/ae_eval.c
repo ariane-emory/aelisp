@@ -185,16 +185,12 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   GET_DISPATCH(dispatch, apply_dispatch, fun);
 
   ae_obj_t * ret = NIL;
-  
-  if (dispatch.special) {
-    ret = (*dispatch.handler)(fun, env, args);
-  }
-  else {
-    ae_obj_t * evaled_args = NIL;    
-    FOR_EACH(elem, args)
-      PUSH(evaled_args, EVAL(env, elem));
-    ret = (*dispatch.handler)(fun, env, evaled_args);
-  }
+
+  MAYBE_EVAL(dispatch.special, args);
+
+  ret = (dispatch.special)
+    ? (*dispatch.handler)(fun, env, args)
+    : (*dispatch.handler)(fun, env, args);
 
   return ret;
   
