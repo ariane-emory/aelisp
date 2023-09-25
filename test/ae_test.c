@@ -949,7 +949,7 @@ printf("%-16s", "final_expr"); PRINC(final_expr); NL;
   {
     // (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))
 
-expr_t* args_part = CONS(INTERN("args"), NIL);
+expr_t* args_part = INTERN("args");
 
 // (null args)
 expr_t* null_args = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), NIL);
