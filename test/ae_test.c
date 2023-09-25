@@ -879,11 +879,11 @@ void macros(void) {
   OLOG(list_fun);
 
 
-  ae_obj_t * incr_fun = CONS(INTERN("lambda"),
-                             CONS(LIST(INTERN("x")),
-                                  CONS(CONS(INTERN("+"),
-                                            CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL)));
-
+  ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
+                                       CONS(LIST(INTERN("x")),
+                                            CONS(CONS(INTERN("+"),
+                                                      CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL))));
+  
   OLOG(incr_fun);
 
   return;
