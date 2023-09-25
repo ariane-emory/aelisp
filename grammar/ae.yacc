@@ -154,13 +154,13 @@
 
 program: sexps { root = $$; }
 
-sexps: sexps sexp {
-  LOG_PARSE($2, "Consing  ");
-  $$ = CONS($2, $1);
-  LOG_PARSE($$, "Made     ");
-} | {
-  $$ = NIL;
-};
+/* sexps: sexps sexp { */
+/*   LOG_PARSE($2, "Consing  "); */
+/*   $$ = CONS($2, $1); */
+/*   LOG_PARSE($$, "Made     "); */
+/* } | { */
+/*   $$ = NIL; */
+/* }; */
 
 sexps: sexp sexps {
   LOG_PARSE($1, "Consing  ");
