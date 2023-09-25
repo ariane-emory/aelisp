@@ -785,6 +785,16 @@ here:
                                             LIST( subexpr  ))))))),
               LIST(NEW_INT(12)));
 
+  // no princ: 
+  expr = CONS(CONS(INTERN("lambda"),
+                   CONS(LIST(INTERN("x")),
+                        CONS(CONS(INTERN("princ"),
+                                  LIST(INTERN("x"))),
+                             LIST(CONS(INTERN("+"),
+                                       CONS(INTERN("x"),
+                                            LIST( subexpr  ))))))),
+              LIST(NEW_INT(12)));
+
   OLOG(expr);
   // OLOG(subexpr);
   NL;
