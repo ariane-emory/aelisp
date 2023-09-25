@@ -112,7 +112,7 @@ static ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
 typedef struct {
     ae_type_t type;
-    ae_obj_t *(*handler)(ae_obj_t *, ae_obj_t *);
+    ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *);
 } eval_dispatch_t;
 
 static const eval_dispatch_t eval_dispatch[] = {
@@ -123,7 +123,7 @@ static const eval_dispatch_t eval_dispatch[] = {
     {AE_CHAR,     &self},
     {AE_STRING,   &self},
     {AE_LAMBDA,   &self},
-    {AE_CORE, &self},
+    {AE_CORE,     &self},
     {AE_SYMBOL,   &lookup},
     {AE_CONS,     &apply},
 };
@@ -152,13 +152,13 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 typedef struct {
     ae_type_t type;
     bool special;
-    ae_obj_t *(*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
+    ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
 } apply_dispatch_t;
 
 static const apply_dispatch_t apply_dispatch[] = {
-    { AE_CORE, true,   &apply_core_fun }, // 2nd param may be ignored internally by apply_core_fun.
-    { AE_LAMBDA,   false,  &apply_user_fun },
-    { AE_MACRO,    true,   &apply_user_fun },
+    { AE_CORE,   true,  &apply_core_fun }, // 2nd param may be ignored internally by apply_core_fun.
+    { AE_LAMBDA, false, &apply_user_fun },
+    { AE_MACRO,  true,  &apply_user_fun },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
