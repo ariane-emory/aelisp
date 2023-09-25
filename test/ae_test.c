@@ -921,7 +921,7 @@ expr_t* null_cdr_args = CONS(CONS(CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), 
 expr_t* cond_expr = CONS(CONS(INTERN("cond"), CONS(null_args, CONS(null_cdr_args, CONS(inner_list_expr, NIL)))), NIL);
 
 // (defmacro and args (cond ...))
-expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("and"), CONS(args_part, CONS(CONS(cond_expr, NIL), NIL))));
+expr_t* final_expr = CONS(INTERN("defmacro"), CONS(CONS(INTERN("and"), NIL), CONS(args_part, CONS(CONS(cond_expr, NIL), NIL))));
 
 
 
