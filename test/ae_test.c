@@ -913,7 +913,7 @@ void macros(void) {
   NL;
   NL;
 
-  OLOG(EVAL(env, defmacro));
+  LOG(EVAL(env, defmacro), "themacro");
   
   // LOG(
   //apply_user_fun(defmacro, env, body);
