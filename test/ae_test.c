@@ -853,7 +853,7 @@ void root_env_and_eval(void) {
 OLOG(quote_macro);
 
 // Create (list (quote macro) params . body)
-expr_t* list_expr = CONS(quote_macro, CONS(INTERN("params"), DOT(INTERN("body"), NIL)));
+expr_t* list_expr = CONS(INTERN("list"), CONS(quote_macro, CONS(INTERN("params"), DOT(INTERN("body"), NIL))));
 OLOG(list_expr);
 
 // Now, list_expr contains the desired Lisp expression (list (quote macro) params . body)
