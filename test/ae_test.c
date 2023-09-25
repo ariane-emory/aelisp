@@ -922,36 +922,6 @@ void macros(void) {
   
   return;
   
-  /* ae_obj_t * progn = NIL; */
-  /* progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("three"),  NIL)), NIL); */
-  /* NL; */
-  /* OLOG(progn); */
-
-  /* /\* progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn); *\/ */
-  /* /\* NL; *\/ */
-  /* /\* OLOG(progn); *\/ */
-
-  /* /\* progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("two"),  NIL)), progn); *\/ */
-  /* /\* NL; *\/ */
-  /* /\* OLOG(progn); *\/ */
-
-  /* /\* progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn); *\/ */
-  /* /\* NL; *\/ */
-  /* /\* OLOG(progn); *\/ */
-
-  /* /\* progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("one"),  NIL)), progn); *\/ */
-  /* /\* NL; *\/ */
-  /* /\* OLOG(progn); *\/ */
-  
-  /* progn = CONS(INTERN("progn"), CONS(progn, NIL)); */
-  /* NL; */
-  /* OLOG(progn); */
-
-  /* NL; */
-  /* EVAL(env, progn); */
-  
-  return;
-
   ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
                                        CONS(LIST(INTERN("x")),
                                             CONS(CONS(INTERN("+"),
