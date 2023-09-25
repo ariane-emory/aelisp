@@ -175,12 +175,6 @@ sexps: sexp sexps {
   LOG_PARSE($$, "Made     ");
 } | { $$ = NIL; };
 
-/* sexps_tail: sexp sexps_tail { */
-/*   LOG_PARSE($1, "Consing  "); */
-/*   $$ = CONS($1, $2); */
-/*   LOG_PARSE($$, "Made     "); */
-/* } | { $$ = NIL; }; */
-
 sexp_list: sexp sexp_list {
   LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
