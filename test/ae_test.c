@@ -1004,9 +1004,7 @@ void core_sleep(void) {
   DO(core_cmp)                                                                                     \
   DO(core_sleep)                                                                                   \
   DO(root_env_and_eval)                                                                            \
-
-
-//  DO(macros)
+  DO(macros)
 
 #define pair(fun) { #fun, fun },
 
