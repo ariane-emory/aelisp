@@ -782,13 +782,14 @@ void root_env_and_eval(void) {
                                             LIST( subexpr  ))))))),
               LIST(NEW_INT(12)));
 
-  OLOG(expr);
-  OLOG(subexpr); NL;
+  // OLOG(expr);
+  // OLOG(subexpr); NL;
 
   PR("Printing 12 here: ");
   result = EVAL(env, expr);
   NL;
-  OLOG(result);
+
+  // OLOG(result);
 
   T(EQL(NEW_INT(27), result));
 
