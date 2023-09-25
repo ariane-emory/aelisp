@@ -19,21 +19,15 @@
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
   PR("\n[Create " name "]\n");                                                                     \
   PR("args          ");                                                                            \
-  PUT(args);                                                                                       \
-  SPC;                                                                                             \
-  PRINC(args);                                                                                     \
+  OLOG(args);                                                                                      \
   NL;                                                                                              \
                                                                                                    \
   PR("params        ");                                                                            \
-  PUT(CAR(args));                                                                                  \
-  SPC;                                                                                             \
-  PRINC(CAR(args));                                                                                \
+  OLOG(CAR(args));                                                                                 \
   NL;                                                                                              \
                                                                                                    \
   PR("body          ");                                                                            \
-  PUT(CDR(args));                                                                                  \
-  SPC;                                                                                             \
-  PRINC(CDR(args));                                                                                \
+  OLOG(CDR(args));                                                                                 \
   NL
 #else
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
