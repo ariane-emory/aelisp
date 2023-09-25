@@ -39,6 +39,65 @@
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
 #endif
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// math
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This only deals with AE_INTEGERS for now. It mutates its first argument.
+#define DEF_MATH_OP(name, oper, default)                                                           \
+ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
+  ASSERT_CONSP(args);                                                                              \
+                                                                                                   \
+  ae_obj_t * accum = NIL;                                                                          \
+  ae_obj_t * rest  = NIL;                                                                          \
+                                                                                                   \
+  if (NILP(CDR(args))) {                                                                           \
+    accum = NEW_INT(default);                                                                      \
+    rest = args;                                                                                   \
+  }                                                                                                \
+  else {                                                                                           \
+    ASSERT_INTEGERP(CAR(args));                                                                    \
+                                                                                                   \
+    accum = CAR(args);                                                                             \
+    rest = CDR(args);                                                                              \
+  }                                                                                                \
+                                                                                                   \
+  FOR_EACH(elem, rest) {                                                                           \
+    ASSERT_INTEGERP(elem);                                                                         \
+                                                                                                   \
+    INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem);                                            \
+  }                                                                                                \
+                                                                                                   \
+  return accum;                                                                                    \
+}
+
+FOR_EACH_MATH_OP(DEF_MATH_OP);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// numeric comparison
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This only deals with AE_INTEGERS for now.
+#define DEF_CMP_OP(name, oper, assign, init)                                                       \
+ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
+  ASSERT_CONSP(args);                                                                              \
+                                                                                                   \
+  bool result = init;                                                                              \
+                                                                                                   \
+  FOR_EACH(elem, args) {                                                                           \
+    if (NILP(CDR(position)))                                                                       \
+        break;                                                                                     \
+                                                                                                   \
+    ASSERT_INTEGERP(elem);                                                                         \
+    ASSERT_INTEGERP(CADR(position));                                                               \
+                                                                                                   \
+    result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
+  }                                                                                                \
+                                                                                                   \
+  return ae_obj_truth(result);                                                                     \
+}
+
+FOR_EACH_CMP_OP(DEF_CMP_OP);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _setq
@@ -375,82 +434,3 @@ ae_obj_t * ae_core_write(ae_obj_t * const args) {
 
   return NEW_INT(written);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _expand_macro
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/* ae_obj_t * ae_core_expand_macro(ae_obj_t * const env_and_args) { */
-/*   SPECIAL_FUN_ARGS(env, args, env_and_args); */
-
-/*   ae_obj_t *env = newEnv(macro, args); */
-/*   LOG(gcEnv, env); */
-
-/*   ae_obj_t *body = AE_CDR(macro); */
-/*   LOG(gcBody, body); */
-
-/*   ae_obj_t *result = evalProgn(body, env); */
-/*   LOG(gcObject, result); */
-
-/*   return evalExpr(result, env); */
-/* } */
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// math
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// This only deals with AE_INTEGERS for now. It mutates its first argument.
-#define DEF_MATH_OP(name, oper, default)                                                           \
-ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
-  ASSERT_CONSP(args);                                                                              \
-                                                                                                   \
-  ae_obj_t * accum = NIL;                                                                          \
-  ae_obj_t * rest  = NIL;                                                                          \
-                                                                                                   \
-  if (NILP(CDR(args))) {                                                                           \
-    accum = NEW_INT(default);                                                                      \
-    rest = args;                                                                                   \
-  }                                                                                                \
-  else {                                                                                           \
-    ASSERT_INTEGERP(CAR(args));                                                                    \
-                                                                                                   \
-    accum = CAR(args);                                                                             \
-    rest = CDR(args);                                                                              \
-  }                                                                                                \
-                                                                                                   \
-  FOR_EACH(elem, rest) {                                                                           \
-    ASSERT_INTEGERP(elem);                                                                         \
-                                                                                                   \
-    INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem);                                            \
-  }                                                                                                \
-                                                                                                   \
-  return accum;                                                                                    \
-}
-
-FOR_EACH_MATH_OP(DEF_MATH_OP);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// numeric comparison
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// This only deals with AE_INTEGERS for now.
-#define DEF_CMP_OP(name, oper, assign, init)                                                       \
-ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
-  ASSERT_CONSP(args);                                                                              \
-                                                                                                   \
-  bool result = init;                                                                              \
-                                                                                                   \
-  FOR_EACH(elem, args) {                                                                           \
-    if (NILP(CDR(position)))                                                                       \
-        break;                                                                                     \
-                                                                                                   \
-    ASSERT_INTEGERP(elem);                                                                         \
-    ASSERT_INTEGERP(CADR(position));                                                               \
-                                                                                                   \
-    result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
-  }                                                                                                \
-                                                                                                   \
-  return ae_obj_truth(result);                                                                     \
-}
-
-FOR_EACH_CMP_OP(DEF_CMP_OP);
