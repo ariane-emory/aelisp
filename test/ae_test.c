@@ -910,6 +910,8 @@ void macros(void) {
   LOG(body,  "body");
   LOG(all,   "all");
 
+  NL;
+  
   LOG(apply_user_fun(defmacro, env, body), "apply_user_fun(defmacro, env, body)");
 
   
