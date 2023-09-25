@@ -877,16 +877,30 @@ void macros(void) {
 
   ae_obj_t * env = ENV_NEW_ROOT();  
   ae_obj_t * list_fun = ae_env_define_list_fun(env);
-
-  DESCR(list_fun);
-  
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
+  DESCR(list_fun);
 
   PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
-  
   ae_obj_t * ret = EVAL(env, list_fun_call);
+  LOG(ret, "<= list call rtrn");
 
-  LOG(ret, "<= list call");
+  
+  ae_obj_t * and_def = ae_generate_macro_and();
+  NL;
+  PR("Got      "); PRINC(and_def); NL;
+  PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
+  ae_obj_t * or_def = ae_generate_macro_or();
+  NL;
+  PR("Got      "); PRINC(or_def); NL;
+  PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
+  ae_obj_t * defun_def = ae_generate_macro_defun();
+  NL;
+  PR("Got      "); PRINC(defun_def); NL;
+  PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
+  ae_obj_t * defmacro_def = ae_generate_macro_defmacro();
+  NL;
+  PR("Got      "); PRINC(defmacro_def); NL;
+  PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
 
   ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
                                        CONS(LIST(INTERN("x")),
@@ -895,45 +909,21 @@ void macros(void) {
   
   DESCR(incr_fun); NL;
 
-  ae_obj_t * and_def = ae_generate_macro_and();
-  NL;
-  PR("Got      "); PRINC(and_def); NL;
-  PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
-  NL;
-
-  ae_obj_t * or_def = ae_generate_macro_or();
-  NL;
-  PR("Got      "); PRINC(or_def); NL;
-  PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
-  NL;
-
-  ae_obj_t * defun_def = ae_generate_macro_defun();
-  NL;
-  PR("Got      "); PRINC(defun_def); NL;
-  PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
-  NL;
-
-  ae_obj_t * defmacro_def = ae_generate_macro_defmacro();
-  NL;
-  PR("Got      "); PRINC(defmacro_def); NL;
-  PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-  NL;
-
-  ae_obj_t * name  = INTERN("test");
-  ae_obj_t * args  = CONS(INTERN("xx"), CONS(INTERN("yy"), NIL));
-  ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("xx"), NIL));
-  ae_obj_t * body2 = CONS(INTERN("*"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL)));
-  ae_obj_t * body  = CONS(body1, CONS(body2, NIL));
-  ae_obj_t * tmp   = CONS(CONS(INTERN("list"), body), NIL);
-  ae_obj_t * all   = CONS(INTERN("macro"), CONS(args, tmp));
+/*   ae_obj_t * name  = INTERN("test"); */
+/*   ae_obj_t * args  = CONS(INTERN("xx"), CONS(INTERN("yy"), NIL)); */
+/* //  ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("xx"), NIL)); */
+/*   ae_obj_t * body2 = CONS(INTERN("*"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))); */
+/*   ae_obj_t * body  = CONS(body1, CONS(body2, NIL)); */
+/*   ae_obj_t * tmp   = CONS(CONS(INTERN("list"), body), NIL); */
+/*   ae_obj_t * all   = CONS(INTERN("macro"), CONS(args, tmp)); */
   
-  LOG(name,  "name");
-  LOG(args,  "args");
-  LOG(body1, "body1");
-  LOG(body2, "body2");
-  LOG(body,  "body");
-  LOG(all,   "all");
-
+/*   LOG(name,  "name"); */
+/*   LOG(args,  "args"); */
+/* //  LOG(body1, "body1"); */
+/*   LOG(body2, "body2"); */
+/*   LOG(body,  "body"); */
+/*   LOG(all,   "all"); */
+ 
   NL;
 
   ae_obj_t * macro = EVAL(env, defmacro_def);
