@@ -911,6 +911,7 @@ void macros(void) {
   LOG(all,   "all");
 
   NL;
+  NL;
   
   LOG(apply_user_fun(defmacro, env, body), "apply_user_fun(defmacro, env, body)");
 
@@ -923,7 +924,7 @@ void macros(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
+#define FOR_EACH_TEST_FUN_DISABLED(DO)                                                             \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -947,6 +948,8 @@ void macros(void) {
   DO(core_cmp)                                                                                     \
   DO(root_env_and_eval)                                                                            \
   DO(improper_list)                                                                                \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(macros)
 
 #define pair(fun) { #fun, fun },

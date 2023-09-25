@@ -14,7 +14,8 @@
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
       row = table[ix];                                                                             \
       break;                                                                                       \
-}
+    }                                                                                              \
+  PR("[Dispatch as %d]\n", TYPE_STR(row.type)); 
 
 #define MAYBE_EVAL(special, args)                                                                  \
   if (! special) {                                                                                 \
