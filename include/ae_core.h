@@ -4,7 +4,7 @@
 #include "ae_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_FUN(DO)                                                                      \
+#define FOR_EACH_CORE(DO)                                                                          \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
@@ -12,6 +12,7 @@
   DO(eq)                                                                                           \
   DO(eql)                                                                                          \
   DO(not)                                                                                          \
+  DO(sleep)                                                                                        \
   DO(write)                                                                                        \
   DO(print)                                                                                        \
   DO(princ) 
@@ -39,12 +40,12 @@
   DO(gt,     > , &=, true)                                                                         \
   DO(gte,    >=, &=, true) 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DECL_CORE_FUN(name, ...) ae_obj_t * ae_core_##name  (ae_obj_t * const args);
+#define DECL_CORE(name, ...) ae_obj_t * ae_core_##name  (ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-FOR_EACH_MATH_OP(DECL_CORE_FUN);
-FOR_EACH_CMP_OP(DECL_CORE_FUN);
-FOR_EACH_CORE_FUN(DECL_CORE_FUN);
-FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE_FUN);
+FOR_EACH_MATH_OP(DECL_CORE);
+FOR_EACH_CMP_OP(DECL_CORE);
+FOR_EACH_CORE(DECL_CORE);
+FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SETQ(env, sym, val) ae_core_setq(CONS(env, CONS(sym, LIST(val))))
 // #define QUOTE(obj) ae_core_quote((obj))

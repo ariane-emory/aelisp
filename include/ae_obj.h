@@ -53,7 +53,7 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
   DO(AE_ENV)                                                                                       \
   DO(AE_LAMBDA)                                                                                    \
   DO(AE_MACRO)                                                                                     \
-  DO(AE_CORE_FUN)                                                                                  \
+  DO(AE_CORE)                                                                                  \
   DO(AE_INVALID)
 
 #define enum_entry(x) x,
@@ -102,7 +102,7 @@ typedef struct ae_obj_t {
       char                    name[8]; // this name is just for printing purposes.
       bool                    special;
       ae_core_fun             fun_val;
-    }; // AE_CORE_FUN
+    }; // AE_CORE
   };
 }
 #ifdef AE_ALIGN_OBJS
@@ -180,18 +180,19 @@ extern ae_obj_t * symbols_list;
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CHAR))
 #define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CONS))
-#define CORE_FUNP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CORE_FUN))
+#define COREP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_CORE))
 #define FLOATP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FLOAT))
 #define FREEP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FREE))
 #define INTEGERP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INTEGER))
 #define INVALIDP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INVALID))
 #define LAMBDAP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_LAMBDA))
+#define MACROP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_MACRO))
 #define QUOTEP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_QUOTE))
 #define RATIONALP(o)            (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_RATIONAL))
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
-#define FUNP(o)                 (LAMBDAP  ((o)) || CORE_FUNP((o)))
-#define SPECIAL_FUNP(o)         (CORE_FUNP((o)) && ((o)->special))
+#define FUNP(o)                 (LAMBDAP  ((o)) || COREP((o)))
+#define SPECIAL_FUNP(o)         (COREP((o)) && ((o)->special))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))
@@ -264,9 +265,9 @@ INT_VAL   (_obj) = (val);                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_CORE_FUN(name, val, _special)                                                          \
+#define NEW_CORE(name, val, _special)                                                          \
 ({                                                                                                 \
-ae_obj_t * _obj  = NEW(AE_CORE_FUN);                                                               \
+ae_obj_t * _obj  = NEW(AE_CORE);                                                               \
 FUN_VAL   (_obj) = (val);                                                                          \
 strcpy(NAME_VAL(_obj), name);                                                                      \
 _obj->special = _special;                                                                          \

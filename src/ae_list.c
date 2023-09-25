@@ -128,6 +128,9 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
+  if (NOT_TAILP(tail))
+    fprintf(stderr, "\nCan't CONS onto a %s!\n", TYPE_STR(GET_TYPE(tail)));
+  
   ASSERT_TAILP(tail);
   ASSERT_NOT_NULLP(head);
 

@@ -4,14 +4,15 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-DAE_LOG_PARSE \
-	-DAE_OBJ_POOL_SIZE=450
+	-Wno-misleading-indentation \
+	-DAE_OBJ_POOL_SIZE=1024
 
 LOG_CFLAGS = \
-	-DAE_LOG_LEX \
-	-DAE_LOG_CORE \
-	-DAE_LOG_EVAL \
 	-DAE_LOG_ENV \
+	-DAE_LOG_EVAL \
+	-DAE_LOG_CORE \
+	-DAE_LOG_PARSE \
+	-DAE_LOG_LEX \
 	-DAE_LOG_ALLOC \
 	-DAE_LOG_INTERN \
 	-DAE_LOG_CLONE \
@@ -113,7 +114,7 @@ bin/test:
 
 tests: clean all
 	$(foreach bin, $(TEST_BINS), echo; $(bin))
-	./bin/ae
+#	./bin/ae
 
 debug: clean all
 	$(GDB) ./bin/ae

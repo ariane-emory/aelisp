@@ -1,8 +1,7 @@
 To Do:
-- [ ] Implement and test macro expansion.
-- [ ] Dotted pairs. 
+- [ ] root_env_and_eval test is too big, slice it up.
+- [ ] Test macro expansion.
 - [ ] Maybe core 'let'?
-- [ ] DRY up princ and print.
 - [ ] Review printing of characters needing escaping.
 - [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
 - [ ] Implement math for non-integer types.
@@ -16,6 +15,9 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Implement macro expansion.
+- [x] Dotted pairs. 
+- [x] DRY up princ and print.
 - [x] progn's return value appears to be incorrect under tests? (No it wasn't, I was just confused.)
 - [x] fwrite_lengths test is noisy.
 - [x] Split princ into princ and print.
