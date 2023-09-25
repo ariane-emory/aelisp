@@ -16,8 +16,8 @@
       break;                                                                                       \
 }
 
-#define MAYBE_EVAL(cond, args)                                                                     \
-  if (cond) {                                                                                      \
+#define MAYBE_EVAL(special, args)                                                                  \
+  if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args)                                                                           \
       PUSH(evaled_args, EVAL(env, elem));                                                          \
@@ -59,16 +59,11 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
   ae_obj_t * ret = NIL;
 
-  // special funs get their un-evaluated args, plus the env.
-  if (SPECIAL_FUNP(fun)) {
-    ret = (*FUN_VAL(fun))(CONS(env, args));
-  }
-  else {
-    ae_obj_t * evaled_args = NIL;
-    FOR_EACH(elem,  args)
-      PUSH(evaled_args, EVAL(env, elem));
-    ret = (*FUN_VAL(fun))(evaled_args);
-  }
+  MAYBE_EVAL(SPECIAL_FUNP(fun), args);
+  
+  return (SPECIAL_FUNP(fun))
+    ? (*FUN_VAL(fun))(CONS(env, args))
+    : (*FUN_VAL(fun))(args);
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "apply core %s ret", fun->name);
