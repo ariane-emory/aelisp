@@ -60,13 +60,8 @@
     char * tmp = SPUT(this);
     PR("%d", strlen(tmp));
 
-    
     if (dotted) {
-      const int  pos = 64;
-      
-      sprintf(tmp+64, "dotted");
-
-      tmp[pos + 6] = ' ';
+      strncpy(tmp + 52, "dotted", strlen("dotted"));
     }
     
     written += PR(tmp);

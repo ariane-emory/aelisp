@@ -90,7 +90,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     written  += fprintf(stream, "%018p %018p %-9s % 8d",
                         CAR(this),
                         CDR(this),
-                        (PROPER_LISTP(this) ? "" : "improper"),
+                        (PROPER_LISTP(this) ? "" : ""), // "improper"),
                         LENGTH(this));
     break;
   case AE_LAMBDA:
