@@ -158,23 +158,27 @@ atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 sexps: sexp sexps {
     $$ = CONS($1, $2);
-} | /* empty */ {
+ } | {
     $$ = NIL;
-};
+ };
 
-/* sexp: LPAREN sexp_list RPAREN { */
-/*     $$ = $2; */
-/* } | atom { */
-/*     $$ = $1; */
-/*  };  */
+/* sexps: */
+/* sexps sexp { */
+/*   if (NILP($$)) { */
+/*     LOG_PARSE($2, "Beginning with "); */
+/*     $$ = CONS($2, $$); */
+/*     LOG_PARSE($$, "Made           "); */
+/*   } */
+/*   else { */
+/*     LOG_PARSE($2, "Appending      "); */
+/*     PUSH($$, $2);     */
+/*     LOG_PARSE($$, "Made           "); */
+/*   } */
+/* }; // | { $$ = NIL; }; */
+
 
 
 sexp: dotpair | list | atom;
-
-/* sexp_list: sexp sexp_list { */
-/*     $$ = CONS($1, $2); */
-/* }; */
-
 
 list: LPAREN sexps RPAREN { $$ = $2; };
 
@@ -183,19 +187,5 @@ dotpair: LPAREN sexp DOT sexp RPAREN {
   $$ = NEW_CONS($2, $4);
   LOG($$, "dotpair");
 };
-
-sexps:
-sexps sexp {
-  if (NILP($$)) {
-    LOG_PARSE($2, "Beginning with ");
-    $$ = CONS($2, $$);
-    LOG_PARSE($$, "Made           ");
-  }
-  else {
-    LOG_PARSE($2, "Appending      ");
-    PUSH($$, $2);    
-    LOG_PARSE($$, "Made           ");
-  }
-}; // | { $$ = NIL; };
 
 %%
