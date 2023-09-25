@@ -159,9 +159,12 @@ atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 list: LPAREN sexps RPAREN { $$ = $2; };
 
-sexp: list | dotpair | atom;
+sexp: dotpair | list | atom;
 
-dotpair: sexp DOT sexp { $$ = NEW_CONS($1, $3); };
+dotpair: sexp DOT sexp {
+  $$ = NEW_CONS($1, $3);
+  LOG($$, "dotpair");
+};
 
 sexps:
 sexps sexp {
