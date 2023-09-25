@@ -172,5 +172,5 @@ dotpair: LPAREN sexp DOT sexp RPAREN {
 list: LPAREN sexps RPAREN { $$ = $2; };
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
-
+ 
 %%
