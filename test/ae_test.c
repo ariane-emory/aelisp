@@ -929,7 +929,11 @@ expr_t* cond_expr = CONS(INTERN("cond"), CONS(null_args, CONS(null_cdr_args, CON
 printf("%-16s", "cond_expr"); PRINC(cond_expr); NL;
 
 // (defmacro and args (cond ...))
-expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("and"), CONS(args_part, CONS(CONS(cond_expr, NIL), NIL))));
+expr_t* final_expr = CONS(
+  INTERN("defmacro"),
+  CONS(INTERN("and"),
+       CONS(args_part, CONS(CONS(cond_expr, NIL), NIL))));
+
 printf("%-16s", "final_expr"); PRINC(final_expr); NL;
 
 
