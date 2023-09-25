@@ -157,9 +157,9 @@ program: sexps { root = $$; }
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 sexps: sexp sexps {
-  LOG_PARSE($2, "Appending      ");
+  LOG_PARSE($2, "Consing  ");
   $$ = CONS($1, $2);
-  LOG_PARSE($$, "Made           ");
+  LOG_PARSE($$, "Made     ");
  } | {
   $$ = NIL;
  };
@@ -168,7 +168,7 @@ sexp: dotpair | list | atom;
 
 dotpair: LPAREN sexp DOT sexp RPAREN {
   $$ = NEW_CONS($2, $4);
-  LOG($$, "dotpair");
+  LOG_PARSE($$, "dotpair  ");
 };
 
  list: LPAREN sexps RPAREN { $$ = $2; };
