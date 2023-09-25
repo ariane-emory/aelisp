@@ -178,26 +178,23 @@
 %%
 
 program: sexps { root = $$; }
+sexp: atom | list;
+atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 sexps: sexp sexps_tail {
   LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
   LOG_PARSE($$, "Made     ");
-} | {
-  $$ = NIL;
-};
+} | { $$ = NIL; };
 
 sexps_tail: sexp sexps_tail {
   LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
   LOG_PARSE($$, "Made     ");
-} | {
-  $$ = NIL;
-};
+} | { $$ = NIL; };
 
-sexp: LPAREN sexp_list RPAREN {
-  $$ = $2;
-} | atom;
+
+list: LPAREN sexp_list RPAREN  { $$ = $2; };
 
 sexp_list: sexp sexp_list {
   LOG_PARSE($1, "Consing  ");
@@ -210,12 +207,6 @@ sexp_list: sexp sexp_list {
 sexp_list: sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
 };
-
-/* list: LPAREN sexp_list RPAREN { */
-/*   $$ = $2; */
-/* }; */
-
-atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
  
 %%
 
