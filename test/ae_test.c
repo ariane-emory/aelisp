@@ -888,7 +888,29 @@ void macros(void) {
 
   LOG(ret, "<= list call");
 
-//  NL;
+  NL;
+  NL;
+
+  ae_obj_t * progn = NIL;
+  progn = CONS(CONS(INTERN("print"), CONS(INTERN("three"),  NIL)), NIL);
+  NL;
+  OLOG(progn);
+
+  progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn);
+  NL;
+  OLOG(progn);
+
+  progn = CONS(CONS(INTERN("print"), CONS(INTERN("two"),  NIL)), progn);
+  NL;
+  OLOG(progn);
+
+  progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn);
+  NL;
+  OLOG(progn);
+
+  progn = CONS(CONS(INTERN("print"), CONS(INTERN("one"),  NIL)), progn);
+  NL;
+  OLOG(progn);
   
   return;
 
@@ -947,12 +969,6 @@ void macros(void) {
   OLOG(macro->body);
   OLOG(macro->env);
   
-  
-  // LOG(
-  //apply_user_fun(defmacro, env, body);
-    // , "apply_user_fun(defmacro, env, body)");
-
-  
   NL;
   NL;
 }
@@ -986,7 +1002,7 @@ void macros(void) {
   DO(root_env_and_eval)                                                                            \
   DO(improper_list)                                                                                \
 
-#define FOR_EACH_TEST_FUN(DO)                                                                     \
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(macros)
 
 #define pair(fun) { #fun, fun },

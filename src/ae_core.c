@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <unistd.h>
 
 #include "ae_core.h"
 #include "ae_list.h"
@@ -251,6 +252,22 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 #endif
     return EVAL(env, CONS(INTERN("progn"), CDDR(args)));
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _sleep
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_sleep(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
+  assert(LENGTH(args) == 1);
+  ASSERT_INTEGERP(CAR(args));
+
+  int ms = INT_VAL(CAR(args));
+  
+  usleep(ms);
+
+  return CAR(args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
