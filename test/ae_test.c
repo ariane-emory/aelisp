@@ -938,15 +938,16 @@ expr_t* final_expr = CONS(
 
 printf("%-16s", "final_expr"); PRINC(final_expr); NL;
 
-
-
-
     NL;
     NL;
     PR("Got      "); PRINC(final_expr); NL;
     PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
     NL;
     NL;
+  }
+
+  {
+    //   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))
   }
 }
 
