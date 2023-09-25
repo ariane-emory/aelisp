@@ -162,18 +162,18 @@ sexps: sexp sexps {
     $$ = NIL;
 };
 
-sexp: LPAREN sexp_list RPAREN {
-    $$ = $2;
-} | atom {
-    $$ = $1;
- }; 
+/* sexp: LPAREN sexp_list RPAREN { */
+/*     $$ = $2; */
+/* } | atom { */
+/*     $$ = $1; */
+/*  };  */
 
 
 sexp: dotpair | list | atom;
 
-sexp_list: sexp sexp_list {
-    $$ = CONS($1, $2);
-};
+/* sexp_list: sexp sexp_list { */
+/*     $$ = CONS($1, $2); */
+/* }; */
 
 
 list: LPAREN sexps RPAREN { $$ = $2; };
