@@ -73,10 +73,10 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 }                                                                               
  
 //==================================================================================================
-// apply lambda funs
+// apply lambda fun
 //==================================================================================================
 
-static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
+static ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
@@ -111,42 +111,6 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
 #endif
 
   return result;
-}
-
-//==================================================================================================
-// _expand_macro
-//==================================================================================================
-
-ae_obj_t * expand_macro(ae_obj_t * macro, ae_obj_t * env, ae_obj_t * args) {
-  (void)env;
-
-#ifdef AE_LOG_CORE
-  PR("\n[Expand macro]\n");
-  OLOG(macro);
-  LOG(OBJ_PARAMS(macro), "params");
-  LOG(OBJ_BODY(macro),   "body");
-  OLOG(env);
-  OLOG(args);
-#endif
-
-  ae_obj_t * new_env = NEW_ENV(OBJ_ENV(macro), OBJ_PARAMS(macro), args);
-  ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(macro));
-
-#ifdef AE_LOG_EVAL
-  PR("\n[Created expand env]\n");
-  LOG(new_env->parent,  "parent");
-  LOG(new_env->symbols, "symbols");
-  LOG(new_env->values,  "values");
-  OLOG(body);
-#endif
-
-  ae_obj_t * result = EVAL(new_env, body);
-  
-#ifdef AE_LOG_EVAL
-  OLOG(result);
-#endif
-
- return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,11 +148,11 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 // _apply dispatch table
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
+static const struct { ae_type_t type; bool special; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
 apply_dispatch[] = {
-  { AE_MACRO,    &expand_macro    },
-  { AE_CORE_FUN, &apply_core_fun  },
-  { AE_LAMBDA,   &apply_lambda    },
+  { AE_CORE_FUN, false, &apply_core_fun,   }, // 2nd param is ignored by apply_core_fun.
+  { AE_LAMBDA,   true,  &apply_user_fun,   },
+  { AE_MACRO,    false, &apply_user_fun,   },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
