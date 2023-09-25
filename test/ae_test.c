@@ -889,9 +889,10 @@ void macros(void) {
   LOG(ret, "<= list call");
 }
 
-void macros(void) {
+void core_sleep(void) {
   SETUP_TEST;
-
+  
+  ae_obj_t * env  = ENV_NEW_ROOT();  
   ae_obj_t * add  = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
   ae_obj_t * expr = NIL;
 
