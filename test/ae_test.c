@@ -878,12 +878,11 @@ void root_env_and_eval(void) {
 
 void list_fun(void) {
   SETUP_TEST;
-  ae_obj_t * env = ENV_NEW_ROOT();
 
-  ae_obj_t * list_fun = ae_env_define_list_fun(env);
+  ae_obj_t * env           = ENV_NEW_ROOT();
+  ae_obj_t * list_fun      = ae_env_define_list_fun(env);
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
-  // DESCR(list_fun);
-  ae_obj_t * ret = EVAL(env, list_fun_call);
+  ae_obj_t * ret           = EVAL(env, list_fun_call);
 
   T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
 }
