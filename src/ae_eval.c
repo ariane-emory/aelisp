@@ -52,7 +52,8 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
 ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(fun, "\n[apply core %s]      ", fun->name);  // extra spaces needed here to line up for some reason.
+  PR("\n\n[apply core %s]", fun->name);  // extra spaces needed here to line up for some reason.
+  LOG(fun, "apply core fun");
   LOG(env, "apply core env");
   LOG(args, "apply core args");
 #endif
