@@ -9,12 +9,20 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define GET_DISPATCH(row, table, obj)                                                                  \
+#define GET_DISPATCH(row, table, obj)                                                              \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
       row = table[ix];                                                                             \
       break;                                                                                       \
 }
+
+#define MAYBE_EVAL(cond, args)                                                                     \
+  if (cond) {                                                                                      \
+    ae_obj_t * evaled_args = NIL;                                                                  \
+    FOR_EACH(elem, args)                                                                           \
+      PUSH(evaled_args, EVAL(env, elem));                                                          \
+    args = evaled_args;                                                                            \
+  }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
