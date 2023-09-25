@@ -54,7 +54,7 @@
 
     // This hacky extra print is required because we printed a multi-byte character earlier:
     if (dotted)
-      PR("  ");
+      written += PR("  ");
     
     written += PUT(this);
     
@@ -68,9 +68,8 @@
       indent += 2;
       FOR_EACH(elem, this) {
         describe(elem, false);
-        if (! TAILP(CDR(position))) {
+        if (NOT_TAILP(CDR(position)))
           describe(CDR(position), true);
-        }
       }
       indent -= 2;
     }
