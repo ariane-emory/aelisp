@@ -92,7 +92,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
 #ifdef AE_LOG_CORE
-  PR("\n[core setq]");
+  PR("\n\n[core setq]");
   LOG(env_and_args, "core seqt env_and_args");
   LOG(env, "core setq env");
   LOG(args, "core setq args");
