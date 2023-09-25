@@ -23,6 +23,8 @@
 #undef DOT
 #define DOT NEW_CONS
 
+#define obj ae_obj_t *
+
 static char mem[free_list_size] = { 0 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,8 +43,8 @@ static char mem[free_list_size] = { 0 };
 static char * tmp_str = NULL;
 
 #define SETUP_TEST                                                                                 \
-  ae_obj_t *    this    = NULL;                                                                    \
-  ae_obj_t *    that    = NULL;                                                                    \
+  obj    this    = NULL;                                                                    \
+  obj    that    = NULL;                                                                    \
   symbols_list          = NIL;                                                                     \
   memset(mem, 0, free_list_size);                                                                  \
   free_list_reset();                                                                               \
@@ -67,7 +69,7 @@ static char * tmp_str = NULL;
 
 void before_acutest() {}
 
-char * princ_to_new_string(const ae_obj_t * const this) {
+char * princ_to_new_string(const obj const this) {
   char * buff;
   size_t size;
   FILE * stream = open_memstream(&buff, &size);
@@ -79,21 +81,21 @@ char * princ_to_new_string(const ae_obj_t * const this) {
 }
 
 bool shitty_princ_based_equality_predicate(
-  const ae_obj_t * const this,
+  const obj const this,
   const char * const strcmp_str) {
   return ! strcmp(strcmp_str, SPRINC(this));
 }
 
-ae_obj_t * push_together_a_list_of_ints(void) {
-  ae_obj_t * num     = NEW_INT(1);
-  ae_obj_t * list    = LIST(num);
-  ae_obj_t * tailtip = list;
+obj push_together_a_list_of_ints(void) {
+  obj num     = NEW_INT(1);
+  obj list    = LIST(num);
+  obj tailtip = list;
 
   T(EQ(LENGTH(tailtip), 1));
 
   for (int ix = 2; ix < 5; ix++) {
     int        int_val = ix;
-    ae_obj_t * new_int = NEW_INT(int_val);
+    obj new_int = NEW_INT(int_val);
 
     tailtip            = PUSH(tailtip, new_int);
 
@@ -107,15 +109,15 @@ ae_obj_t * push_together_a_list_of_ints(void) {
   return list;
 }
 
-ae_obj_t * cons_together_a_list_of_ints(void) {
-  ae_obj_t * head = NEW_INT(4);
-  ae_obj_t * list = LIST(head);
+obj cons_together_a_list_of_ints(void) {
+  obj head = NEW_INT(4);
+  obj list = LIST(head);
 
   T(EQ(LENGTH(list), 1));
 
   for (unsigned int ix  = 0; ix < 3; ix++) {
-    ae_obj_t * new_head = NEW_INT(3 - ix);
-    ae_obj_t * tail     = list;
+    obj new_head = NEW_INT(3 - ix);
+    obj tail     = list;
 
     list = CONS(new_head, tail);
 
@@ -137,22 +139,22 @@ ae_obj_t * cons_together_a_list_of_ints(void) {
 
 static int list_length_counter = 0;
 
-void incr_list_length_counter(ae_obj_t * const this) {
+void incr_list_length_counter(obj const this) {
   (void)this;
   list_length_counter++;
 }
 
-ae_obj_t * ae_obj_double(ae_obj_t * const this) {
+obj ae_obj_double(obj const this) {
   ASSERT_INTEGERP(this);
 
   return NEW_INT(this->int_val * 2);
 }
 
-ae_obj_t * ae_obj_to_pairs(ae_obj_t * const this) {
+obj ae_obj_to_pairs(obj const this) {
   return CONS(this, LIST(this));
 }
 
-void basic_list_checks(ae_obj_t * this) {
+void basic_list_checks(obj this) {
   T(EQ(LENGTH(this)       , 4));
 
   COUNT_LIST_LENGTH(this);
@@ -161,7 +163,7 @@ void basic_list_checks(ae_obj_t * this) {
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
 
-  ae_obj_t * mapped = NULL;
+  obj mapped = NULL;
 
   mapped = MAP(this, ae_obj_double);
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
@@ -370,31 +372,31 @@ void fprinc_fwrite_lengths(void) {
 void eql(void) {
   SETUP_TEST;
 
-  ae_obj_t * obj_int_2a      = NEW_INT(2);
-  ae_obj_t * obj_int_2b      = NEW_INT(2);
-  ae_obj_t * obj_float_2a    = NEW_FLOAT(2.0);
-  ae_obj_t * obj_float_2b    = NEW_FLOAT(2.0);
-  ae_obj_t * obj_int_3a      = NEW_INT(3);
-  ae_obj_t * obj_int_3b      = NEW_INT(3);
-  ae_obj_t * obj_float_3a    = NEW_FLOAT(3.0);
-  ae_obj_t * obj_float_3b    = NEW_FLOAT(3.0);
-  ae_obj_t * obj_bool_false  = TRUTH(false);
-  ae_obj_t * obj_bool_true   = TRUTH(obj_float_2a);
-  ae_obj_t * obj_list_consed = cons_together_a_list_of_ints();
-  ae_obj_t * obj_list_pushed = push_together_a_list_of_ints();
-  ae_obj_t * obj_rat_2a      = NEW_RATIONAL(2, 1);
-  ae_obj_t * obj_rat_2b      = NEW_RATIONAL(4, 2);
-  ae_obj_t * obj_rat_3a      = NEW_RATIONAL(3, 1);
-  ae_obj_t * obj_rat_3b      = NEW_RATIONAL(9, 3);
-  ae_obj_t * obj_char_a_a    = NEW_CHAR('a');
-  ae_obj_t * obj_char_a_b    = NEW_CHAR('a');
-  ae_obj_t * obj_char_b_a    = NEW_CHAR('b');
-  ae_obj_t * obj_char_b_b    = NEW_CHAR('b');
+  obj obj_int_2a      = NEW_INT(2);
+  obj obj_int_2b      = NEW_INT(2);
+  obj obj_float_2a    = NEW_FLOAT(2.0);
+  obj obj_float_2b    = NEW_FLOAT(2.0);
+  obj obj_int_3a      = NEW_INT(3);
+  obj obj_int_3b      = NEW_INT(3);
+  obj obj_float_3a    = NEW_FLOAT(3.0);
+  obj obj_float_3b    = NEW_FLOAT(3.0);
+  obj obj_bool_false  = TRUTH(false);
+  obj obj_bool_true   = TRUTH(obj_float_2a);
+  obj obj_list_consed = cons_together_a_list_of_ints();
+  obj obj_list_pushed = push_together_a_list_of_ints();
+  obj obj_rat_2a      = NEW_RATIONAL(2, 1);
+  obj obj_rat_2b      = NEW_RATIONAL(4, 2);
+  obj obj_rat_3a      = NEW_RATIONAL(3, 1);
+  obj obj_rat_3b      = NEW_RATIONAL(9, 3);
+  obj obj_char_a_a    = NEW_CHAR('a');
+  obj obj_char_a_b    = NEW_CHAR('a');
+  obj obj_char_b_a    = NEW_CHAR('b');
+  obj obj_char_b_b    = NEW_CHAR('b');
   char     * pchar_a         = "a";
-  ae_obj_t * obj_string_a_a  = NEW_STRING(pchar_a);
-  ae_obj_t * obj_string_a_b  = NEW_STRING(pchar_a);
-  ae_obj_t * obj_string_a_c  = NEW_STRING("a");
-  ae_obj_t * obj_string_b_a  = NEW_STRING("b");
+  obj obj_string_a_a  = NEW_STRING(pchar_a);
+  obj obj_string_a_b  = NEW_STRING(pchar_a);
+  obj obj_string_a_c  = NEW_STRING("a");
+  obj obj_string_b_a  = NEW_STRING("b");
 
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \
@@ -601,18 +603,18 @@ void improper_list(void) {
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
 
-  ae_obj_t * mapped = MAP(this, ae_obj_double);
+  obj mapped = MAP(this, ae_obj_double);
   T(shitty_princ_based_equality_predicate(mapped, "nil"));
   T(NILP(mapped));
 
   // PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
 }
 
-ae_obj_t * make_args_containing_one_list(void) {
+obj make_args_containing_one_list(void) {
   return LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))));
 }
 
-ae_obj_t * make_args_for_cons(void) {
+obj make_args_for_cons(void) {
   return CONS(NIL, LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c"))))));
 }
 
@@ -672,14 +674,14 @@ void core_print_princ_write(void) {
     PR("\nPrinting '\"hello\" 5 a abc' oo the next line: ");
     NL;
 
-    ae_obj_t * written  = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
+    obj written  = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
     NL;
     T(INT_VAL(written) == 17);
     TM("Expected %d, wrote %d.", 17, INT_VAL(written));
   }
   {
     PR("\nPrinting 'hello 5 a abc' oo the next line: ");
-    ae_obj_t * written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
+    obj written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
     NL;
     T(INT_VAL(written) == 14);
     TM("Expected %d, wrote %d.", 14, INT_VAL(written));
@@ -687,7 +689,7 @@ void core_print_princ_write(void) {
   {
     PR("\nPrinting 'hello5aabc' on the next line: ");
     NL;
-    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));;
+    obj written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));;
     NL;
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
@@ -695,7 +697,7 @@ void core_print_princ_write(void) {
   {
     PR("\nPrinting 'hello5aabc' on the next line: ");
     NL;
-    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
+    obj written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
     NL;
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
@@ -747,12 +749,12 @@ void core_cmp(void) {
 void core_sleep(void) {
   SETUP_TEST;
 
-  ae_obj_t * expr = NIL;
-  ae_obj_t * env   = ENV_NEW_ROOT();
-  ae_obj_t * add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
-  ae_obj_t * print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
-  ae_obj_t * sleep = CONS(SYM("sleep"),  CONS(NEW_INT(250), NIL));
+  obj expr = NIL;
+  obj env   = ENV_NEW_ROOT();
+  obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
+  obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
+  obj print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
+  obj sleep = CONS(SYM("sleep"),  CONS(NEW_INT(250), NIL));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
 
@@ -776,9 +778,9 @@ void root_env_and_eval(void) {
 
   NL;
 
-  ae_obj_t * env    = ENV_NEW_ROOT();
-  ae_obj_t * expr   = NIL;
-  ae_obj_t * result = NIL;
+  obj env    = ENV_NEW_ROOT();
+  obj expr   = NIL;
+  obj result = NIL;
 
   SETQ(env, SYM("foo"), NEW_INT(666));
 
@@ -830,7 +832,7 @@ void root_env_and_eval(void) {
 
   T(LAMBDAP(result));
 
-  ae_obj_t * subexpr = CONS(SYM("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
+  obj subexpr = CONS(SYM("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
 
   expr = CONS(CONS(SYM("lambda"),
                    CONS(LIST(SYM("x")),
@@ -863,9 +865,9 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(6), result));
 
-  ae_obj_t *    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
-  ae_obj_t *    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
-  ae_obj_t *    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
+  obj    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
+  obj    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
+  obj    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
   expr                = CONS(SYM("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
   NL;
@@ -904,15 +906,15 @@ void root_env_and_eval(void) {
 void list_fun(void) {
   SETUP_TEST;
 
-  ae_obj_t * env           = ENV_NEW_ROOT();
-  ae_obj_t * list_fun      = ae_env_define_list_fun(env);
-  ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
-  ae_obj_t * ret           = EVAL(env, list_fun_call);
+  obj env           = ENV_NEW_ROOT();
+  obj list_fun      = ae_env_define_list_fun(env);
+  obj list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
+  obj ret           = EVAL(env, list_fun_call);
 
   T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
 }
 
-ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
+obj apply_user_fun(obj fun, obj env, obj args);
 
 #define GENERATED_MACRO_TEST(name, expect_str)     \
  {                                                 \
@@ -930,8 +932,8 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
 void macros(void) {
   SETUP_TEST;
-  ae_obj_t * env = ENV_NEW_ROOT();
-  ae_obj_t * list_fun      = ae_env_define_list_fun(env);
+  obj env = ENV_NEW_ROOT();
+  obj list_fun      = ae_env_define_list_fun(env);
 
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
@@ -945,7 +947,7 @@ void macros(void) {
   /* this = CONS(SYM("macro"), this); */
   /* PR("my macro "); PRINC(this); NL; */
 
-  ae_obj_t * macro_def = NIL;
+  obj macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
   macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
@@ -954,45 +956,47 @@ void macros(void) {
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
-  ae_obj_t * macro_fun = EVAL(env, macro_def);
+  obj macro_fun = EVAL(env, macro_def);
   DESCR(macro_fun);
   NL;
 
-  ae_obj_t * setq_for_macro_fun = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
-  ae_obj_t * result_for_macro_fun = EVAL(env, setq_for_macro_fun);
+  obj setq_for_macro_fun = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
+  obj result_for_macro_fun = EVAL(env, setq_for_macro_fun);
   OLOG(setq_for_macro_fun);
   OLOG(result_for_macro_fun);
   NL;
   
-  ae_obj_t * setq_for_macro_def = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
-  ae_obj_t * result_for_macro_def = EVAL(env, setq_for_macro_def);
+  obj setq_for_macro_def = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
+  obj result_for_macro_def = EVAL(env, setq_for_macro_def);
   OLOG(setq_for_macro_def);
   OLOG(result_for_macro_def);
   NL;
 
+ 
+  
   return;
 
-  /* ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro()); */
+  /* obj macro = EVAL(env, ae_generate_macro_defmacro()); */
   /* T(EQ(macro, ae_generate_macro_defmacro())); */
 
   /* OLOG(macro->params); */
   /* OLOG(macro->body); */
   /* OLOG(macro->env); */
 
-  /* ae_obj_t * incr_fun = EVAL(env, CONS(SYM("lambda"), */
+  /* obj incr_fun = EVAL(env, CONS(SYM("lambda"), */
   /*                                      CONS(LIST(SYM("x")), */
   /*                                           CONS(CONS(SYM("+"), */
   /*                                                     CONS(SYM("x"), LIST(NEW_INT(2)))), NIL)))); */
 
   /* DESCR(incr_fun); NL; */
 
-/*   ae_obj_t * name  = SYM("test"); */
-/*   ae_obj_t * args  = CONS(SYM("xx"), CONS(SYM("yy"), NIL)); */
-/*   ae_obj_t * body1 = CONS(SYM("princ"), CONS(SYM("xx"), NIL)); */
-/*   ae_obj_t * body2 = CONS(SYM("*"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))); */
-/*   ae_obj_t * body  = CONS(body1, CONS(body2, NIL)); */
-/*   ae_obj_t * tmp   = CONS(CONS(SYM("list"), body), NIL); */
-/*   ae_obj_t * all   = CONS(SYM("macro"), CONS(args, tmp)); */
+/*   obj name  = SYM("test"); */
+/*   obj args  = CONS(SYM("xx"), CONS(SYM("yy"), NIL)); */
+/*   obj body1 = CONS(SYM("princ"), CONS(SYM("xx"), NIL)); */
+/*   obj body2 = CONS(SYM("*"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))); */
+/*   obj body  = CONS(body1, CONS(body2, NIL)); */
+/*   obj tmp   = CONS(CONS(SYM("list"), body), NIL); */
+/*   obj all   = CONS(SYM("macro"), CONS(args, tmp)); */
 
 /*   LOG(name,  "name"); */
 /*   LOG(args,  "args"); */
