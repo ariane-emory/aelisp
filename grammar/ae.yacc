@@ -204,6 +204,6 @@ list: LPAREN sexp_list RPAREN {
 };
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
-
+ 
 %%
 
