@@ -13,7 +13,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_list_length(const ae_obj_t * const list) {
-  ASSERT_TAILP(list);
+  // assert(NILP((list)) || (CONSP((list)) && CAR((list))));
+  assert(NILP((list)) || (CONSP((list))));
   
   if (NILP(list))
     return 0;
