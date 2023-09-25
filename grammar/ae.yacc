@@ -98,7 +98,10 @@
     yyparse();
 
     printf("root:    ");
-    ae_put(root);
+    if (root)
+      ae_put(root);
+    else
+      PR("NULL!");
     NL;
 
     ae_obj_t * program_obj = root;
@@ -139,30 +142,20 @@
     %}
 
 %token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT
+
 %start program
 
 %%
-program: sexps { root = $$; }
+
+program: sexps { root = $1; }
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 sexp: atom | list | dotpair;
 
-list: LPAREN sexps RPAREN { $$ = $2; };
+list: LPAREN sexps RPAREN { $$ = $2; } ;
 
-sexps:
-sexps sexp {
-  if (NILP($$)) {
-    LOG_PARSE($2, "Beginning with ");
-    $$ = CONS($2, $$);
-    LOG_PARSE($$, "Made           ");
-  }
-  else {
-    LOG_PARSE($2, "Appending      ");
-    PUSH($$, $2);    
-    LOG_PARSE($$, "Made           ");
-  }
-} | { $$ = NIL; };
+sexps: sexp | sexps sexp;
 
 dotpair: LPAREN sexp DOT sexp RPAREN {
   LOG_PARSE($4, "Beginning with ");
