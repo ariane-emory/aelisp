@@ -199,9 +199,9 @@ sexp_list: sexp {
   $$ = NEW_CONS($1, $3);
 };
 
-list: LPAREN sexp_list RPAREN {
-  $$ = $2;
-};
+/* list: LPAREN sexp_list RPAREN { */
+/*   $$ = $2; */
+/* }; */
 
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
  
