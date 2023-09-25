@@ -52,7 +52,7 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
 ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(fun, "\n[apply core %s] ", fun->name);
+  LOG(fun, "\n[apply core %s]     ", fun->name);
   LOG(env, "apply core env");
   LOG(args, "apply core args");
 #endif
@@ -63,7 +63,7 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
     : (*FUN_VAL(fun))(args);
   
 #ifdef AE_LOG_EVAL
-  LOG(ret, "appl core %s rtrns", fun->name);
+  LOG(ret, "<= appl core %s", fun->name);
 #endif
   
   return ret;
@@ -105,7 +105,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ae_obj_t * result = EVAL(new_env, body);
 
 #ifdef AE_LOG_EVAL
-  LOG(result, "user fun rtrn");
+  LOG(result, "<= user fun");
 #endif
 
   return result;

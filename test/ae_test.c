@@ -867,7 +867,7 @@ void root_env_and_eval(void) {
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
 #define DESCR(fun)                         \
-  PR("\n[Describe fun " #fun  ":] ");      \
+  PR("\n\n[describe fun " #fun  ":] ");      \
   LOG(OBJ_PARAMS(fun), "params");          \
   LOG(OBJ_ENV(fun), "env");                \
   LOG(OBJ_BODY(fun), "body") 
@@ -886,7 +886,7 @@ void macros(void) {
   
   ae_obj_t * ret = EVAL(env, list_fun_call);
 
-  LOG(ret, "list call rtrns");
+  LOG(ret, "<= list call");
 
 //  NL;
   
