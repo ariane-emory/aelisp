@@ -16,7 +16,7 @@
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
-  PR("\n[CREATE " name "]");                                                                       \
+  PR("\n\n[CREATE " name "]");                                                                     \
   LOG(args, "create args");                                                                        \
   LOG(CAR(args), "fun args");                                                                      \
   LOG(CDR(args), "fun body");
@@ -117,7 +117,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
  
 #ifdef AE_LOG_CORE
-  PR("\n[core progn]");
+  PR("\n\n[core progn]");
   LOG(env, "progn env");
   LOG(args, "progn args");
 #endif

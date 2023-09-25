@@ -52,7 +52,7 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
 ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(fun, "[apply core %s] ", fun->name);
+  LOG(fun, "\n[apply core %s] ", fun->name);
   LOG(env, "apply core env");
   LOG(args, "apply core args");
 #endif
@@ -77,7 +77,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  PR("\n[Apply user fun]");
+  PR("\n\n[apply user fun]");
   LOG(fun, "appl user fun fun");
   LOG(OBJ_PARAMS(fun), "appl user fun params");
   LOG(OBJ_BODY(fun), "appl user fun body");
@@ -91,15 +91,11 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
     new_env = NEW_ENV(OBJ_ENV(fun), CONS(OBJ_PARAMS(fun), NIL), CONS(args, NIL));
   else
     new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
-
-
-
-
   
   ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(fun));
   
 #ifdef AE_LOG_EVAL
-  PR("\n[Created exec env]");
+  PR("\n\n[created exec env]");
   LOG(new_env->parent,  "exec env parent");
   LOG(new_env->symbols, "exec env symbols");
   LOG(new_env->values,  "exec env values");
@@ -143,7 +139,7 @@ static const eval_dispatch_t eval_dispatch[] = {
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
 #ifdef AE_LOG_EVAL
-  PR("\n[Dispatching eval...]");
+  PR("\n\n[dispatching eval...]");
   LOG(env, "disp eval env");
   LOG(obj, "disp eval obj");
 #endif
@@ -186,7 +182,7 @@ static const apply_dispatch_t apply_dispatch[] = {
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n[Dispatching apply...]");
+  PR("\n\n[dispatching apply...]");
   LOG(fun, "disp appl fun");
   LOG(env, "disp appl env");
   LOG(args, "disp appl args");
