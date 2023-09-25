@@ -894,33 +894,32 @@ void macros(void) {
   NL;
 
   ae_obj_t * expr = NIL;
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
-  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
-  expr            = CONS(INTERN("progn"), expr);
-
-  NL;
-  PRINC(expr);
-
-  NL;
-//  return;
-
+  expr            = CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL)));
   EVAL(env, expr);
+  PRINC(expr); NL;
 
+  //return;
+
+  {
+    ae_obj_t * expr = NIL;
+
+    for (int ix = 0; ix < 6; ix++) {
+      expr            = CONS(CONS(INTERN("print"), CONS(INTERN("xx"), NIL)), expr);
+      expr            = CONS(CONS(INTERN("write"), CONS(INTERN("xx"), NIL)), expr);
+      expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+    }
+
+    expr            = CONS(INTERN("progn"), expr);
+
+    NL;
+    PRINC(expr);
+
+    NL;
+//    return;
+
+    EVAL(env, expr);
+  }
+  
   return;
   
   /* ae_obj_t * progn = NIL; */
