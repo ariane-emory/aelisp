@@ -63,7 +63,7 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
     : (*FUN_VAL(fun))(args);
   
 #ifdef AE_LOG_EVAL
-  LOG(ret, "apply core %s ret", fun->name);
+  LOG(ret, "appl core %s retrns", fun->name);
   NL;
 #endif
   
