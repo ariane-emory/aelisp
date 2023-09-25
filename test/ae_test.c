@@ -882,21 +882,20 @@ void macros(void) {
   
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
 
-//  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
+  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
   
   ae_obj_t * ret = EVAL(env, list_fun_call);
 
   LOG(ret, "<= list call");
+}
 
-  NL;
-  NL;
-  PR("BEGIN");
-  NL;
+void macros(void) {
+  SETUP_TEST;
 
-  ae_obj_t * expr = NIL;
-  expr            = CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL)));
-  EVAL(env, expr);
   ae_obj_t * add  = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
+  ae_obj_t * expr = NIL;
+
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
       
   {
     ae_obj_t * expr = NIL;
@@ -1007,9 +1006,10 @@ void macros(void) {
   DO(core_cmp)                                                                                     \
   DO(root_env_and_eval)                                                                            \
   DO(improper_list)                                                                                \
+  DO(macros)
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(macros)
+  DO(core_sleep)
 
 #define pair(fun) { #fun, fun },
 
