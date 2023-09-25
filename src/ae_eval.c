@@ -169,7 +169,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 static const struct { ae_type_t type; ae_obj_t * (*handler)(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args); }
 apply_dispatch[] = {
-  { AE_MACRO,    expand_macro     },
+  { AE_MACRO,    &expand_macro    },
   { AE_CORE_FUN, &apply_core_fun  },
   { AE_LAMBDA,   &apply_lambda    },
 };

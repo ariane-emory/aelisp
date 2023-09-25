@@ -179,7 +179,7 @@ void remove_interned_symbol_from_list(void) {
     T(EQ(INTERN(str), INTERN(str)));                                                                       \
     T(EQ(LENGTH(symbols_list), (len + 1)));                                                                \
   }
-    
+   
   // using 'symbols_list' as the symbol list here:  
   T(EQ(INTERN("a"), INTERN("a")));
   T(EQ(LENGTH(symbols_list), 1));
@@ -737,7 +737,7 @@ void root_env_and_eval(void) {
   expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
 
   NL;
-  PR("Printing \"Hello from Ash Lisp!\" here: ");
+  PR("Printing \"Hello from Ash Lisp!\" on the next line:\n ");
   this = EVAL(env, expr);
   T(EQL(NEW_INT(5), this));
   NL;
@@ -785,7 +785,7 @@ void root_env_and_eval(void) {
   // OLOG(expr);
   // OLOG(subexpr); NL;
 
-  PR("Printing 12 here: ");
+  PR("Printing 12 on the next line:\n ");
   result = EVAL(env, expr);
   NL;
 
