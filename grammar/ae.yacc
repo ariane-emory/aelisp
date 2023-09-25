@@ -57,7 +57,11 @@
     
     while (written++ < 27) SPC;
 
-    written += PUT(this);
+    char * tmp = SPUT(this);
+    
+    written += PR(tmp);
+
+    free(tmp);
 
     if (dotted) {
       PR(" * ");
