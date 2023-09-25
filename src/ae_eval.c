@@ -79,7 +79,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
 #ifdef AE_LOG_EVAL
-  PR("\n[Apply lambda]\n");
+  PR("\n[Apply lambda]");
   OLOG(fun);
   LOG(OBJ_PARAMS(fun), "params");
   LOG(OBJ_BODY(fun),   "body");
@@ -89,7 +89,7 @@ static ae_obj_t * apply_lambda(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) 
   ae_obj_t * new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
   ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(fun));
 #ifdef AE_LOG_EVAL
-  PR("\n[Created exec env]\n");
+  PR("\n[Created exec env]");
   LOG(new_env->parent,  "parent");
   LOG(new_env->symbols, "symbols");
   LOG(new_env->values,  "values");
