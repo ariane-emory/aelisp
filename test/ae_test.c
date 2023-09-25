@@ -930,7 +930,7 @@ obj apply_user_fun(obj fun, obj env, obj args);
    free(tmp_str);                                  \
  }
 
-void macros(void) {
+void macro_expand(void) {
   SETUP_TEST;
   obj env = ENV_NEW_ROOT();
   obj list_fun      = ae_env_define_list_fun(env);
@@ -1057,7 +1057,7 @@ void macros(void) {
 
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(macros)
+  DO(macro_expand)
 
 #define pair(fun) { #fun, fun },
 
