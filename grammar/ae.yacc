@@ -193,9 +193,7 @@ sexp_list: sexp sexp_list {
   $$ = NIL;
 };
 
-sexp_list: sexp {
-  $$ = $1;
-} | sexp DOT sexp {
+sexp_list: sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
 };
 
