@@ -61,7 +61,7 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 
   MAYBE_EVAL(SPECIAL_FUNP(fun), args);
   
-  return (SPECIAL_FUNP(fun))
+  ret = (SPECIAL_FUNP(fun))
     ? (*FUN_VAL(fun))(CONS(env, args))
     : (*FUN_VAL(fun))(args);
   
