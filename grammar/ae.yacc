@@ -132,7 +132,8 @@
     NL;
 
     puts("Describing items in program.");
-    EACH(program_obj, describe);
+    FOR_EACH(obj, program_obj)
+      describe(obj);
     puts("Described items in program.");
     NL;
 

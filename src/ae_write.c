@@ -87,7 +87,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     /* if (NOT_TAILP(CDR(this))) */
     /*   written  += fprintf(stream, "%018p %018p %-18s", CAR(this), CDR(this), "(pair)"); */
     /* else */
-    written  += fprintf(stream, "%018p %018p %-9s %08d",
+    written  += fprintf(stream, "%018p %018p %-9s % 8d",
                         CAR(this),
                         CDR(this),
                         (PROPER_LISTP(this) ? "" : "improper"),
