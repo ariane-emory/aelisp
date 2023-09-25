@@ -947,11 +947,16 @@ void macros(void) {
   PR("my macro "); PRINC(this); NL;
 
 
-  this = CONS(    CONS(INTERN("quote"), CONS(INTERN("+"), NIL))    , CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)));
+  this = CONS(CONS(INTERN("quote"), CONS(INTERN("+"), NIL)), CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)));
   this = CONS(CONS(INTERN("list"), this), NIL);
-  this = CONS(   CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL))             ,  this);
+  this = CONS(CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)),  this);
+  this = CONS(INTERN("macro"), this);
   PR("my macro 2 "); PRINC(this); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
+  T(shitty_princ_based_equality_predicate(this, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
+
+  
+  NL;
   return;
 
   ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro());
