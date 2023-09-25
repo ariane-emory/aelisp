@@ -9,9 +9,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DISPATCH(handler_t, table, obj)                                                            \
+#define DISPATCH(row, table, obj)                                                                  \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
-    if (table[ix].type == GET_TYPE(obj))                                                           \
+    if (table[ix].type == GET_TYPE(obj)) {                                                         \
+      row = table[ix];                                                                             \
+      break;                                                                                       \
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
@@ -141,10 +144,12 @@ static const eval_dispatch_t eval_dispatch[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
   ASSERT_ENVP(env);
 
-  DISPATCH(eval_handler_t, eval_dispatch, obj) {  
-      return (*eval_dispatch[ix].handler)(obj, env);
-  }
+  eval_dispatch_t dispatch = {0};
+  
+  DISPATCH(dispatch, eval_dispatch, obj);
 
+  return (*dispatch.handler)(obj, env);
+  
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
   assert(0);
 }
@@ -181,10 +186,12 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
 
-  DISPATCH(apply_handler_t, apply_dispatch, fun) {
-    return (*apply_dispatch[ix].handler)(fun, env, args);
-  }
+  apply_dispatch_t dispatch = {0};
+  
+  DISPATCH(dispatch, apply_dispatch, fun);
 
+  return (*dispatch.handler)(fun, env, args);
+  
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
 }
