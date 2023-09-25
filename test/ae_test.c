@@ -890,6 +890,7 @@ expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_pa
   }
 
   {
+    NL;
 // (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))
 
 expr_t* args_part = INTERN("args");
