@@ -912,6 +912,11 @@ void macros(void) {
   NL;
   OLOG(progn);
   
+
+  progn = CONS(INTERN("progn"), CONS(progn, NIL));
+  NL;
+  OLOG(progn);
+  
   return;
 
   ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"),
