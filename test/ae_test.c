@@ -869,18 +869,6 @@ void macros(void) {
 
   NL;  
 
-  ae_obj_t * defmacro = ae_generate_macro_defmacro();
-  NL;
-  PR("Got      "); PRINC(defmacro); NL;
-  PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-  NL;
-
-  ae_obj_t * defun = ae_generate_macro_defun();
-  NL;
-  PR("Got      "); PRINC(defun); NL;
-  PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
-  NL;
-
   ae_obj_t * and = ae_generate_macro_and();
   NL;
   PR("Got      "); PRINC(and); NL;
@@ -893,7 +881,22 @@ void macros(void) {
   PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
   NL;
 
+  ae_obj_t * defun = ae_generate_macro_defun();
   NL;
+  PR("Got      "); PRINC(defun); NL;
+  PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
+  NL;
+
+  ae_obj_t * defmacro = ae_generate_macro_defmacro();
+  NL;
+  PR("Got      "); PRINC(defmacro); NL;
+  PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
+  NL;
+
+  NL;
+
+  /* LOG(CONs */
+  /*   , "args"); */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
