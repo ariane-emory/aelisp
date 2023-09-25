@@ -882,12 +882,10 @@ void list_fun(void) {
 
   ae_obj_t * list_fun = ae_env_define_list_fun(env);
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
-  DESCR(list_fun);
-
-  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
+  // DESCR(list_fun);
   ae_obj_t * ret = EVAL(env, list_fun_call);
-  LOG(ret, "<= list call rtrn");
 
+  T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
 }
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
