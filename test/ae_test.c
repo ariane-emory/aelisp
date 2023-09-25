@@ -857,21 +857,7 @@ void root_env_and_eval(void) {
 
   {
 
-// (name params . body):
-ae_obj_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body")));
-
-// (quote lambda):
-ae_obj_t* quote_lambda = CONS(INTERN("quote"), CONS(INTERN("lambda"), NIL));
-
-// (list (quote lambda) params . body):
-ae_obj_t* inner_list = CONS(INTERN("list"), CONS(quote_lambda, DOT(INTERN("params"), INTERN("body"))));
-
-// (list (quote setq) name (list (quote lambda) params . body)):
-ae_obj_t* list_expr = CONS(INTERN("list"), CONS(quote_setq, CONS(INTERN("name"), CONS(inner_list, NIL))));
-
-// (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))):
-ae_obj_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_part, CONS(list_expr, NIL))));
-
+    ae_obj_t* final_expr = ae_generate_macro_defun();
     NL;
     NL;
     PR("Got      "); PRINC(final_expr); NL;

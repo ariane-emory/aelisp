@@ -24,7 +24,25 @@ ae_obj_t * ae_generate_macro_defmacro(void) {
 }
 
 ae_obj_t * ae_generate_macro_defun   (void) {
-  return NIL;
+  // (name params . body):
+  ae_obj_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body")));
+
+  // (quote setq):
+  ae_obj_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
+
+  // (quote lambda):
+  ae_obj_t* quote_lambda = CONS(INTERN("quote"), CONS(INTERN("lambda"), NIL));
+
+  // (list (quote lambda) params . body):
+  ae_obj_t* inner_list = CONS(INTERN("list"), CONS(quote_lambda, DOT(INTERN("params"), INTERN("body"))));
+
+  // (list (quote setq) name (list (quote lambda) params . body)):
+  ae_obj_t* list_expr = CONS(INTERN("list"), CONS(quote_setq, CONS(INTERN("name"), CONS(inner_list, NIL))));
+
+  // (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))):
+  ae_obj_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_part, CONS(list_expr, NIL))));
+
+  return final_expr;
 }
 
 ae_obj_t * ae_generate_macro_and     (void) {
