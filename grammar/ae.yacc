@@ -58,6 +58,13 @@
     while (written++ < 27) SPC;
 
     char * tmp = SPUT(this);
+    PR("%d", strlen(tmp));
+
+    
+    if (dotted)
+      sprintf(tmp+64, "dotted");
+
+    tmp[70] = ' ';
     
     written += PR(tmp);
 
