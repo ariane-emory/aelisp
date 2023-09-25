@@ -925,7 +925,7 @@ expr_t* null_cdr_args = CONS(CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), CONS(
 printf("%-16s", "null_cdr_args"); PRINC(null_cdr_args); NL;
 
 // (list (quote if) (car args) (cons (quote and) (cdr args)))
-expr_t* cond_expr = CONS(CONS(INTERN("cond"), CONS(null_args, CONS(null_cdr_args, CONS(inner_list_expr, NIL)))), NIL);
+expr_t* cond_expr = CONS(INTERN("cond"), CONS(null_args, CONS(null_cdr_args, CONS(inner_list_expr, NIL))));
 printf("%-16s", "cond_expr"); PRINC(cond_expr); NL;
 
 // (defmacro and args (cond ...))
