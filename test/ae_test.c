@@ -899,9 +899,10 @@ void macros(void) {
       "args");
 
   ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("x"), NIL));
+  ae_obj_t * body2 = CONS(INTERN("*"),     CONS(INTERN("x"), CONS(NEW_INT(2), NIL)));
+  
   LOG(body1, "body1");
-  LOG(CONS(INTERN("*"),     CONS(INTERN("x"), CONS(NEW_INT(2), NIL))),
-      "body2");
+  LOG(body2, "body2");
 
   NL;
   NL;
