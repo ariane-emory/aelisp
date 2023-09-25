@@ -9,10 +9,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DISPATCH(table, obj, ...)                                                                  \
+#define DISPATCH(table, obj)                                                                       \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj))                                                           \
-      return (*table[ix].handler)(obj, __VA_ARGS__);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
@@ -173,7 +172,9 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
 
-  DISPATCH(apply_dispatch, fun, env, args);
+  DISPATCH(apply_dispatch, fun) {
+    return (*apply_dispatch[ix].handler)(fun, env, args);
+  }
 
   fprintf(stderr, "Don't know how to apply a %s.\n", TYPE_STR(GET_TYPE(fun)));
   assert(0);
