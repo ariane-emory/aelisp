@@ -13,9 +13,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_list_length(const ae_obj_t * const list) {
-  if (! TAILP(list))
-    PR("Got a %s.\n", TYPE_STR(GET_TYPE(list)));
-      
   ASSERT_TAILP(list);
   
   if (NILP(list))
