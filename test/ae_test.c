@@ -953,9 +953,9 @@ void core_sleep(void) {
   ae_obj_t * expr = NIL;
   ae_obj_t * env   = ENV_NEW_ROOT();  
   ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * incr2 = CONS(INTERN("setq"),  CONS(INTERN("xx"), add));
-  ae_obj_t * print = CONS(INTERN("print"), CONS(INTERN("xx"), NIL));
-  ae_obj_t * sleep = CONS(INTERN("sleep"), CONS(NEW_INT(250), NIL));
+  ae_obj_t * incr2 = CONS(INTERN("setq"),   CONS(INTERN("xx"), add));
+  ae_obj_t * print = CONS(INTERN("print"),  CONS(INTERN("xx"), NIL));
+  ae_obj_t * sleep = CONS(INTERN("sleep"),  CONS(NEW_INT(250), NIL));
   
   EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
 
