@@ -183,24 +183,24 @@ void basic_list_checks(ae_obj_t * this) {
 void remove_interned_symbol_from_list(void) {
   SETUP_TEST;
 
-#define TEST_INTERN(str)                                                                                   \
+#define TEST_SYM(str)                                                                                   \
   {                                                                                                        \
     int len = LENGTH(symbols_list);                                                                        \
-    T(EQ(INTERN(str), INTERN(str)));                                                                       \
+    T(EQ(SYM(str), SYM(str)));                                                                       \
     T(EQ(LENGTH(symbols_list), (len + 1)));                                                                \
   }
 
   // using 'symbols_list' as the symbol list here:
-  T(EQ(INTERN("a"), INTERN("a")));
+  T(EQ(SYM("a"), SYM("a")));
   T(EQ(LENGTH(symbols_list), 1));
-  T(EQ(INTERN("b"), INTERN("b")));
+  T(EQ(SYM("b"), SYM("b")));
   T(EQ(LENGTH(symbols_list), 2));
-  T(EQ(INTERN("c"), INTERN("c")));
+  T(EQ(SYM("c"), SYM("c")));
   T(EQ(LENGTH(symbols_list), 3));
-  T(EQ(INTERN("d"), INTERN("d")));
+  T(EQ(SYM("d"), SYM("d")));
   T(EQ(LENGTH(symbols_list), 4));
 
-  that = INTERN("b");
+  that = SYM("b");
 
   // Add a duplicate element so that we can see that both instances are removed:
   symbols_list = CONS(that, symbols_list);
@@ -305,14 +305,14 @@ void pushed_and_consed_lists_princ_identically(void) {
 void intern_symbols(void) {
   SETUP_TEST;
 
-  // deliberately avoid initializing symbols_list because INTERN2 should do so itself automatically.
+  // deliberately avoid initializing symbols_list because SYM2 should do so itself automatically.
 
-  T(! strcmp(SYM_VAL(INTERN("one")), "one"));
-  T(EQ(INTERN("one"), INTERN("one")));
+  T(! strcmp(SYM_VAL(SYM("one")), "one"));
+  T(EQ(SYM("one"), SYM("one")));
   T(EQ(LENGTH(symbols_list), 1));
 
-  T(! strcmp(SYM_VAL(INTERN("two")), "two"));
-  T(NEQ(INTERN("one"), INTERN("two")));
+  T(! strcmp(SYM_VAL(SYM("two")), "two"));
+  T(NEQ(SYM("one"), SYM("two")));
   T(EQ(LENGTH(symbols_list), 2));
 }
 
@@ -518,55 +518,55 @@ void envs(void) {
   T(NILP(ENV_SYMS(this)));
   T(NILP(ENV_VALS(this)));
 
-  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("foo")));
+  T(NOT_MEMBERP(ENV_SYMS(this), SYM("foo")));
 
-  ENV_ADD(this, INTERN("foo"), NEW_INT(12));
+  ENV_ADD(this, SYM("foo"), NEW_INT(12));
 
   T(EQ(LENGTH(ENV_SYMS(this)), 1));
   T(EQ(LENGTH(ENV_VALS(this)), 1));
-  T(MEMBERP(ENV_SYMS(this), INTERN("foo")));
+  T(MEMBERP(ENV_SYMS(this), SYM("foo")));
   T(NOT_NILP(ENV_SYMS(this)));
   T(NOT_NILP(ENV_VALS(this)));
 
-  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  T(NOT_MEMBERP(ENV_SYMS(this), SYM("bar")));
 
-  ENV_ADD(this, INTERN("bar"), NEW_INT(24));
+  ENV_ADD(this, SYM("bar"), NEW_INT(24));
 
   T(EQ(LENGTH(ENV_SYMS(this)), 2));
   T(EQ(LENGTH(ENV_VALS(this)), 2));
-  T(MEMBERP(ENV_SYMS(this), INTERN("bar")));
+  T(MEMBERP(ENV_SYMS(this), SYM("bar")));
 
-  T(NOT_MEMBERP(ENV_SYMS(this), INTERN("baz")));
+  T(NOT_MEMBERP(ENV_SYMS(this), SYM("baz")));
 
-  ENV_ADD(this, INTERN("baz"), NEW_INT(36));
+  ENV_ADD(this, SYM("baz"), NEW_INT(36));
 
   T(EQ(LENGTH(ENV_SYMS(this)), 3));
   T(EQ(LENGTH(ENV_VALS(this)), 3));
-  T(MEMBERP(ENV_SYMS(this), INTERN("baz")));
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("foo"))), 12));
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 24));
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("baz"))), 36));
+  T(MEMBERP(ENV_SYMS(this), SYM("baz")));
+  T(EQ(INT_VAL(ENV_FIND(this, SYM("foo"))), 12));
+  T(EQ(INT_VAL(ENV_FIND(this, SYM("bar"))), 24));
+  T(EQ(INT_VAL(ENV_FIND(this, SYM("baz"))), 36));
 
   that = NEW_ENV(NIL, NIL, NIL); // not yet linked to.
 
-  ENV_ADD(that, INTERN("quux"), NEW_INT(48));
+  ENV_ADD(that, SYM("quux"), NEW_INT(48));
 
-  T(NILP(ENV_FIND(this, INTERN("quux"))));
+  T(NILP(ENV_FIND(this, SYM("quux"))));
 
   ENV_PARENT(this) = that; // link this to that.
 
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("quux"))), 48));
-  T(EQ(ENV_FIND(this, INTERN("quux")), ENV_FIND(that, INTERN("quux"))));
-  T(NILP(ENV_FIND(this, INTERN("zot"))));
-  T(NILP(ENV_FIND(that, INTERN("foo"))));
+  T(EQ(INT_VAL(ENV_FIND(this, SYM("quux"))), 48));
+  T(EQ(ENV_FIND(this, SYM("quux")), ENV_FIND(that, SYM("quux"))));
+  T(NILP(ENV_FIND(this, SYM("zot"))));
+  T(NILP(ENV_FIND(that, SYM("foo"))));
 
-  ENV_SET(this, INTERN("bar"), NEW_INT(99));
+  ENV_SET(this, SYM("bar"), NEW_INT(99));
 
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("bar"))), 99));
+  T(EQ(INT_VAL(ENV_FIND(this, SYM("bar"))), 99));
 
-  ENV_SET(this, INTERN("zot"), NEW_INT(66));
+  ENV_SET(this, SYM("zot"), NEW_INT(66));
 
-  T(EQ(INT_VAL(ENV_FIND(this, INTERN("zot"))), 66));
+  T(EQ(INT_VAL(ENV_FIND(this, SYM("zot"))), 66));
 
 #ifdef AE_LOG_ENV_TEST
   pool_print();
@@ -609,19 +609,19 @@ void improper_list(void) {
 }
 
 ae_obj_t * make_args_containing_one_list(void) {
-  return LIST(CONS(INTERN("a"), CONS(INTERN("b"), LIST(INTERN("c")))));
+  return LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))));
 }
 
 ae_obj_t * make_args_for_cons(void) {
-  return CONS(NIL, LIST(CONS(INTERN("a"), CONS(INTERN("b"), LIST(INTERN("c"))))));
+  return CONS(NIL, LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c"))))));
 }
 
 void core_cons_car_cdr(void) {
   SETUP_TEST;
 
-  T(EQ(ae_core_car(make_args_containing_one_list()), INTERN("a")                                        ));
-  T(EQ(ae_core_car(LIST(ae_core_cdr(make_args_containing_one_list()))), INTERN("b")                     ));
-  T(shitty_princ_based_equality_predicate(ae_core_cons(CONS(INTERN("a"), LIST(NIL))), "(a)"             )); // cons 'a onto nil and get (a).
+  T(EQ(ae_core_car(make_args_containing_one_list()), SYM("a")                                        ));
+  T(EQ(ae_core_car(LIST(ae_core_cdr(make_args_containing_one_list()))), SYM("b")                     ));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(CONS(SYM("a"), LIST(NIL))), "(a)"             )); // cons 'a onto nil and get (a).
   T(shitty_princ_based_equality_predicate(ae_core_cdr (make_args_containing_one_list() ), "(b c)"       ));
   T(shitty_princ_based_equality_predicate(ae_core_cons(make_args_for_cons()            ), "(nil a b c)" ));
   T(NILP(ae_core_car(                 LIST(NIL))                                                        ));
@@ -658,8 +658,8 @@ void core_eq_eql_atomp_not(void) {
   T(TRUEP(ae_core_eql  (CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(5)           )))))); // ...so can eql.
   T(NILP (ae_core_eql  (CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(6)           ))))));
 
-  T(TRUEP(ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("a")          )))))); // These are all atoms.
-  T(NILP (ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(LIST(INTERN("a")))))))); // but these are not.
+  T(TRUEP(ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("a")          )))))); // These are all atoms.
+  T(NILP (ae_core_atomp(CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(LIST(SYM("a")))))))); // but these are not.
 
   T(TRUEP(ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(NIL                  ))))));
   T(NILP (ae_core_not  (CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
@@ -672,14 +672,14 @@ void core_print_princ_write(void) {
     PR("\nPrinting '\"hello\" 5 a abc' oo the next line: ");
     NL;
 
-    ae_obj_t * written  = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
+    ae_obj_t * written  = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
     NL;
     T(INT_VAL(written) == 17);
     TM("Expected %d, wrote %d.", 17, INT_VAL(written));
   }
   {
     PR("\nPrinting 'hello 5 a abc' oo the next line: ");
-    ae_obj_t * written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
+    ae_obj_t * written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
     NL;
     T(INT_VAL(written) == 14);
     TM("Expected %d, wrote %d.", 14, INT_VAL(written));
@@ -687,7 +687,7 @@ void core_print_princ_write(void) {
   {
     PR("\nPrinting 'hello5aabc' on the next line: ");
     NL;
-    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));;
+    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));;
     NL;
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
@@ -695,7 +695,7 @@ void core_print_princ_write(void) {
   {
     PR("\nPrinting 'hello5aabc' on the next line: ");
     NL;
-    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(INTERN("abc"))))));
+    ae_obj_t * written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
     NL;
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
@@ -749,12 +749,12 @@ void core_sleep(void) {
 
   ae_obj_t * expr = NIL;
   ae_obj_t * env   = ENV_NEW_ROOT();
-  ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * incr2 = CONS(INTERN("setq"),   CONS(INTERN("xx"), add));
-  ae_obj_t * print = CONS(INTERN("print"),  CONS(INTERN("xx"), NIL));
-  ae_obj_t * sleep = CONS(INTERN("sleep"),  CONS(NEW_INT(250), NIL));
+  ae_obj_t * add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
+  ae_obj_t * incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
+  ae_obj_t * print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
+  ae_obj_t * sleep = CONS(SYM("sleep"),  CONS(NEW_INT(250), NIL));
 
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
 
   for (int ix = 0; ix < 6; ix++) {
     expr            = CONS(incr2, expr);
@@ -762,12 +762,12 @@ void core_sleep(void) {
     expr            = CONS(print, expr);
   }
 
-  expr              = CONS(INTERN("progn"), expr);
+  expr              = CONS(SYM("progn"), expr);
 
   NL; NL; PR("Counting from 10 to 20 (in steps of 2), 1/4 of a second apart.");
   EVAL(env, expr);
   NL;
-  T(EQL(EVAL(env, INTERN("xx")), NEW_INT(22)));
+  T(EQL(EVAL(env, SYM("xx")), NEW_INT(22)));
   NL;
 }
 
@@ -780,20 +780,20 @@ void root_env_and_eval(void) {
   ae_obj_t * expr   = NIL;
   ae_obj_t * result = NIL;
 
-  SETQ(env, INTERN("foo"), NEW_INT(666));
+  SETQ(env, SYM("foo"), NEW_INT(666));
 
-  T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
-  T(EQL(NEW_INT(672), EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(6), LIST(INTERN("foo")))))));
+  T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
+  T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
 
-  T(EQL(NEW_INT(75),  EVAL(env, CONS(INTERN("*"), CONS(NEW_INT(3),  LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
+  T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  LIST(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
 
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("bar"), LIST(NEW_INT(9)))));
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("baz"), LIST(CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), LIST(NEW_INT(9)))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), LIST(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))));
 
-  T(EQL(NEW_INT(9),   EVAL(env, INTERN("bar"))));
-  T(EQL(NEW_INT(25),  EVAL(env, INTERN("baz"))));
+  T(EQL(NEW_INT(9),   EVAL(env, SYM("bar"))));
+  T(EQL(NEW_INT(25),  EVAL(env, SYM("baz"))));
 
-  expr = CONS(INTERN("progn"), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(INTERN("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(INTERN("princ"), LIST(NEW_STRING("Lisp!")))))));
+  expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(SYM("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(SYM("princ"), LIST(NEW_STRING("Lisp!")))))));
 
   NL;
   PR("Printing \"Hello from Ash Lisp!\" on the next line:\n");
@@ -801,43 +801,43 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(5), this));
   NL;
 
-  expr = CONS(INTERN("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
+  expr = CONS(SYM("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
-  expr = CONS(INTERN("quote"), LIST(INTERN("a")));
+  expr = CONS(SYM("quote"), LIST(SYM("a")));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a"));
 
-  expr = CONS(INTERN("if"), CONS(INTERN("t"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
+  expr = CONS(SYM("if"), CONS(SYM("t"), CONS(NEW_INT(11), CONS(SYM("ignored"), LIST(NEW_INT(22))))));
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
-  expr = CONS(INTERN("if"), CONS(INTERN("t"), LIST(NEW_INT(11))));
+  expr = CONS(SYM("if"), CONS(SYM("t"), LIST(NEW_INT(11))));
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
-  expr = CONS(INTERN("if"), CONS(INTERN("nil"), CONS(NEW_INT(11), CONS(INTERN("ignored"), LIST(NEW_INT(22))))));
+  expr = CONS(SYM("if"), CONS(SYM("nil"), CONS(NEW_INT(11), CONS(SYM("ignored"), LIST(NEW_INT(22))))));
   T(EQL(NEW_INT(22), EVAL(env, expr)));
 
-  expr = CONS(INTERN("if"), CONS(INTERN("nil"), LIST(NEW_INT(11))));
+  expr = CONS(SYM("if"), CONS(SYM("nil"), LIST(NEW_INT(11))));
   T(NILP(EVAL(env, expr)));
 
-  expr = CONS(INTERN("lambda"),
-              CONS(LIST(INTERN("x")),
+  expr = CONS(SYM("lambda"),
+              CONS(LIST(SYM("x")),
                    CONS(
-                     CONS(INTERN("princ"), LIST(INTERN("x"))), LIST(
-                       CONS(INTERN("+"),
-                            CONS(INTERN("x"), LIST(NEW_INT(2))))))));
+                     CONS(SYM("princ"), LIST(SYM("x"))), LIST(
+                       CONS(SYM("+"),
+                            CONS(SYM("x"), LIST(NEW_INT(2))))))));
 
   result = EVAL(env, expr);
 
   T(LAMBDAP(result));
 
-  ae_obj_t * subexpr = CONS(INTERN("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
+  ae_obj_t * subexpr = CONS(SYM("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
 
-  expr = CONS(CONS(INTERN("lambda"),
-                   CONS(LIST(INTERN("x")),
-                        CONS(CONS(INTERN("princ"),
-                                  LIST(INTERN("x"))),
-                             LIST(CONS(INTERN("+"),
-                                       CONS(INTERN("x"),
+  expr = CONS(CONS(SYM("lambda"),
+                   CONS(LIST(SYM("x")),
+                        CONS(CONS(SYM("princ"),
+                                  LIST(SYM("x"))),
+                             LIST(CONS(SYM("+"),
+                                       CONS(SYM("x"),
                                             LIST(subexpr))))))),
               LIST(NEW_INT(12)));
 
@@ -847,12 +847,12 @@ void root_env_and_eval(void) {
   NL;
 
   // no princ:
-  expr = CONS(CONS(INTERN("lambda"),
-                 CONS(LIST(INTERN("x")),
-                      LIST(CONS(INTERN("+"),
-                                CONS(INTERN("x"),
+  expr = CONS(CONS(SYM("lambda"),
+                 CONS(LIST(SYM("x")),
+                      LIST(CONS(SYM("+"),
+                                CONS(SYM("x"),
                                      LIST(NEW_INT(1))))))),
-            LIST(CONS(INTERN("+"),
+            LIST(CONS(SYM("+"),
                       CONS(NEW_INT(2),
                            LIST(NEW_INT(3))))));
 
@@ -863,10 +863,10 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(6), result));
 
-  ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
-  ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
+  ae_obj_t *    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
+  ae_obj_t *    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
   ae_obj_t *    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
-  expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
+  expr                = CONS(SYM("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
   NL;
   PR("Evaluating this cond: ");
@@ -876,7 +876,7 @@ void root_env_and_eval(void) {
 
 #define TEST_COND(input, expected)                                                                            \
   {                                                                                                           \
-    SETQ(env, INTERN("a"), NEW_INT(input));                                                                   \
+    SETQ(env, SYM("a"), NEW_INT(input));                                                                   \
     this = EVAL(env, expr);                                                                                   \
     PR("Result for " #input " is ");                                                                          \
     PRINC(this);                                                                                              \
@@ -940,15 +940,15 @@ void macros(void) {
 
   NL;
   
-  /* this = CONS(CONS(INTERN("+"), CONS(INTERN("x"), CONS(INTERN("y"), NIL))), NIL); */
-  /* this = CONS(CONS(INTERN("x"), CONS(INTERN("y"), NIL)), this); */
-  /* this = CONS(INTERN("macro"), this); */
+  /* this = CONS(CONS(SYM("+"), CONS(SYM("x"), CONS(SYM("y"), NIL))), NIL); */
+  /* this = CONS(CONS(SYM("x"), CONS(SYM("y"), NIL)), this); */
+  /* this = CONS(SYM("macro"), this); */
   /* PR("my macro "); PRINC(this); NL; */
 
-  this = CONS(CONS(INTERN("quote"), CONS(INTERN("+"), NIL)), CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)));
-  this = CONS(CONS(INTERN("list"), this), NIL);
-  this = CONS(CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)),  this);
-  this = CONS(INTERN("macro"), this);
+  this = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)));
+  this = CONS(CONS(SYM("list"), this), NIL);
+  this = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  this);
+  this = CONS(SYM("macro"), this);
   PR("my macro 2 "); PRINC(this); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(this, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
@@ -956,7 +956,7 @@ void macros(void) {
   ae_obj_t * macro = EVAL(env, this);
   DESCR(macro); NL;
 
-  ae_obj_t * setq_for_macro = CONS(INTERN("setq"), CONS(INTERN("add"), CONS(macro, NIL)));
+  ae_obj_t * setq_for_macro = CONS(SYM("setq"), CONS(SYM("add"), CONS(macro, NIL)));
 
   OLOG(setq_for_macro);
   
@@ -970,20 +970,20 @@ void macros(void) {
   /* OLOG(macro->body); */
   /* OLOG(macro->env); */
 
-  /* ae_obj_t * incr_fun = EVAL(env, CONS(INTERN("lambda"), */
-  /*                                      CONS(LIST(INTERN("x")), */
-  /*                                           CONS(CONS(INTERN("+"), */
-  /*                                                     CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL)))); */
+  /* ae_obj_t * incr_fun = EVAL(env, CONS(SYM("lambda"), */
+  /*                                      CONS(LIST(SYM("x")), */
+  /*                                           CONS(CONS(SYM("+"), */
+  /*                                                     CONS(SYM("x"), LIST(NEW_INT(2)))), NIL)))); */
 
   /* DESCR(incr_fun); NL; */
 
-/*   ae_obj_t * name  = INTERN("test"); */
-/*   ae_obj_t * args  = CONS(INTERN("xx"), CONS(INTERN("yy"), NIL)); */
-/*   ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("xx"), NIL)); */
-/*   ae_obj_t * body2 = CONS(INTERN("*"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))); */
+/*   ae_obj_t * name  = SYM("test"); */
+/*   ae_obj_t * args  = CONS(SYM("xx"), CONS(SYM("yy"), NIL)); */
+/*   ae_obj_t * body1 = CONS(SYM("princ"), CONS(SYM("xx"), NIL)); */
+/*   ae_obj_t * body2 = CONS(SYM("*"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))); */
 /*   ae_obj_t * body  = CONS(body1, CONS(body2, NIL)); */
-/*   ae_obj_t * tmp   = CONS(CONS(INTERN("list"), body), NIL); */
-/*   ae_obj_t * all   = CONS(INTERN("macro"), CONS(args, tmp)); */
+/*   ae_obj_t * tmp   = CONS(CONS(SYM("list"), body), NIL); */
+/*   ae_obj_t * all   = CONS(SYM("macro"), CONS(args, tmp)); */
 
 /*   LOG(name,  "name"); */
 /*   LOG(args,  "args"); */

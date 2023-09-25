@@ -97,7 +97,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   else
     new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
   
-  ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(fun));
+  ae_obj_t * body    = CONS(SYM("progn"), OBJ_BODY(fun));
   
 #ifdef AE_LOG_EVAL
   PR("\n\n[created exec env]");
