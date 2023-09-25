@@ -116,20 +116,22 @@ static ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
 // _eval dispatch table
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef ae_obj_t * (*eval_handler_t)(ae_obj_t *, ae_obj_t *);
+typedef struct {
+    ae_type_t type;
+    ae_obj_t *(*handler)(ae_obj_t *, ae_obj_t *);
+} eval_dispatch_t;
 
-static const struct { ae_type_t type; eval_handler_t handler; }
-eval_dispatch[] = {
-  { AE_INTEGER,  &self           },
-  { AE_RATIONAL, &self           },
-  { AE_FLOAT,    &self           },
-  { AE_INF,      &self           },
-  { AE_CHAR,     &self           },
-  { AE_STRING,   &self           },
-  { AE_LAMBDA,   &self           },
-  { AE_CORE_FUN, &self           },
-  { AE_SYMBOL,   &lookup         },
-  { AE_CONS,     &apply          },
+static const eval_dispatch_t eval_dispatch[] = {
+    {AE_INTEGER,  &self},
+    {AE_RATIONAL, &self},
+    {AE_FLOAT,    &self},
+    {AE_INF,      &self},
+    {AE_CHAR,     &self},
+    {AE_STRING,   &self},
+    {AE_LAMBDA,   &self},
+    {AE_CORE_FUN, &self},
+    {AE_SYMBOL,   &lookup},
+    {AE_CONS,     &apply},
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
