@@ -894,11 +894,16 @@ void macros(void) {
   NL;
 
   ae_obj_t * expr = NIL;
-  expr            = CONS(INTERN("print"), CONS(NEW_STRING("hello"), expr));
-  expr            = CONS(INTERN("print"), CONS(NEW_STRING("hello"), expr));
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
+  expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
+  expr            = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), expr);
 //  expr            = CONS(  CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), NIL)     , expr);
   expr            = CONS(INTERN("progn"), expr);
-  OLOG(expr);
+
+  NL;
+  PRINC(expr);
 
   NL;
   return;

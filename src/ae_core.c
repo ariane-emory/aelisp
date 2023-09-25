@@ -265,7 +265,7 @@ ae_obj_t * ae_core_sleep(ae_obj_t * const args) {
 
   int ms = INT_VAL(CAR(args));
   
-  usleep(ms);
+  usleep(ms * 1000);
 
   return CAR(args);
 }
