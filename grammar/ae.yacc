@@ -189,9 +189,7 @@ sexp_list: sexp sexp_list {
   LOG_PARSE($$, "Made     ");
 } | {
   $$ = NIL;
-};
-
-sexp_list: sexp DOT sexp {
+} | sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
 };
  
