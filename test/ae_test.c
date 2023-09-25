@@ -881,8 +881,8 @@ void macros(void) {
 
   ae_obj_t * incr_fun = CONS(INTERN("lambda"),
                              CONS(LIST(INTERN("x")),
-                                      CONS(INTERN("+"),
-                                           CONS(INTERN("x"), LIST(NEW_INT(2))))));
+                                  CONS(CONS(INTERN("+"),
+                                            CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL)));
 
   OLOG(incr_fun);
 
