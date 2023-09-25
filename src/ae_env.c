@@ -55,8 +55,13 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 #endif
 
     for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
-      if (EQ(symbol, CAR(symbols)))
+      if (EQ(symbol, CAR(symbols))) {
+#ifdef AE_LOG_ENV
+        LOG(CAR(values), "Found it =>"); 
+#endif
+        
         return CAR(values);
+      }
 
     if (EQ(symbol, symbols))
       return values;

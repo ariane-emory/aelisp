@@ -5,6 +5,7 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
+	-DAE_LOG_ENV \
 	-DAE_LOG_EVAL \
 	-DAE_LOG_CORE \
 	-DAE_OBJ_POOL_SIZE=1024
@@ -12,7 +13,6 @@ COMMON_CFLAGS = \
 LOG_CFLAGS = \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
-	-DAE_LOG_ENV \
 	-DAE_LOG_ALLOC \
 	-DAE_LOG_INTERN \
 	-DAE_LOG_CLONE \
