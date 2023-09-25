@@ -61,7 +61,7 @@
     PR("%d", strlen(tmp));
 
     if (dotted) {
-      strncpy(tmp + 52, "dotted", strlen("dotted"));
+      strncpy(tmp + 64, "dotted", strlen("dotted"));
     }
     
     written += PR(tmp);
