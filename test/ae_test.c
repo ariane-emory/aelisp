@@ -890,34 +890,47 @@ void macros(void) {
 
   NL;
   NL;
-
-  ae_obj_t * progn = NIL;
-  progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("three"),  NIL)), NIL);
+  PR("BEGIN");
   NL;
-  OLOG(progn);
 
-  progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn);
-  NL;
-  OLOG(progn);
+  ae_obj_t * expr = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), NIL);
+//  expr            = CONS(  CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), NIL)     , expr);
+  expr            = CONS(INTERN("progn"), expr);
+  OLOG(expr);
 
-  progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("two"),  NIL)), progn);
-  NL;
-  OLOG(progn);
+  return;
 
-  progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn);
-  NL;
-  OLOG(progn);
+  EVAL(env, expr);
 
-  progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("one"),  NIL)), progn);
-  NL;
-  OLOG(progn);
+  return;
   
-  progn = CONS(INTERN("progn"), CONS(progn, NIL));
-  NL;
-  OLOG(progn);
+  /* ae_obj_t * progn = NIL; */
+  /* progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("three"),  NIL)), NIL); */
+  /* NL; */
+  /* OLOG(progn); */
 
-  NL;
-  EVAL(env, progn);
+  /* /\* progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn); *\/ */
+  /* /\* NL; *\/ */
+  /* /\* OLOG(progn); *\/ */
+
+  /* /\* progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("two"),  NIL)), progn); *\/ */
+  /* /\* NL; *\/ */
+  /* /\* OLOG(progn); *\/ */
+
+  /* /\* progn = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), progn); *\/ */
+  /* /\* NL; *\/ */
+  /* /\* OLOG(progn); *\/ */
+
+  /* /\* progn = CONS(CONS(INTERN("print"), CONS(NEW_STRING("one"),  NIL)), progn); *\/ */
+  /* /\* NL; *\/ */
+  /* /\* OLOG(progn); *\/ */
+  
+  /* progn = CONS(INTERN("progn"), CONS(progn, NIL)); */
+  /* NL; */
+  /* OLOG(progn); */
+
+  /* NL; */
+  /* EVAL(env, progn); */
   
   return;
 
