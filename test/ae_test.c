@@ -944,8 +944,13 @@ void macros(void) {
   this = CONS(CONS(INTERN("+"), CONS(INTERN("x"), CONS(INTERN("y"), NIL))), NIL);
   this = CONS(CONS(INTERN("x"), CONS(INTERN("y"), NIL)), this);
   this = CONS(INTERN("macro"), this);
-  PR("my macro: "); PRINC(this); NL;
-  
+  PR("my macro "); PRINC(this); NL;
+
+
+  this = CONS(    CONS(INTERN("quote"), CONS(INTERN("+"), NIL))    , CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)));
+  this = CONS(INTERN("list"), this);
+  PR("my macro 2 "); PRINC(this); NL;
+  PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   return;
 
   ae_obj_t * macro = EVAL(env, ae_generate_macro_defmacro());
