@@ -948,7 +948,8 @@ void macros(void) {
 
 
   this = CONS(    CONS(INTERN("quote"), CONS(INTERN("+"), NIL))    , CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL)));
-  this = CONS(INTERN("list"), this);
+  this = CONS(CONS(INTERN("list"), this), NIL);
+  this = CONS(   CONS(INTERN("xxx"), CONS(INTERN("yyy"), NIL))             ,  this);
   PR("my macro 2 "); PRINC(this); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   return;
