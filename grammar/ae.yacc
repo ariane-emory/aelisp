@@ -46,28 +46,19 @@
     while (written++ < (indent - (dotted ? 2 : 0))) SPC;
 
     if (dotted)
-      written += PR("• ");
+      written += PR("• "); 
     
     written += PR("%018p", this);
     
     while (written++ < 27) SPC;
 
-    if (dotted) PR("  ");
+    // This hacky extra print is required because we printed a multi-byte character earlier:
+    if (dotted)
+      PR("  ");
     
-    char * tmp = SPUT(this);
-    //PR("%d", strlen(tmp));
-
-    if (dotted) {
-      strncpy(tmp + 64, "dotted", strlen("dotted"));
-    }
+    written += PUT(this);
     
-    written += PR(tmp);
-
-    free(tmp);
-
     while (written++ < 105) SPC;
-
-    // PR("x");
 
     // ae_put_words(this);
 
