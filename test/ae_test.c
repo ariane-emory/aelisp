@@ -14,6 +14,7 @@
 #include "ae_write.h"
 #include "ae_env.h"
 #include "ae_util.h"
+#include "ae_generate_macro.h"
 
 #include "acutest.h"
 
@@ -843,7 +844,17 @@ void root_env_and_eval(void) {
 
 
   ae_obj_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
-  
+
+  {
+    ae_obj_t* final_expr = ae_generate_macro_defmacro();
+    NL;
+    NL;
+    PR("Got      "); PRINC(final_expr); NL;
+    PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
+    NL;
+    NL;
+  }
+
   {
 
 // (name params . body):
