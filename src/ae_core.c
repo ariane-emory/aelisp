@@ -17,7 +17,7 @@
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
-  PR("\n[Create " name "]\n");                                                                     \
+  PR("\n[Create " name "]");                                                                       \
   OLOG(args);                                                                                      \
   OLOG(CAR(args));                                                                                 \
   OLOG(CDR(args));                                                                                 \
