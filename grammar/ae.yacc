@@ -174,8 +174,6 @@ sexp: LPAREN sexp_list RPAREN {
 
 sexp_list: sexp sexp_list {
     $$ = CONS($1, $2);
-} | /* empty */ {
-    $$ = NIL;
 };
 
 
@@ -200,6 +198,6 @@ sexps sexp {
     PUSH($$, $2);    
     LOG_PARSE($$, "Made           ");
   }
-} | { $$ = NIL; };
+}; // | { $$ = NIL; };
 
 %%
