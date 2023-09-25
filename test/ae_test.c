@@ -883,8 +883,14 @@ void macros(void) {
                                        CONS(LIST(INTERN("x")),
                                             CONS(CONS(INTERN("+"),
                                                       CONS(INTERN("x"), LIST(NEW_INT(2)))), NIL))));
-  
-  OLOG(incr_fun);
+
+#define DESCR(fun)                         \
+  PR("\n[Describe fun " #fun  ":] ");      \
+  LOG(OBJ_PARAMS(fun), "params");          \
+  LOG(OBJ_ENV(fun), "env");                \
+  LOG(OBJ_BODY(fun), "body")               \
+
+  DESCR(incr_fun);
 
   return;
   
