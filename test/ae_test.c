@@ -901,7 +901,7 @@ void macros(void) {
   ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("x"), NIL));
   ae_obj_t * body2 = CONS(INTERN("*"),     CONS(INTERN("x"), CONS(NEW_INT(2), NIL)));
   ae_obj_t * body  = CONS(body1, CONS(body2, NIL));
-  ae_obj_t * all   = CONS(name, CONS(args, body));
+  ae_obj_t * all   = CONS(INTERN("macro"), CONS(name, CONS(args, body)));
   
   LOG(name,  "name");
   LOG(args,  "args");
