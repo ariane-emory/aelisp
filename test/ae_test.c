@@ -780,7 +780,7 @@ void root_env_and_eval(void) {
 
   obj env    = ENV_NEW_ROOT();
   obj expr   = NIL;
-  obj result = NIL;
+  obj rtrn = NIL;
 
   SETQ(env, SYM("foo"), NEW_INT(666));
 
@@ -828,9 +828,9 @@ void root_env_and_eval(void) {
                        CONS(SYM("+"),
                             CONS(SYM("x"), LIST(NEW_INT(2))))))));
 
-  result = EVAL(env, expr);
+  rtrn = EVAL(env, expr);
 
-  T(LAMBDAP(result));
+  T(LAMBDAP(rtrn));
 
   obj subexpr = CONS(SYM("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
 
@@ -845,7 +845,7 @@ void root_env_and_eval(void) {
 
 
   PR("\nPrinting 12 on the next line:\n");
-  result = EVAL(env, expr);
+  rtrn = EVAL(env, expr);
   NL;
 
   // no princ:
@@ -859,11 +859,11 @@ void root_env_and_eval(void) {
                            LIST(NEW_INT(3))))));
 
   PR("\nPrinting 6 on the next line:\n");
-  result = EVAL(env, expr);
-  WRITE(result);
+  rtrn = EVAL(env, expr);
+  WRITE(rtrn);
   NL;
 
-  T(EQL(NEW_INT(6), result));
+  T(EQL(NEW_INT(6), rtrn));
 
   obj    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
   obj    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
@@ -878,9 +878,9 @@ void root_env_and_eval(void) {
 
 #define TEST_COND(input, expected)                                                                            \
   {                                                                                                           \
-    SETQ(env, SYM("a"), NEW_INT(input));                                                                   \
+    SETQ(env, SYM("a"), NEW_INT(input));                                                                      \
     this = EVAL(env, expr);                                                                                   \
-    PR("Result for " #input " is ");                                                                          \
+    PR("Rtrn for " #input " is ");                                                                            \
     PRINC(this);                                                                                              \
     PR(", as expected.");                                                                                     \
     NL;                                                                                                       \
@@ -952,7 +952,7 @@ void macros(void) {
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
   macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
   macro_def = CONS(SYM("macro"), macro_def);
-  PR("my macro 2 "); PRINC(macro_def); NL;
+  PR("macro def "); PRINC(macro_def); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
@@ -961,23 +961,31 @@ void macros(void) {
   NL;
 
   obj setq_for_macro_fun   = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
-  obj result_for_macro_fun = EVAL(env, setq_for_macro_fun);
+  obj rtrn_for_macro_fun   = EVAL(env, setq_for_macro_fun);
   OLOG(setq_for_macro_fun);
-  OLOG(result_for_macro_fun);
+  OLOG(rtrn_for_macro_fun);
   NL;
   
   obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
-  obj result_for_macro_def = EVAL(env, setq_for_macro_def);
+  obj rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
   OLOG(setq_for_macro_def);
-  OLOG(result_for_macro_def);
+  OLOG(rtrn_for_macro_def);
+  NL;
+
+  obj macro_call_add1      = CONS(SYM("add1"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
+  OLOG(macro_call_add1);
   NL;
 
   obj macro_call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
   OLOG(macro_call_add2);
   NL;
 
-  obj result_of_macro_call_add2 = EVAL(env, macro_call_add2);
-  OLOG(result_of_macro_call_add2);
+  obj rtrn_of_macro_call_add1 = EVAL(env, macro_call_add1);
+  OLOG(rtrn_of_macro_call_add1);
+  NL;
+
+  obj rtrn_of_macro_call_add2 = EVAL(env, macro_call_add2);
+  OLOG(rtrn_of_macro_call_add2);
   NL;
   
   return;

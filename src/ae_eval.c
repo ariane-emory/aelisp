@@ -204,7 +204,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(fun, "FUN");
 #endif
   
-  ASSERT_FUNP(fun);
+  assert(FUNP(fun) || MACROP(fun));
   ASSERT_TAILP(args);
 
   apply_dispatch_t dispatch = {0};
