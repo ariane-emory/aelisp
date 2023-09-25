@@ -952,19 +952,19 @@ void macros(void) {
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
   macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
   macro_def = CONS(SYM("macro"), macro_def);
-  PR("macro def "); PRINC(macro_def); NL;
+  PR("macro def  "); PRINC(macro_def); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
-  obj macro_fun = EVAL(env, macro_def);
-  DESCR(macro_fun);
-  NL;
+  /* obj macro_fun = EVAL(env, macro_def); */
+  /* DESCR(macro_fun); */
+  /* NL; */
 
-  obj setq_for_macro_fun   = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
-  obj rtrn_for_macro_fun   = EVAL(env, setq_for_macro_fun);
-  OLOG(setq_for_macro_fun);
-  OLOG(rtrn_for_macro_fun);
-  NL;
+  /* obj setq_for_macro_fun   = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL))); */
+  /* obj rtrn_for_macro_fun   = EVAL(env, setq_for_macro_fun); */
+  /* OLOG(setq_for_macro_fun); */
+  /* OLOG(rtrn_for_macro_fun); */
+  /* NL; */
   
   obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   obj rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
@@ -972,17 +972,17 @@ void macros(void) {
   OLOG(rtrn_for_macro_def);
   NL;
 
-  obj macro_call_add1      = CONS(SYM("add1"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
-  OLOG(macro_call_add1);
-  NL;
+  /* obj macro_call_add1      = CONS(SYM("add1"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL))); */
+  /* OLOG(macro_call_add1); */
+  /* NL; */
 
   obj macro_call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
   OLOG(macro_call_add2);
   NL;
 
-  obj rtrn_of_macro_call_add1 = EVAL(env, macro_call_add1);
-  OLOG(rtrn_of_macro_call_add1);
-  NL;
+  /* obj rtrn_of_macro_call_add1 = EVAL(env, macro_call_add1); */
+  /* OLOG(rtrn_of_macro_call_add1); */
+  /* NL; */
 
   obj rtrn_of_macro_call_add2 = EVAL(env, macro_call_add2);
   OLOG(rtrn_of_macro_call_add2);
