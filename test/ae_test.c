@@ -975,6 +975,10 @@ void macros(void) {
   obj macro_call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
   OLOG(macro_call_add2);
   NL;
+
+  obj result_of_macro_call_add2 = EVAL(env, macro_call_add2);
+  OLOG(result_of_macro_call_add2);
+  NL;
   
   return;
 
