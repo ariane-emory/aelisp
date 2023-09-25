@@ -954,15 +954,12 @@ void macros(void) {
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
-  if (1) {
-    ae_obj_t * macro_fun = EVAL(env, macro_def);
-    DESCR(macro_fun); NL;
-    ae_obj_t * setq_for_macro_fun = CONS(SYM("setq"), CONS(SYM("add"), CONS(macro_fun, NIL)));
-    OLOG(setq_for_macro_fun);
-  }
-  else {
 
-  }
+  ae_obj_t * macro_fun = EVAL(env, macro_def);
+  DESCR(macro_fun); NL;
+  ae_obj_t * setq_for_macro_fun1 = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
+  OLOG(setq_for_macro_fun1);
+
   
   NL;
 
