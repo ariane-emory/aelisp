@@ -27,8 +27,7 @@ TEST_CFLAGS = \
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
 	-Wno-implicit-function-declaration \
-	-Wno-address-of-packed-member \
-	-Wno-error-shadow
+	-Wno-address-of-packed-member
 
 STRICTER_CFLAGS = \
 	-I3p/acutest/include/ \

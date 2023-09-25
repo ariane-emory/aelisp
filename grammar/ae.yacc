@@ -44,18 +44,21 @@
 
   int  yywrap() { return 1; }
 
-  void describe(ae_obj_t * this) {
+  void describe(ae_obj_t * this, bool dotted) {
     static unsigned int indent = 0;
 
     int written = 0;
 
     while (written++ < indent << 1) SPC;
 
-    written += printf("%018p", this);
+    written += PR("%018p", this);
     
     while (written++ < 27) SPC;
 
     written += PUT(this);
+
+    if (dotted)
+      PR(" * ");
     
     while (written++ < 103) SPC;
 
@@ -66,9 +69,9 @@
     if (CONSP(this)) {
       ++indent;
       FOR_EACH(elem, this) {
-        describe(elem);
+        describe(elem, false);
         if (! TAILP(CDR(position))) {
-          describe(CDR(position));
+          describe(CDR(position), true);
         }
       }
       --indent;
@@ -133,7 +136,7 @@
 
     puts("Describing items in program.");
     FOR_EACH(obj, program_obj)
-      describe(obj);
+      describe(obj, false);
     puts("Described items in program.");
     NL;
 
