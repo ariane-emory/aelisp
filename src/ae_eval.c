@@ -138,7 +138,9 @@ eval_dispatch[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
   ASSERT_ENVP(env);
 
-  DISPATCH(eval_dispatch, obj, env);
+  for (size_t ix = 0; ix < ARRAY_SIZE(eval_dispatch); ix++)
+    if (eval_dispatch[ix].type == GET_TYPE(obj))
+      return (*eval_dispatch[ix].handler)(obj, env);
 
   fprintf(stderr, "Don't know how to eval a %s.\n", TYPE_STR(GET_TYPE(obj)));
   assert(0);
