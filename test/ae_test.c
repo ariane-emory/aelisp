@@ -872,6 +872,12 @@ void macros(void) {
   
   NL;  
 
+  ae_obj_t * list = CONS(INTERN("setq"), CONS(INTERN("list"), CONS(CONS(INTERN("lambda"), CONS(INTERN("args"),  CONS(INTERN("args"), NIL)  )), NIL)));
+
+  OLOG(list);
+  
+  return;
+  
   ae_obj_t * and = ae_generate_macro_and();
   NL;
   PR("Got      "); PRINC(and); NL;
