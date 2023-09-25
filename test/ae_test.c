@@ -696,7 +696,6 @@ void core_print_princ_write(void) {
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
   }
-  NL;
 }
 
 void core_math(void) {
@@ -872,7 +871,6 @@ void root_env_and_eval(void) {
     NL;
   }
   {
-
     ae_obj_t * final_expr = ae_generate_macro_defun();
     NL;
     PR("Got      "); PRINC(final_expr); NL;
@@ -893,6 +891,7 @@ void root_env_and_eval(void) {
     PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
     NL;
   }
+  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
