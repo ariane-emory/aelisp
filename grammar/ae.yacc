@@ -156,7 +156,7 @@ program: sexps { root = $$; }
 
 /* sexps: sexps sexp { */
 /*   LOG_PARSE($2, "Consing  "); */
-/*   $$ = CONS($2, $1); */
+/*   $$ = CONS($2, $$); */
 /*   LOG_PARSE($$, "Made     "); */
 /* } | { */
 /*   $$ = NIL; */
