@@ -86,12 +86,7 @@ static ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   OLOG(args);
 #endif
   
-  ae_obj_t * evaled_args = NIL;
-    
-  FOR_EACH(elem,  args)
-    PUSH(evaled_args, EVAL(env, elem));
-
-  ae_obj_t * new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), evaled_args);
+  ae_obj_t * new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
   ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(fun));
   
 #ifdef AE_LOG_EVAL

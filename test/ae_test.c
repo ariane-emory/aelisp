@@ -874,7 +874,7 @@ void improper_list(void) {
   T(shitty_princ_based_equality_predicate(mapped, "nil"));
   T(NILP(mapped));
 
-  PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
+  // PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
