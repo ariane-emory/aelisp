@@ -866,8 +866,6 @@ OLOG(list_expr);
 // Create the final expression (setq defmacro ...)
 expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(INTERN("macro"), CONS(args_part, CONS(list_expr, NIL)))));
 final_expr = CONS(args_part, CONS(list_expr, NIL));
-  OLOG(list_expr);
-
   
 NL;
 NL;
