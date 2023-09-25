@@ -872,7 +872,17 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
   LOG(OBJ_ENV(fun), "env");                \
   LOG(OBJ_BODY(fun), "body") 
 
- 
+
+ae_obj_t * ae_env_define_list(ae_obj_t * const env) {
+  static ae_obj_t * list_def = NULL;
+  static ae_obj_t * list_fun = NULL;
+
+  list_def = list_def ?: CONS(INTERN("setq"), CONS(INTERN("list"), CONS(CONS(INTERN("lambda"), CONS(INTERN("args"),  CONS(INTERN("args"), NIL)  )), NIL)));
+  list_fun = list_fun ?: EVAL(env, list_def);
+
+  return list_fun;
+}
+
 void macros(void) {
   SETUP_TEST;
   ae_obj_t * env = ENV_NEW_ROOT();
