@@ -866,7 +866,8 @@ void root_env_and_eval(void) {
 
 void macros(void) {
   SETUP_TEST;
-
+  ae_obj_t * env    = ENV_NEW_ROOT();
+  
   NL;  
 
   ae_obj_t * and = ae_generate_macro_and();
@@ -893,15 +894,19 @@ void macros(void) {
   PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
   NL;
 
-  ae_obj_t * name  = CONS(INTERN("test"),  NIL);
+  ae_obj_t * name  = INTERN("test");
   ae_obj_t * args  = CONS(INTERN("x"), CONS(INTERN("y"), NIL));
   ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("x"), NIL));
   ae_obj_t * body2 = CONS(INTERN("*"),     CONS(INTERN("x"), CONS(NEW_INT(2), NIL)));
+  ae_obj_t * body  = CONS(body1, CONS(body2, NIL));
+  ae_obj_t * all   = CONS(name, CONS(args, body));
   
-  LOG(name, "name");
-  LOG(args, "args");
+  LOG(name,  "name");
+  LOG(args,  "args");
   LOG(body1, "body1");
   LOG(body2, "body2");
+  LOG(body,  "body");
+  LOG(all,  "all");
 
   NL;
   NL;

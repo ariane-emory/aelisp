@@ -156,7 +156,7 @@ typedef struct {
 } apply_dispatch_t;
 
 static const apply_dispatch_t apply_dispatch[] = {
-    { AE_CORE,   true,  &apply_core_fun }, // 2nd param may be ignored internally by apply_core_fun.
+    { AE_CORE,   true,  &apply_core_fun }, // 2nd arg may be ignored internally by apply_core_fun.
     { AE_LAMBDA, false, &apply_user_fun },
     { AE_MACRO,  true,  &apply_user_fun },
 };
