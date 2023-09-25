@@ -166,7 +166,7 @@
 
 sexp: atom | list;
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
-list: LPAREN sexp_list RPAREN  { $$ = $2; };
+list: LPAREN list_sexps RPAREN  { $$ = $2; };
 program: sexps { root = $$; }
 
 sexps: sexp sexps {
@@ -175,7 +175,7 @@ sexps: sexp sexps {
   LOG_PARSE($$, "Made     ");
 } | { $$ = NIL; };
 
-sexp_list: sexp sexp_list {
+list_sexps: sexp list_sexps {
   LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
   LOG_PARSE($$, "Made     ");
