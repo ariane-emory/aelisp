@@ -70,11 +70,6 @@
 
     free(tmp);
 
-    if (dotted) {
-      PR(" * ");
-      written += 3;
-    }
-
     while (written++ < 105) SPC;
 
     // PR("x");
