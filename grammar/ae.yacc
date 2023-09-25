@@ -12,14 +12,6 @@
 
 #define YYSTYPE ae_obj_t *
 
-/* #define NL      putchar('\n') */
-/* #define BSPC    putchar('\b') */
-/* #define SPC     putchar(' ') */
-/* #define LPAR    putchar('(') */
-/* #define RPAR    putchar(')') */
-/* #define LSQR    putchar('[') */
-/* #define RSQR    putchar(']') */
-
 #ifdef AE_LOG_PARSE
 #  define LOG_PARSE(obj, ...)                                                                      \
   printf(__VA_ARGS__);                                                                             \
