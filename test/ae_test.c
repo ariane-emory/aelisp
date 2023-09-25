@@ -862,6 +862,33 @@ void root_env_and_eval(void) {
   NL;
   }
 
+  {
+    // (name params . body):
+    expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body")));
+    
+    // (quote lambda):
+    expr_t* quote_lambda = CONS(INTERN("quote"), CONS(INTERN("lambda"), NIL));
+    OLOG(quote_lambda);
+    
+    // ((list (quote lambda) params . body)):
+    expr_t* list_expr = CONS(CONS(INTERN("list"), CONS(quote_lambda, DOT(INTERN("params"), INTERN("body")))), NIL);
+    OLOG(list_expr);
+
+    // (quote setq):
+    expr_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
+    OLOG(quote_setq);
+
+    // (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))):
+    expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_part, CONS(list_expr, NIL))));
+    OLOG(final_expr);
+
+    NL;
+    NL;
+    PR("Got      "); PRINC(final_expr); NL;
+    PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
+    NL;
+  }
+
 
   NL;
   PR("syms: ");
