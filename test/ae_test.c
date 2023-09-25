@@ -884,13 +884,13 @@ void macros(void) {
   
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
 
-  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
+//  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
   
   ae_obj_t * ret = EVAL(env, list_fun_call);
 
   LOG(ret, "list call rtn");
 
-  NL;
+//  NL;
   
   return;
 
