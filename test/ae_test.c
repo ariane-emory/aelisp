@@ -721,8 +721,6 @@ void root_env_and_eval(void) {
   ae_obj_t * expr   = NIL;
   ae_obj_t * result = NIL;
 
-  goto here;
-  
   SETQ(env, INTERN("foo"), NEW_INT(666));
 
   T(EQL(NEW_INT(25),  EVAL(env, CONS(INTERN("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
@@ -773,7 +771,6 @@ void root_env_and_eval(void) {
 
   T(LAMBDAP(result));
   
-here:
   ae_obj_t * subexpr = CONS(INTERN("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
   
   expr = CONS(CONS(INTERN("lambda"),
@@ -782,8 +779,12 @@ here:
                                   LIST(INTERN("x"))),
                              LIST(CONS(INTERN("+"),
                                        CONS(INTERN("x"),
-                                            LIST( subexpr  ))))))),
+                                            LIST(subexpr))))))),
               LIST(NEW_INT(12)));
+
+  PR("Printing 12 on the next line:\n");
+  result = EVAL(env, expr);
+  NL;
 
   // no princ: 
   expr = CONS(CONS(INTERN("lambda"),
@@ -795,21 +796,12 @@ here:
                       CONS(NEW_INT(2),
                            LIST(NEW_INT(3))))));
 
-  
-  OLOG(expr);
-  // OLOG(subexpr);
-  NL;
-  NL;
-
-  PR("Printing 27 on the next line:\n");
+  PR("Printing 6 on the next line:\n");
   result = EVAL(env, expr);
+  WRITE(result);
   NL;
-
-  LOG(result, "RESULT");
-
-  return;
   
-  T(EQL(NEW_INT(27), result));
+  T(EQL(NEW_INT(6), result));
 
   ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
   ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
