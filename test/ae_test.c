@@ -744,6 +744,33 @@ void core_cmp(void) {
   T(NILP (ae_core_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(2))))))));
 }
 
+void core_sleep(void) {
+  SETUP_TEST;
+
+  ae_obj_t * expr = NIL;
+  ae_obj_t * env   = ENV_NEW_ROOT();
+  ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
+  ae_obj_t * incr2 = CONS(INTERN("setq"),   CONS(INTERN("xx"), add));
+  ae_obj_t * print = CONS(INTERN("print"),  CONS(INTERN("xx"), NIL));
+  ae_obj_t * sleep = CONS(INTERN("sleep"),  CONS(NEW_INT(250), NIL));
+
+  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
+
+  for (int ix = 0; ix < 6; ix++) {
+    expr            = CONS(incr2, expr);
+    expr            = CONS(sleep, expr);
+    expr            = CONS(print, expr);
+  }
+
+  expr              = CONS(INTERN("progn"), expr);
+
+  NL; NL; PR("Counting from 10 to 20 (in steps of 2), 1/4 of a second apart.");
+  EVAL(env, expr);
+  NL;
+  T(EQL(EVAL(env, INTERN("xx")), NEW_INT(22)));
+  NL;
+}
+
 void root_env_and_eval(void) {
   SETUP_TEST;
 
@@ -944,33 +971,6 @@ void macros(void) {
 
 
   NL;
-  NL;
-}
-
-void core_sleep(void) {
-  SETUP_TEST;
-
-  ae_obj_t * expr = NIL;
-  ae_obj_t * env   = ENV_NEW_ROOT();
-  ae_obj_t * add   = CONS(CONS(INTERN("+"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * incr2 = CONS(INTERN("setq"),   CONS(INTERN("xx"), add));
-  ae_obj_t * print = CONS(INTERN("print"),  CONS(INTERN("xx"), NIL));
-  ae_obj_t * sleep = CONS(INTERN("sleep"),  CONS(NEW_INT(250), NIL));
-
-  EVAL(env, CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), NIL))));
-
-  for (int ix = 0; ix < 6; ix++) {
-    expr            = CONS(incr2, expr);
-    expr            = CONS(sleep, expr);
-    expr            = CONS(print, expr);
-  }
-
-  expr              = CONS(INTERN("progn"), expr);
-
-  NL; NL; PR("Counting from 10 to 20 (in steps of 2), 1/4 of a second apart.");
-  EVAL(env, expr);
-  NL;
-  T(EQL(EVAL(env, INTERN("xx")), NEW_INT(22)));
   NL;
 }
 
