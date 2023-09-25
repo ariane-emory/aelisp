@@ -843,50 +843,28 @@ void root_env_and_eval(void) {
   TEST_COND(2, 20);
   TEST_COND(3, 30);
 
-  {
-  ae_obj_t* params = CONS(INTERN("params"), CONS(INTERN("body"), NIL));
-  ae_obj_t* name = CONS(INTERN("name"), params);
-  ae_obj_t* macro_expr = CONS(INTERN("macro"), name);
-  ae_obj_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
-  ae_obj_t* list_params_body = CONS(INTERN("list"), CONS(macro_expr, params));
-  ae_obj_t* tail_tip = CONS(INTERN("TAIL_TIP"), list_params_body);
-  ae_obj_t* defmacro_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(tail_tip, quote_setq)));
-  OLOG(defmacro_expr);
-  }
-  {
-// Define a placeholder for defmacro
-expr_t* defmacro_placeholder = NIL;
-
-// Define the components of the Lisp expression
-expr_t* name = INTERN("name");
-expr_t* params = INTERN("params");
-expr_t* body = INTERN("body");
-expr_t* macro_expr = DOT(INTERN("macro"), DOT(name, DOT(params, CONS(body, NIL))));
-expr_t* setq_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(defmacro_placeholder, macro_expr)));
-
-// Replace the defmacro_placeholder with the actual defmacro expression
-//defmacro_placeholder->data.cons = setq_expr;
-
-// Now, defmacro_expr contains the desired Lisp expression
-    OLOG(name);
-    OLOG(params);
-    OLOG(body);
-    OLOG(macro_expr);
-  }
 
   expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); //  (name params . body)
-  LOG( args_part, "this");
+  OLOG(args_part);
 
-  // (setq defmacro (macro (name params . body)
-  //   (list (quote setq) name (list (quote macro) params . body))))
+// Create (quote macro)
+expr_t* quote_macro = CONS(INTERN("quote"), CONS(INTERN("macro"), NIL));
+OLOG(quote_macro);
 
-expr_t* list_expr = CONS(INTERN("quote"), CONS(INTERN("macro"), NIL));
-expr_t* params_expr = INTERN("params");
-expr_t* body_expr = INTERN("body");
-expr_t* result_expr = CONS(list_expr, DOT(params_expr, body_expr)); // ((quote macro) params . body)
+// Create (list (quote setq) name (list (quote macro) params . body))
+expr_t* list_expr = CONS(quote_macro, CONS(INTERN("params"), CONS(INTERN("body"), NIL)));
+OLOG(list_expr);
 
+// Create the final expression (setq defmacro ...)
+expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(INTERN("macro"), CONS(args_part, list_expr))));
+OLOG(final_expr);
+NL;
+PR("Got     "); PRINC(final_expr); NL;
+PR("Wanted  (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
+// Now, final_expr contains the desired Lisp expression
 
-  LOG( result_expr, "result_expr");
+// Now, setq_expr contains the desired Lisp expression
+// Now, setq_expr contains the desired Lisp expression
 
 
   NL;
