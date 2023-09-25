@@ -786,13 +786,15 @@ here:
               LIST(NEW_INT(12)));
 
   OLOG(expr);
-  OLOG(subexpr); NL;
+  // OLOG(subexpr);
+  NL;
+  NL;
 
-  PR("Printing 12 on the next line:\n");
+  PR("Printing 27 on the next line:\n");
   result = EVAL(env, expr);
   NL;
 
-  OLOG(result);
+  // OLOG(result);
 
   return;
   
