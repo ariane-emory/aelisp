@@ -971,6 +971,8 @@ void core_sleep(void) {
   NL; PR("Counting from 10 to 30 (in steps of 2), 1/4 of a second apart.");
   EVAL(env, expr);
   NL;
+
+  T(EQL(EVAL(env, INTERN("xx")), NEW_INT(32)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
