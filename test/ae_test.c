@@ -892,7 +892,8 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 void macros(void) {
   SETUP_TEST;
   ae_obj_t * env = ENV_NEW_ROOT();
-
+  ae_obj_t * list_fun      = ae_env_define_list_fun(env);
+  
   NL;
 
   {
