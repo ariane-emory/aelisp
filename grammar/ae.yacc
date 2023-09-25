@@ -161,7 +161,7 @@ list: LPAREN sexps RPAREN { $$ = $2; };
 
 sexp: dotpair | list | atom;
 
-dotpair: sexp DOT sexp {
+dotpair: LPAREN sexp DOT sexp RPAREN {
   $$ = NEW_CONS($1, $3);
   LOG($$, "dotpair");
 };
