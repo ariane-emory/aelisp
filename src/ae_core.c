@@ -95,9 +95,9 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 
 #ifdef AE_LOG_CORE
   PR("\n[core setq]");
-  OLOG(env_and_args);
-  OLOG(env);
-  OLOG(args);
+  LOG(env_and_args, "core seqt env_and_args");
+  LOG(env, "core setq env");
+  LOG(args, "core setq args");
 #endif
  
   ASSERT_SYMBOLP(CAR(args));

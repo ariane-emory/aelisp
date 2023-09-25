@@ -80,11 +80,11 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   PR("\n[Apply user fun]");
-  OLOG(fun);
-  LOG(OBJ_PARAMS(fun), "params");
-  LOG(OBJ_BODY(fun),   "body");
-  OLOG(env);
-  OLOG(args);
+  LOG(fun, "appl user fun fun");
+  LOG(OBJ_PARAMS(fun), "appl user fun params");
+  LOG(OBJ_BODY(fun), "appl user fun body");
+  LOG(env, "appl user fun env");
+  LOG(args, "appl user fun args");
   NL;
 #endif
   
@@ -103,10 +103,10 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
 #ifdef AE_LOG_EVAL
   PR("\n[Created exec env]");
-  LOG(new_env->parent,  "parent");
-  LOG(new_env->symbols, "symbols");
-  LOG(new_env->values,  "values");
-  OLOG(body);
+  LOG(new_env->parent,  "exec env parent");
+  LOG(new_env->symbols, "exec env symbols");
+  LOG(new_env->values,  "exec env values");
+  LOG(body, "exec env body");
   NL;
 #endif
   
