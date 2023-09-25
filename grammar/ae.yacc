@@ -43,12 +43,17 @@
     
     int written = 0;
 
-    while (written++ < indent) SPC;
+    while (written++ < (indent - (dotted ? 2 : 0))) SPC;
 
+    if (dotted)
+      written += PR("• ");
+    
     written += PR("%018p", this);
     
     while (written++ < 27) SPC;
 
+    if (dotted) PR("  ");
+    
     char * tmp = SPUT(this);
     //PR("%d", strlen(tmp));
 
