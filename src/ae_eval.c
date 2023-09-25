@@ -142,8 +142,8 @@ static const eval_dispatch_t eval_dispatch[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
 #ifdef AE_LOG_EVAL
   PR("\n\n[dispatching eval...]");
-  LOG(env, "disp eval env");
   LOG(obj, "disp eval obj");
+  LOG(env, "disp eval env");
 #endif
 
   ASSERT_ENVP(env);
@@ -186,12 +186,13 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("\n\n[dispatching apply...]");
   LOG(fun, "disp appl fun");
-  LOG(env, "disp appl env");
   LOG(args, "disp appl args");
+  LOG(env, "disp appl env");
 #endif
 
   fun = EVAL(env, fun); 
-
+  LOG(fun, "FUN");
+  
   ASSERT_FUNP(fun);
   ASSERT_TAILP(args);
 
