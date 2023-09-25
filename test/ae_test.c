@@ -945,16 +945,17 @@ void macros(void) {
   /* this = CONS(SYM("macro"), this); */
   /* PR("my macro "); PRINC(this); NL; */
 
-  this = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)));
-  this = CONS(CONS(SYM("list"), this), NIL);
-  this = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  this);
-  this = CONS(SYM("macro"), this);
-  PR("my macro 2 "); PRINC(this); NL;
+  ae_obj_t * macro_def = NIL;
+  macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
+  macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
+  macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
+  macro_def = CONS(SYM("macro"), macro_def);
+  PR("my macro 2 "); PRINC(macro_def); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
-  T(shitty_princ_based_equality_predicate(this, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
+  T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
   if (1) {
-    ae_obj_t * macro_fun = EVAL(env, this);
+    ae_obj_t * macro_fun = EVAL(env, macro_def);
     DESCR(macro_fun); NL;
     ae_obj_t * setq_for_macro_fun = CONS(SYM("setq"), CONS(SYM("add"), CONS(macro_fun, NIL)));
     OLOG(setq_for_macro_fun);
