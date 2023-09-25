@@ -119,12 +119,10 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
 #ifdef AE_LOG_CORE
-  PR("\nprogn env:    ");
-  PRINC(env);
+  PR("\n[core progn]");
+  LOG(env, "progn env");
   NL;
-
-  PR("progn args:   ");
-  PRINC(args);
+  LOG(args, "progn args");
   NL;
 #endif
 
