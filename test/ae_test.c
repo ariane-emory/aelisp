@@ -893,14 +893,13 @@ void macros(void) {
   PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
   NL;
 
-  LOG(CONS(INTERN("test"),  NIL) ,
-      "name");
-  LOG(CONS(INTERN("x"),     CONS(INTERN("y"), NIL)),
-      "args");
-
+  ae_obj_t * name  = CONS(INTERN("test"),  NIL);
+  ae_obj_t * args  = CONS(INTERN("x"), CONS(INTERN("y"), NIL));
   ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("x"), NIL));
   ae_obj_t * body2 = CONS(INTERN("*"),     CONS(INTERN("x"), CONS(NEW_INT(2), NIL)));
   
+  LOG(name, "name");
+  LOG(args, "args");
   LOG(body1, "body1");
   LOG(body2, "body2");
 
