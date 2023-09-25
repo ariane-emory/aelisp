@@ -31,3 +31,5 @@ ae_obj_t * ae_env_find    (ae_obj_t * const this, ae_obj_t * const symbol       
 void       ae_env_add     (ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value  );
 void       ae_env_set     (ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+ae_obj_t * ae_env_define_list_fun(ae_obj_t * const env);
+////////////////////////////////////////////////////////////////////////////////////////////////////
