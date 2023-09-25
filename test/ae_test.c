@@ -960,13 +960,13 @@ void macros(void) {
   DESCR(macro_fun);
   NL;
 
-  obj setq_for_macro_fun = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
+  obj setq_for_macro_fun   = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL)));
   obj result_for_macro_fun = EVAL(env, setq_for_macro_fun);
   OLOG(setq_for_macro_fun);
   OLOG(result_for_macro_fun);
   NL;
   
-  obj setq_for_macro_def = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
+  obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   obj result_for_macro_def = EVAL(env, setq_for_macro_def);
   OLOG(setq_for_macro_def);
   OLOG(result_for_macro_def);
