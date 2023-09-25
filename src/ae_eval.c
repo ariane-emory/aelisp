@@ -1,4 +1,4 @@
-#include <stdio.h>
+s#include <stdio.h>
 
 #include "ae_eval.h"
 #include "ae_obj.h"
@@ -56,7 +56,6 @@ static ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args
   OLOG(env);
   OLOG(args);
 #endif
-
 
   MAYBE_EVAL(SPECIAL_FUNP(fun), args);
   
