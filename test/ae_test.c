@@ -929,7 +929,7 @@ void macros(void) {
 
 /*   ae_obj_t * name  = INTERN("test"); */
 /*   ae_obj_t * args  = CONS(INTERN("xx"), CONS(INTERN("yy"), NIL)); */
-/* //  ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("xx"), NIL)); */
+/*   ae_obj_t * body1 = CONS(INTERN("princ"), CONS(INTERN("xx"), NIL)); */
 /*   ae_obj_t * body2 = CONS(INTERN("*"), CONS(INTERN("xx"), CONS(NEW_INT(2), NIL))); */
 /*   ae_obj_t * body  = CONS(body1, CONS(body2, NIL)); */
 /*   ae_obj_t * tmp   = CONS(CONS(INTERN("list"), body), NIL); */
@@ -937,7 +937,7 @@ void macros(void) {
 
 /*   LOG(name,  "name"); */
 /*   LOG(args,  "args"); */
-/* //  LOG(body1, "body1"); */
+/*   LOG(body1, "body1"); */
 /*   LOG(body2, "body2"); */
 /*   LOG(body,  "body"); */
 /*   LOG(all,   "all"); */
