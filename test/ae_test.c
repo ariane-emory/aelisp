@@ -864,8 +864,7 @@ OLOG(list_expr);
 
 
 // Create the final expression (setq defmacro ...)
-expr_t* final_expr = CONS(args_part, list_expr);
-final_expr = CONS(args_part, list_expr);
+expr_t* final_expr = CONS(INTERN("macro"), CONS(args_part, list_expr));
   
 NL;
 NL;
