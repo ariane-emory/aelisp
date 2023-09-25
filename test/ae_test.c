@@ -990,6 +990,7 @@ void core_sleep(void) {
   DO(consed_list_tests)                                                                            \
   DO(pushed_list_tests)                                                                            \
   DO(pushed_and_consed_lists_princ_identically)                                                    \
+  DO(improper_list)                                                                                \
   DO(intern_symbols)                                                                               \
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
@@ -1001,9 +1002,8 @@ void core_sleep(void) {
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
-  DO(root_env_and_eval)                                                                            \
-  DO(improper_list)                                                                                \
   DO(core_sleep)                                                                                   \
+  DO(root_env_and_eval)                                                                            \
 
 
 //  DO(macros)
