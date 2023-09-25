@@ -162,13 +162,25 @@ program: sexps { root = $$; }
 /*   $$ = NIL; */
 /* }; */
 
-sexps: sexp sexps {
-  LOG_PARSE($1, "Consing  ");
-  $$ = CONS($1, $2);
+sexps: sexps sexp {
+  LOG_PARSE($2, "Consing  ");
+  $$ = CONS($2, $1); // Swap the order to make it left-recursive.
   LOG_PARSE($$, "Made     ");
- } | {
+} | sexp {
+  LOG_PARSE($1, "Consing  ");
+  $$ = CONS($1, NIL);
+  LOG_PARSE($$, "Made     ");
+} | {
   $$ = NIL;
- };
+};
+
+/* sexps: sexp sexps { */
+/*   LOG_PARSE($1, "Consing  "); */
+/*   $$ = CONS($1, $2); */
+/*   LOG_PARSE($$, "Made     "); */
+/*  } | { */
+/*   $$ = NIL; */
+/*  }; */
 
 sexp: dotpair | list | atom;
 
