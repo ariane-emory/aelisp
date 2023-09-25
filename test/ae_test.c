@@ -864,6 +864,8 @@ void root_env_and_eval(void) {
   TEST_COND(3, 30);
 }
 
+ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
+
 void macros(void) {
   SETUP_TEST;
   ae_obj_t * env    = ENV_NEW_ROOT();
@@ -906,8 +908,11 @@ void macros(void) {
   LOG(body1, "body1");
   LOG(body2, "body2");
   LOG(body,  "body");
-  LOG(all,  "all");
+  LOG(all,   "all");
 
+
+
+  
   NL;
   NL;
 }
