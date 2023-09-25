@@ -955,6 +955,10 @@ void macros(void) {
 
   ae_obj_t * macro = EVAL(env, this);
   DESCR(macro); NL;
+
+  ae_obj_t * setq_for_macro = CONS(INTERN("setq"), CONS(INTERN("add"), CONS(macro, NIL)));
+
+  OLOG(setq_for_macro);
   
   NL;
   return;
