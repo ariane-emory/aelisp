@@ -187,10 +187,10 @@ sexp_list: sexp sexp_list {
   LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
   LOG_PARSE($$, "Made     ");
-} | {
-  $$ = NIL;
 } | sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
+} | {
+  $$ = NIL;
 };
  
 %%
