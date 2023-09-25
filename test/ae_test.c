@@ -895,8 +895,8 @@ void macros(void) {
 
   NL;
 
-  /* LOG(CONs */
-  /*   , "args"); */
+  LOG(CONS(INTERN("test"), NIL) , "name");
+  LOG(CONS(INTERN("x"), CONS(INTERN("y"), NIL)) , "args");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
