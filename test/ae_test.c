@@ -868,35 +868,35 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
 void macros(void) {
   SETUP_TEST;
-  ae_obj_t * env    = ENV_NEW_ROOT();
+  ae_obj_t * env_def    = ENV_NEW_ROOT();
   
   NL;  
 
-  ae_obj_t * list = CONS(INTERN("setq"), CONS(INTERN("list"), CONS(CONS(INTERN("lambda"), CONS(INTERN("args"),  CONS(INTERN("args"), NIL)  )), NIL)));
+  ae_obj_t * list_def = CONS(INTERN("setq"), CONS(INTERN("list"), CONS(CONS(INTERN("lambda"), CONS(INTERN("args"),  CONS(INTERN("args"), NIL)  )), NIL)));
 
-  OLOG(list);
+  OLOG(list)
   
   return;
   
-  ae_obj_t * and = ae_generate_macro_and();
+  ae_obj_t * and_def = ae_generate_macro_and();
   NL;
   PR("Got      "); PRINC(and); NL;
   PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   NL;
 
-  ae_obj_t * or = ae_generate_macro_or();
+  ae_obj_t * or_def = ae_generate_macro_or();
   NL;
   PR("Got      "); PRINC(or); NL;
   PR("Wanted   (defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
   NL;
 
-  ae_obj_t * defun = ae_generate_macro_defun();
+  ae_obj_t * defun_def = ae_generate_macro_defun();
   NL;
   PR("Got      "); PRINC(defun); NL;
   PR("Wanted   (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
   NL;
 
-  ae_obj_t * defmacro = ae_generate_macro_defmacro();
+  ae_obj_t * defmacro_def = ae_generate_macro_defmacro();
   NL;
   PR("Got      "); PRINC(defmacro); NL;
   PR("Wanted   (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
