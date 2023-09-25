@@ -970,6 +970,8 @@ void core_sleep(void) {
 
     expr              = CONS(INTERN("progn"), expr);
 
+    PRINC(expr);
+    NL;
     EVAL(env, expr);
     NL;
   }
