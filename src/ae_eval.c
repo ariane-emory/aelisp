@@ -154,7 +154,9 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   
   GET_DISPATCH(dispatch, eval_dispatch, obj);
 
+#ifdef AE_LOG_EVAL
   PR("\n[... dispatching eval to %s.]", TYPE_STR(dispatch.type));
+#endif
   
   return (*dispatch.handler)(obj, env);
   
@@ -199,7 +201,9 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   GET_DISPATCH(dispatch, apply_dispatch, fun);
 
+#ifdef AE_LOG_EVAL
   PR("\n[... dispatching apply to %s.]", TYPE_STR(dispatch.type));
+#endif
   
   MAYBE_EVAL(dispatch.special, args);
   ae_obj_t * ret = dispatch.special
