@@ -17,7 +17,7 @@
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
-  PR("\n[Create " name "]");                                                                       \
+  PR("\n[CREATE " name "]");                                                                       \
   OLOG(args);                                                                                      \
   OLOG(CAR(args));                                                                                 \
   OLOG(CDR(args));                                                                                 \
@@ -153,7 +153,7 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  LOG_CREATE_LAMBDA_OR_MACRO("lambda");
+  LOG_CREATE_LAMBDA_OR_MACRO("LAMBDA");
 
   assert(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   ASSERT_TAILP(CDR(args));
