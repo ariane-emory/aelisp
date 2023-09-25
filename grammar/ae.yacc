@@ -43,7 +43,7 @@
     
     int written = 0;
 
-    while (written++ < indent << 1) SPC;
+    while (written++ < indent) SPC;
 
     written += PR("%018p", this);
     
@@ -69,14 +69,14 @@
     NL;
     
     if (CONSP(this)) {
-      ++indent;
+      indent += 2;
       FOR_EACH(elem, this) {
         describe(elem, false);
         if (! TAILP(CDR(position))) {
           describe(CDR(position), true);
         }
       }
-      --indent;
+      indent -= 2;
     }
   }
 
