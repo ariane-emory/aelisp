@@ -696,6 +696,7 @@ void core_print_princ_write(void) {
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
   }
+  NL;
 }
 
 void core_math(void) {
@@ -742,6 +743,8 @@ void core_cmp(void) {
 void root_env_and_eval(void) {
   SETUP_TEST;
 
+  NL;
+  
   ae_obj_t * env    = ENV_NEW_ROOT();
   ae_obj_t * expr   = NIL;
   ae_obj_t * result = NIL;
@@ -834,6 +837,7 @@ void root_env_and_eval(void) {
   ae_obj_t *    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
   expr                = CONS(INTERN("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
 
+  NL;
   PR("Evaluating this cond: ");
   WRITE(expr);
   PR(".");
@@ -862,6 +866,8 @@ void root_env_and_eval(void) {
   TEST_COND(1, 10);
   TEST_COND(2, 20);
   TEST_COND(3, 30);
+
+  NL;
 }
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
@@ -874,7 +880,9 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
 void macros(void) {
   SETUP_TEST;
-  ae_obj_t * env = ENV_NEW_ROOT();  
+  ae_obj_t * env = ENV_NEW_ROOT();
+
+  NL;
 
   {
     ae_obj_t * and_def = ae_generate_macro_and();
@@ -960,11 +968,11 @@ void core_sleep(void) {
   expr              = CONS(INTERN("progn"), expr);
 
   // NL; PRINC(expr);
-  NL; PR("Counting from 10 to 30 (in steps of 2), 1/4 of a second apart.");
+  NL; NL; PR("Counting from 10 to 30 (in steps of 2), 1/4 of a second apart.");
   EVAL(env, expr);
   NL;
-
   T(EQL(EVAL(env, INTERN("xx")), NEW_INT(32)));
+  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
