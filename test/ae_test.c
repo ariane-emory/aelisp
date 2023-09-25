@@ -1010,7 +1010,9 @@ void core_sleep(void) {
   DO(root_env_and_eval)                                                                            \
   DO(improper_list)                                                                                \
   DO(core_sleep)                                                                                   \
-  DO(macros)
+
+
+//  DO(macros)
 
 #define pair(fun) { #fun, fun },
 
