@@ -913,7 +913,12 @@ void macros(void) {
   NL;
   NL;
 
-  LOG(EVAL(env, defmacro), "themacro");
+  ae_obj_t * macro = EVAL(env, defmacro);
+
+  OLOG(macro->params);
+  OLOG(macro->body);
+  OLOG(macro->env);
+  
   
   // LOG(
   //apply_user_fun(defmacro, env, body);
