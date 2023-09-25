@@ -183,12 +183,9 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   apply_dispatch_t dispatch = {0};
   
   GET_DISPATCH(dispatch, apply_dispatch, fun);
-
-  ae_obj_t * ret = NIL;
-
   MAYBE_EVAL(dispatch.special, args);
 
-  ret = (dispatch.special)
+  ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)
     : (*dispatch.handler)(fun, env, args);
 
