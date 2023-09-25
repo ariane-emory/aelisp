@@ -4,7 +4,7 @@
 #include "ae_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE(DO)                                                                      \
+#define FOR_EACH_CORE(DO)                                                                          \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
@@ -12,6 +12,7 @@
   DO(eq)                                                                                           \
   DO(eql)                                                                                          \
   DO(not)                                                                                          \
+  DO(sleep)                                                                                        \
   DO(write)                                                                                        \
   DO(print)                                                                                        \
   DO(princ) 
