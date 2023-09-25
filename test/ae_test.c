@@ -897,7 +897,7 @@ expr_t* args_part = INTERN("args");
 printf("%-16s", "args_part"); PRINC(args_part); NL;
 
 // (null args)
-expr_t* null_args_expr = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), NIL);
+expr_t* null_args_expr = CONS(INTERN("null"), CONS(args_part, NIL));
 printf("%-16s", "null_args_expr"); PRINC(null_args_expr); NL;
 
 // (quote if)
