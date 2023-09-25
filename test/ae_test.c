@@ -874,10 +874,8 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
 void macros(void) {
   SETUP_TEST;
-  ae_obj_t * env = ENV_NEW_ROOT();
-  
-  NL;  
 
+  ae_obj_t * env = ENV_NEW_ROOT();  
   ae_obj_t * list_fun = ae_env_define_list_fun(env);
 
   DESCR(list_fun);
@@ -888,7 +886,7 @@ void macros(void) {
   
   ae_obj_t * ret = EVAL(env, list_fun_call);
 
-  LOG(ret, "list call rtn");
+  LOG(ret, "list call rtrns");
 
 //  NL;
   

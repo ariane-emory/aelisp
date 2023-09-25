@@ -105,7 +105,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ae_obj_t * result = EVAL(new_env, body);
 
 #ifdef AE_LOG_EVAL
-  LOG(result, "user fun result");
+  LOG(result, "user fun rtrn");
 #endif
 
   return result;
