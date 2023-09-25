@@ -862,7 +862,11 @@ void root_env_and_eval(void) {
   TEST_COND(1, 10);
   TEST_COND(2, 20);
   TEST_COND(3, 30);
+}
 
+void macros(void) {
+  SETUP_TEST;
+  
   {
     ae_obj_t * final_expr = ae_generate_macro_defmacro();
     NL;
@@ -921,7 +925,8 @@ void root_env_and_eval(void) {
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
   DO(root_env_and_eval)                                                                            \
-  DO(improper_list)
+  DO(improper_list)                                                                                \
+  DO(macros)
 
 #define pair(fun) { #fun, fun },
 
