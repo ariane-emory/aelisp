@@ -667,9 +667,7 @@ void core_eq_eql_atomp_not(void) {
 
 void core_print_princ_write(void) {
   SETUP_TEST;
-
   NL;
-
   {
     PR("\nPrinting '\"hello\" 5 a abc' oo the next line: ");
     NL;
@@ -817,7 +815,7 @@ void root_env_and_eval(void) {
               LIST(NEW_INT(12)));
 
 
-  PR("Printing 12 on the next line:\n");
+  PR("\nPrinting 12 on the next line:\n");
   result = EVAL(env, expr);
   NL;
 
@@ -831,7 +829,7 @@ void root_env_and_eval(void) {
                       CONS(NEW_INT(2),
                            LIST(NEW_INT(3))))));
 
-  PR("Printing 6 on the next line:\n");
+  PR("\nPrinting 6 on the next line:\n");
   result = EVAL(env, expr);
   WRITE(result);
   NL;
