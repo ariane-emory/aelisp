@@ -893,7 +893,9 @@ void macros(void) {
   PR("BEGIN");
   NL;
 
-  ae_obj_t * expr = CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), NIL);
+  ae_obj_t * expr = NIL;
+  expr            = CONS(INTERN("print"), CONS(NEW_STRING("hello"), expr));
+  expr            = CONS(INTERN("print"), CONS(NEW_STRING("hello"), expr));
 //  expr            = CONS(  CONS(CONS(INTERN("print"), CONS(NEW_STRING("hello"), NIL)), NIL)     , expr);
   expr            = CONS(INTERN("progn"), expr);
   OLOG(expr);
