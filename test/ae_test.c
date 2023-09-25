@@ -904,6 +904,8 @@ void macros(void) {
     ae_obj_t * expr = NIL;
 
     for (int ix = 0; ix < 6; ix++) {
+      expr            = CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), expr)));
+      expr            = CONS(INTERN("setq"), CONS(INTERN("xx"), CONS(NEW_INT(10), expr)));
       expr            = CONS(CONS(INTERN("print"), CONS(INTERN("xx"), NIL)), expr);
       expr            = CONS(CONS(INTERN("write"), CONS(INTERN("xx"), NIL)), expr);
       expr            = CONS(CONS(INTERN("sleep"), CONS(NEW_INT(1000), NIL)), expr);
