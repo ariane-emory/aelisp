@@ -55,6 +55,12 @@ static char * tmp_str = NULL;
   (void)this;                                                                                      \
   (void)that;
 
+#define DESCR(fun)                         \
+  PR("\n\n[describe fun " #fun  "] ");     \
+  LOG(OBJ_PARAMS(fun), "params");          \
+  LOG(OBJ_ENV(fun), "env");                \
+  LOG(OBJ_BODY(fun), "body") 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -870,13 +876,21 @@ void root_env_and_eval(void) {
   NL;
 }
 
-ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
+void list_fun(void) {
+  SETUP_TEST;
+  ae_obj_t * env = ENV_NEW_ROOT();
 
-#define DESCR(fun)                         \
-  PR("\n\n[describe fun " #fun  "] ");     \
-  LOG(OBJ_PARAMS(fun), "params");          \
-  LOG(OBJ_ENV(fun), "env");                \
-  LOG(OBJ_BODY(fun), "body") 
+  ae_obj_t * list_fun = ae_env_define_list_fun(env);
+  ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
+  DESCR(list_fun);
+
+  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
+  ae_obj_t * ret = EVAL(env, list_fun_call);
+  LOG(ret, "<= list call rtrn");
+
+}
+
+ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
 void macros(void) {
   SETUP_TEST;
@@ -910,13 +924,6 @@ void macros(void) {
     OLOG(macro->env);
   }
   
-  ae_obj_t * list_fun = ae_env_define_list_fun(env);
-  ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
-  DESCR(list_fun);
-
-  PR("\nCalling list_fun with (1 2 3) on the next line:\n\n");
-  ae_obj_t * ret = EVAL(env, list_fun_call);
-  LOG(ret, "<= list call rtrn");
 
   
 
@@ -1004,6 +1011,7 @@ void core_sleep(void) {
   DO(core_cmp)                                                                                     \
   DO(core_sleep)                                                                                   \
   DO(root_env_and_eval)                                                                            \
+  DO(list_fun)                                                                                     \
   DO(macros)
 
 #define pair(fun) { #fun, fun },
