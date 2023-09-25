@@ -843,6 +843,9 @@ void root_env_and_eval(void) {
   TEST_COND(2, 20);
   TEST_COND(3, 30);
 
+   // (quote setq):
+  expr_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
+
   {
   //  (name params . body):
   expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); 
@@ -863,8 +866,6 @@ void root_env_and_eval(void) {
   }
 
   {
-   // (quote setq):
-  expr_t* quote_setq = CONS(INTERN("quote"), CONS(INTERN("setq"), NIL));
 
 // (name params . body):
 expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body")));
@@ -872,7 +873,7 @@ expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body")));
 // (quote lambda):
 expr_t* quote_lambda = CONS(INTERN("quote"), CONS(INTERN("lambda"), NIL));
 
-// (list (quote setq) name (list (quote lambda) params . body)):
+// (list (quote lambda) params . body):
 expr_t* inner_list = CONS(quote_lambda, DOT(INTERN("params"), INTERN("body")));
 expr_t* list_expr = CONS(INTERN("list"), CONS(quote_setq, CONS(INTERN("name"), CONS(inner_list, NIL))));
 
