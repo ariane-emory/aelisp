@@ -83,7 +83,10 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   switch (GET_TYPE(this)) {
   case AE_CONS:
-    written  += fprintf(stream, "%018p %018p %18d", CAR(this), CDR(this), LENGTH(this));
+    if (NOT_TAILP(CDR(this)))
+      written  += fprintf(stream, "%018p %018p %-18s", CAR(this), CDR(this), "pair");
+    else
+      written  += fprintf(stream, "%018p %018p %18d", CAR(this), CDR(this), LENGTH(this));
     break;
   case AE_LAMBDA:
     written  += fprintf(stream, "%018p %018p %018p", this->params, this->body, this->env);
