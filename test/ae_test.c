@@ -917,7 +917,7 @@ expr_t* inner_list_expr = CONS(INTERN("t"), CONS(CONS(INTERN("list"), CONS(quote
 printf("%-16s", "inner_list_expr"); PRINC(inner_list_expr); NL;
 
 // (null args)
-expr_t* null_args = CONS(CONS(CONS(INTERN("null"), CONS(args_part, NIL)), CONS(NIL, NIL)), NIL);
+expr_t* null_args = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), CONS(NIL, NIL));
 printf("%-16s", "null_args"); PRINC(null_args); NL;
 
 // (null (cdr args))
