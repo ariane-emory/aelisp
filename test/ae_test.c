@@ -771,6 +771,8 @@ void root_env_and_eval(void) {
 
   T(LAMBDAP(result));
   
+  ae_obj_t * subexpr = CONS(INTERN("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
+  
   expr = CONS(CONS(INTERN("lambda"),
                    CONS(LIST(INTERN("x")),
                         CONS(CONS(INTERN("princ"),
@@ -779,6 +781,9 @@ void root_env_and_eval(void) {
                                        CONS(INTERN("x"),
                                             LIST(INTERN("bar")))))))),
               LIST(NEW_INT(12)));
+
+  OLOG(expr); NL;
+  OLOG(subexpr); NL;
 
   PR("Printing 12 here: ");
   result = EVAL(env, expr);
