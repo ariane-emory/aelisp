@@ -890,7 +890,7 @@ expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_pa
   }
 
   {
-    // (defmacro and args ...)
+// (defmacro and args ...)
 expr_t* args_part = CONS(INTERN("args"), NIL);
 
 // (null args)
@@ -902,11 +902,11 @@ expr_t* null_cdr_args = CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), args_part)
 // (car args)
 expr_t* car_args = CONS(INTERN("car"), args_part);
 
-/* // (quote if) */
-/* expr_t* quote_if = CONS(INTERN("quote"), INTERN("if")); */
+// (quote if)
+expr_t* quote_if = CONS(INTERN("quote"), CONS(INTERN("if"), NIL));
 
-/* // (quote and) */
-/* expr_t* quote_and = CONS(INTERN("quote"), INTERN("and")); */
+// (quote and)
+expr_t* quote_and = CONS(INTERN("quote"), CONS(INTERN("and"), NIL));
 
 /* // (cons (quote and) (cdr args)) */
 /* expr_t* cons_quote_and = CONS(INTERN("cons"), CONS(quote_and, CONS(CONS(INTERN("cdr"), args_part), NIL))); */
@@ -923,7 +923,6 @@ expr_t* car_args = CONS(INTERN("car"), args_part);
 
 /* // (defmacro and args (cond ...)) */
 /* expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("and"), CONS(args_part, CONS(cond_expr, NIL)))); */
-
   }
 }
 
