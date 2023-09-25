@@ -14,8 +14,7 @@
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
       row = table[ix];                                                                             \
       break;                                                                                       \
-    }                                                                                              \
-  PR("[Dispatch as %d]\n", TYPE_STR(row.type)); 
+    }
 
 #define MAYBE_EVAL(special, args)                                                                  \
   if (! special) {                                                                                 \
@@ -139,13 +138,20 @@ static const eval_dispatch_t eval_dispatch[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
+#ifdef AE_LOG_EVAL
+  PR("[Dispatching eval...]");
+  OLOG(env);
+  OLOG(obj);
+  NL;
+#endif
+
   ASSERT_ENVP(env);
 
   eval_dispatch_t dispatch = {0};
   
   GET_DISPATCH(dispatch, eval_dispatch, obj);
 
-  PR("[Dispatching to %d]\n", TYPE_STR(dispatch.type));
+  PR("[Dispatching eval to %s]\n", TYPE_STR(dispatch.type));
   
   return (*dispatch.handler)(obj, env);
   
@@ -175,7 +181,9 @@ static const apply_dispatch_t apply_dispatch[] = {
 
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(fun,"[Dispatch fun]");
+  PR("[Dispatching apply...]");
+  OLOG(fun);
+  OLOG(env);
   OLOG(args);
   NL;
 #endif
@@ -189,6 +197,8 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   GET_DISPATCH(dispatch, apply_dispatch, fun);
 
+  PR("[Dispatching apply to %s]\n", TYPE_STR(dispatch.type));
+  
   MAYBE_EVAL(dispatch.special, args);
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)

@@ -912,9 +912,11 @@ void macros(void) {
 
   NL;
   NL;
+
+  OLOG(EVAL(env, defmacro));
   
   // LOG(
-    apply_user_fun(defmacro, env, body);
+  //apply_user_fun(defmacro, env, body);
     // , "apply_user_fun(defmacro, env, body)");
 
   
