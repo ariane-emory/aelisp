@@ -157,7 +157,7 @@ program: sexps { root = $$; }
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 sexps: sexp sexps {
-  LOG_PARSE($2, "Consing  ");
+  LOG_PARSE($1, "Consing  ");
   $$ = CONS($1, $2);
   LOG_PARSE($$, "Made     ");
  } | {
