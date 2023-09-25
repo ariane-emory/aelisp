@@ -843,7 +843,7 @@ void root_env_and_eval(void) {
   TEST_COND(2, 20);
   TEST_COND(3, 30);
 
-
+  {
   //  (name params . body):
   expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); 
   // (quote macro):
@@ -855,12 +855,12 @@ void root_env_and_eval(void) {
   // (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body)))):
   expr_t* final_expr = CONS(INTERN("setq"), CONS(INTERN("defmacro"), CONS(CONS(INTERN("macro"), CONS(args_part, list_expr)), NIL)));
   
-NL;
-NL;
-PR("Got     "); PRINC(final_expr); NL;
-PR("Wanted  (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-NL;
-
+  NL;
+  NL;
+  PR("Got     "); PRINC(final_expr); NL;
+  PR("Wanted  (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
+  NL;
+  }
 
 
   NL;
