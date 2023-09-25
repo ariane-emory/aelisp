@@ -133,6 +133,7 @@ static const eval_dispatch_t eval_dispatch[] = {
     {AE_CHAR,     &self},
     {AE_STRING,   &self},
     {AE_LAMBDA,   &self},
+    {AE_MACRO,    &self},
     {AE_CORE,     &self},
     {AE_SYMBOL,   &lookup},
     {AE_CONS,     &apply},
