@@ -899,8 +899,8 @@ expr_t* null_args = CONS(INTERN("null"), CONS(args_part, NIL));
 // (null (cdr args))
 expr_t* null_cdr_args = CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), args_part), NIL));
 
-// (car args)
-expr_t* car_args = CONS(INTERN("car"), args_part);
+/* // (car args) */
+/* expr_t* car_args = CONS(INTERN("car"), args_part); */
 
 /* // (quote if) */
 /* expr_t* quote_if = CONS(INTERN("quote"), INTERN("if")); */
