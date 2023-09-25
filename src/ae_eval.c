@@ -105,6 +105,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(new_env->symbols, "symbols");
   LOG(new_env->values,  "values");
   OLOG(body);
+  NL;
 #endif
   
   ae_obj_t * result = EVAL(new_env, body);
