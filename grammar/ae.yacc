@@ -62,7 +62,12 @@
     
     if (CONSP(this)) {
       ++indent;
-      EACH(this, describe);
+      FOR_EACH(elem, this) {
+        describe(elem);
+        if (! TAILP(CDR(position))) {
+          describe(CDR(position));
+        }
+      }
       --indent;
     }
   }
