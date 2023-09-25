@@ -4,6 +4,7 @@
 
 #include "ae_obj.h"
 #include "ae_env.h"
+#include "ae_write.h"
   
 #define YYSTYPE ae_obj_t *
 
