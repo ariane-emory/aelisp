@@ -164,6 +164,7 @@
 %%
 
 program: sexps { root = $$; }
+
 sexps: sexps sexp {
   LOG_PARSE($2, "Consing  ");
   $$ = CONS($2, $1);
@@ -176,7 +177,19 @@ sexps: sexps sexp {
   $$ = NIL;
 };
 
-sexp: dotpair | list | atom;
+sexp: optional_dot sexp {
+  if ($1 != NULL) {
+    LOG_PARSE($2, "Consing  ");
+    $$ = NEW_CONS($2, $1);
+    LOG_PARSE($$, "Made     ");
+  } else {
+    $$ = $2;
+  }
+} | atom;
+
+optional_dot: DOT {
+  $$ = NULL;
+};
 
 dotpair: LPAREN sexp DOT sexp RPAREN {
   $$ = NEW_CONS($2, $4);
