@@ -889,12 +889,15 @@ void list_fun(void) {
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
-#define GENERATED_MACRO_TEST() \
- { \
-    ae_obj_t * and_def = ae_generate_macro_and(); \
-    NL; \
-    PR("Got      "); PRINC(and_def); NL; \
-    PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))"); \
+#define GENERATED_MACRO_TEST(name, expect_str)     \
+ {                                                 \
+   ae_obj_t * def = ae_generate_macro_ ## name();  \
+   NL;                                             \
+   PR("Got      "); PRINC(def); NL;                \
+   PR("Wanted   %s");                              \
+                                                   \
+   tmp_str = SPRINC(def);                          \
+   T(! strcmp(tmp_str, expect_str));               \
  }
 
 void macros(void) {
@@ -904,6 +907,7 @@ void macros(void) {
   
   NL;
 
+  GENERATED_MACRO_TEST(and, "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   {
     ae_obj_t * and_def = ae_generate_macro_and();
     NL;
