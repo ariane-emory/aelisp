@@ -779,17 +779,18 @@ void root_env_and_eval(void) {
                                   LIST(INTERN("x"))),
                              LIST(CONS(INTERN("+"),
                                        CONS(INTERN("x"),
-                                            LIST(INTERN("bar")))))))),
+                                            LIST( subexpr  ))))))),
               LIST(NEW_INT(12)));
 
-  OLOG(expr); NL;
+  OLOG(expr);
   OLOG(subexpr); NL;
 
   PR("Printing 12 here: ");
   result = EVAL(env, expr);
   NL;
+  OLOG(result);
 
-  T(EQL(NEW_INT(21), result));
+  T(EQL(NEW_INT(27), result));
 
   ae_obj_t *    expr1 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
   ae_obj_t *    expr2 = CONS(CONS(INTERN("=="), CONS(INTERN("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
