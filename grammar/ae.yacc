@@ -115,7 +115,13 @@
     ae_obj_t * program_obj = root;
 
     printf("program: ");
-    ae_put(program_obj);
+    if (NULLP(program_obj)) {
+      PR("NULL!");
+      return NULL;
+    }
+    else {
+      ae_put(program_obj);
+    }
     NL;
 
     ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
