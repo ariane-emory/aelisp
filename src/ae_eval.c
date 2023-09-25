@@ -151,11 +151,16 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 // _apply dispatch table
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static const struct { ae_type_t type; bool special; ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *); }
-apply_dispatch[] = {
-  { AE_CORE_FUN, false, &apply_core_fun,   }, // 2nd param is ignored by apply_core_fun.
-  { AE_LAMBDA,   true,  &apply_user_fun,   },
-  { AE_MACRO,    false, &apply_user_fun,   },
+typedef struct {
+    ae_type_t type;
+    bool special;
+    ae_obj_t *(*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
+} apply_dispatch_t;
+
+static const apply_dispatch_t apply_dispatch[] = {
+    { AE_CORE_FUN, false, &apply_core_fun }, // 2nd param is ignored by apply_core_fun.
+    { AE_LAMBDA,   true,  &apply_user_fun },
+    { AE_MACRO,    false, &apply_user_fun },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
