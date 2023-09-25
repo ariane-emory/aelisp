@@ -165,12 +165,10 @@ sexps: sexp sexps {
 sexp: LPAREN sexp_list RPAREN {
     $$ = $2;
 } | atom {
-    $$ = $1; // This assumes SYMBOL represents an atom.
-} /* | sexp DOT SYMBOL { */
-/*     fprintf(stderr, "Error: Dotted pair in invalid format\n"); */
-/*     exit(1); */
-/* } */
-;
+    $$ = $1;
+ }; 
+
+
 sexp: dotpair | list | atom;
 
 sexp_list: sexp sexp_list {
