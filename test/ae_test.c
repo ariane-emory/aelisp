@@ -889,6 +889,14 @@ void list_fun(void) {
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 
+#define GENERATED_MACRO_TEST() \
+ { \
+    ae_obj_t * and_def = ae_generate_macro_and(); \
+    NL; \
+    PR("Got      "); PRINC(and_def); NL; \
+    PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))"); \
+ }
+
 void macros(void) {
   SETUP_TEST;
   ae_obj_t * env = ENV_NEW_ROOT();
