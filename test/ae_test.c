@@ -939,7 +939,7 @@ printf("%-16s", "final_expr"); PRINC(final_expr); NL;
     PR("Got      "); PRINC(final_expr); NL;
     PR("Wanted   (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
     NL;
-
+    NL;
   }
 }
 
