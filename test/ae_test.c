@@ -847,6 +847,9 @@ void root_env_and_eval(void) {
   expr_t* args_part = CONS(INTERN("name"), DOT(INTERN("params"), INTERN("body"))); //  (name params . body)
   OLOG(args_part);
 
+
+// Now, setq_expr contains the desired Lisp expression
+
 // Create (quote macro)
 expr_t* quote_macro = CONS(INTERN("quote"), CONS(INTERN("macro"), NIL));
 OLOG(quote_macro);
