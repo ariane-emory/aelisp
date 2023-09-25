@@ -890,17 +890,12 @@ expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("defun"), CONS(args_pa
   }
 
   {
-// (defmacro and args ...)
+// (defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))
 expr_t* args_part = CONS(INTERN("args"), NIL);
 
 // (null args)
-expr_t* null_args = CONS(INTERN("null"), CONS(args_part, NIL));
-
-// (null (cdr args))
-expr_t* null_cdr_args = CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), args_part), NIL));
-
-// (car args)
-expr_t* car_args = CONS(INTERN("car"), args_part);
+// (null args)
+expr_t* null_args_expr = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), CONS(INTERN("t"), NIL));
 
 // (quote if)
 expr_t* quote_if = CONS(INTERN("quote"), CONS(INTERN("if"), NIL));
@@ -912,17 +907,19 @@ expr_t* quote_and = CONS(INTERN("quote"), CONS(INTERN("and"), NIL));
 expr_t* cons_quote_and = CONS(INTERN("cons"), CONS(quote_and, CONS(CONS(INTERN("cdr"), args_part), NIL)));
 
 // (list (quote if) (car args) (cons (quote and) (cdr args)))
-expr_t* inner_list = CONS(INTERN("list"), CONS(quote_if, CONS(car_args, CONS(cons_quote_and, NIL))));
+expr_t* inner_list_expr = CONS(INTERN("list"), CONS(quote_if, CONS(CONS(INTERN("car"), args_part), CONS(cons_quote_and, NIL))));
 
-/* // (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))) */
-/* expr_t* cond_expr = CONS(INTERN("cond"), CONS( */
-/*     CONS(null_args, INTERN("t")), */
-/*     CONS(null_cdr_args, car_args), */
-/*     CONS(TAIL_TIP(CONS(INTERN("t"), NIL)), inner_list) */
-/* )); */
+// (null (cdr args))
+expr_t* null_cdr_args = CONS(CONS(INTERN("null"), CONS(CONS(INTERN("cdr"), args_part), NIL)), CONS(CONS(INTERN("car"), args_part), NIL));
 
-/* // (defmacro and args (cond ...)) */
-/* expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("and"), CONS(args_part, CONS(cond_expr, NIL)))); */
+// (null args)
+expr_t* null_args = CONS(CONS(INTERN("null"), CONS(args_part, NIL)), CONS(INTERN("t"), NIL));
+
+// (list (quote if) (car args) (cons (quote and) (cdr args)))
+expr_t* cond_expr = CONS(CONS(INTERN("cond"), CONS(null_args, CONS(null_cdr_args, CONS(inner_list_expr, NIL)))), NIL);
+
+// (defmacro and args (cond ...))
+expr_t* final_expr = CONS(INTERN("defmacro"), CONS(INTERN("and"), CONS(args_part, CONS(cond_expr, NIL))));
   }
 }
 
