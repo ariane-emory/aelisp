@@ -969,7 +969,7 @@ void core_sleep(void) {
 
     expr              = CONS(INTERN("progn"), expr);
 
-    NL; PRINC(expr);
+    // NL; PRINC(expr);
     NL; PR("Counting from 10 to 30 (in steps of 2), 1/4 of a second apart.");
     EVAL(env, expr);
     NL;
