@@ -50,7 +50,7 @@
     while (written++ < 27) SPC;
 
     char * tmp = SPUT(this);
-    PR("%d", strlen(tmp));
+    //PR("%d", strlen(tmp));
 
     if (dotted) {
       strncpy(tmp + 64, "dotted", strlen("dotted"));
