@@ -185,10 +185,14 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "env<%018p←%018p>", ENV_PARENT(this), this);
     break;
   case AE_CORE:
-    COUNTED_FPRINTF(fwrite_stream, "core<%s, %s, %018p>", 
-                    NAME_VAL(this),
-                    SPECIALP(this) ? "special" : "-",
-                    FUN_VAL(this));
+    if (SPECIALP(this))
+      COUNTED_FPRINTF(fwrite_stream, "core<%s, special, %018p>", 
+                      NAME_VAL(this),
+                      FUN_VAL(this));
+    else
+      COUNTED_FPRINTF(fwrite_stream, "core<%s, %018p>", 
+                      NAME_VAL(this),
+                      FUN_VAL(this));
     break;
   case AE_LAMBDA:
   case AE_MACRO:
