@@ -158,9 +158,9 @@ extern ae_obj_t * symbols_list;
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define OBJ_PARAMS(this)        ((this)->params)
-#define OBJ_BODY(this)          ((this)->body)
-#define OBJ_ENV(this)           ((this)->env)
+#define FUN_PARAMS(this)        ((this)->params)
+#define FUN_BODY(this)          ((this)->body)
+#define FUN_ENV(this)           ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))

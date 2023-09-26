@@ -84,20 +84,20 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("\n\n[apply user fun]");
   LOG(fun, "appl user fun fun");
-  LOG(OBJ_PARAMS(fun), "appl user fun params");
-  LOG(OBJ_BODY(fun), "appl user fun body");
+  LOG(FUN_PARAMS(fun), "appl user fun params");
+  LOG(FUN_BODY(fun), "appl user fun body");
   LOG(env, "appl user fun env");
   LOG(args, "appl user fun args");
 #endif
   
   ae_obj_t * new_env = NIL;
 
-  if (SYMBOLP(OBJ_PARAMS(fun)))
-    new_env = NEW_ENV(OBJ_ENV(fun), CONS(OBJ_PARAMS(fun), NIL), CONS(args, NIL));
+  if (SYMBOLP(FUN_PARAMS(fun)))
+    new_env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
   else
-    new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
+    new_env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
   
-  ae_obj_t * body    = CONS(SYM("progn"), OBJ_BODY(fun));
+  ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
   
 #ifdef AE_LOG_EVAL
   PR("\n\n[created exec env]");

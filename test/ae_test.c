@@ -69,9 +69,9 @@ static char * tmp_str = NULL;
 
 #define DESCR(fun)                                                                                 \
   PR("\n\n[describe %s " #fun  "] ", TYPE_STR(GET_TYPE(fun)));                                     \
-  LOG(OBJ_PARAMS(fun), "params");                                                                  \
-  LOG(OBJ_ENV(fun), "env");                                                                        \
-  LOG(OBJ_BODY(fun), "body")
+  LOG(FUN_PARAMS(fun), "params");                                                                  \
+  LOG(FUN_ENV(fun), "env");                                                                        \
+  LOG(FUN_BODY(fun), "body")
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper functions
@@ -982,24 +982,24 @@ void macro_expand(void) {
   OLOG(rtrn_for_macro_def);
   NL;
 
-  /* obj macro_call_add1      = CONS(SYM("add1"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL))); */
-  /* OLOG(macro_call_add1); */
+  /* obj call_add1      = CONS(SYM("add1"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL))); */
+  /* OLOG(call_add1); */
   /* NL; */
 
-  obj macro_call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
-  OLOG(macro_call_add2);
+  obj call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
+  OLOG(call_add2);
   NL;
 
-  /* obj rtrn_of_macro_call_add1 = EVAL(env, macro_call_add1); */
-  /* OLOG(rtrn_of_macro_call_add1); */
+  /* obj rtrn_of_call_add1 = EVAL(env, call_add1); */
+  /* OLOG(rtrn_of_call_add1); */
   /* NL; */
 
-  obj macro_call_add2_rtrn = EVAL(env, macro_call_add2);
-  OLOG(macro_call_add2_rtrn);
+  obj call_add2_rtrn = EVAL(env, call_add2);
+  OLOG(call_add2_rtrn);
   NL;
 
-  obj eval_macro_call_add2_rtrn = EVAL(env, macro_call_add2_rtrn);
-  OLOG(eval_macro_call_add2_rtrn);
+  obj eval_call_add2_rtrn = EVAL(env, call_add2_rtrn);
+  OLOG(eval_call_add2_rtrn);
   NL;
 }
 
