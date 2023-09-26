@@ -173,7 +173,7 @@ static int ae_internal(const ae_obj_t * const this) {
                     FUN_ENV(this),
                     FUN_BODY(this));
 
-    //fwrite_counter += FWRITE(FUN_PARAMS(this), fwrite_stream);
+    FWRITE(FUN_PARAMS(this), fwrite_stream);
   
     COUNTED_FPRINTF(fwrite_stream,">");
     
