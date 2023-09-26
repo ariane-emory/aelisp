@@ -101,27 +101,27 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
                     CDR(this),
                     LENGTH(this));
     break;
-  case AE_LAMBDA:
-    COUNTED_FPRINTF(stream,
-                    "%018p %018p %018p",
-                    this->params,
-                    this->body,
-                    this->env);
-    break;
-  case AE_ENV:
-    COUNTED_FPRINTF(stream,
-                    "%018p %018p %018p",
-                    this->parent,
-                    this->symbols,
-                    this->values);
-    break;
-  case AE_CORE:
-    COUNTED_FPRINTF(stream,
-                    "% -18s %-18s %018p",
-                    CORE_NAME(this),
-                    (SPECIALP(this) ? "special" : "-"),
-                    CORE_FUN(this));
-    break;
+  /* case AE_LAMBDA: */
+  /*   COUNTED_FPRINTF(stream, */
+  /*                   "%018p %018p %018p", */
+  /*                   this->params, */
+  /*                   this->body, */
+  /*                   this->env); */
+  /*   break; */
+  /* case AE_ENV: */
+  /*   COUNTED_FPRINTF(stream, */
+  /*                   "%018p %018p %018p", */
+  /*                   this->parent, */
+  /*                   this->symbols, */
+  /*                   this->values); */
+  /*   break; */
+  /* case AE_CORE: */
+  /*   COUNTED_FPRINTF(stream, */
+  /*                   "% -18s %-18s %018p", */
+  /*                   CORE_NAME(this), */
+  /*                   (SPECIALP(this) ? "special" : "-"), */
+  /*                   CORE_FUN(this)); */
+  /*   break; */
   case AE_CHAR:
     COUNTED_FPUTC('\'', fwrite_stream);
     fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
@@ -155,15 +155,17 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
                       "%s<%018p→nil>",
                       TYPE_STR(this),
                       this);
-      fwrite_counter--;
     }
     else {
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%018p->%018p>",
+                      "%s<%018p→%018p>",
                       TYPE_STR(this),
                       this,
                       ENV_PARENT(this));
     }
+
+    fwrite_counter--;
+
     break;
   case AE_CORE:
     if (SPECIALP(this))
@@ -232,18 +234,18 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_INTEGER:
     COUNTED_FPRINTF(fwrite_stream,
                     "%d",
-                    this->int_val);
+                    INT_VAL(this));
     break;
   case AE_RATIONAL:
     COUNTED_FPRINTF(fwrite_stream,
                     "%d/%d",
-                    this->numerator_val,
-                    this->denominator_val);
+                    NUMER_VAL(this) ,
+                    DENOM_VAL(this));
     break;
   case AE_FLOAT:
     COUNTED_FPRINTF(fwrite_stream,
                     "%g",
-                    this->float_val);
+                    FLOAT_VAL(this));
     break;
   case AE_CHAR:
   {
