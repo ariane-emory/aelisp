@@ -203,7 +203,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   fun = EVAL(env, fun); 
 
 #ifdef AE_LOG_EVAL
-  LOG(fun, "fun");
+  LOG(fun, "apply fun");
 #endif
   
   assert(FUNP(fun) || MACROP(fun));
