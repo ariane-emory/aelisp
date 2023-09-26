@@ -192,7 +192,7 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_STRING))
 #define SYMBOLP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_SYMBOL))
 #define FUNP(o)                 (LAMBDAP  ((o)) || COREP((o)))
-#define SPECIAL_FUNP(o)         (COREP((o)) && ((o)->special))
+#define SPECIALP(o)             (MACROP((o)) || (COREP((o)) && ((o)->special)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSERT_ATOMP(o)         (assert(ATOMP(o))
 #define ASSERT_CHARP(o)         (assert(CHARP(o)))

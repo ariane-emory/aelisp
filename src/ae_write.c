@@ -100,7 +100,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     written  += fprintf(stream, "%018p %018p %018p", this->parent, this->symbols, this->values);
     break;
   case AE_CORE:
-    written  += fprintf(stream, "% -18s %-18s %018p", NAME_VAL(this), (SPECIAL_FUNP(this) ? "special" : "-"), FUN_VAL(this));
+    written  += fprintf(stream, "% -18s %-18s %018p", NAME_VAL(this), (SPECIALP(this) ? "special" : "-"), FUN_VAL(this));
     break;
   default:
     written  += FPRINC(this, stream);
@@ -183,6 +183,12 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "env<nil←%018p>", ENV_PARENT(this), this);
     else
       COUNTED_FPRINTF(fwrite_stream, "env<%018p←%018p>", ENV_PARENT(this), this);
+    break;
+  case AE_CORE:
+    COUNTED_FPRINTF(fwrite_stream, "core<%s, %s, %018p>", 
+                    NAME_VAL(this),
+                    SPECIALP(this) ? "special" : "-",
+                    this->body);
     break;
   case AE_LAMBDA:
   case AE_MACRO:
