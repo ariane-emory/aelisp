@@ -197,12 +197,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_LAMBDA:
   case AE_MACRO:
   {
-    // char * tmp = SWRITE(this->params);
-    COUNTED_FPRINTF(fwrite_stream, "lambda<%018p, %018p>", // , %s>",
-                    this->env,
-                    this->body); //,
-    //tmp);
-    //free(tmp);
+    COUNTED_FPRINTF(fwrite_stream, "lambda<%018p, %018p>",
+                    OBJ_ENV(this),
+                    OBJ_BODY(this));
     break;
   }
   case AE_INF:
