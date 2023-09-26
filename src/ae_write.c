@@ -168,14 +168,14 @@ static int ae_internal(const ae_obj_t * const this) {
   case AE_LAMBDA:
   case AE_MACRO:
     COUNTED_FPRINTF(fwrite_stream,
-                    "%s<%018p, %018p, ",
+                    "%s<%018p, %018p,",
                     TYPE_STR(this),
                     FUN_ENV(this),
                     FUN_BODY(this));
 
-    fwrite_counter += FWRITE(FUN_PARAMS(this), fwrite_stream);
+    //fwrite_counter += FWRITE(FUN_PARAMS(this), fwrite_stream);
   
-    COUNTED_FPRINTF(fwrite_stream," >");
+    COUNTED_FPRINTF(fwrite_stream,">");
     
     break;
   case AE_INF:
