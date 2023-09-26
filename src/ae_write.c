@@ -188,7 +188,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     COUNTED_FPRINTF(fwrite_stream, "core<%s, %s, %018p>", 
                     NAME_VAL(this),
                     SPECIALP(this) ? "special" : "-",
-                    this->body);
+                    FUN_VAL(this));
     break;
   case AE_LAMBDA:
   case AE_MACRO:
