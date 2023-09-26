@@ -88,17 +88,16 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
   int written = 0;
+  written  += fprintf(stream, TYPE_STR(this));
+  written  += fprintf(stream, "<");
   
   switch (GET_TYPE(this)) {
   case AE_CONS:
-    written  += fprintf(stream, TYPE_STR(this));
-    written  += fprintf(stream, "<");
     written  += fprintf(stream,
                         "%018p, %018p, %d",
                         CAR(this),
                         CDR(this),
                         LENGTH(this));
-    written  += fprintf(stream, ">");
     break;
   case AE_LAMBDA:
     written  += fprintf(stream,
@@ -122,14 +121,11 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
                         CORE_FUN(this));
     break;
   default:
-    written  += fprintf(stream, TYPE_STR(this));
-    written  += fprintf(stream, "<");
     written  += FPRINC (this, stream);
-    written  += fprintf(stream, ">");
   }
 
-  while (written++ <= 70) FSPC;
-
+  written  += fprintf(stream, ">");
+  
   return written;
 }
 
