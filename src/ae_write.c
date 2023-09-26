@@ -124,12 +124,12 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     break;
   case AE_CHAR:
     COUNTED_FPUTC('\'', fwrite_stream);
-    fwrite_counter   = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
     COUNTED_FPUTC('\'', fwrite_stream);
     break;
   case AE_STRING:
     COUNTED_FPUTC('\"', fwrite_stream);
-    fwrite_counter   = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
     COUNTED_FPUTC('\"', fwrite_stream);
     break;
   default:
