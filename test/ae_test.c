@@ -1005,6 +1005,12 @@ void macro_expand(void) {
   obj eval_call_add2_rtrn = EVAL(env, call_add2_rtrn);
   OLOG(eval_call_add2_rtrn);
   NL;
+
+
+  obj princ = CONS(SYM("princ"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL));
+  NL;
+  OLOG(princ);
+  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
