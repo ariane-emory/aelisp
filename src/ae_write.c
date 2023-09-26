@@ -10,7 +10,7 @@
 #include "ae_list.h"
 #include "ae_util.h"
 
-static int ae_internal(const ae_obj_t * const this);
+static int ae_fwrite_internal(const ae_obj_t * const this);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // princ helpers
@@ -78,8 +78,8 @@ int ae_write    (const ae_obj_t * const this) { return ae_fwrite(this, stdout); 
 DEF_S_METHOD(put);
 int ae_put      (const ae_obj_t * const this) { return ae_fput  (this, stdout); }
 
-DEF_F_METHOD(princ, false, ae_internal);
-DEF_F_METHOD(write, true,  ae_internal);
+DEF_F_METHOD(princ, false, ae_fwrite_internal);
+DEF_F_METHOD(write, true,  ae_fwrite_internal);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fputs
@@ -145,7 +145,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 // the main method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static int ae_internal(const ae_obj_t * const this) {
+static int ae_fwrite_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
 
   switch (GET_TYPE(this)) {
@@ -187,7 +187,7 @@ static int ae_internal(const ae_obj_t * const this) {
                     FUN_ENV(this),
                     FUN_BODY(this));
 
-    ae_internal(FUN_PARAMS(this));
+    ae_fwrite_internal(FUN_PARAMS(this));
   
     COUNTED_FPRINTF(fwrite_stream,">");
     
@@ -199,12 +199,12 @@ static int ae_internal(const ae_obj_t * const this) {
     FLPAR;
 
     FOR_EACH_CONST(elem, this) {
-      ae_internal(elem);
+      ae_fwrite_internal(elem);
       fflush(fwrite_stream);
 
       if (NOT_TAILP(CDR(position))) {
         COUNTED_FPRINTF(fwrite_stream, " . ");
-        ae_internal(CDR(position));
+        ae_fwrite_internal(CDR(position));
       } else if (NOT_NILP(CDR(position))) {
         FSPC;
       }
