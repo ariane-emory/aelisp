@@ -67,8 +67,7 @@ static char * tmp_str = NULL;
     tmp_str = NULL;                                                                                \
   }                                                                                                \
   (void)this;                                                                                      \
-  (void)that;                                                                                      \
-  NL;
+  (void)that;
 
 #define DESCR(fun)                                                                                 \
   PR("\n\n[describe %s " #fun  "] ", TYPE_STR(fun));                                               \
