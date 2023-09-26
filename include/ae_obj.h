@@ -147,6 +147,7 @@ extern ae_obj_t * symbols_list;
 #define TRUTH(o)                (ae_obj_truth((o)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 #define TYPE_STR(type)          (ae_type_str((type)))
+#define SHORT_TYPE_STR(type)    (TYPE_STR((this)) + 3)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(this)          ((this)->char_val)
 #define DENOM_VAL(this)         ((this)->denominator_val)
