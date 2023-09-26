@@ -2,12 +2,14 @@
 
 char obj_log_buffer[64];
 
+#ifndef OLD_LOG
 void obj_log(const ae_obj_t * const obj, char * desc) {
   NL;
-  PR("%-24s %018p ", desc, obj);
+  PR("%-24s %018p", desc, obj);
   SPC;
   ae_put(obj);
   SPC;
   ae_write(obj);
   fflush(stdout);
 }
+#endif
