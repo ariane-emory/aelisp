@@ -226,7 +226,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   PRINC(CADR(args));
   NL;
   PR("else:        ");
-  PRINC(CONS(INTERN("progn"), CDDR(args)));
+  PRINC(CONS(SYM("progn"), CDDR(args)));
 #endif
 
   // ASSERT_NOT_NILP(CAR(args));
@@ -250,7 +250,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 #ifdef AE_LOG_CORE
     PR("Choose else.");
 #endif
-    return EVAL(env, CONS(INTERN("progn"), CDDR(args)));
+    return EVAL(env, CONS(SYM("progn"), CDDR(args)));
   }
 }
 

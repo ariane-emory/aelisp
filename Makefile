@@ -4,17 +4,17 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
+	-DAE_LOG_EVAL \
+	-DAE_LOG_CORE \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=1024
 
 LOG_CFLAGS = \
 	-DAE_LOG_ENV \
-	-DAE_LOG_EVAL \
-	-DAE_LOG_CORE \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
 	-DAE_LOG_ALLOC \
-	-DAE_LOG_INTERN \
+	-DAE_LOG_SYM \
 	-DAE_LOG_CLONE \
   -DAE_LOG_CONS \
 	-DAE_LOG_FREE_LIST \

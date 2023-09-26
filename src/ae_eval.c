@@ -97,7 +97,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   else
     new_env = NEW_ENV(OBJ_ENV(fun), OBJ_PARAMS(fun), args);
   
-  ae_obj_t * body    = CONS(INTERN("progn"), OBJ_BODY(fun));
+  ae_obj_t * body    = CONS(SYM("progn"), OBJ_BODY(fun));
   
 #ifdef AE_LOG_EVAL
   PR("\n\n[created exec env]");
@@ -133,6 +133,7 @@ static const eval_dispatch_t eval_dispatch[] = {
     {AE_CHAR,     &self},
     {AE_STRING,   &self},
     {AE_LAMBDA,   &self},
+    {AE_MACRO,    &self},
     {AE_CORE,     &self},
     {AE_SYMBOL,   &lookup},
     {AE_CONS,     &apply},
@@ -158,6 +159,8 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   PR("\n=> dispatching eval to %s", TYPE_STR(dispatch.type));
 #endif
+
+  assert(*dispatch.handler);
   
   return (*dispatch.handler)(obj, env);
   
@@ -201,7 +204,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(fun, "FUN");
 #endif
   
-  ASSERT_FUNP(fun);
+  assert(FUNP(fun) || MACROP(fun));
   ASSERT_TAILP(args);
 
   apply_dispatch_t dispatch = {0};

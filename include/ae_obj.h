@@ -204,6 +204,7 @@ extern ae_obj_t * symbols_list;
 #define ASSERT_INTEGERP(o)      (assert(INTEGERP(o)))
 #define ASSERT_INVALIDP(o)      (assert(INVALIDP(o)))
 #define ASSERT_LAMBDAP(o)       (assert(LAMBDAP(o)))
+#define ASSERT_MACROP(o)        (assert(MACROP((o))))
 #define ASSERT_QUOTEP(o)        (assert(QUOTEP(o)))
 #define ASSERT_RATIONALP(o)     (assert(RATIONALP(o)))
 #define ASSERT_STRINGP(o)       (assert(STRINGP(o)))

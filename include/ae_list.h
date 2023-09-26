@@ -31,8 +31,8 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define LENGTH(this)                  (ae_list_length(this))
 #define PUSH(this, that)              (ae_list_push_back(&(this), (that)))
 #define REMOVE(list, elem)            (ae_list_remove_member(list, elem))
-#define INTERN2(sym_list, str)        (ae_list_intern_string((sym_list), (str)))
-#define INTERN(str)                   (INTERN2(&symbols_list, (str)))
+#define SYM2(sym_list, str)        (ae_list_intern_string((sym_list), (str)))
+#define SYM(str)                   (SYM2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TAILP(o)                      (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
 #define NOT_TAILP(o)                  (! TAILP((o)))

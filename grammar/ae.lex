@@ -37,7 +37,7 @@
     
     switch (ae_type) {
     case AE_SYMBOL:
-      yylval = INTERN(yytext);
+      yylval = SYM(yytext);
     case AE_INF:
     case AE_INVALID:
     case AE_QUOTE:
