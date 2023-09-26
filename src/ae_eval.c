@@ -31,7 +31,7 @@
 static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
   (void)env;
 #ifdef AE_LOG_EVAL
-  LOG(obj, "rtrn self =>");
+  LOG(obj, "<= rtrn self");
 #endif
   
   return obj;
@@ -159,6 +159,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   PR("\n=> dispatching eval to %s handler for ", TYPE_STR(dispatch.type));
   WRITE(obj);
+  DOT;
 #endif
 
   assert(*dispatch.handler);
@@ -215,6 +216,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("\n=> dispatching apply to %s handler for ", TYPE_STR(dispatch.type));
   WRITE(fun);
+  DOT;
 #endif
   
   MAYBE_EVAL(dispatch.special, args);

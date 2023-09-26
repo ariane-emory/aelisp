@@ -19,8 +19,8 @@ extern char obj_log_buffer[64];
 
 void obj_log(const ae_obj_t * const obj, char * desc);
 
-#define LOG(o, ...)  \
-{ \
-  sprintf(obj_log_buffer, __VA_ARGS__); \
-  (obj_log((o), (obj_log_buffer))); \
+#define LOG(o, ...)                                                                                 \
+{                                                                                                   \
+  sprintf(obj_log_buffer, __VA_ARGS__);                                                             \
+  (obj_log((o), (obj_log_buffer)));                                                                 \
 }
