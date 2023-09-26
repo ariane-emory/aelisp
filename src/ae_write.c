@@ -180,31 +180,37 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_ENV:
     if (NILP(ENV_PARENT(this)))
-      COUNTED_FPRINTF(fwrite_stream, "%s<nil←%018p>", TYPE_STR(GET_TYPE(this)), ENV_PARENT(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→nil>", TYPE_STR(GET_TYPE(this)), this);
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p←%018p>", TYPE_STR(GET_TYPE(this)), ENV_PARENT(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→%018p>", TYPE_STR(GET_TYPE(this)), this, ENV_PARENT(this));
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p, special>",
+      COUNTED_FPRINTF(fwrite_stream,
+                      "%s<%s, %018p, special>",
                       TYPE_STR(GET_TYPE(this)),
                       CORE_NAME(this),
                       CORE_FUN(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p>",
+      COUNTED_FPRINTF(fwrite_stream,
+                      "%s<%s, %018p>",
                       TYPE_STR(GET_TYPE(this)),
                       CORE_NAME(this),
                       CORE_FUN(this));
     break;
   case AE_LAMBDA:
   case AE_MACRO:
-  {
-    COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %018p>",
+    COUNTED_FPRINTF(fwrite_stream,
+                    "%s<%018p, %018p, ",
                     TYPE_STR(GET_TYPE(this)),
                     FUN_ENV(this),
                     FUN_BODY(this));
+
+    fwrite_counter += FWRITE(FUN_PARAMS(this), fwrite_stream);
+    
+    COUNTED_FPUTC('>', fwrite_stream);
+    
     break;
-  }
   case AE_INF:
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
