@@ -282,30 +282,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   return fwrite_counter;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput_words
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +295,7 @@ int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   int                         written = 0;
   const unsigned char * const start   = (unsigned char *)this;
 
-  // This assumes the system is little-endian and renders the values as big-endian.
+  // This assumes the system is little-endian and renders the values as if they were big-endian.
 
   for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
     if (ix % 8 == 0)
