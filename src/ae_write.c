@@ -145,11 +145,10 @@ static int ae_internal(const ae_obj_t * const this) {
                       this);
     else
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%018p→%018p>",
+                      "%s<%018p->%018p>",
                       TYPE_STR(this),
                       this,
                       ENV_PARENT(this));
-    fwrite_counter -= 1; // multi-byte character.
     break;
   case AE_CORE:
     if (SPECIALP(this))
