@@ -186,7 +186,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "core<%s, special, %018p>", 
+      COUNTED_FPRINTF(fwrite_stream, "core<%s, %018p, special>", 
                       NAME_VAL(this),
                       FUN_VAL(this));
     else
