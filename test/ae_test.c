@@ -43,8 +43,8 @@ static char mem[free_list_size] = { 0 };
 static char * tmp_str = NULL;
 
 #define SETUP_TEST                                                                                 \
-  obj    this    = NULL;                                                                    \
-  obj    that    = NULL;                                                                    \
+  obj    this    = NULL;                                                                           \
+  obj    that    = NULL;                                                                           \
   symbols_list          = NIL;                                                                     \
   memset(mem, 0, free_list_size);                                                                  \
   free_list_reset();                                                                               \
@@ -57,14 +57,14 @@ static char * tmp_str = NULL;
   (void)this;                                                                                      \
   (void)that;
 
-#define DESCR(fun)                                                 \
-  PR("\n\n[describe %s " #fun  "] ", TYPE_STR(GET_TYPE(fun)));     \
-  LOG(OBJ_PARAMS(fun), "params");          \
-  LOG(OBJ_ENV(fun), "env");                \
+#define DESCR(fun)                                                                                 \
+  PR("\n\n[describe %s " #fun  "] ", TYPE_STR(GET_TYPE(fun)));                                     \
+  LOG(OBJ_PARAMS(fun), "params");                                                                  \
+  LOG(OBJ_ENV(fun), "env");                                                                        \
   LOG(OBJ_BODY(fun), "body")
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Helpers
+// Helper functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void before_acutest() {}
@@ -185,11 +185,11 @@ void basic_list_checks(obj this) {
 void remove_interned_symbol_from_list(void) {
   SETUP_TEST;
 
-#define TEST_SYM(str)                                                                                   \
-  {                                                                                                        \
-    int len = LENGTH(symbols_list);                                                                        \
-    T(EQ(SYM(str), SYM(str)));                                                                       \
-    T(EQ(LENGTH(symbols_list), (len + 1)));                                                                \
+#define TEST_SYM(str)                                                                              \
+  {                                                                                                \
+    int len = LENGTH(symbols_list);                                                                \
+    T(EQ(SYM(str), SYM(str)));                                                                     \
+    T(EQ(LENGTH(symbols_list), (len + 1)));                                                        \
   }
 
   // using 'symbols_list' as the symbol list here:
@@ -434,7 +434,7 @@ void eql(void) {
   T( EQL( (first)  , (second) ));                                                                  \
   T( EQL( (second) , (first)  ));
 
-#define SELF_EQL(o)                                                                              \
+#define SELF_EQL(o)                                                                                \
   ETP( obj_bool_false , obj_bool_false );
 
   //  Everything is equal to itself.
@@ -935,6 +935,8 @@ void macro_expand(void) {
   obj env = ENV_NEW_ROOT();
   obj list_fun      = ae_env_define_list_fun(env);
 
+  NL;
+
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
@@ -942,11 +944,6 @@ void macro_expand(void) {
 
   NL;
   
-  /* this = CONS(CONS(SYM("+"), CONS(SYM("x"), CONS(SYM("y"), NIL))), NIL); */
-  /* this = CONS(CONS(SYM("x"), CONS(SYM("y"), NIL)), this); */
-  /* this = CONS(SYM("macro"), this); */
-  /* PR("my macro "); PRINC(this); NL; */
-
   obj macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
@@ -954,6 +951,7 @@ void macro_expand(void) {
   macro_def = CONS(SYM("macro"), macro_def);
   PR("macro def  "); PRINC(macro_def); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
+  NL;
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
   /* obj macro_fun = EVAL(env, macro_def); */
@@ -986,41 +984,6 @@ void macro_expand(void) {
 
   obj rtrn_of_macro_call_add2 = EVAL(env, macro_call_add2);
   OLOG(rtrn_of_macro_call_add2);
-  NL;
-  
-  return;
-
-  /* obj macro = EVAL(env, ae_generate_macro_defmacro()); */
-  /* T(EQ(macro, ae_generate_macro_defmacro())); */
-
-  /* OLOG(macro->params); */
-  /* OLOG(macro->body); */
-  /* OLOG(macro->env); */
-
-  /* obj incr_fun = EVAL(env, CONS(SYM("lambda"), */
-  /*                                      CONS(LIST(SYM("x")), */
-  /*                                           CONS(CONS(SYM("+"), */
-  /*                                                     CONS(SYM("x"), LIST(NEW_INT(2)))), NIL)))); */
-
-  /* DESCR(incr_fun); NL; */
-
-/*   obj name  = SYM("test"); */
-/*   obj args  = CONS(SYM("xx"), CONS(SYM("yy"), NIL)); */
-/*   obj body1 = CONS(SYM("princ"), CONS(SYM("xx"), NIL)); */
-/*   obj body2 = CONS(SYM("*"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))); */
-/*   obj body  = CONS(body1, CONS(body2, NIL)); */
-/*   obj tmp   = CONS(CONS(SYM("list"), body), NIL); */
-/*   obj all   = CONS(SYM("macro"), CONS(args, tmp)); */
-
-/*   LOG(name,  "name"); */
-/*   LOG(args,  "args"); */
-/*   LOG(body1, "body1"); */
-/*   LOG(body2, "body2"); */
-/*   LOG(body,  "body"); */
-/*   LOG(all,   "all"); */
-
-
-  NL;
   NL;
 }
 
