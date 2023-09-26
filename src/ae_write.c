@@ -149,6 +149,7 @@ static int ae_internal(const ae_obj_t * const this) {
                       TYPE_STR(this),
                       this,
                       ENV_PARENT(this));
+    fwrite_counter -= 1; // multi-byte character.
     break;
   case AE_CORE:
     if (SPECIALP(this))
