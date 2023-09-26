@@ -37,20 +37,17 @@ static bool   fwrite_quoting  = false;
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 #define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
 #define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
 
-#define MEMSTREAM(buff, stream)                                                                    \
-  char * buff;                                                                                     \
-  size_t size;                                                                                     \
-  FILE * stream = open_memstream(&buff, &size);
-
 // free this string when you're done with it:
 #define DEF_S_METHOD(name)                                                                         \
 char * ae_s ## name(const ae_obj_t * const this) {                                                 \
-  MEMSTREAM(buff, stream);                                                                         \
+  char * buff;                                                                                     \
+  size_t size;                                                                                     \
+  FILE * stream = open_memstream(&buff, &size);                                                    \
+                                                                                                   \
   ae_f ## name(this, stream);                                                                      \
   fclose(stream);                                                                                  \
   return buff;                                                                                     \
@@ -79,11 +76,11 @@ DEF_S_METHOD(put);
 DEF_S_METHOD(put_words);
 DEF_S_METHOD(write);
 
-int ae_princ    (const ae_obj_t * const this) { return FPRINC(this, stdout); }
-int ae_put      (const ae_obj_t * const this) { return FPUT(this, stdout); }
+int ae_princ    (const ae_obj_t * const this) { return ae_obj_fprinc(this, stdout); }
+int ae_put      (const ae_obj_t * const this) { return ae_obj_fput  (this, stdout); }
 int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
-int ae_write    (const ae_obj_t * const this) { return FWRITE(this, stdout); }
-
+int ae_write    (const ae_obj_t * const this) { return ae_obj_fwrite(this, stdout); }
+ 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,13 +96,10 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   switch (GET_TYPE(this)) {
   case AE_CONS:
-    /* if (NOT_TAILP(CDR(this))) */
-    /*   written  += fprintf(stream, "%018p %018p %-18s", CAR(this), CDR(this), "(pair)"); */
-    /* else */
     written  += fprintf(stream, "%018p %018p %-9s % 8d",
                         CAR(this),
                         CDR(this),
-                        (PROPER_LISTP(this) ? "" : ""), // "improper"),
+                        (PROPER_LISTP(this) ? "" : ""),
                         LENGTH(this));
     break;
   case AE_LAMBDA:
