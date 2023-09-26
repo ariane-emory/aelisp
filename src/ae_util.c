@@ -9,7 +9,16 @@ void obj_log(const ae_obj_t * const obj, char * desc) {
 
   written += PR("%-24s ", desc);
   written += WRITE(obj);
-  while (written++ < 100) SPC;
+
+  const int column = 100;
+
+  if (written < column) {
+    while (written++ < column) SPC;
+  }
+  else {
+    SPC;
+  }
+
   written += PR("%018p", obj);
   fflush(stdout);
 }

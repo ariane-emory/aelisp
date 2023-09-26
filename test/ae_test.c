@@ -79,6 +79,7 @@ void before_acutest() {
          sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
   printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
   NL;
+  NL;
 }
 
 char * princ_to_new_string(const obj const this) {

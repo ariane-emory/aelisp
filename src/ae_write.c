@@ -160,7 +160,7 @@ static int ae_internal(const ae_obj_t * const this) {
                       CORE_FUN(this));
     else
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%s, %018p >",
+                      "%s<%s, %018p>",
                       TYPE_STR(this),
                       CORE_NAME(this),
                       CORE_FUN(this));

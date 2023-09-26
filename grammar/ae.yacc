@@ -115,7 +115,7 @@
 
     ae_obj_t * program_obj = root;
 
-    printf("program: ");
+    printf("program:           ");
 
     if (! program_obj) {
       PR("NULL!");
