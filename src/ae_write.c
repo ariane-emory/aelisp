@@ -87,22 +87,18 @@ DEF_F_METHOD(write, true,  ae_internal);
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
-  int written = fprintf(stream, "[ ",  this);
-
-  written    += fprintf(stream, "%s ", TYPE_STR(this));
-
-  while (written++ <= 13) FSPC;
-
+  int written = 0;
+  
   switch (GET_TYPE(this)) {
   case AE_CONS:
     written  += fprintf(stream, TYPE_STR(this));
-    written  += fprintf(stream, "< ");
+    written  += fprintf(stream, "<");
     written  += fprintf(stream,
                         "%018p, %018p, %d",
                         CAR(this),
                         CDR(this),
                         LENGTH(this));
-    written  += fprintf(stream, " >");
+    written  += fprintf(stream, ">");
     break;
   case AE_LAMBDA:
     written  += fprintf(stream,
@@ -127,17 +123,12 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     break;
   default:
     written  += fprintf(stream, TYPE_STR(this));
-    written  += fprintf(stream, "< ");
+    written  += fprintf(stream, "<");
     written  += FPRINC (this, stream);
-    written  += fprintf(stream, " >");
+    written  += fprintf(stream, ">");
   }
 
   while (written++ <= 70) FSPC;
-
-  FSPC;
-  FRSQR;
-
-  written    += 2;
 
   return written;
 }
@@ -153,12 +144,12 @@ static int ae_internal(const ae_obj_t * const this) {
   case AE_ENV:
     if (NILP(ENV_PARENT(this)))
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s< %018p→nil >",
+                      "%s<%018p→nil>",
                       TYPE_STR(this),
                       this);
     else
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s< %018p→%018p >",
+                      "%s<%018p→%018p>",
                       TYPE_STR(this),
                       this,
                       ENV_PARENT(this));
@@ -166,13 +157,13 @@ static int ae_internal(const ae_obj_t * const this) {
   case AE_CORE:
     if (SPECIALP(this))
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s< %s, %018p, special >",
+                      "%s<%s, %018p, special>",
                       TYPE_STR(this),
                       CORE_NAME(this),
                       CORE_FUN(this));
     else
       COUNTED_FPRINTF(fwrite_stream,
-                      "%s< %s, %018p >",
+                      "%s<%s, %018p >",
                       TYPE_STR(this),
                       CORE_NAME(this),
                       CORE_FUN(this));
@@ -180,7 +171,7 @@ static int ae_internal(const ae_obj_t * const this) {
   case AE_LAMBDA:
   case AE_MACRO:
     COUNTED_FPRINTF(fwrite_stream,
-                    "%s< %018p, %018p, ",
+                    "%s<%018p, %018p, ",
                     TYPE_STR(this),
                     FUN_ENV(this),
                     FUN_BODY(this));
