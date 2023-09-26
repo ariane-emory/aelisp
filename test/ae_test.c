@@ -925,6 +925,7 @@ void list_fun(void) {
   obj ret           = EVAL(env, list_fun_call);
 
   T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
+  NL;
 }
 
 obj apply_user_fun(obj fun, obj env, obj args);
