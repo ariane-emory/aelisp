@@ -88,46 +88,47 @@ DEF_F_METHOD(write, true,  ae_internal);
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
-  int written = 0;
-  written  += fprintf(stream, TYPE_STR(this));
-  written  += fprintf(stream, "<");
+  FWRITE_RESET(stream, false);
+
+  COUNTED_FPRINTF(stream, TYPE_STR(this));
+  COUNTED_FPRINTF(stream, "<");
   
   switch (GET_TYPE(this)) {
   case AE_CONS:
-    written  += fprintf(stream,
+    COUNTED_FPRINTF(stream,
                         "%018p, %018p, %d",
                         CAR(this),
                         CDR(this),
                         LENGTH(this));
     break;
   case AE_LAMBDA:
-    written  += fprintf(stream,
+    COUNTED_FPRINTF(stream,
                         "%018p %018p %018p",
                         this->params,
                         this->body,
                         this->env);
     break;
   case AE_ENV:
-    written  += fprintf(stream,
+    COUNTED_FPRINTF(stream,
                         "%018p %018p %018p",
                         this->parent,
                         this->symbols,
                         this->values);
     break;
   case AE_CORE:
-    written  += fprintf(stream,
+    COUNTED_FPRINTF(stream,
                         "% -18s %-18s %018p",
                         CORE_NAME(this),
                         (SPECIALP(this) ? "special" : "-"),
                         CORE_FUN(this));
     break;
   default:
-    written  += FPRINC (this, stream);
+    fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
   }
 
-  written  += fprintf(stream, ">");
+  COUNTED_FPRINTF(stream, ">");
   
-  return written;
+  return fwrite_counter;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
