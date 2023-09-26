@@ -69,20 +69,14 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_S_METHOD(princ);
-DEF_F_METHOD(princ, false, ae_internal);
 int ae_princ    (const ae_obj_t * const this) { return ae_fprinc(this, stdout); }
 
 DEF_S_METHOD(write);
-DEF_F_METHOD(write, true,  ae_internal);
 int ae_write    (const ae_obj_t * const this) { return ae_fwrite(this, stdout); }
  
 DEF_S_METHOD(put);
 int ae_put      (const ae_obj_t * const this) { return ae_fput  (this, stdout); }
 
-DEF_S_METHOD(put_words);
-int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
-
- 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fputs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +124,9 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // the main method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DEF_F_METHOD(princ, false, ae_internal);
+DEF_F_METHOD(write, true,  ae_internal);
 
 static int ae_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
@@ -279,6 +276,9 @@ static int ae_internal(const ae_obj_t * const this) {
 // obj's fput_words
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_S_METHOD(put_words);
+int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
+ 
 int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
