@@ -994,8 +994,12 @@ void macro_expand(void) {
   /* OLOG(rtrn_of_macro_call_add1); */
   /* NL; */
 
-  obj rtrn_of_macro_call_add2 = EVAL(env, macro_call_add2);
-  OLOG(rtrn_of_macro_call_add2);
+  obj macro_call_add2_rtrn = EVAL(env, macro_call_add2);
+  OLOG(macro_call_add2_rtrn);
+  NL;
+
+  obj eval_macro_call_add2_rtrn = EVAL(env, macro_call_add2_rtrn);
+  OLOG(eval_macro_call_add2_rtrn);
   NL;
 }
 
