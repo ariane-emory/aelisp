@@ -932,17 +932,19 @@ obj apply_user_fun(obj fun, obj env, obj args);
 
 void macro_expand(void) {
   SETUP_TEST;
-  obj env = ENV_NEW_ROOT();
-  obj list_fun      = ae_env_define_list_fun(env);
 
-  NL;
+  PR("\n\nPopulating root env...");
+  obj env = ENV_NEW_ROOT();
+  PR("\nDone populating root env.\n");
+
+  PR("\nDefining 'list'...");
+  obj list_fun      = ae_env_define_list_fun(env);
+  PR("\n\nDone defining 'list'.\n\n");
 
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-
-  NL;
   
   obj macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
@@ -951,7 +953,6 @@ void macro_expand(void) {
   macro_def = CONS(SYM("macro"), macro_def);
   PR("macro def  "); PRINC(macro_def); NL;
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
-  NL;
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
   /* obj macro_fun = EVAL(env, macro_def); */
@@ -966,6 +967,7 @@ void macro_expand(void) {
   
   obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   obj rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
+  NL;
   OLOG(setq_for_macro_def);
   OLOG(rtrn_for_macro_def);
   NL;
