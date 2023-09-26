@@ -43,16 +43,6 @@ static char mem[free_list_size] = { 0 };
 static char * tmp_str = NULL;
 
 #define SETUP_TEST                                                                                 \
-  printf("\nobj size:     %d.\n",    sizeof(ae_obj_t));                                            \
-  printf("int size:     %d.\n",    sizeof(int));                                                   \
-  printf("nil is at:    %016p.\n", NIL);                                                           \
-  printf("t is at:      %016p.\n", TRUE);                                                          \
-  printf("Pool first:   %016p.\n", pool_first);                                                    \
-  printf("Pool last:    %016p.\n", pool_last);                                                     \
-  printf("Pool size:    %016p (%zu bytes).\n",                                                     \
-         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,                                                      \
-         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);                                                     \
-  printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);                 \
   obj    this    = NULL;                                                                           \
   obj    that    = NULL;                                                                           \
   symbols_list          = NIL;                                                                     \
@@ -77,7 +67,19 @@ static char * tmp_str = NULL;
 // Helper functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void before_acutest() {}
+void before_acutest() {
+  printf("\nobj size:     %d.\n",  sizeof(ae_obj_t));
+  printf("int size:     %d.\n",    sizeof(int));
+  printf("nil is at:    %016p.\n", NIL);
+  printf("t is at:      %016p.\n", TRUE);
+  printf("Pool first:   %016p.\n", pool_first);
+  printf("Pool last:    %016p.\n", pool_last);
+  printf("Pool size:    %016p (%zu bytes).\n",
+         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
+         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
+  printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
+  NL;
+}
 
 char * princ_to_new_string(const obj const this) {
   char * buff;
@@ -1008,6 +1010,9 @@ void macro_expand(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
+
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1033,10 +1038,9 @@ void macro_expand(void) {
   DO(core_sleep)                                                                                   \
   DO(root_env_and_eval)                                                                            \
   DO(list_fun)                                                                                     \
-
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(macro_expand)
+
+
 
 #define pair(fun) { #fun, fun },
 

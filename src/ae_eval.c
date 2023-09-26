@@ -101,6 +101,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
 #ifdef AE_LOG_EVAL
   PR("\n\n[created exec env]");
+  LOG(fun,              "exec env for");
   LOG(new_env->parent,  "exec env parent");
   LOG(new_env->symbols, "exec env symbols");
   LOG(new_env->values,  "exec env values");
