@@ -56,13 +56,14 @@ char * ae_s ## name(const ae_obj_t * const this) {                              
 #define DEF_F_METHOD(name, quotes, calls)                                                          \
 int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                                    \
   ASSERT_NOT_NULLP(this);                                                                          \
-                                                                                                   \
-  fwrite_quoting = quotes;                                                                         \
-  fwrite_counter = 0;                                                                              \
-  fwrite_stream  = stream_;                                                                        \
-                                                                                                   \
+  FWRITE_RESET(quotes);                                                                            \
   return calls(this);                                                                              \
 }
+
+#define FWRITE_RESET(quotes)                                                                       \
+  fwrite_quoting = quotes;                                                                         \
+  fwrite_counter = 0;                                                                              \
+  fwrite_stream  = stream_
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //  short methods
