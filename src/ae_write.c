@@ -124,7 +124,10 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
                         CORE_FUN(this));
     break;
   default:
-    written  += FPRINC(this, stream);
+    written  += fprintf(stream, TYPE_STR(this));
+    written  += fprintf(stream, "<");
+    written  += FPRINC (this, stream);
+    written  += fprintf(stream, ">");
   }
 
   while (written++ <= 70) FSPC;
