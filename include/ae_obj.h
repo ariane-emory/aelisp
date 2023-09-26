@@ -151,9 +151,9 @@ extern ae_obj_t * symbols_list;
 #define CHAR_VAL(this)          ((this)->char_val)
 #define DENOM_VAL(this)         ((this)->denominator_val)
 #define FLOAT_VAL(this)         ((this)->float_val)
-#define FUN_VAL(this)           ((this)->fun_val)
+#define CORE_FUN(this)           ((this)->fun_val)
 #define INT_VAL(this)           ((this)->int_val)
-#define NAME_VAL(this)          ((this)->name)
+#define CORE_NAME(this)          ((this)->name)
 #define NUMER_VAL(this)         ((this)->numerator_val)
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
@@ -268,8 +268,8 @@ _obj;                                                                           
 #define NEW_CORE(name, val, _special)                                                          \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_CORE);                                                               \
-FUN_VAL   (_obj) = (val);                                                                          \
-strcpy(NAME_VAL(_obj), name);                                                                      \
+CORE_FUN   (_obj) = (val);                                                                          \
+strcpy(CORE_NAME(_obj), name);                                                                      \
 _obj->special = _special;                                                                          \
 _obj;                                                                                              \
 })

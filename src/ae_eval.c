@@ -64,8 +64,8 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 
   MAYBE_EVAL(SPECIALP(fun), args);
   ae_obj_t * ret = SPECIALP(fun)
-    ? (*FUN_VAL(fun))(CONS(env, args))
-    : (*FUN_VAL(fun))(args);
+    ? (*CORE_FUN(fun))(CONS(env, args))
+    : (*CORE_FUN(fun))(args);
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= appl core %s", fun->name);
