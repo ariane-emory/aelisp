@@ -146,8 +146,7 @@ extern ae_obj_t * symbols_list;
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define TRUTH(o)                (ae_obj_truth((o)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
-#define SHORT_TYPE_STR(type)    (TYPE_STR((type)) + 3)
-#define TYPE_STR(type)          (ae_type_str((type)))
+#define TYPE_STR(type)          (ae_type_str((type)) + 3)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(this)          ((this)->char_val)
 #define DENOM_VAL(this)         ((this)->denominator_val)
