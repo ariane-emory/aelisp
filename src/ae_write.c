@@ -72,6 +72,19 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                 
 
 DEF_S_METHOD(put);
 
+int ae_put(const ae_obj_t * const this) {
+  return FPUT(this, stdout);
+}
+
+DEF_F_METHOD(write, true, ae_internal);
+DEF_S_METHOD(write);
+
+int ae_write(const ae_obj_t * const this) {
+  return FWRITE(this, stdout);
+}
+
+DEF_S_METHOD(put_words);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,22 +132,9 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   return written;
 }
 
-int ae_put(const ae_obj_t * const this) {
-  return FPUT(this, stdout);
-}
-
-DEF_F_METHOD(write, true, ae_internal);
-DEF_S_METHOD(write);
-
-int ae_write(const ae_obj_t * const this) {
-  return FWRITE(this, stdout);
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput_words / put_words
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-DEF_S_METHOD(put_words);
 
 int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
