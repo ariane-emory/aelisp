@@ -13,6 +13,19 @@
 static int ae_fwrite_internal(const ae_obj_t * const this);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// princ helpers
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define FNL      COUNTED_FPUTC('\n', stream)
+#define FSPC     COUNTED_FPUTC(' ',  stream)
+#define FLPAR    COUNTED_FPUTC('(',  stream)
+#define FRPAR    COUNTED_FPUTC(')',  stream)
+#define FLSQR    COUNTED_FPUTC('[',  stream)
+#define FRSQR    COUNTED_FPUTC(']',  stream)
+#define FDQUO    COUNTED_FPUTC('"',  stream)
+#define FSQUO    COUNTED_FPUTC('\'', stream)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,19 +65,6 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                 
 static FILE * fwrite_stream   = NULL;
 static int    fwrite_counter  = 0;
 static bool   fwrite_quoting  = false;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// princ helpers
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define FNL      COUNTED_FPUTC('\n', stream)
-#define FSPC     COUNTED_FPUTC(' ',  stream)
-#define FLPAR    COUNTED_FPUTC('(',  stream)
-#define FRPAR    COUNTED_FPUTC(')',  stream)
-#define FLSQR    COUNTED_FPUTC('[',  stream)
-#define FRSQR    COUNTED_FPUTC(']',  stream)
-#define FDQUO    COUNTED_FPUTC('"',  stream)
-#define FSQUO    COUNTED_FPUTC('\'', stream)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
@@ -171,13 +171,6 @@ DEF_S_METHOD(write);
 
 int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
-}
-
-static int __attribute__((unused)) decorated(const ae_obj_t * const this) {
-  char * tmp     = SWRITE(this);
-  int    written = COUNTED_FPRINTF(fwrite_stream, "%s<%s>", TYPE_STR(this), tmp);
-  free(tmp);
-  return written;
 }
 
 static int ae_fwrite_internal(const ae_obj_t * const this) {
