@@ -196,9 +196,9 @@ static const apply_dispatch_t apply_dispatch[] = {
 ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("\n\n[dispatching apply...]");
-  LOG(fun, "disp appl for fun");
+  LOG(fun,  "disp appl for fun");
   LOG(args, "disp appl args");
-  LOG(env, "disp appl env");
+  LOG(env,  "disp appl env");
 #endif
 
   fun = EVAL(env, fun); 
