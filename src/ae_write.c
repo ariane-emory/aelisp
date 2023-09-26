@@ -41,7 +41,6 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                 
   return calls(this);                                                                              \
 }
 
-
 #define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
 #define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
 #define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
