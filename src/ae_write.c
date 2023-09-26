@@ -184,6 +184,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else
       COUNTED_FPRINTF(fwrite_stream, "env<%018p←%018p>", ENV_PARENT(this), this);
     break;
+  case AE_LAMBDA:
+  case AE_MACRO:
+   
+    COUNTED_FPRINTF(fwrite_stream, "lambda<%018p, %018p>",
+                    this->params,
+                    this->body);
+    break;
   case AE_INF:
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
