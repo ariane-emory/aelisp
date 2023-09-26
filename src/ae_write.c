@@ -70,7 +70,7 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                 
 
 DEF_F_METHOD(princ, false, ae_internal);
 DEF_F_METHOD(write, true,  ae_internal);
-
+ 
 DEF_S_METHOD(princ);
 DEF_S_METHOD(put);
 DEF_S_METHOD(put_words);
