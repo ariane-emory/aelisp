@@ -7,16 +7,16 @@ void obj_log(const ae_obj_t * const obj, char * desc) {
   NL;
   PR("%-24s %018p", desc, obj);
   SPC;
-  ae_put(obj);
+  PUT(obj);
   SPC;
-  ae_write(obj);
+  WRITE(obj);
   fflush(stdout);
 }
 #else
 void obj_log(const ae_obj_t * const obj, char * desc) {
   NL;
   PR("%-24s %018p [ %s ", desc, obj, TYPE_STR(obj));
-  ae_write(obj);
+  WRITE(obj);
   PR(" ]");
   fflush(stdout);
 }

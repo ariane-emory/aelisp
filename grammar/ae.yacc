@@ -60,7 +60,7 @@
     
     while (written++ < 105) SPC;
 
-    // ae_put_words(this);
+    // PUT_words(this);
 
     NL;
     
@@ -108,7 +108,7 @@
 
     printf("root:    ");
     if (root)
-      ae_put(root);
+      PUT(root);
     else
       PR("NULL!");
     NL;
@@ -122,7 +122,7 @@
       return 0;
     }
     else {
-      ae_put(program_obj);
+      PUT(program_obj);
     }
     
     NL;
