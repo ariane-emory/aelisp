@@ -1011,10 +1011,9 @@ void macro_expand(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
-
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1039,10 +1038,10 @@ void macro_expand(void) {
   DO(core_cmp)                                                                                     \
   DO(core_sleep)                                                                                   \
   DO(root_env_and_eval)                                                                            \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(list_fun)                                                                                     \
   DO(macro_expand)
-
-
 
 #define pair(fun) { #fun, fun },
 
