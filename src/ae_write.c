@@ -126,32 +126,6 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's fput_words
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
-  ASSERT_NOT_NULLP(this);
-
-  int                         written = 0;
-  const unsigned char * const start   = (unsigned char *)this;
-
-  // This assumes the system is little-endian and renders the values as big-endian.
-
-  for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
-    if (ix % 8 == 0)
-      written += fputs("0x", stream);
-
-    written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
-
-    if ((ix + 1) % 8 == 0) {
-      written += fputs(" ", stream);
-    }
-  }
-
-  return written;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // the main method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -274,3 +248,54 @@ static int ae_internal(const ae_obj_t * const this) {
 
   return fwrite_counter;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// obj's fput_words
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
+  ASSERT_NOT_NULLP(this);
+
+  int                         written = 0;
+  const unsigned char * const start   = (unsigned char *)this;
+
+  // This assumes the system is little-endian and renders the values as big-endian.
+
+  for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
+    if (ix % 8 == 0)
+      written += fputs("0x", stream);
+
+    written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
+
+    if ((ix + 1) % 8 == 0) {
+      written += fputs(" ", stream);
+    }
+  }
+
+  return written;
+}
+
