@@ -87,7 +87,7 @@ DEF_F_METHOD(write, true,  ae_internal);
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
   ASSERT_NOT_NULLP(this);
 
-  int written = fprintf(stream, "[ ", this);
+  int written = fprintf(stream, "[ ",  this);
 
   written    += fprintf(stream, "%s ", TYPE_STR(this));
 
