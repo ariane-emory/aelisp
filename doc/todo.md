@@ -1,6 +1,5 @@
 To Do:
 - [ ] root_env_and_eval test is too big, slice it up.
-- [ ] Test macro expansion.
 - [ ] Maybe core 'let'?
 - [ ] Review printing of characters needing escaping.
 - [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
@@ -15,6 +14,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Test macro expansion.
 - [x] Implement macro expansion.
 - [x] Dotted pairs. 
 - [x] DRY up princ and print.

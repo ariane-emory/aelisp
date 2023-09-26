@@ -43,6 +43,16 @@ static char mem[free_list_size] = { 0 };
 static char * tmp_str = NULL;
 
 #define SETUP_TEST                                                                                 \
+  printf("\nobj size:     %d.\n",    sizeof(ae_obj_t));                                            \
+  printf("int size:     %d.\n",    sizeof(int));                                                   \
+  printf("nil is at:    %016p.\n", NIL);                                                           \
+  printf("t is at:      %016p.\n", TRUE);                                                          \
+  printf("Pool first:   %016p.\n", pool_first);                                                    \
+  printf("Pool last:    %016p.\n", pool_last);                                                     \
+  printf("Pool size:    %016p (%zu bytes).\n",                                                     \
+         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,                                                      \
+         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);                                                     \
+  printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);                 \
   obj    this    = NULL;                                                                           \
   obj    that    = NULL;                                                                           \
   symbols_list          = NIL;                                                                     \
@@ -945,7 +955,7 @@ void macro_expand(void) {
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-  
+
   obj macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
@@ -964,7 +974,7 @@ void macro_expand(void) {
   /* OLOG(setq_for_macro_fun); */
   /* OLOG(rtrn_for_macro_fun); */
   /* NL; */
-  
+
   obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   obj rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
   NL;
