@@ -180,24 +180,30 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_ENV:
     if (NILP(ENV_PARENT(this)))
-      COUNTED_FPRINTF(fwrite_stream, "env<nil←%018p>", ENV_PARENT(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "ENV<nil←%018p>", ENV_PARENT(this), this);
     else
-      COUNTED_FPRINTF(fwrite_stream, "env<%018p←%018p>", ENV_PARENT(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "ENV<%018p←%018p>", ENV_PARENT(this), this);
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "core<%s, %018p, special>", 
+      COUNTED_FPRINTF(fwrite_stream, "CORE<%s, %018p, special>", 
                       CORE_NAME(this),
                       CORE_FUN(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "core<%s, %018p>", 
+      COUNTED_FPRINTF(fwrite_stream, "CORE<%s, %018p>", 
                       CORE_NAME(this),
                       CORE_FUN(this));
     break;
   case AE_LAMBDA:
+  {
+    COUNTED_FPRINTF(fwrite_stream, "LAMBDA<%018p, %018p>",
+                    FUN_ENV(this),
+                    FUN_BODY(this));
+    break;
+  }
   case AE_MACRO:
   {
-    COUNTED_FPRINTF(fwrite_stream, "lambda<%018p, %018p>",
+    COUNTED_FPRINTF(fwrite_stream, "MACRO<%018p, %018p>",
                     FUN_ENV(this),
                     FUN_BODY(this));
     break;
