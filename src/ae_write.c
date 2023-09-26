@@ -37,6 +37,11 @@ static bool   fwrite_quoting  = false;
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+#define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
+#define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
+#define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
+
 #define MEMSTREAM(buff, stream)                                                                    \
   char * buff;                                                                                     \
   size_t size;                                                                                     \
@@ -62,28 +67,22 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream_) {                 
   return calls(this);                                                                              \
 }
 
-#define COUNTED_FPUTC(c, stream)     fwrite_counter += (fputc((c), (stream)) == EOF ? 0 : 1)
-#define COUNTED_FPUTS(s, stream)     fwrite_counter += (fputs((s), (stream)))
-#define COUNTED_FPRINTF(stream, ...) fwrite_counter += (fprintf((stream), __VA_ARGS__))
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //  short methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_F_METHOD(princ, false, ae_internal);
+DEF_F_METHOD(write, true,  ae_internal);
+
+DEF_S_METHOD(princ);
 DEF_S_METHOD(put);
-
-int ae_put(const ae_obj_t * const this) {
-  return FPUT(this, stdout);
-}
-
-DEF_F_METHOD(write, true, ae_internal);
+DEF_S_METHOD(put_words);
 DEF_S_METHOD(write);
 
-int ae_write(const ae_obj_t * const this) {
-  return FWRITE(this, stdout);
-}
-
-DEF_S_METHOD(put_words);
+int ae_princ    (const ae_obj_t * const this) { return FPRINC(this, stdout); }
+int ae_put      (const ae_obj_t * const this) { return FPUT(this, stdout); }
+int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
+int ae_write    (const ae_obj_t * const this) { return FWRITE(this, stdout); }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fput / put
@@ -156,21 +155,6 @@ int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
   }
 
   return written;
-}
-
-int ae_put_words(const ae_obj_t * const this) {
-  return ae_fput_words(this, stdout);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's _princ methods
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-DEF_F_METHOD(princ, false, ae_internal);
-DEF_S_METHOD(princ);
-
-int ae_princ(const ae_obj_t * const this) {
-  return FPRINC(this, stdout);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
