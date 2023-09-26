@@ -78,7 +78,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   int written = fprintf(stream, "[ ", this);
 
-  written    += fprintf(stream, "%s ", TYPE_STR(GET_TYPE(this)));
+  written    += fprintf(stream, "%s ", TYPE_STR(this));
 
   while (written++ <= 13) FSPC;
 
@@ -180,21 +180,21 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_ENV:
     if (NILP(ENV_PARENT(this)))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→nil>", TYPE_STR(GET_TYPE(this)), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→nil>", TYPE_STR(this), this);
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→%018p>", TYPE_STR(GET_TYPE(this)), this, ENV_PARENT(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→%018p>", TYPE_STR(this), this, ENV_PARENT(this));
     break;
   case AE_CORE:
     if (SPECIALP(this))
       COUNTED_FPRINTF(fwrite_stream,
                       "%s<%s, %018p, special>",
-                      TYPE_STR(GET_TYPE(this)),
+                      TYPE_STR(this),
                       CORE_NAME(this),
                       CORE_FUN(this));
     else
       COUNTED_FPRINTF(fwrite_stream,
                       "%s<%s, %018p>",
-                      TYPE_STR(GET_TYPE(this)),
+                      TYPE_STR(this),
                       CORE_NAME(this),
                       CORE_FUN(this));
     break;
@@ -202,7 +202,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_MACRO:
     COUNTED_FPRINTF(fwrite_stream,
                     "%s<%018p, %018p, ",
-                    TYPE_STR(GET_TYPE(this)),
+                    TYPE_STR(this),
                     FUN_ENV(this),
                     FUN_BODY(this));
 

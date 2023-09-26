@@ -15,7 +15,7 @@ void obj_log(const ae_obj_t * const obj, char * desc) {
 #else
 void obj_log(const ae_obj_t * const obj, char * desc) {
   NL;
-  PR("%-24s %018p [ %s ", desc, obj, TYPE_STR(GET_TYPE(obj)));
+  PR("%-24s %018p [ %s ", desc, obj, TYPE_STR(obj));
   ae_write(obj);
   PR(" ]");
   fflush(stdout);

@@ -68,7 +68,7 @@ static char * tmp_str = NULL;
   (void)that;
 
 #define DESCR(fun)                                                                                 \
-  PR("\n\n[describe %s " #fun  "] ", TYPE_STR(GET_TYPE(fun)));                                     \
+  PR("\n\n[describe %s " #fun  "] ", TYPE_STR(fun));                                               \
   LOG(FUN_PARAMS(fun), "params");                                                                  \
   LOG(FUN_ENV(fun), "env");                                                                        \
   LOG(FUN_BODY(fun), "body")
