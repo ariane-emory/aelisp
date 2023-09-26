@@ -139,17 +139,20 @@ static int ae_internal(const ae_obj_t * const this) {
 
   switch (GET_TYPE(this)) {
   case AE_ENV:
-    if (NILP(ENV_PARENT(this)))
+    if (NILP(ENV_PARENT(this))) {
       COUNTED_FPRINTF(fwrite_stream,
                       "%s<%018p→nil>",
                       TYPE_STR(this),
                       this);
-    else
+      fwrite_counter--;
+    }
+    else {
       COUNTED_FPRINTF(fwrite_stream,
                       "%s<%018p->%018p>",
                       TYPE_STR(this),
                       this,
                       ENV_PARENT(this));
+    }
     break;
   case AE_CORE:
     if (SPECIALP(this))
