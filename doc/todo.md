@@ -7,6 +7,7 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
+- [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Maybe FOR_EACH2 macro? Unsure, may not need it.
 - [ ] Maybe also a vector type of some sort?
