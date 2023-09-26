@@ -174,6 +174,13 @@ int ae_write(const ae_obj_t * const this) {
   return FWRITE(this, stdout);
 }
 
+static int __attribute__((unused)) decorated(const ae_obj_t * const this) {
+  char * tmp     = SWRITE(this);
+  int    written = COUNTED_FPRINTF(fwrite_stream, "%s<%s>", TYPE_STR(this), tmp);
+  free(tmp);
+  return written;
+}
+
 static int ae_fwrite_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
 
