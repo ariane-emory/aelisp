@@ -444,7 +444,6 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cons(ae_obj_t * const args) {
-  // assert((LENGTH(args) == 2) && TAILP(CADR(args)));
   assert(LENGTH(args) == 2);
   
   ae_obj_t * head = CAR(args);
