@@ -8,8 +8,9 @@
 #include "ae_write.h"
 #include "ae_util.h"
 #include "ae_free_list.h"
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define ERROR SYM(":ERROR")
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   ASSERT_CONSP(env_and_args);                                                                      \
@@ -422,7 +423,11 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const args) {
 ae_obj_t * ae_core_length(ae_obj_t * const args) {
   assert((LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return NEW_INT(LENGTH(CAR(args)));
+  int len = LENGTH(CAR(args));
+    
+  return len != -1
+    ? NEW_INT(len)
+    : ERROR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
