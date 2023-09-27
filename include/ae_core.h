@@ -9,7 +9,7 @@
   DO(params)  /* fun accessor */                                                                   \
   DO(syms)    /* env accessor */                                                                   \
   DO(vals)    /* env accessor */                                                                   \
-  DO(parent)  /* env accessor */                                                                   \
+  DO(parent)  /* env/fun accessor */                                                               \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \

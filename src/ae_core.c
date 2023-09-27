@@ -178,9 +178,11 @@ ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_parent(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && ENVP(CAR(args)));
-  
-  return ENV_PARENT(CAR(args));
+  assert((LENGTH(args) == 1) && (ENVP(CAR(args)) || FUNP(CAR(args))));
+
+  return ENVP(CAR(args))
+    ? ENV_PARENT(CAR(args))
+    : FUN_ENV(CAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
