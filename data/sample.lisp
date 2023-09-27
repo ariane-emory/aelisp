@@ -15,7 +15,7 @@
 (write (setq add   (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
 (princ "Params: ") (write (params add)) (nl)
 (princ "Body:   ") (write (body add)) (nl)
-(princ "AFTER") ; (nl)
+(princ "AFTER") (nl)
 
 (nl)
 (princ "BEFORE defmacro") (nl)
