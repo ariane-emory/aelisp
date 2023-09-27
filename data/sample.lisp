@@ -2,12 +2,34 @@
 ")))
 (setq stop   (lambda ()  (nl) (exit 0)))
 (setq sleep  (lambda (x) (msleep (* 1000 x))))
+;; (print (env :syms))
+;; (nl)
+;; (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(print (env :syms))
+
+(setq test (lambda (first . rest)
+             (princ "first:  ")  (write first)
+             (princ " rest:   ") (write rest)
+             first))
+  
+(test 1 2 3 4)
+
 (nl)
+
+(setq test (macro (first . rest)
+             (princ "first:  ")  (write first)
+             (princ " rest:   ") (write rest)
+             first))
+
+(write (test 1 2 3 4))
 (nl)
+
+(eval (test 1 2 3 4))
+
+(stop)
+
 
 (princ "BEFORE add") (nl)
 (write (setq add (macro (name params) (list (quote +) name params)))) (nl)
