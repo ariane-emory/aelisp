@@ -265,11 +265,11 @@ INT_VAL   (_obj) = (val);                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_CORE(name, val, _special)                                                          \
+#define NEW_CORE(name, val, _special)                                                              \
 ({                                                                                                 \
-ae_obj_t * _obj  = NEW(AE_CORE);                                                               \
-CORE_FUN   (_obj) = (val);                                                                          \
-strcpy(CORE_NAME(_obj), name);                                                                      \
+ae_obj_t * _obj  = NEW(AE_CORE);                                                                   \
+CORE_FUN   (_obj) = (val);                                                                         \
+strcpy(CORE_NAME(_obj), name);                                                                     \
 _obj->special = _special;                                                                          \
 _obj;                                                                                              \
 })
