@@ -16,7 +16,16 @@
 (write (defmacro add (x y) (list (quote +) x y)))
 (nl) (princ "AFTER") (nl) (nl)
 
-(write (quote (name params . body))) (nl)
+
+(nl) (princ "BEFORE") (nl)
+(write (defmacro add (x y) (list (quote +) x y)))
+(nl) (princ "AFTER") (nl) (nl)
+
+(nl) (princ "BEFORE") (nl)
+(write (body (defmacro add (x y) (list (quote +) x y))))
+(nl) (princ "AFTER") (nl) (nl)
+
+;; (write (quote (name params . body))) (nl)
 
 ;; (write (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
 
