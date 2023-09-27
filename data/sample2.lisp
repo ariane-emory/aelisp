@@ -1,9 +1,10 @@
+(a . b) (a b)
+((a b c . d) "bang" 1 1.5 3/4 'x' ?\y () nil 'a' '\t' ?\\t :asd &more t (= 1 3)) (a . b) (x y . z)
 (a ∞ b) (a b c) ;; This is a comment.
 (a b c d (e f))
 ;; This is another comment.
 "This string spans multiple lines...
  look, here is the second line!"
-(a b c d "bang" 1 1.5 3/4 'x' ?\y () nil 'a' '\t' ?\\t :asd &more t (= 1 3))
 
 ;;; Lightweight advice/hook
 (defvar advice--how-alist
