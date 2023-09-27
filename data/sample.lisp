@@ -34,7 +34,7 @@
 (princ      "(1 2 . nil) length:      ") (princ      (length   x))             (nl)
 (princ      "(1 2 . nil) is:          ") (princ                x )             (nl)
 (nl)
-
+ 
 (setq x (list 1 2 . 333))
 (princ      "(1 2 . 333) is proper:   ") (princ      (properp  x))             (nl)
 (princ      "(1 2 . 333) length:      ") (princ      (length   x))             (nl)
