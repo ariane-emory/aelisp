@@ -27,7 +27,7 @@
 (nl)
 (princ "BEFORE madd") (nl)
 ; (write (defmacro madd (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
-(write (defmacro madd ((xxx yyy) (list xxx)))) (nl)
+(write (eval (defmacro madd ((xxx yyy) (list xxx))))) (nl)
 (princ "Params: ") (write (params madd)) (nl)
 (princ "Body:   ") (write (body madd)) (nl)
 (princ "AFTER") ; (nl)
