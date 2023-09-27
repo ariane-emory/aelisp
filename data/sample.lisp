@@ -20,11 +20,10 @@
 
 (princ "BEFORE defmacro") (nl)
 ;;     (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))
-(write (setq defmacro (macro (name params . body) (list name params . body))))
-(nl)
+(write (setq defmacro (macro (name params) (list (quote +) name params)))) (nl)
 (princ "Params:   ") (write (params defmacro)) (nl)
 (princ "Body:     ") (write (body defmacro)) (nl)
-(princ "Expanded  ") (write (defmacro moop (x y) (list 1)))
+(princ "Expanded  ") (write (eval (defmacro 7 8)))
 (nl)
 (princ "AFTER") (nl)
 (nl)
