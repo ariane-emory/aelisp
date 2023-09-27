@@ -7,6 +7,7 @@
 #define FOR_EACH_CORE(DO)                                                                          \
   DO(atomp)                                                                                        \
   DO(body)                                                                                         \
+  DO(params)                                                                                       \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(cons)                                                                                         \

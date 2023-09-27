@@ -7,10 +7,17 @@
 
 (print (env :syms))
 
+(nl)
 
-(nl) (princ "BEFORE") (nl)
-(write defmacro)
-(nl) (princ "AFTER") (nl) (nl)
+(nl)
+(princ "BEFORE defmacro") (nl)
+(write defmacro) (nl)
+(princ "Body:   ") (write (body defmacro))   (nl)
+(princ "Params: ") (write (params defmacro)) (nl)
+(princ "AFTER") (nl)
+(nl)
+
+(stop)
 
 (nl) (princ "BEFORE") (nl)
 (write (defmacro add (x y) (list (quote +) x y)))
