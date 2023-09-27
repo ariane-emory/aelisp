@@ -210,7 +210,8 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_LAMBDA:
   case AE_MACRO:
-    COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %018p, ", TYPE_STR(this), FUN_ENV(this), FUN_BODY(this));
+    //COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %018p, ", TYPE_STR(this), FUN_ENV(this), FUN_BODY(this));
+    COUNTED_FPRINTF(fwrite_stream, "%s<%018p, ", TYPE_STR(this), this);
     ae_fwrite_internal(FUN_PARAMS(this));
     COUNTED_FPRINTF(fwrite_stream,">");
     break;

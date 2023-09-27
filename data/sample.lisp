@@ -5,9 +5,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(print (env :syms))
-(nl)
-(nl)
+(princ "env:    ") (princ         (env))  (nl)
+(princ "syms:   ") (princ (syms   (env))) (nl)
+(princ "vals:   ") (princ (vals   (env))) (nl)
+(princ "parent: ") (princ (parent (env))) (nl)
+
+(stop)
 
 (princ "BEFORE add") (nl)
 (write (setq add (macro (name params) (list (quote +) name params)))) (nl)
