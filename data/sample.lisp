@@ -25,18 +25,19 @@
 (princ "Body:          ") (write (body   defmacro))                                                                                                             (nl)
 (princ "Expanded       ") (write        (defmacro blam (x y) (list (+ x y))))                                                                                   (nl)
 (princ "Evaled:        ") (write (eval  (defmacro blam (x y) (list (+ x y)))))                                                                                  (nl)
-(princ "Set:           ") (write blam)                                                                                                                          (nl)
+(princ "Set:           ") (write                  blam)                                                                                                         (nl)
 (princ "Ev. params;    ") (write (params          blam))                                                                                                        (nl)
 (princ "Ev. body;      ") (write (body            blam))                                                                                                        (nl)
-(princ "2 Expanded     ") (write        (defmacro defun (x y) (list (+ x y))))                                                                                  (nl)
-(princ "2 Evaled:      ") (write (eval  (defmacro defun (x y) (list (+ x y)))))                                                                                 (nl)
-(princ "2 Set:         ") (write defun)                                                                                                                         (nl)
-(princ "2 Ev. params;  ") (write (params          defun))                                                                                                       (nl)
-(princ "2 Ev. body;    ") (write (body            defun))                                                                                                       (nl)
+(princ "2 Expanded     ") (write        (defmacro defun (name params body) (list (quote setq) name (list (quote lambda) params body))))                         (nl)
+(princ "2 Evaled:      ") (write (eval  (defmacro defun (name params body) (list (quote setq) name (list (quote lambda) params body)))))                        (nl)
+(princ "2 Set:         ") (write                  defun)                                                                                                        (nl)
+;; (princ "2 Ev. params;  ") (write (params          defun))                                                                                                       (nl)
+;; (princ "2 Ev. body;    ") (write (body            defun))                                                                                                       (nl)
 (princ "AFTER") (nl)
 (nl)
 
-;; (setq defun (macro (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
+;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
+
 
 
 
