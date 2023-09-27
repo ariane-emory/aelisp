@@ -26,7 +26,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq x (list 1 . nil))
+(setq x (quote (1 . nil)))
 (princ      "(1 . nil) is proper:     ") (princ      (properp  x))             (nl)
 (princ      "(1 . nil) length:        ") (princ      (length   x))             (nl)
 (princ      "(1 . nil) is:            ") (princ                x )             (nl)
@@ -34,7 +34,7 @@
 (princ      "(cdr (1 . nil)) is:      ") (princ           (cdr x))             (nl)
 (nl)
  
-(setq x (list 1 . 333))
+(setq x (quote (1 . 333)))
 (princ      "(1 . 333) is improper:   ") (princ    (improperp  x))             (nl)
 (princ      "(1 . 333) length:        ") (princ      (length   x))             (nl)
 (princ      "(1 . 333) is:            ") (princ                x )             (nl)
@@ -42,7 +42,7 @@
 (princ      "(cdr (1 . 333)) is:      ") (princ           (cdr x))             (nl)
 (nl)
 
-(setq x (list 1 2 . nil))
+(setq x (quote (1 2 . nil)))
 (princ      "(1 2 . nil) is proper:   ") (princ      (properp  x))             (nl)
 (princ      "(1 2 . nil) length:      ") (princ      (length   x))             (nl)
 (princ      "(1 2 . nil) is:          ") (princ                x )             (nl)
@@ -50,7 +50,7 @@
 (princ      "(cdr (1 2 . nil)) is:    ") (princ           (cdr x))             (nl)
 (nl)
  
-(setq x (list 1 2 . 333))
+(setq x (quote (1 2 . 333)))
 (princ      "(1 2 . 333) is improper: ") (princ    (improperp  x))             (nl)
 (princ      "(1 2 . 333) length:      ") (princ      (length   x))             (nl)
 (princ      "(1 2 . 333) is:          ") (princ                x )             (nl)
