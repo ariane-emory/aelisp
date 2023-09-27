@@ -5,10 +5,22 @@
 (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
 (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
 
-(print (env))
 (print (env :syms))
 
-(defun print-and-die (x) (print "Dying...") (exit 0))
+
+(nl) (princ "BEFORE") (nl)
+(write defmacro)
+(nl) (princ "AFTER") (nl) (nl)
+
+(nl) (princ "BEFORE") (nl)
+(write (defmacro add (x y) (list (quote +) x y)))
+(nl) (princ "AFTER") (nl) (nl)
+
+;; (write (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
+
+;; (defun print-and-die (x) (print "Dying...") (exit 0))
+
+(nl)
 
 ;; (print-and-die)
 
