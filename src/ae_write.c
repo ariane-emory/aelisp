@@ -13,7 +13,7 @@
 static int ae_fwrite_internal(const ae_obj_t * const this);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// princ helpers
+// helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FNL      COUNTED_FPUTC('\n', stream)
@@ -73,13 +73,13 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream) {                  
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_STDOUT_METHOD(princ);
-DEF_S_METHOD(princ);
 DEF_F_METHOD(princ, false);
+DEF_S_METHOD(princ);
 
 DEF_STDOUT_METHOD(write);
-DEF_S_METHOD(write);
 DEF_F_METHOD(write, true);
- 
+DEF_S_METHOD(write);
+
 DEF_STDOUT_METHOD(put);
 DEF_S_METHOD(put);
 
@@ -96,6 +96,35 @@ int ae_fprint(const ae_obj_t * const this, FILE * stream) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// obj's fput_words
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DEF_S_METHOD(put_words);
+int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
+
+int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
+  ASSERT_NOT_NULLP(this);
+
+  int                         written = 0;
+  const unsigned char * const start   = (unsigned char *)this;
+
+  // This assumes the system is little-endian and renders the values as if they were big-endian.
+
+  for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
+    if (ix % 8 == 0)
+      written += fputs("0x", stream);
+
+    written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
+
+    if ((ix + 1) % 8 == 0) {
+      written += fputs(" ", stream);
+    }
+  }
+
+  return written;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _fputs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,9 +133,19 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   FWRITE_RESET(stream, false);
 
+  switch (GET_TYPE(this)) {
+  case AE_CORE:
+  case AE_ENV:
+  case AE_LAMBDA:
+  case AE_MACRO:
+    return FPRINC (this, stream);
+  default:
+    break;
+  }
+
   COUNTED_FPRINTF(stream, TYPE_STR(this));
   COUNTED_FPRINTF(stream, "<");
-  
+
   switch (GET_TYPE(this)) {
   case AE_CONS:
     COUNTED_FPRINTF(stream,
@@ -130,7 +169,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   }
 
   COUNTED_FPRINTF(stream, ">");
-  
+
   return fwrite_counter;
 }
 
@@ -138,63 +177,50 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 // the main method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define escaped_char_case_char(displayed, unescaped)                                               \
+  case unescaped:                                                                              \
+    tmp[0] = '\\';                                                                             \
+    tmp[1] = displayed;                                                                        \
+    break;
+
+#define escaped_char_case_str(in, out)                                                             \
+  case in:                                                                                         \
+    COUNTED_FPUTC('~', stream);                                                                    \
+    COUNTED_FPUTC(out, stream);                                                                    \
+    break;
+
 static int ae_fwrite_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
 
   switch (GET_TYPE(this)) {
-  case AE_ENV:
-    if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%018p→nil>",
-                      TYPE_STR(this),
-                      this);
-    }
-    else {
-      COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%018p→%018p>",
-                      TYPE_STR(this),
-                      this,
-                      ENV_PARENT(this));
-    }
-
-    fwrite_counter--;
-
-    break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%s, %018p, special>",
-                      TYPE_STR(this),
-                      CORE_NAME(this),
-                      CORE_FUN(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p, special>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     else
-      COUNTED_FPRINTF(fwrite_stream,
-                      "%s<%s, %018p>",
-                      TYPE_STR(this),
-                      CORE_NAME(this),
-                      CORE_FUN(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
+    break;
+  case AE_ENV:
+    if (NILP(ENV_PARENT(this))) {
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→nil>", TYPE_STR(this), this);
+    }
+    else {
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→%018p>", TYPE_STR(this), this, ENV_PARENT(this));
+    }
+    fwrite_counter--;
     break;
   case AE_LAMBDA:
   case AE_MACRO:
-    COUNTED_FPRINTF(fwrite_stream,
-                    "%s<%018p, %018p, ",
-                    TYPE_STR(this),
-                    FUN_ENV(this),
-                    FUN_BODY(this));
-
+    COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %018p, ", TYPE_STR(this), FUN_ENV(this), FUN_BODY(this));
     ae_fwrite_internal(FUN_PARAMS(this));
-  
     COUNTED_FPRINTF(fwrite_stream,">");
-    
     break;
   case AE_INF:
     COUNTED_FPUTS("∞", fwrite_stream);
     break;
   case AE_CONS:
     FLPAR;
-
     fwrite_quoting = true;
-    
+
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
@@ -206,7 +232,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         FSPC;
       }
     }
-
     FRPAR;
     break;
   case AE_SYMBOL:
@@ -220,44 +245,53 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       if (fwrite_quoting)
         COUNTED_FPUTC('"', fwrite_stream);
 
-      COUNTED_FPUTS(STR_VAL(this), fwrite_stream);
+      COUNTED_FPUTS(SYM_VAL(this), fwrite_stream);
+    
+      /* for (int ix = 0, len = strlen(STR_VAL(this));; ix < len; ix++) { */
+      /*   char chr     = STR_VAL(this)[ix]; */
+      /*   bool escaped = false; */
+
+      /*   if (escaped) { */
+      /*     switch (chr) { */
+      /*       FOR_EACH_ESCAPED_CHARACTER(escaped_char_case_str); */
+      /*       escaped = false; */
+      /*       break; */
+      /*     default: */
+      /*       assert(((void)"Unrecognized escape", 0)); */
+      /*       break; */
+      /*     } */
+      /*   } */
+      /*   else if (chr == '\\') { */
+      /*     escaped = true; */
+      /*         COUNTED_FPUTC('@', stream); */
+      /*     continue; */
+      /*   } */
+      /*   else { */
+      /*     COUNTED_FPUTC(chr, fwrite_stream); */
+      /*   } */
+      /* } */
 
       if (fwrite_quoting)
         COUNTED_FPUTC('"', fwrite_stream);
     }
     break;
   case AE_INTEGER:
-    COUNTED_FPRINTF(fwrite_stream,
-                    "%d",
-                    INT_VAL(this));
+    COUNTED_FPRINTF(fwrite_stream, "%d", INT_VAL(this));
     break;
   case AE_RATIONAL:
-    COUNTED_FPRINTF(fwrite_stream,
-                    "%d/%d",
-                    NUMER_VAL(this) ,
-                    DENOM_VAL(this));
+    COUNTED_FPRINTF(fwrite_stream, "%d/%d", NUMER_VAL(this) , DENOM_VAL(this));
     break;
   case AE_FLOAT:
-    COUNTED_FPRINTF(fwrite_stream,
-                    "%g",
-                    FLOAT_VAL(this));
+    COUNTED_FPRINTF(fwrite_stream, "%g", FLOAT_VAL(this));
     break;
   case AE_CHAR:
   {
     char tmp[3] = { 0 };
 
     switch (this->char_val) {
-
-#define escaped_char_case(displayed, unescaped)                                                    \
-      case unescaped:                                                                              \
-        tmp[0] = '\\';                                                                             \
-        tmp[1] = displayed;                                                                        \
-        break;
-      FOR_EACH_ESCAPED_CHARACTER(escaped_char_case);
-#undef escaped_char_case
-
+      FOR_EACH_ESCAPED_CHARACTER(escaped_char_case_char);
     default:
-      tmp[0] = this->char_val;
+      tmp[0] = CHAR_VAL(this);
     }
 
     if (fwrite_quoting)
@@ -278,33 +312,3 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
   return fwrite_counter;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's fput_words
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-DEF_S_METHOD(put_words);
-int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
- 
-int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
-  ASSERT_NOT_NULLP(this);
-
-  int                         written = 0;
-  const unsigned char * const start   = (unsigned char *)this;
-
-  // This assumes the system is little-endian and renders the values as if they were big-endian.
-
-  for (unsigned int ix = 0; ix < sizeof(*this); ix++) {
-    if (ix % 8 == 0)
-      written += fputs("0x", stream);
-
-    written += fprintf(stream, "%02x", start[(7 - (ix % 8)) + (ix & ~0x7)]);
-
-    if ((ix + 1) % 8 == 0) {
-      written += fputs(" ", stream);
-    }
-  }
-
-  return written;
-}
-

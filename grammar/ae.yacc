@@ -6,6 +6,7 @@
 
 #include "ae_obj.h"
 #include "ae_env.h"
+#include "ae_eval.h"
 #include "ae_free_list.h"
 #include "ae_write.h"
 #include "ae_util.h"
@@ -50,7 +51,7 @@
     
     written += PR("%018p", this);
     
-    while (written++ < 27) SPC;
+    while (written++ < 32) SPC;
 
     // This hacky extra print is required because we printed a multi-byte character earlier:
     if (dotted)
@@ -83,12 +84,11 @@
   extern FILE * yyin;
 
   //////////////////////////////////////////////////////////////////////////////
-  // main
+  // preface
   //////////////////////////////////////////////////////////////////////////////
 
-  main() {
-    putchar('\n');
-
+  void preface(void) {
+    NL;
     printf("obj size:          %d.\n",    sizeof(ae_obj_t));
     printf("int size:          %d.\n",    sizeof(int));
     printf("nil is at:         %016p.\n", NIL);
@@ -99,58 +99,87 @@
            sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
            sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
     printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
-
-    free_list_add_block(&mem[0], free_list_size);
-    
-    FILE * fp = fopen("data/sample.txt", "r");
-    yyin = fp;
-    yyparse();
-
-    printf("root:    ");
-    if (root)
-      PUT(root);
-    else
-      PR("NULL!");
     NL;
+  }
 
-    ae_obj_t * program_obj = root;
+  //////////////////////////////////////////////////////////////////////////////
+  // describe_parse
+  //////////////////////////////////////////////////////////////////////////////
 
-    printf("program:           ");
+  void describe_parse(ae_obj_t * program_obj) {
+    printf("\nprogram:           ");
 
     if (! program_obj) {
       PR("NULL!");
-      return 0;
+      return;
     }
     else {
-      PUT(program_obj);
+      PUT(CADR(program_obj));
     }
     
+    /* NL; */
+    /* pool_print(); */
     NL;
 
-    ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
-    
-    pool_print();
-    NL;
-
-    puts("Describing items in program.");
+    puts("\nDescribing items in program.");
     FOR_EACH(obj, program_obj)
       describe(obj, false);
     puts("Described items in program.");
     NL;
 
     fputs("Count items in program obj: ", stdout); 
-    printf("%d", LENGTH(program_obj));
+    printf("%d", LENGTH(CDR(program_obj)));
     NL;
     NL;
     
     puts("Writing items in program obj.");
-    if (CONSP(program_obj) && CAR(program_obj))
-      EACH(program_obj, do_write);
+    if (CONSP(program_obj) && CDR(program_obj))
+      EACH(CDR(program_obj), do_write);
     puts("Wrote items in program obj.");
     NL;
+
+    puts("Writing program obj.");
+    WRITE(program_obj);
+    NL;
+    puts("Wrote program obj.");
+    NL;
+    
     puts("Writing interned symbols.");
     ae_write(symbols_list);
     puts("\nWrote interned symbols.");    
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////
+  // main
+  //////////////////////////////////////////////////////////////////////////////
+
+  main() {
+    preface();
+    
+    free_list_add_block(&mem[0], free_list_size);
+    
+    PR("\nPopulating root env...");
+    ae_obj_t * env = ENV_NEW_ROOT();
+    PR("\nDone populating root env.\n\n");
+
+    FILE * fp = fopen("data/sample.lisp", "r");
+    yyin = fp;
+    yyparse();
+
+    printf("root:              ");
+    if (root)
+      PUT(root);
+    else
+      PR("NULL!");
+    NL;
+
+    ae_obj_t * program_obj = CONS(SYM("progn"), root);
+
+    describe_parse(program_obj);
+
+    PR("\n\nEvaluating program...\n");
+    EVAL(env, program_obj);
+    PR("\nDone evaluating program.\n");
   }
 
     //////////////////////////////////////////////////////////////////////////////

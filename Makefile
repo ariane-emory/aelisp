@@ -6,7 +6,7 @@ COMMON_CFLAGS = \
 	-I . \
 	-Wno-misleading-indentation \
 	-DAE_LOG_EVAL \
-	-DAE_OBJ_POOL_SIZE=1024
+	-DAE_OBJ_POOL_SIZE=512 \
 
 LOG_CFLAGS = \
 	-DAE_LOG_CORE \
@@ -24,6 +24,8 @@ LOG_CFLAGS = \
 
 TEST_CFLAGS = \
 	-Wno-unused-value
+
+BIN_CFLAGS = \
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
@@ -77,7 +79,7 @@ bin/test/%: bin/test
 
 bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
 ################################################################################
 # Lexer/parser
@@ -113,8 +115,8 @@ bin/test:
 ################################################################################
 
 tests: clean all
-#	./bin/ae
-	$(foreach bin, $(TEST_BINS), $(bin))
+#	$(foreach bin, $(TEST_BINS), $(bin))
+	./bin/ae
 
 debug: clean all
 	$(GDB) ./bin/ae

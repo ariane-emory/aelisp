@@ -684,33 +684,40 @@ void core_print_princ_write(void) {
   SETUP_TEST;
   NL;
   {
-    PR("\nPrinting '\"hello\" 5 a abc' oo the next line: ");
+    PR("write-ing '\"hello\" 5 a abc' on the next line, with quoting: ");
     NL;
 
-    obj written  = ae_core_write(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
+    obj written  = ae_core_write(
+      CONS(NEW_STRING("hello"),
+           CONS(NEW_INT(5),
+           CONS(NEW_CHAR('a'),
+           CONS(SYM("abc"),
+           NIL)))));
     NL;
     T(INT_VAL(written) == 17);
     TM("Expected %d, wrote %d.", 17, INT_VAL(written));
   }
   {
-    PR("\nPrinting 'hello 5 a abc' oo the next line: ");
-    obj written = ae_core_print(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
+    PR("\nprint-ing \"hello\",  5 a, abc on the next 3 lines, with quoting: ");
+    obj written = ae_core_print(
+      CONS(NEW_STRING("hello"),
+           CONS(NEW_INT(5),
+           CONS(NEW_CHAR('a'),
+           CONS(SYM("abc"),
+           NIL)))));
     NL;
-    T(INT_VAL(written) == 14);
+    T(INT_VAL(written) == 21);
     TM("Expected %d, wrote %d.", 14, INT_VAL(written));
   }
   {
-    PR("\nPrinting 'hello5aabc' on the next line: ");
+    PR("\nprinc-ing 'hello5aabc' on the next line, without quoting: ");
     NL;
-    obj written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));;
-    NL;
-    T(INT_VAL(written) == 10);
-    TM("Expected %d, wrote %d.", 10, INT_VAL(written));
-  }
-  {
-    PR("\nPrinting 'hello5aabc' on the next line: ");
-    NL;
-    obj written = ae_core_princ(CONS(NEW_STRING("hello"), CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("abc"))))));
+    obj written = ae_core_princ(
+      CONS(NEW_STRING("hello"),
+           CONS(NEW_INT(5),
+           CONS(NEW_CHAR('a'),
+           CONS(SYM("abc"),
+           NIL)))));;
     NL;
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
@@ -759,7 +766,7 @@ void core_cmp(void) {
   T(NILP (ae_core_lte(CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(2))))))));
 }
 
-void core_sleep(void) {
+void core_msleep(void) {
   SETUP_TEST;
 
   obj expr = NIL;
@@ -767,19 +774,19 @@ void core_sleep(void) {
   obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
   obj print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
-  obj sleep = CONS(SYM("sleep"),  CONS(NEW_INT(250), NIL));
+  obj msleep = CONS(SYM("msleep"),  CONS(NEW_INT(100), NIL));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
 
   for (int ix = 0; ix < 6; ix++) {
     expr            = CONS(incr2, expr);
-    expr            = CONS(sleep, expr);
+    expr            = CONS(msleep, expr);
     expr            = CONS(print, expr);
   }
 
   expr              = CONS(SYM("progn"), expr);
 
-  NL; NL; PR("Counting from 10 to 20 (in steps of 2), 1/4 of a second apart.");
+  NL; NL; PR("Counting from 10 to 20 (in steps of 2), 1/10 of a second apart.");
   EVAL(env, expr);
   NL;
   T(EQL(EVAL(env, SYM("xx")), NEW_INT(22)));
@@ -951,14 +958,10 @@ void macro_expand(void) {
   obj env = ENV_NEW_ROOT();
   PR("\nDone populating root env.\n");
 
-  PR("\nDefining 'list'...");
-  obj list_fun      = ae_env_define_list_fun(env);
-  PR("\n\nDone defining 'list'.\n\n");
-
+  GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
+  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
-  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
-  GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
 
   obj macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
@@ -969,16 +972,6 @@ void macro_expand(void) {
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
-  /* obj macro_fun = EVAL(env, macro_def); */
-  /* DESCR(macro_fun); */
-  /* NL; */
-
-  /* obj setq_for_macro_fun   = CONS(SYM("setq"), CONS(SYM("add1"), CONS(macro_fun, NIL))); */
-  /* obj rtrn_for_macro_fun   = EVAL(env, setq_for_macro_fun); */
-  /* OLOG(setq_for_macro_fun); */
-  /* OLOG(rtrn_for_macro_fun); */
-  /* NL; */
-
   obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   obj rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
   NL;
@@ -986,17 +979,9 @@ void macro_expand(void) {
   OLOG(rtrn_for_macro_def);
   NL;
 
-  /* obj call_add1      = CONS(SYM("add1"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL))); */
-  /* OLOG(call_add1); */
-  /* NL; */
-
   obj call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
   OLOG(call_add2);
   NL;
-
-  /* obj rtrn_of_call_add1 = EVAL(env, call_add1); */
-  /* OLOG(rtrn_of_call_add1); */
-  /* NL; */
 
   obj call_add2_rtrn = EVAL(env, call_add2);
   OLOG(call_add2_rtrn);
@@ -1033,9 +1018,10 @@ void macro_expand(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
+
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1058,10 +1044,8 @@ void macro_expand(void) {
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
-  DO(core_sleep)                                                                                   \
+  DO(core_msleep)                                                                                   \
   DO(root_env_and_eval)                                                                            \
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(list_fun)                                                                                     \
   DO(macro_expand)
 

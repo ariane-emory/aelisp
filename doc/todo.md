@@ -1,4 +1,5 @@
 To Do:
+- [ ] core apply?
 - [ ] root_env_and_eval test is too big, slice it up.
 - [ ] Maybe core 'let'?
 - [ ] Maybe add 'print' (just 'write' with a newline in front).

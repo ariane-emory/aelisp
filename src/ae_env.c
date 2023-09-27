@@ -7,39 +7,39 @@
 // _add
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_env_add(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
-  ASSERT_ENVP(this);
+void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
+  ASSERT_ENVP(env);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
 
 #ifdef AE_LOG_ENV
   PR("\nAdding %018p", value);
   PUT(value);
-  PR(" to %018p", this);
-  PUT(this);
+  PR(" to %018p", env);
+  PUT(env);
   NL;
 #endif
   
-  ENV_SYMS(this) = CONS(symbol, ENV_SYMS(this));
-  ENV_VALS(this) = CONS(value,  ENV_VALS(this));
+  ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
+  ENV_VALS(env) = CONS(value,  ENV_VALS(env));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
-  ASSERT_ENVP(this);
+ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
+  ASSERT_ENVP(env);
   ASSERT_SYMBOLP(symbol);
   
-  ae_obj_t * pos = this;
+  ae_obj_t * pos = env;
   
   for (; ENVP(pos); pos = ENV_PARENT(pos)) {
 #ifdef AE_LOG_ENV
     PR("Looking for '");
     PRINC(symbol);
     PR(" in env ");
-    PUT(this);
+    PUT(env);
     NL;
 #endif
     
@@ -75,8 +75,8 @@ ae_obj_t * ae_env_find(ae_obj_t * const this, ae_obj_t * const symbol) {
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const value) {
-  ASSERT_ENVP(this);
+void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
+  ASSERT_ENVP(env);
   ASSERT_SYMBOLP(symbol);
   ASSERT_NOT_NULLP(value);
 
@@ -84,44 +84,47 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
   PR("Looking for '");
   PRINC(symbol);
   PR(" in env ");
-  PUT(this);
+  PUT(env);
   PR(" to place %018p.", value);
   NL;
   PR("  syms: ");
-  PRINC(ENV_SYMS(this));
+  PRINC(ENV_SYMS(env));
   NL;
   PR("  vals:  ");
-  PRINC(ENV_VALS(this));
+  PRINC(ENV_VALS(env));
   NL;
   NL;
 #endif
 
-  ae_obj_t * env    = this;
+  ae_obj_t * pos = env;
 
-  while (true) {
+  while (! NILP(pos)) {
     {
-      ae_obj_t * vals = ENV_VALS(env);
+      ae_obj_t * syms = ENV_SYMS(pos);
+      ae_obj_t * vals = ENV_VALS(pos);
 
-      FOR_EACH(sym, ENV_SYMS(env)) {
+      while (!NILP(syms) && !NILP(vals)) {
+        ae_obj_t * sym = CAR(syms);
+
 #ifdef AE_LOG_ENV
         PR("  Looking at sym ");
         PRINC(sym);
         NL;
         PR("    syms ");
-        PRINC(ENV_SYMS(position));
+        PRINC(syms);
         NL;
         PR("    vals ");
         PRINC(vals);
         NL;
 #endif
-        
+
         if (EQ(symbol, sym)) {
 #ifdef AE_LOG_ENV
-          PR("  Found it in car of: ");
-          PUT(vals);
+          PR("  Found it in syms: ");
+          PUT(syms);
           NL;
 #endif
-          
+
           CAR(vals) = value;
 
 #ifdef AE_LOG_ENV
@@ -129,47 +132,33 @@ void ae_env_set(ae_obj_t * const this, ae_obj_t * const symbol, ae_obj_t * const
           PUT(vals);
           NL;
 #endif
-          
+
           return;
         }
-        
-        if (EQ(symbol, CDR(ENV_SYMS(position)))) {
-#ifdef AE_LOG_ENV
-          PR("  Found it in cdr of: ");
-          PUT(vals);
-          NL;
-#endif
-          
-          CDR(vals) = value;
-          
-#ifdef AE_LOG_ENV
-          PR("  After:              ");
-          PUT(vals);
-          NL;
-#endif
-          
-          return;
-        }
-        
+
+        syms = CDR(syms);
         vals = CDR(vals);
       }
     }
-    
-    if (NILP(env->parent)) {
+
+    if (NILP(pos->parent)) {
 #ifdef AE_LOG_ENV
       PR("  Adding new.\n");
 #endif
-      
-        ENV_ADD(this, symbol, value);
-        
-        return;
-    }
-    else {
+
+#ifdef AE_LEXICAL_SCOPING      
+      ENV_ADD(env, symbol, value);
+#else
+      ENV_ADD(pos, symbol, value);
+#endif
+
+      return;
+    } else {
 #ifdef AE_LOG_ENV
       PR("  Going up.\n");
 #endif
-      
-      env = ENV_PARENT(env);
+
+      pos = ENV_PARENT(pos);
     }
   }
 }
@@ -192,9 +181,10 @@ ae_obj_t * ae_env_new_root(void) {
   ae_env_set(env, NIL,  NIL);
   ae_env_set(env, TRUE, TRUE);
 
+  ae_env_define_list_fun(env);
+  
   return env;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _define_list_fun

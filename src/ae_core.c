@@ -102,10 +102,15 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   ASSERT_SYMBOLP(CAR(args));
   ASSERT_CONSP(CDR(args));
 
-  ae_obj_t * sym  = CAR(args);
-  ae_obj_t * val  = EVAL(env, CADR(args)); // allowed to be NIL.
+  LOG(env, "setq called in");
+  
+  ae_obj_t * sym         = CAR(args);
+  ae_obj_t * val         = EVAL(env, CADR(args)); // allowed to be NIL.
+  ae_obj_t * setq_in_env = env; // ! NILP(ENV_PARENT(env)) ? ENV_PARENT(env): env;
 
-  ENV_SET(env, sym, val);
+  // OLOG(setq_in_env);
+  
+  ENV_SET(setq_in_env, sym, val);
 
   return val;
 }
@@ -140,6 +145,32 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
   ASSERT_NILP(CDR(args)); // for now, this supports 1 argument.
 
   return CAR(args);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _exit
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_exit(ae_obj_t * const args) {
+  ASSERT_NILP(CDR(args));
+  ASSERT_INTEGERP(CAR(args));
+  
+  exit(INT_VAL(CAR(args)));
+  
+  return CAR(args);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_eval(ae_obj_t * const env_and_args) {
+  SPECIAL_FUN_ARGS(env, args, env_and_args);
+
+  ASSERT_NILP(CDR(args));
+  ASSERT_NOT_NULLP(CAR(args));
+  
+  return EVAL(env, EVAL(env, CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,10 +286,10 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _sleep
+// _msleep
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_sleep(ae_obj_t * const args) {
+ae_obj_t * ae_core_msleep(ae_obj_t * const args) {
   ASSERT_CONSP(args);
   assert(LENGTH(args) == 1);
   ASSERT_INTEGERP(CAR(args));
@@ -374,7 +405,24 @@ ae_obj_t * ae_core_not(ae_obj_t * const args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _princ
+// _princ - on the current line, without quoting. 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_put(ae_obj_t * const args) {
+  ASSERT_CONSP(args);
+
+  int written = 0;
+
+  FOR_EACH(elem, args)
+    written += PUT(elem);
+
+  fflush(stdout);
+  
+  return NEW_INT(written);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _princ - on the current line, without quoting. 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_princ(ae_obj_t * const args) {
@@ -382,20 +430,20 @@ ae_obj_t * ae_core_princ(ae_obj_t * const args) {
 
   int written = 0;
 
-  FOR_EACH(elem, args) {
+  FOR_EACH(elem, args)
     written += PRINC(elem);
-  }
 
+  fflush(stdout);
+  
   return NEW_INT(written);
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _print
+// _print - on a new line, with quoting. BUG: no quoting?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_print(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
+  ASSERT_CONSP(args); 
 
   int written = 0;
 
@@ -408,14 +456,14 @@ ae_obj_t * ae_core_print(ae_obj_t * const args) {
     }
   }
 
+  fflush(stdout);
+
   return NEW_INT(written);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _write
+// _write - on the current line, with quoting. Works.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// _write is temporarily identical to _princ.
 
 ae_obj_t * ae_core_write(ae_obj_t * const args) {
   ASSERT_CONSP(args);
@@ -424,11 +472,14 @@ ae_obj_t * ae_core_write(ae_obj_t * const args) {
 
   FOR_EACH(elem, args) {
     written += WRITE(elem);
+
     if (NOT_NILP(CDR(position))) {
       SPC;
       written++;
     }
   }
 
+  fflush(stdout);
+  
   return NEW_INT(written);
 }
