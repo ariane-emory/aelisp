@@ -212,7 +212,7 @@ ae_obj_t * ae_core_vals(ae_obj_t * const args) {
 ae_obj_t * ae_core_type(ae_obj_t * const args) {
   assert((LENGTH(args) == 1));
   
-  return SYM((char *)(TYPE_STR(CAR(args))));
+  return SYM(((char *)(TYPE_STR(CAR(args)))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
