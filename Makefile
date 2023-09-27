@@ -5,7 +5,7 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
-	-DAE_OBJ_POOL_SIZE=512 \
+	-DAE_OBJ_POOL_SIZE=1024 \
 
 LOG_CFLAGS = \
 	-DAE_LOG_ENV \

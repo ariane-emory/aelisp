@@ -16,6 +16,8 @@
 (write (defmacro add (x y) (list (quote +) x y)))
 (nl) (princ "AFTER") (nl) (nl)
 
+(write (quote (name params . body))) (nl)
+
 ;; (write (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
 
 ;; (defun print-and-die (x) (print "Dying...") (exit 0))
