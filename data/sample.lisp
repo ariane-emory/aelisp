@@ -33,7 +33,8 @@
 (princ "2 Set:         ") (write                  defun)                                                                                                        (nl)
 (princ "2 Ev. params:  ") (write (params          defun))                                                                                                       (nl)
 (princ "2 Ev. body  :  ") (write (body            defun))                                                                                                       (nl)
-(princ "3 Called:      ") (write (body            defun))                                                                                                       (nl)
+;(princ "3 Called:      ") (write (               (defun hello (str) (list (quote (print "Hello "))))))                                                          (nl)
+(princ "3 Called:      ") (write                  (defun x (y) (list (quote z))))                                                                               (nl)
 (princ "AFTER") (nl)
 (nl)
 
