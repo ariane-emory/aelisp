@@ -2,18 +2,20 @@
 ")))
 (setq stop   (lambda ()  (terpri) (exit 0)))
 (setq sleep  (lambda (x) (msleep (* 1000 x))))
-(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
-(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
+ (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
 
-(setq defun (macro (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
 (setq add   (macro (xxx yyy)            (list (quote +) xxx yyy)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (print (env :syms))
 
 (nl)
-
 (nl)
+
+
 (princ "BEFORE defmacro") (nl)
+(setq defun (macro (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
 (write defmacro) (nl)
 (princ "Params: ") (write (params defmacro)) (nl)
 (princ "Body:   ") (write (body   defmacro))   (nl)
@@ -26,6 +28,7 @@
 (princ "Body:   ") (write (body add)) (nl)
 (princ "AFTER") ; (nl)
 
+(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
 (nl) (princ "BEFORE defun") (nl)
 (write defun) (nl)
 (princ "Params: ") (write (params defun)) (nl)
