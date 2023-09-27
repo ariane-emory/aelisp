@@ -9,6 +9,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(princ "env:    ") (princ         (env))  (nl)
+(princ "syms:   ") (princ (syms   (env))) (nl)
+(princ "vals:   ") (princ (vals   (env))) (nl)
+(princ "parent: ") (princ (parent (env))) (nl)
+
+(stop)
+
 (setq test (lambda (first . rest)
              (princ "first:  ")  (write first)
              (princ " rest:   ") (write rest)

@@ -19,7 +19,10 @@
   DO(exit)                                                                                         \
   DO(put)                                                                                          \
   DO(print)                                                                                        \
-  DO(princ) 
+  DO(princ)                                                                                        \
+  DO(syms)                                                                                         \
+  DO(vals)                                                                                         \
+  DO(parent)                                                                                       \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(env)                                                                                          \
