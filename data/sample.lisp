@@ -7,33 +7,44 @@
 
 (print (env :syms))
 (nl)
+(nl)
 
 (princ "BEFORE add") (nl)
-(write (setq add   (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
+(write (setq add (macro (xxx yyy) (list (quote +) xxx yyy))))
+(nl)
 (princ "Params: ") (write (params add)) (nl)
 (princ "Body:   ") (write (body add)) (nl)
 (princ "AFTER") (nl)
 (nl)
- 
-(princ "BEFORE defmacro") (nl)
-;;     (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))
-(write (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))) (nl)
-(princ "Params: ") (write (params defmacro)) (nl)
-(princ "Body:   ") (write (body   defmacro))   (nl)
+
+(princ "BEFORE madd") (nl)
+(write (setq madd (eval (add 7 8))))
+(nl)
 (princ "AFTER") (nl)
 (nl)
 
 (stop)
 
-(princ "BEFORE madd1") (nl)
-(write (setq madd (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
+
+(princ "BEFORE defmacro") (nl)
+;;     (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))
+(write (setq defmacro (macro (name params . body) (list name params . body))))
+(nl)
+(princ "Params: ") (write (params defmacro)) (nl)
+(princ "Body:   ") (write (body   defmacro))   (nl)
+(princ "AFTER") (nl)
+(nl)
+
+
+(princ "BEFORE madd2") (nl)
+(write (eval (defmacro madd (xxx yyy) (list (quote +) xxx yyy))))
 (princ "Params: ") (write (params madd)) (nl)
 (princ "Body:   ") (write (body madd)) (nl)
 (princ "AFTER") (nl)
 (nl)
 
-(princ "BEFORE madd2") (nl)
-(write (eval (defmacro madd (xxx yyy) (list (quote +) xxx yyy))))
+(princ "BEFORE madd1") (nl)
+(write (setq madd (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
 (princ "Params: ") (write (params madd)) (nl)
 (princ "Body:   ") (write (body madd)) (nl)
 (princ "AFTER") (nl)
