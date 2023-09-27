@@ -101,27 +101,6 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
                     CDR(this),
                     LENGTH(this));
     break;
-  /* case AE_LAMBDA: */
-  /*   COUNTED_FPRINTF(stream, */
-  /*                   "%018p %018p %018p", */
-  /*                   this->params, */
-  /*                   this->body, */
-  /*                   this->env); */
-  /*   break; */
-  /* case AE_ENV: */
-  /*   COUNTED_FPRINTF(stream, */
-  /*                   "%018p %018p %018p", */
-  /*                   this->parent, */
-  /*                   this->symbols, */
-  /*                   this->values); */
-  /*   break; */
-  /* case AE_CORE: */
-  /*   COUNTED_FPRINTF(stream, */
-  /*                   "% -18s %-18s %018p", */
-  /*                   CORE_NAME(this), */
-  /*                   (SPECIALP(this) ? "special" : "-"), */
-  /*                   CORE_FUN(this)); */
-  /*   break; */
   case AE_CHAR:
     COUNTED_FPUTC('\'', fwrite_stream);
     fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.

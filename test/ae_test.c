@@ -1011,7 +1011,9 @@ void macro_expand(void) {
   NL;
   OLOG(princ);
   NL;
-  EVAL(env, princ);
+  obj princed_len = EVAL(env, princ);
+  NL;
+  OLOG(princed_len);
   NL;
 }
 
