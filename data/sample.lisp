@@ -12,8 +12,8 @@
 (princ "BEFORE add") (nl)
 (write (setq add (macro (xxx yyy) (list (quote +) xxx yyy))))
 (nl)
-(princ "Params: ") (write (params add)) (nl)
-(princ "Body:   ") (write (body add)) (nl)
+(princ "Params:   ") (write (params add)) (nl)
+(princ "Body:     ") (write (body add)) (nl)
 (princ "AFTER") (nl)
 (nl)
 
@@ -23,18 +23,20 @@
 (princ "AFTER") (nl)
 (nl)
 
-(stop)
-
-
 (princ "BEFORE defmacro") (nl)
 ;;     (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))
 (write (setq defmacro (macro (name params . body) (list name params . body))))
 (nl)
-(princ "Params: ") (write (params defmacro)) (nl)
-(princ "Body:   ") (write (body   defmacro))   (nl)
+(princ "Params:   ") (write (params defmacro)) (nl)
+(princ "Body:     ") (write (body defmacro)) (nl)
+(prind "Evaledd:  ")
 (princ "AFTER") (nl)
 (nl)
 
+
+
+
+(stop)
 
 (princ "BEFORE madd2") (nl)
 (write (eval (defmacro madd (xxx yyy) (list (quote +) xxx yyy))))
