@@ -195,10 +195,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, special>", TYPE_STR(this), CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s, special>", TYPE_STR(this), this, CORE_NAME(this));
       // COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p, special>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s>", TYPE_STR(this), CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s>", TYPE_STR(this), this, CORE_NAME(this));
       // COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     break;
   case AE_ENV:
