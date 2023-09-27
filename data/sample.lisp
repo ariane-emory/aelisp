@@ -10,10 +10,11 @@
 (nl)
 
 (princ "BEFORE add") (nl)
-(write (setq add (macro (xxx yyy) (list (quote +) xxx yyy))))
+(write (setq add (macro (name params) (list (quote +) name params))))
 (nl)
 (princ "Params:   ") (write (params add)) (nl)
 (princ "Body:     ") (write (body add)) (nl)
+(princ "Expanded  ") (write (add 7 8)) (nl)
 (princ "AFTER") (nl)
 (nl)
 
@@ -29,7 +30,8 @@
 (nl)
 (princ "Params:   ") (write (params defmacro)) (nl)
 (princ "Body:     ") (write (body defmacro)) (nl)
-(prind "Evaled:  ")
+(princ "Expanded  ") (write (defmacro moop (x y) (list 1)))
+(nl)
 (princ "AFTER") (nl)
 (nl)
 
