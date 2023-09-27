@@ -13,7 +13,9 @@
   DO(parent)  /* env/fun accessor */                                                               \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
+  DO(msleep)                                                                                       \
   DO(properp)                                                                                      \
+  DO(length)                                                                                       \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
@@ -21,7 +23,6 @@
   DO(eq)                                                                                           \
   DO(eql)                                                                                          \
   DO(exit)                                                                                         \
-  DO(msleep)                                                                                       \
   DO(not)                                                                                          \
   DO(princ)                                                                                        \
   DO(print)                                                                                        \

@@ -24,8 +24,8 @@
 
 (princ "(1 . nil) is proper: ") (princ      (properp  (cons 1 nil)))  (nl)
 (princ "(1 . 2) is improper: ") (princ (not (properp  (cons 1 2  )))) (nl)
-(princ "(1 . nil) length: ")    (princ      (length   (cons 1 nil)))  (nl)
-(princ "(1 . 2) length: ")      (princ (not (length   (cons 1 2  )))) (nl)
+(princ "(1 . 2) length:      ") (princ (not (length   (cons 1 2  )))) (nl)
+(princ "(1 . nil) length:    ") (princ      (length   (cons 1 nil)))  (nl)
 
 (stop)
 
