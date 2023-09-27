@@ -33,3 +33,55 @@ DOC is a string where \"FUNCTION\" and \"OLDFUN\" are expected.")
   (while (advice--p f)
     (setq f (advice--cdr f)))
   f)
+
+(nl) (princ "BEFORE") (nl)
+(write (defmacro add (x y) (list (quote +) x y)))
+(nl) (princ "AFTER") (nl) (nl)
+
+(nl) (princ "BEFORE") (nl)
+(write (body (defmacro add (x y) (list (quote +) x y))))
+(nl) (princ "AFTER") (nl) (nl)
+
+;; (write (quote (name params . body))) (nl)
+
+;; (write (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
+
+;; (defun print-and-die (x) (print "Dying...") (exit 0))
+
+(nl)
+
+;; (print-and-die)
+
+;; (setq m-add (macro (xxx yyy) (list (quote +) xxx yyy)))
+;; (setq qq (m-add 4 9))
+;; (print qq)
+;; (print (eval qq))
+
+;; (nl)
+
+;; ((lambda (x y) (+ x y)) 4 9)
+
+;; (qq)
+
+;; (stop)
+
+;; (setq test
+;;   (lambda (x y . z)
+;;     (nl)
+;;     (princ "Rest: ")
+;;     (princ z)
+;;     (nl)
+;;     (+ x y)))
+
+;; (test 1 2 3 4)
+
+;; (setq zzz 777)
+;; (setq test
+;;   (lambda ()
+;;     (setq zzz 888)))
+
+;; (test)
+
+;; (print zzz)
+
+;; (print (env :vals))
