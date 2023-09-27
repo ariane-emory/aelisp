@@ -16,14 +16,14 @@
   ASSERT_ENVP(CAR(env_and_args));                                                                  \
   ASSERT_TAILP(CDR(env_and_args));                                                                 \
   ae_obj_t * env  = CAR(env_and_args);                                                             \
-  ae_obj_t * args = CDR(bundle)
+  ae_obj_t * args = CDR(bundle)                                                                    \
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
   PR("\n\n[CREATE " name "]");                                                                     \
   LOG(args, "create args");                                                                        \
   LOG(CAR(args), "fun args");                                                                      \
-  LOG(CDR(args), "fun body");
+  LOG(CDR(args), "fun body")
 #else
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
 #endif
