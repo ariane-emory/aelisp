@@ -200,6 +200,8 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_CONS:
     FLPAR;
 
+    fwrite_quoting = true;
+    
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
