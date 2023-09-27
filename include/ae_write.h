@@ -28,6 +28,10 @@ int           ae_princ             (const ae_obj_t *  const this                
 char *        ae_sprinc            (const ae_obj_t *  const this                                  );
 int           ae_fprinc            (const ae_obj_t *  const this,  FILE * stream                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+int           ae_print             (const ae_obj_t *  const this                                  );
+char *        ae_sprint            (const ae_obj_t *  const this                                  );
+int           ae_fprint            (const ae_obj_t *  const this,  FILE * stream                  );
+////////////////////////////////////////////////////////////////////////////////////////////////////
 int           ae_write             (const ae_obj_t *  const this                                  );
 char *        ae_swrite            (const ae_obj_t *  const this                                  );
 int           ae_fwrite            (const ae_obj_t *  const this,  FILE * stream                  );
