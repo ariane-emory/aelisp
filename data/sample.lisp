@@ -1,19 +1,20 @@
+;; (setq stop   (lambda ()  (terpri) (exit 0)))
+;; (setq sleep  (lambda (x) (msleep (* 1000 x))))
 (setq nl (lambda ()  (princ "
 ")))
 
-;; (setq stop   (lambda ()  (terpri) (exit 0)))
-;; (setq sleep  (lambda (x) (msleep (* 1000 x))))
-
-;; (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
-;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
+(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
+(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
 ;; (defmacro madd2 (xxx yyy) (list (quote +) xxx yyy))
 
+(defun print-and-die (x) (print "Dying...") (exit 0))
+
+(print-and-die)
 
 ;; (setq m-add (macro (xxx yyy) (list (quote +) xxx yyy)))
 ;; (setq qq (m-add 4 9))
 ;; (print qq)
 ;; (print (eval qq))
-
 
 ;; (nl)
 
@@ -33,8 +34,7 @@
 
 ;; (test 1 2 3 4)
 
-(setq zzz 777
-  )
+(setq zzz 777)
 (setq test
   (lambda ()
     (setq zzz 888)))
