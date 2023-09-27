@@ -265,8 +265,7 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_exit(ae_obj_t * const args) {
-  ASSERT_NILP(CDR(args));
-  ASSERT_INTEGERP(CAR(args));
+  assert((LENGTH(args) == 1) && INTEGERP(CAR(args)));
   
   exit(INT_VAL(CAR(args)));
   
@@ -403,9 +402,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_msleep(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-  assert(LENGTH(args) == 1);
-  ASSERT_INTEGERP(CAR(args));
+  assert((LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   int ms = INT_VAL(CAR(args));
   
@@ -419,14 +416,11 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_car(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-  ASSERT_NILP(CDR(args));  // takes only one arg.
-  ASSERT_TAILP(CAR(args)); // which must be a tail.
+  assert((LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  if (NILP(CAR(args)))     // car of nil is nil.
-    return NIL;
-
-  return CAAR(args);
+  return (NILP(CAR(args)))
+    ? NIL // car of nil is nil.
+    : CAAR(args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -434,14 +428,11 @@ ae_obj_t * ae_core_car(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-  ASSERT_NILP(CDR(args));  // takes only one arg.
-  ASSERT_TAILP(CAR(args)); // which must be a tail.
+  assert((LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  if (NILP(CAR(args)))     // cdr of nil is nil.
-    return NIL;
-
-  return CDAR(args);
+  return (NILP(CAR(args)))
+    ? NIL // cdr of nil is nil.
+    : CDAR(args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
