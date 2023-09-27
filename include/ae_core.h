@@ -5,14 +5,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE(DO)                                                                          \
+  DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(body)    /* fun accessor */                                                                   \
   DO(params)  /* fun accessor */                                                                   \
   DO(syms)    /* env accessor */                                                                   \
   DO(vals)    /* env accessor */                                                                   \
   DO(parent)  /* env/fun accessor */                                                               \
-  DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
+  DO(properp)                                                                                      \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
