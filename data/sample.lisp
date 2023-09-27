@@ -42,4 +42,4 @@
 (test)
 
 (print zzz)
-
+(print (env))

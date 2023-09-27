@@ -20,6 +20,7 @@
   DO(princ) 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
+  DO(env)                                                                                          \
   DO(setq)                                                                                         \
   DO(progn)                                                                                        \
   DO(quote)                                                                                        \
