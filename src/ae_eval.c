@@ -87,7 +87,7 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #endif
   
   return ret;
-}                                                                               
+}
  
 //==================================================================================================
 // apply lambda fun
