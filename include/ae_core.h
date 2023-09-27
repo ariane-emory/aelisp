@@ -5,9 +5,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE(DO)                                                                          \
+  DO(body)    /* fun accessor */                                                                   \
+  DO(params)  /* fun accessor */                                                                   \
+  DO(syms)    /* env accessor */                                                                   \
+  DO(vals)    /* env accessor */                                                                   \
+  DO(parent)  /* env accessor */                                                                   \
   DO(atomp)                                                                                        \
-  DO(body)                                                                                         \
-  DO(params)                                                                                       \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(cons)                                                                                         \
@@ -20,9 +23,6 @@
   DO(put)                                                                                          \
   DO(print)                                                                                        \
   DO(princ)                                                                                        \
-  DO(syms)                                                                                         \
-  DO(vals)                                                                                         \
-  DO(parent)                                                                                       \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(env)                                                                                          \
