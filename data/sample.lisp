@@ -18,20 +18,19 @@
 (princ "Params: ") (write (params defmacro)) (nl)
 (princ "Body:   ") (write (body   defmacro))   (nl)
 (princ "AFTER") (nl)
-(nl)
-
-(nl) (princ "BEFORE defun") (nl)
-(write defun) (nl)
-(princ "Params: ") (write (params defun)) (nl)
-(princ "Body:   ") (write (body defun)) (nl)
-(nl) (princ "AFTER") (nl) (nl)
 
 
 (nl) (princ "BEFORE add") (nl)
 (write add) (nl)
 (princ "Params: ") (write (params add)) (nl)
 (princ "Body:   ") (write (body add)) (nl)
-(nl) (princ "AFTER") (nl) (nl)
+(princ "AFTER") ; (nl)
+
+(nl) (princ "BEFORE defun") (nl)
+(write defun) (nl)
+(princ "Params: ") (write (params defun)) (nl)
+(princ "Body:   ") (write (body defun)) (nl)
+(princ "AFTER") ; (nl)
 
 (stop)
 
