@@ -12,8 +12,8 @@
 (nl)
 (princ "BEFORE defmacro") (nl)
 (write defmacro) (nl)
-(princ "Body:   ") (write (body defmacro))   (nl)
 (princ "Params: ") (write (params defmacro)) (nl)
+(princ "Body:   ") (write (body   defmacro))   (nl)
 (princ "AFTER") (nl)
 (nl)
 
@@ -21,6 +21,8 @@
 
 (nl) (princ "BEFORE") (nl)
 (write (defmacro add (x y) (list (quote +) x y)))
+(princ "Params: ") (write (body (defmacro add (x y) (list (params +) x y)))) (nl)
+(princ "Body:   ") (write (body (defmacro add (x y) (list (quote +) x y)))) (nl)
 (nl) (princ "AFTER") (nl) (nl)
 
 
