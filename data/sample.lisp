@@ -3,13 +3,13 @@
 (setq nl (lambda ()  (princ "
 ")))
 
-(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
-(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
-;; (defmacro madd2 (xxx yyy) (list (quote +) xxx yyy))
+;; (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
+;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
+;; ;; (defmacro madd2 (xxx yyy) (list (quote +) xxx yyy))
 
-(defun print-and-die (x) (print "Dying...") (exit 0))
+;; (defun print-and-die (x) (print "Dying...") (exit 0))
 
-(print-and-die)
+;; (print-and-die)
 
 ;; (setq m-add (macro (xxx yyy) (list (quote +) xxx yyy)))
 ;; (setq qq (m-add 4 9))

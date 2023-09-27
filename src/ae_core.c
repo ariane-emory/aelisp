@@ -102,7 +102,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   ASSERT_SYMBOLP(CAR(args));
   ASSERT_CONSP(CDR(args));
 
-  LOG(env, "setq called in");
+  // LOG(env, "setq called in");
   
   ae_obj_t * sym         = CAR(args);
   ae_obj_t * val         = EVAL(env, CADR(args)); // allowed to be NIL.

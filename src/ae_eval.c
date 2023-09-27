@@ -69,12 +69,12 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 //==================================================================================================
 
 ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
-// #ifdef AE_LOG_EVAL
+#ifdef AE_LOG_EVAL
   PR("\n\n[apply core %s]", fun->name);  // extra spaces needed here to line up for some reason.
   LOG(fun, "apply core fun");
   LOG(env, "apply core env");
   LOG(args, "apply core args");
-// #endif
+#endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
 
@@ -96,14 +96,14 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   (void)env;
 
-// #ifdef AE_LOG_EVAL
+#ifdef AE_LOG_EVAL
   PR("\n\n[apply user fun]");
   LOG(fun, "applying user fun");
   LOG(FUN_PARAMS(fun), "appl user fun params");
   LOG(FUN_BODY(fun), "appl user fun body");
   LOG(env, "appl user fun env");
   LOG(args, "appl user fun args");
-// #endif
+#endif
   
   ae_obj_t * new_env = NIL;
 
@@ -112,9 +112,9 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   else
     new_env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
-// #ifdef AE_LOG_EVAL
+#ifdef AE_LOG_EVAL
   OLOG(new_env);
-// #endif 
+#endif 
   
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
   
