@@ -53,11 +53,11 @@ char * ae_s ## name(const ae_obj_t * const this) {                              
   return buff;                                                                                     \
 }
 
-#define DEF_F_METHOD(name, quotes, calls)                                                          \
+#define DEF_F_METHOD(name, quotes)                                                                 \
 int ae_f ## name(const ae_obj_t * const this, FILE * stream) {                                     \
   ASSERT_NOT_NULLP((this));                                                                        \
   FWRITE_RESET(stream, (quotes));                                                                  \
-  return calls(this);                                                                              \
+  return ae_fwrite_internal(this);                                                                 \
 }
 
 #define FWRITE_RESET(stream, quotes)                                                               \
@@ -65,36 +65,38 @@ int ae_f ## name(const ae_obj_t * const this, FILE * stream) {                  
   fwrite_counter = 0;                                                                              \
   fwrite_stream  = (stream)
 
+#define DEF_STDOUT_METHOD(name) \
+  int ae_ ## name (const ae_obj_t * const this) { return ae_f ## name(this, stdout); }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //  short methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+DEF_STDOUT_METHOD(princ);
 DEF_S_METHOD(princ);
-int ae_princ    (const ae_obj_t * const this) { return ae_fprinc(this, stdout); }
+DEF_F_METHOD(princ, false);
 
+DEF_STDOUT_METHOD(write);
 DEF_S_METHOD(write);
-int ae_write    (const ae_obj_t * const this) { return ae_fwrite(this, stdout); }
+DEF_F_METHOD(write, true);
  
+DEF_STDOUT_METHOD(put);
 DEF_S_METHOD(put);
-int ae_put      (const ae_obj_t * const this) { return ae_fput  (this, stdout); }
 
-DEF_F_METHOD(princ, false, ae_fwrite_internal);
-DEF_F_METHOD(write, true,  ae_fwrite_internal);
+DEF_STDOUT_METHOD(print);
+DEF_S_METHOD(print);
 
-int ae_print(const ae_obj_t * const this) {
-  NL;
-  return 1 + ae_fprint(this, stdout);
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _fprint
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_fprint(const ae_obj_t * const this, FILE * stream) {
   FNL;
   return 1 + ae_fwrite(this, stream);
 }
 
-DEF_S_METHOD(print);
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// obj's fputs
+// _fputs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
