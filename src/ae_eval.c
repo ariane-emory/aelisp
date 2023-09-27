@@ -112,9 +112,9 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   else
     new_env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
-//#ifdef AE_LOG_EVAL
+#ifdef AE_LOG_EVAL
   OLOG(new_env); NL;
-//#endif 
+#endif 
   
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
   
