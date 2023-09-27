@@ -5,6 +5,9 @@
 (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))  
 (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
 
+(setq defun (macro (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
+(setq add   (macro (xxx yyy)            (list (quote +) xxx yyy)))
+
 (print (env :syms))
 
 (nl)
@@ -17,11 +20,16 @@
 (princ "AFTER") (nl)
 (nl)
 
-(setq add (macro (add x y) (list (quote +) x y)))
+(nl) (princ "BEFORE defun") (nl)
+(write defun) (nl)
+(princ "Params: ") (write (params defun)) (nl)
+(princ "Body:   ") (write (body defun)) (nl)
+(nl) (princ "AFTER") (nl) (nl)
+
 
 (nl) (princ "BEFORE add") (nl)
 (write add) (nl)
-(princ "Params: ") (write (body add)) (nl)
+(princ "Params: ") (write (params add)) (nl)
 (princ "Body:   ") (write (body add)) (nl)
 (nl) (princ "AFTER") (nl) (nl)
 
