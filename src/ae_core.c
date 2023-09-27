@@ -140,21 +140,27 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
-  OLOG(env_and_args); NL;
+  // OLOG(env_and_args); NL;
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  OLOG(args);
+  // OLOG(args);
   
   assert(NILP(args) || ((LENGTH(args) == 1) && SYMBOLP(CAR(args))));
 
   if (NILP(args))
     return env;
-  else if (CAR(args) == SYM(":syms"))
-    return ENV_SYMS(CAR(args));
-  else if (CAR(args) == SYM(":vals"))
-    return ENV_VALS(CAR(args));    
-  else
-    assert(0);
+
+  ae_obj_t * arg = CAR(args);
+
+  // OLOG(arg);
+  
+  if (EQ(arg, SYM(":syms")))
+    return ENV_SYMS(env);
+
+  if (EQ(arg, SYM(":vals")))
+    return ENV_VALS(env);    
+
+  assert(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
