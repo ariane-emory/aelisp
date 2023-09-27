@@ -453,8 +453,7 @@ ae_obj_t * ae_core_cons(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_eq(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-  ASSERT_NOT_NILP(CDR(args));
+  assert(LENGTH(args) > 1);
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQ(CAR(args), tailarg))
@@ -468,8 +467,7 @@ ae_obj_t * ae_core_eq(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_eql(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-  ASSERT_NOT_NILP(CDR(args));
+  assert(LENGTH(args) > 1);
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQL(CAR(args), tailarg))
@@ -483,8 +481,6 @@ ae_obj_t * ae_core_eql(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_atomp(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-
   FOR_EACH(elem, args)
     if (! ATOMP(elem))
       return NIL;
@@ -497,8 +493,6 @@ ae_obj_t * ae_core_atomp(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_not(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-
   FOR_EACH(elem, args)
     if (NOT_NILP(elem))
       return NIL;
