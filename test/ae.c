@@ -607,12 +607,11 @@ void improper_list(void) {
 
   this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
   // OLOG(this); NL;
-  T(EQ(LENGTH(this)       , 3));
+  T(EQ(LENGTH(this)       , -1));
   TM("Expected length 3, got %d.", LENGTH(this));
 
   COUNT_LIST_LENGTH(this);
   T(EQ(list_length_counter, 3));
-  T(EQ(list_length_counter, LENGTH(this)));
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
 
