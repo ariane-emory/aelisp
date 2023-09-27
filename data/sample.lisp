@@ -5,27 +5,35 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(princ "env:                 ") (princ           (env))               (nl)
-(princ "type:                ") (princ (type     (env)))              (nl)
-(princ "parent:              ") (princ (parent   (env)))              (nl)
-(princ "syms:                ") (princ (syms     (env)))              (nl)
-(princ "vals:                ") (princ (vals     (env)))              (nl)
+(princ "env:                     ") (princ           (env))               (nl)
+(princ "type:                    ") (princ (type     (env)))              (nl)
+(princ "parent:                  ") (princ (parent   (env)))              (nl)
+(princ "syms:                    ") (princ (syms     (env)))              (nl)
+(princ "vals:                    ") (princ (vals     (env)))              (nl)
 (nl)
 
-(princ "core lambda:         ") (princ           lambda)              (nl)
-(princ "type:                ") (princ (type     lambda))             (nl)
+(princ "core lambda:             ") (princ           lambda)              (nl)
+(princ "type:                    ") (princ (type     lambda))             (nl)
 (nl)
 
-(princ "lambda sleep:        ") (princ           sleep)               (nl)
-(princ "type:                ") (princ (type     sleep))              (nl)
-(princ "parent:              ") (princ (parent   sleep))              (nl)
-(princ "params:              ") (princ (params   sleep))              (nl)
-(princ "body:                ") (princ (body     sleep))              (nl)
+(princ "lambda sleep:            ") (princ           sleep)               (nl)
+(princ "type:                    ") (princ (type     sleep))              (nl)
+(princ "parent:                  ") (princ (parent   sleep))              (nl)
+(princ "params:                  ") (princ (params   sleep))              (nl)
+(princ "body:                    ") (princ (body     sleep))              (nl)
+(nl)
 
-(princ "(1 . nil) is proper: ") (princ      (properp  (cons 1 nil)))  (nl)
-(princ "(1 . 2) is improper: ") (princ (not (properp  (cons 1 2  )))) (nl)
-(princ "(1 . 2) length:      ") (princ (not (length   (cons 1 2  )))) (nl)
-(princ "(1 . nil) length:    ") (princ      (length   (cons 1 nil)))  (nl)
+(princ "(1 . nil) is proper:     ") (princ      (properp  (cons 1 nil)))  (nl)
+(princ "(1 . 2) is improper:     ") (princ (not (properp  (cons 1 2  )))) (nl)
+(princ "(1 . nil) length:        ") (princ      (length   (cons 1 nil)))  (nl)
+(princ "(1 . 2) length:          ") (princ (not (length   (cons 1 2  )))) (nl)
+(nl)
+
+(princ "(1 2 . nil) is proper:   ") (princ      (properp  (cons 1 2 . nil)))  (nl)
+(princ "(1 2 . 3) is improper:   ") (princ (not (properp  (cons 1 2 . 3  )))) (nl)
+(princ "(1 2 . nil) length:      ") (princ      (length   (cons 1 2 . nil)))  (nl)
+(princ "(1 2 . 3) length:        ") (princ (not (length   (cons 1 2 . 3  )))) (nl)
+(nl)
 
 (stop)
 
