@@ -1,6 +1,6 @@
 (setq nl (lambda ()  (princ "
 ")))
-(setq stop   (lambda ()  (terpri) (exit 0)))
+(setq stop   (lambda () (nl) (exit 0)))
 (setq sleep  (lambda (x) (msleep (* 1000 x))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
