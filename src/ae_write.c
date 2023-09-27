@@ -178,9 +178,9 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define escaped_char_case_char(displayed, unescaped)                                               \
-  case unescaped:                                                                              \
-    tmp[0] = '\\';                                                                             \
-    tmp[1] = displayed;                                                                        \
+  case unescaped:                                                                                  \
+    tmp[0] = '\\';                                                                                 \
+    tmp[1] = displayed;                                                                            \
     break;
 
 #define escaped_char_case_str(in, out)                                                             \
@@ -195,9 +195,11 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p, special>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s, special>", TYPE_STR(this), CORE_NAME(this));
+      // COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p, special>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s>", TYPE_STR(this), CORE_NAME(this));
+      // COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     break;
   case AE_ENV:
     if (NILP(ENV_PARENT(this))) {
@@ -210,7 +212,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_LAMBDA:
   case AE_MACRO:
-    //COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %018p, ", TYPE_STR(this), FUN_ENV(this), FUN_BODY(this));
     COUNTED_FPRINTF(fwrite_stream, "%s<%018p, ", TYPE_STR(this), this);
     ae_fwrite_internal(FUN_PARAMS(this));
     COUNTED_FPRINTF(fwrite_stream,">");

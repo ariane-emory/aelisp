@@ -5,13 +5,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (princ "env:            ") (princ         (env))       (nl)
 (princ "type:           ") (princ (type   (env)))      (nl)
 (princ "syms:           ") (princ (syms   (env)))      (nl)
 (princ "vals:           ") (princ (vals   (env)))      (nl)
 (princ "parent:         ") (princ (parent (env)))      (nl)
 (nl)
+
+(princ "core lambda:    ") (princ       lambda)        (nl)
 
 (stop)
 
