@@ -141,6 +141,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
+  OLOG(env_and_args); NL;
   SPECIAL_FUN_ARGS(env, args, env_and_args);
   ASSERT_NILP(args); // for now, this supports 1 argument.
 
