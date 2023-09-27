@@ -1007,9 +1007,11 @@ void macro_expand(void) {
   NL;
 
 
-  obj princ = CONS(SYM("princ"), CONS(SYM("list"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)));
+  obj princ = CONS(SYM("princ"),  CONS(CONS(SYM("list"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   );
   NL;
   OLOG(princ);
+  NL;
+  EVAL(env, princ);
   NL;
 }
 
