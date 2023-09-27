@@ -7,7 +7,6 @@
 #include "ae_env.h"
 #include "ae_write.h"
 #include "ae_util.h"
-
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   ASSERT_CONSP(env_and_args);                                                                      \
   ASSERT_ENVP(CAR(env_and_args));                                                                  \
@@ -143,9 +142,19 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
   OLOG(env_and_args); NL;
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-  ASSERT_NILP(args); // for now, this supports 1 argument.
 
-  return env; // CAR(args);
+  OLOG(args);
+  
+  assert(NILP(args) || ((LENGTH(args) == 1) && SYMBOLP(CAR(args))));
+
+  if (NILP(args))
+    return env;
+  else if (CAR(args) == SYM(":syms"))
+    return ENV_SYMS(CAR(args));
+  else if (CAR(args) == SYM(":vals"))
+    return ENV_VALS(CAR(args));    
+  else
+    assert(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

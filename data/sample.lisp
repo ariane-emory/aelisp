@@ -34,12 +34,15 @@
 
 ;; (test 1 2 3 4)
 
-(setq zzz 777)
-(setq test
-  (lambda ()
-    (setq zzz 888)))
+;; (setq zzz 777)
+;; (setq test
+;;   (lambda ()
+;;     (setq zzz 888)))
 
-(test)
+;; (test)
 
-(print zzz)
+;; (print zzz)
+
 (print (env))
+(print (env :syms))
+(print (env :vals))
