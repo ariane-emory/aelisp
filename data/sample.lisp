@@ -17,14 +17,15 @@
 (princ "AFTER") (nl)
 (nl)
 
-(stop)
+(setq add (macro (add x y) (list (quote +) x y)))
 
-(nl) (princ "BEFORE") (nl)
-(write (defmacro add (x y) (list (quote +) x y)))
-(princ "Params: ") (write (body (defmacro add (x y) (list (params +) x y)))) (nl)
-(princ "Body:   ") (write (body (defmacro add (x y) (list (quote +) x y)))) (nl)
+(nl) (princ "BEFORE add") (nl)
+(write add) (nl)
+(princ "Params: ") (write (body add)) (nl)
+(princ "Body:   ") (write (body add)) (nl)
 (nl) (princ "AFTER") (nl) (nl)
 
+(stop)
 
 (nl) (princ "BEFORE") (nl)
 (write (defmacro add (x y) (list (quote +) x y)))
