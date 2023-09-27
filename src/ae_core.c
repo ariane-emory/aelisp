@@ -440,9 +440,7 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cons(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-  ASSERT_TAILP(CDR(args)); // 2nd arg must be a tail.
-  ASSERT_NILP(CDDR(args)); // only 2 args.
+  assert((LENGTH(args) == 2) && TAILP(CADR(args)));
 
   ae_obj_t * head = CAR(args);
   ae_obj_t * tail = CADR(args);
