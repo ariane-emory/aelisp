@@ -1,4 +1,5 @@
 To Do:
+- [ ] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be?
 - [ ] core apply?
 - [ ] core rplaca/rplacd?
 - [ ] Maybe core 'let'? Could be a macro, though...
