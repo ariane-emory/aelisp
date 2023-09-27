@@ -16,6 +16,10 @@
 #define FPRINC(this, stream)    (ae_fprinc((this), (stream)))
 #define SPRINC(this)            (ae_sprinc(this))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define PRINT(this)             (ae_print(this))
+#define FPRINT(this, stream)    (ae_fprint((this), (stream)))
+#define SPRINT(this)            (ae_sprint(this))
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define WRITE(this)             (ae_write(this))
 #define FWRITE(this, stream)    (ae_fwrite((this), (stream)))
 #define SWRITE(this)            (ae_swrite(this))

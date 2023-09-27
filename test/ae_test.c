@@ -1006,15 +1006,27 @@ void macro_expand(void) {
   OLOG(eval_call_add2_rtrn);
   NL;
 
-
-  obj princ = CONS(SYM("princ"),  CONS(CONS(SYM("quote"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   );
-  NL;
-  OLOG(princ);
-  NL;
-  obj princed_len = EVAL(env, princ);
-  NL;
-  OLOG(princed_len);
-  NL;
+  /* { */
+  /*   obj princ = CONS(SYM("princ"),  CONS(CONS(SYM("quote"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   ); */
+  /*   NL; */
+  /*   OLOG(princ); */
+  /*   NL; */
+  /*   obj princed_len = EVAL(env, princ); */
+  /*   NL; */
+  /*   OLOG(princed_len); */
+  /*   NL; */
+  /* } */
+  
+  /* { */
+  /*   obj princ = CONS(SYM("print"),  CONS(CONS(SYM("quote"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   ); */
+  /*   NL; */
+  /*   OLOG(princ); */
+  /*   NL; */
+  /*   obj princed_len = EVAL(env, princ); */
+  /*   NL; */
+  /*   OLOG(princed_len); */
+  /*   NL; */
+  /* } */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
