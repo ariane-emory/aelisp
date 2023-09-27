@@ -23,9 +23,10 @@
 (write (setq defmacro (macro (name params) (list (quote setq) name params)))) (nl)
 (princ "Params:   ") (write (params defmacro)) (nl)
 (princ "Body:     ") (write (body defmacro)) (nl)
-(princ "Expanded  ") (write (eval (defmacro blam 8)))
+(princ "Expanded  ") (write (defmacro blam 8))
 (nl)
-(princ "Evaled:   ") (write blam) (nl)
+(princ "Evaled:   ") (write (eval (defmacro blam 8))) (nl)
+(princ "Set:      ") (write blam) (nl)
 (princ "AFTER") (nl)
 (nl)
 
