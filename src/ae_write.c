@@ -81,6 +81,18 @@ int ae_put      (const ae_obj_t * const this) { return ae_fput  (this, stdout); 
 DEF_F_METHOD(princ, false, ae_fwrite_internal);
 DEF_F_METHOD(write, true,  ae_fwrite_internal);
 
+int ae_print(const ae_obj_t * const this) {
+  NL;
+  return 1 + ae_fprint(this, stdout);
+}
+
+int ae_fprint(const ae_obj_t * const this, FILE * stream) {
+  FNL;
+  return 1 + ae_fwrite(this, stream);
+}
+
+DEF_S_METHOD(print);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj's fputs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
