@@ -10,7 +10,7 @@
   DO(syms)    /* env accessor */                                                                   \
   DO(vals)    /* env accessor */                                                                   \
   DO(parent)  /* env/fun accessor */                                                               \
-  DO(type)                                                                                         \
+  DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
