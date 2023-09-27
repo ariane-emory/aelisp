@@ -1,8 +1,9 @@
-(setq nl     (lambda ()  (princ "
+(setq nl        (lambda ()  (princ "
 ")))
-(setq stop   (lambda ()  (nl) (exit 0)))
-(setq sleep  (lambda (x) (msleep (* 1000 x))))
-
+(setq stop      (lambda ()  (nl) (exit 0)))
+(setq sleep     (lambda (x) (msleep (* 1000 x))))
+(setq improperp (lambda (l) (not (properp l))))
+  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (princ "env:                          ") (princ           (env))               (nl)
@@ -23,26 +24,42 @@
 (princ "body:                         ") (princ (body     sleep))              (nl)
 (nl)
 
-(princ "(1 . nil) is proper:          ") (princ      (properp  (cons 1 nil)))  (nl)
-(princ "(1 . 2) is improper:          ") (princ (not (properp  (cons 1 2  )))) (nl)
-(princ "(1 . nil) length:             ") (princ      (length   (cons 1 nil)))  (nl)
-(princ "(1 . 2) length:               ") (princ (not (length   (cons 1 2  )))) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq x (list 1 . nil))
+(princ      "(1 . nil) is proper:     ") (princ      (properp  x))             (nl)
+(princ      "(1 . nil) length:        ") (princ      (length   x))             (nl)
+(princ      "(1 . nil) is:            ") (princ                x )             (nl)
+(princ      "(car (1 . nil)) is:      ") (princ           (car x))             (nl)
+(princ      "(cdr (1 . nil)) is:      ") (princ           (cdr x))             (nl)
+(nl)
+ 
+(setq x (list 1 . 333))
+(princ      "(1 . 333) is improper:   ") (princ    (improperp  x))             (nl)
+(princ      "(1 . 333) length:        ") (princ      (length   x))             (nl)
+(princ      "(1 . 333) is:            ") (princ                x )             (nl)
+(princ      "(car (1 . 333)) is:      ") (princ           (car x))             (nl)
+(princ      "(cdr (1 . 333)) is:      ") (princ           (cdr x))             (nl)
 (nl)
 
 (setq x (list 1 2 . nil))
 (princ      "(1 2 . nil) is proper:   ") (princ      (properp  x))             (nl)
 (princ      "(1 2 . nil) length:      ") (princ      (length   x))             (nl)
 (princ      "(1 2 . nil) is:          ") (princ                x )             (nl)
+(princ      "(car (1 2 . nil)) is:    ") (princ           (car x))             (nl)
+(princ      "(cdr (1 2 . nil)) is:    ") (princ           (cdr x))             (nl)
 (nl)
  
 (setq x (list 1 2 . 333))
-(princ      "(1 2 . 333) is proper:   ") (princ      (properp  x))             (nl)
+(princ      "(1 2 . 333) is improper: ") (princ    (improperp  x))             (nl)
 (princ      "(1 2 . 333) length:      ") (princ      (length   x))             (nl)
 (princ      "(1 2 . 333) is:          ") (princ                x )             (nl)
+(princ      "(car (1 2 . 333)) is:    ") (princ           (car x))             (nl)
+(princ      "(cdr (1 2 . 333)) is:    ") (princ           (cdr x))             (nl)
 (nl)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq test (lambda (first . rest)
