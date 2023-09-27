@@ -29,7 +29,7 @@
 (nl)
 (princ "Params:   ") (write (params defmacro)) (nl)
 (princ "Body:     ") (write (body defmacro)) (nl)
-(prind "Evaledd:  ")
+(prind "Evaled:  ")
 (princ "AFTER") (nl)
 (nl)
 
