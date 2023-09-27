@@ -21,7 +21,11 @@
 (princ "parent:         ") (princ (parent  sleep))     (nl)
 (princ "params:         ") (princ (params  sleep))     (nl)
 (princ "body:           ") (princ (body    sleep))     (nl)
+
+
 (stop)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq test (lambda (first . rest)
              (princ "first:  ")  (write first)
@@ -102,9 +106,6 @@
 (princ "Body:   ") (write (body madd)) (nl)
 (princ "AFTER") (nl)
 (nl)
-
-
-
 
 (princ "BEFORE defun") (nl)
 (setq defun (macro (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
