@@ -144,12 +144,9 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_params(ae_obj_t * const args) {
-  // OLOG(args);
-  
   assert((LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_PARAMS(CAR(args));
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,12 +154,9 @@ ae_obj_t * ae_core_params(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_body(ae_obj_t * const args) {
-  // OLOG(args);
-  
   assert((LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_BODY(CAR(args));
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,7 +249,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-  ASSERT_NILP(CDR(args)); // for now, this supports 1 argument.
+  assert(LENGTH(args) == 1);
 
   return CAR(args);
 }
@@ -505,8 +499,6 @@ ae_obj_t * ae_core_not(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_put(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-
   int written = 0;
 
   FOR_EACH(elem, args)
@@ -522,8 +514,6 @@ ae_obj_t * ae_core_put(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_princ(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-
   int written = 0;
 
   FOR_EACH(elem, args)
@@ -539,8 +529,6 @@ ae_obj_t * ae_core_princ(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_print(ae_obj_t * const args) {
-  ASSERT_CONSP(args); 
-
   int written = 0;
 
   FOR_EACH(elem, args) {
@@ -562,8 +550,6 @@ ae_obj_t * ae_core_print(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_write(ae_obj_t * const args) {
-  ASSERT_CONSP(args);
-
   int written = 0;
 
   FOR_EACH(elem, args) {

@@ -1,8 +1,8 @@
 To Do:
 - [ ] core apply?
+- [ ] core rplaca/rplacd?
+- [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] root_env_and_eval test is too big, slice it up.
-- [ ] Maybe core 'let'?
-- [ ] Maybe add 'print' (just 'write' with a newline in front).
 - [ ] Review printing of characters needing escaping.
 - [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
 - [ ] Implement math for non-integer types.
@@ -11,12 +11,13 @@ To Do:
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
-- [ ] Maybe FOR_EACH2 macro? Unsure, may not need it.
+- [ ] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it.
 - [ ] Maybe also a vector type of some sort?
-- [ ] Maybe add macro version of map?
+- [ ] Maybe add macro version of map? May not need it.
 - [ ] ... advices?!
 
 Completed:
+- [x] Maybe add 'print' (just 'write' with a newline in front).
 - [x] Test macro expansion.
 - [x] Implement macro expansion.
 - [x] Dotted pairs. 
