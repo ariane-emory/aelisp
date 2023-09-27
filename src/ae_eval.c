@@ -30,6 +30,7 @@
 
 static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
   (void)env;
+
 #ifdef AE_LOG_EVAL
   LOG(obj, "<= rtrn self");
 #endif
@@ -38,12 +39,25 @@ static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
 }
 
 static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
-  return ENV_FIND(env, sym);
+  ae_obj_t * ret = ENV_FIND(env, sym);
+
+#ifdef AE_LOG_EVAL
+  LOG(ret, "<= rtrn lookup");
+#endif
+
+  return ret;
 }
 
 static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
   (void)env;
-  return ae_apply(CAR(list), env, CDR(list));
+
+  ae_obj_t * ret = ae_apply(CAR(list), env, CDR(list));
+  
+#ifdef AE_LOG_EVAL
+  LOG(ret, "<= rtrn applied");
+#endif
+
+  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
