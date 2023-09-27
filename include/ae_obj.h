@@ -52,7 +52,7 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
   DO(AE_ENV)                                                                                       \
   DO(AE_LAMBDA)                                                                                    \
   DO(AE_MACRO)                                                                                     \
-  DO(AE_CORE)                                                                                  \
+  DO(AE_CORE)                                                                                      \
   DO(AE_INVALID)
 
 #define enum_entry(x) x,
