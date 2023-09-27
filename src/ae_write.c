@@ -196,10 +196,8 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_CORE:
     if (SPECIALP(this))
       COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s, special>", TYPE_STR(this), this, CORE_NAME(this));
-      // COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p, special>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     else
       COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s>", TYPE_STR(this), this, CORE_NAME(this));
-      // COUNTED_FPRINTF(fwrite_stream, "%s<%s, %018p>", TYPE_STR(this), CORE_NAME(this), CORE_FUN(this));
     break;
   case AE_ENV:
     if (NILP(ENV_PARENT(this))) {
@@ -248,30 +246,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         COUNTED_FPUTC('"', fwrite_stream);
 
       COUNTED_FPUTS(SYM_VAL(this), fwrite_stream);
-    
-      /* for (int ix = 0, len = strlen(STR_VAL(this));; ix < len; ix++) { */
-      /*   char chr     = STR_VAL(this)[ix]; */
-      /*   bool escaped = false; */
-
-      /*   if (escaped) { */
-      /*     switch (chr) { */
-      /*       FOR_EACH_ESCAPED_CHARACTER(escaped_char_case_str); */
-      /*       escaped = false; */
-      /*       break; */
-      /*     default: */
-      /*       assert(((void)"Unrecognized escape", 0)); */
-      /*       break; */
-      /*     } */
-      /*   } */
-      /*   else if (chr == '\\') { */
-      /*     escaped = true; */
-      /*         COUNTED_FPUTC('@', stream); */
-      /*     continue; */
-      /*   } */
-      /*   else { */
-      /*     COUNTED_FPUTC(chr, fwrite_stream); */
-      /*   } */
-      /* } */
 
       if (fwrite_quoting)
         COUNTED_FPUTC('"', fwrite_stream);
