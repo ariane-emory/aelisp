@@ -13,6 +13,7 @@
 (nl)
 
 (princ "core lambda:    ") (princ       lambda)        (nl)
+(princ "type:           ") (princ (type lambda))       (nl)
 
 (stop)
 
