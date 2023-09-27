@@ -7,6 +7,10 @@
 #include "ae_env.h"
 #include "ae_write.h"
 #include "ae_util.h"
+#include "ae_free_list.h"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   ASSERT_CONSP(env_and_args);                                                                      \
   ASSERT_ENVP(CAR(env_and_args));                                                                  \
@@ -211,8 +215,16 @@ ae_obj_t * ae_core_vals(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_type(ae_obj_t * const args) {
   assert((LENGTH(args) == 1));
-  
-  return SYM(((char *)(TYPE_STR(CAR(args)))));
+
+  const char * type = TYPE_STR(CAR(args));
+  /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
+  sprintf(tmp, ":%s", type);
+
+  ae_obj_t   * sym  = SYM(tmp);
+
+  free_list_free(tmp);
+
+  return sym;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
