@@ -10,17 +10,11 @@
 (nl)
 
 (princ "BEFORE add") (nl)
-(write (setq add (macro (name params) (list (quote +) name params))))
-(nl)
+(write (setq add (macro (name params) (list (quote +) name params)))) (nl)
 (princ "Params:   ") (write (params add)) (nl)
 (princ "Body:     ") (write (body add)) (nl)
 (princ "Expanded  ") (write (add 7 8)) (nl)
-(princ "AFTER") (nl)
-(nl)
-
-(princ "BEFORE madd") (nl)
-(write (setq madd (eval (add 7 8))))
-(nl)
+(princ "Evaled:   ") (write (eval (add 7 8))) (nl)
 (princ "AFTER") (nl)
 (nl)
 
