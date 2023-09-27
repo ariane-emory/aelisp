@@ -5,16 +5,22 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(princ "env:            ") (princ         (env))       (nl)
-(princ "type:           ") (princ (type   (env)))      (nl)
-(princ "syms:           ") (princ (syms   (env)))      (nl)
-(princ "vals:           ") (princ (vals   (env)))      (nl)
-(princ "parent:         ") (princ (parent (env)))      (nl)
+(princ "env:            ") (princ          (env))      (nl)
+(princ "type:           ") (princ (type    (env)))     (nl)
+(princ "parent:         ") (princ (parent  (env)))     (nl)
+(princ "syms:           ") (princ (syms    (env)))     (nl)
+(princ "vals:           ") (princ (vals    (env)))     (nl)
 (nl)
 
-(princ "core lambda:    ") (princ       lambda)        (nl)
-(princ "type:           ") (princ (type lambda))       (nl)
+(princ "core lambda:    ") (princ          lambda)     (nl)
+(princ "type:           ") (princ (type    lambda))    (nl)
+(nl)
 
+(princ "lambda sleep:   ") (princ          sleep)      (nl)
+(princ "type:           ") (princ (type    sleep))     (nl)
+(princ "parent:         ") (princ (parent  sleep))     (nl)
+(princ "params:         ") (princ (params  sleep))     (nl)
+(princ "body:           ") (princ (body    sleep))     (nl)
 (stop)
 
 (setq test (lambda (first . rest)
