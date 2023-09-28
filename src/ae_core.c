@@ -216,7 +216,7 @@ ae_obj_t * ae_core_syms(ae_obj_t * const args) {
 // _errmsg
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_err_msg(ae_obj_t * const args) {
+ae_obj_t * ae_core_errmsg(ae_obj_t * const args) {
   REQUIRE(args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
   return NEW_STRING(ERR_MSG(CAR(args)));
@@ -226,7 +226,7 @@ ae_obj_t * ae_core_err_msg(ae_obj_t * const args) {
 // _errobj
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_err_obj(ae_obj_t * const args) {
+ae_obj_t * ae_core_errobj(ae_obj_t * const args) {
   REQUIRE(args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
   return ERR_OBJ(CAR(args));

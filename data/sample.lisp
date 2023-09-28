@@ -14,8 +14,8 @@
 (setq atom?     atomp)
 (setq proper?   properp)
 (setq tail?     tailp)
-(setq err-msg   err_msg)
-(setq err-obj   err_obj)
+(setq err-msg   errmsg)
+(setq err-obj   errobj)
 
 (setq cons?     (lambda (o)    (not    (atom?   o  ))))
 (setq error?    (lambda (o)    (type?  ERROR    o   )))
@@ -94,11 +94,11 @@
 (nl)
 
 (setq err (length '(1 2 . 333)))
-(setq eo  (err_obj err))
+(setq eo  (err-obj err))
 
 (princ "This error:           ") (princ err)           (nl)
-(princ "This error's obj:     ") (write (err_obj err)) (nl)
-(princ "This error's message: ") (write (err_msg err)) (nl)
+(princ "This error's obj:     ") (write (errobj err)) (nl)
+(princ "This error's message: ") (write (errmsg err)) (nl)
 
 ;; (print (eval (quote (1 2 . 333))))
 
