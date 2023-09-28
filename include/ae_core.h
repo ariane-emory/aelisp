@@ -10,7 +10,6 @@
   DO(cons)                                                                                         \
   DO(eq)                                                                                           \
   DO(exit)                                                                                         \
-  DO(put)                                                                                          \
   DO(msleep)                                                                                       \
   /*=============================================================================================*/\
   DO(type)    /* GET_TYPE proxy */                                                                 \
@@ -28,6 +27,7 @@
   DO(not)     /* reduceable */                                                                     \
   DO(properp) /* reduceable */                                                                     \
   DO(tailp)   /* reduceable */                                                                     \
+  DO(put)     /* reducing this would require a core to get objs' addresses, might not bother. */   \
   DO(princ)   /* probably, two out of these finale 3 could be reduced. */                          \
   DO(print)                                                                                        \
   DO(write)                                                                                        \
