@@ -179,7 +179,7 @@ extern ae_obj_t * symbols_list;
 #define FREEP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_FREE))
 #define INTEGERP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INTEGER))
 #define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INVALID))
-#define KEYWORDP(o)             (SYMBOLP  ((o)) && SYM_VAL((o))[0] == ':')
+#define KEYWORDP(o)             (SYMBOLP ((o)) && SYM_VAL((o))[0] == ':')
 #define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_LAMBDA))
 #define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_MACRO))
 #define QUOTEP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_QUOTE))
@@ -191,11 +191,9 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ERROR                   (SYM(":ERROR"))
 #define NIL                     (&nil_obj)
-#define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
-#define NOT_NILP(o)             (! NILP((o)))
 #define TRUE                    (&true_obj)
+#define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
-#define NOT_TRUEP(o)            (! TRUEP((o)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CONS(head, tail)                                                                       \
 ({                                                                                                 \
