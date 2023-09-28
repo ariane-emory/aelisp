@@ -29,7 +29,7 @@
       }                                                                                            \
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
-    if (! ERRORP(ARGS))                                                                            \
+    if (! ERRORP(args))                                                                            \
         args = evaled_args;                                                                        \
   }
 #else
@@ -254,7 +254,11 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #endif
 
   fun = EVAL(env, fun);
-  
+
+#ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
+  if (ERRORP(fun))
+    return fun;
+#endif
 
 #ifdef AE_LOG_EVAL
   LOG(fun, "apply fun");
