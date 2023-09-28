@@ -8,9 +8,8 @@
 #include "ae_write.h"
 #include "ae_util.h"
 #include "ae_free_list.h"
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define ERROR SYM(":ERROR")
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   ASSERT_CONSP(env_and_args);                                                                      \
