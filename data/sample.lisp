@@ -2,18 +2,20 @@
 ;; 'standard library', such as it is:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq atom?     atomp)
-(setq tail?     tailp)
-(setq proper?   properp)
-
 (setq nl        (lambda ()     (princ "
 ")))
-(setq stop      (lambda ()     (nl)    (exit    0   )))
 (setq sleep     (lambda (s)    (msleep (* 1000  s  ))))
+(setq stop      (lambda ()     (nl)    (exit    0   )))
+;; (setq list      (lambda args   args                  ))
+
+(setq atom?     atomp)
+(setq proper?   properp)
+(setq tail?     tailp)
+
 (setq cons?     (lambda (o)    (not    (atom?   o  ))))
+(setq error?    (lambda (o)    (eq     :ERROR   o   )))
 (setq improper? (lambda (o)    (not    (proper? o  )))) ;; this also needs to check if it's arg is tail?.
 (setq nil?      (lambda (o)    (eq     o        nil )))
-(setq error?    (lambda (o)    (eq     :ERROR   o   )))
 (setq type?     (lambda (t o)  (eq     (type o) t   )))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -84,6 +86,11 @@
 (princ "float:                              ") (princ  (type? :FLOAT     .3))   (nl)
 (princ "rational:                           ") (princ  (type? :RATIONAL 3/4))   (nl)
 (princ "string:                             ") (princ  (type? :STRING   "3"))   (nl)
+(nl)
+
+(print (list 1 2 . 333))
+(print (quote (1 2 . 333)))
+(print (eval (quote (1 2 . 333))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
