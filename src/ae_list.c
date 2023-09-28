@@ -290,8 +290,6 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_list_is_proper(const ae_obj_t * const list) {
-  assert(TAILP(list));
-
   FOR_EACH_CONST(elem, list)
     if (!(TAILP(CDR(position))))
       return false;

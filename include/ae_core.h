@@ -15,6 +15,7 @@
   DO(denom)   /* rational/int accessor */                                                          \
   DO(msleep)                                                                                       \
   DO(properp)                                                                                      \
+  DO(tailp)                                                                                        \
   DO(length)                                                                                       \
   DO(atomp)                                                                                        \
   DO(car)                                                                                          \

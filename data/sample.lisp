@@ -2,15 +2,19 @@
 ;; 'standard library', such as it is:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq atom?     atomp)
+(setq tail?     tailp)
+(setq proper?   properp)
+
 (setq nl        (lambda ()     (princ "
 ")))
-(setq stop      (lambda ()     (nl) (exit 0)))
-(setq sleep     (lambda (x)    (msleep (* 1000 x))))
-(setq atomp?    atomp)
-(setq proper?   properp)
-(setq error?    (lambda (o)    (eq  :ERROR   o )))
-(setq improper? (lambda (l)    (not (proper? l))))
-(setq type?     (lambda (t o)  (eq  (type o) t )))
+(setq stop      (lambda ()     (nl)    (exit    0   )))
+(setq sleep     (lambda (s)    (msleep (* 1000  s  ))))
+(setq cons?     (lambda (o)    (not    (atom?   o  ))))
+(setq improper? (lambda (o)    (not    (proper? o  )))) ;; this also needs to check if it's arg is tail?.
+(setq nil?      (lambda (o)    (eq     o        nil )))
+(setq error?    (lambda (o)    (eq     :ERROR   o   )))
+(setq type?     (lambda (t o)  (eq     (type o) t   )))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test some random stuff:

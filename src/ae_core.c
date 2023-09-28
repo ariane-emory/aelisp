@@ -151,7 +151,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_properp(ae_obj_t * const args) {
-  REQUIRE((LENGTH(args) == 1) && (TAILP(CAR(args))));
+  REQUIRE(LENGTH(args) == 1);
 
   return PROPER_LISTP(CAR(args)) ? TRUE : NIL;
 }
@@ -427,10 +427,20 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
   REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
 
   int len = LENGTH(CAR(args));
-
+  
   return len != -1
     ? NEW_INT(len)
     : ERROR;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _tailp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_tailp(ae_obj_t * const args) {
+  REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
+
+  return TAILP(CAR(args)) ? TRUE : NIL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,7 +450,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
 ae_obj_t * ae_core_car(ae_obj_t * const args) {
   REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return (NILP(CAR(args)))
+  return NILP(CAR(args))
     ? NIL // car of nil is nil.
     : CAAR(args);
 }
@@ -452,7 +462,7 @@ ae_obj_t * ae_core_car(ae_obj_t * const args) {
 ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
   REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return (NILP(CAR(args)))
+  return NILP(CAR(args))
     ? NIL // cdr of nil is nil.
     : CDAR(args);
 }
