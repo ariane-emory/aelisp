@@ -41,7 +41,10 @@
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args)                                                                           \
-      PUSH(evaled_args, EVAL(env, elem));                                                          \
+    {                                                                                              \
+      ae_obj_t * tmp = EVAL(env, elem);                                                            \
+      PUSH(evaled_args, tmp);                                                                      \
+    }                                                                                              \
     args = evaled_args;                                                                            \
   }
 #endif
