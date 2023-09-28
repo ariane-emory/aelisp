@@ -9,6 +9,7 @@
 #include "ae_util.h"
 #include "ae_free_list.h"
 
+//    fprintf(stderr,  ">>> %s\n", msg);                                                             \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define REQUIRE(obj, cond)                                                                         \
@@ -16,9 +17,8 @@
     char * cond_str = #cond;                                                                       \
     char * msg = free_list_malloc(256);                                                            \
     sprintf(msg, "%s:%d: Error in %s: require %s!", __FILE__, __LINE__, __func__, cond_str);       \
-    fprintf(stderr,  ">>> %s\n", msg);                                                             \
                                                                                                    \
-    return NEW_ERROR(obj, #cond);                                                                  \
+    return NEW_ERROR(obj, msg);                                                                    \
                                                                                                    \
     fprintf(stderr, "ptr %018p\n", msg);                                                           \
     sprintf(msg, "%s:%d", __FILE__, __LINE__);                                                     \
