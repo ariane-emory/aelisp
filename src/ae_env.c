@@ -38,7 +38,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 #ifdef AE_LOG_ENV
     PR("Looking for '");
     PRINC(symbol);
-    PR(" in env ");
+    PR("' in env ");
     PUT(env);
     NL;
 #endif

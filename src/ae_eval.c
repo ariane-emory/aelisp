@@ -64,6 +64,10 @@ static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
   ae_obj_t * ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
+
+  PR("\nlooking up: ");
+  PUT(sym);
+  NL;
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= rtrn lookup");
