@@ -69,6 +69,7 @@
 (put   (quote :ERROR))     (nl)
 (put   (length x)) (nl)
 (princ "t is ") (put t) (nl)
+(princ ":ERROR is ") (put :ERROR) (nl)
 (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
