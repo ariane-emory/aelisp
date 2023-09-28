@@ -23,7 +23,7 @@ _obj;                                                                           
 #define ENV_SET(env, sym, val) (ae_env_set ((env), (sym), (val)))
 #define ENV_NEW_ROOT()         (ae_env_new_root())
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ENVP(o)                 (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_ENV))
+#define ENVP(o)                 ((! NULLP((o))) && (GET_TYPE((o)) == AE_ENV))
 #define ASSERT_ENVP(o)          (assert((ENVP(o))))
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(void                                                                    );
