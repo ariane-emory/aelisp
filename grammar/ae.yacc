@@ -69,7 +69,7 @@
       indent += 2;
       FOR_EACH(elem, this) {
         describe(elem, false);
-        if (NOT_TAILP(CDR(position)))
+        if (! TAILP(CDR(position)))
           describe(CDR(position), true);
       }
       indent -= 2;
