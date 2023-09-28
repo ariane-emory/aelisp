@@ -8,7 +8,7 @@
 ")))
 (setq sleep     (lambda (s)    (msleep (* 1000  s  ))))
 (setq stop      (lambda ()     (nl)    (exit    0   )))
-;; (setq list      (lambda args   args                  ))
+;; (setq list   (lambda args   args                  ))
 (setq list      (lambda (h . t) (cons h t)))
 
 (setq atom?     atomp)
@@ -48,6 +48,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq x (quote (1 2 . nil)))
+
 (princ "(1 2 . nil) is proper:       ") (princ         (properp   x ))   (nl)
 (princ "(1 2 . nil) length:          ") (princ         (length    x ))   (nl)
 (princ "(1 2 . nil) length errors:   ") (princ (error? (length    x)))   (nl)
@@ -57,6 +58,7 @@
 (nl)
  
 (setq x (quote (1 2 . 333)))
+
 (princ "(1 2 . 333) is improper:     ") (princ       (improper?   x ))   (nl)
 (princ "(1 2 . 333) length:          ") (princ         (length    x ))   (nl)
 (princ "(1 2 . 333) length errors:   ") (princ (error? (length    x)))   (nl)
@@ -66,6 +68,7 @@
 (nl)
 
 (setq x (quote (1 2 3 . nil)))
+
 (princ "(1 2 3 . nil) is proper:     ") (princ         (properp   x ))   (nl)
 (princ "(1 2 3 . nil) length:        ") (princ         (length    x ))   (nl)
 (princ "(1 2 3 . nil) length errors: ") (princ (error? (length    x)))   (nl)
@@ -75,6 +78,7 @@
 (nl)
  
 (setq x (quote (1 2 3 . 333)))
+
 (princ "(1 2 3 . 333) is improper:   ") (princ       (improper?   x ))   (nl)
 (princ "(1 2 3 . 333) length:        ") (princ         (length    x ))   (nl)
 (princ "(1 2 3 . 333) length errors: ") (princ (error? (length    x)))   (nl)
@@ -94,13 +98,10 @@
 (nl)
 
 (setq err (length '(1 2 . 333)))
-(setq eo  (err-obj err))
 
-(princ "This error:           ") (princ err)           (nl)
-(princ "This error's obj:     ") (write (errobj err)) (nl)
-(princ "This error's message: ") (write (errmsg err)) (nl)
-
-;; (print (eval (quote (1 2 . 333))))
+(princ "This error:                  ") (princ  err)                     (nl)
+(princ "This error's obj:            ") (write  (errobj err))            (nl)
+(princ "This error's message:        ") (write  (errmsg err))            (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
