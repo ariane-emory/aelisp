@@ -172,7 +172,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   LOG(env, "disp eval env");
 #endif
 
-  ASSERT_ENVP(env);
+  assert(ENVP(env));
 
   eval_dispatch_t dispatch = {0};
   
@@ -237,7 +237,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
     assert(0);
   }
 
-  ASSERT_TAILP(args);
+  assert(TAILP(args));
 
   apply_dispatch_t dispatch = {0};
   

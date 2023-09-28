@@ -41,13 +41,9 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
 #define NOT_MEMBERP(this, that)       (! MEMBERP((this), (that)))
-#define ASSERT_MEMBERP(this, that)    (assert(MEMBERP((this), (that))))j
-#define ASSERT_NOT_MEMERP(this, that) (assert(NOT_MEMBERP((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PROPER_LISTP(o)               (ae_list_is_proper((o)))
 #define NOT_PROPER_LISTP(o)           (! PROPER_LISTP((o)))
-#define ASSERT_PROPER_LISTP(o)        (assert(PROPER_LISTP((o))))
-#define ASSERT_NOT_PROPER_LISTP(o)    (assert(NOT_PROPER_LISTP((o))))
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \

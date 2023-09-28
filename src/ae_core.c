@@ -14,7 +14,7 @@
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   assert(CONSP(env_and_args));                                                                     \
   assert(ENVP(CAR(env_and_args)));                                                                 \
-  ASSERT_TAILP(CDR(env_and_args));                                                                 \
+  assert(TAILP(CDR(env_and_args)));                                                                 \
   ae_obj_t * env  = CAR(env_and_args);                                                             \
   ae_obj_t * args = CDR(bundle)                                                                    \
 
@@ -45,14 +45,14 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
     rest = args;                                                                                   \
   }                                                                                                \
   else {                                                                                           \
-    ASSERT_INTEGERP(CAR(args));                                                                    \
+    assert(INTEGERP(CAR(args)));                                                                   \
                                                                                                    \
     accum = CAR(args);                                                                             \
     rest = CDR(args);                                                                              \
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
-    ASSERT_INTEGERP(elem);                                                                         \
+    assert(INTEGERP(elem));                                                                        \
                                                                                                    \
     INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem);                                            \
   }                                                                                                \

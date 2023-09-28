@@ -158,7 +158,7 @@ void incr_list_length_counter(obj const this) {
 }
 
 obj ae_obj_double(obj const this) {
-  ASSERT_INTEGERP(this);
+  assert(INTEGERP(this));
 
   return NEW_INT(this->int_val * 2);
 }

@@ -193,36 +193,13 @@ extern ae_obj_t * symbols_list;
 #define FUNP(o)                 (LAMBDAP  ((o)) || COREP((o)))
 #define SPECIALP(o)             (MACROP((o)) || (COREP((o)) && ((o)->special)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ASSERT_ATOMP(o)         (assert(ATOMP(o))
-#define ASSERT_CHARP(o)         (assert(CHARP(o)))
-#define ASSERT_CONSP(o)         (assert((CONSP(o))))
-#define ASSERT_FLOATP(o)        (assert(FLOATP(o)))
-#define ASSERT_FUNP(o)          (assert(FUNP(o)))
-#define ASSERT_FREEP(o)         (assert(FREEP(o)))
-#define ASSERT_INFP(o)          (assert(INFP(o)))
-#define ASSERT_INTEGERP(o)      (assert(INTEGERP(o)))
-#define ASSERT_INVALIDP(o)      (assert(INVALIDP(o)))
-#define ASSERT_LAMBDAP(o)       (assert(LAMBDAP(o)))
-#define ASSERT_MACROP(o)        (assert(MACROP((o))))
-#define ASSERT_QUOTEP(o)        (assert(QUOTEP(o)))
-#define ASSERT_RATIONALP(o)     (assert(RATIONALP(o)))
-#define ASSERT_STRINGP(o)       (assert(STRINGP(o)))
-#define ASSERT_SYMBOLP(o)       (assert(SYMBOLP(o)))
-#define ASSERT_NULLP(o)         (assert(NULLP(o)))
-#define ASSERT_NOT_NULLP(o)     (assert(NOT_NULLP(o)))
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ERROR                   (SYM(":ERROR"))
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NIL                     (&nil_obj)
 #define NILP(o)                 (NOT_NULLP((o)) && ((o) == NIL))
 #define NOT_NILP(o)             (! NILP((o)))
-#define ASSERT_NILP(o)          (assert(NILP((o))))
-#define ASSERT_NOT_NILP(o)      (assert(NOT_NILP((o))))
 #define TRUE                    (&true_obj)
 #define TRUEP(o)                (NOT_NULLP((o)) && ((o) == TRUE))
 #define NOT_TRUEP(o)            (! TRUEP((o)))
-#define ASSERT_TRUEP(o)         (assert(TRUEP((o))))
-#define ASSERT_NOT_TRUEP(o)     (assert(NOT_TRUEP((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CONS(head, tail)                                                                       \
 ({                                                                                                 \
