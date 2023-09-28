@@ -184,6 +184,7 @@ extern ae_obj_t * symbols_list;
 #define FREEP(o)                (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_FREE))
 #define INTEGERP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INTEGER))
 #define INVALIDP(o)             (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_INVALID))
+#define KEYWORDP(o)             (SYMBOLP  ((o)) && SYM_VAL((O))[0] == ':')
 #define LAMBDAP(o)              (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_LAMBDA))
 #define MACROP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_MACRO))
 #define QUOTEP(o)               (NOT_NULLP((o)) && (GET_TYPE((o)) == AE_QUOTE))
