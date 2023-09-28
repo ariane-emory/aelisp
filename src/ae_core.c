@@ -13,14 +13,11 @@
 
 #define REQUIRE(obj, cond, ...)                                                                    \
   if (! (cond)) {                                                                                  \
-    char * cond_str = #cond;                                                                       \
+    char * fmt      = ("" __VA_ARGS__)[0]                                                          \
+      ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \
+      : "%s:%d: \"Error in %s: require " #cond "!\"";                                              \
     char * msg      = free_list_malloc(256);                                                       \
-    if (("" __VA_ARGS__)[0])                                                                    \
-      sprintf(msg, "%s:%d: \"Error in %s: require %s, " __VA_ARGS__ "!\"",                         \
-              __FILE__, __LINE__, __func__, cond_str);                                             \
-    else                                                                                           \
-      sprintf(msg, "%s:%d: \"Error in %s: require %s!\"",                                          \
-              __FILE__, __LINE__, __func__, cond_str);                                             \
+    sprintf(msg, fmt, __FILE__, __LINE__, __func__);                                               \
     return NEW_ERROR(obj, msg);                                                                    \
   }
 
@@ -462,7 +459,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
   int len = LENGTH(CAR(args));
 
   REQUIRE(CAR(args), len >= 0, "core length only works on proper lists");
-  // REQUIRE(CAR(args), len >= 0);
+  //REQUIRE(CAR(args), len >= 0);
           
   return NEW_INT(len);
 }
