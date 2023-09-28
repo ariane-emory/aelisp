@@ -30,13 +30,6 @@
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
     if (ERRORP(args)) {                                                                            \
-      fprintf(stderr, "\nReturning early from ");                                                 \
-      int written = FPRINC(fun, stderr);                                                           \
-      while (written++ < 32)                                                                       \
-        fputc(' ', stderr);                                                                        \
-      fprintf(stderr, " due to an error: ");                                                       \
-      FPUT(args, stderr);                                                                          \
-      fprintf(stderr, "");                                                                         \
       return args;                                                                                 \
     }                                                                                              \
     args = evaled_args;                                                                            \

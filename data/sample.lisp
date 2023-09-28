@@ -23,9 +23,6 @@
 (setq improper? (lambda (o)    (not    (proper? o          )))) ;; this also needs to check if it's arg is tail?.
 (setq nil?      (lambda (o)    (eq     o        nil         )))
 
-
-(princ "This:                        ") (princ (error? 1))               (nl)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test some random stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,61 +47,62 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq x (quote (1 2 . nil)))
+;; (setq x (quote (1 2 . nil)))
 
-(princ "(1 2 . nil) is proper:       ") (princ         (properp   x ))   (nl)
-(princ "(1 2 . nil) length:          ") (princ         (length    x ))   (nl)
-(princ "(1 2 . nil) length errors:   ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 . nil) is:              ") (princ                    x  )   (nl)
-(princ "(car (1 2 . nil)) is:        ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 . nil)) is:        ") (princ               (cdr x ))   (nl)
-(nl)
+;; (princ "(1 2 . nil) is proper:       ") (princ         (properp   x ))   (nl)
+;; (princ "(1 2 . nil) length:          ") (princ         (length    x ))   (nl)
+;; (princ "(1 2 . nil) length errors:   ") (princ (error? (length    x)))   (nl)
+;; (princ "(1 2 . nil) is:              ") (princ                    x  )   (nl)
+;; (princ "(car (1 2 . nil)) is:        ") (princ               (car x ))   (nl)
+;; (princ "(cdr (1 2 . nil)) is:        ") (princ               (cdr x ))   (nl)
+;; (nl)
  
-(setq x (quote (1 2 . 333)))
+;; (setq x (quote (1 2 . 333)))
 
-(princ "(1 2 . 333) is improper:     ") (princ       (improper?   x ))   (nl)
-(princ "(1 2 . 333) length:          ") (princ         (length    x ))   (nl)
-(princ "(1 2 . 333) length errors:   ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 . 333) is:              ") (princ                    x  )   (nl)
-(princ "(car (1 2 . 333)) is:        ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 . 333)) is:        ") (princ               (cdr x ))   (nl)
-(nl)
+;; (princ "(1 2 . 333) is improper:     ") (princ       (improper?   x ))   (nl)
+;; (princ "(1 2 . 333) length:          ") (princ         (length    x ))   (nl)
+;; (princ "(1 2 . 333) length errors:   ") (princ (error? (length    x)))   (nl)
+;; (princ "(1 2 . 333) is:              ") (princ                    x  )   (nl)
+;; (princ "(car (1 2 . 333)) is:        ") (princ               (car x ))   (nl)
+;; (princ "(cdr (1 2 . 333)) is:        ") (princ               (cdr x ))   (nl)
+;; (nl)
 
-(setq x (quote (1 2 3 . nil)))
+;; (setq x (quote (1 2 3 . nil)))
 
-(princ "(1 2 3 . nil) is proper:     ") (princ         (properp   x ))   (nl)
-(princ "(1 2 3 . nil) length:        ") (princ         (length    x ))   (nl)
-(princ "(1 2 3 . nil) length errors: ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 3 . nil) is:            ") (princ                    x  )   (nl)
-(princ "(car (1 2 3 . nil)) is:      ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 3 . nil)) is:      ") (princ               (cdr x ))   (nl)
-(nl)
+;; (princ "(1 2 3 . nil) is proper:     ") (princ         (properp   x ))   (nl)
+;; (princ "(1 2 3 . nil) length:        ") (princ         (length    x ))   (nl)
+;; (princ "(1 2 3 . nil) length errors: ") (princ (error? (length    x)))   (nl)
+;; (princ "(1 2 3 . nil) is:            ") (princ                    x  )   (nl)
+;; (princ "(car (1 2 3 . nil)) is:      ") (princ               (car x ))   (nl)
+;; (princ "(cdr (1 2 3 . nil)) is:      ") (princ               (cdr x ))   (nl)
+;; (nl)
  
-(setq x (quote (1 2 3 . 333)))
+;; (setq x (quote (1 2 3 . 333)))
 
-(princ "(1 2 3 . 333) is improper:   ") (princ       (improper?   x ))   (nl)
-(princ "(1 2 3 . 333) length:        ") (princ         (length    x ))   (nl)
-(princ "(1 2 3 . 333) length errors: ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 3 . 333) is:            ") (princ                    x  )   (nl)
-(princ "(car (1 2 3 . 333)) is:      ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 3 . 333)) is:      ") (princ               (cdr x ))   (nl)
-(nl)
+;; (princ "(1 2 3 . 333) is improper:   ") (princ       (improper?   x ))   (nl)
+;; (princ "(1 2 3 . 333) length:        ") (princ         (length    x ))   (nl)
+;; (princ "(1 2 3 . 333) length errors: ") (princ (error? (length    x)))   (nl)
+;; (princ "(1 2 3 . 333) is:            ") (princ                    x  )   (nl)
+;; (princ "(car (1 2 3 . 333)) is:      ") (princ               (car x ))   (nl)
+;; (princ "(cdr (1 2 3 . 333)) is:      ") (princ               (cdr x ))   (nl)
+;; (nl)
 
-(princ "int:                         ") (princ  (type? :INTEGER    3))   (nl)
-(princ "! int:                       ") (princ  (type? :FLOAT      3))   (nl)
-(princ "! float:                     ") (princ  (type? :INTEGER  3.0))   (nl)
-(princ "float:                       ") (princ  (type? :FLOAT    3.0))   (nl)
-(princ "float:                       ") (princ  (type? :FLOAT    3. ))   (nl)
-(princ "float:                       ") (princ  (type? :FLOAT     .3))   (nl)
-(princ "rational:                    ") (princ  (type? :RATIONAL 3/4))   (nl)
-(princ "string:                      ") (princ  (type? :STRING   "3"))   (nl)
-(nl)
+;; (princ "int:                         ") (princ  (type? :INTEGER    3))   (nl)
+;; (princ "! int:                       ") (princ  (type? :FLOAT      3))   (nl)
+;; (princ "! float:                     ") (princ  (type? :INTEGER  3.0))   (nl)
+;; (princ "float:                       ") (princ  (type? :FLOAT    3.0))   (nl)
+;; (princ "float:                       ") (princ  (type? :FLOAT    3. ))   (nl)
+;; (princ "float:                       ") (princ  (type? :FLOAT     .3))   (nl)
+;; (princ "rational:                    ") (princ  (type? :RATIONAL 3/4))   (nl)
+;; (princ "string:                      ") (princ  (type? :STRING   "3"))   (nl)
+;; (nl)
 
 (setq err (length '(1 2 . 333)))
 
 (princ "This error:                  ") (princ  err)                     (nl)
+(princ "This error:                  ") (put  err)                       (nl)
 (princ "This error's obj:            ") (write  (errobj err))            (nl)
-(princ "This error's message:        ") (write  (errmsg err))            (nl)
+(princ "This error's message:        ") (princ  (errmsg err))            (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
