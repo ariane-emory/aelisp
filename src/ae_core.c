@@ -27,8 +27,7 @@
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
-  PR("\n\n[core " name "]");                                                                     \
-  LOG(args, "create args");                                                                        \
+  PR("\n\n[core " name "]");                                                                       \
   LOG(CAR(args), "fun args");                                                                      \
   LOG(CDR(args), "fun body")
 #else
@@ -104,7 +103,6 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 
 #ifdef AE_LOG_CORE
   PR("\n\n[core setq]");
-  LOG(env_and_args, "core setq env_and_args");
   LOG(env, "core setq env");
   LOG(args, "core setq args");
 #endif
