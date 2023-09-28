@@ -171,8 +171,6 @@ extern ae_obj_t * symbols_list;
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
 #define TYPE_STR(o)             (ae_type_str(GET_TYPE((o))) + 3)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NULLP(o)                (! (o))
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)          ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
 #define NEQ(this, that)         ((! NULLP((this))) && (! NULLP((that))) && ((this)) != ((that)))
 #define EQL(this, that)         ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
@@ -193,7 +191,8 @@ extern ae_obj_t * symbols_list;
 #define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o))  == AE_RATIONAL))
 #define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_STRING))
 #define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_SYMBOL))
-#define FUNP(o)                 ((LAMBDAP((o))) || (COREP   ((o))))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NULLP(o)                (! (o))
 #define SPECIALP(o)             ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)             ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -194,7 +194,7 @@ ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_parent(ae_obj_t * const args) {
-  REQUIRE((LENGTH(args) == 1) && (ENVP(CAR(args)) || FUNP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
   return ENVP(CAR(args))
     ? ENV_PARENT(CAR(args))
