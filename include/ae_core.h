@@ -22,7 +22,7 @@
   DO(cdr)                                                                                          \
   DO(cons)                                                                                         \
   DO(eq)                                                                                           \
-  DO(eql)                                                                                          \
+  DO(eql)     /* reduceable */                                                                     \
   DO(exit)                                                                                         \
   DO(not)     /* reduceable */                                                                     \
   DO(put)                                                                                          \
