@@ -172,9 +172,6 @@ extern ae_obj_t * symbols_list;
 #define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_eql((this), (that))))
 #define NEQL(this, that)        (NOT_NULLP((this)) && NOT_NULLP((that)) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ASSERT_EQ(this, that)   (assert(EQ((this), (that))))
-#define ASSERT_NEQ(this, that)  (assert(NEQ((this), (that))))
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o))  == AE_CHAR))
 #define CONSP(o)                (NOT_NULLP((o)) && (GET_TYPE((o))  == AE_CONS))
