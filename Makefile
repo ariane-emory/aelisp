@@ -4,12 +4,12 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-DAE_NO_SINGLE_SYM_PARAMS \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=4096 \
 
 
 LOG_CFLAGS = \
+	-DAE_NO_SINGLE_SYM_PARAMS \
 	-DAE_LOG_EVAL \
 	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_CORE \
