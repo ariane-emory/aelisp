@@ -110,15 +110,12 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 #endif
 
   REQUIRE(SYMBOLP(CAR(args)));
-  REQUIRE(CONSP(CDR(args)));
-
-  // LOG(env, "setq called in");
+  REQUIRE(LENGTH(args) >= 1);
+  REQUIRE(LENGTH(args) <= 2); // CDR(args) is allowed to be NIL. 
 
   ae_obj_t * sym         = CAR(args);
-  ae_obj_t * val         = EVAL(env, CADR(args)); // allowed to be NIL.
-  ae_obj_t * setq_in_env = env; // ! NILP(ENV_PARENT(env)) ? ENV_PARENT(env): env;
-
-  // OLOG(setq_in_env);
+  ae_obj_t * val         = EVAL(env, CADR(args)); 
+  ae_obj_t * setq_in_env = env; 
 
   ENV_SET(setq_in_env, sym, val);
 
