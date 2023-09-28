@@ -1,6 +1,5 @@
 To Do:
 - [ ] core funs should probably have an env as a param too.
-- [ ] maybe ERROR should be a type?
 - [ ] core apply
 - [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
@@ -19,6 +18,8 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] maybe ERROR should be a type?
+- [x] user fun args always prints as nil? (No, they don't).
 - [x] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be? (answer: no)
 - [x] Keyword symbols should be self-evaluating.
 - [x] Maybe add 'print' (just 'write' with a newline in front).
