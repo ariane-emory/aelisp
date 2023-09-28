@@ -3,7 +3,7 @@
 (setq stop      (lambda ()  (nl) (exit 0)))
 (setq sleep     (lambda (x) (msleep (* 1000 x))))
 (setq improperp (lambda (l) (not (properp l))))
-(setq errorp    (lambda (o) (eq :ERROR o)))
+(setq errorp    (lambda (o) (eq (quote :ERROR) o)))
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -66,7 +66,7 @@
 (print (errorp :ERROR))
 (print (errorp (length x)))
 (nl)
-(put   :ERROR)     (nl)
+(put   (quote :ERROR))     (nl)
 (put   (length x)) (nl)
 
 (nl)
