@@ -6,7 +6,7 @@
 ")))
 (setq sleep     (lambda (s)    (msleep (* 1000  s  ))))
 (setq stop      (lambda ()     (nl)    (exit    0   )))
-;; (setq list      (lambda args   args                  ))
+;; (setq list      (lambda (head . tail ) (head . tail )))
 
 (setq atom?     atomp)
 (setq proper?   properp)
@@ -90,7 +90,7 @@
 
 (print (list 1 2 . 333))
 (print (quote (1 2 . 333)))
-(print (eval (quote (1 2 . 333))))
+;; (print (eval (quote (1 2 . 333))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
