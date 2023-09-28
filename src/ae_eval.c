@@ -210,6 +210,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   fprintf(stderr, "\nDon't know how to eval a %s.", TYPE_STR(obj));
 #endif
+  
   assert(0);
 }
 
