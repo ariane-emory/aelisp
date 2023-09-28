@@ -820,13 +820,18 @@ void root_env_and_eval(void) {
   OLOG(FUN_BODY  (listf));
   
   obj expr   = NIL;
-  obj rtrn = NIL;
+  obj rtrn   = NIL;
+
+  NL;
+  PR("syms: "); WRITE(ENV_SYMS(env)); NL;
+  PR("vals: "); WRITE(ENV_VALS(env)); NL;
 
   SETQ(env, SYM("foo"), NEW_INT(666));
 
   T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
   T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
-
+  TM("Expected %d, got %d.", 672, INT_VAL(EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
+  
   T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  LIST(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), LIST(NEW_INT(9)))));

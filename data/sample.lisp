@@ -105,7 +105,7 @@
 (princ "This error's message:        ") (princ  (errmsg err))            (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(stop)
+;; (stop)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq test (lambda (first . rest)
@@ -126,8 +126,6 @@
 (nl)
 
 (eval (test 1 2 3 4))
-
-(stop)
 
 (princ "numer:               ") (princ (numer 3/4))         (nl)
 (princ "denom:               ") (princ (denom 3/4))         (nl)
@@ -188,4 +186,3 @@
 (princ "Body:   ") (write (body defun)) (nl)
 (princ "AFTER") ; (nl)
 (nl)
-m
