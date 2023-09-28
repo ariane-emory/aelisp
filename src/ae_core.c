@@ -102,8 +102,8 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   LOG(args, "core setq args");
 #endif
  
-  ASSERT_SYMBOLP(CAR(args));
-  ASSERT_CONSP(CDR(args));
+  assert(SYMBOLP(CAR(args)));
+  assert(CONSP(CDR(args)));
 
   // LOG(env, "setq called in");
   
@@ -283,8 +283,8 @@ ae_obj_t * ae_core_exit(ae_obj_t * const args) {
 ae_obj_t * ae_core_eval(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  ASSERT_NILP(CDR(args));
-  ASSERT_NOT_NULLP(CAR(args));
+  assert(NILP(CDR(args)));
+  assert(NOT_NULLP(CAR(args)));
   
   return EVAL(env, EVAL(env, CAR(args)));
 }
@@ -299,7 +299,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   LOG_CREATE_LAMBDA_OR_MACRO("LAMBDA");
 
   assert(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
-  ASSERT_TAILP(CDR(args));
+  assert(TAILP(CDR(args)));
 
   return NEW_LAMBDA(CAR(args), CDR(args), env);
 }
@@ -313,8 +313,8 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env_and_args) {
 
   LOG_CREATE_LAMBDA_OR_MACRO("macro");
   
-  ASSERT_TAILP(CAR(args));
-  ASSERT_TAILP(CDR(args));
+  assert(TAILP(CAR(args)));
+  assert(TAILP(CDR(args)));
 
   return NEW_MACRO(CAR(args), CDR(args), env);
 }
@@ -335,7 +335,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env_and_args) {
   if (NILP(args))
     return NIL;
 
-  ASSERT_CONSP(CAR(args));
+  assert(CONSP(CAR(args)));
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
@@ -376,8 +376,8 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   PRINC(CONS(SYM("progn"), CDDR(args)));
 #endif
 
-  // ASSERT_NOT_NILP(CAR(args));
-  // ASSERT_NOT_NILP(CADR(args));
+  // assert(NOT_NILP(CAR(args)));
+  // assert(NOT_NILP(CADR(args)));
 
   bool cond_result = NOT_NILP(EVAL(env, CAR(args)));
 
