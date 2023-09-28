@@ -12,11 +12,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define REQUIRE(cond)                                                                              \
-  if (! cond) {                                                                                    \
+  if (! (cond)) {                                                                                  \
     fprintf(stderr, "Error: require " #cond "!\n");                                                \
                                                                                                    \
-.   return ERROR;                                                                                  \
-. }
+    return ERROR;                                                                                  \
+  }
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   assert(CONSP(env_and_args));                                                                     \
@@ -52,14 +52,14 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
     rest = args;                                                                                   \
   }                                                                                                \
   else {                                                                                           \
-    assert(INTEGERP(CAR(args)));                                                                   \
+    REQUIRE(INTEGERP(CAR(args)));                                                                  \
                                                                                                    \
     accum = CAR(args);                                                                             \
     rest = CDR(args);                                                                              \
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
-    assert(INTEGERP(elem));                                                                        \
+    REQUIRE(INTEGERP(elem));                                                                       \
                                                                                                    \
     INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem);                                            \
   }                                                                                                \
@@ -84,8 +84,8 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
     if (NILP(CDR(position)))                                                                       \
         break;                                                                                     \
                                                                                                    \
-    assert(INTEGERP(elem));                                                                        \
-    assert(INTEGERP(CADR(position)));                                                              \
+    REQUIRE(INTEGERP(elem));                                                                       \
+    REQUIRE(INTEGERP(CADR(position)));                                                             \
                                                                                                    \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
@@ -109,8 +109,8 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   LOG(args, "core setq args");
 #endif
 
-  assert(SYMBOLP(CAR(args)));
-  assert(CONSP(CDR(args)));
+  REQUIRE(SYMBOLP(CAR(args)));
+  REQUIRE(CONSP(CDR(args)));
 
   // LOG(env, "setq called in");
 
@@ -151,7 +151,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_properp(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && (TAILP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (TAILP(CAR(args))));
 
   return PROPER_LISTP(CAR(args)) ? TRUE : NIL;
 }
@@ -161,7 +161,7 @@ ae_obj_t * ae_core_properp(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_params(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_PARAMS(CAR(args));
 }
@@ -171,7 +171,7 @@ ae_obj_t * ae_core_params(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_body(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_BODY(CAR(args));
 }
@@ -183,7 +183,7 @@ ae_obj_t * ae_core_body(ae_obj_t * const args) {
 ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  assert(NILP(args));
+  REQUIRE(NILP(args));
 
   return env;
 }
@@ -193,7 +193,7 @@ ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_parent(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && (ENVP(CAR(args)) || FUNP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (ENVP(CAR(args)) || FUNP(CAR(args))));
 
   return ENVP(CAR(args))
     ? ENV_PARENT(CAR(args))
@@ -205,7 +205,7 @@ ae_obj_t * ae_core_parent(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_syms(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && ENVP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_SYMS(CAR(args));
 }
@@ -215,7 +215,7 @@ ae_obj_t * ae_core_syms(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_vals(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && ENVP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_VALS(CAR(args));
 }
@@ -225,7 +225,7 @@ ae_obj_t * ae_core_vals(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_numer(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
   return NEW_INT(NUMER_VAL(CAR(args)));
 }
@@ -235,7 +235,7 @@ ae_obj_t * ae_core_numer(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_denom(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
+  REQUIRE((LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
   return NEW_INT((RATIONALP(CAR(args)))
                  ? DENOM_VAL(CAR(args))
@@ -247,7 +247,7 @@ ae_obj_t * ae_core_denom(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_type(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1));
+  REQUIRE((LENGTH(args) == 1));
 
   const char * type = TYPE_STR(CAR(args));
   /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
@@ -266,7 +266,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
-  assert(LENGTH(args) == 1);
+  REQUIRE(LENGTH(args) == 1);
 
   return CAR(args);
 }
@@ -276,7 +276,7 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_exit(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && INTEGERP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   exit(INT_VAL(CAR(args)));
 
