@@ -86,7 +86,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
 
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   assert(TAILP(list));
-  assert(NOT_NULLP(member));
+  assert(! NULLP(member));
   
   if (NILP(list))
     return false;
@@ -104,7 +104,7 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
 
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
   assert(TAILP(list));
-  assert(NOT_NULLP(member));
+  assert(! NULLP(member));
   
   if (NILP(list))
     return list;
@@ -134,7 +134,7 @@ ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
     fprintf(stderr, "\nCan't cons onto a %s!\n", TYPE_STR(tail));
   
   assert(TAILP(tail));
-  assert(NOT_NULLP(head));
+  assert(! NULLP(head));
 
 #ifdef AE_LOG_CONS
   fputs("Cons ", stdout);
@@ -187,7 +187,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   // by pushing onto the return value of a prior push.
   
   assert(TAILP(*plist));
-  assert(NOT_NULLP(member));
+  assert(! NULLP(member));
 
   if (NILP(*plist))
     return *plist = CONS(member, *plist);
@@ -229,7 +229,7 @@ ae_obj_t * new_sym;                                                             
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(NULLP(*plist) || TAILP(*plist));
-  assert(NOT_NULLP(string));
+  assert(! NULLP(string));
   assert(strlen(string) != 0);
   
   if (! strcmp(string, "nil"))

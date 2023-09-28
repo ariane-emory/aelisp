@@ -14,7 +14,7 @@
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
   assert(CONSP(env_and_args));                                                                     \
   assert(ENVP(CAR(env_and_args)));                                                                 \
-  assert(TAILP(CDR(env_and_args)));                                                                 \
+  assert(TAILP(CDR(env_and_args)));                                                                \
   ae_obj_t * env  = CAR(env_and_args);                                                             \
   ae_obj_t * args = CDR(bundle)                                                                    \
 
@@ -284,7 +284,7 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
   assert(NILP(CDR(args)));
-  assert(NOT_NULLP(CAR(args)));
+  assert(! NULLP(CAR(args)));
   
   return EVAL(env, EVAL(env, CAR(args)));
 }
@@ -349,7 +349,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env_and_args) {
   WRITE(cdar);
 #endif
 
-  if (NOT_NILP(EVAL(env, caar)))
+  if (! NILP(EVAL(env, caar)))
     return EVAL(env, ae_core_progn(CONS(env, cdar)));
   return ae_core_cond(CONS(env, CDR(args)));
 }
@@ -376,10 +376,10 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   PRINC(CONS(SYM("progn"), CDDR(args)));
 #endif
 
-  // assert(NOT_NILP(CAR(args)));
-  // assert(NOT_NILP(CADR(args)));
+  // assert(! NILP(CAR(args)));
+  // assert(! NILP(CADR(args)));
 
-  bool cond_result = NOT_NILP(EVAL(env, CAR(args)));
+  bool cond_result = ! NILP(EVAL(env, CAR(args)));
 
 #ifdef AE_LOG_CORE
   PR("cond_result: ");
@@ -512,7 +512,7 @@ ae_obj_t * ae_core_atomp(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_not(ae_obj_t * const args) {
   FOR_EACH(elem, args)
-    if (NOT_NILP(elem))
+    if (! NILP(elem))
       return NIL;
 
   return TRUE;
@@ -558,7 +558,7 @@ ae_obj_t * ae_core_print(ae_obj_t * const args) {
   FOR_EACH(elem, args) {
     written += PRINT(elem);
 
-    if (NOT_NILP(CDR(position))) {
+    if (! NILP(CDR(position))) {
       SPC;
       written++;
     }
@@ -579,7 +579,7 @@ ae_obj_t * ae_core_write(ae_obj_t * const args) {
   FOR_EACH(elem, args) {
     written += WRITE(elem);
 
-    if (NOT_NILP(CDR(position))) {
+    if (! NILP(CDR(position))) {
       SPC;
       written++;
     }
