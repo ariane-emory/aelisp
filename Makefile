@@ -5,10 +5,10 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
-	-DAE_LOG_CORE \
 	-DAE_OBJ_POOL_SIZE=4096 \
 
 LOG_CFLAGS = \
+	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
 	-DAE_LOG_ENV \
 	-DAE_LOG_PARSE \

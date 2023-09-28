@@ -103,8 +103,6 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
 
 #ifdef AE_LOG_CORE
   PR("\n\n[core setq]");
-  LOG(env, "core setq env");
-  LOG(args, "core setq args");
 #endif
 
   int len = LENGTH(args);
@@ -114,10 +112,16 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   REQUIRE(len <= 2); // CDR(args) is allowed to be NIL, so it may look like 1 arg.
 
   ae_obj_t * sym         = CAR(args);
-  ae_obj_t * val         = EVAL(env, CADR(args)); 
-  ae_obj_t * setq_in_env = env; 
+  ae_obj_t * val         = CADR(args);
 
-  ENV_SET(setq_in_env, sym, val);
+#ifdef AE_LOG_CORE
+  LOG(sym, "core setq sym");
+  LOG(val, "core setq val");
+#endif
+
+  val                    = EVAL(env, val);
+
+  ENV_SET(env, sym, val);
 
   return val;
 }
