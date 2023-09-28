@@ -176,7 +176,6 @@ extern ae_obj_t * symbols_list;
 #define EQL(this, that)         ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
 #define NEQL(this, that)        ((! NULLP((this))) && (! NULLP((that))) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                ((! NULLP((o))) && (! CONSP((o))))
 #define CHARP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CHAR))
 #define CONSP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CONS))
 #define COREP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CORE))
@@ -192,6 +191,7 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_STRING))
 #define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ATOMP(o)                ((! NULLP((o))) && (! CONSP((o))))
 #define NULLP(o)                (! (o))
 #define SPECIALP(o)             ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)             ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
