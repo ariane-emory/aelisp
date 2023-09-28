@@ -14,27 +14,28 @@
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
   DO(msleep)                                                                                       \
-  DO(properp)                                                                                      \
-  DO(tailp)                                                                                        \
-  DO(length)                                                                                       \
-  DO(atomp)                                                                                        \
+  DO(properp) /* reduceable */                                                                     \
+  DO(tailp)   /* reduceable */                                                                     \
+  DO(length)  /* reduceable */                                                                     \
+  DO(atomp)   /* reduceable */                                                                     \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(cons)                                                                                         \
   DO(eq)                                                                                           \
   DO(eql)                                                                                          \
   DO(exit)                                                                                         \
-  DO(not)                                                                                          \
+  DO(not)     /* reduceable */                                                                     \
+  DO(put)                                                                                          \
+  /* probably, two out of these 3 could be reduced: */                                             \
   DO(princ)                                                                                        \
   DO(print)                                                                                        \
-  DO(put)                                                                                          \
   DO(write)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(env)                                                                                          \
   DO(cond)                                                                                         \
   DO(eval)                                                                                         \
-  DO(if)                                                                                           \
+  DO(if)      /* reduceable */                                                                     \
   DO(lambda)                                                                                       \
   DO(macro)                                                                                        \
   DO(progn)                                                                                        \
