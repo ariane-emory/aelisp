@@ -18,7 +18,12 @@
     sprintf(msg, "%s:%d: Error in %s: require %s!", __FILE__, __LINE__, __func__, cond_str);       \
     fprintf(stderr,  ">>> %s\n", msg);                                                             \
                                                                                                    \
-    return NEW_ERROR(obj, msg);                                                                   \
+    return NEW_ERROR(obj, #cond);                                                                  \
+                                                                                                   \
+    fprintf(stderr, "ptr %018p\n", msg);                                                           \
+    sprintf(msg, "%s:%d", __FILE__, __LINE__);                                                     \
+                                                                                                   \
+    return NEW_ERROR(obj, msg);                                                                    \
   }
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
@@ -458,8 +463,8 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
 
   int len = LENGTH(CAR(args));
 
-  OLOG(args);
-  REQUIRE(CAR(args), len >= 0);
+  //OLOG(args);
+  REQUIRE(CAR(args), /* len >= */ 0);
           
   return NEW_INT(len);
 }

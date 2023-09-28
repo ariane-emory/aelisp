@@ -29,7 +29,7 @@
 
   ae_obj_t * root    = 0;
   
-#define free_list_size (1 << 12)
+#define free_list_size (1 << 16)
 
   static char mem[free_list_size] = { 0 };
   
