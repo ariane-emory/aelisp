@@ -14,6 +14,8 @@
 (setq atom?     atomp)
 (setq proper?   properp)
 (setq tail?     tailp)
+(setq err-msg   err_msg)
+(setq err-obj   err_obj)
 
 (setq cons?     (lambda (o)    (not    (atom?   o  ))))
 (setq error?    (lambda (o)    (type?  ERROR    o   )))
@@ -91,8 +93,8 @@
 (princ "string:                      ") (princ  (type? :STRING   "3"))   (nl)
 (nl)
 
-(print (list 1 2 . 333))
-(print (quote (1 2 . 333)))
+(print (length '(1 2 . 333)))
+
 ;; (print (eval (quote (1 2 . 333))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

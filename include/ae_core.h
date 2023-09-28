@@ -20,6 +20,8 @@
   DO(syms)    /* env accessor */                                                                   \
   DO(vals)    /* env accessor */                                                                   \
   DO(parent)  /* env/fun accessor */                                                               \
+  DO(err_msg) /* error accessor */                                                                 \
+  DO(err_obj) /* error accessor */                                                                 \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
   /*=============================================================================================*/\

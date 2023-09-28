@@ -16,7 +16,7 @@
     char * cond_str = #cond;                                                                       \
     char * msg = free_list_malloc(256);                                                            \
     sprintf(msg, "%s:%d: Error in %s: require %s!", __FILE__, __LINE__, __func__, cond_str);       \
-    fprintf(stderr,  "!!! %s\n", msg);                                                                 \
+    fprintf(stderr,  ">>> %s\n", msg);                                                             \
                                                                                                    \
     return NEW_ERROR(msg, args);                                                                   \
   }
@@ -86,8 +86,8 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
     if (NILP(CDR(position)))                                                                       \
         break;                                                                                     \
                                                                                                    \
-    REQUIRE(arg, INTEGERP(elem));                                                                       \
-    REQUIRE(arg, INTEGERP(CADR(position)));                                                             \
+    REQUIRE(arg, INTEGERP(elem));                                                                  \
+    REQUIRE(arg, INTEGERP(CADR(position)));                                                        \
                                                                                                    \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
@@ -212,6 +212,26 @@ ae_obj_t * ae_core_syms(ae_obj_t * const args) {
   REQUIRE(arg, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_SYMS(CAR(args));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _errmsg
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_err_msg(ae_obj_t * const args) {
+  REQUIRE(arg, (LENGTH(args) == 1) && ERRORP(CAR(args)));
+
+  return NEW_STRING(ERR_MSG(CAR(args)));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _errobj
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_err_obj(ae_obj_t * const args) {
+  REQUIRE(arg, (LENGTH(args) == 1) && ERRORP(CAR(args)));
+
+  return ERR_OBJ(CAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
