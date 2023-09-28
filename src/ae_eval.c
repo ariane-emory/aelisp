@@ -109,9 +109,15 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   ae_obj_t * new_env = NIL;
 
-  if (SYMBOLP(FUN_PARAMS(fun)))
+#define AE_NO_SINGLE_SYM_PARAMS
+  
+#ifndef AE_NO_SINGLE_SYM_PARAMS  
+  if (SYMBOLP(FUN_PARAMS(fun))
+      && (! NILP(FUN_PARAMS(fun)))
+  )
     new_env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
   else
+#endif
     new_env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
 #ifdef AE_LOG_EVAL
