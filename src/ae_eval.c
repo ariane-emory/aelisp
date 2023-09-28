@@ -280,10 +280,17 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   WRITE(fun);
   DOT;
 #endif
-  
+
   MAYBE_EVAL_AND_BAIL_ON_ERROR(dispatch.special, args);
 
-  ae_obj_t * ret = dispatch.special
+  ae_obj_t * ret = NIL;
+
+#ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
+  if (ERRORP(args))
+    ret = args;
+  else
+#endif
+    ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)
     : (*dispatch.handler)(fun, env, args);
 
