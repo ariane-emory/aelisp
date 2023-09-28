@@ -2,7 +2,7 @@
 ")))
 (setq stop      (lambda ()     (nl) (exit 0)))
 (setq sleep     (lambda (x)    (msleep (* 1000 x))))
-(setq improperp (lambda (l)    (not (properp l))))
+(setq improper? (lambda (l)    (not (properp l))))
 (setq errorp    (lambda (o)    (eq :ERROR o)))
 (setq type?     (lambda (t o)  (eq (type o) t)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -37,7 +37,7 @@
 (nl)
  
 (setq x (quote (1 2 . 333)))
-(princ        "(1 2 . 333) is improper:     ") (princ       (improperp   x ))   (nl)
+(princ        "(1 2 . 333) is improper:     ") (princ       (improper?   x ))   (nl)
 (princ        "(1 2 . 333) length:          ") (princ         (length    x ))   (nl)
 (princ        "(1 2 . 333) length errors:   ") (princ (errorp (length    x)))   (nl)
 (princ        "(1 2 . 333) is:              ") (princ                    x  )   (nl)
@@ -55,7 +55,7 @@
 (nl)
  
 (setq x (quote (1 2 3 . 333)))
-(princ        "(1 2 3 . 333) is improper:   ") (princ       (improperp   x ))   (nl)
+(princ        "(1 2 3 . 333) is improper:   ") (princ       (improper?   x ))   (nl)
 (princ        "(1 2 3 . 333) length:        ") (princ         (length    x ))   (nl)
 (princ        "(1 2 3 . 333) length errors: ") (princ (errorp (length    x)))   (nl)
 (princ        "(1 2 3 . 333) is:            ") (princ                    x  )   (nl)
