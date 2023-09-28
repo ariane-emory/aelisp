@@ -96,8 +96,8 @@
 (setq err (length '(1 2 . 333)))
 
 (princ "This error:           ") (princ err) (nl)
-(princ "This error's message: ") (princ (err-msg err)) (nl)
-(princ "This error's obj:     ") (princ (err-obj err)) (nl)
+(princ "This error's obj:     ") (write (err_obj err)) (nl)
+(princ "This error's message: ") (write (err_msg err)) (nl)
 
 ;; (print (eval (quote (1 2 . 333))))
 
