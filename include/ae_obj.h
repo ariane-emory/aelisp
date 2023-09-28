@@ -39,20 +39,19 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_LEXED_TYPE(DO)                                                                    \
-  DO(AE_CONS)                                                                                      \
-  DO(AE_SYMBOL)                                                                                    \
-  DO(AE_STRING)                                                                                    \
   DO(AE_CHAR)                                                                                      \
-  DO(AE_INTEGER)                                                                                   \
-  DO(AE_RATIONAL)                                                                                  \
-  DO(AE_FLOAT)                                                                                     \
-  DO(AE_QUOTE)                                                                                     \
+  DO(AE_CONS)                                                                                      \
+  DO(AE_CORE)                                                                                      \
   DO(AE_ENV)                                                                                       \
+  DO(AE_ERROR)                                                                                     \
+  DO(AE_FLOAT)                                                                                     \
+  DO(AE_INTEGER)                                                                                   \
+  DO(AE_INVALID)                                                                                   \
   DO(AE_LAMBDA)                                                                                    \
   DO(AE_MACRO)                                                                                     \
-  DO(AE_CORE)                                                                                      \
-  DO(AE_ERROR)                                                                                     \
-  DO(AE_INVALID)                                                                                   \
+  DO(AE_RATIONAL)                                                                                  \
+  DO(AE_STRING)                                                                                    \
+  DO(AE_SYMBOL)                                                                                    \
 
 #define enum_entry(x) x,
 
@@ -199,7 +198,6 @@ extern ae_obj_t * symbols_list;
 #define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INVALID))
 #define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_LAMBDA))
 #define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_MACRO))
-#define QUOTEP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_QUOTE))
 #define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o))  == AE_RATIONAL))
 #define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_STRING))
 #define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_SYMBOL))

@@ -152,6 +152,7 @@ static const eval_dispatch_t eval_dispatch[] = {
     {AE_CONS,     &apply},
     {AE_CORE,     &self},
     {AE_ERROR,    &self},
+    {AE_ENV,      &self},
     {AE_FLOAT,    &self},
     {AE_INTEGER,  &self},
     {AE_LAMBDA,   &self},
