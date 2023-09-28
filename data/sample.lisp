@@ -24,8 +24,7 @@
 (setq nil?      (lambda (o)    (eq     o        nil         )))
 
 
-(print (error? 1)) 
-(stop)
+(princ "This:                        ") (princ (error? 1))               (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test some random stuff:
