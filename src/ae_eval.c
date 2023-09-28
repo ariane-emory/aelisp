@@ -35,6 +35,7 @@
       fprintf(stderr, "\n");                                                                       \
       return args;                                                                                 \
     }                                                                                              \
+    args = evaled_args;                                                                            \
   }
 #else
 #  define MAYBE_EVAL_AND_BAIL_ON_ERROR(special, args)                                              \
