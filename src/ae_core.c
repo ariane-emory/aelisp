@@ -266,6 +266,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const args) {
 
 ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
+
   REQUIRE(LENGTH(args) == 1);
 
   return CAR(args);
@@ -290,8 +291,7 @@ ae_obj_t * ae_core_exit(ae_obj_t * const args) {
 ae_obj_t * ae_core_eval(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  assert(NILP(CDR(args)));
-  assert(! NULLP(CAR(args)));
+  REQUIRE(LENGTH(args) == 1);
 
   return EVAL(env, EVAL(env, CAR(args)));
 }
@@ -305,8 +305,8 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
 
   LOG_CREATE_LAMBDA_OR_MACRO("LAMBDA");
 
-  assert(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
-  assert(TAILP(CDR(args)));
+  REQUIRE(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
+  REQUIRE(TAILP(CDR(args)));
 
   return NEW_LAMBDA(CAR(args), CDR(args), env);
 }
@@ -320,8 +320,8 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env_and_args) {
 
   LOG_CREATE_LAMBDA_OR_MACRO("macro");
 
-  assert(TAILP(CAR(args)));
-  assert(TAILP(CDR(args)));
+  REQUIRE(TAILP(CAR(args)));
+  REQUIRE(TAILP(CDR(args)));
 
   return NEW_MACRO(CAR(args), CDR(args), env);
 }
@@ -342,7 +342,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env_and_args) {
   if (NILP(args))
     return NIL;
 
-  assert(CONSP(CAR(args)));
+  REQUIRE(CONSP(CAR(args)));
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
@@ -383,9 +383,6 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
   PRINC(CONS(SYM("progn"), CDDR(args)));
 #endif
 
-  // assert(! NILP(CAR(args)));
-  // assert(! NILP(CADR(args)));
-
   bool cond_result = ! NILP(EVAL(env, CAR(args)));
 
 #ifdef AE_LOG_CORE
@@ -413,7 +410,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_msleep(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && INTEGERP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   int ms = INT_VAL(CAR(args));
 
@@ -427,7 +424,7 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_length(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && TAILP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
 
   int len = LENGTH(CAR(args));
 
@@ -441,7 +438,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_car(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && TAILP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
 
   return (NILP(CAR(args)))
     ? NIL // car of nil is nil.
@@ -453,7 +450,7 @@ ae_obj_t * ae_core_car(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
-  assert((LENGTH(args) == 1) && TAILP(CAR(args)));
+  REQUIRE((LENGTH(args) == 1) && TAILP(CAR(args)));
 
   return (NILP(CAR(args)))
     ? NIL // cdr of nil is nil.
@@ -465,7 +462,7 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cons(ae_obj_t * const args) {
-  assert(LENGTH(args) == 2);
+  REQUIRE(LENGTH(args) == 2);
 
   ae_obj_t * head = CAR(args);
   ae_obj_t * tail = CADR(args);
@@ -478,8 +475,6 @@ ae_obj_t * ae_core_cons(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_eq(ae_obj_t * const args) {
-  assert(LENGTH(args) > 1);
-
   FOR_EACH(tailarg, CDR(args))
     if (NEQ(CAR(args), tailarg))
       return NIL;
@@ -492,8 +487,6 @@ ae_obj_t * ae_core_eq(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_eql(ae_obj_t * const args) {
-  assert(LENGTH(args) > 1);
-
   FOR_EACH(tailarg, CDR(args))
     if (NEQL(CAR(args), tailarg))
       return NIL;
@@ -506,6 +499,8 @@ ae_obj_t * ae_core_eql(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_atomp(ae_obj_t * const args) {
+  REQUIRE(LENGTH(args) > 0);
+  
   FOR_EACH(elem, args)
     if (! ATOMP(elem))
       return NIL;
