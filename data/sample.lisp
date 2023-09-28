@@ -17,11 +17,11 @@
 (setq err-msg   errmsg)
 (setq err-obj   errobj)
 
-(setq cons?     (lambda (o)    (not    (atom?   o  ))))
-(setq error?    (lambda (o)    (type?  :ERROR   o   )))
-(setq improper? (lambda (o)    (not    (proper? o  )))) ;; this also needs to check if it's arg is tail?.
-(setq nil?      (lambda (o)    (eq     o        nil )))
-(setq type?     (lambda (t o)  (eq     (type o) t   )))
+(setq type?     (lambda (t o)  (eq     t        (type o    ))))
+(setq cons?     (lambda (o)    (not    (atom?   o          ))))
+(setq error?    (lambda (o)    (type?  :ERROR   o           )))
+(setq improper? (lambda (o)    (not    (proper? o          )))) ;; this also needs to check if it's arg is tail?.
+(setq nil?      (lambda (o)    (eq     o        nil         )))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test some random stuff:
