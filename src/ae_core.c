@@ -27,7 +27,7 @@
 
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
-  PR("\n\n[CREATE " name "]");                                                                     \
+  PR("\n\n[core " name "]");                                                                     \
   LOG(args, "create args");                                                                        \
   LOG(CAR(args), "fun args");                                                                      \
   LOG(CDR(args), "fun body")
@@ -302,7 +302,7 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env_and_args) {
 ae_obj_t * ae_core_lambda(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  LOG_CREATE_LAMBDA_OR_MACRO("LAMBDA");
+  LOG_CREATE_LAMBDA_OR_MACRO("lambda");
 
   REQUIRE(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   REQUIRE(TAILP(CDR(args)));
