@@ -164,7 +164,6 @@ extern ae_obj_t * symbols_list;
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NULLP(o)                (! (o))
-#define NOT_NULLP(o)            (! NULLP(o))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)          ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
 #define NEQ(this, that)         ((! NULLP((this))) && (! NULLP((that))) && ((this)) != ((that)))

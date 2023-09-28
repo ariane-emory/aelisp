@@ -31,19 +31,12 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define LENGTH(this)                  (ae_list_length(this))
 #define PUSH(this, that)              (ae_list_push_back(&(this), (that)))
 #define REMOVE(list, elem)            (ae_list_remove_member(list, elem))
-#define SYM2(sym_list, str)        (ae_list_intern_string((sym_list), (str)))
-#define SYM(str)                   (SYM2(&symbols_list, (str)))
+#define SYM2(sym_list, str)           (ae_list_intern_string((sym_list), (str)))
+#define SYM(str)                      (SYM2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TAILP(o)                      (NOT_NULLP((o)) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
-#define NOT_TAILP(o)                  (! TAILP((o)))
-#define ASSERT_TAILP(o)               (assert(TAILP((o))))
-#define ASSERT_NOT_TAILP(o)           (assert(NOT_TAILP((o))))
-////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TAILP(o)                      ((! NULLP((o))) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
 #define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
-#define NOT_MEMBERP(this, that)       (! MEMBERP((this), (that)))
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PROPER_LISTP(o)               (ae_list_is_proper((o)))
-#define NOT_PROPER_LISTP(o)           (! PROPER_LISTP((o)))
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \
