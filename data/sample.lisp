@@ -63,15 +63,6 @@
 (princ        "(cdr (1 2 3 . 333)) is:      ") (princ              (cdr x ))   (nl)
 (nl)
 
-(print (errorp :ERROR))
-(print (errorp (length x)))
-(nl)
-(put   (quote :ERROR))     (nl)
-(put   (length x)) (nl)
-(princ "t is ") (put t) (nl)
-(princ ":ERROR is ") (put :ERROR) (nl)
-(nl)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
