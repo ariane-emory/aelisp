@@ -30,7 +30,7 @@
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
     if (ERRORP(args)) {                                                                            \
-      fprintf(stderr, "Returning early due to an error: ");                                        \
+      fprintf(stderr, "\nReturning early due to an error: ");                                      \
       FPUT(args, stderr);                                                                          \
       fprintf(stderr, "\n");                                                                       \
       args = evaled_args;                                                                          \
