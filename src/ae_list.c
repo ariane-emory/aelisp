@@ -13,7 +13,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_list_length(const ae_obj_t * const list) {
-  // assert(NILP((list)) || (CONSP((list)) && CAR((list))));
   assert(NILP((list)) || (CONSP((list))));
   
   if (NILP(list))
@@ -22,7 +21,7 @@ int ae_list_length(const ae_obj_t * const list) {
   size_t length = 0;
 
   FOR_EACH_CONST(elem, list) {
-    if (NOT_TAILP(CDR(position)))
+    if (!(TAILP(CDR(position))))
       return -1;
     length++;
   }
@@ -35,13 +34,13 @@ int ae_list_length(const ae_obj_t * const list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
-  ASSERT_TAILP(list);
+  assert(TAILP(list));
 
   if (NILP(list))
     return;
 
 #ifdef AE_LIST_EACH_RECURSES
-  if (! CAR(list))
+  if (!CAR(list))
     return;
 
   fun(CAR(list));
@@ -59,7 +58,7 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
-  if (NOT_PROPER_LISTP(list))
+  if (!(PROPER_LISTP(list)))
     return NIL;
 
   if (NILP(list))
@@ -86,8 +85,8 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
-  ASSERT_TAILP(list);
-  ASSERT_NOT_NULLP(member);
+  assert(TAILP(list));
+  assert(NOT_NULLP(member));
   
   if (NILP(list))
     return false;
@@ -104,8 +103,8 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
-  ASSERT_TAILP(list);
-  ASSERT_NOT_NULLP(member);
+  assert(TAILP(list));
+  assert(NOT_NULLP(member));
   
   if (NILP(list))
     return list;
@@ -131,11 +130,11 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_cons(ae_obj_t * const head, ae_obj_t * const tail) {
-  if (NOT_TAILP(tail))
+  if (!(TAILP(tail)))
     fprintf(stderr, "\nCan't cons onto a %s!\n", TYPE_STR(tail));
   
-  ASSERT_TAILP(tail);
-  ASSERT_NOT_NULLP(head);
+  assert(TAILP(tail));
+  assert(NOT_NULLP(head));
 
 #ifdef AE_LOG_CONS
   fputs("Cons ", stdout);
@@ -187,8 +186,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   // Return value is the tailtip of the list, so repeated pushes can be performed more performantly
   // by pushing onto the return value of a prior push.
   
-  ASSERT_TAILP(*plist);
-  ASSERT_NOT_NULLP(member);
+  assert(TAILP(*plist));
+  assert(NOT_NULLP(member));
 
   if (NILP(*plist))
     return *plist = CONS(member, *plist);
@@ -230,7 +229,7 @@ ae_obj_t * new_sym;                                                             
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   assert(NULLP(*plist) || TAILP(*plist));
-  ASSERT_NOT_NULLP(string);
+  assert(NOT_NULLP(string));
   assert(strlen(string) != 0);
   
   if (! strcmp(string, "nil"))
@@ -254,7 +253,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   }
   
   FOR_EACH(elem, *plist) {
-    ASSERT_SYMBOLP(elem);
+    assert(SYMBOLP(elem));
     if (! strcmp(string, elem->sym_val)) {
 #ifdef AE_LOG_SYM
       printf("Intern in symbol list ");
@@ -291,12 +290,11 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_list_is_proper(const ae_obj_t * const list) {
-  ASSERT_TAILP(list);
+  assert(TAILP(list));
 
   FOR_EACH_CONST(elem, list)
-    if (NOT_TAILP(CDR(position)))
+    if (!(TAILP(CDR(position))))
       return false;
 
   return true;
 }
-
