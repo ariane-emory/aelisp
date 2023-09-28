@@ -168,7 +168,7 @@
 
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
-    // describe_parse(program_obj);
+    describe_parse(program_obj);
 
     PR("\n\nEvaluating program...\n");
     EVAL(env, program_obj);
@@ -187,10 +187,11 @@
 
 %%
 
-sexp: atom | list;
+sexp: atom | list | quoted_sexp;  // Include quoted expressions
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 list: LPAREN list_sexps RPAREN  { $$ = $2; };
 program: sexps { root = $$; }
+quoted_sexp: QUOTE sexp { $$ = CONS(SYM("quote"), CONS($2, NIL));  };
 
 sexps: sexp sexps {
   LOG_PARSE($1, "Consing  ");
@@ -205,6 +206,6 @@ list_sexps: sexp list_sexps {
 } | sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
 } | { $$ = NIL; };
- 
-%%
 
+
+%%
