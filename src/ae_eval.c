@@ -30,7 +30,7 @@
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
     if (ERRORP(args)) {                                                                            \
-      fprintf(stderr, "\nReturning early due to an error: ");                                      \
+      fprintf(stderr, "\nReturning early due to an error: ");                                     \
       FPUT(args, stderr);                                                                          \
       fprintf(stderr, "\n");                                                                       \
       args = evaled_args;                                                                          \
@@ -133,11 +133,11 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   PR("\n\n[apply user fun]");
-  LOG(fun, "applying user fun");
   LOG(FUN_PARAMS(fun), "appl user fun params");
   LOG(FUN_BODY(fun), "appl user fun body");
-  LOG(env, "appl user fun env");
   LOG(args, "appl user fun args");
+  LOG(fun, "applying user fun");
+  LOG(env, "appl user fun env");
 #endif
   
   ae_obj_t * new_env = NIL;
