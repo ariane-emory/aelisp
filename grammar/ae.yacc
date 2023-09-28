@@ -187,11 +187,13 @@
 
 %%
 
-sexp: atom | list | quoted_sexp;  // Include quoted expressions
+program: sexps { root = $$; }
+sexp: atom | list | quoted_sexp | quasiquoted_sexp | unquoted_sexp;
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 list: LPAREN list_sexps RPAREN  { $$ = $2; };
-program: sexps { root = $$; }
-quoted_sexp: QUOTE sexp { $$ = CONS(SYM("quote"), CONS($2, NIL));  };
+quoted_sexp:      QUOTE    sexp { $$ = CONS(SYM("quote"),      CONS($2, NIL)); };
+quasiquoted_sexp: BACKTICK sexp { $$ = CONS(SYM("quasiquote"), CONS($2, NIL)); };
+unquoted_sexp:    COMMA    sexp { $$ = CONS(SYM("unquote"),    CONS($2, NIL)); };
 
 sexps: sexp sexps {
   LOG_PARSE($1, "Consing  ");
@@ -206,6 +208,5 @@ list_sexps: sexp list_sexps {
 } | sexp DOT sexp {
   $$ = NEW_CONS($1, $3);
 } | { $$ = NIL; };
-
 
 %%
