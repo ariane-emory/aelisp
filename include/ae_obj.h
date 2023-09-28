@@ -229,8 +229,7 @@ _obj;                                                                           
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_ERROR);                                                                  \
 ERR_MSG   (_obj) = (msg);                                                                          \
-ERR_OBJ   (_obj) = CONS(SYM("quote"), CONS(CONS(SYM("list"), (obj)), NIL));                        \
-LOG(ERR_OBJ(_obj), "new error");                                                                   \
+ERR_OBJ   (_obj) = (obj);                                                                          \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
