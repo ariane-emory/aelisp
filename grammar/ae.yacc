@@ -166,13 +166,6 @@
     yyin = fp;
     yyparse();
 
-    /* printf("root:              "); */
-    /* if (root) */
-    /*   PUT(root); */
-    /* else */
-    /*   PR("NULL!"); */
-    /* NL; */
-
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
     // describe_parse(program_obj);

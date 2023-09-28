@@ -11,6 +11,8 @@
   DO(eq)                                                                                           \
   DO(exit)                                                                                         \
   DO(msleep)                                                                                       \
+  /* DO(rplaca) */ /* Implement this one soon. */                                                  \
+  /* DO(rplacd) */ /* Implement this one soon. */                                                  \
   /*=============================================================================================*/\
   DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(body)    /* fun accessor */                                                                   \
@@ -28,7 +30,7 @@
   DO(properp) /* reduceable */                                                                     \
   DO(tailp)   /* reduceable */                                                                     \
   DO(put)     /* reducing this would require a core to get objs' addresses, might not bother. */   \
-  DO(princ)   /* probably, two out of these finale 3 could be reduced. */                          \
+  DO(princ)   /* probably two out of these final 3 could be reduced. */                            \
   DO(print)                                                                                        \
   DO(write)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,14 +46,14 @@
   DO(if)      /* reduceable */                                                                     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_MATH_OP(DO)                                                                       \
-  DO(add, +, 0)                                                                                    \
-  DO(sub, -, 0)                                                                                    \
+  DO(add, +, 0)             /* reducing these doesn't really seem like it would be worth the */    \
+  DO(sub, -, 0)             /* bother or the performance impact.                             */    \
   DO(mul, *, 1)                                                                                    \
   DO(div, /, 1)                                                                                    \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CMP_OP(DO)                                                                        \
-  DO(equal,  ==, &=, true)                                                                         \
-  DO(nequal, !=, |=, false)                                                                        \
+  DO(equal,  ==, &=, true)  /* reducing these doesn't really seem like it would be worth the */    \
+  DO(nequal, !=, |=, false) /* bother or the performance impact.                             */    \
   DO(lt,     < , &=, true)                                                                         \
   DO(lte,    <=, &=, true)                                                                         \
   DO(gt,     > , &=, true)                                                                         \
