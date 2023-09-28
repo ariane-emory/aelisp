@@ -17,19 +17,23 @@
     }
 
 #ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
-#  define MAYBE_EVAL(special, args)                                                                \
+#  define MAYBE_EVAL_AND_BAIL_ON_ERROR(special, args)                                              \
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args) {                                                                         \
       ae_obj_t * tmp = EVAL(env, elem);                                                            \
       if (ERRORP(tmp))                                                                             \
-        return tmp;                                                                                \
+      {                                                                                            \
+        args = tmp;                                                                                \
+        break;                                                                                     \
+      }                                                                                            \
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
-    args = evaled_args;                                                                            \
+    if (! ERRORP(ARGS))                                                                            \
+        args = evaled_args;                                                                        \
   }
 #else
-#  define MAYBE_EVAL(special, args)                                                                \
+#  define MAYBE_EVAL_AND_BAIL_ON_ERROR(special, args)                                              \
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args)                                                                           \
@@ -92,11 +96,18 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(args, "apply core args");
 #endif
 
-  MAYBE_EVAL(SPECIALP(fun), args);
+  MAYBE_EVAL_AND_BAIL_ON_ERROR(SPECIALP(fun), args);
 
-  ae_obj_t * ret = SPECIALP(fun)
-    ? (*CORE_FUN(fun))(CONS(env, args))
-    : (*CORE_FUN(fun))(args);
+  ae_obj_t * ret = NIL;
+  
+#ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
+  if (ERRORP(args))
+    ret = args;
+  else
+#endif
+    ret = SPECIALP(fun)
+      ? (*CORE_FUN(fun))(CONS(env, args))
+      : (*CORE_FUN(fun))(args);
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= appl core %s", fun->name);
@@ -242,7 +253,8 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(env,  "disp appl env");
 #endif
 
-  fun = EVAL(env, fun); 
+  fun = EVAL(env, fun);
+  
 
 #ifdef AE_LOG_EVAL
   LOG(fun, "apply fun");
@@ -269,7 +281,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   DOT;
 #endif
   
-  MAYBE_EVAL(dispatch.special, args);
+  MAYBE_EVAL_AND_BAIL_ON_ERROR(dispatch.special, args);
 
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)
