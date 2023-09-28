@@ -29,8 +29,12 @@
       }                                                                                            \
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
-    if (! ERRORP(args))                                                                            \
-        args = evaled_args;                                                                        \
+    if (ERRORP(args)) {                                                                            \
+      fprintf(stderr, "Returning early due to an error: ");                                        \
+      FPUT(args, stderr);                                                                          \
+      fprintf(stderr, "\n");                                                                       \
+      args = evaled_args;                                                                          \
+    }                                                                                              \
   }
 #else
 #  define MAYBE_EVAL_AND_BAIL_ON_ERROR(special, args)                                              \
