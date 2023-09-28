@@ -1,4 +1,5 @@
 To Do:
+- [ ] t should eval to t.
 - [ ] maybe ERROR should be a type?
 - [ ] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be?
 - [ ] core apply?
