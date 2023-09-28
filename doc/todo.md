@@ -1,8 +1,7 @@
 To Do:
 - [ ] maybe ERROR should be a type?
-- [ ] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be?
-- [ ] core apply?
-- [ ] core rplaca/rplacd?
+- [ ] core apply
+- [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] root_env_and_eval test is too big, slice it up.
 - [ ] Review printing of characters needing escaping.
@@ -19,6 +18,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be? (answer: no)
 - [x] Keyword symbols should be self-evaluating.
 - [x] Maybe add 'print' (just 'write' with a newline in front).
 - [x] Test macro expansion.

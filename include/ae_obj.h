@@ -52,6 +52,7 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
   DO(AE_LAMBDA)                                                                                    \
   DO(AE_MACRO)                                                                                     \
   DO(AE_CORE)                                                                                      \
+  DO(AE_ERROR)                                                                                     \
   DO(AE_INVALID)
 
 #define enum_entry(x) x,
@@ -85,6 +86,10 @@ typedef struct ae_obj_t {
     struct {
       struct ae_obj_t *       head;
       struct ae_obj_t *       tail;
+    }; // AE_CONS
+    struct {
+             ae_string_t      message;
+      struct ae_obj_t *       object;
     }; // AE_CONS
     struct {
       struct ae_obj_t *       symbols;
@@ -144,7 +149,6 @@ extern ae_obj_t * symbols_list;
 #define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define TRUTH(o)                (ae_obj_truth((o)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
-#define TYPE_STR(o)             (ae_type_str(GET_TYPE((o))) + 3)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(this)          ((this)->char_val)
 #define DENOM_VAL(this)         ((this)->denominator_val)
@@ -156,12 +160,16 @@ extern ae_obj_t * symbols_list;
 #define STR_VAL(this)           ((this)->str_val)
 #define SYM_VAL(this)           ((this)->sym_val)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ERR_MSG(this)           ((this)->message)
+#define ERR_OBJ(this)           ((this)->object)
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FUN_PARAMS(this)        ((this)->params)
 #define FUN_BODY(this)          ((this)->body)
 #define FUN_ENV(this)           ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
+#define TYPE_STR(o)             (ae_type_str(GET_TYPE((o))) + 3)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NULLP(o)                (! (o))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,19 +182,20 @@ extern ae_obj_t * symbols_list;
 #define CHARP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CHAR))
 #define CONSP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CONS))
 #define COREP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CORE))
+#define ERRORP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_ERROR))
 #define FLOATP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_FLOAT))
 #define FREEP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_FREE))
 #define INTEGERP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INTEGER))
 #define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INVALID))
-#define KEYWORDP(o)             (SYMBOLP ((o)) && SYM_VAL((o))[0] == ':')
 #define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_LAMBDA))
 #define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_MACRO))
 #define QUOTEP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_QUOTE))
 #define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o))  == AE_RATIONAL))
 #define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_STRING))
 #define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_SYMBOL))
-#define FUNP(o)                 (LAMBDAP  ((o)) || COREP((o)))
-#define SPECIALP(o)             (MACROP((o)) || (COREP((o)) && ((o)->special)))
+#define FUNP(o)                 ((LAMBDAP((o))) || (COREP   ((o))))
+#define SPECIALP(o)             ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
+#define KEYWORDP(o)             ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ERROR                   (SYM(":ERROR"))
 #define NIL                     (&nil_obj)

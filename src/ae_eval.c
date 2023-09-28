@@ -228,7 +228,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(fun, "apply fun");
 #endif
 
-  if (! (FUNP(fun) || MACROP(fun))) {
+  if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
     PR("Not applicable: ");
     PUT(fun);
