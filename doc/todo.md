@@ -1,5 +1,4 @@
 To Do:
-- [ ] Keyword symbols should be self-evaluating.
 - [ ] maybe ERROR should be a type?
 - [ ] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be?
 - [ ] core apply?
@@ -20,6 +19,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Keyword symbols should be self-evaluating.
 - [x] Maybe add 'print' (just 'write' with a newline in front).
 - [x] Test macro expansion.
 - [x] Implement macro expansion.
