@@ -387,8 +387,8 @@ ae_obj_t * ae_core_cond(__attribute__ ((unused)) ae_obj_t * const _env, ae_obj_t
 #endif
 
   if (! NILP(EVAL(env, caar)))
-    return EVAL(env, ae_core_progn(CONS(env, cdar)));
-  return ae_core_cond(CONS(env, CDR(args)));
+    return EVAL(env, ae_core_progn(env, CONS(env, cdar)));
+  return ae_core_cond(env, CONS(env, CDR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,7 +16,7 @@
 typedef char * ae_string_t;
 
 struct ae_obj_t; // forward decl.
-typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const, struct ae_obj_t * const);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Escaped chars helper macro
@@ -88,7 +88,7 @@ typedef struct ae_obj_t {
     struct {
              ae_string_t      message;
       struct ae_obj_t *       object;
-    }; // AE_CONS
+    }; // AE_ERROR
     struct {
       struct ae_obj_t *       symbols;
       struct ae_obj_t *       values;

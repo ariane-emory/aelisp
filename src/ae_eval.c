@@ -114,8 +114,8 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   else
 #endif
     ret = SPECIALP(fun)
-      ? (*CORE_FUN(fun))(CONS(env, args))
-      : (*CORE_FUN(fun))(args);
+      ? (*CORE_FUN(fun))(env, CONS(env, args))
+      : (*CORE_FUN(fun))(env, args);
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= appl core %s", fun->name);
