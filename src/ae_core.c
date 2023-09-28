@@ -12,8 +12,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
-  ASSERT_CONSP(env_and_args);                                                                      \
-  ASSERT_ENVP(CAR(env_and_args));                                                                  \
+  assert(CONSP(env_and_args));                                                                     \
+  assert(ENVP(CAR(env_and_args)));                                                                 \
   ASSERT_TAILP(CDR(env_and_args));                                                                 \
   ae_obj_t * env  = CAR(env_and_args);                                                             \
   ae_obj_t * args = CDR(bundle)                                                                    \
@@ -35,7 +35,7 @@
 // This only deals with AE_INTEGERS for now. It mutates its first argument.
 #define DEF_MATH_OP(name, oper, default)                                                           \
 ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
-  ASSERT_CONSP(args);                                                                              \
+  assert(CONSP(args));                                                                             \
                                                                                                    \
   ae_obj_t * accum = NIL;                                                                          \
   ae_obj_t * rest  = NIL;                                                                          \
@@ -69,7 +69,7 @@ FOR_EACH_MATH_OP(DEF_MATH_OP);
 // This only deals with AE_INTEGERS for now.
 #define DEF_CMP_OP(name, oper, assign, init)                                                       \
 ae_obj_t * ae_core_##name(ae_obj_t * const args) {                                                 \
-  ASSERT_CONSP(args);                                                                              \
+  assert(CONSP(args));                                                                             \
                                                                                                    \
   bool result = init;                                                                              \
                                                                                                    \
@@ -77,8 +77,8 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
     if (NILP(CDR(position)))                                                                       \
         break;                                                                                     \
                                                                                                    \
-    ASSERT_INTEGERP(elem);                                                                         \
-    ASSERT_INTEGERP(CADR(position));                                                               \
+    assert(INTEGERP(elem));                                                                        \
+    assert(INTEGERP(CADR(position)));                                                              \
                                                                                                    \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
