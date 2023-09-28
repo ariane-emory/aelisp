@@ -61,7 +61,7 @@
   DO(gt,     > , &=, true)                                                                         \
   DO(gte,    >=, &=, true)                                                                         \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DECL_CORE(name, ...) ae_obj_t * ae_core_##name  (ae_obj_t * const args);
+#define DECL_CORE(name, ...) ae_obj_t * ae_core_##name(ae_obj_t * const env, ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 FOR_EACH_MATH_OP(DECL_CORE);
 FOR_EACH_CMP_OP(DECL_CORE);
