@@ -33,7 +33,7 @@
       fprintf(stderr, "\nReturning early due to an error: ");                                     \
       FPUT(args, stderr);                                                                          \
       fprintf(stderr, "\n");                                                                       \
-      args = evaled_args;                                                                          \
+      return args;                                                                                 \
     }                                                                                              \
   }
 #else
