@@ -6,7 +6,7 @@
 ")))
 (setq sleep     (lambda (s)    (msleep (* 1000  s  ))))
 (setq stop      (lambda ()     (nl)    (exit    0   )))
-;; (setq list      (lambda (head . tail ) (head . tail )))
+(setq list      (lambda args   args                  ))
 
 (setq atom?     atomp)
 (setq proper?   properp)
