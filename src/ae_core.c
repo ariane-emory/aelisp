@@ -15,7 +15,7 @@
   if (! (cond)) {                                                                                  \
     char * cond_str = #cond;                                                                       \
     char * msg      = free_list_malloc(256);                                                       \
-    if (strlen("" __VA_ARGS__))                                                                    \
+    if (("" __VA_ARGS__)[0])                                                                    \
       sprintf(msg, "%s:%d: \"Error in %s: require %s, " __VA_ARGS__ "!\"",                         \
               __FILE__, __LINE__, __func__, cond_str);                                             \
     else                                                                                           \
@@ -462,6 +462,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
   int len = LENGTH(CAR(args));
 
   REQUIRE(CAR(args), len >= 0, "core length only works on proper lists");
+  // REQUIRE(CAR(args), len >= 0);
           
   return NEW_INT(len);
 }
