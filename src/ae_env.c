@@ -183,7 +183,7 @@ ae_obj_t * ae_env_new_root(void) {
   ae_env_set(env, NIL,  NIL);
   ae_env_set(env, TRUE, TRUE);
 
-  ae_env_define_list_fun(env);
+  // ae_env_define_list_fun(env);
   
   return env;
 }

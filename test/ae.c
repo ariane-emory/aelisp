@@ -770,6 +770,9 @@ void core_msleep(void) {
 
   obj expr = NIL;
   obj env   = ENV_NEW_ROOT();
+
+  ae_env_define_list_fun(env);
+    
   obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
   obj print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
@@ -798,6 +801,13 @@ void root_env_and_eval(void) {
   NL;
 
   obj env    = ENV_NEW_ROOT();
+  ae_env_define_list_fun(env);
+
+  obj listf  = EVAL(env, SYM("list"));
+  OLOG(listf);
+  OLOG(FUN_PARAMS(listf));
+  OLOG(FUN_BODY  (listf));
+  
   obj expr   = NIL;
   obj rtrn = NIL;
 
@@ -926,6 +936,9 @@ void list_fun(void) {
   SETUP_TEST;
 
   obj env           = ENV_NEW_ROOT();
+
+  ae_env_define_list_fun(env);
+
   obj list_fun      = ae_env_define_list_fun(env);
   obj list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
   obj ret           = EVAL(env, list_fun_call);
@@ -955,6 +968,7 @@ void macro_expand(void) {
 
   PR("\n\nPopulating root env...");
   obj env = ENV_NEW_ROOT();
+  ae_env_define_list_fun(env);
   PR("\nDone populating root env.\n");
 
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
