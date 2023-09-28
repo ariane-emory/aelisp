@@ -457,7 +457,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
   int len = LENGTH(CAR(args));
 
   //OLOG(args);
-  REQUIRE(CAR(args), /* len >= */ 0);
+  REQUIRE(CAR(args), ((void)"core length only works on proper lists!", len >= 0));
           
   return NEW_INT(len);
 }
