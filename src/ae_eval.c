@@ -109,8 +109,6 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   
   ae_obj_t * new_env = NIL;
 
-#define AE_NO_SINGLE_SYM_PARAMS
-  
 #ifndef AE_NO_SINGLE_SYM_PARAMS  
   if (SYMBOLP(FUN_PARAMS(fun))
       && (! NILP(FUN_PARAMS(fun)))
