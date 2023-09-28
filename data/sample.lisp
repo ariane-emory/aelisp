@@ -3,7 +3,7 @@
 (setq stop      (lambda ()  (nl) (exit 0)))
 (setq sleep     (lambda (x) (msleep (* 1000 x))))
 (setq improperp (lambda (l) (not (properp l))))
-(setq errorp    (lambda (o) (eq (quote :ERROR) o)))
+(setq errorp    (lambda (o) (eq :ERROR o)))
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
