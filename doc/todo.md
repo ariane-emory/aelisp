@@ -1,4 +1,5 @@
 To Do:
+- [ ] certain funcs shouldd NOT return early when given ERRORS arguments.
 - [ ] core funs should probably have an env as a param too.
 - [ ] core apply
 - [ ] core rplaca/rplacd
