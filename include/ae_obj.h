@@ -34,7 +34,6 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
   DO('\'', '\'')                                                                                   \
   DO('\"', '\"')
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,10 +166,10 @@ extern ae_obj_t * symbols_list;
 #define NULLP(o)                (! (o))
 #define NOT_NULLP(o)            (! NULLP(o))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EQ(this, that)          (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) == ((that)))
-#define NEQ(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && ((this)) != ((that)))
-#define EQL(this, that)         (NOT_NULLP((this)) && NOT_NULLP((that)) && (ae_obj_eql((this), (that))))
-#define NEQL(this, that)        (NOT_NULLP((this)) && NOT_NULLP((that)) && (! EQL((this), (that))))
+#define EQ(this, that)          ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
+#define NEQ(this, that)         ((! NULLP((this))) && (! NULLP((that))) && ((this)) != ((that)))
+#define EQL(this, that)         ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
+#define NEQL(this, that)        ((! NULLP((this))) && (! NULLP((that))) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                (NOT_NULLP((o)) && (! CONSP((o))))
 #define CHARP(o)                (NOT_NULLP((o)) && (GET_TYPE((o))  == AE_CHAR))
