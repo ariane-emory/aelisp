@@ -16,14 +16,23 @@
       break;                                                                                       \
     }
 
-#define MAYBE_EVAL(special, args)                                                                  \
+#ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
+#  define MAYBE_EVAL(special, args)                                                                \
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args)                                                                           \
       PUSH(evaled_args, EVAL(env, elem));                                                          \
     args = evaled_args;                                                                            \
   }
-
+#else
+#  define MAYBE_EVAL(special, args)                                                                \
+  if (! special) {                                                                                 \
+    ae_obj_t * evaled_args = NIL;                                                                  \
+    FOR_EACH(elem, args)                                                                           \
+      PUSH(evaled_args, EVAL(env, elem));                                                          \
+    args = evaled_args;                                                                            \
+  }
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,7 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
+	-DAE_EVAL_EARLY_RETURN_ON_ERROR  \
 	-DAE_OBJ_POOL_SIZE=4096 \
 
 
