@@ -31,16 +31,15 @@ static char mem[free_list_size] = { 0 };
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define T       TEST_CHECK
-#define TM      TEST_MSG
-#define SPC     (putchar(' '))
-#define NL      (putchar('\n'))
-#define FF      (fflush(stdout))
-#define PR(...) (fprintf(stdout, __VA_ARGS__))
+#define T                    TEST_CHECK
+#define TM                   TEST_MSG
+#define SPC                  (putchar(' '))
+#define NL                   (putchar('\n'))
+#define FF                   (fflush(stdout))
 
-#define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter);
-
-static char * tmp_str = NULL;
+#define PR(...)              (fprintf(stdout, __VA_ARGS__))
+#define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter)
+#define SETQ(env, sym, val)  (ae_core_setq(CONS(env, CONS(sym, LIST(val)))))
 
 #define SETUP_TEST                                                                                 \
   obj    this    = NULL;                                                                           \
@@ -62,6 +61,14 @@ static char * tmp_str = NULL;
   LOG(FUN_PARAMS(fun), "params");                                                                  \
   LOG(FUN_ENV(fun), "env");                                                                        \
   LOG(FUN_BODY(fun), "body")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Data
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static int list_length_counter = 0;
+
+static char * tmp_str = NULL;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper functions
@@ -149,8 +156,6 @@ obj cons_together_a_list_of_ints(void) {
 
   return list;
 }
-
-static int list_length_counter = 0;
 
 void incr_list_length_counter(obj const this) {
   (void)this;

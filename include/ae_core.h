@@ -5,6 +5,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE(DO)                                                                          \
+  DO(car)                                                                                          \
+  DO(cdr)                                                                                          \
+  DO(cons)                                                                                         \
+  DO(eq)                                                                                           \
+  DO(exit)                                                                                         \
+  DO(put)                                                                                          \
+  DO(msleep)                                                                                       \
+  /*=============================================================================================*/\
   DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(body)    /* fun accessor */                                                                   \
   DO(params)  /* fun accessor */                                                                   \
@@ -13,34 +21,27 @@
   DO(parent)  /* env/fun accessor */                                                               \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
-  DO(msleep)                                                                                       \
+  /*=============================================================================================*/\
+  DO(atomp)   /* reduceable */                                                                     \
+  DO(eql)     /* reduceable */                                                                     \
+  DO(length)  /* reduceable */                                                                     \
+  DO(not)     /* reduceable */                                                                     \
   DO(properp) /* reduceable */                                                                     \
   DO(tailp)   /* reduceable */                                                                     \
-  DO(length)  /* reduceable */                                                                     \
-  DO(atomp)   /* reduceable */                                                                     \
-  DO(car)                                                                                          \
-  DO(cdr)                                                                                          \
-  DO(cons)                                                                                         \
-  DO(eq)                                                                                           \
-  DO(eql)     /* reduceable */                                                                     \
-  DO(exit)                                                                                         \
-  DO(not)     /* reduceable */                                                                     \
-  DO(put)                                                                                          \
-  /* probably, two out of these 3 could be reduced: */                                             \
-  DO(princ)                                                                                        \
+  DO(princ)   /* probably, two out of these finale 3 could be reduced. */                          \
   DO(print)                                                                                        \
   DO(write)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
-  DO(env)                                                                                          \
   DO(cond)                                                                                         \
+  DO(env)                                                                                          \
   DO(eval)                                                                                         \
-  DO(if)      /* reduceable */                                                                     \
   DO(lambda)                                                                                       \
   DO(macro)                                                                                        \
   DO(progn)                                                                                        \
   DO(quote)                                                                                        \
   DO(setq)                                                                                         \
+  DO(if)      /* reduceable */                                                                     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_MATH_OP(DO)                                                                       \
   DO(add, +, 0)                                                                                    \
@@ -63,5 +64,4 @@ FOR_EACH_CMP_OP(DECL_CORE);
 FOR_EACH_CORE(DECL_CORE);
 FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SETQ(env, sym, val) ae_core_setq(CONS(env, CONS(sym, LIST(val))))
-// #define QUOTE(obj) ae_core_quote((obj))
+
