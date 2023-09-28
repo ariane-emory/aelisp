@@ -1,3 +1,6 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 'standard library', such as it is:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq nl        (lambda ()     (princ "
 ")))
 (setq stop      (lambda ()     (nl) (exit 0)))
@@ -7,6 +10,9 @@
 (setq error?    (lambda (o)    (eq  :ERROR   o )))
 (setq improper? (lambda (l)    (not (proper? l))))
 (setq type?     (lambda (t o)  (eq  (type o) t )))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; test some random stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (princ "env:                          ") (princ           (env))                (nl)
@@ -74,7 +80,6 @@
 (princ "rational:                           ") (princ  (type? :RATIONAL 3/4))   (nl)
 (princ "string:                             ") (princ  (type? :STRING   "3"))   (nl)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -135,14 +140,6 @@
 
 ;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
 
-
-
-
-
-
-
-
-
 (stop)
 
 (princ "BEFORE madd2") (nl)
@@ -167,5 +164,3 @@
 (princ "Body:   ") (write (body defun)) (nl)
 (princ "AFTER") ; (nl)
 (nl)
-
-
