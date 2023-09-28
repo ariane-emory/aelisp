@@ -18,7 +18,7 @@
     sprintf(msg, "%s:%d: Error in %s: require %s!", __FILE__, __LINE__, __func__, cond_str);       \
     fprintf(stderr,  ">>> %s\n", msg);                                                             \
                                                                                                    \
-    return NEW_ERROR(msg, args);                                                                   \
+    return NEW_ERROR(obj, msg);                                                                   \
   }
 
 #define SPECIAL_FUN_ARGS(env, args, bundle)                                                        \
@@ -86,8 +86,8 @@ ae_obj_t * ae_core_##name(ae_obj_t * const args) {                              
     if (NILP(CDR(position)))                                                                       \
         break;                                                                                     \
                                                                                                    \
-    REQUIRE(arg, INTEGERP(elem));                                                                  \
-    REQUIRE(arg, INTEGERP(CADR(position)));                                                        \
+    REQUIRE(args, INTEGERP(elem));                                                                  \
+    REQUIRE(args, INTEGERP(CADR(position)));                                                        \
                                                                                                    \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
@@ -165,7 +165,7 @@ ae_obj_t * ae_core_properp(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_params(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
+  REQUIRE(args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_PARAMS(CAR(args));
 }
@@ -175,7 +175,7 @@ ae_obj_t * ae_core_params(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_body(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
+  REQUIRE(args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_BODY(CAR(args));
 }
@@ -187,7 +187,7 @@ ae_obj_t * ae_core_body(ae_obj_t * const args) {
 ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
   SPECIAL_FUN_ARGS(env, args, env_and_args);
 
-  REQUIRE(end_and_args, NILP(args));
+  REQUIRE(env_and_args, NILP(args));
 
   return env;
 }
@@ -197,7 +197,7 @@ ae_obj_t * ae_core_env(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_parent(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
+  REQUIRE(args, (LENGTH(args) == 1) && (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
   return ENVP(CAR(args))
     ? ENV_PARENT(CAR(args))
@@ -209,7 +209,7 @@ ae_obj_t * ae_core_parent(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_syms(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && ENVP(CAR(args)));
+  REQUIRE(args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_SYMS(CAR(args));
 }
@@ -219,7 +219,7 @@ ae_obj_t * ae_core_syms(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_err_msg(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && ERRORP(CAR(args)));
+  REQUIRE(args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
   return NEW_STRING(ERR_MSG(CAR(args)));
 }
@@ -229,7 +229,7 @@ ae_obj_t * ae_core_err_msg(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_err_obj(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && ERRORP(CAR(args)));
+  REQUIRE(args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
   return ERR_OBJ(CAR(args));
 }
@@ -239,7 +239,7 @@ ae_obj_t * ae_core_err_obj(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_vals(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && ENVP(CAR(args)));
+  REQUIRE(args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_VALS(CAR(args));
 }
@@ -249,7 +249,7 @@ ae_obj_t * ae_core_vals(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_numer(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
+  REQUIRE(args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
   return NEW_INT(NUMER_VAL(CAR(args)));
 }
@@ -259,7 +259,7 @@ ae_obj_t * ae_core_numer(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_denom(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
+  REQUIRE(args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
   return NEW_INT((RATIONALP(CAR(args)))
                  ? DENOM_VAL(CAR(args))
@@ -271,7 +271,7 @@ ae_obj_t * ae_core_denom(ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_type(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1));
+  REQUIRE(args, (LENGTH(args) == 1));
 
   const char * type = TYPE_STR(CAR(args));
   /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
@@ -301,7 +301,7 @@ ae_obj_t * ae_core_quote(ae_obj_t * const env_and_args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_exit(ae_obj_t * const args) {
-  REQUIRE(arg, (LENGTH(args) == 1) && INTEGERP(CAR(args)));
+  REQUIRE(args, (LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   exit(INT_VAL(CAR(args)));
 
@@ -457,10 +457,11 @@ ae_obj_t * ae_core_length(ae_obj_t * const args) {
   REQUIRE(args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
   int len = LENGTH(CAR(args));
-  
-  return len != -1
-    ? NEW_INT(len)
-    : ERROR;
+
+  OLOG(args);
+  REQUIRE(CAR(args), len >= 0);
+          
+  return NEW_INT(len);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

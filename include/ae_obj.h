@@ -179,7 +179,6 @@ extern ae_obj_t * symbols_list;
 #define SPECIALP(o)             ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)             ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ERROR                   (SYM(":ERROR"))
 #define NIL                     (&nil_obj)
 #define TRUE                    (&true_obj)
 #define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
@@ -226,7 +225,7 @@ _obj->special = _special;                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_ERROR(msg, obj)                                                                        \
+#define NEW_ERROR(obj, msg)                                                                        \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_ERROR);                                                                  \
 ERR_MSG   (_obj) = (msg);                                                                          \
