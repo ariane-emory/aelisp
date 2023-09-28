@@ -1,15 +1,16 @@
 To Do:
+- [ ] core funs should probably have an env as a param too.
 - [ ] maybe ERROR should be a type?
 - [ ] core apply
 - [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] root_env_and_eval test is too big, slice it up.
-- [ ] Review printing of characters needing escaping.
 - [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
 - [ ] Implement math for non-integer types.
-- [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
+- [ ] Review printing of characters needing escaping.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
+- [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it.
