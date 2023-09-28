@@ -20,8 +20,12 @@
 #  define MAYBE_EVAL(special, args)                                                                \
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
-    FOR_EACH(elem, args)                                                                           \
-      PUSH(evaled_args, EVAL(env, elem));                                                          \
+    FOR_EACH(elem, args) {                                                                         \
+      ae_obj_t * tmp = EVAL(env, elem);                                                            \
+      if (ERRORP(tmp))                                                                             \
+        return tmp;                                                                                \
+      PUSH(evaled_args, tmp);                                                                      \
+    }                                                                                              \
     args = evaled_args;                                                                            \
   }
 #else
