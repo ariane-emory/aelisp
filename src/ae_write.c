@@ -138,6 +138,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   case AE_ENV:
   case AE_LAMBDA:
   case AE_MACRO:
+  case AE_ERROR:
     return FPRINC (this, stream);
   default:
     break;
@@ -193,6 +194,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   FILE * stream = fwrite_stream;
 
   switch (GET_TYPE(this)) {
+  case AE_ERROR:
+    COUNTED_FPRINTF(fwrite_stream, "%s<\"%s\">", TYPE_STR(this), ERR_MSG(this));
+    break;
   case AE_CORE:
     if (SPECIALP(this))
       COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s, special>", TYPE_STR(this), this, CORE_NAME(this));

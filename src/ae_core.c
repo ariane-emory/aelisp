@@ -15,7 +15,7 @@
   if (! (cond)) {                                                                                  \
     char * cond_str = #cond;                                                                       \
     char * msg = free_list_malloc(256);                                                            \
-    sprintf(msg, "error in %s @ line %d: require %s!", __func__, __LINE__, cond_str);              \
+    sprintf(msg, "%s:%d: Error in %s: require %s!", __FILE__, __LINE__, __func__, cond_str);     \
     fprintf(stderr,  "%s\n", msg);                                                                 \
                                                                                                    \
     return NEW_ERROR(msg, args);                                                                   \
