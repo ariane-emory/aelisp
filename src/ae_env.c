@@ -8,9 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
-  ASSERT_ENVP(env);
-  ASSERT_SYMBOLP(symbol);
-  ASSERT_NOT_NULLP(value);
+  assert(ENVP(env));
+  assert(SYMBOLP(symbol));
+  assert(NOT_NULLP(value));
 
 #ifdef AE_LOG_ENV
   PR("\nAdding %018p", value);
@@ -29,8 +29,8 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
-  ASSERT_ENVP(env);
-  ASSERT_SYMBOLP(symbol);
+  assert(ENVP(env));
+  assert(SYMBOLP(symbol));
   
   ae_obj_t * pos = env;
   
@@ -76,9 +76,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
-  ASSERT_ENVP(env);
-  ASSERT_SYMBOLP(symbol);
-  ASSERT_NOT_NULLP(value);
+  assert(ENVP(env));
+  assert(SYMBOLP(symbol));
+  assert(NOT_NULLP(value));
 
 #ifdef AE_LOG_ENV
   PR("Looking for '");
@@ -201,4 +201,3 @@ ae_obj_t * ae_env_define_list_fun(ae_obj_t * const env) {
 
   return list_fun;
 }
-
