@@ -168,7 +168,7 @@
 
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
-    describe_parse(program_obj);
+    // describe_parse(program_obj);
 
     PR("\n\nEvaluating program...\n");
     EVAL(env, program_obj);
