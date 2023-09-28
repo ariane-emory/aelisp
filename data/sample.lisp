@@ -23,6 +23,10 @@
 (setq improper? (lambda (o)    (not    (proper? o          )))) ;; this also needs to check if it's arg is tail?.
 (setq nil?      (lambda (o)    (eq     o        nil         )))
 
+
+(print (error? 1)) 
+(stop)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test some random stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
