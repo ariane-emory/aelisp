@@ -148,17 +148,17 @@ typedef struct {
 } eval_dispatch_t;
 
 static const eval_dispatch_t eval_dispatch[] = {
-    {AE_INTEGER,  &self},
-    {AE_RATIONAL, &self},
-    {AE_FLOAT,    &self},
-    {AE_INF,      &self},
     {AE_CHAR,     &self},
-    {AE_STRING,   &self},
+    {AE_CONS,     &apply},
+    {AE_CORE,     &self},
+    {AE_ERROR,    &self},
+    {AE_FLOAT,    &self},
+    {AE_INTEGER,  &self},
     {AE_LAMBDA,   &self},
     {AE_MACRO,    &self},
-    {AE_CORE,     &self},
+    {AE_RATIONAL, &self},
+    {AE_STRING,   &self},
     {AE_SYMBOL,   &lookup},
-    {AE_CONS,     &apply},
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

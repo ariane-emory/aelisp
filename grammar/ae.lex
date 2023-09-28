@@ -38,7 +38,6 @@
     switch (ae_type) {
     case AE_SYMBOL:
       yylval = SYM(yytext);
-    case AE_INF:
     case AE_INVALID:
     case AE_QUOTE:
       goto end;      
@@ -140,7 +139,6 @@ nil                                                                     |
 [-+]?[0-9]+\.[0-9]*                                                     | 
 [-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
-∞                                                                      TOKENIZE(INF,      AE_INF     );
 \;[^\n]*\n                                                              ; /* comments */
 [\f\n\t\v\ ]+                                                           ; /* ignored whitespace */
 %%

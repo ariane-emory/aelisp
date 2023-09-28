@@ -214,9 +214,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     ae_fwrite_internal(FUN_PARAMS(this));
     COUNTED_FPRINTF(fwrite_stream,">");
     break;
-  case AE_INF:
-    COUNTED_FPUTS("∞", fwrite_stream);
-    break;
   case AE_CONS:
     FLPAR;
     fwrite_quoting = true;

@@ -46,7 +46,6 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const);
   DO(AE_INTEGER)                                                                                   \
   DO(AE_RATIONAL)                                                                                  \
   DO(AE_FLOAT)                                                                                     \
-  DO(AE_INF)                                                                                       \
   DO(AE_QUOTE)                                                                                     \
   DO(AE_ENV)                                                                                       \
   DO(AE_LAMBDA)                                                                                    \
