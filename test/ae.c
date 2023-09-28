@@ -226,7 +226,7 @@ void remove_interned_symbol_from_list(void) {
   symbols_list = REMOVE(symbols_list, that);
 
   T(EQ(LENGTH(symbols_list), 3));
-  T(NOT_MEMBERP(symbols_list, that));
+  T(! MEMBERP(symbols_list, that));
   T(shitty_princ_based_equality_predicate(symbols_list, "(d c a)"));
 }
 
@@ -533,17 +533,17 @@ void envs(void) {
   T(NILP(ENV_SYMS(this)));
   T(NILP(ENV_VALS(this)));
 
-  T(NOT_MEMBERP(ENV_SYMS(this), SYM("foo")));
+  T(! MEMBERP(ENV_SYMS(this), SYM("foo")));
 
   ENV_ADD(this, SYM("foo"), NEW_INT(12));
 
   T(EQ(LENGTH(ENV_SYMS(this)), 1));
   T(EQ(LENGTH(ENV_VALS(this)), 1));
   T(MEMBERP(ENV_SYMS(this), SYM("foo")));
-  T(NOT_NILP(ENV_SYMS(this)));
-  T(NOT_NILP(ENV_VALS(this)));
+  T(! NILP(ENV_SYMS(this)));
+  T(! NILP(ENV_VALS(this)));
 
-  T(NOT_MEMBERP(ENV_SYMS(this), SYM("bar")));
+  T(! MEMBERP(ENV_SYMS(this), SYM("bar")));
 
   ENV_ADD(this, SYM("bar"), NEW_INT(24));
 
@@ -551,7 +551,7 @@ void envs(void) {
   T(EQ(LENGTH(ENV_VALS(this)), 2));
   T(MEMBERP(ENV_SYMS(this), SYM("bar")));
 
-  T(NOT_MEMBERP(ENV_SYMS(this), SYM("baz")));
+  T(! MEMBERP(ENV_SYMS(this), SYM("baz")));
 
   ENV_ADD(this, SYM("baz"), NEW_INT(36));
 
