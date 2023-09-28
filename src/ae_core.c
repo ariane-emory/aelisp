@@ -109,9 +109,11 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env_and_args) {
   LOG(args, "core setq args");
 #endif
 
+  int len = LENGTH(args);
+  
   REQUIRE(SYMBOLP(CAR(args)));
-  REQUIRE(LENGTH(args) >= 1);
-  REQUIRE(LENGTH(args) <= 2); // CDR(args) is allowed to be NIL. 
+  REQUIRE(len >= 1);
+  REQUIRE(len <= 2); // CDR(args) is allowed to be NIL, so it may look like 1 arg.
 
   ae_obj_t * sym         = CAR(args);
   ae_obj_t * val         = EVAL(env, CADR(args)); 
