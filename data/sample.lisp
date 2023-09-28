@@ -1,10 +1,10 @@
-(setq nl        (lambda ()  (princ "
+(setq nl        (lambda ()     (princ "
 ")))
-(setq stop      (lambda ()  (nl) (exit 0)))
-(setq sleep     (lambda (x) (msleep (* 1000 x))))
-(setq improperp (lambda (l) (not (properp l))))
-(setq errorp    (lambda (o) (eq :ERROR o)))
-  
+(setq stop      (lambda ()     (nl) (exit 0)))
+(setq sleep     (lambda (x)    (msleep (* 1000 x))))
+(setq improperp (lambda (l)    (not (properp l))))
+(setq errorp    (lambda (o)    (eq :ERROR o)))
+(setq typep     (lambda (t o)  (eq (type o) t)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (princ "env:                          ") (princ           (env))               (nl)
