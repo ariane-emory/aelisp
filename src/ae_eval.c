@@ -255,6 +255,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 #endif
   
   MAYBE_EVAL(dispatch.special, args);
+
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)
     : (*dispatch.handler)(fun, env, args);
