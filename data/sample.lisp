@@ -93,7 +93,11 @@
 (princ "string:                      ") (princ  (type? :STRING   "3"))   (nl)
 (nl)
 
-(princ "This error: ") (princ (length '(1 2 . 333))) (nl)
+(setq err (length '(1 2 . 333)))
+
+(princ "This error:           ") (princ err) (nl)
+(princ "This error's message: ") (princ (err-msg err)) (nl)
+(princ "This error's obj:     ") (princ (err-obj err)) (nl)
 
 ;; (print (eval (quote (1 2 . 333))))
 
