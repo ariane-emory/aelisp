@@ -8,6 +8,8 @@
 #define BEFORE_ACUTEST
 
 #include "ae_obj.h"
+#include "ae_list.h"
+#include "ae_alist.h"
 #include "ae_free_list.h"
 #include "ae_core.h"
 #include "ae_eval.h"
@@ -1042,6 +1044,18 @@ void macro_expand(void) {
   /* } */
 }
 
+void alist(void) {
+  SETUP_TEST;
+
+  ae_obj_t * alist = NIL;
+  alist = ae_alist_set(alist, SYM("name"), NEW_STRING("Bob"));
+  alist = ae_alist_set(alist, SYM("age"),  NEW_INT(24));
+    alist = ae_alist_set(alist, SYM("name"), NEW_STRING("Jake"));
+  NL;
+  OLOG(alist);
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1072,10 +1086,11 @@ void macro_expand(void) {
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
-  DO(core_msleep)                                                                                   \
+  DO(core_msleep)                                                                                  \
   DO(root_env_and_eval)                                                                            \
   DO(list_fun)                                                                                     \
-  DO(macro_expand)
+  DO(macro_expand)                                                                                 \
+  DO(alist)
 
 #define pair(fun) { #fun, fun },
 
