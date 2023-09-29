@@ -953,7 +953,8 @@ void list_fun(void) {
 
   ae_env_define_list_fun(env);
 
-  obj list_fun      = ae_env_define_list_fun(env);
+  //obj list_fun      = ae_env_define_list_fun(env);
+  obj list_fun      = ENV_FIND(env, SYM("list"));
   obj list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
   obj ret           = EVAL(env, list_fun_call);
 
