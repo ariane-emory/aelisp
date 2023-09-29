@@ -3,7 +3,7 @@
 #include "ae_obj.h"
 
 #define EVAL(env, obj)        (ae_eval((env), (obj)))
-#define APPLY(fun, env, args) (ae_apply((env), (fun), (args)))
+#define APPLY(env, fun, args) (ae_apply((env), (fun), (args)))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

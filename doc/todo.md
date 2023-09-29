@@ -1,4 +1,5 @@
 To Do:
+- [ ] core_cond is noisy, tidy/quiet it.
 - [ ] core env should be able to take an optional fun argument.
 - [ ] core apply
 - [ ] core rplaca/rplacd
@@ -18,6 +19,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] core env should be able to take an optional fun argument.
 - [x] core funs should probably have an env as a param too.
 - [x] maybe ERROR should be a type?
 - [x] user fun args always prints as nil? (No, they don't).

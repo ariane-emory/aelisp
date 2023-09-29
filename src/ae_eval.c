@@ -57,7 +57,7 @@ static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
 static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
   (void)env;
 
-  ae_obj_t * ret = APPLY(CAR(list), env, CDR(list));
+  ae_obj_t * ret = APPLY(env, CAR(list), CDR(list));
 
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= rtrn applied");
