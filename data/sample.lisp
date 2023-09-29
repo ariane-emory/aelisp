@@ -1,122 +1,126 @@
-;; `(1 ,@some-list 4 ,@some-list)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 'standard library', such as it is:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq nl        (lambda ()     (princ "
-")))
-(setq sleep     (lambda (s)    (msleep (* 1000  s  ))))
-(setq stop      (lambda ()     (nl)    (exit    0   )))
-;; (setq list   (lambda args   args                  ))
-(setq list      (lambda (h . t) (cons h t)))
-
-(setq atom?     atomp)
+(setq atom?     atomp  )
 (setq proper?   properp)
-(setq tail?     tailp)
-(setq err-msg   errmsg)
-(setq err-obj   errobj)
-(setq assq      aget)
-(setq assq?     ahas)
+(setq tail?     tailp  )
+(setq err-msg   errmsg )
+(setq err-obj   errobj )
+(setq assq      aget   )
+(setq assq?     ahas   )
 
-(setq type?     (lambda (t o)  (eq     t        (type o    ))))
-(setq cons?     (lambda (o)    (not    (atom?   o          ))))
-(setq error?    (lambda (o)    (type?  :ERROR   o           )))
-(setq improper? (lambda (o)    (not    (proper? o          )))) ;; this also needs to check if it's arg is tail?.
-(setq nil?      (lambda (o)    (eq     o        nil         )))
+(setq nl        (lambda ()      (princ "
+")))
+
+;; (setq list   (lambda args   args                       ))
+(setq list      (lambda (h . t) (cons    h       t       )))
+(setq stop      (lambda ()      (nl)    (exit    0       )))
+(setq sleep     (lambda (s)     (msleep (* 1000  s      ))))
+
+(setq type?     (lambda (t o)   (eq      t      (type o ))))
+(setq cons?     (lambda (o)     (not    (atom?   o      ))))
+(setq error?    (lambda (o)     (type?  :ERROR   o       )))
+(setq improper? (lambda (o)     (not    (proper? o      )))) ;; this also needs to check if it's arg is tail?.
+(setq nil?      (lambda (o)     (eq      o       nil     )))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Local functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq log
+  (lambda (string obj)
+    (princ string)
+    (princ " ")
+    (princ obj)
+    (nl)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test some random stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(princ "aenv:                        ") (princ           (env))          (nl)
-(princ "atype:                       ") (princ (type     (env)))         (nl)
-(princ "aparent:                     ") (princ (parent   (env)))         (nl)
-(princ "asyms:                       ") (princ (syms     (env)))         (nl)
-(princ "avals:                       ") (princ (vals     (env)))         (nl)
+(log   "aenv:                       " (env                )) 
+(log   "atype:                      " (type     (env     ))) 
+(log   "aparent:                    " (parent   (env     ))) 
+(log   "asyms:                      " (syms     (env     ))) 
+(log   "avals:                      " (vals     (env     )))
 (nl)
 
-(princ "core lambda:                 ") (princ           lambda)         (nl)
-(princ "type:                        ") (princ (type     lambda))        (nl)
+(log   "core lambda:                "  lambda              ) 
+(log   "type:                       " (type      lambda   )) 
 (nl)
 
-(princ "lambda sleep:                ") (princ           sleep)          (nl)
-(princ "type:                        ") (princ (type     sleep))         (nl)
-(princ "parent:                      ") (princ (parent   sleep))         (nl)
-(princ "params:                      ") (princ (params   sleep))         (nl)
-(princ "body:                        ") (princ (body     sleep))         (nl)
+(log   "lambda sleep:               "  sleep               ) 
+(log   "type:                       " (type      sleep    )) 
+(log   "parent:                     " (parent    sleep    )) 
+(log   "params:                     " (params    sleep    )) 
+(log   "body:                       " (body      sleep    ))
 (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq log (lambda (string obj) (princ string) (princ " ") (princ obj) (nl)))
+(setq   x (quote (1 2 . nil)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq x (quote (1 2 . nil)))
-
-(princ "(1 2 . nil) is proper:       ") (princ         (properp   x ))   (nl)
-(princ "(1 2 . nil) length:          ") (princ         (length    x ))   (nl)
-(princ "(1 2 . nil) length errors:   ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 . nil) is:              ") (princ                    x  )   (nl)
-(princ "(car (1 2 . nil)) is:        ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 . nil)) is:        ") (princ               (cdr x ))   (nl)
+(log   "(1 2 . nil) is proper:      " (properp   x        ))
+(log   "(1 2 . nil) length:         " (length    x        ))
+(log   "(1 2 . nil) length errors:  " (error?   (length x)))
+(log   "(1 2 . nil) is:             "  x                   ) 
+(log   "(car (1 2 . nil)) is:       " (car       x        )) 
+(log   "(cdr (1 2 . nil)) is:       " (cdr       x        )) 
 (nl)
  
-(setq x (quote (1 2 . 333)))
+(setq   x (quote (1 2 . 333)))
 
-(princ "(1 2 . 333) is improper:     ") (princ       (improper?   x ))   (nl)
-(princ "(1 2 . 333) length:          ") (princ         (length    x ))   (nl)
-(princ "(1 2 . 333) length errors:   ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 . 333) is:              ") (princ                    x  )   (nl)
-(princ "(car (1 2 . 333)) is:        ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 . 333)) is:        ") (princ               (cdr x ))   (nl)
+(log   "(1 2 . 333) is improper:    " (improper? x        )) 
+(log   "(1 2 . 333) length:         " (length    x        )) 
+(log   "(1 2 . 333) length errors:  " (error?   (length x)))
+(log   "(1 2 . 333) is:             "  x                   ) 
+(log   "(car (1 2 . 333)) is:       " (car       x        )) 
+(log   "(cdr (1 2 . 333)) is:       " (cdr       x        )) 
 (nl)
 
-(setq x (quote (1 2 3 . nil)))
+(setq   x (quote (1 2 3 . nil)))
 
-(princ "(1 2 3 . nil) is proper:     ") (princ         (properp   x ))   (nl)
-(princ "(1 2 3 . nil) length:        ") (princ         (length    x ))   (nl)
-(princ "(1 2 3 . nil) length errors: ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 3 . nil) is:            ") (princ                    x  )   (nl)
-(princ "(car (1 2 3 . nil)) is:      ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 3 . nil)) is:      ") (princ               (cdr x ))   (nl)
+(log   "(1 2 3 . nil) is proper:    " (properp   x        )) 
+(log   "(1 2 3 . nil) length:       " (length    x        )) 
+(log   "(1 2 3 . nil) length errors:" (error?   (length x))) 
+(log   "(1 2 3 . nil) is:           "  x                   ) 
+(log   "(car (1 2 3 . nil)) is:     " (car       x        )) 
+(log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        )) 
 (nl)
  
-(setq x (quote (1 2 3 . 333)))
+(setq   x (quote (1 2 3 . 333)))
 
-(princ "(1 2 3 . 333) is improper:   ") (princ       (improper?   x ))   (nl)
-(princ "(1 2 3 . 333) length:        ") (princ         (length    x ))   (nl)
-(princ "(1 2 3 . 333) length errors: ") (princ (error? (length    x)))   (nl)
-(princ "(1 2 3 . 333) is:            ") (princ                    x  )   (nl)
-(princ "(car (1 2 3 . 333)) is:      ") (princ               (car x ))   (nl)
-(princ "(cdr (1 2 3 . 333)) is:      ") (princ               (cdr x ))   (nl)
+(log   "(1 2 3 . 333) is improper:  " (improper? x        )) 
+(log   "(1 2 3 . 333) length:       " (length    x        )) 
+(log   "(1 2 3 . 333) length errors:" (error?   (length x))) 
+(log   "(1 2 3 . 333) is:           "  x                   ) 
+(log   "(car (1 2 3 . 333)) is:     " (car x              )) 
+(log   "(cdr (1 2 3 . 333)) is:     " (cdr x              )) 
 (nl)
 
-(princ "int:                         ") (princ  (type? :INTEGER    3))   (nl)
-(princ "! int:                       ") (princ  (type? :FLOAT      3))   (nl)
-(princ "! float:                     ") (princ  (type? :INTEGER  3.0))   (nl)
-(princ "float:                       ") (princ  (type? :FLOAT    3.0))   (nl)
-(princ "float:                       ") (princ  (type? :FLOAT    3. ))   (nl)
-(princ "float:                       ") (princ  (type? :FLOAT     .3))   (nl)
-(princ "rational:                    ") (princ  (type? :RATIONAL 3/4))   (nl)
-(princ "string:                      ") (princ  (type? :STRING   "3"))   (nl)
+(log   "int:                        " (type? :INTEGER    3)) 
+(log   "! int:                      " (type? :FLOAT      3)) 
+(log   "! float:                    " (type? :INTEGER  3.0)) 
+(log   "float:                      " (type? :FLOAT    3.0)) 
+(log   "float:                      " (type? :FLOAT    3. )) 
+(log   "float:                      " (type? :FLOAT     .3)) 
+(log   "rational:                   " (type? :RATIONAL 3/4)) 
+(log   "string:                     " (type? :STRING   "3")) 
 (nl)
 
-(setq err (length '(1 2 . 333)))
+(setq   err (length '(1 2 . 333)))
 
-(princ "This error:                  ") (princ  err)                     (nl)
-(princ "This error:                  ") (put  err)                       (nl)
-(princ "This error's obj:            ") (write  (errobj err))            (nl)
-(princ "This error's message:        ") (princ  (errmsg err))            (nl)
+(log   "This error:                 "         err          ) 
+(log   "This error's obj:           " (errobj err         )) 
+(log   "This error's message:       " (errmsg err         )) 
 
-(setq alist nil)
-(setq alist (aset alist 'name "Bob"))
-(setq alist (aset alist 'age  24))
-(setq alist (aset alist 'type 'human))
+(setq   alist  nil                     )
+(setq   alist (aset alist 'name "Bob" ))
+(setq   alist (aset alist 'age   24   ))
+(setq   alist (aset alist 'type 'human))
 
-
-(log   "alist:                      "   alist)
+(log   "alist:                      "  alist                )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
