@@ -252,7 +252,7 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(len <= 1, "setq requires 0 or 1 args");
 
   if (len == 1) {
-    /* REQUIRE(LAMBDAP(CAR(args)) || MACROP(CAR(args))); */
+    REQUIRE(LAMBDAP(CAR(args)) || MACROP(CAR(args)));
 
     return FUN_ENV(CAR(args));
   }

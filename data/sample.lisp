@@ -45,7 +45,7 @@
 
 (log   "aenv:                       " (env                )) 
 (log   "atype:                      " (type     (env     ))) 
-(log   "aparent:                    " (parent   (env     ))) 
+; (log   "aparent:                    " (parent   (env     ))) 
 (log   "asyms:                      " (syms     (env     ))) 
 (log   "avals:                      " (vals     (env     )))
 (nl)
@@ -56,7 +56,7 @@
 
 (log   "lambda sleep:               "  sleep               ) 
 (log   "type:                       " (type      sleep    )) 
-(log   "parent:                     " (parent    sleep    )) 
+; (log   "parent:                     " (parent    sleep    )) 
 (log   "params:                     " (params    sleep    )) 
 (log   "body:                       " (body      sleep    ))
 (nl)
