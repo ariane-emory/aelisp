@@ -4,7 +4,7 @@
 (setq nl        (lambda ()         (princ "
 "))                                                           ) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar (lambda (map fun lst)                           ;)
+(setq mapcar (lambda (fun lst)                               ;)
   (if (nil? lst)                                             ;)
     nil                                                      ;)
     (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
@@ -173,7 +173,7 @@
 
 (log   "alist after rplaca:         "        alist) 
 
-(log    "mapped:                    " (mapcar (lambda (x) (* 2 x)) '(1 2 3 4 5)))
+(log   "mapped:                     " (mapcar (lambda (x) (* 2 x)) '(1 2 3 4 5)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
