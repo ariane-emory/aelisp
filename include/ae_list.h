@@ -24,6 +24,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define CDAR(this)                    (CDR(CAR(this)))
 #define CDDR(this)                    (CDR(CDR(this)))
 #define CADAR(this)                   (CAR(CDR(CAR(this))))
+#define CADDR(this)                   (CAR(CDR(CDR(this))))
 #define CONS(head, tail)              (ae_obj_cons((head), (tail)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EACH(this, fun)               (ae_list_each(this, (ae_list_each_fun)fun))

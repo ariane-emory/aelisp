@@ -98,15 +98,19 @@ FOR_EACH_CMP_OP(DEF_CMP_OP);
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("setq");
+
   int len = LENGTH(args);
   
-  REQUIRE(args, SYMBOLP(CAR(args)));
-  REQUIRE(args, len >= 1);
-  REQUIRE(args, len <= 2); // CDR(args) is allowed to be NIL, so it may look like 1 arg.
-
+  REQUIRE(args, len >= 1, "setq requires at least 1 arg");
+  REQUIRE(args, len <= 2, "setq requires 1 or 2 args");
+  
   ae_obj_t * sym         = CAR(args);
   ae_obj_t * val         = CADR(args);
 
+  REQUIRE(args, SYMBOLP(sym));
+  REQUIRE(args, sym != NIL,  "can't set nil");
+  REQUIRE(args, sym != TRUE, "can't set t");
+  
 #ifdef AE_LOG_CORE
   LOG(sym, "core setq sym");
   LOG(val, "core setq val");
@@ -124,7 +128,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
-  //LOG_CORE("progn");
+  LOG_CORE("progn");
   
   ae_obj_t * ret = NIL;
 
@@ -140,6 +144,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_properp(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("properp");
+
   REQUIRE(args, LENGTH(args) == 1);
 
   return PROPER_LISTP(CAR(args)) ? TRUE : NIL;
@@ -151,6 +156,7 @@ ae_obj_t * ae_core_properp(__attribute__ ((unused)) ae_obj_t * const env, ae_obj
 
 ae_obj_t * ae_core_params(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("params");
+
   REQUIRE(args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_PARAMS(CAR(args));
@@ -162,6 +168,7 @@ ae_obj_t * ae_core_params(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 
 ae_obj_t * ae_core_body(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("body");
+
   REQUIRE(args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
   return FUN_BODY(CAR(args));
@@ -172,7 +179,7 @@ ae_obj_t * ae_core_body(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
-  //LOG_CORE("env");
+  LOG_CORE("env");
 
   REQUIRE(args, NILP(args));
 
@@ -185,6 +192,7 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_parent(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("parent");
+
   REQUIRE(args, (LENGTH(args) == 1) && (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
   return ENVP(CAR(args))
@@ -198,6 +206,7 @@ ae_obj_t * ae_core_parent(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 
 ae_obj_t * ae_core_syms(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("syms");
+
   REQUIRE(args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_SYMS(CAR(args));
@@ -209,6 +218,7 @@ ae_obj_t * ae_core_syms(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 
 ae_obj_t * ae_core_errmsg(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("errmsg");
+
   REQUIRE(args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
   return NEW_STRING(ERR_MSG(CAR(args)));
@@ -220,6 +230,7 @@ ae_obj_t * ae_core_errmsg(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 
 ae_obj_t * ae_core_errobj(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("errobj");
+
   REQUIRE(args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
   return ERR_OBJ(CAR(args));
@@ -231,6 +242,7 @@ ae_obj_t * ae_core_errobj(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 
 ae_obj_t * ae_core_vals(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("vals");
+
   REQUIRE(args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
   return ENV_VALS(CAR(args));
@@ -242,6 +254,7 @@ ae_obj_t * ae_core_vals(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 
 ae_obj_t * ae_core_numer(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("numer");
+
   REQUIRE(args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
   return NEW_INT(NUMER_VAL(CAR(args)));
@@ -253,6 +266,7 @@ ae_obj_t * ae_core_numer(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
 ae_obj_t * ae_core_denom(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("denom");
+
   REQUIRE(args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
   return NEW_INT((RATIONALP(CAR(args)))
@@ -266,10 +280,12 @@ ae_obj_t * ae_core_denom(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
 ae_obj_t * ae_core_type(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("type");
+
   REQUIRE(args, (LENGTH(args) == 1));
 
   const char * type = TYPE_STR(CAR(args));
   /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
+
   sprintf(tmp, ":%s", type);
 
   ae_obj_t   * sym  = SYM(tmp);
@@ -285,6 +301,7 @@ ae_obj_t * ae_core_type(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 
 ae_obj_t * ae_core_quote(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("quote");
+
   REQUIRE(args, LENGTH(args) == 1);
 
   return CAR(args);
@@ -296,6 +313,7 @@ ae_obj_t * ae_core_quote(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
 ae_obj_t * ae_core_exit(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("exit");
+  
   REQUIRE(args, (LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   exit(INT_VAL(CAR(args)));
@@ -309,6 +327,7 @@ ae_obj_t * ae_core_exit(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 
 ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("eval");
+  
   REQUIRE(args, LENGTH(args) == 1);
 
   return EVAL(env, EVAL(env, CAR(args)));
@@ -352,10 +371,7 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("cond");
 
-  if (NILP(args))
-    return NIL;
-
-  // REQUIRE(args, CONSP(CAAR(args)));
+  REQUIRE(args, "an empty cond does not make sense");
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
@@ -365,6 +381,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 
   if (! NILP(EVAL(env, caar)))
     return EVAL(env, ae_core_progn(env, cdar));
+
   return ae_core_cond(env, CDR(args));
 }
 
@@ -374,6 +391,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("if");
+
 #ifdef AE_LOG_CORE
   PR("if:          ");
   PRINC(CAR(args));
@@ -385,6 +403,8 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   PRINC(CONS(SYM("progn"), CDDR(args)));
 #endif
 
+  REQUIRE(args, !NILP(CDR(args)), "if requires at least 2 args");
+  
   bool cond_result = ! NILP(EVAL(env, CAR(args)));
 
 #ifdef AE_LOG_CORE
@@ -392,11 +412,13 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
 #endif
 
   if (cond_result) {
-    printf("Choose then.\n");
+    PR("Choose then.\n");
+
     return EVAL(env, CADR(args));
   }
   else {
-    printf("Choose else.\n");
+    PR("Choose else.\n");
+
     return EVAL(env, CONS(SYM("progn"), CDDR(args)));
   }
 }
@@ -407,6 +429,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_msleep(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("msleep");
+
   REQUIRE(args, (LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   int ms = INT_VAL(CAR(args));
@@ -422,12 +445,12 @@ ae_obj_t * ae_core_msleep(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 
 ae_obj_t * ae_core_length(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("length");
+  
   REQUIRE(args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
   int len = LENGTH(CAR(args));
 
   REQUIRE(CAR(args), len >= 0, "core length only works on proper lists");
-  //REQUIRE(CAR(args), len >= 0);
           
   return NEW_INT(len);
 }
@@ -438,6 +461,7 @@ ae_obj_t * ae_core_length(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 
 ae_obj_t * ae_core_tailp(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("tailp");
+
   REQUIRE(args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
   return TAILP(CAR(args)) ? TRUE : NIL;
@@ -449,6 +473,7 @@ ae_obj_t * ae_core_tailp(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
 ae_obj_t * ae_core_car(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("car");
+
   REQUIRE(args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
   return NILP(CAR(args))
@@ -462,6 +487,7 @@ ae_obj_t * ae_core_car(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t *
 
 ae_obj_t * ae_core_cdr(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("cdr");
+
   REQUIRE(args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
   return NILP(CAR(args))
@@ -475,6 +501,7 @@ ae_obj_t * ae_core_cdr(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t *
 
 ae_obj_t * ae_core_cons(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("cons");
+  
   REQUIRE(args, LENGTH(args) == 2);
 
   ae_obj_t * head = CAR(args);
@@ -546,6 +573,7 @@ ae_obj_t * ae_core_not(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t *
 
 ae_obj_t * ae_core_put(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("put");
+
   int written = 0;
 
   FOR_EACH(elem, args)
@@ -562,6 +590,7 @@ ae_obj_t * ae_core_put(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t *
 
 ae_obj_t * ae_core_princ(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("princ");
+
   int written = 0;
 
   FOR_EACH(elem, args)
@@ -578,6 +607,7 @@ ae_obj_t * ae_core_princ(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
 ae_obj_t * ae_core_print(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("print");
+
   int written = 0;
 
   FOR_EACH(elem, args) {
@@ -600,6 +630,7 @@ ae_obj_t * ae_core_print(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
 ae_obj_t * ae_core_write(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("write");
+
   int written = 0;
 
   FOR_EACH(elem, args) {
