@@ -654,7 +654,7 @@ void core_cons_car_cdr(void) {
   T(NILP(ae_core_cdr(env, LIST(ae_core_car(env, LIST(NIL))))                                                 ));
 }
 
-void core_eq_eql_atomp_not(void) {
+void core_eq_eql_not(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
 
@@ -680,9 +680,6 @@ void core_eq_eql_atomp_not(void) {
 
   T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(5)           )))))); // ...so can eql.
   T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(6)           ))))));
-
-  T(TRUEP(ae_core_atomp(env, CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(SYM("a")          )))))); // These are all atoms.
-  T(NILP (ae_core_atomp(env, CONS(NEW_INT(5), CONS(NEW_CHAR('a'), LIST(LIST(SYM("a")))))))); // but these are not.
 
   T(TRUEP(ae_core_not  (env, CONS(NIL       , CONS(NIL          , LIST(NIL                  ))))));
   T(NILP (ae_core_not  (env, CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
@@ -1098,7 +1095,7 @@ void alist(void) {
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(envs)                                                                                         \
   DO(core_cons_car_cdr)                                                                            \
-  DO(core_eq_eql_atomp_not)                                                                        \
+  DO(core_eq_eql_not)                                                                              \
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \

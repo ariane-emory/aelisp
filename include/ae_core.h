@@ -28,7 +28,6 @@
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
   /*=============================================================================================*/\
-  DO(atomp)   /* reduceable */                                                                     \
   DO(eql)     /* reduceable */                                                                     \
   DO(length)  /* reduceable */                                                                     \
   DO(not)     /* reduceable */                                                                     \
