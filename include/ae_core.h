@@ -4,7 +4,7 @@
 #include "ae_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_FUN(DO)                                                                          \
+#define FOR_EACH_CORE_FUN(DO)                                                                      \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(rplaca)                                                                                       \
