@@ -25,7 +25,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define CDDR(this)                    (CDR(CDR(this)))
 #define CADAR(this)                   (CAR(CDR(CAR(this))))
 #define CADDR(this)                   (CAR(CDR(CDR(this))))
-#define CONS(head, tail)              (ae_obj_cons((head), (tail)))
+#define CONS(head, tail)              (ae_list_cons((head), (tail)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EACH(this, fun)               (ae_list_each(this, (ae_list_each_fun)fun))
 #define MAP(this, fun)                (ae_list_map(this, (ae_list_map_fun)fun))
@@ -54,7 +54,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_obj_cons          (      ae_obj_t *  const head,  ae_obj_t *  const tail         );
+ae_obj_t *    ae_list_cons          (      ae_obj_t *  const head,  ae_obj_t *  const tail         );
 ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const member       );
 ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const member       );
 bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const member       );

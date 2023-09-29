@@ -87,7 +87,7 @@ ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
                                                                                                    \
-  return ae_obj_truth(result);                                                                     \
+  return TRUTH(result);                                                                            \
 }
 
 FOR_EACH_CMP_OP(DEF_CMP_OP);
