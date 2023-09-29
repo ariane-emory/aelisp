@@ -106,8 +106,15 @@
 (princ "This error's obj:            ") (write  (errobj err))            (nl)
 (princ "This error's message:        ") (princ  (errmsg err))            (nl)
 
+(setq alist nil)
+(setq alist (aset alist 'name "Bob"))
+(setq alist (aset alist 'age  24))
+(setq alist (aset alist 'type 'human))
+
+(princ "alist:                       ") (princ alist)                    (nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (stop)
+(stop)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq test (lambda (first . rest)
