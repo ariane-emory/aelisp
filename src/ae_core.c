@@ -124,7 +124,8 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
-  LOG_CORE("progn");
+  //LOG_CORE("progn");
+  
   ae_obj_t * ret = NIL;
 
   FOR_EACH(elem, args)
@@ -171,7 +172,8 @@ ae_obj_t * ae_core_body(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
-  LOG_CORE("env");
+  //LOG_CORE("env");
+
   REQUIRE(args, NILP(args));
 
   return env;
