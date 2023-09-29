@@ -31,8 +31,8 @@
 #ifdef AE_LOG_CORE
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
   PR("\n\n[core " name "]");                                                                       \
-  LOG(CAR(args), "fun args");                                                                      \
-  LOG(CDR(args), "fun body")
+  LOG(CAR(args), name " args");                                                                      \
+  LOG(CDR(args), name " body")
 #else
 #  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
 #endif
