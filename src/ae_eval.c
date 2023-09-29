@@ -74,7 +74,7 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 // apply core funs
 //==================================================================================================
 
-ae_obj_t * apply_core_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
+static ae_obj_t * apply_core_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   PR("\n\n[apply core %s]", fun->name);  // extra spaces needed here to line up for some reason.
   LOG(fun, "apply core fun");
@@ -107,7 +107,7 @@ ae_obj_t * apply_core_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 // apply lambda fun
 //==================================================================================================
 
-ae_obj_t * apply_user_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
+static ae_obj_t * apply_user_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
@@ -273,7 +273,9 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
 
-  if (ERRORP(ret)) {
+  if (! ERRORP(ret))
+    goto ret;
+  
     if (! AHAS(ERR_OBJ(ret), SYM("fun"))) 
       ASET(ERR_OBJ(ret),
            SYM("fun"),
@@ -290,8 +292,8 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #else
     /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
 #endif    
-  }
-  
+
+ret:
   return ret;
   
   fprintf(stderr, "\nDon't know how to apply a %s.", TYPE_STR(fun));
