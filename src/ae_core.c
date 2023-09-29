@@ -247,7 +247,9 @@ ae_obj_t * ae_core_body(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CORE("env");
 
-  REQUIRE(NILP(args));
+  int len = LENGTH(args);
+  
+  REQUIRE(len <= 1, "setq requires 0 or 1 args");
 
   return env;
 }
