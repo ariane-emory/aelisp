@@ -23,10 +23,11 @@
   DO(syms)    /* env accessor */                                                                   \
   DO(vals)    /* env accessor */                                                                   \
   DO(parent)  /* env/fun accessor */                                                               \
-  DO(errmsg) /* error accessor */                                                                  \
-  DO(errobj) /* error accessor */                                                                  \
+  DO(errmsg)  /* error accessor */                                                                 \
+  DO(errobj)  /* error accessor */                                                                 \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
+  DO(env)                                                                                          \
   /*=============================================================================================*/\
   DO(atomp)   /* reduceable */                                                                     \
   DO(eql)     /* reduceable */                                                                     \
@@ -41,7 +42,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(cond)                                                                                         \
-  DO(env)                                                                                          \
   DO(eval)                                                                                         \
   DO(lambda)                                                                                       \
   DO(macro)                                                                                        \

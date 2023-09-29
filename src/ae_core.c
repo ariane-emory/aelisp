@@ -257,10 +257,6 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
     return ENVP(CAR(args))
       ? ENV_PARENT(CAR(args))
       : FUN_ENV(CAR(args));
-    
-    /* REQUIRE(LAMBDAP(CAR(args)) || MACROP(CAR(args))); */
-
-    /* return FUN_ENV(CAR(args)); */
   }
   
   return env;

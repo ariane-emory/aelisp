@@ -123,9 +123,9 @@
 (log   "This error's obj:           " (                          errobj err         ))
 (log   "This error's fun stack:     " (                    aget (errobj err) 'fun   ))
 (log   "This lambda:                " (              cadr (aget (errobj err) 'fun  )))
-(log   "This lambda's env:          " (      parent (cadr (aget (errobj err) 'fun ))))
-(log   "This lambda's syms:         " (syms (parent (cadr (aget (errobj err) 'fun)))))
-(log   "This lambda's vals:         " (vals (parent (cadr (aget (errobj err) 'fun)))))
+(log   "This lambda's env:          " (      env (cadr (aget (errobj err) 'fun ))))
+(log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
+(log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
 
 
 
