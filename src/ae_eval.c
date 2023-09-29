@@ -275,9 +275,14 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
     ? (*dispatch.handler)(fun, env, args)
     : (*dispatch.handler)(fun, env, args);
 
-  if (ERRORP(ret))
+  if (ERRORP(ret)) {
     if (! AHAS(ERR_OBJ(ret), SYM("fun"))) 
-      ASET(ERR_OBJ(ret), SYM("fun"), fun);      
+      ASET(ERR_OBJ(ret), SYM("fun"), fun);
+    else
+      ASET(ERR_OBJ(ret),
+           SYM("fun"),
+           NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
+  }
   
   return ret;
   
