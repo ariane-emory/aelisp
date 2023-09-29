@@ -39,7 +39,7 @@ static char mem[free_list_size] = { 0 };
 
 #define PR(...)              (fprintf(stdout, __VA_ARGS__))
 #define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter)
-#define SETQ(env, sym, val)  (ae_core_setq(env, CONS(env, CONS(sym, LIST(val)))))
+#define SETQ(env, sym, val)  (ae_core_setq(env, CONS(sym, LIST(val))))
 
 #define SETUP_TEST                                                                                 \
   obj    this    = NULL;                                                                           \
@@ -927,15 +927,14 @@ void root_env_and_eval(void) {
     this = EVAL(env, expr);                                                                                   \
     PR("Rtrn for " #input " is ");                                                                            \
     PRINC(this);                                                                                              \
-    PR(", as expected.");                                                                                     \
+    PR(".");                                                                                                  \
     NL;                                                                                                       \
     if (NEQL(this, NEW_INT(expected))) {                                                                      \
       NL;                                                                                                     \
-      PR("<this ");                                                                                           \
+      PR("this ");                                                                                            \
       WRITE(this);                                                                                            \
       PR(" == expected ");                                                                                    \
       WRITE(NEW_INT(expected));                                                                               \
-      PR(">");                                                                                                \
       NL;                                                                                                     \
     }                                                                                                         \
     T(EQL(this, NEW_INT(expected)));                                                                          \
