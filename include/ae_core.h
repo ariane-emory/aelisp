@@ -22,12 +22,11 @@
   DO(params)  /* fun accessor */                                                                   \
   DO(syms)    /* env accessor */                                                                   \
   DO(vals)    /* env accessor */                                                                   \
-  DO(parent)  /* env/fun accessor */                                                               \
+  DO(env)     /* env/fun accessor */                                                               \
   DO(errmsg)  /* error accessor */                                                                 \
   DO(errobj)  /* error accessor */                                                                 \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
-  DO(env)                                                                                          \
   /*=============================================================================================*/\
   DO(atomp)   /* reduceable */                                                                     \
   DO(eql)     /* reduceable */                                                                     \
