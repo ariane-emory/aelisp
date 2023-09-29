@@ -134,7 +134,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
 #ifdef AE_LOG_CORE
   PR("\n\n[core progn]");
-  LOG(env, "progn env");
+  LOG(env,  "progn env");
   LOG(args, "progn args");
 #endif
 
@@ -305,6 +305,12 @@ ae_obj_t * ae_core_exit(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
+#ifdef AE_LOG_CORE
+  PR("\n\n[core eval]");
+  LOG(env,  "eval env");
+  LOG(args, "eval args");
+#endif
+
   REQUIRE(args, LENGTH(args) == 1);
 
   return EVAL(env, EVAL(env, CAR(args)));
@@ -316,7 +322,6 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args) {
   LOG_CREATE_LAMBDA_OR_MACRO("lambda");
-
   
   REQUIRE(args,
           TAILP(CAR(args))
@@ -348,9 +353,9 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 #ifdef AE_LOG_CORE
-  NL;
-  PR("cond? ");
-  WRITE(args);
+  PR("\n\n[core cond]");
+  LOG(env,  "cond env");
+  LOG(args, "cond args");
 #endif
 
   if (NILP(args))
