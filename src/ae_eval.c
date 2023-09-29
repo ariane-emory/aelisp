@@ -85,14 +85,16 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   MAYBE_EVAL(SPECIALP(fun), args);
 
   ae_obj_t * ret = NIL;
-  ae_obj_t * new_env = NEW_ENV(env, NIL, NIL);
   
+#ifdef AE_CORE_FUN_ENVS
+  env = NEW_ENV(env, NIL, NIL);
   
-#ifdef AE_LOG_EVAL
-  OLOG(new_env); NL;
-#endif 
-
-  ret = (*CORE_FUN(fun))(new_env, args);
+#  ifdef AE_LOG_EVAL
+  LOG(env, "new_env");
+#  endif
+#endif
+  
+  ret = (*CORE_FUN(fun))(env, args);
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= appl core %s", fun->name);

@@ -20,7 +20,8 @@ LOG_CFLAGS = \
   -DAE_LOG_CONS \
 	-DAE_LOG_INIT \
 	-DAE_LOG_MOVE \
-  -DAE_LOG_PUSH
+  -DAE_LOG_PUSH \
+	-DAE_CORE_FUN_ENVS \
 
 TEST_CFLAGS = \
 	-Wno-unused-value
