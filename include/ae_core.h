@@ -7,6 +7,8 @@
 #define FOR_EACH_CORE(DO)                                                                          \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
+  DO(rplaca)                                                                                       \
+  DO(rplacd)                                                                                       \
   DO(cons)                                                                                         \
   DO(aget)                                                                                         \
   DO(aset)                                                                                         \
