@@ -49,6 +49,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq log (lambda (string obj) (princ string) (princ " ") (princ obj) (nl)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq x (quote (1 2 . nil)))
 
 (princ "(1 2 . nil) is proper:       ") (princ         (properp   x ))   (nl)
@@ -111,7 +115,8 @@
 (setq alist (aset alist 'age  24))
 (setq alist (aset alist 'type 'human))
 
-(princ "alist:                       ") (princ alist)                    (nl)
+
+(log   "alist:                      "   alist)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
