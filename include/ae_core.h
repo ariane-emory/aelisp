@@ -38,7 +38,7 @@
   DO(print)                                                                                        \
   DO(write)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
+#define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
   DO(cond)                                                                                         \
   DO(eval)                                                                                         \
   DO(lambda)                                                                                       \
@@ -66,6 +66,6 @@
 FOR_EACH_CORE_MATH_OP(DECL_CORE);
 FOR_EACH_CORE_CMP_OP(DECL_CORE);
 FOR_EACH_CORE_FUN(DECL_CORE);
-FOR_EACH_SPECIAL_CORE_FUN(DECL_CORE);
+FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
