@@ -73,7 +73,7 @@ FOR_EACH_MATH_OP(DEF_MATH_OP);
 // This only deals with AE_INTEGERS for now.
 #define DEF_CMP_OP(name, oper, assign, init)                                                       \
 ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {  \
-  LOG_CORE(#name);                                                                                \
+  LOG_CORE(#name);                                                                                 \
   assert(CONSP(args));                                                                             \
                                                                                                    \
   bool result = init;                                                                              \
@@ -706,4 +706,3 @@ ae_obj_t * ae_core_write(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t
 
   return NEW_INT(written);
 }
-
