@@ -276,22 +276,22 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   if (! ERRORP(ret))
     goto ret;
   
-    if (! AHAS(ERR_OBJ(ret), SYM("fun"))) 
-      ASET(ERR_OBJ(ret),
-           SYM("fun"),
-#ifdef AE_CALLSTACK_IS_PROPER           
-           CONS(fun, NIL));
-#else
-    /*  */ fun);
-#endif
-    else
-      ASET(ERR_OBJ(ret),
-           SYM("fun"),
+  if (AHAS(ERR_OBJ(ret), SYM("fun"))) 
+    ASET(ERR_OBJ(ret),
+         SYM("fun"),
 #ifdef AE_CALLSTACK_IS_PROPER
-           CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
+         CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
 #else
-    /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
+  /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
 #endif    
+  else
+    ASET(ERR_OBJ(ret),
+         SYM("fun"),
+#ifdef AE_CALLSTACK_IS_PROPER           
+         CONS(fun, NIL));
+#else
+  /*  */ fun);
+#endif
 
 ret:
   return ret;
