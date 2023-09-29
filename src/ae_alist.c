@@ -8,7 +8,6 @@ ae_obj_t * ae_alist_set(ae_obj_t * const alist, ae_obj_t * const key, ae_obj_t *
       CDR(elem) = value;
       return alist;
     }
-
   
   return CONS(NEW_CONS(key, value), alist);
 }
