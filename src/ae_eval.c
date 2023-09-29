@@ -68,9 +68,6 @@ static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
     : ENV_FIND(env, sym);
 
 #ifdef AE_LOG_EVAL
-  if (LAMBDAP(ret) || MACROP(ret) || COREP(ret)) {
-    LOG(ret, "looked up:    ");
-  }
   LOG(ret, "<= rtrn lookup");
 #endif
 
