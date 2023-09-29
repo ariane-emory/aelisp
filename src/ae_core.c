@@ -70,7 +70,7 @@ ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
   return accum;                                                                                    \
 }
 
-FOR_EACH_MATH_OP(DEF_MATH_OP);
+FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // numeric comparison
@@ -97,7 +97,7 @@ ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
   return TRUTH(result);                                                                            \
 }
 
-FOR_EACH_CMP_OP(DEF_CMP_OP);
+FOR_EACH_CORE_CMP_OP(DEF_CMP_OP);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _aset

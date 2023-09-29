@@ -4,7 +4,7 @@
 #include "ae_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE(DO)                                                                          \
+#define FOR_EACH_CORE_FUN(DO)                                                                          \
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(rplaca)                                                                                       \
@@ -38,7 +38,7 @@
   DO(print)                                                                                        \
   DO(write)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
+#define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
   DO(cond)                                                                                         \
   DO(eval)                                                                                         \
   DO(lambda)                                                                                       \
@@ -47,13 +47,13 @@
   DO(setq)                                                                                         \
   DO(if)      /* reduceable */                                                                     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_MATH_OP(DO)                                                                       \
+#define FOR_EACH_CORE_MATH_OP(DO)                                                                  \
   DO(add, +, 0)             /* reducing these doesn't really seem like it would be worth the */    \
   DO(sub, -, 0)             /* bother or the performance impact.                             */    \
   DO(mul, *, 1)                                                                                    \
   DO(div, /, 1)                                                                                    \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CMP_OP(DO)                                                                        \
+#define FOR_EACH_CORE_CMP_OP(DO)                                                                   \
   DO(equal,  ==, &=, true)  /* reducing these doesn't really seem like it would be worth the */    \
   DO(nequal, !=, |=, false) /* bother or the performance impact.                             */    \
   DO(lt,     < , &=, true)                                                                         \
@@ -63,9 +63,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DECL_CORE(name, ...) ae_obj_t * ae_core_##name(ae_obj_t * const env, ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-FOR_EACH_MATH_OP(DECL_CORE);
-FOR_EACH_CMP_OP(DECL_CORE);
-FOR_EACH_CORE(DECL_CORE);
-FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE);
+FOR_EACH_CORE_MATH_OP(DECL_CORE);
+FOR_EACH_CORE_CMP_OP(DECL_CORE);
+FOR_EACH_CORE_FUN(DECL_CORE);
+FOR_EACH_SPECIAL_CORE_FUN(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
