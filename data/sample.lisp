@@ -111,6 +111,7 @@
 
 (setq   err (length '(1 2 . 333)))
 
+(nl)
 (log   "This error:                 "         err          ) 
 (log   "This error's message:       " (errmsg err         ))
 (log   "This error's obj:           " (errobj err         )) 

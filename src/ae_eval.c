@@ -78,6 +78,17 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
   (void)env;
 
   ae_obj_t * ret = ae_apply(CAR(list), env, CDR(list));
+
+  if (ERRORP(ret)) {
+    LOG(ret, "Got error");
+    if (! AHAS(ERR_OBJ(ret), SYM("fun"))) {
+      LOG(ret, "Adding fun");
+      ERR_OBJ(ret) = ASET(ERR_OBJ(ret), SYM("fun"), CAR(list));
+    }
+    else {
+      LOG(ret, "Already has fun");
+    }
+  }
   
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= rtrn applied");
