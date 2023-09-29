@@ -1048,12 +1048,27 @@ void alist(void) {
   SETUP_TEST;
 
   ae_obj_t * alist = NIL;
-  alist = A_SET(alist, SYM("name"), NEW_STRING("Bob"));
-  alist = A_SET(alist, SYM("age"),  NEW_INT(24));
-  alist = A_SET(alist, SYM("name"), NEW_STRING("Jake"));
+  
+  T(! A_CONTAINS(alist, SYM("name")));
+
+  alist =  A_SET(alist, SYM("name"),    NEW_STRING("Bob"));
+
+  T(  A_CONTAINS(alist, SYM("name")));
+  T(  EQL( A_GET(alist, SYM("name")),   NEW_STRING("Bob")));
+  T(! A_CONTAINS(alist, SYM("age")));
+    
+  alist =  A_SET(alist, SYM("age"),     NEW_INT(24));
+
+  T(  A_CONTAINS(alist, SYM("age")));
+  T( EQL(  A_GET(alist, SYM("age")),    NEW_INT(24)));
+  
+  alist =   A_SET(alist, SYM("name"),   NEW_STRING("Jake"));
+
+  T(!  EQL( A_GET(alist, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL( A_GET(alist, SYM("name")),  NEW_STRING("Jake")));
+  
   NL;
   OLOG(alist);
-  
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
