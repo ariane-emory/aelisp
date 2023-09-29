@@ -139,7 +139,11 @@
 
 (log   "alist:                      "  alist               )
 
-(log   "thing:                      " (car alis))
+(log   "thing:                      " (car alist))
+
+(rplaca (car alist) 'species)
+
+(log   "alist after rplaca:         "  alist               )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)

@@ -16,8 +16,6 @@
   DO(eq)                                                                                           \
   DO(exit)                                                                                         \
   DO(msleep)                                                                                       \
-  /* DO(rplaca) */ /* Implement this one soon. */                                                  \
-  /* DO(rplacd) */ /* Implement this one soon. */                                                  \
   /*=============================================================================================*/\
   DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(body)    /* fun accessor */                                                                   \
