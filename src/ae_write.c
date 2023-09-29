@@ -199,9 +199,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s, special>", TYPE_STR(this), this, CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s, special>", TYPE_STR(this), CORE_NAME(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s>", TYPE_STR(this), this, CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s>", TYPE_STR(this), CORE_NAME(this));
     break;
   case AE_ENV:
     if (NILP(ENV_PARENT(this))) {
