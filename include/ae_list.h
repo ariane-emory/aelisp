@@ -54,7 +54,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_list_cons          (      ae_obj_t *  const head,  ae_obj_t *  const tail         );
+ae_obj_t *    ae_list_cons         (      ae_obj_t *  const head,  ae_obj_t *  const tail         );
 ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const member       );
 ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const member       );
 bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const member       );
