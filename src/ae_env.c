@@ -183,7 +183,7 @@ ae_obj_t * ae_env_new_root(void) {
   ae_env_set(env, NIL,  NIL);
   ae_env_set(env, TRUE, TRUE);
 
-  // ae_env_define_list_fun(env);
+  // ae_env_define_list_and_quote(env);
   
   return env;
 }
@@ -192,7 +192,7 @@ ae_obj_t * ae_env_new_root(void) {
 // _define_list_fun
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_env_define_list_fun(ae_obj_t * const env) {
+void ae_env_define_list_and_quote(ae_obj_t * const env) {
   static ae_obj_t * list_def = NULL;
   static ae_obj_t * list_fun = NULL;
 
