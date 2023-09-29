@@ -173,6 +173,8 @@
     PR("\n\nEvaluating program...\n");
     EVAL(env, program_obj);
     PR("\nDone evaluating program.\n");
+
+    pool_print(); 
   }
 
     //////////////////////////////////////////////////////////////////////////////

@@ -206,10 +206,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_ENV:
     if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→nil>", TYPE_STR(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s<%018p → nil>", TYPE_STR(this), this);
     }
     else {
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p→%018p>", TYPE_STR(this), this, ENV_PARENT(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", TYPE_STR(this), this, ENV_PARENT(this));
     }
     fwrite_counter--;
     break;
