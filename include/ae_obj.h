@@ -67,8 +67,8 @@ const char * ae_type_str(const ae_type_t this);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t {
-  // Currently, this field is only used to store an ae_obj_t in it's bottom 5 bits, but in the future
-  // it's remaining bits will store other info such as GC related flags:
+  // Currently, this field is only used to store an ae_obj_t's type in it's bottom 5 bits, but in 
+  // the future it's remaining bits will store other info such as GC related flags:
   unsigned int                metadata;
 
   union {
@@ -80,30 +80,30 @@ typedef struct ae_obj_t {
     struct {
       long long int           numerator_val;
       unsigned long long int  denominator_val;
-    }; // AE_RATIONAL
+    }; // when metadata is marked with type AE_RATIONAL
     struct {
       struct ae_obj_t *       head;
       struct ae_obj_t *       tail;
-    }; // AE_CONS
+    }; // when metadata is marked with type AE_CONS
     struct {
              ae_string_t      message;
       struct ae_obj_t *       object;
-    }; // AE_ERROR
+    }; // when metadata is marked with type AE_ERROR
     struct {
       struct ae_obj_t *       symbols;
       struct ae_obj_t *       values;
       struct ae_obj_t *       parent;
-    }; // AE_ENV
+    }; // when metadata is marked with type AE_ENV
     struct {
       struct ae_obj_t *       params;
       struct ae_obj_t *       body;
       struct ae_obj_t *       env;
-    }; // AE_LAMBDA / AE_MACRO
+    }; // when metadata is marked with type AE_LAMBDA / AE_MACRO
     struct {
       char                    name[8]; // this name is just for printing purposes.
       bool                    special;
       ae_core_fun             fun_val;
-    }; // AE_CORE
+    }; // when metadata is marked with type AE_CORE
   };
 }
 #ifdef AE_ALIGN_OBJS
