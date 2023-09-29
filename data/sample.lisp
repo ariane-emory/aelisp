@@ -118,10 +118,19 @@
 (setq err (xxx (length '(1 2 . 333))))
 
 (nl)
-(log   "This error:                 "         err          ) 
-(log   "This error's message:       " (errmsg err         ))
-(log   "This error's obj:           " (errobj err         ))
-(log   "This error's fun stack:     " (aget (errobj err) 'fun)) 
+(log   "This error:                 "                                   err          ) 
+(log   "This error's message:       " (                          errmsg err         ))
+(log   "This error's obj:           " (                          errobj err         ))
+(log   "This error's fun stack:     " (                    aget (errobj err) 'fun   ))
+(log   "This lambda:                " (              cadr (aget (errobj err) 'fun  )))
+(log   "This lambda's env:          " (      parent (cadr (aget (errobj err) 'fun ))))
+(log   "This lambda's syms:         " (syms (parent (cadr (aget (errobj err) 'fun)))))
+(log   "This lambda's vals:         " (vals (parent (cadr (aget (errobj err) 'fun)))))
+
+
+
+
+(nl)
 (nl)
 
 (setq   alist  nil                     )

@@ -1,4 +1,5 @@
 To Do:
+- [ ] core env should be able to take an optional fun argument.
 - [ ] core apply
 - [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
