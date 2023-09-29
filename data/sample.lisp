@@ -109,7 +109,9 @@
 (log   "string:                     " (type? :STRING   "3")) 
 (nl)
 
-(setq   err (length '(1 2 . 333)))
+(setq xxx (lambda (x) x))
+
+(setq err (xxx (length '(1 2 . 333))))
 
 (nl)
 (log   "This error:                 "         err          ) 
