@@ -112,8 +112,8 @@
 (setq   err (length '(1 2 . 333)))
 
 (log   "This error:                 "         err          ) 
+(log   "This error's message:       " (errmsg err         ))
 (log   "This error's obj:           " (errobj err         )) 
-(log   "This error's message:       " (errmsg err         )) 
 (nl)
 
 (setq   alist  nil                     )
@@ -126,9 +126,9 @@
   (lambda (al key val)
     (setq al (aset (eval al) key val))))
 
-(write (a-set 'alist 'hair 'red))   (nl)
+(princ "a-setted") (write (a-set 'alist 'hair 'red))    (nl)
 
-(log   "alist:                      "  alist                )
+(log   "alist:                      "  alist               )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
