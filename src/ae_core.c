@@ -58,13 +58,13 @@ ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
     REQUIRE(INTEGERP(CAR(args)));                                                                  \
                                                                                                    \
     accum = CAR(args);                                                                             \
-    rest = CDR(args);                                                                              \
+    rest  = CDR(args);                                                                             \
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
     REQUIRE(INTEGERP(elem));                                                                       \
-                                                                                                   \
-    INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem);                                            \
+    /* INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem); */                                      \
+    accum = NEW_INT(INT_VAL(accum) oper INT_VAL(elem));                                            \
   }                                                                                                \
                                                                                                    \
   return accum;                                                                                    \
