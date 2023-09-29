@@ -5,10 +5,6 @@
 (setq atom?     atomp  )
 (setq proper?   properp)
 (setq tail?     tailp  )
-(setq err-msg   errmsg )
-(setq err-obj   errobj )
-(setq assq      aget   )
-(setq assq?     ahas   )
 
 (setq nl        (lambda ()      (princ "
 ")))
