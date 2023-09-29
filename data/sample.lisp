@@ -176,9 +176,10 @@
 (log   "thing:                      "   (car alist))
 (rplaca (car alist) 'species)
 (log   "alist after rplaca:         "        alist)
+(nl)
 
-
-
+(print ((macro (xxx yyy) (list (quote +) xxx yyy)) 4 8))
+(nl)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (stop)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -207,7 +208,7 @@
 ;; (nl)
 
 ;; (princ "BEFORE add") (nl)
-;; (write (setq add (macro (name params) (list (quote +) name params)))) (nl)
+;; (write (setq add (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
 ;; (princ "Params:              ") (write (params add))       (nl)
 ;; (princ "Body:                ") (write (body add))         (nl)
 ;; (princ "Expanded             ") (write (add 7 8))          (nl)
