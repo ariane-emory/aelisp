@@ -174,7 +174,11 @@
     EVAL(env, program_obj);
     PR("\nDone evaluating program.\n");
 
-    pool_print(); 
+#ifdef AE_DUMP_POOK_AFTER
+    pool_print();
+#endif
+
+    fclose(fp);
   }
 
     //////////////////////////////////////////////////////////////////////////////
