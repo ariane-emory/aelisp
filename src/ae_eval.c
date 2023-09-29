@@ -251,7 +251,9 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     PR("Not applicable: ");
     PUT(fun);
     NL;
-    
+
+    /* This assert should be replaced by returning an ERROR obj: */
+        
     assert(0);
   }
 
