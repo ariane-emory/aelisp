@@ -32,7 +32,7 @@
 // _eval dispatch handlers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
+static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
@@ -42,7 +42,7 @@ static ae_obj_t * self(ae_obj_t * obj, ae_obj_t * env) {
   return obj;
 }
 
-static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
+static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   ae_obj_t * ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
@@ -54,7 +54,7 @@ static ae_obj_t * lookup(ae_obj_t * sym, ae_obj_t * env) {
   return ret;
 }
 
-static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
+static ae_obj_t * apply(ae_obj_t * env, ae_obj_t * list ) {
   (void)env;
 
   ae_obj_t * ret = APPLY(env, CAR(list), CDR(list));
@@ -179,6 +179,22 @@ static const eval_dispatch_t eval_dispatch[] = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _apply dispatch table
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef struct {
+    ae_type_t type;
+    bool special;
+    ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
+} apply_dispatch_t;
+
+static const apply_dispatch_t apply_dispatch[] = {
+    { AE_CORE,   true,  &apply_core_fun }, // 2nd arg may be ignored internally by apply_core_fun.
+    { AE_LAMBDA, false, &apply_user_fun },
+    { AE_MACRO,  true,  &apply_user_fun },
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -203,7 +219,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   assert(*dispatch.handler);
   
-  return (*dispatch.handler)(obj, env);
+  return (*dispatch.handler)(env, obj);
   
 #ifdef AE_LOG_EVAL
   fprintf(stderr, "\nDon't know how to eval a %s.", TYPE_STR(obj));
@@ -211,22 +227,6 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   
   assert(0);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _apply dispatch table
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct {
-    ae_type_t type;
-    bool special;
-    ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
-} apply_dispatch_t;
-
-static const apply_dispatch_t apply_dispatch[] = {
-    { AE_CORE,   true,  &apply_core_fun }, // 2nd arg may be ignored internally by apply_core_fun.
-    { AE_LAMBDA, false, &apply_user_fun },
-    { AE_MACRO,  true,  &apply_user_fun },
-};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply
