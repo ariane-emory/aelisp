@@ -29,12 +29,12 @@
   ae_obj_t * args = CDR(bundle)                                                                    \
 
 #ifdef AE_LOG_CORE
-#  define LOG_CREATE_LAMBDA_OR_MACRO(name)                                                         \
+#  define LOG_CORE(name)                                                         \
   PR("\n\n[core " name "]");                                                                       \
   LOG(CAR(args), name " args");                                                                      \
   LOG(CDR(args), name " body")
 #else
-#  define LOG_CREATE_LAMBDA_OR_MACRO(name) ((void)0)
+#  define LOG_CORE(name) ((void)0)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -321,7 +321,7 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args) {
-  LOG_CREATE_LAMBDA_OR_MACRO("lambda");
+  LOG_CORE("lambda");
   
   REQUIRE(args,
           TAILP(CAR(args))
@@ -339,7 +339,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args) {
-  LOG_CREATE_LAMBDA_OR_MACRO("macro");
+  LOG_CORE("macro");
 
   REQUIRE(args, TAILP(CAR(args)));
   REQUIRE(args, TAILP(CDR(args)));
