@@ -17,26 +17,7 @@
       break;                                                                                       \
     }
 
-#ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
-#  define MAYBE_EVAL_AND_BAIL_ON_ERROR(special, args)                                              \
-  if (! special) {                                                                                 \
-    ae_obj_t * evaled_args = NIL;                                                                  \
-    FOR_EACH(elem, args) {                                                                         \
-      ae_obj_t * tmp = EVAL(env, elem);                                                            \
-      if (ERRORP(tmp))                                                                             \
-      {                                                                                            \
-        args = tmp;                                                                                \
-        break;                                                                                     \
-      }                                                                                            \
-      PUSH(evaled_args, tmp);                                                                      \
-    }                                                                                              \
-    if (ERRORP(args)) {                                                                            \
-      return args;                                                                                 \
-    }                                                                                              \
-    args = evaled_args;                                                                            \
-  }
-#else
-#  define MAYBE_EVAL_AND_BAIL_ON_ERROR(special, args)                                              \
+#define MAYBE_EVAL(special, args)                                              \
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args)                                                                           \
@@ -46,7 +27,6 @@
     }                                                                                              \
     args = evaled_args;                                                                            \
   }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
@@ -79,17 +59,6 @@ static ae_obj_t * apply(ae_obj_t * list, ae_obj_t * env) {
 
   ae_obj_t * ret = ae_apply(CAR(list), env, CDR(list));
 
-  /* if (ERRORP(ret)) { */
-  /*   LOG(ret, "Got error"); */
-  /*   if (! AHAS(ERR_OBJ(ret), SYM("fun"))) { */
-  /*     LOG(ret, "Adding fun"); */
-  /*     ERR_OBJ(ret) = ASET(ERR_OBJ(ret), SYM("fun"), CAR(list)); */
-  /*   } */
-  /*   else { */
-  /*     LOG(ret, "Already has fun"); */
-  /*   } */
-  /* } */
-  
 #ifdef AE_LOG_EVAL
   LOG(ret, "<= rtrn applied");
 #endif
@@ -113,7 +82,7 @@ ae_obj_t * apply_core_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   LOG(args, "apply core args");
 #endif
 
-  MAYBE_EVAL_AND_BAIL_ON_ERROR(SPECIALP(fun), args);
+  MAYBE_EVAL(SPECIALP(fun), args);
 
   ae_obj_t * ret = NIL;
   
@@ -300,29 +269,15 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   DOT;
 #endif
 
-  MAYBE_EVAL_AND_BAIL_ON_ERROR(dispatch.special, args);
+  MAYBE_EVAL(dispatch.special, args);
 
-  ae_obj_t * ret = NIL;
-
-#ifdef AE_EVAL_EARLY_RETURN_ON_ERROR
-  if (ERRORP(args))
-    ret = args;
-  else
-#endif
-    ret = dispatch.special
+  ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(fun, env, args)
     : (*dispatch.handler)(fun, env, args);
 
-  if (ERRORP(ret)) {
-    LOG(ret, "Got error");
-    if (! AHAS(ERR_OBJ(ret), SYM("fun"))) {
-      LOG(ret, "Adding fun");
+  if (ERRORP(ret))
+    if (! AHAS(ERR_OBJ(ret), SYM("fun"))) 
       ERR_OBJ(ret) = ASET(ERR_OBJ(ret), SYM("fun"), fun);
-    }
-    else {
-      LOG(ret, "Already has fun");
-    }
-  }
   
   return ret;
   

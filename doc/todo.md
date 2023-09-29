@@ -1,6 +1,4 @@
 To Do:
-- [ ] certain funcs shouldd NOT return early when given ERRORS arguments.
-- [ ] core funs should probably have an env as a param too.
 - [ ] core apply
 - [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
@@ -19,6 +17,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] core funs should probably have an env as a param too.
 - [x] maybe ERROR should be a type?
 - [x] user fun args always prints as nil? (No, they don't).
 - [x] (list 1 2 . 333) isn't the same as (quote (1 2 . 333))? should it be? (answer: no)
@@ -65,3 +64,6 @@ Completed:
 - [x] Add whole-line comments beginning with ;; to lexer.
 - [x] Add ae_list_has_member.
 - [x] Add ae_list_remove_member.
+
+Cancelled:
+- [x] certain funcs shouldd NOT return early when given ERRORS arguments. (Early return removed for now)
