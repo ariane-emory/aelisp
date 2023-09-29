@@ -25,6 +25,10 @@
 (setq nil?      (lambda (o)     (eq      o       nil     )))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq cadr (lambda (x) (car (cdr x))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Local functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -116,7 +120,8 @@
 (nl)
 (log   "This error:                 "         err          ) 
 (log   "This error's message:       " (errmsg err         ))
-(log   "This error's obj:           " (errobj err         )) 
+(log   "This error's obj:           " (errobj err         ))
+(log   "This error's fun stack:     " (aget (errobj err) 'fun)) 
 (nl)
 
 (setq   alist  nil                     )
@@ -129,7 +134,7 @@
   (lambda (al key val)
     (setq al (aset (eval al) key val))))
 
-(princ "a-setted") (write (a-set 'alist 'hair 'red))    (nl)
+(princ "a-setted:                    ") (write (a-set 'alist 'hair 'red))    (nl)
 
 (log   "alist:                      "  alist               )
 
