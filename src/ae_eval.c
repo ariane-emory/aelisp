@@ -17,7 +17,7 @@
       break;                                                                                       \
     }
 
-#define MAYBE_EVAL(special, args)                                              \
+#define MAYBE_EVAL(special, args)                                                                  \
   if (! special) {                                                                                 \
     ae_obj_t * evaled_args = NIL;                                                                  \
     FOR_EACH(elem, args)                                                                           \
@@ -134,7 +134,7 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
   
 #ifdef AE_LOG_EVAL
-  PR("\n\n[created exec env]");
+  PR("\n[created exec env]");
   LOG(fun,              "exec env for");
   LOG(new_env->parent,  "exec env parent");
   LOG(new_env->symbols, "exec env symbols");
