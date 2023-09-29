@@ -123,7 +123,6 @@
 (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
 (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
 
-
 (nl)
 
 (setq   alist  nil                     )
@@ -139,6 +138,8 @@
 (princ "a-setted:                    ") (write (a-set 'alist 'hair 'red))    (nl)
 
 (log   "alist:                      "  alist               )
+
+(log   "thing:                      " (car alis))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
