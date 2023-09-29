@@ -1,13 +1,14 @@
 #include <stdbool.h>
 #include <unistd.h>
 
+#include "ae_alist.h"
 #include "ae_core.h"
-#include "ae_list.h"
-#include "ae_eval.h"
 #include "ae_env.h"
-#include "ae_write.h"
-#include "ae_util.h"
+#include "ae_eval.h"
 #include "ae_free_list.h"
+#include "ae_list.h"
+#include "ae_util.h"
+#include "ae_write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -91,6 +92,65 @@ ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
 }
 
 FOR_EACH_CMP_OP(DEF_CMP_OP);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _aset
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_aset(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+  LOG_CORE("aset");
+  
+  int len = LENGTH(args);
+
+  REQUIRE(args, len >= 2, "aset requires at least 2 args");
+  REQUIRE(args, len <= 3, "aset requires 2 or 3 args");
+
+  ae_obj_t * alist = CAR(args);
+  ae_obj_t * key   = CADR(args);
+  ae_obj_t * value = CADDR(args);
+
+  REQUIRE(args, SYMBOLP(key));
+
+  return A_SET(alist, key, value);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _aget
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_aget(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+  LOG_CORE("aget");
+  
+  int len = LENGTH(args);
+  
+  REQUIRE(args, len == 2, "aget requires 2 args");
+
+  ae_obj_t * alist = CAR(args);
+  ae_obj_t * key   = CADR(args);
+
+  REQUIRE(args, SYMBOLP(key));
+
+  return A_GET(alist, key);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _ahas
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_ahas(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+  LOG_CORE("ahas");
+  
+  int len = LENGTH(args);
+
+  REQUIRE(args, len == 2, "aget requires 2 args");
+
+  ae_obj_t * alist = CAR(args);
+  ae_obj_t * key   = CADR(args);
+
+  REQUIRE(args, SYMBOLP(key));
+
+  return TRUTH(A_HAS(alist, key));
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _setq

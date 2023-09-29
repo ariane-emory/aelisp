@@ -8,6 +8,9 @@
   DO(car)                                                                                          \
   DO(cdr)                                                                                          \
   DO(cons)                                                                                         \
+  DO(aget)                                                                                         \
+  DO(aset)                                                                                         \
+  DO(ahas)                                                                                         \
   DO(eq)                                                                                           \
   DO(exit)                                                                                         \
   DO(msleep)                                                                                       \

@@ -16,6 +16,8 @@
 (setq tail?     tailp)
 (setq err-msg   errmsg)
 (setq err-obj   errobj)
+(setq assq      aget)
+(setq assq?     ahas)
 
 (setq type?     (lambda (t o)  (eq     t        (type o    ))))
 (setq cons?     (lambda (o)    (not    (atom?   o          ))))
