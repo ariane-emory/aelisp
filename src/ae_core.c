@@ -356,23 +356,23 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   if (NILP(args))
     return NIL;
 
-  REQUIRE(args, CONSP(CAAR(args)));
+  // REQUIRE(args, CONSP(CAAR(args)));
 
   ae_obj_t * caar = CAAR(args);
-  ae_obj_t * cadar = CADAR(args);
+  ae_obj_t * cdar = CDAR(args);
 
 #ifdef AE_LOG_CORE
   NL;
   PR("caar ");
   WRITE(caar);
   NL;
-  PR("cadar  ");
-  WRITE(cadar);
+  PR("cdar  ");
+  WRITE(cdar);
 #endif
 
   if (! NILP(EVAL(env, caar)))
-    return EVAL(env, ae_core_progn(env, CONS(env, cadar)));
-  return ae_core_cond(env, CONS(env, CDR(args)));
+    return EVAL(env, ae_core_progn(env, cdar));
+  return ae_core_cond(env, CDR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
