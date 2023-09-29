@@ -1,13 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 'standard library', such as it is:
+;; 'standard library', such as it is:                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq nl        (lambda ()         (princ "
-"))                                                           ) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar (lambda (fun lst)                               ;)
-  (if (nil? lst)                                             ;)
-    nil                                                      ;)
-    (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
+"))                                                           )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq eq?        eq                                           )
 (setq tail?      tailp                                        )
@@ -51,21 +46,25 @@
 (setq cddar     (lambda (x)   (cdr (cdr (car x))))            )
 (setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))            )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Local functions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq log
-  (lambda (string obj)
-    (princ string)
-    (princ " ")
-    (princ obj)
-    (nl)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; test some random stuff:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Local functions                                           ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq log                                                    ;)
+  (lambda (string obj)                                       ;)
+    (princ string)                                           ;)
+    (princ " ")                                              ;)
+    (princ obj)                                              ;)
+    (nl)))                                                   ;)
+(setq mapcar (lambda (fun lst)                               ;)
+  (if (nil? lst)                                             ;)
+    nil                                                      ;)
+    (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(log "mapped: " (mapcar (lambda (x) (+ 2 x)) '(1 2 3 4 5)))  ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(stop)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; test some random stuff:                                   ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (log   "aenv:                       " (env                ))
 (log   "atype:                      " (type     (env     )))
@@ -164,16 +163,11 @@
     (setq al (aset (eval al) key val))))
 
 (princ "a-setted:                    ") (write (a-set 'alist 'hair 'red))    (nl)
-
 (log   "alist:                      "        alist )
-
 (log   "thing:                      "   (car alist))
-
 (rplaca (car alist) 'species)
+(log   "alist after rplaca:         "        alist)
 
-(log   "alist after rplaca:         "        alist) 
-
-(log   "mapped:                     " (mapcar (lambda (x) (* 2 x)) '(1 2 3 4 5)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (stop)
