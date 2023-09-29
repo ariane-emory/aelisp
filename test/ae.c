@@ -1055,7 +1055,7 @@ void alist(void) {
 
   T(       A_HAS(alist, SYM("name")));
   T(  EQL( A_GET(alist, SYM("name")),   NEW_STRING("Bob")));
-  T(! A_HAS(alist, SYM("age")));
+  T(!      A_HAS(alist, SYM("age")));
     
   alist =  A_SET(alist, SYM("age"),     NEW_INT(24));
 
