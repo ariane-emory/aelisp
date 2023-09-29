@@ -277,7 +277,7 @@ ae_obj_t * ae_apply(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args) {
 
   if (ERRORP(ret))
     if (! AHAS(ERR_OBJ(ret), SYM("fun"))) 
-      ERR_OBJ(ret) = ASET(ERR_OBJ(ret), SYM("fun"), fun);
+      ASET(ERR_OBJ(ret), SYM("fun"), fun);      
   
   return ret;
   
