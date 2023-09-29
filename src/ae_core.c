@@ -24,8 +24,8 @@
 #ifdef AE_LOG_CORE
 #  define LOG_CORE(name)                                                                           \
   PR("\n\n[core " name "]");                                                                       \
-  LOG(CAR(args), name " args");                                                                    \
-  LOG(CDR(args), name " body")
+  LOG(args, name " args");                                                                         \
+  LOG(env,  name " body")
 #else
 #  define LOG_CORE(name) ((void)0)
 #endif
