@@ -194,14 +194,14 @@
 %%
 
 program: sexps { root = $$; }
-sexp: atom | list | quoted_sexp | quasiquoted_sexp | unquoted_sexp | splicing_sexp;
+sexp: atom | list | quoted_sexp | quasiquoted_sexp | unquoted_sexp | spliced_sexp;
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 list: LPAREN list_sexps RPAREN  { $$ = $2; };
 
 quoted_sexp:      QUOTE    sexp { $$ = CONS(SYM("quote"),      CONS($2, NIL)); };
 quasiquoted_sexp: BACKTICK sexp { $$ = CONS(SYM("quasiquote"), CONS($2, NIL)); };
 unquoted_sexp:    COMMA    sexp { $$ = CONS(SYM("unquote"),    CONS($2, NIL)); };
-splicing_sexp:    COMMA_AT sexp { $$ = CONS(SYM("splice"),     CONS($2, NIL)); };
+spliced_sexp:    COMMA_AT sexp { $$ = CONS(SYM("splice"),     CONS($2, NIL)); };
 
 sexps: sexp sexps {
   LOG_PARSE($1, "Consing  ");
