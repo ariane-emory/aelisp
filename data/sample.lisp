@@ -2,52 +2,36 @@
 ;; 'standard library', such as it is:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq proper?   properp)
-(setq tail?     tailp  )
-
-(setq nl        (lambda ()      (princ "
+(setq nl        (lambda ()         (princ "
 ")))
-
-;; (setq list   (lambda args   args                       ))
-(setq list      (lambda (h . t) (cons    h       t       )))
-(setq stop      (lambda ()      (nl)    (exit    0       )))
-(setq sleep     (lambda (s)     (msleep (* 1000  s      ))))
-
-(setq type?     (lambda (t o)   (eq      t      (type o ))))
-(setq cons?     (lambda (o)     (not    (atom?   o      ))))
-(setq error?    (lambda (o)     (type?  :ERROR   o       )))
-(setq improper? (lambda (o)     (not    (proper? o      )))) ;; this also needs to check if it's arg is tail?.
-(setq nil?      (lambda (o)     (eq      o       nil     )))
-
-
-(setq proper?   properp)
-(setq tail?     tailp  )
-
-(setq nl        (lambda ()       (princ "
-")))
-
-;; (setq list   (lambda args      args                     ))
-(setq list      (lambda (h . t)  (cons    h       t       )))
-
-(setq stop      (lambda ()       (nl)    (exit    0       )))
-(setq sleep     (lambda (s)      (msleep (* 1000  s      ))))
-
-(setq nil?      (lambda (o)      (eq      o       nil     )))
-(setq improper? (lambda (o)      (not    (proper? o      )))) ;; this also needs to check if it's arg is tail?.
-
-(setq type?     (lambda (t o)    (eq      t      (type o ))))
-
-(setq atom?     (lambda (o) (not (type?  :CONS    o      ))))
-(setq cons?     (lambda (o)      (type?  :CONS    o       )))
-(setq error?    (lambda (o)      (type?  :ERROR   o       )))
-(setq macro?    (lambda (o)      (type?  :MACRO   o       )))
-(setq lambda?   (lambda (o)      (type?  :LAMBDA  o       )))
-(setq symbol?   (lambda (o)      (type?  :SYMBOL  o       )))
-(setq integer?  (lambda (o)      (type?  :INTEGER o       )))
-(setq float?    (lambda (o)      (type?  :FLOAT   o       )))
-(setq rational? (lambda (o)      (type?  :RATIONALo       )))
-(setq string?   (lambda (o)      (type?  :STRING  o       )))
-(setq char?     (lambda (o)      (type?  :CHAR    o       )))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq eq?       eq                                            )
+(setq tail?     tailp                                         )
+(setq proper?   properp                                       )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq list   (lambda  args       args                     ))
+(setq list      (lambda (h . t)    (cons    h            t  )))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq stop      (lambda ()         (nl)    (exit         0  )))
+(setq sleep     (lambda (s)        (msleep (* 1000       s ))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq nil?      (lambda (o)        (eq?     nil          o  )))
+(setq improper? (lambda (o)        (not    (proper?      o )))) ;; this also needs to check if it's arg is tail?.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq type?     (lambda (t o)      (eq?     t      (type o ))))
+(setq atom?     (lambda (o)   (not (type?  :CONS         o ))))
+(setq char?     (lambda (o)        (type?  :CHAR         o  )))
+(setq cons?     (lambda (o)        (type?  :CONS         o  )))
+(setq core?     (lambda (o)        (type?  :CORE         o  )))
+(setq env?      (lambda (o)        (type?  :ENV          o  )))
+(setq error?    (lambda (o)        (type?  :ERROR        o  )))
+(setq float?    (lambda (o)        (type?  :FLOAT        o  )))
+(setq integer?  (lambda (o)        (type?  :INTEGER      o  )))
+(setq lambda?   (lambda (o)        (type?  :LAMBDA       o  )))
+(setq macro?    (lambda (o)        (type?  :MACRO        o  )))
+(setq rational? (lambda (o)        (type?  :RATIONAL     o  )))
+(setq string?   (lambda (o)        (type?  :STRING       o  )))
+(setq symbol?   (lambda (o)        (type?  :SYMBOL       o  )))
 
 (setq cadr  (lambda (x) (car (cdr x))))
 (setq cdar  (lambda (x) (cdr (car x))))
@@ -81,21 +65,21 @@
 ;; test some random stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(log   "aenv:                       " (env                )) 
-(log   "atype:                      " (type     (env     ))) 
-; (log   "aparent:                    " (parent   (env     ))) 
-(log   "asyms:                      " (syms     (env     ))) 
+(log   "aenv:                       " (env                ))
+(log   "atype:                      " (type     (env     )))
+; (log   "aparent:                    " (parent   (env     )))
+(log   "asyms:                      " (syms     (env     )))
 (log   "avals:                      " (vals     (env     )))
 (nl)
 
-(log   "core lambda:                "  lambda              ) 
-(log   "type:                       " (type      lambda   )) 
+(log   "core lambda:                "  lambda              )
+(log   "type:                       " (type      lambda   ))
 (nl)
 
-(log   "lambda sleep:               "  sleep               ) 
-(log   "type:                       " (type      sleep    )) 
-; (log   "parent:                     " (parent    sleep    )) 
-(log   "params:                     " (params    sleep    )) 
+(log   "lambda sleep:               "  sleep               )
+(log   "type:                       " (type      sleep    ))
+; (log   "parent:                     " (parent    sleep    ))
+(log   "params:                     " (params    sleep    ))
 (log   "body:                       " (body      sleep    ))
 (nl)
 
@@ -106,49 +90,49 @@
 (log   "(1 2 . nil) is proper:      " (properp   x        ))
 (log   "(1 2 . nil) length:         " (length    x        ))
 (log   "(1 2 . nil) length errors:  " (error?   (length x)))
-(log   "(1 2 . nil) is:             "  x                   ) 
-(log   "(car (1 2 . nil)) is:       " (car       x        )) 
-(log   "(cdr (1 2 . nil)) is:       " (cdr       x        )) 
+(log   "(1 2 . nil) is:             "  x                   )
+(log   "(car (1 2 . nil)) is:       " (car       x        ))
+(log   "(cdr (1 2 . nil)) is:       " (cdr       x        ))
 (nl)
- 
+
 (setq   x (quote (1 2 . 333)))
 
-(log   "(1 2 . 333) is improper:    " (improper? x        )) 
-(log   "(1 2 . 333) length:         " (length    x        )) 
+(log   "(1 2 . 333) is improper:    " (improper? x        ))
+(log   "(1 2 . 333) length:         " (length    x        ))
 (log   "(1 2 . 333) length errors:  " (error?   (length x)))
-(log   "(1 2 . 333) is:             "  x                   ) 
-(log   "(car (1 2 . 333)) is:       " (car       x        )) 
-(log   "(cdr (1 2 . 333)) is:       " (cdr       x        )) 
+(log   "(1 2 . 333) is:             "  x                   )
+(log   "(car (1 2 . 333)) is:       " (car       x        ))
+(log   "(cdr (1 2 . 333)) is:       " (cdr       x        ))
 (nl)
 
 (setq   x (quote (1 2 3 . nil)))
 
-(log   "(1 2 3 . nil) is proper:    " (properp   x        )) 
-(log   "(1 2 3 . nil) length:       " (length    x        )) 
-(log   "(1 2 3 . nil) length errors:" (error?   (length x))) 
-(log   "(1 2 3 . nil) is:           "  x                   ) 
-(log   "(car (1 2 3 . nil)) is:     " (car       x        )) 
-(log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        )) 
+(log   "(1 2 3 . nil) is proper:    " (properp   x        ))
+(log   "(1 2 3 . nil) length:       " (length    x        ))
+(log   "(1 2 3 . nil) length errors:" (error?   (length x)))
+(log   "(1 2 3 . nil) is:           "  x                   )
+(log   "(car (1 2 3 . nil)) is:     " (car       x        ))
+(log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
 (nl)
- 
+
 (setq   x (quote (1 2 3 . 333)))
 
-(log   "(1 2 3 . 333) is improper:  " (improper? x        )) 
-(log   "(1 2 3 . 333) length:       " (length    x        )) 
-(log   "(1 2 3 . 333) length errors:" (error?   (length x))) 
-(log   "(1 2 3 . 333) is:           "  x                   ) 
-(log   "(car (1 2 3 . 333)) is:     " (car x              )) 
-(log   "(cdr (1 2 3 . 333)) is:     " (cdr x              )) 
+(log   "(1 2 3 . 333) is improper:  " (improper? x        ))
+(log   "(1 2 3 . 333) length:       " (length    x        ))
+(log   "(1 2 3 . 333) length errors:" (error?   (length x)))
+(log   "(1 2 3 . 333) is:           "  x                   )
+(log   "(car (1 2 3 . 333)) is:     " (car x              ))
+(log   "(cdr (1 2 3 . 333)) is:     " (cdr x              ))
 (nl)
 
-(log   "int:                        " (type? :INTEGER    3)) 
-(log   "! int:                      " (type? :FLOAT      3)) 
-(log   "! float:                    " (type? :INTEGER  3.0)) 
-(log   "float:                      " (type? :FLOAT    3.0)) 
-(log   "float:                      " (type? :FLOAT    3. )) 
-(log   "float:                      " (type? :FLOAT     .3)) 
-(log   "rational:                   " (type? :RATIONAL 3/4)) 
-(log   "string:                     " (type? :STRING   "3")) 
+(log   "int:                        " (type? :INTEGER    3))
+(log   "! int:                      " (type? :FLOAT      3))
+(log   "! float:                    " (type? :INTEGER  3.0))
+(log   "float:                      " (type? :FLOAT    3.0))
+(log   "float:                      " (type? :FLOAT    3. ))
+(log   "float:                      " (type? :FLOAT     .3))
+(log   "rational:                   " (type? :RATIONAL 3/4))
+(log   "string:                     " (type? :STRING   "3"))
 (nl)
 
 (setq xxx (lambda (x) x))
@@ -156,7 +140,7 @@
 (setq err (xxx (length '(1 2 . 333))))
 
 (nl)
-(log   "This error:                 "                                err) 
+(log   "This error:                 "                                err)
 (log   "This error's message:       "                        (errmsg err))
 (log   "This error's obj:           "                        (errobj err))
 (log   "This error's fun stack:     "                  (aget (errobj err) 'fun))
@@ -195,7 +179,7 @@
              (princ "first:  ")  (write first)
              (princ " rest:   ") (write rest)
              first))
-  
+
 (test 1 2 3 4)
 
 (nl)
