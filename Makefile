@@ -6,9 +6,9 @@ COMMON_CFLAGS = \
 	-I . \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=4096 \
-	-DAE_LOG_CORE \
 
 LOG_CFLAGS = \
+	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
 	-DAE_EVAL_EARLY_RETURN_ON_ERROR \
 	-DAE_LOG_ENV \
