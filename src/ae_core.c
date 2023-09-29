@@ -88,8 +88,8 @@ ae_obj_t * ae_core_##name(__attribute__ ((unused)) ae_obj_t * const env, ae_obj_
     if (NILP(CDR(position)))                                                                       \
         break;                                                                                     \
                                                                                                    \
-    REQUIRE(INTEGERP(elem));                                                                 \
-    REQUIRE(INTEGERP(CADR(position)));                                                       \
+    REQUIRE(INTEGERP(elem));                                                                       \
+    REQUIRE(INTEGERP(CADR(position)));                                                             \
                                                                                                    \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
