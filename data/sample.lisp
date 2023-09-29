@@ -114,14 +114,14 @@
 (log   "This error:                 "         err          ) 
 (log   "This error's obj:           " (errobj err         )) 
 (log   "This error's message:       " (errmsg err         )) 
-
-;; This doesn't work correctly. Looking up in wrong env maybe?
+(nl)
 
 (setq   alist  nil                     )
 (setq   alist (aset alist 'name "Bob" ))
 (setq   alist (aset alist 'age   24   ))
 (setq   alist (aset alist 'type 'human))
 
+;; This a-set doesn't work correctly. Looking/setting up in wrong env maybe?
 (setq   a-set
   (lambda (al key val)
     (setq al (aset (eval al) key val))))

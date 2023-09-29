@@ -1049,23 +1049,23 @@ void alist(void) {
 
   ae_obj_t * alist = NIL;
   
-  T(!      A_HAS(alist, SYM("name")));
+  T(!      AHAS(alist, SYM("name")));
 
-  alist =  A_SET(alist, SYM("name"),    NEW_STRING("Bob"));
+  alist =  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
 
-  T(       A_HAS(alist, SYM("name")));
-  T(  EQL( A_GET(alist, SYM("name")),   NEW_STRING("Bob")));
-  T(!      A_HAS(alist, SYM("age")));
+  T(       AHAS(alist, SYM("name")));
+  T(  EQL( AGET(alist, SYM("name")),  NEW_STRING("Bob")));
+  T(!      AHAS(alist, SYM("age")));
     
-  alist =  A_SET(alist, SYM("age"),     NEW_INT(24));
+  alist =  ASET(alist, SYM("age"),    NEW_INT(24));
 
-  T(       A_HAS(alist, SYM("age")));
-  T( EQL(  A_GET(alist, SYM("age")),    NEW_INT(24)));
+  T(       AHAS(alist, SYM("age")));
+  T( EQL(  AGET(alist, SYM("age")),   NEW_INT(24)));
   
-  alist =   A_SET(alist, SYM("name"),   NEW_STRING("Jake"));
+  alist =  ASET(alist, SYM("name"),   NEW_STRING("Jake"));
 
-  T(!  EQL( A_GET(alist, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL( A_GET(alist, SYM("name")),  NEW_STRING("Jake")));
+  T(!  EQL(AGET(alist, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL(AGET(alist, SYM("name")),  NEW_STRING("Jake")));
   
   NL;
   OLOG(alist);
