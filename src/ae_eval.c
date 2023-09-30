@@ -82,9 +82,9 @@ static ae_obj_t * apply(ae_obj_t * env, ae_obj_t * list ) {
 
 static ae_obj_t * apply_core_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n\n[apply core %s]", fun->name);  // extra spaces needed here to line up for some reason.
-  LOG(fun, "apply core fun");
-  LOG(env, "apply core env");
+  FLOG(     "[apply core %s]", fun->name);  // extra spaces needed here to line up for some reason.
+  LOG(fun,  "apply core fun");
+  LOG(env,  "apply core env");
   LOG(args, "apply core args");
 #endif
 
@@ -117,12 +117,11 @@ static ae_obj_t * apply_user_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  PR("\n\n[apply user fun]");
+  LOG(fun,             "[apply user fun]");
+  LOG(env,             "appl user fun env");
   LOG(FUN_PARAMS(fun), "appl user fun params");
-  LOG(FUN_BODY(fun), "appl user fun body");
-  LOG(args, "appl user fun args");
-  LOG(fun, "applying user fun");
-  LOG(env, "appl user fun env");
+  LOG(args,            "appl user fun args");
+  LOG(FUN_BODY(fun),   "appl user fun body");
 #endif
   
   ae_obj_t * new_env = NIL;
@@ -143,12 +142,11 @@ static ae_obj_t * apply_user_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
   
 #ifdef AE_LOG_EVAL
-  PR("\n[created exec env]");
   LOG(fun,              "exec env for");
   LOG(new_env->parent,  "exec env parent");
   LOG(new_env->symbols, "exec env symbols");
   LOG(new_env->values,  "exec env values");
-  LOG(body, "exec env body");
+  LOG(body,             "exec env body");
 #endif
   
   ae_obj_t * result = EVAL(new_env, body);
@@ -206,9 +204,8 @@ static const apply_dispatch_t apply_dispatch[] = {
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
 #ifdef AE_LOG_EVAL
-  PR("\n\n[dispatching eval...]");
-  LOG(obj, "disp eval for obj");
-  LOG(env, "disp eval env");
+  LOG(obj, "[dispatching eval for]");
+  LOG(env, "disp eval in env");
 #endif
 
   assert(ENVP(env));
@@ -218,20 +215,12 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   GET_DISPATCH(dispatch, eval_dispatch, obj);
 
 #ifdef AE_LOG_EVAL
-  PR("\n=> dispatching eval to   %s handler for ", TYPE_STR(obj));
-  WRITE(obj);
-  DOT;
+  FLOG("dispatching eval to handler for", TYPE_STR(obj));
 #endif
 
   assert(*dispatch.handler);
   
   return (*dispatch.handler)(env, obj);
-  
-#ifdef AE_LOG_EVAL
-  fprintf(stderr, "\nDon't know how to eval a %s.", TYPE_STR(obj));
-#endif
-  
-  assert(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,7 +229,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n\n[dispatching apply...]");
+  SLOG(    "[dispatching apply...]");
   LOG(fun,  "disp appl for fun");
   LOG(args, "disp appl args");
   LOG(env,  "disp appl env");
@@ -253,10 +242,7 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
-    NL;
-    PR("Not applicable: ");
-    PUT(fun);
-    NL;
+    LOG(fun, "NOT APPLICABLE");
 
     /* This assert should be replaced by returning an ERROR obj: */
         
@@ -270,9 +256,7 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   GET_DISPATCH(dispatch, apply_dispatch, fun);
 
 #ifdef AE_LOG_EVAL
-  PR("\n=> dispatching apply to  %s handler for ", TYPE_STR(fun));
-  WRITE(fun);
-  DOT;
+  LOG(fun, "dispatching apply to  %s handler for ", TYPE_STR(fun));
 #endif
 
   MAYBE_EVAL(dispatch.special, args);
@@ -303,7 +287,4 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 ret:
   return ret;
-  
-  fprintf(stderr, "\nDon't know how to apply a %s.", TYPE_STR(fun));
-  assert(0);
 }
