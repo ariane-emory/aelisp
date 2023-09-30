@@ -38,7 +38,7 @@
 // This only deals with AE_INTEGERS for now. It mutates its first argument.
 #define DEF_MATH_OP(name, oper, default)                                                           \
 ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {                         \
-  CORE_BEGIN(#name);                                                                                 \
+  CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
                                                                                                    \
   ae_obj_t * accum = NIL;                                                                          \
@@ -49,19 +49,19 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
     rest = args;                                                                                   \
   }                                                                                                \
   else {                                                                                           \
-    REQUIRE(env, args, INTEGERP(CAR(args)));                                                                  \
+    REQUIRE(env, args, INTEGERP(CAR(args)));                                                       \
                                                                                                    \
     accum = CAR(args);                                                                             \
     rest  = CDR(args);                                                                             \
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
-    REQUIRE(env, args, INTEGERP(elem));                                                                       \
+    REQUIRE(env, args, INTEGERP(elem));                                                            \
     /* INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem); */                                      \
     accum = NEW_INT(INT_VAL(accum) oper INT_VAL(elem));                                            \
   }                                                                                                \
                                                                                                    \
-  return accum;                                                                                    \
+  CORE_RETURN(#name, accum);                                                                       \
 }
 
 FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
@@ -82,8 +82,8 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
     if (NILP(CDR(position)))                                                                       \
         break;                                                                                     \
                                                                                                    \
-    REQUIRE(env, args, INTEGERP(elem));                                                                       \
-    REQUIRE(env, args, INTEGERP(CADR(position)));                                                             \
+    REQUIRE(env, args, INTEGERP(elem));                                                            \
+    REQUIRE(env, args, INTEGERP(CADR(position)));                                                  \
                                                                                                    \
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
