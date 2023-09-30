@@ -293,7 +293,7 @@ ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
-  return NEW_STRING(ERR_MSG(CAR(args)));
+  CORE_RETURN("errmsg", NEW_STRING(ERR_MSG(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ ae_obj_t * ae_core_errobj(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
-  return ERR_OBJ(CAR(args));
+  CORE_RETURN("errobj", ERR_OBJ(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,7 +317,7 @@ ae_obj_t * ae_core_vals(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
-  return ENV_VALS(CAR(args));
+  CORE_RETURN("vals", ENV_VALS(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
