@@ -135,11 +135,11 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
   INDENT;
 
-  ae_obj_t * pos     = env;
-
 #ifdef AE_LOG_ENV
   LOG(value,   "to value");
 #endif
+
+  ae_obj_t * pos     = env;
 
   while (! NILP(pos)) {
     {
@@ -176,11 +176,6 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
     }
 
     if (NILP(pos->parent)) {
-
-#ifdef AE_LOG_ENV
-      NL;
-      SLOG("adding new");
-#endif
 
 #ifdef AE_LEXICAL_SCOPING      
       ENV_ADD(env, symbol, value);

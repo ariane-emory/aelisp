@@ -18,9 +18,9 @@
 #  define CORE_BEGIN(name)                                                                         \
 ({                                                                                                 \
   SLOG("[core " name "]");                                                                         \
-  LOG(args, name " args");                                                                         \
-  LOG(env,  name " body");                                                                         \
   INDENT;                                                                                          \
+  LOG(args, name "args");                                                                          \
+  LOG(env,  name "body");                                                                          \
 })
 #else
 #  define CORE_BEGIN(name) ((void)0)
