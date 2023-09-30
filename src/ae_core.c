@@ -446,15 +446,17 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
-  // CORE_BEGIN("cond");
+  CORE_BEGIN("cond");
 
   REQUIRE(env, args, "an empty cond does not make sense");
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
 
+#ifdef AE_LOG_CORE
   LOG(caar, "caar");
   LOG(cdar, "cdar");
+#endif                      
 
   if (! NILP(EVAL(env, caar)))
     CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
