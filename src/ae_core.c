@@ -195,7 +195,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   FOR_EACH(elem, args)
     ret = EVAL(env, elem);
 
-  return ret;
+  CORE_RETURN("progn", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
