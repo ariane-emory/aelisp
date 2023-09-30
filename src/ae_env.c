@@ -63,7 +63,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
     // The logging here is strongly coupled with that in eval to make the eval
     // logging look right. Sorry.
     
-    LOG(env, "'looking in env");
+    LOG(env, "looking in env");
 #endif
     
     ae_obj_t * symbols = ENV_SYMS(pos);
