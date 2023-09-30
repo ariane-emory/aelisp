@@ -16,19 +16,22 @@
 
 #ifdef AE_LOG_CORE
 #  define CORE_BEGIN(name)                                                                           \
+{                                                                                                    \
   SLOG("[core " name "]");                                                                       \
   LOG(args, name " args");                                                                         \
   LOG(env,  name " body");                                                                             \
-  INDENT;                                                                                             
+  INDENT;                                                                                             \
+}
 #else
 #  define CORE_BEGIN(name) ((void)0)
 #endif
 
-#  define CORE_RETURN(name, val) \
- OUTDENT;       \
- LOG(val, "[core " name " rtrning]"); \
- return val;
-
+#  define CORE_RETURN(name, val)                                                                    \
+{                                                                                               \
+ OUTDENT;                                                                                    \
+ LOG(val, "[core " name " rtrning]");                                                         \
+ return val;                                                                                    \
+ }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -620,9 +623,9 @@ ae_obj_t * ae_core_eq(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * c
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQ(CAR(args), tailarg))
-      return NIL;
+      CORE_RETURN("eq", NIL);
 
-  return TRUE;
+  CORE_RETURN("eq", TRUE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
