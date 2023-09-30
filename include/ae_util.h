@@ -31,6 +31,7 @@
 
 #define SLOG(s)                                                                                     \
 {                                                                                                   \
+  NL;                                                                                               \
   int written  = 0;                                                                                 \
   while (written ++ < (indentation << 1)) SPC;                                                      \
   (fprintf(stdout, s));                                                                             \
@@ -38,6 +39,7 @@
 
 #define FLOG(s, ...)                                                                                \
 {                                                                                                   \
+  NL;                                                                                               \
   int written  = 0;                                                                                 \
   while (written ++ < (indentation << 1)) SPC;                                                      \
   (fprintf(stdout, s, __VA_ARGS__));                                                                \
