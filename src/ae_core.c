@@ -581,7 +581,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args) {
 
   CAAR(args) = CADR(args);
   
-  return CADR(args);
+  CORE_RETURN("rplaca", CADR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -595,7 +595,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args) {
 
   CDAR(args) = CADR(args);
   
-  return CADR(args);
+  CORE_RETURN("rplacd", CADR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -611,7 +611,7 @@ ae_obj_t * ae_core_cons(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * head = CAR(args);
   ae_obj_t * tail = CADR(args);
 
-  return NEW_CONS(head, tail);
+  CORE_RETURN("cons", NEW_CONS(head, tail));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -637,9 +637,9 @@ ae_obj_t * ae_core_eql(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * 
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQL(CAR(args), tailarg))
-      return NIL;
+      CORE_RETURN("eql", NIL);
 
-  return TRUE;
+  CORE_RETURN("eql", TRUE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
