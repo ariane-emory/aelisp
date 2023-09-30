@@ -22,36 +22,36 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const, struct ae_obj_
 // Escaped chars helper macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_ESCAPED_CHARACTER(DO)                                                             \
-  DO('a',  '\a')                                                                                   \
-  DO('b',  '\b')                                                                                   \
-  DO('f',  '\f')                                                                                   \
-  DO('n',  '\n')                                                                                   \
-  DO('r',  '\r')                                                                                   \
-  DO('t',  '\t')                                                                                   \
-  DO('v',  '\v')                                                                                   \
-  DO('\\', '\\')                                                                                   \
-  DO('\'', '\'')                                                                                   \
-  DO('\"', '\"')
+#define FOR_EACH_ESCAPED_CHARACTER(do)                                                             \
+  do('a',  '\a')                                                                                   \
+  do('b',  '\b')                                                                                   \
+  do('f',  '\f')                                                                                   \
+  do('n',  '\n')                                                                                   \
+  do('r',  '\r')                                                                                   \
+  do('t',  '\t')                                                                                   \
+  do('v',  '\v')                                                                                   \
+  do('\\', '\\')                                                                                   \
+  do('\'', '\'')                                                                                   \
+  do('\"', '\"')
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_LEXED_TYPE(DO)                                                                    \
-  DO(AE_CHAR)                                                                                      \
-  DO(AE_CONS)                                                                                      \
-  DO(AE_CORE)                                                                                      \
-  DO(AE_ENV)                                                                                       \
-  DO(AE_ERROR)                                                                                     \
-  DO(AE_FLOAT)                                                                                     \
-  DO(AE_INTEGER)                                                                                   \
-  DO(AE_INVALID)                                                                                   \
-  DO(AE_LAMBDA)                                                                                    \
-  DO(AE_MACRO)                                                                                     \
-  DO(AE_RATIONAL)                                                                                  \
-  DO(AE_STRING)                                                                                    \
-  DO(AE_SYMBOL)                                                                                    \
+#define FOR_EACH_LEXED_TYPE(do)                                                                    \
+  do(AE_CHAR)                                                                                      \
+  do(AE_CONS)                                                                                      \
+  do(AE_CORE)                                                                                      \
+  do(AE_ENV)                                                                                       \
+  do(AE_ERROR)                                                                                     \
+  do(AE_FLOAT)                                                                                     \
+  do(AE_INTEGER)                                                                                   \
+  do(AE_INVALID)                                                                                   \
+  do(AE_LAMBDA)                                                                                    \
+  do(AE_MACRO)                                                                                     \
+  do(AE_RATIONAL)                                                                                  \
+  do(AE_STRING)                                                                                    \
+  do(AE_SYMBOL)                                                                                    \
 
 #define enum_entry(x) x,
 
