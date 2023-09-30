@@ -28,12 +28,20 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
 
+  LOG(symbol, "[looking up]");
+  
+  INDENT;
+
+  ae_obj_t * ret = NIL;
+  
   if (NILP(symbol)) {
 #ifdef AE_LOG_ENV
     PR("\n\nfound NIL automatically.");
 #endif
 
-    return NIL;
+    ret = NIL;
+
+    goto end;
   }
 
   if (TRUEP(symbol)) {
@@ -41,7 +49,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
     PR("\n\nfound TRUE automatically.");
 #endif
     
-    return TRUE;
+    ret = TRUE;
+
+    goto end;
   }
   
   ae_obj_t * pos = env;
@@ -68,14 +78,24 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
         LOG(CAR(values), "found it ->"); 
 #endif
         
-        return CAR(values);
+        ret = CAR(values);
+
+        goto end;
       }
 
-    if (EQ(symbol, symbols))
-      return values;
-  }
+    if (EQ(symbol, symbols)) {
+      ret = values;
 
-  return NIL;
+      goto end;
+    }
+  }
+  
+end:
+  OUTDENT;
+
+  LOG(ret, "[rtrn looked up]");
+  
+  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
