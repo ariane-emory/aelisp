@@ -135,8 +135,6 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
   INDENT;
 
-  /* ae_obj_t * symbols = ENV_SYMS(env); */
-  /* ae_obj_t * values  = ENV_VALS(env); */
   ae_obj_t * pos     = env;
 
 #ifdef AE_LOG_ENV
@@ -150,7 +148,7 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 #ifdef AE_LOG_ENV
       LOG(pos,  "in env");
-      LOG(syms, "with syms");
+      LOG(syms, "containing syms");
 #endif
 
       while (!NILP(syms) && !NILP(vals)) {
