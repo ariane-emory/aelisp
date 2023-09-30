@@ -53,7 +53,7 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
                                                                                                    \
   if (NILP(CDR(args))) {                                                                           \
     accum = NEW_INT(default);                                                                      \
-    rest = args;                                                                                   \
+    rest  = args;                                                                                  \
   }                                                                                                \
   else {                                                                                           \
     REQUIRE(env, args, INTEGERP(CAR(args)));                                                       \

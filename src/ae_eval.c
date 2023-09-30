@@ -10,6 +10,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define APPLY(env, fun, args) (ae_apply((env), (fun), (args)))
+
 #define GET_DISPATCH(row, table, obj)                                                              \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
@@ -27,6 +29,10 @@
     }                                                                                              \
     args = evaled_args;                                                                            \
   }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eval dispatch handlers
