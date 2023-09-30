@@ -180,7 +180,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 
   ENV_SET(env, sym, val);
 
-  return val;
+  CORE_RETURN("setq", val);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
