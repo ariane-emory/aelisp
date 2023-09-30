@@ -149,18 +149,18 @@
 
 ;; (setq xxx (lambda (x) x))
 
-;; (setq err (xxx (length '(1 2 . 333))))
+(setq err (length '(1 2 . 333)))
 
-;; (nl)
-;; (log   "This error:                 "                                err)
-;; (log   "This error's message:       "                        (errmsg err))
-;; (log   "This error's obj:           "                        (errobj err))
-;; (log   "This error's fun stack:     "                  (aget (errobj err) 'fun))
-;; (log   "This lambda:                "            (cadr (aget (errobj err) 'fun)))
-;; (log   "This lambda's env:          "       (env (cadr (aget (errobj err) 'fun))))
-;; (log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) 'fun)))))
-;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
-;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
+(nl)
+(log   "This error:                 "                                err)
+(log   "This error's message:       "                        (errmsg err))
+(log   "This error's obj:           "                        (errobj err))
+(log   "This error's fun stack:     "                  (aget (errobj err) 'fun))
+(log   "This core:                  "             (car (aget (errobj err) 'fun)))
+;; (log   "This lambda's env:          "        (env (car (aget (errobj err) 'fun))))
+;; (log   "This lambda's env^2:        "   (env (env (car (aget (errobj err) 'fun)))))
+;; (log   "This lambda's syms:         "  (syms (env (car (aget (errobj err) 'fun)))))
+;; (log   "This lambda's vals:         "  (vals (env (car (aget (errobj err) 'fun)))))
 
 ;; (nl)
 
@@ -181,12 +181,13 @@
 ;; (log   "alist after rplaca:         "        alist)
 ;; (nl)
 
-;;(setq xxx 777)
-;;(setq yyy 888)
+(setq xxx 777)
+(setq yyy 888)
 
 ;; (stop)
 
 (nl)
+
 (setq q (macro (xxx yyy)   (list (quote +) xxx yyy)))
 (princ  "One           ")  (princ q) (nl)
 (princ  "One body      ")  (princ             (car (body q)))   (nl)
