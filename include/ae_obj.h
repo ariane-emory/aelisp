@@ -175,7 +175,7 @@ extern ae_obj_t * symbols_list;
 #define EQL(this, that)         ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
 #define NEQL(this, that)        ((! NULLP((this))) && (! NULLP((that))) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                ((! NULLP((o))) && (! CONSP((o))))
+#define ATOMP(o)                (! CONSP((o)))
 #define NULLP(o)                (! (o))
 #define SPECIALP(o)             ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)             ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
