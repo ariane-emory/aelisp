@@ -28,7 +28,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
 
+#ifdef AE_LOG_ENV
   LOG(symbol, "[looking up]");
+#endif
   
   INDENT;
 
@@ -61,7 +63,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
     // The logging here is strongly coupled with that in eval to make the eval
     // logging look right. Sorry.
     
-    LOG(env,       "in");
+    LOG(env, "'looking in");
 #endif
     
     ae_obj_t * symbols = ENV_SYMS(pos);
@@ -90,10 +92,17 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
     }
   }
   
+#ifdef AE_LOG_ENV
+  SLOG("Didn't find it.");
+#endif
+  
 end:
+  
   OUTDENT;
 
+#ifdef AE_LOG_ENV
   LOG(ret, "[rtrn looked up]");
+#endif
   
   return ret;
 }
