@@ -15,9 +15,22 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
 
-/* #ifdef AE_LOG_ENV */
-/*   LOG(value, "added"); */
-/* #endif */
+#ifdef AE_LOG_ENV
+  LOG(symbol,    "[adding]");
+#endif
+
+  INDENT;
+
+#ifdef AE_LOG_ENV
+  LOG(value,   "to value");
+  LOG(env,     "in env");
+#endif
+
+  OUTDENT;
+
+#ifdef AE_LOG_ENV
+  LOG(symbol,    "[done adding]");
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
