@@ -49,7 +49,7 @@ void outdent(void) {
         "\nBANGED AGAINST THE LEFT MARGIN, THIS SHOULDN'T HAPPEN AND PROBABLY INDICATES "
         "A PROGRAMMER ERROR!\n");
 
-#ifded AE_DEADLY_MARGIN
+#ifdef AE_DEADLY_MARGIN
     assert(((void)"hit the margin", 0));
 #endif
     
