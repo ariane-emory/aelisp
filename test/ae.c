@@ -1099,10 +1099,10 @@ void alist(void) {
   DO(core_cmp)                                                                                     \
   DO(core_msleep)                                                                                  \
   DO(list_fun)                                                                                     \
+  DO(macro_expand)                                                                                 \
+  DO(root_env_and_eval) /* failing when logging eval/core on */                                    \
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
-  DO(root_env_and_eval)                                                                            \
-  DO(macro_expand)                                                                                 \
 
 #define pair(fun) { #fun, fun },
 
