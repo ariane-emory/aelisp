@@ -239,8 +239,6 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
     return TRUE;
   
 #ifdef AE_LOG_SYM
-  // pool_print();
-  // putchar('\n');
   printf("Interning \"%s\" in %p.\n", string, *plist);
   fflush(stdout);
 #endif
@@ -253,7 +251,13 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   }
   
   FOR_EACH(elem, *plist) {
-    assert(SYMBOLP(elem));
+    if (! SYMBOLP(elem)) {
+      fprintf(stderr, "\nCan't intern \"%s\" in a list containing a %s!\n", string, TYPE_STR(elem));
+      fprintf(stderr, "symbols list: ");
+      FWRITE(*plist, stderr);
+      fputc('\n', stderr);
+    }
+    
     if (! strcmp(string, elem->sym_val)) {
 #ifdef AE_LOG_SYM
       printf("Intern in symbol list ");
