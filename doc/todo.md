@@ -1,11 +1,10 @@
 To Do:
-- [ ] core_cond is noisy, tidy/quiet it.
-- [ ] core env should be able to take an optional fun argument.
+- [ ] fix macro expansion from eval.
+- [ ] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [ ] core apply
 - [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
-- [ ] root_env_and_eval test is too big, slice it up.
-- [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
+- [ ] root_env_and_eval test is too big, maybe slice it up?
 - [ ] Implement math for non-integer types.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters needing escaping.
@@ -19,6 +18,8 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
+- [x] core env should be able to take an optional fun argument.
 - [x] core env should be able to take an optional fun argument.
 - [x] core funs should probably have an env as a param too.
 - [x] maybe ERROR should be a type?
