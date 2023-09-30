@@ -17,18 +17,14 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[adding]");
-#endif
 
   INDENT;
 
-#ifdef AE_LOG_ENV
   LOG(value,   "with value");
   LOG(env,     "to env");
-#endif
 
   OUTDENT;
 
-#ifdef AE_LOG_ENV
   LOG(symbol,    "[done adding]");
 #endif
 }
@@ -43,9 +39,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 
 #ifdef AE_LOG_ENV
   LOG(symbol, "[looking up]");
-#endif
   
   INDENT;
+#endif
 
   ae_obj_t * ret = NIL;
   
@@ -111,9 +107,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   
 end:
   
+#ifdef AE_LOG_ENV
   OUTDENT;
 
-#ifdef AE_LOG_ENV
   LOG(ret, "[looked up]");
 #endif
   
@@ -131,11 +127,9 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[setting]");
-#endif
 
   INDENT;
 
-#ifdef AE_LOG_ENV
   LOG(value,   "to value");
 #endif
 
@@ -183,8 +177,6 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
       ENV_ADD(pos, symbol, value);
 #endif
 
-      OUTDENT;
-          
       goto end;;
     } else {
 
@@ -201,7 +193,10 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 end:
   OUTDENT;
 
+#ifdef AE_LOG_ENV
   SLOG("[done setting]");
+#endif
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,9 +210,9 @@ ae_obj_t * ae_env_new_root(void) {
 #define add_core_special_fun(name, ...)  ae_env_set(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, true));
 #define add_core_op(name, sym, ...)      ae_env_set(env, SYM(#sym),  NEW_CORE(#name, &ae_core_##name, false));
   
-  FOR_EACH_CORE_FUN(add_core_fun);
   FOR_EACH_CORE_CMP_OP(add_core_op);
   FOR_EACH_CORE_MATH_OP(add_core_op);
+  FOR_EACH_CORE_FUN(add_core_fun);
   FOR_EACH_CORE_SPECIAL_FUN(add_core_special_fun);
 
   // self-evaluating symbols:
