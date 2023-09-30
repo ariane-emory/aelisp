@@ -454,9 +454,9 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(cdar, "cdar");
 
   if (! NILP(EVAL(env, caar)))
-    return EVAL(env, ae_core_progn(env, cdar));
+    CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
 
-  return ae_core_cond(env, CDR(args));
+  CORE_RETURN("cpmd", ae_core_cond(env, CDR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
