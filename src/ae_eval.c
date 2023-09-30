@@ -64,8 +64,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   LOG(fun,                 "apply core fun");
-  LOG(env,                 "apply core env");
   LOG(args,                "apply core args");
+  LOG(env,                 "apply core env");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -104,8 +104,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   LOG(FUN_PARAMS(fun), "apply user with params");
-  LOG(FUN_BODY(fun),   "apply user with body");
   LOG(args,            "apply user with args");
+  LOG(FUN_BODY(fun),   "apply user with body");
   LOG(env,             "apply user in");
 #endif
 
@@ -123,7 +123,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
 
 #ifdef AE_LOG_EVAL
-  LOG(env,                  "apply user in new env");
+  LOG(new_env,              "apply user in new env");
   LOG(ENV_PARENT(new_env),  "new env parent");
   LOG(ENV_SYMS(new_env),    "new env symbols");
   LOG(ENV_VALS(new_env),    "new env values");
@@ -167,13 +167,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   ae_obj_t * args = CDR(obj);
 
 #ifdef AE_LOG_EVAL
-  LOG(obj,  "[eval by applying]");
+  LOG(fun,  "[eval by applying]");
 #endif
 
   INDENT;
 
 #ifdef AE_LOG_EVAL
-  LOG(fun,  "dispatch application for fun");
   LOG(args, "dispatch application with args");
   LOG(env,  "dispatch application in");
 #endif
@@ -181,10 +180,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   fun = EVAL(env, fun);
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
-    NL;
-    PR("Not applicable: ");
-    PUT(fun);
-    NL;
+    LOG(fun, "Not applicable: ");
 
     /* This assert should be replaced by returning an ERROR obj: */
 
