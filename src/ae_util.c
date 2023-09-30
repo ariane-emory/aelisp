@@ -43,6 +43,12 @@ void indent(void) {
 
 void outdent(void) {
   indentation    -= 1;
-  if (indentation < 0)
+
+  if (indentation < 0) {
+    FPR(stderr,
+        "\nBANGED AGAINST THE LEFT MARGIN, THIS SHOULDN'T HAPPEN AND PROBABLY INDICATES "
+        "A PROGRAMMER ERROR!\n");
+        
     indentation   = 0;
+  }
 }
