@@ -6,7 +6,7 @@ COMMON_CFLAGS = \
 	-I . \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=8192 \
-	-DAE_DEADLY_MARGINS \
+	-DAE_DEADLY_MARGIN \
 	-DAE_DUMP_POOL_AFTER \
 	-DAE_LOG_ENV \
 
