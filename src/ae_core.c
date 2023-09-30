@@ -231,7 +231,7 @@ ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
-  return FUN_BODY(CAR(args));
+  CORE_RETURN("body", FUN_BODY(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
