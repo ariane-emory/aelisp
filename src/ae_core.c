@@ -329,7 +329,7 @@ ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
-  return NEW_INT(NUMER_VAL(CAR(args)));
+  CORE_RETURN("numer", NEW_INT(NUMER_VAL(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
