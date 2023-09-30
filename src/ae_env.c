@@ -22,8 +22,8 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   INDENT;
 
 #ifdef AE_LOG_ENV
-  LOG(value,   "to value");
-  LOG(env,     "in env");
+  LOG(value,   "with value");
+  LOG(env,     "to env");
 #endif
 
   OUTDENT;
@@ -192,7 +192,7 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
       OUTDENT;
           
-      return;
+      goto end;;
     } else {
 
 #ifdef AE_LOG_ENV
