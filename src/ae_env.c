@@ -11,17 +11,13 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
   assert((! NULLP(value)));
-
-#ifdef AE_LOG_ENV
-  PR("\nAdding %018p", value);
-  PUT(value);
-  PR(" to %018p", env);
-  PUT(env);
-  NL;
-#endif
   
   ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
+
+/* #ifdef AE_LOG_ENV */
+/*   LOG(value, "added"); */
+/* #endif */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,34 +27,45 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
+
+  if (NILP(symbol)) {
+#ifdef AE_LOG_ENV
+    PR("\n\nfound NIL automatically.");
+#endif
+
+    return NIL;
+  }
+
+  if (TRUEP(symbol)) {
+#ifdef AE_LOG_ENV
+    PR("\n\nfound TRUE automatically.");
+#endif
+    
+    return TRUE;
+  }
   
   ae_obj_t * pos = env;
   
   for (; ENVP(pos); pos = ENV_PARENT(pos)) {
 #ifdef AE_LOG_ENV
-    PR("Looking for '");
-    PRINC(symbol);
-    PR("' in env ");
-    PUT(env);
-    NL;
+    // The logging here is strongly coupled with that in eval to make the eval
+    // logging look right. Sorry.
+    
+    LOG(env,       "in");
 #endif
     
     ae_obj_t * symbols = ENV_SYMS(pos);
     ae_obj_t * values  = ENV_VALS(pos);
 
 #ifdef AE_LOG_ENV
-    PR("  symbols: ");
-    PRINC(symbols);
-    NL;
-    PR("  values:  ");
-    PRINC(values);
-    NL;
+    LOG(symbols, "with syms");
+    // LOG(values,  "and vals");
 #endif
 
     for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
       if (EQ(symbol, CAR(symbols))) {
 #ifdef AE_LOG_ENV
-        LOG(CAR(values), "Found it =>"); 
+        LOG(CAR(values), "found it ->"); 
 #endif
         
         return CAR(values);
@@ -81,19 +88,22 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   assert((! NULLP(value)));
 
 #ifdef AE_LOG_ENV
-  PR("Looking for '");
-  PRINC(symbol);
-  PR(" in env ");
-  PUT(env);
-  PR(" to place %018p.", value);
-  NL;
-  PR("  syms: ");
-  PRINC(ENV_SYMS(env));
-  NL;
-  PR("  vals:  ");
-  PRINC(ENV_VALS(env));
-  NL;
-  NL;
+  LOG(symbol,    "[setting]");
+#endif
+
+  INDENT;
+  
+#ifdef AE_LOG_ENV
+  LOG(env,       "in");
+#endif
+      
+  ae_obj_t * symbols = ENV_SYMS(env);
+  ae_obj_t * values  = ENV_VALS(env);
+
+#ifdef AE_LOG_ENV
+    LOG(symbols, "with syms");
+    LOG(value,   "to value");
+//    LOG(values,  "vals");
 #endif
 
   ae_obj_t * pos = env;
@@ -106,33 +116,33 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
       while (!NILP(syms) && !NILP(vals)) {
         ae_obj_t * sym = CAR(syms);
 
-#ifdef AE_LOG_ENV
-        PR("  Looking at sym ");
-        PRINC(sym);
-        NL;
-        PR("    syms ");
-        PRINC(syms);
-        NL;
-        PR("    vals ");
-        PRINC(vals);
-        NL;
-#endif
+/* #ifdef AE_LOG_ENV */
+/*         PR("Looking at sym "); */
+/*         PRINC(sym); */
+/*         NL; */
+/*         PR("syms "); */
+/*         PRINC(syms); */
+/*         NL; */
+/*         PR("vals "); */
+/*         PRINC(vals); */
+/*         NL; */
+/* #endif */
 
         if (EQ(symbol, sym)) {
 #ifdef AE_LOG_ENV
-          PR("  Found it in syms: ");
+          PR("found it in syms: ");
           PUT(syms);
-          NL;
 #endif
 
           CAR(vals) = value;
 
 #ifdef AE_LOG_ENV
-          PR("  After:              ");
+          PR("values after:       ");
           PUT(vals);
-          NL;
 #endif
 
+          OUTDENT;
+          
           return;
         }
 
@@ -143,7 +153,8 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
     if (NILP(pos->parent)) {
 #ifdef AE_LOG_ENV
-      PR("  Adding new.\n");
+      NL;
+      SLOG("adding new");
 #endif
 
 #ifdef AE_LEXICAL_SCOPING      
@@ -152,12 +163,16 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
       ENV_ADD(pos, symbol, value);
 #endif
 
+      OUTDENT;
+          
       return;
     } else {
 #ifdef AE_LOG_ENV
-      PR("  Going up.\n");
+      PR("going up\n");
 #endif
-
+      
+      OUTDENT;
+          
       pos = ENV_PARENT(pos);
     }
   }
