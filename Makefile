@@ -5,14 +5,14 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
-	-DAE_OBJ_POOL_SIZE=4096 \
+	-DAE_OBJ_POOL_SIZE=8192 \
+	-DAE_DUMP_POOL_AFTER \
 	-DAE_LOG_EVAL \
 	-DAE_LOG_CORE \
-	-DAE_LOG_ENV \
-	-DAE_DUMP_POOL_AFTER \
 
 
 LOG_CFLAGS = \
+	-DAE_LOG_ENV \
 	-DAE_LOG_FREE_IST \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
