@@ -16,12 +16,19 @@
 
 #ifdef AE_LOG_CORE
 #  define CORE_BEGIN(name)                                                                           \
-  PR("\n\n[core " name "]");                                                                       \
+  SLOG("[core " name "]");                                                                       \
   LOG(args, name " args");                                                                         \
-  LOG(env,  name " body")
+  LOG(env,  name " body");                                                                             \
+  INDENT;                                                                                             
 #else
 #  define CORE_BEGIN(name) ((void)0)
 #endif
+
+#  define CORE_RETURN(name, val) \
+ OUTDENT;       \
+ LOG(val, "[core " name " rtrning]"); \
+ return val;
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
