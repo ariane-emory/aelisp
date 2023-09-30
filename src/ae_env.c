@@ -194,6 +194,8 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 end:
   OUTDENT;
+
+  SLOG("[done setting]");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
