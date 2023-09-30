@@ -507,7 +507,7 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const env, ae_obj_t * const args) {
 
   usleep(ms * 1000);
 
-  return CAR(args);
+  CORE_RETURN("msleep", CAR(args));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -523,7 +523,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, len >= 0, "core length only works on proper lists");
           
-  return NEW_INT(len);
+  CORE_RETURN("length", NEW_INT(len));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -535,7 +535,7 @@ ae_obj_t * ae_core_tailp(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return TAILP(CAR(args)) ? TRUE : NIL;
+  CORE_RETURN("tailp", TAILP(CAR(args)) ? TRUE : NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
