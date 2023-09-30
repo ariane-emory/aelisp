@@ -281,7 +281,7 @@ ae_obj_t * ae_core_syms(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
-  return ENV_SYMS(CAR(args));
+  CORE_RETURN("syms", ENV_SYMS(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
