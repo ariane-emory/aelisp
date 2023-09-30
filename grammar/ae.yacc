@@ -172,9 +172,9 @@
 
     // describe_parse(program_obj);
 
-    PR("\n\nEvaluating program...\n");
+    PR("\n\nEvaluating program...");
     EVAL(env, program_obj);
-    PR("\nDone evaluating program.");
+    PR("\nDone evaluating program.\n");
 
 #ifdef AE_DUMP_POOK_AFTER
     pool_print();
