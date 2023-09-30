@@ -177,23 +177,22 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
       ENV_ADD(pos, symbol, value);
 #endif
 
-      goto end;;
+      goto end;
     } else {
 
 #ifdef AE_LOG_ENV
       SLOG("going up");
 #endif
       
-      OUTDENT;
-          
       pos = ENV_PARENT(pos);
     }
   }
 
 end:
+  
+#ifdef AE_LOG_ENV
   OUTDENT;
 
-#ifdef AE_LOG_ENV
   SLOG("[done setting]");
 #endif
   
