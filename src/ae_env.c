@@ -48,7 +48,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   if (NILP(symbol)) {
 
 #ifdef AE_LOG_ENV
-    SLOG("found NIL automatically.");
+    LOG(NIL, "found NIL automatically.");
 #endif
 
     ret = NIL;
@@ -59,7 +59,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   if (TRUEP(symbol)) {
 
 #ifdef AE_LOG_ENV
-    SLOG("found TRUE automatically");
+    LOG(TRUE, "found TRUE automatically");
 #endif
     
     ret = TRUE;
