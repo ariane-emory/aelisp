@@ -88,7 +88,7 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
                                                                                                    \
-  COR_RETURN(#name, TRUTH(result));                                                                \
+  CORE_RETURN(#name, TRUTH(result));                                                                \
 }
 
 FOR_EACH_CORE_CMP_OP(DEF_CMP_OP);
@@ -195,7 +195,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   FOR_EACH(elem, args)
     ret = EVAL(env, elem);
 
-  return ret;
+  CORE_RETURN("progn", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ ae_obj_t * ae_core_properp(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  return PROPER_LISTP(CAR(args)) ? TRUE : NIL;
+  CORE_RETURN("properp", PROPER_LISTP(CAR(args)) ? TRUE : NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +219,7 @@ ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
-  return FUN_PARAMS(CAR(args));
+  CORE_RETURN("params", FUN_PARAMS(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
