@@ -20,7 +20,7 @@ void obj_log(const ae_obj_t * const obj, char * desc) {
   
   written += PR("%s ", desc);
 
-  while (written++ < 64) SPC;
+  while (written++ < 72) SPC;
   
   written += WRITE(obj);
 
