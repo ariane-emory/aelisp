@@ -52,7 +52,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   if (NILP(symbol)) {
 
 #ifdef AE_LOG_ENV
-    PR("\n\nfound NIL automatically.");
+    SLOG("found NIL automatically.");
 #endif
 
     ret = NIL;
@@ -63,7 +63,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   if (TRUEP(symbol)) {
 
 #ifdef AE_LOG_ENV
-    PR("\n\nfound TRUE automatically.");
+    SLOG("found TRUE automatically");
 #endif
     
     ret = TRUE;
@@ -76,7 +76,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
   for (; ENVP(pos); pos = ENV_PARENT(pos)) {
 
 #ifdef AE_LOG_ENV
-    LOG(env, "in env");
+    LOG(pos, "in env");
 #endif
     
     ae_obj_t * symbols = ENV_SYMS(pos);
