@@ -222,9 +222,9 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 #define NEW_SYM                                                                                    \
 ae_obj_t * new_sym;                                                                                \
 {                                                                                                  \
-  char * _tmp_str = free_list_malloc(strlen(string) + 1);                                          \
-  strcpy(_tmp_str, string);                                                                        \
-  new_sym = NEW_SYMBOL(_tmp_str);                                                                  \
+  char * _str = free_list_malloc(strlen(string) + 1);                                              \
+  strcpy(_str, string);                                                                            \
+  new_sym = NEW_SYMBOL(_str);                                                                      \
 }
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
@@ -239,6 +239,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
     return TRUE;
   
 #ifdef AE_LOG_SYM
+  putchar('\n');
   printf("Interning \"%s\" in %p.\n", string, *plist);
   fflush(stdout);
 #endif
@@ -256,6 +257,8 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
       fprintf(stderr, "symbols list: ");
       FWRITE(*plist, stderr);
       fputc('\n', stderr);
+
+      exit(1);
     }
     
     if (! strcmp(string, elem->sym_val)) {
