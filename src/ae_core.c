@@ -207,7 +207,7 @@ ae_obj_t * ae_core_properp(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  return PROPER_LISTP(CAR(args)) ? TRUE : NIL;
+  CORE_RETURN("properp", PROPER_LISTP(CAR(args)) ? TRUE : NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +219,7 @@ ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
-  return FUN_PARAMS(CAR(args));
+  CORE_RETURN("params", FUN_PARAMS(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,7 +231,7 @@ ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (MACROP(CAR(args)) || LAMBDAP(CAR(args))));
 
-  return FUN_BODY(CAR(args));
+  CORE_RETURN("body", FUN_BODY(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args) {
 
   NL;
   
-  return NIL;
+  CORE_RETURN("nl", NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,9 +264,9 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
   if (len == 1) {
     REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
     
-    return ENVP(CAR(args))
-      ? ENV_PARENT(CAR(args))
-      : FUN_ENV(CAR(args));
+    CORE_RETURN("env", ENVP(CAR(args))
+                ? ENV_PARENT(CAR(args))
+                : FUN_ENV(CAR(args)));
   }
   
   return env;
@@ -281,7 +281,7 @@ ae_obj_t * ae_core_syms(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
-  return ENV_SYMS(CAR(args));
+  CORE_RETURN("syms", ENV_SYMS(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,7 +293,7 @@ ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
-  return NEW_STRING(ERR_MSG(CAR(args)));
+  CORE_RETURN("errmsg", NEW_STRING(ERR_MSG(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ ae_obj_t * ae_core_errobj(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
-  return ERR_OBJ(CAR(args));
+  CORE_RETURN("errobj", ERR_OBJ(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,7 +317,7 @@ ae_obj_t * ae_core_vals(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ENVP(CAR(args)));
 
-  return ENV_VALS(CAR(args));
+  CORE_RETURN("vals", ENV_VALS(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -329,7 +329,7 @@ ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
-  return NEW_INT(NUMER_VAL(CAR(args)));
+  CORE_RETURN("numer", NEW_INT(NUMER_VAL(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -341,9 +341,9 @@ ae_obj_t * ae_core_denom(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
-  return NEW_INT((RATIONALP(CAR(args)))
-                 ? DENOM_VAL(CAR(args))
-                 : 1);
+  CORE_RETURN("denom", NEW_INT((RATIONALP(CAR(args)))
+                               ? DENOM_VAL(CAR(args))
+                               : 1));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -364,7 +364,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
 
   free_list_free(tmp);
 
-  return sym;
+  CORE_RETURN("type", sym);
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -376,7 +376,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
 
 /*   REQUIRE(env, args, LENGTH(args) == 1); */
 
-/*   return CAR(args); */
+/*   CORE_RETURN("quote", CAR(args)); */
 /* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -390,7 +390,7 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env, ae_obj_t * const args) {
 
   exit(INT_VAL(CAR(args)));
 
-  return CAR(args);
+  CORE_RETURN("exit", CAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -402,7 +402,7 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
   
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  return EVAL(env, EVAL(env, CAR(args)));
+  CORE_RETURN("eval", EVAL(env, EVAL(env, CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -419,7 +419,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args) {
           );
   REQUIRE(env, args, TAILP(CDR(args)));
 
-  return NEW_LAMBDA(CAR(args), CDR(args), env);
+  CORE_RETURN("lambda", NEW_LAMBDA(CAR(args), CDR(args), env));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -432,7 +432,7 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, TAILP(CAR(args)));
   REQUIRE(env, args, TAILP(CDR(args)));
 
-  return NEW_MACRO(CAR(args), CDR(args), env);
+  CORE_RETURN("macro", NEW_MACRO(CAR(args), CDR(args), env));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -451,9 +451,9 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(cdar, "cdar");
 
   if (! NILP(EVAL(env, caar)))
-    return EVAL(env, ae_core_progn(env, cdar));
+    CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
 
-  return ae_core_cond(env, CDR(args));
+  CORE_RETURN("cond", ae_core_cond(env, CDR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
