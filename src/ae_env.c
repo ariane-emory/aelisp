@@ -136,8 +136,8 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
       ae_obj_t * vals = ENV_VALS(pos);
 
 #ifdef AE_LOG_ENV
-      LOG(pos,     "in env");
-      LOG(symbols, "with syms");
+      LOG(pos,  "in env");
+      LOG(syms, "with syms");
 #endif
 
       while (!NILP(syms) && !NILP(vals)) {
@@ -147,7 +147,7 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
         if (EQ(symbol, sym)) {
 
 #ifdef AE_LOG_ENV
-          LOG(syms, "found it in syms ");
+          LOG(syms, "found it in ->");
 #endif
 
           CAR(vals) = value;
@@ -194,8 +194,6 @@ void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 end:
   OUTDENT;
-
-  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
