@@ -550,9 +550,9 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return NILP(CAR(args))
-    ? NIL // car of nil is nil.
-    : CAAR(args);
+  CORE_RETURN("car", NILP(CAR(args))
+              ? NIL // car of nil is nil.
+              : CAAR(args));
 }
 
 
@@ -565,9 +565,9 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return NILP(CAR(args))
-    ? NIL // cdr of nil is nil.
-    : CDAR(args);
+  CORE_RETURN("cdr", NILP(CAR(args))
+              ? NIL // cdr of nil is nil.
+              : CDAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
