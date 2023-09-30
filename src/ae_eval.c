@@ -333,7 +333,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   INDENT;
 
 #ifdef AE_LOG_EVAL
-  LOG(env, "in");
+  LOG(env, "in env");
 #endif
 
   assert(ENVP(env));
