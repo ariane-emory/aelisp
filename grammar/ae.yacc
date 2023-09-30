@@ -171,7 +171,9 @@
     // describe_parse(program_obj);
 
     PR("\n\nEvaluating program...\n");
+    INDENT;
     EVAL(env, program_obj);
+    OUTDENT;
     PR("\nDone evaluating program.");
 
 #ifdef AE_DUMP_POOK_AFTER
