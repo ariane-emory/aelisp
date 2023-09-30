@@ -131,7 +131,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 
 ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   if (!(TAILP(tail)))
-    fprintf(stderr, "\nCan't cons onto a %s!\n", TYPE_STR(tail));
+    fprintf(stderr, "\nCan't cons onto a %s!\n", GET_TYPE_STR(tail));
   
   assert(TAILP(tail));
   assert(! NULLP(head));
@@ -253,7 +253,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
   
   FOR_EACH(elem, *plist) {
     if (! SYMBOLP(elem)) {
-      fprintf(stderr, "\nCan't intern \"%s\" in a list containing a %s!\n", string, TYPE_STR(elem));
+      fprintf(stderr, "\nCan't intern \"%s\" in a list containing a %s!\n", string, GET_TYPE_STR(elem));
       fprintf(stderr, "symbols list: ");
       FWRITE(*plist, stderr);
       fputc('\n', stderr);

@@ -165,9 +165,10 @@ extern ae_obj_t * symbols_list;
 #define FUN_BODY(this)          ((this)->body)
 #define FUN_ENV(this)           ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TYPE_STR(t)             (ae_type_str(((t))) + 3)
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
-#define TYPE_STR(o)             (ae_type_str(GET_TYPE((o))) + 3)
+#define GET_TYPE_STR(o)         (TYPE_STR(GET_TYPE((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)          ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
 #define NEQ(this, that)         ((! NULLP((this))) && (! NULLP((that))) && ((this)) != ((that)))

@@ -17,11 +17,11 @@
 #ifdef AE_LOG_EVAL
 #  define TLOG(val, fun_name)                                                                      \
  {                                                                                                 \
-  const char * type = TYPE_STR(val);                                                               \
+  const char * type = GET_TYPE_STR(val);                                                           \
   /* */ char * tmp  = free_list_malloc(strlen(type) + 2);                                          \
   sprintf(tmp, ":%s", type);                                                                       \
                                                                                                    \
-  LOG(val, "[%s rtrning a %s]", fun_name, tmp);                                                    \
+  LOG(val, "[%s returning a %s]", fun_name, tmp);                                                  \
                                                                                                    \
   free_list_free(tmp);                                                                             \
 }
@@ -58,14 +58,10 @@
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   LOG(SYM(CORE_NAME(fun)), "[apply by applying core]");  // extra spaces needed here to line up for some reason.
-#endif
-
   INDENT;
-
-#ifdef AE_LOG_EVAL
+  LOG(env,                 "apply core in env");
   LOG(fun,                 "apply core fun");
-  LOG(args,                "apply core args");
-  LOG(env,                 "apply core env");
+  LOG(args,                "apply core with args");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -82,8 +78,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   ret = (*CORE_FUN(fun))(env, args);
 
+#ifdef AE_LOG_EVAL
   OUTDENT;
-
+#endif
+  
   TLOG(ret, "apply core");
 
   return ret;
@@ -98,41 +96,37 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   LOG(fun,             "[apply by applying user]");
-#endif
-
   INDENT;
-
-#ifdef AE_LOG_EVAL
+  LOG(env,             "apply user in env");
   LOG(FUN_PARAMS(fun), "apply user with params");
   LOG(args,            "apply user with args");
   LOG(FUN_BODY(fun),   "apply user with body");
-  LOG(env,             "apply user in");
 #endif
-
-  ae_obj_t * new_env = NIL;
 
 #ifndef AE_NO_SINGLE_SYM_PARAMS
   if (SYMBOLP(FUN_PARAMS(fun))
       && (! NILP(FUN_PARAMS(fun)))
   )
-    new_env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
+    env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
   else
 #endif
-    new_env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
 
 #ifdef AE_LOG_EVAL
-  LOG(new_env,              "apply user in new env");
-  LOG(ENV_PARENT(new_env),  "new env parent");
-  LOG(ENV_SYMS(new_env),    "new env symbols");
-  LOG(ENV_VALS(new_env),    "new env values");
-  LOG(body,                 "new env body");
+  LOG(env,              "apply user in new env");
+  LOG(ENV_PARENT(env),  "new env parent");
+  LOG(ENV_SYMS(env),    "new env symbols");
+  LOG(ENV_VALS(env),    "new env values");
+  LOG(body,             "new env body");
 #endif
 
-  ae_obj_t * result = EVAL(new_env, body);
+  ae_obj_t * result = EVAL(env, body);
 
+#ifdef AE_LOG_EVAL
   OUTDENT;
+#endif
 
   TLOG(result, "apply user");
 
@@ -168,13 +162,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   LOG(fun,  "[eval by applying]");
-#endif
-
   INDENT;
-
-#ifdef AE_LOG_EVAL
+  LOG(env,  "dispatch application in env");
   LOG(args, "dispatch application with args");
-  LOG(env,  "dispatch application in");
 #endif
 
   fun = EVAL(env, fun);
@@ -194,10 +184,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   GET_DISPATCH(dispatch, apply_dispatch_table, fun);
 
 #ifdef AE_LOG_EVAL
-  const char * type = TYPE_STR(obj);
-  /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
-  sprintf(tmp, ":%s", type);
-  ae_obj_t   * sym  = SYM(tmp);
+  const char * type_str = TYPE_STR(dispatch.type);
+  /* */ char * tmp      = free_list_malloc(strlen(type_str) + 2);
+  sprintf(tmp, ":%s",     type_str);
+  ae_obj_t   * sym      = SYM(tmp);
 
   LOG(sym, "dispatch application as");
 
@@ -245,9 +235,11 @@ ret:
   /*   } */
   /* } */
 
+#ifdef AE_LOG_EVAL
  OUTDENT;
 
  TLOG(ret, "apply");
+#endif
 
   return ret;
 }
@@ -271,23 +263,25 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #ifdef AE_LOG_EVAL
   LOG(sym, "[eval by looking up]");
-#endif
 
   INDENT;
+#endif
 
   ae_obj_t * ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
 
-#ifdef AE_LOG_EVAL
-  const char * type = TYPE_STR(ret);
-  /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
-  sprintf(tmp, ":%s", type);
-#endif
+/* #ifdef AE_LOG_EVAL */
+/*   const char * type = GET_TYPE_STR(ret); */
+/*   /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
+/*   sprintf(tmp, ":%s", type); */
+/* #endif */
 
+#ifdef AE_LOG_EVAL
   OUTDENT;
 
   TLOG(ret, "lookup");
+#endif
 
   return ret;
 }
@@ -324,11 +318,7 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   LOG(obj, "[eval]");
-#endif
-
   INDENT;
-
-#ifdef AE_LOG_EVAL
   LOG(env, "in env");
 #endif
 
@@ -340,7 +330,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   {
-    const char * type = TYPE_STR(obj);
+    const char * type = GET_TYPE_STR(obj);
     /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
     sprintf(tmp, ":%s", type);
     ae_obj_t   * sym  = SYM(tmp);
@@ -355,7 +345,9 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * ret = (*dispatch.handler)(env, obj);
 
+#ifdef AE_LOG_EVAL
   OUTDENT;
+#endif
 
   TLOG(ret, "eval");
 

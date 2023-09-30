@@ -2,7 +2,6 @@ To Do:
 - [ ] fix macro expansion from eval.
 - [ ] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [ ] core apply
-- [ ] core rplaca/rplacd
 - [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] root_env_and_eval test is too big, maybe slice it up?
 - [ ] Implement math for non-integer types.
@@ -18,6 +17,7 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] core rplaca/rplacd
 - [x] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
 - [x] core env should be able to take an optional fun argument.
 - [x] core env should be able to take an optional fun argument.

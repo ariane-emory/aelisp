@@ -30,13 +30,12 @@
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
  OUTDENT;                                                                                          \
- LOG(val, "[core " name " rtrning]");                                                              \
+ LOG(val, "[core " name " returning]");                                                            \
  return val;                                                                                       \
 })
 #else
 #  define CORE_RETURN(name, val) return ((val))
 #endif
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // math
@@ -80,7 +79,7 @@ FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
 // This only deals with AE_INTEGERS for now.
 #define DEF_CMP_OP(name, oper, assign, init)                                                       \
 ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {                         \
-  CORE_BEGIN(#name);                                                                                 \
+  CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
                                                                                                    \
   bool result = init;                                                                              \
@@ -95,7 +94,7 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
     result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                      \
   }                                                                                                \
                                                                                                    \
-  CORE_RETURN(#name, TRUTH(result));                                                                \
+  CORE_RETURN(#name, TRUTH(result));                                                               \
 }
 
 FOR_EACH_CORE_CMP_OP(DEF_CMP_OP);
@@ -178,7 +177,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, sym != NIL,  "can't set nil");
   REQUIRE(env, args, sym != TRUE, "can't set t");
   
-#ifdef AE_CORE_BEGIN
+#ifdef AE_LOG_CORE
   LOG(sym, "core setq sym");
   LOG(val, "core setq val");
 #endif
@@ -362,7 +361,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1));
 
-  const char * type = TYPE_STR(CAR(args));
+  const char * type = GET_TYPE_STR(CAR(args));
   /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
 
   sprintf(tmp, ":%s", type);
@@ -470,32 +469,33 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("if");
 
-#ifdef AE_CORE_BEGIN
-  PR("if:          ");
-  PRINC(CAR(args));
-  NL;
-  PR("then:        ");
-  PRINC(CADR(args));
-  NL;
-  PR("else:        ");
-  PRINC(CONS(SYM("progn"), CDDR(args)));
+#ifdef AE_LOG_CORE
+  LOG(CAR(args),                      "if");
+  LOG(CADR(args),                     "then");
+  LOG(CONS(SYM("progn"), CDDR(args)), "else");
 #endif
 
   REQUIRE(env, args, !NILP(CDR(args)), "if requires at least 2 args");
   
   bool cond_result = ! NILP(EVAL(env, CAR(args)));
 
-#ifdef AE_CORE_BEGIN
+#ifdef AE_LOG_CORE
   LOG(cond_result ? TRUE : NIL, "cond_result: ");
 #endif
 
   if (cond_result) {
-    PR("Choose then.\n");
 
+#ifdef AE_LOG_CORE
+    SLOG("chose then");
+#endif
+    
     CORE_RETURN("if", EVAL(env, CADR(args)));
   }
   else {
-    PR("Choose else.\n");
+
+#ifdef AE_LOG_CORE
+    SLOG("chose else");
+#endif
 
     CORE_RETURN("if", EVAL(env, CONS(SYM("progn"), CDDR(args))));
   }

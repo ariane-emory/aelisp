@@ -9,9 +9,10 @@ COMMON_CFLAGS = \
 	-DAE_DUMP_POOL_AFTER \
 	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
+	-DAE_LOG_ENV \
 
 LOG_CFLAGS = \
-	-DAE_LOG_FREE_IST \
+	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
 	-DAE_LOG_ALLOC \
@@ -117,8 +118,8 @@ bin/test:
 ################################################################################
 
 tests: clean all
-	$(foreach bin, $(TEST_BINS), $(bin))
 	./bin/ae
+	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae

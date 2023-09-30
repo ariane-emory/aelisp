@@ -56,7 +56,7 @@ static char mem[free_list_size] = { 0 };
   (void)that;
 
 #define DESCR(fun)                                                                                 \
-  PR("\n\n[describe %s " #fun  "] ", TYPE_STR(fun));                                               \
+  PR("\n\n[describe %s " #fun  "] ", GET_TYPE_STR(fun));                                               \
   LOG(FUN_PARAMS(fun), "params");                                                                  \
   LOG(FUN_ENV(fun), "env");                                                                        \
   LOG(FUN_BODY(fun), "body")
@@ -1072,6 +1072,8 @@ void alist(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1098,9 +1100,7 @@ void alist(void) {
   DO(core_msleep)                                                                                  \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(root_env_and_eval) /* failing when logging eval/core on */                                    \
+  DO(root_env_and_eval) /* failing when logging eval/core/env on */                                \
 
 #define pair(fun) { #fun, fun },
 
