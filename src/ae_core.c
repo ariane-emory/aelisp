@@ -376,7 +376,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
 
 /*   REQUIRE(env, args, LENGTH(args) == 1); */
 
-/*   return CAR(args); */
+/*   CORE_RETURN("quote", CAR(args)); */
 /* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -390,7 +390,7 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env, ae_obj_t * const args) {
 
   exit(INT_VAL(CAR(args)));
 
-  return CAR(args);
+  CORE_RETURN("exit", CAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -402,7 +402,7 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
   
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  return EVAL(env, EVAL(env, CAR(args)));
+  CORE_RETURN("eval", EVAL(env, EVAL(env, CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
