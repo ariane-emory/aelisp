@@ -507,7 +507,7 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const env, ae_obj_t * const args) {
 
   usleep(ms * 1000);
 
-  return CAR(args);
+  CORE_RETURN("msleep", CAR(args));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -523,7 +523,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, len >= 0, "core length only works on proper lists");
           
-  return NEW_INT(len);
+  CORE_RETURN("length", NEW_INT(len));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -535,7 +535,7 @@ ae_obj_t * ae_core_tailp(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return TAILP(CAR(args)) ? TRUE : NIL;
+  CORE_RETURN("tailp", TAILP(CAR(args)) ? TRUE : NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -547,9 +547,9 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return NILP(CAR(args))
+  CORE_RETURN("car", NILP(CAR(args))
     ? NIL // car of nil is nil.
-    : CAAR(args);
+              : CAAR(args));
 }
 
 
@@ -562,9 +562,9 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
-  return NILP(CAR(args))
+  CORE_RETURN("cdr", NILP(CAR(args))
     ? NIL // cdr of nil is nil.
-    : CDAR(args);
+              : CDAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -578,7 +578,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args) {
 
   CAAR(args) = CADR(args);
   
-  return CADR(args);
+  CORE_RETURN("rplaca", CADR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -592,7 +592,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args) {
 
   CDAR(args) = CADR(args);
   
-  return CADR(args);
+  CORE_RETURN("rplacd", CADR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -608,7 +608,7 @@ ae_obj_t * ae_core_cons(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * head = CAR(args);
   ae_obj_t * tail = CADR(args);
 
-  return NEW_CONS(head, tail);
+  CORE_RETURN("cons", NEW_CONS(head, tail));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -620,7 +620,7 @@ ae_obj_t * ae_core_eq(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * c
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQ(CAR(args), tailarg))
-      return NIL;
+      CORE_RETURN("eq", NIL);
 
   return TRUE;
 }
@@ -634,7 +634,7 @@ ae_obj_t * ae_core_eql(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * 
 
   FOR_EACH(tailarg, CDR(args))
     if (NEQL(CAR(args), tailarg))
-      return NIL;
+      CORE_RETURN("eql", NIL);
 
   return TRUE;
 }
@@ -648,7 +648,7 @@ ae_obj_t * ae_core_not(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * 
 
   FOR_EACH(elem, args)
     if (! NILP(elem))
-      return NIL;
+      CORE_RETURN("not", NIL);
 
   return TRUE;
 }
