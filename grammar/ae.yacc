@@ -159,7 +159,9 @@
     free_list_add_block(&mem[0], free_list_size);
     
     PR("\nPopulating root env...");
+    INDENT;
     ae_obj_t * env = ENV_NEW_ROOT();
+    OUTDENT;
     LOG(env, "Done populating");
 
     FILE * fp = fopen("data/sample.lisp", "r");
@@ -171,9 +173,7 @@
     // describe_parse(program_obj);
 
     PR("\n\nEvaluating program...\n");
-    INDENT;
     EVAL(env, program_obj);
-    OUTDENT;
     PR("\nDone evaluating program.");
 
 #ifdef AE_DUMP_POOK_AFTER
