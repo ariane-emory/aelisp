@@ -7,11 +7,10 @@ COMMON_CFLAGS = \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=8192 \
 	-DAE_DUMP_POOL_AFTER \
-
-LOG_CFLAGS = \
 	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
-	-DAE_LOG_ENV \
+
+LOG_CFLAGS = \
 	-DAE_LOG_FREE_IST \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
@@ -23,6 +22,7 @@ LOG_CFLAGS = \
 	-DAE_LOG_MOVE \
   -DAE_LOG_PUSH \
 	-DAE_CORE_FUN_ENVS \
+	-DAE_NO_SINGLE_SYM_PARAMS \
 
 TEST_CFLAGS = \
 	-Wno-unused-value
