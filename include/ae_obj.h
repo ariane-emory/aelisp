@@ -140,7 +140,7 @@ extern ae_obj_t * symbols_list;
 #define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ALLOC()                 (pool_alloc_ae_obj())
 #define CLONE(this)             (ae_obj_clone((this)))
-#define FREE(this)              (pool_free_ae_obj((thia)))
+#define FREE(this)              (pool_free_ae_obj((this)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)          (UNSAFE_MOVE(ALLOC(), that))
 #define NEW(type)               (INIT((ALLOC()), (type)))
