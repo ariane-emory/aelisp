@@ -485,12 +485,12 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   if (cond_result) {
     PR("Choose then.\n");
 
-    return EVAL(env, CADR(args));
+    CORE_RETURN("if", EVAL(env, CADR(args)));
   }
   else {
     PR("Choose else.\n");
 
-    return EVAL(env, CONS(SYM("progn"), CDDR(args)));
+    CORE_RETURN("if", EVAL(env, CONS(SYM("progn"), CDDR(args))));
   }
 }
 
