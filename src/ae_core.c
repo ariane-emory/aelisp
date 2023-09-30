@@ -23,7 +23,7 @@
   LOG(args, name " args");                                                                         \
 })
 #else
-#  define CORE_BEGIN(name) ((void)0)
+#  define CORE_BEGIN(name) ((void)name)
 #endif
 
 #ifdef AE_LOG_CORE
@@ -34,7 +34,7 @@
  return val;                                                                                       \
 })
 #else
-#  define CORE_RETURN(val) ((val))
+#  define CORE_RETURN(name, val) return ((val))
 #endif
 
 
