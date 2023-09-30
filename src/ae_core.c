@@ -247,7 +247,7 @@ ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args) {
 
   NL;
   
-  return NIL;
+  CORE_RETURN("nl", NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
