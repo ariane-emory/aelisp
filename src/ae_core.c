@@ -341,9 +341,9 @@ ae_obj_t * ae_core_denom(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
 
-  return NEW_INT((RATIONALP(CAR(args)))
-                 ? DENOM_VAL(CAR(args))
-                 : 1);
+  CORE_RETURN("denom", NEW_INT((RATIONALP(CAR(args)))
+                               ? DENOM_VAL(CAR(args))
+                               : 1));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -364,7 +364,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
 
   free_list_free(tmp);
 
-  return sym;
+  CORE_RETURN("type", sym);
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////// */
