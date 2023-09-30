@@ -1,18 +1,17 @@
+;; (* 2 (+ 3 4))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 'standard library', such as it is:                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq nl        (lambda ()         (princ "
-"))                                                           )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq eq?        eq                                           )
 (setq tail?      tailp                                        )
 (setq proper?    properp                                      )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq list   (lambda  args       args                     ))
-(setq list      (lambda (h . t)    (cons    h            t  )))
+(setq list      (lambda  args       args                     ))
+;; (setq list   (lambda (h . t)    (cons    h            t  )))
 (setq quote     (macro  (x)         x                        ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq stop      (lambda ()         (nl)    (exit         0  )))
+(setq stop      (lambda ()                 (exit         0  )))
 (setq sleep     (lambda (s)        (msleep (* 1000       s ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq nil?      (lambda (o)        (eq?     nil          o  )))
@@ -61,128 +60,147 @@
     nil                                                      ;)
     (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq 10+    (lambda (x) (+ 10 x)))                          ;)
-;; (setq result (mapcar 10+ '(1 2 3 4 5)))
-;; (put (car result))   (nl)
-;; (put (cadr result))  (nl)
-;; (put (caddr result)) (nl)
-(log "mapped: " (mapcar 10+ '(1 2 3 4 5)))                   ;)
+;; (setq 10+    (lambda (x) (+ 10 x)))                       ;)
+;; (setq result (mapcar 10+ '(1 2 3 4 5)))                   ;)
+;; (put (car result))   (nl)                                 ;)
+;; (put (cadr result))  (nl)                                 ;)
+;; (put (caddr result)) (nl)                                 ;)
+;; (log "mapped: " (mapcar 10+ '(1 2 3 4 5)))                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+;; ;; (stop)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; test some random stuff:                                   ;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+;; (log   "aenv:                       " (env                ))
+;; (log   "atype:                      " (type     (env     )))
+;; ; (log "aparent:                    " (parent   (env     )))
+;; (log   "asyms:                      " (syms     (env     )))
+;; (log   "avals:                      " (vals     (env     )))
+;; (nl)
+
+;; (log   "core lambda:                "  lambda              )
+;; (log   "type:                       " (type      lambda   ))
+;; (nl)
+
+;; (log   "lambda sleep:               "  sleep               )
+;; (log   "type:                       " (type      sleep    ))
+;; ; (log "parent:                     " (parent    sleep    ))
+;; (log   "params:                     " (params    sleep    ))
+;; (log   "body:                       " (body      sleep    ))
+;; (nl)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (setq   x (quote (1 2 . nil)))
+
+;; (log   "(1 2 . nil) is proper:      " (properp   x        ))
+;; (log   "(1 2 . nil) length:         " (length    x        ))
+;; (log   "(1 2 . nil) length errors:  " (error?   (length x)))
+;; (log   "(1 2 . nil) is:             "  x                   )
+;; (log   "(car (1 2 . nil)) is:       " (car       x        ))
+;; (log   "(cdr (1 2 . nil)) is:       " (cdr       x        ))
+;; (nl)
+
+;; (setq   x (quote (1 2 . 333)))
+
+;; (log   "(1 2 . 333) is improper:    " (improper? x        ))
+;; (log   "(1 2 . 333) length:         " (length    x        ))
+;; (log   "(1 2 . 333) length errors:  " (error?   (length x)))
+;; (log   "(1 2 . 333) is:             "  x                   )
+;; (log   "(car (1 2 . 333)) is:       " (car       x        ))
+;; (log   "(cdr (1 2 . 333)) is:       " (cdr       x        ))
+;; (nl)
+
+;; (setq   x (quote (1 2 3 . nil)))
+
+;; (log   "(1 2 3 . nil) is proper:    " (properp   x        ))
+;; (log   "(1 2 3 . nil) length:       " (length    x        ))
+;; (log   "(1 2 3 . nil) length errors:" (error?   (length x)))
+;; (log   "(1 2 3 . nil) is:           "  x                   )
+;; (log   "(car (1 2 3 . nil)) is:     " (car       x        ))
+;; (log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
+;; (nl)
+
+;; (setq   x (quote (1 2 3 . 333)))
+
+;; (log   "(1 2 3 . 333) is improper:  " (improper? x        ))
+;; (log   "(1 2 3 . 333) length:       " (length    x        ))
+;; (log   "(1 2 3 . 333) length errors:" (error?   (length x)))
+;; (log   "(1 2 3 . 333) is:           "  x                   )
+;; (log   "(car (1 2 3 . 333)) is:     " (car x              ))
+;; (log   "(cdr (1 2 3 . 333)) is:     " (cdr x              ))
+;; (nl)
+
+;; (log   "int:                        " (type? :INTEGER    3))
+;; (log   "! int:                      " (type? :FLOAT      3))
+;; (log   "! float:                    " (type? :INTEGER  3.0))
+;; (log   "float:                      " (type? :FLOAT    3.0))
+;; (log   "float:                      " (type? :FLOAT    3. ))
+;; (log   "float:                      " (type? :FLOAT     .3))
+;; (log   "rational:                   " (type? :RATIONAL 3/4))
+;; (log   "string:                     " (type? :STRING   "3"))
+;; (nl)
+
+;; (setq xxx (lambda (x) x))
+
+;; (setq err (xxx (length '(1 2 . 333))))
+
+;; (nl)
+;; (log   "This error:                 "                                err)
+;; (log   "This error's message:       "                        (errmsg err))
+;; (log   "This error's obj:           "                        (errobj err))
+;; (log   "This error's fun stack:     "                  (aget (errobj err) 'fun))
+;; (log   "This lambda:                "            (cadr (aget (errobj err) 'fun)))
+;; (log   "This lambda's env:          "       (env (cadr (aget (errobj err) 'fun))))
+;; (log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) 'fun)))))
+;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
+;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
+
+;; (nl)
+
+;; (setq   alist  nil                     )
+;; (setq   alist (aset alist 'name "Bob" ))
+;; (setq   alist (aset alist 'age   24   ))
+;; (setq   alist (aset alist 'type 'human))
+
+;; ;; This a-set doesn't work correctly. Looking/setting up in wrong env maybe?
+;; (setq   a-set
+;;   (lambda (al key val)
+;;     (setq al (aset (eval al) key val))))
+
+;; (princ "a-setted:                    ") (write (a-set 'alist 'hair 'red))    (nl)
+;; (log   "alist:                      "        alist )
+;; (log   "thing:                      "   (car alist))
+;; (rplaca (car alist) 'species)
+;; (log   "alist after rplaca:         "        alist)
+;; (nl)
+
+;;(setq xxx 777)
+;;(setq yyy 888)
 
 ;; (stop)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; test some random stuff:                                   ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-(log   "aenv:                       " (env                ))
-(log   "atype:                      " (type     (env     )))
-; (log "aparent:                    " (parent   (env     )))
-(log   "asyms:                      " (syms     (env     )))
-(log   "avals:                      " (vals     (env     )))
 (nl)
+(setq q (macro (xxx yyy)   (list (quote +) xxx yyy)))
+(princ  "One           ")  (princ q) (nl)
+(princ  "One body      ")  (princ             (car (body q)))   (nl)
+(princ  "One ev body   ")  (princ       (eval (car (body q))))  (nl)
+(princ  "One ev ev body ") (princ (eval (eval (car (body q))))) (nl)
 
-(log   "core lambda:                "  lambda              )
-(log   "type:                       " (type      lambda   ))
-(nl)
 
-(log   "lambda sleep:               "  sleep               )
-(log   "type:                       " (type      sleep    ))
-; (log "parent:                     " (parent    sleep    ))
-(log   "params:                     " (params    sleep    ))
-(log   "body:                       " (body      sleep    ))
-(nl)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq   x (quote (1 2 . nil)))
 
-(log   "(1 2 . nil) is proper:      " (properp   x        ))
-(log   "(1 2 . nil) length:         " (length    x        ))
-(log   "(1 2 . nil) length errors:  " (error?   (length x)))
-(log   "(1 2 . nil) is:             "  x                   )
-(log   "(car (1 2 . nil)) is:       " (car       x        ))
-(log   "(cdr (1 2 . nil)) is:       " (cdr       x        ))
-(nl)
 
-(setq   x (quote (1 2 . 333)))
-
-(log   "(1 2 . 333) is improper:    " (improper? x        ))
-(log   "(1 2 . 333) length:         " (length    x        ))
-(log   "(1 2 . 333) length errors:  " (error?   (length x)))
-(log   "(1 2 . 333) is:             "  x                   )
-(log   "(car (1 2 . 333)) is:       " (car       x        ))
-(log   "(cdr (1 2 . 333)) is:       " (cdr       x        ))
-(nl)
-
-(setq   x (quote (1 2 3 . nil)))
-
-(log   "(1 2 3 . nil) is proper:    " (properp   x        ))
-(log   "(1 2 3 . nil) length:       " (length    x        ))
-(log   "(1 2 3 . nil) length errors:" (error?   (length x)))
-(log   "(1 2 3 . nil) is:           "  x                   )
-(log   "(car (1 2 3 . nil)) is:     " (car       x        ))
-(log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
-(nl)
-
-(setq   x (quote (1 2 3 . 333)))
-
-(log   "(1 2 3 . 333) is improper:  " (improper? x        ))
-(log   "(1 2 3 . 333) length:       " (length    x        ))
-(log   "(1 2 3 . 333) length errors:" (error?   (length x)))
-(log   "(1 2 3 . 333) is:           "  x                   )
-(log   "(car (1 2 3 . 333)) is:     " (car x              ))
-(log   "(cdr (1 2 3 . 333)) is:     " (cdr x              ))
-(nl)
-
-(log   "int:                        " (type? :INTEGER    3))
-(log   "! int:                      " (type? :FLOAT      3))
-(log   "! float:                    " (type? :INTEGER  3.0))
-(log   "float:                      " (type? :FLOAT    3.0))
-(log   "float:                      " (type? :FLOAT    3. ))
-(log   "float:                      " (type? :FLOAT     .3))
-(log   "rational:                   " (type? :RATIONAL 3/4))
-(log   "string:                     " (type? :STRING   "3"))
-(nl)
-
-(setq xxx (lambda (x) x))
-
-(setq err (xxx (length '(1 2 . 333))))
-
-(nl)
-(log   "This error:                 "                                err)
-(log   "This error's message:       "                        (errmsg err))
-(log   "This error's obj:           "                        (errobj err))
-(log   "This error's fun stack:     "                  (aget (errobj err) 'fun))
-(log   "This lambda:                "            (cadr (aget (errobj err) 'fun)))
-(log   "This lambda's env:          "       (env (cadr (aget (errobj err) 'fun))))
-(log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) 'fun)))))
-(log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
-(log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
-
-(nl)
-
-(setq   alist  nil                     )
-(setq   alist (aset alist 'name "Bob" ))
-(setq   alist (aset alist 'age   24   ))
-(setq   alist (aset alist 'type 'human))
-
-;; This a-set doesn't work correctly. Looking/setting up in wrong env maybe?
-(setq   a-set
-  (lambda (al key val)
-    (setq al (aset (eval al) key val))))
-
-(princ "a-setted:                    ") (write (a-set 'alist 'hair 'red))    (nl)
-(log   "alist:                      "        alist )
-(log   "thing:                      "   (car alist))
-(rplaca (car alist) 'species)
-(log   "alist after rplaca:         "        alist)
-(nl)
-
-(print ((macro (xxx yyy) (list (quote +) xxx yyy)) 4 8))
-(nl)
-
-(print '(1 2 3)) (nl)
+;; (nl)
+;; (setq q (macro (xxx yyy)   (cons (quote +) (cons xxx (cons yyy nil)))))
+;; (princ  "Two            ") (princ q) (nl)
+;; (princ  "Two body       ") (princ             (car (body q)))   (nl)
+;; (princ  "Two ev body    ") (princ       (eval (car (body q))))  (nl)
+;; (princ  "Two ev ev body ") (princ (eval (eval (car (body q))))) (nl)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (stop)
