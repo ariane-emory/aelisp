@@ -419,7 +419,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args) {
           );
   REQUIRE(env, args, TAILP(CDR(args)));
 
-  return NEW_LAMBDA(CAR(args), CDR(args), env);
+  CORE_RETURN("lambda", NEW_LAMBDA(CAR(args), CDR(args), env));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -432,7 +432,7 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, TAILP(CAR(args)));
   REQUIRE(env, args, TAILP(CDR(args)));
 
-  return NEW_MACRO(CAR(args), CDR(args), env);
+  CORE_RETURN("macro", NEW_MACRO(CAR(args), CDR(args), env));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
