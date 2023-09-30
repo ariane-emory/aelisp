@@ -6,12 +6,12 @@ COMMON_CFLAGS = \
 	-I . \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=4096 \
-
-LOG_CFLAGS = \
-	_DAE_DUMP_POOL_AFTER \
 	-DAE_LOG_EVAL \
 	-DAE_LOG_CORE \
 	-DAE_LOG_ENV \
+
+LOG_CFLAGS = \
+	_DAE_DUMP_POOL_AFTER \
 	-DAE_LOG_FREE_IST \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
