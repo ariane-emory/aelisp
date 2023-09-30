@@ -26,12 +26,16 @@
 #  define CORE_BEGIN(name) ((void)0)
 #endif
 
+#ifdef AE_LOG_CORE
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
  OUTDENT;                                                                                          \
  LOG(val, "[core " name " rtrning]");                                                              \
  return val;                                                                                       \
 })
+#else
+#  define CORE_RETURN(val) ((val))
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
