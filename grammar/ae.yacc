@@ -160,7 +160,7 @@
     
     PR("\nPopulating root env...");
     ae_obj_t * env = ENV_NEW_ROOT();
-    LOG(env, "Done populating root env.");
+    LOG(env, "Done populating");
 
     FILE * fp = fopen("data/sample.lisp", "r");
     yyin = fp;
@@ -172,7 +172,7 @@
 
     PR("\n\nEvaluating program...\n");
     EVAL(env, program_obj);
-    PR("\nDone evaluating program.\n");
+    PR("\nDone evaluating program.");
 
 #ifdef AE_DUMP_POOK_AFTER
     pool_print();

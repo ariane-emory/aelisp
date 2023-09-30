@@ -7,6 +7,7 @@
 #include "ae_eval.h"
 #include "ae_free_list.h"
 #include "ae_list.h"
+#include "ae_obj.h"
 #include "ae_util.h"
 #include "ae_write.h"
 #include "require.h"
