@@ -83,7 +83,7 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
     ae_obj_t * values  = ENV_VALS(pos);
 
 #ifdef AE_LOG_ENV
-    LOG(symbols, "with syms");
+    LOG(symbols, "containing syms");
 #endif
 
     for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
@@ -114,7 +114,7 @@ end:
   OUTDENT;
 
 #ifdef AE_LOG_ENV
-  LOG(ret, "[rtrn looked up]");
+  LOG(ret, "[looked up]");
 #endif
   
   return ret;
