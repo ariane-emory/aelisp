@@ -122,7 +122,7 @@
     NL;
 
     puts("\nDescribing items in program.");
-    FOR_EACH(obj, program_obj)
+    FOR_EACH(obj, CONS(program_obj, NIL))
       describe(obj, false);
     puts("Described items in program.");
     NL;
