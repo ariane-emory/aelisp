@@ -22,36 +22,36 @@ typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const, struct ae_obj_
 // Escaped chars helper macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_ESCAPED_CHARACTER(DO)                                                             \
-  DO('a',  '\a')                                                                                   \
-  DO('b',  '\b')                                                                                   \
-  DO('f',  '\f')                                                                                   \
-  DO('n',  '\n')                                                                                   \
-  DO('r',  '\r')                                                                                   \
-  DO('t',  '\t')                                                                                   \
-  DO('v',  '\v')                                                                                   \
-  DO('\\', '\\')                                                                                   \
-  DO('\'', '\'')                                                                                   \
-  DO('\"', '\"')
+#define FOR_EACH_ESCAPED_CHARACTER(do)                                                             \
+  do('a',  '\a')                                                                                   \
+  do('b',  '\b')                                                                                   \
+  do('f',  '\f')                                                                                   \
+  do('n',  '\n')                                                                                   \
+  do('r',  '\r')                                                                                   \
+  do('t',  '\t')                                                                                   \
+  do('v',  '\v')                                                                                   \
+  do('\\', '\\')                                                                                   \
+  do('\'', '\'')                                                                                   \
+  do('\"', '\"')
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_LEXED_TYPE(DO)                                                                    \
-  DO(AE_CHAR)                                                                                      \
-  DO(AE_CONS)                                                                                      \
-  DO(AE_CORE)                                                                                      \
-  DO(AE_ENV)                                                                                       \
-  DO(AE_ERROR)                                                                                     \
-  DO(AE_FLOAT)                                                                                     \
-  DO(AE_INTEGER)                                                                                   \
-  DO(AE_INVALID)                                                                                   \
-  DO(AE_LAMBDA)                                                                                    \
-  DO(AE_MACRO)                                                                                     \
-  DO(AE_RATIONAL)                                                                                  \
-  DO(AE_STRING)                                                                                    \
-  DO(AE_SYMBOL)                                                                                    \
+#define FOR_EACH_LEXED_TYPE(do)                                                                    \
+  do(AE_CHAR)                                                                                      \
+  do(AE_CONS)                                                                                      \
+  do(AE_CORE)                                                                                      \
+  do(AE_ENV)                                                                                       \
+  do(AE_ERROR)                                                                                     \
+  do(AE_FLOAT)                                                                                     \
+  do(AE_INTEGER)                                                                                   \
+  do(AE_INVALID)                                                                                   \
+  do(AE_LAMBDA)                                                                                    \
+  do(AE_MACRO)                                                                                     \
+  do(AE_RATIONAL)                                                                                  \
+  do(AE_STRING)                                                                                    \
+  do(AE_SYMBOL)                                                                                    \
 
 #define enum_entry(x) x,
 
@@ -137,15 +137,15 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ALLOC()                 (pool_alloc_ae_obj())
+#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define CLONE(this)             (ae_obj_clone((this)))
 #define FREE(this)              (pool_free_ae_obj((this)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)          (UNSAFE_MOVE(ALLOC(), that))
 #define NEW(type)               (INIT((ALLOC()), (type)))
-#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define TRUTH(o)                (ae_obj_truth((o)))
+#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(this)          ((this)->char_val)
@@ -165,16 +165,17 @@ extern ae_obj_t * symbols_list;
 #define FUN_BODY(this)          ((this)->body)
 #define FUN_ENV(this)           ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TYPE_STR(t)             (ae_type_str(((t))) + 3)
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)    (ae_obj_set_type((this), (type)))
-#define TYPE_STR(o)             (ae_type_str(GET_TYPE((o))) + 3)
+#define GET_TYPE_STR(o)         (TYPE_STR(GET_TYPE((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)          ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
 #define NEQ(this, that)         ((! NULLP((this))) && (! NULLP((that))) && ((this)) != ((that)))
 #define EQL(this, that)         ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
 #define NEQL(this, that)        ((! NULLP((this))) && (! NULLP((that))) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                ((! NULLP((o))) && (! CONSP((o))))
+#define ATOMP(o)                (! CONSP((o)))
 #define NULLP(o)                (! (o))
 #define SPECIALP(o)             ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)             ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
@@ -184,22 +185,22 @@ extern ae_obj_t * symbols_list;
 #define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/* This could probably be DRYed up by using an X macro to create function versions of them, but   */
+/* This could probably be DRYed up by using an X macro to create function versions of them, but  */
 /* their names would be ugly unless we renamed the types first to remove the AE_ prefix.          */
 /* Undecided.                                                                                     */
-#define CHARP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CHAR))
-#define CONSP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CONS))
-#define COREP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CORE))
-#define ERRORP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_ERROR))
-#define FLOATP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_FLOAT))
-#define FREEP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_FREE))
-#define INTEGERP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INTEGER))
-#define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INVALID))
-#define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_LAMBDA))
-#define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_MACRO))
-#define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o))  == AE_RATIONAL))
-#define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_STRING))
-#define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_SYMBOL))
+#define CHARP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_CHAR))
+#define CONSP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_CONS))
+#define COREP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_CORE))
+#define ERRORP(o)               ((! NULLP((o))) && (GET_TYPE((o)) == AE_ERROR))
+#define FLOATP(o)               ((! NULLP((o))) && (GET_TYPE((o)) == AE_FLOAT))
+#define FREEP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_FREE))
+#define INTEGERP(o)             ((! NULLP((o))) && (GET_TYPE((o)) == AE_INTEGER))
+#define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o)) == AE_INVALID))
+#define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o)) == AE_LAMBDA))
+#define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o)) == AE_MACRO))
+#define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o)) == AE_RATIONAL))
+#define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o)) == AE_STRING))
+#define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o)) == AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \

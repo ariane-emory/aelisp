@@ -1,16 +1,22 @@
 To Do:
-- [ ] core_cond is noisy, tidy/quiet it.
-- [ ] core env should be able to take an optional fun argument.
+- [ ] core setq should return an error if asked to set the value of nil.
+- [ ] test to confirm that core setq returns an error if asked to set the value of nil.
+- [ ] core setq should return an error if asked to set the value of t.
+- [ ] test to confirm that core setq returns an error if asked to set the value of t.
+- [ ] core setq should return an error if asked to set the value of a keyword.
+- [ ] test to confirm that core setq returns an error if asked to set the value of a keyword.
+- [ ] refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] core apply
-- [ ] core rplaca/rplacd
-- [ ] Maybe core 'let'? Could be a macro, though...
-- [ ] root_env_and_eval test is too big, slice it up.
-- [ ] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
+- [ ] fix macro expansion from eval.
 - [ ] Implement math for non-integer types.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters needing escaping.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
+
+Under Consideration:
+- [ ] Maybe slice up root_env_and_eval test? It's pretty big.
+- [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
 - [ ] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it.
@@ -19,6 +25,10 @@ To Do:
 - [ ] ... advices?!
 
 Completed:
+- [x] core_cond is noisy, tidy/quiet it and improve it's logging.
+- [x] core rplaca/rplacd
+- [x] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
+- [x] core env should be able to take an optional fun argument.
 - [x] core env should be able to take an optional fun argument.
 - [x] core funs should probably have an env as a param too.
 - [x] maybe ERROR should be a type?
@@ -69,4 +79,4 @@ Completed:
 - [x] Add ae_list_remove_member.
 
 Cancelled:
-- [x] certain funcs shouldd NOT return early when given ERRORS arguments. (Early return removed for now)
+- [x] certain funcs should NOT return early when given ERRORS arguments. (Early return removed for now)

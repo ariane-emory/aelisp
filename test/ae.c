@@ -22,9 +22,6 @@
 
 #define free_list_size (1 << 12)
 
-#undef DOT
-#define DOT NEW_CONS
-
 #define obj ae_obj_t *
 
 static char mem[free_list_size] = { 0 };
@@ -59,7 +56,7 @@ static char mem[free_list_size] = { 0 };
   (void)that;
 
 #define DESCR(fun)                                                                                 \
-  PR("\n\n[describe %s " #fun  "] ", TYPE_STR(fun));                                               \
+  PR("\n\n[describe %s " #fun  "] ", GET_TYPE_STR(fun));                                               \
   LOG(FUN_PARAMS(fun), "params");                                                                  \
   LOG(FUN_ENV(fun), "env");                                                                        \
   LOG(FUN_BODY(fun), "body")
@@ -640,7 +637,7 @@ obj make_args_for_cons(void) {
 void core_cons_car_cdr(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
-  
+
   T(EQ(ae_core_car(env, make_args_containing_one_list()), SYM("a")                                           ));
   T(EQ(ae_core_car(env, LIST(ae_core_cdr(env, make_args_containing_one_list()))), SYM("b")                   ));
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, CONS(SYM("a"), LIST(NIL))), "(a)"                )); // cons 'a onto nil and get (a).
@@ -688,13 +685,13 @@ void core_eq_eql_not(void) {
 void core_print_princ_write(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
-  
+
   NL;
   {
     PR("write-ing '\"hello\" 5 a abc' on the next line, with quoting: ");
     NL;
 
-    obj written  = ae_core_write(env, 
+    obj written  = ae_core_write(env,
       CONS(NEW_STRING("hello"),
            CONS(NEW_INT(5),
            CONS(NEW_CHAR('a'),
@@ -706,7 +703,7 @@ void core_print_princ_write(void) {
   }
   {
     PR("\nprint-ing \"hello\",  5 a, abc on the next 3 lines, with quoting: ");
-    obj written = ae_core_print(env, 
+    obj written = ae_core_print(env,
       CONS(NEW_STRING("hello"),
            CONS(NEW_INT(5),
            CONS(NEW_CHAR('a'),
@@ -719,7 +716,7 @@ void core_print_princ_write(void) {
   {
     PR("\nprinc-ing 'hello5aabc' on the next line, without quoting: ");
     NL;
-    obj written = ae_core_princ(env, 
+    obj written = ae_core_princ(env,
       CONS(NEW_STRING("hello"),
            CONS(NEW_INT(5),
            CONS(NEW_CHAR('a'),
@@ -782,7 +779,7 @@ void core_msleep(void) {
   obj expr = NIL;
 
   ae_env_define_list_and_quote(env);
-    
+
   obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
   obj print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
@@ -817,7 +814,7 @@ void root_env_and_eval(void) {
   OLOG(listf);
   OLOG(FUN_PARAMS(listf));
   OLOG(FUN_BODY  (listf));
-  
+
   obj expr   = NIL;
   obj rtrn   = NIL;
 
@@ -830,7 +827,7 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
   T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
   TM("Expected %d, got %d.", 672, INT_VAL(EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
-  
+
   T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  LIST(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), LIST(NEW_INT(9)))));
@@ -1029,7 +1026,7 @@ void macro_expand(void) {
   /*   OLOG(princed_len); */
   /*   NL; */
   /* } */
-  
+
   /* { */
   /*   obj princ = CONS(SYM("print"),  CONS(CONS(SYM("quote"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   ); */
   /*   NL; */
@@ -1046,7 +1043,7 @@ void alist(void) {
   SETUP_TEST;
 
   ae_obj_t * alist = NIL;
-  
+
   T(!      AHAS(alist, SYM("name")));
 
   alist =  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
@@ -1054,17 +1051,17 @@ void alist(void) {
   T(       AHAS(alist, SYM("name")));
   T(  EQL( AGET(alist, SYM("name")),  NEW_STRING("Bob")));
   T(!      AHAS(alist, SYM("age")));
-    
+
   alist =  ASET(alist, SYM("age"),    NEW_INT(24));
 
   T(       AHAS(alist, SYM("age")));
   T( EQL(  AGET(alist, SYM("age")),   NEW_INT(24)));
-  
+
   alist =  ASET(alist, SYM("name"),   NEW_STRING("Jake"));
 
   T(!  EQL(AGET(alist, SYM("name")),  NEW_STRING("Bob")));
   T(   EQL(AGET(alist, SYM("name")),  NEW_STRING("Jake")));
-  
+
   NL;
   OLOG(alist);
   NL;
@@ -1075,7 +1072,6 @@ void alist(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
-
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
@@ -1093,18 +1089,18 @@ void alist(void) {
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
-  DO(fprinc_fwrite_lengths)                                                                        \
+  DO(alist)                                                                                        \
   DO(envs)                                                                                         \
+  DO(fprinc_fwrite_lengths)                                                                        \
   DO(core_cons_car_cdr)                                                                            \
   DO(core_eq_eql_not)                                                                              \
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
   DO(core_msleep)                                                                                  \
-  DO(root_env_and_eval)                                                                            \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
-  DO(alist)
+  DO(root_env_and_eval) /* failing when logging eval/core/env on */                                \
 
 #define pair(fun) { #fun, fun },
 

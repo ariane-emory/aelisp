@@ -6,14 +6,15 @@ COMMON_CFLAGS = \
 	-I . \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=4096 \
-	-DAE_LOG_EVAL \
+	-DAE_DEADLY_MARGIN \
+	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_LOG_CORE \
 	-DAE_LOG_ENV \
-
+	-DAE_LOG_EVAL \
 
 LOG_CFLAGS = \
-	_DAE_DUMP_POOL_AFTER \
-	-DAE_LOG_FREE_IST \
+	-DAE_DUMP_POOL_AFTER \
+	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_PARSE \
 	-DAE_LOG_LEX \
 	-DAE_LOG_ALLOC \
@@ -24,6 +25,7 @@ LOG_CFLAGS = \
 	-DAE_LOG_MOVE \
   -DAE_LOG_PUSH \
 	-DAE_CORE_FUN_ENVS \
+	-DAE_NO_SINGLE_SYM_PARAMS \
 
 TEST_CFLAGS = \
 	-Wno-unused-value
@@ -118,8 +120,8 @@ bin/test:
 ################################################################################
 
 tests: clean all
-	$(foreach bin, $(TEST_BINS), $(bin))
 	./bin/ae
+	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae

@@ -7,7 +7,11 @@
 #include "ae_env.h"
 #include "ae_util.h"
 #include "ae_write.h"
+#include "ae_free_list.h"
+#include "require.h"
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define GET_DISPATCH(row, table, obj)                                                              \
@@ -29,44 +33,6 @@
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _eval dispatch handlers
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
-  (void)env;
-
-#ifdef AE_LOG_EVAL
-  LOG(obj, "<= rtrn self");
-#endif
-  
-  return obj;
-}
-
-static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
-  ae_obj_t * ret = KEYWORDP(sym)
-    ? sym
-    : ENV_FIND(env, sym);
-
-#ifdef AE_LOG_EVAL
-  LOG(ret, "<= rtrn lookup");
-#endif
-
-  return ret;
-}
-
-static ae_obj_t * apply(ae_obj_t * env, ae_obj_t * list ) {
-  (void)env;
-
-  ae_obj_t * ret = APPLY(env, CAR(list), CDR(list));
-
-#ifdef AE_LOG_EVAL
-  LOG(ret, "<= rtrn applied");
-#endif
-
-  return ret;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply dispatch handlers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,199 +40,143 @@ static ae_obj_t * apply(ae_obj_t * env, ae_obj_t * list ) {
 // apply core funs
 //==================================================================================================
 
-static ae_obj_t * apply_core_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
+static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  PR("\n\n[apply core %s]", fun->name);  // extra spaces needed here to line up for some reason.
-  LOG(fun, "apply core fun");
-  LOG(env, "apply core env");
-  LOG(args, "apply core args");
+  LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
+  INDENT;
+  // LOG(fun,                 "apply core fun");
+  LOG(args,                "apply core fun to args");
+  LOG(env,                 "apply core fun in env");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
 
   ae_obj_t * ret = NIL;
-  
-#ifdef AE_CORE_FUN_ENVS
+
+#ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
-  
+
 #  ifdef AE_LOG_EVAL
-  LOG(env, "new_env");
+  LOG(env, "apply core fun new_env");
 #  endif
 #endif
-  
+
   ret = (*CORE_FUN(fun))(env, args);
-  
+
 #ifdef AE_LOG_EVAL
-  LOG(ret, "<= appl core %s", fun->name);
+  OUTDENT;
+
+  LOG_RETURN_WITH_TYPE("apply core fun", ret);
 #endif
-  
+
   return ret;
 }
- 
+
 //==================================================================================================
 // apply lambda fun
 //==================================================================================================
 
-static ae_obj_t * apply_user_fun(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
+static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  PR("\n\n[apply user fun]");
-  LOG(FUN_PARAMS(fun), "appl user fun params");
-  LOG(FUN_BODY(fun), "appl user fun body");
-  LOG(args, "appl user fun args");
-  LOG(fun, "applying user fun");
-  LOG(env, "appl user fun env");
+  LOG(fun,             "[apply by applying user fun]");
+  INDENT;
+  LOG(args,            "apply user fun to args");
+  LOG(env,             "apply user fun in env");
+  LOG(FUN_PARAMS(fun), "apply user fun with params");
+  LOG(FUN_BODY(fun),   "apply user fun with body");
 #endif
-  
-  ae_obj_t * new_env = NIL;
 
-#ifndef AE_NO_SINGLE_SYM_PARAMS  
+#ifndef AE_NO_SINGLE_SYM_PARAMS
   if (SYMBOLP(FUN_PARAMS(fun))
       && (! NILP(FUN_PARAMS(fun)))
   )
-    new_env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
+    env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
   else
 #endif
-    new_env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
-#ifdef AE_LOG_EVAL
-  OLOG(new_env); NL;
-#endif 
-  
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
-  
-#ifdef AE_LOG_EVAL
-  PR("\n[created exec env]");
-  LOG(fun,              "exec env for");
-  LOG(new_env->parent,  "exec env parent");
-  LOG(new_env->symbols, "exec env symbols");
-  LOG(new_env->values,  "exec env values");
-  LOG(body, "exec env body");
-#endif
-  
-  ae_obj_t * result = EVAL(new_env, body);
 
 #ifdef AE_LOG_EVAL
-  LOG(result, "<= user fun");
+  LOG(env,              "apply user fun in new env");
+  LOG(ENV_PARENT(env),  "new user fun env parent");
+  LOG(ENV_SYMS(env),    "new user fun env symbols");
+  LOG(ENV_VALS(env),    "new user fun env values");
+  LOG(body,             "new user fun env body");
+#endif
+
+  ae_obj_t * result = EVAL(env, body);
+
+#ifdef AE_LOG_EVAL
+  OUTDENT;
+
+  LOG_RETURN_WITH_TYPE("apply user fun", result);
 #endif
 
   return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _eval dispatch table
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct {
-    ae_type_t type;
-    ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *);
-} eval_dispatch_t;
-
-static const eval_dispatch_t eval_dispatch[] = {
-    {AE_CHAR,     &self},
-    {AE_CONS,     &apply},
-    {AE_CORE,     &self},
-    {AE_ERROR,    &self},
-    {AE_ENV,      &self},
-    {AE_FLOAT,    &self},
-    {AE_INTEGER,  &self},
-    {AE_LAMBDA,   &self},
-    {AE_MACRO,    &self},
-    {AE_RATIONAL, &self},
-    {AE_STRING,   &self},
-    {AE_SYMBOL,   &lookup},
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply dispatch table
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
-    ae_type_t type;
-    bool special;
-    ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
-} apply_dispatch_t;
+  ae_type_t type;
+  ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
+  bool special;
+  bool replaces;
+} apply_dispatch_row_t;
 
-static const apply_dispatch_t apply_dispatch[] = {
-    { AE_CORE,   true,  &apply_core_fun }, // 2nd arg may be ignored internally by apply_core_fun.
-    { AE_LAMBDA, false, &apply_user_fun },
-    { AE_MACRO,  true,  &apply_user_fun },
+static const apply_dispatch_row_t apply_dispatch_table[] = {
+  { AE_CORE,   &apply_core, true,  true  }, // 3rd field may be ignored internally by apply_core.
+  { AE_LAMBDA, &apply_user, false, false },
+  { AE_MACRO,  &apply_user, true,  true  },
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _eval
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {  
-#ifdef AE_LOG_EVAL
-  PR("\n\n[dispatching eval...]");
-  LOG(obj, "disp eval for obj");
-  LOG(env, "disp eval env");
-#endif
-
-  assert(ENVP(env));
-
-  eval_dispatch_t dispatch = {0};
-  
-  GET_DISPATCH(dispatch, eval_dispatch, obj);
-
-#ifdef AE_LOG_EVAL
-  PR("\n=> dispatching eval to   %s handler for ", TYPE_STR(obj));
-  WRITE(obj);
-  DOT;
-#endif
-
-  assert(*dispatch.handler);
-  
-  return (*dispatch.handler)(env, obj);
-  
-#ifdef AE_LOG_EVAL
-  fprintf(stderr, "\nDon't know how to eval a %s.", TYPE_STR(obj));
-#endif
-  
-  assert(0);
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
+ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
+  assert(CONSP(obj)); // should return an ERROR instead?
+
+  ae_obj_t * fun  = CAR(obj);
+  ae_obj_t * args = CDR(obj);
+
 #ifdef AE_LOG_EVAL
-  PR("\n\n[dispatching apply...]");
-  LOG(fun,  "disp appl for fun");
-  LOG(args, "disp appl args");
-  LOG(env,  "disp appl env");
+  LOG(fun,  "[eval by applying]");
+  INDENT;
+  LOG(args, "dispatch application to args");
+  LOG(env,  "dispatch application in env");
 #endif
 
   fun = EVAL(env, fun);
 
-#ifdef AE_LOG_EVAL
-  LOG(fun, "apply fun");
-#endif
-
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
-    NL;
-    PR("Not applicable: ");
-    PUT(fun);
-    NL;
+    LOG(fun, "Not applicable: ");
 
     /* This assert should be replaced by returning an ERROR obj: */
-        
+
     assert(0);
   }
 
   assert(TAILP(args));
 
-  apply_dispatch_t dispatch = {0};
-  
-  GET_DISPATCH(dispatch, apply_dispatch, fun);
+  apply_dispatch_row_t dispatch = {0};
+
+  GET_DISPATCH(dispatch, apply_dispatch_table, fun);
 
 #ifdef AE_LOG_EVAL
-  PR("\n=> dispatching apply to  %s handler for ", TYPE_STR(fun));
-  WRITE(fun);
-  DOT;
+  const char * type_str = TYPE_STR(dispatch.type);
+  /* */ char * tmp      = free_list_malloc(strlen(type_str) + 2);
+  sprintf(tmp, ":%s",     type_str);
+  ae_obj_t   * sym      = SYM(tmp);
+
+  LOG(sym, "dispatch application as");
+
+  free_list_free(tmp);
 #endif
 
   MAYBE_EVAL(dispatch.special, args);
@@ -277,27 +187,148 @@ ae_obj_t * ae_apply(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   if (! ERRORP(ret))
     goto ret;
-  
-  if (AHAS(ERR_OBJ(ret), SYM("fun"))) 
+
+  if (AHAS(ERR_OBJ(ret), SYM("fun")))
     ASET(ERR_OBJ(ret),
          SYM("fun"),
 #ifdef AE_CALLSTACK_IS_PROPER
          CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
 #else
   /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
-#endif    
+#endif
   else
     ASET(ERR_OBJ(ret),
          SYM("fun"),
-#ifdef AE_CALLSTACK_IS_PROPER           
+#ifdef AE_CALLSTACK_IS_PROPER
          CONS(fun, NIL));
 #else
   /*  */ fun);
 #endif
 
 ret:
+  /* if (dispatch.replaces) { */
+  /*   if (CONSP(obj)) {       */
+  /*     LOG(obj, "[REPLACING]"); */
+  /*     INDENT; */
+  /*     LOG(ret, "with "); */
+  /*     OUTDENT; */
+
+  /*     ret = UNSAFE_MOVE(obj, ret); */
+  /*   } */
+  /*   else { */
+  /*     ret = UNSAFE_MOVE(obj, CONS(SYM("progn"), CONS(ret, NIL))); */
+  /*   } */
+  /* } */
+
+#ifdef AE_LOG_EVAL
+ OUTDENT;
+
+ LOG_RETURN_WITH_TYPE("apply", ret);
+#endif
+
   return ret;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// other _eval dispatch handlers
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
+  (void)env;
+
+#ifdef AE_LOG_EVAL
+  LOG (obj, "[eval by returning self]");
+
+  LOG_RETURN_WITH_TYPE("self", obj);
+#endif
   
-  fprintf(stderr, "\nDon't know how to apply a %s.", TYPE_STR(fun));
-  assert(0);
+  return obj;
+}
+
+static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
+#ifdef AE_LOG_EVAL
+  LOG(sym, "[eval by looking up]");
+
+  INDENT;
+#endif
+
+  ae_obj_t * ret = KEYWORDP(sym)
+    ? sym
+    : ENV_FIND(env, sym);
+
+#ifdef AE_LOG_EVAL
+  OUTDENT;
+
+  LOG_RETURN_WITH_TYPE("lookup", ret);
+#endif
+
+  return ret;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval dispatch table
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef struct {
+  ae_type_t type;
+  ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *);
+  bool replaces; // probably remove.
+} eval_dispatch_row_t;
+
+static const eval_dispatch_row_t eval_dispatch_table[] = {
+  { AE_CONS,     &apply,  false },
+  { AE_SYMBOL,   &lookup, false },
+  { AE_CORE,     &self,   false },
+  { AE_LAMBDA,   &self,   false },
+  { AE_MACRO,    &self,   true  },
+  { AE_STRING,   &self,   false },
+  { AE_INTEGER,  &self,   false },
+  { AE_ENV,      &self,   false },
+  { AE_ERROR,    &self,   false },
+  { AE_CHAR,     &self,   false },
+  { AE_FLOAT,    &self,   false },
+  { AE_RATIONAL, &self,   false },
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _eval
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
+#ifdef AE_LOG_EVAL
+  LOG(obj, "[eval]");
+  INDENT;
+  LOG(env, "in env");
+#endif
+
+  assert(ENVP(env));
+
+  eval_dispatch_row_t dispatch = {0};
+
+  GET_DISPATCH(dispatch, eval_dispatch_table, obj);
+
+#ifdef AE_LOG_EVAL
+  {
+    const char * type = GET_TYPE_STR(obj);
+    /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
+    sprintf(tmp, ":%s", type);
+    ae_obj_t   * sym  = SYM(tmp);
+
+    LOG(sym, "dispatch eval as");
+
+    free_list_free(tmp);
+  }
+#endif
+
+  assert(*dispatch.handler);
+
+  ae_obj_t * ret = (*dispatch.handler)(env, obj);
+
+#ifdef AE_LOG_EVAL
+  OUTDENT;
+
+  LOG_RETURN_WITH_TYPE("eval", ret);
+#endif
+
+  return ret;
 }

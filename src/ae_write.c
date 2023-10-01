@@ -144,8 +144,8 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     break;
   }
 
-  COUNTED_FPRINTF(stream, TYPE_STR(this));
-  COUNTED_FPRINTF(stream, "<");
+  COUNTED_FPRINTF(stream, GET_TYPE_STR(this));
+  COUNTED_FPRINTF(stream, "< ");
   COUNTED_FPRINTF(stream, "%018p, ", this);
   
   switch (GET_TYPE(this)) {
@@ -196,26 +196,26 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
   switch (GET_TYPE(this)) {
   case AE_ERROR:
-    COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %018p, %s>", TYPE_STR(this), this, ERR_OBJ(this), ERR_MSG(this));
+    COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %018p, %s>", GET_TYPE_STR(this), this, ERR_OBJ(this), ERR_MSG(this));
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s*>", TYPE_STR(this), this, CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s*>", GET_TYPE_STR(this), this, CORE_NAME(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p, %s>", TYPE_STR(this), this, CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s>", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
     if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream, "%s<%018p → nil>", TYPE_STR(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil>", GET_TYPE_STR(this), this);
     }
     else {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", TYPE_STR(this), this, ENV_PARENT(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
     }
     fwrite_counter--;
     break;
   case AE_LAMBDA:
   case AE_MACRO:
-    COUNTED_FPRINTF(fwrite_stream, "%s<%018p, ", TYPE_STR(this), this);
+    COUNTED_FPRINTF(fwrite_stream, "%s< %018p, ", GET_TYPE_STR(this), this);
     ae_fwrite_internal(FUN_PARAMS(this));
     COUNTED_FPRINTF(fwrite_stream,">");
     break;

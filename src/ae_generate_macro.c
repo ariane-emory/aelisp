@@ -1,21 +1,18 @@
 #include "ae_generate_macro.h"
 #include "ae_list.h"
 
-#undef DOT
-#define DOT NEW_CONS
-
 ae_obj_t * ae_generate_macro_defmacro(void) {
   // (quote setq):
   ae_obj_t* quote_setq = CONS(SYM("quote"), CONS(SYM("setq"), NIL));
     
   //  (name params . body):
-  ae_obj_t* args_part = CONS(SYM("name"), DOT(SYM("params"), SYM("body"))); 
+  ae_obj_t* args_part = CONS(SYM("name"), NEW_CONS(SYM("params"), SYM("body"))); 
 
   // (quote macro):
   ae_obj_t* quote_macro = CONS(SYM("quote"), CONS(SYM("macro"), NIL));
 
   // ((list (quote setq) name (list (quote macro) params . body))):
-  ae_obj_t* list_expr = CONS(CONS(SYM("list"), CONS(quote_setq, CONS(SYM("name"), CONS(CONS(SYM("list"), CONS(quote_macro, DOT(SYM("params"), SYM("body")))), NIL)))), NIL);
+  ae_obj_t* list_expr = CONS(CONS(SYM("list"), CONS(quote_setq, CONS(SYM("name"), CONS(CONS(SYM("list"), CONS(quote_macro, NEW_CONS(SYM("params"), SYM("body")))), NIL)))), NIL);
 
   // (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body)))):
   ae_obj_t* final_expr = CONS(SYM("setq"), CONS(SYM("defmacro"), CONS(CONS(SYM("macro"), CONS(args_part, list_expr)), NIL)));
@@ -25,7 +22,7 @@ ae_obj_t * ae_generate_macro_defmacro(void) {
 
 ae_obj_t * ae_generate_macro_defun(void) {
   // (name params . body):
-  ae_obj_t* args_part = CONS(SYM("name"), DOT(SYM("params"), SYM("body")));
+  ae_obj_t* args_part = CONS(SYM("name"), NEW_CONS(SYM("params"), SYM("body")));
 
   // (quote setq):
   ae_obj_t* quote_setq = CONS(SYM("quote"), CONS(SYM("setq"), NIL));
@@ -34,7 +31,7 @@ ae_obj_t * ae_generate_macro_defun(void) {
   ae_obj_t* quote_lambda = CONS(SYM("quote"), CONS(SYM("lambda"), NIL));
 
   // (list (quote lambda) params . body):
-  ae_obj_t* inner_list = CONS(SYM("list"), CONS(quote_lambda, DOT(SYM("params"), SYM("body"))));
+  ae_obj_t* inner_list = CONS(SYM("list"), CONS(quote_lambda, NEW_CONS(SYM("params"), SYM("body"))));
 
   // (list (quote setq) name (list (quote lambda) params . body)):
   ae_obj_t* list_expr = CONS(SYM("list"), CONS(quote_setq, CONS(SYM("name"), CONS(inner_list, NIL))));
