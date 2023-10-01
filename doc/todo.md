@@ -1,4 +1,5 @@
 To Do:
+- [ ] core setq should error if asked to set a keyword..
 - [ ] fix macro expansion from eval.
 - [ ] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [ ] core apply

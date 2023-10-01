@@ -174,8 +174,8 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * val         = CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
-  REQUIRE(env, args, sym != NIL,  "can't set nil");
-  REQUIRE(env, args, sym != TRUE, "can't set t");
+  REQUIRE(env, args, sym != NIL,  "nil is a constant symbol");
+  REQUIRE(env, args, sym != TRUE, "t is a constant symbol");
 
 #ifdef AE_LOG_CORE
   LOG(sym, "core setq sym");

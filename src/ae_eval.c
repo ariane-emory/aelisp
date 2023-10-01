@@ -130,7 +130,7 @@ typedef struct {
 } apply_dispatch_row_t;
 
 static const apply_dispatch_row_t apply_dispatch_table[] = {
-  { AE_CORE,   &apply_core, true,  false }, // 3rd field may be ignored internally by apply_core.
+  { AE_CORE,   &apply_core, true,  true  }, // 3rd field may be ignored internally by apply_core.
   { AE_LAMBDA, &apply_user, false, false },
   { AE_MACRO,  &apply_user, true,  true  },
 };
