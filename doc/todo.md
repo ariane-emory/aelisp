@@ -15,6 +15,7 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 
 Under Consideration:
+- [ ] Maybe some special funs need to be paed cast ae_obj_t **'s or something like that?
 - [ ] Maybe slice up root_env_and_eval test? It's pretty big.
 - [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
