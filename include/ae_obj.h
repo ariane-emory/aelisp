@@ -137,15 +137,15 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define ALLOC()                 (pool_alloc_ae_obj())
+#define COPY(this, that)        (memcpy((this), (that), sizeof(ae_obj_t)))
 #define CLONE(this)             (ae_obj_clone((this)))
 #define FREE(this)              (pool_free_ae_obj((this)))
 #define INIT(this, type)        (ae_obj_init((this), (type)))
 #define MOVE_NEW(that)          (UNSAFE_MOVE(ALLOC(), that))
 #define NEW(type)               (INIT((ALLOC()), (type)))
-#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define TRUTH(o)                (ae_obj_truth((o)))
+#define UNSAFE_MOVE(to, from)   (ae_obj_unsafe_move((to), (from)))
 #define ZERO(this)              (memset((this), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(this)          ((this)->char_val)
@@ -185,22 +185,22 @@ extern ae_obj_t * symbols_list;
 #define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/* This could probably be DRYed up by using an X macro to create function versions of them, but   */
+/* This could probably be DRYed up by using an X macro to create function versions of them, but  */
 /* their names would be ugly unless we renamed the types first to remove the AE_ prefix.          */
 /* Undecided.                                                                                     */
-#define CHARP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CHAR))
-#define CONSP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CONS))
-#define COREP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_CORE))
-#define ERRORP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_ERROR))
-#define FLOATP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_FLOAT))
-#define FREEP(o)                ((! NULLP((o))) && (GET_TYPE((o))  == AE_FREE))
-#define INTEGERP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INTEGER))
-#define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o))  == AE_INVALID))
-#define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_LAMBDA))
-#define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o))  == AE_MACRO))
-#define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o))  == AE_RATIONAL))
-#define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_STRING))
-#define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o))  == AE_SYMBOL))
+#define CHARP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_CHAR))
+#define CONSP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_CONS))
+#define COREP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_CORE))
+#define ERRORP(o)               ((! NULLP((o))) && (GET_TYPE((o)) == AE_ERROR))
+#define FLOATP(o)               ((! NULLP((o))) && (GET_TYPE((o)) == AE_FLOAT))
+#define FREEP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_FREE))
+#define INTEGERP(o)             ((! NULLP((o))) && (GET_TYPE((o)) == AE_INTEGER))
+#define INVALIDP(o)             ((! NULLP((o))) && (GET_TYPE((o)) == AE_INVALID))
+#define LAMBDAP(o)              ((! NULLP((o))) && (GET_TYPE((o)) == AE_LAMBDA))
+#define MACROP(o)               ((! NULLP((o))) && (GET_TYPE((o)) == AE_MACRO))
+#define RATIONALP(o)            ((! NULLP((o))) && (GET_TYPE((o)) == AE_RATIONAL))
+#define STRINGP(o)              ((! NULLP((o))) && (GET_TYPE((o)) == AE_STRING))
+#define SYMBOLP(o)              ((! NULLP((o))) && (GET_TYPE((o)) == AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \

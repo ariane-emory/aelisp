@@ -44,9 +44,9 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
   INDENT;
-  LOG(fun,                 "apply core fun");
-  LOG(env,                 "apply core fun in env");
+  // LOG(fun,                 "apply core fun");
   LOG(args,                "apply core fun to args");
+  LOG(env,                 "apply core fun in env");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -255,12 +255,6 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   ae_obj_t * ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
-
-/* #ifdef AE_LOG_EVAL */
-/*   const char * type = GET_TYPE_STR(ret); */
-/*   /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
-/*   sprintf(tmp, ":%s", type); */
-/* #endif */
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
