@@ -14,21 +14,6 @@
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef AE_LOG_EVAL
-#  define LOG_RETURN_WITH_TYPE(val, fun_name)                                                                      \
- {                                                                                                 \
-  const char * type = GET_TYPE_STR(val);                                                           \
-  /* */ char * tmp  = free_list_malloc(strlen(type) + 2);                                          \
-  sprintf(tmp, ":%s", type);                                                                       \
-                                                                                                   \
-  LOG(val, "[%s returning a %s]", fun_name, tmp);                                                  \
-                                                                                                   \
-  free_list_free(tmp);                                                                             \
-}
-#else
-#  define LOG_RETURN_WITH_TYPE(val, fun_name) ((void)0)
-#endif
-
 #define GET_DISPATCH(row, table, obj)                                                              \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
@@ -80,9 +65,9 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-#endif
-  
+
   LOG_RETURN_WITH_TYPE(ret, "apply core");
+#endif
 
   return ret;
 }
@@ -126,9 +111,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-#endif
 
   LOG_RETURN_WITH_TYPE(result, "apply user");
+#endif
 
   return result;
 }
@@ -253,9 +238,9 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   LOG (obj, "[eval by returning self]");
-#endif
 
   LOG_RETURN_WITH_TYPE(obj, "self");
+#endif
   
   return obj;
 }
@@ -347,9 +332,9 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-#endif
 
   LOG_RETURN_WITH_TYPE(ret, "eval");
+#endif
 
   return ret;
 }
