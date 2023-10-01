@@ -33,9 +33,9 @@
   DO(ahas)                                                                                         \
   DO(aset)                                                                                         \
   DO(aget)                                                                                         \
+  DO(not)     /* reduceable */                                                                     \
   DO(eql)     /* reduceable */                                                                     \
   DO(eq)                                                                                           \
-  DO(not)     /* reduceable */                                                                     \
   DO(cons)                                                                                         \
   DO(cdr)                                                                                          \
   DO(car)                                                                                          \
