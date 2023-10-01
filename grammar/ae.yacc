@@ -177,7 +177,8 @@
 
 #ifdef AE_DUMP_POOL_AFTER
     pool_print();
-
+#endif
+    
     fclose(fp);
 
     describe_parse(program_obj);
