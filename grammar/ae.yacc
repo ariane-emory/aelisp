@@ -170,7 +170,6 @@
 
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
-    // describe_parse(program_obj);
 
     SLOG("\n\nEvaluating program...");
     EVAL(env, program_obj);
@@ -178,9 +177,10 @@
 
 #ifdef AE_DUMP_POOL_AFTER
     pool_print();
-#endif
 
     fclose(fp);
+
+    describe_parse(program_obj);
   }
 
     //////////////////////////////////////////////////////////////////////////////
