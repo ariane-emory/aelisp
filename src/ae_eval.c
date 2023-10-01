@@ -15,7 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef AE_LOG_EVAL
-#  define TLOG(val, fun_name)                                                                      \
+#  define LOG_RETURN_WITH_TYPE(val, fun_name)                                                                      \
  {                                                                                                 \
   const char * type = GET_TYPE_STR(val);                                                           \
   /* */ char * tmp  = free_list_malloc(strlen(type) + 2);                                          \
@@ -26,7 +26,7 @@
   free_list_free(tmp);                                                                             \
 }
 #else
-#  define TLOG(val, fun_name) ((void)0)
+#  define LOG_RETURN_WITH_TYPE(val, fun_name) ((void)0)
 #endif
 
 #define GET_DISPATCH(row, table, obj)                                                              \
@@ -61,7 +61,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   INDENT;
   LOG(env,                 "apply core in env");
   LOG(fun,                 "apply core fun");
-  LOG(args,                "apply core with args");
+  LOG(args,                "apply core to args");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -82,7 +82,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   OUTDENT;
 #endif
   
-  TLOG(ret, "apply core");
+  LOG_RETURN_WITH_TYPE(ret, "apply core");
 
   return ret;
 }
@@ -97,9 +97,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   LOG(fun,             "[apply by applying user]");
   INDENT;
+  LOG(args,            "apply user to args");
   LOG(env,             "apply user in env");
   LOG(FUN_PARAMS(fun), "apply user with params");
-  LOG(args,            "apply user with args");
   LOG(FUN_BODY(fun),   "apply user with body");
 #endif
 
@@ -128,7 +128,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   OUTDENT;
 #endif
 
-  TLOG(result, "apply user");
+  LOG_RETURN_WITH_TYPE(result, "apply user");
 
   return result;
 }
@@ -163,8 +163,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   LOG(fun,  "[eval by applying]");
   INDENT;
+  LOG(args, "dispatch application to args");
   LOG(env,  "dispatch application in env");
-  LOG(args, "dispatch application with args");
 #endif
 
   fun = EVAL(env, fun);
@@ -238,7 +238,7 @@ ret:
 #ifdef AE_LOG_EVAL
  OUTDENT;
 
- TLOG(ret, "apply");
+ LOG_RETURN_WITH_TYPE(ret, "apply");
 #endif
 
   return ret;
@@ -255,7 +255,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   LOG (obj, "[eval by returning self]");
 #endif
 
-  TLOG(obj, "self");
+  LOG_RETURN_WITH_TYPE(obj, "self");
   
   return obj;
 }
@@ -280,7 +280,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  TLOG(ret, "lookup");
+  LOG_RETURN_WITH_TYPE(ret, "lookup");
 #endif
 
   return ret;
@@ -349,7 +349,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   OUTDENT;
 #endif
 
-  TLOG(ret, "eval");
+  LOG_RETURN_WITH_TYPE(ret, "eval");
 
   return ret;
 }
