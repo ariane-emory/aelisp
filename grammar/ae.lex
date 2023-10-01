@@ -118,30 +118,32 @@
 %}
 
 %%
-nil                                                                     |
-\([\f\n\t\v\ ]*\)                                                       TOKENIZE(NILTOK,   AE_SYMBOL  );
-\'                                                                      TOKENIZE(QUOTE,    AE_INVALID );
-\`                                                                      TOKENIZE(BACKTICK, AE_INVALID );
-\,\@                                                                    TOKENIZE(COMMA_AT,   AE_INVALID );
-\,                                                                      TOKENIZE(COMMA,    AE_INVALID );
-\.                                                                      TOKENIZE(DOT,      AE_INVALID );
-\(                                                                      TOKENIZE(LPAREN,   AE_INVALID );
-\)                                                                      TOKENIZE(RPAREN,   AE_INVALID );
-\"((\\\")|([^\"]))*\"                                                   TOKENIZE(STRING,   AE_STRING  );
-'[^']'                                                                  |
-'\\.'                                                                   |
-\?\\\\.                                                                 |
-\?\\.                                                                   TOKENIZE(CHAR,     AE_CHAR    );
-[\+\-\/\*]                                                              |
-!?=|(>=?)|(<=?)                                                         |
-([1-9][0-9]+)?[\+\-\/\*]                                                |
+
+nil                                                                        |
+\([\f\n\t\v\ ]*\)                                                          TOKENIZE(NILTOK,   AE_SYMBOL  );
+\'                                                                         TOKENIZE(QUOTE,    AE_INVALID );
+\`                                                                         TOKENIZE(BACKTICK, AE_INVALID );
+\,\@                                                                       TOKENIZE(COMMA_AT,   AE_INVALID );
+\,                                                                         TOKENIZE(COMMA,    AE_INVALID );
+\.                                                                         TOKENIZE(DOT,      AE_INVALID );
+\(                                                                         TOKENIZE(LPAREN,   AE_INVALID );
+\)                                                                         TOKENIZE(RPAREN,   AE_INVALID );
+\"((\\\")|([^\"]))*\"                                                      TOKENIZE(STRING,   AE_STRING  );
+'[^']'                                                                     |
+'\\.'                                                                      |
+\?\\\\.                                                                    |
+\?\\.                                                                      TOKENIZE(CHAR,     AE_CHAR    );
+[\+\-\/\*]                                                                 |
+!?=|(>=?)|(<=?)                                                            |
+([1-9][0-9]+)?[\+\-\/\*]                                                   |
 \*([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]?\*           |
 ([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
-[-+]?[0-9]+                                                             TOKENIZE(INTEGER,  AE_INTEGER );
-[-+]?[0-9]+\.[0-9]*                                                     | 
-[-+]?[0-9]*\.[0-9]+                                                     TOKENIZE(FLOAT,    AE_FLOAT   );
-[-+]?[0-9]+\/[0-9]+                                                     TOKENIZE(RATIONAL, AE_RATIONAL);
-\;[^\n]*\n                                                              ; /* comments */
-[\f\n\t\v\ ]+                                                           ; /* ignored whitespace */
+[-+]?[0-9]+                                                                TOKENIZE(INTEGER,  AE_INTEGER );
+[-+]?[0-9]+\.[0-9]*                                                        | 
+[-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,    AE_FLOAT   );
+[-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL, AE_RATIONAL);
+\;[^\n]*\n                                                                 ; /* comments */
+[\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
+
 %%
 
