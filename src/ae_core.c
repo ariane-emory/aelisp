@@ -30,7 +30,7 @@
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
  OUTDENT;                                                                                          \
- LOG_RETURN_WITH_TYPE("apply core", val);                                                          \
+ LOG_RETURN_WITH_TYPE("apply core " name, val);                                                    \
  return val;                                                                                       \
 })
 #else
