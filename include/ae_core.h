@@ -19,13 +19,13 @@
   DO(syms)    /* env accessor */                                                                   \
   DO(properp) /* reduceable */                                                                     \
   DO(tailp)   /* reduceable */                                                                     \
+  DO(nl)                                                                                           \
   /*=============================================================================================*/\
   DO(put)     /* reducing this would require a core to get objs' addresses, might not bother. */   \
   DO(princ)   /* probably two out of these 3 could be reduced: */                                  \
   DO(print)                                                                                        \
   DO(write)                                                                                        \
   /*=============================================================================================*/\
-  DO(nl)                                                                                           \
   DO(type)    /* GET_TYPE proxy */                                                                 \
   DO(length)  /* reduceable */                                                                     \
   DO(rplacd)                                                                                       \
@@ -40,7 +40,7 @@
   DO(cdr)                                                                                          \
   DO(car)                                                                                          \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                              \
+#define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
   DO(eval)                                                                                         \
   DO(macro)                                                                                        \
   DO(lambda)                                                                                       \
@@ -69,5 +69,5 @@
 FOR_EACH_CORE_MATH_OP(DECL_CORE);
 FOR_EACH_CORE_CMP_OP(DECL_CORE);
 FOR_EACH_CORE_FUN(DECL_CORE);
-FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE);
+FOR_EACH_SPECIAL_CORE_FUN(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
