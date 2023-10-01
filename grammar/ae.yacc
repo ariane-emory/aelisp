@@ -107,15 +107,15 @@
   //////////////////////////////////////////////////////////////////////////////
 
   void describe_parse(ae_obj_t * program_obj) {
-    printf("\nprogram:           ");
+    /* printf("\nprogram:           "); */
 
-    if (! program_obj) {
-      PR("NULL!");
-      return;
-    }
-    else {
-      PUT(CADR(program_obj));
-    }
+    /* if (! program_obj) { */
+    /*   PR("NULL!"); */
+    /*   return; */
+    /* } */
+    /* else { */
+    /*   PUT(CADR(program_obj)); */
+    /* } */
     
     /* NL; */
     /* pool_print(); */
@@ -127,26 +127,26 @@
     puts("Described items in program.");
     NL;
 
-    fputs("Count items in program obj: ", stdout); 
-    printf("%d", LENGTH(CDR(program_obj)));
-    NL;
-    NL;
+    /* fputs("Count items in program obj: ", stdout);  */
+    /* printf("%d", LENGTH(CDR(program_obj))); */
+    /* NL; */
+    /* NL; */
     
-    puts("Writing items in program obj.");
-    if (CONSP(program_obj) && CDR(program_obj))
-      EACH(CDR(program_obj), do_write);
-    puts("Wrote items in program obj.");
-    NL;
+    /* puts("Writing items in program obj."); */
+    /* if (CONSP(program_obj) && CDR(program_obj)) */
+    /*   EACH(CDR(program_obj), do_write); */
+    /* puts("Wrote items in program obj."); */
+    /* NL; */
 
-    puts("Writing program obj.");
-    WRITE(program_obj);
-    NL;
-    puts("Wrote program obj.");
-    NL;
+    /* puts("Writing program obj."); */
+    /* WRITE(program_obj); */
+    /* NL; */
+    /* puts("Wrote program obj."); */
+    /* NL; */
     
-    puts("Writing interned symbols.");
-    ae_write(symbols_list);
-    puts("\nWrote interned symbols.");    
+    /* puts("Writing interned symbols."); */
+    /* ae_write(symbols_list); */
+    /* puts("\nWrote interned symbols.");     */
   }
   
   //////////////////////////////////////////////////////////////////////////////

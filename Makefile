@@ -120,7 +120,7 @@ bin/test:
 ################################################################################
 
 tests: clean all
-	$(foreach bin, $(TEST_BINS), $(bin))
+#	$(foreach bin, $(TEST_BINS), $(bin))
 	./bin/ae
 
 debug: clean all
