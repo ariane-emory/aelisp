@@ -15,6 +15,8 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 
 Under Consideration:
+- [ ] Maybe parse-time math on integers?
+- [ ] Maybe put line/column of source in metadata of relevant objects?
 - [ ] Maybe some special funs need to be paed cast ae_obj_t **'s or something like that?
 - [ ] Maybe slice up root_env_and_eval test? It's pretty big.
 - [ ] Maybe core 'let'? Could be a macro, though...
