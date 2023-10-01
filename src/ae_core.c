@@ -30,7 +30,7 @@
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
  OUTDENT;                                                                                          \
- LOG(val, "[core " name " returning]");                                                            \
+ LOG_RETURN_WITH_TYPE("apply core", val);                                                          \
  return val;                                                                                       \
 })
 #else
@@ -105,7 +105,7 @@ FOR_EACH_CORE_CMP_OP(DEF_CMP_OP);
 
 ae_obj_t * ae_core_aset(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("aset");
-  
+
   int len = LENGTH(args);
 
   REQUIRE(env, args, len >= 2, "aset requires at least 2 args");
@@ -126,9 +126,9 @@ ae_obj_t * ae_core_aset(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_aget(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("aget");
-  
+
   int len = LENGTH(args);
-  
+
   REQUIRE(env, args, len == 2, "aget requires 2 args");
 
   ae_obj_t * alist = CAR(args);
@@ -145,7 +145,7 @@ ae_obj_t * ae_core_aget(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_ahas(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("ahas");
-  
+
   int len = LENGTH(args);
 
   REQUIRE(env, args, len == 2, "aget requires 2 args");
@@ -166,17 +166,17 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("setq");
 
   int len = LENGTH(args);
-  
+
   REQUIRE(env, args, len >= 1, "setq requires at least 1 arg");
   REQUIRE(env, args, len <= 2, "setq requires 1 or 2 args");
-  
+
   ae_obj_t * sym         = CAR(args);
   ae_obj_t * val         = CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
   REQUIRE(env, args, sym != NIL,  "can't set nil");
   REQUIRE(env, args, sym != TRUE, "can't set t");
-  
+
 #ifdef AE_LOG_CORE
   LOG(sym, "core setq sym");
   LOG(val, "core setq val");
@@ -195,7 +195,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("progn");
-  
+
   ae_obj_t * ret = NIL;
 
   FOR_EACH(elem, args)
@@ -248,11 +248,11 @@ ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("nl");
 
   int len = LENGTH(args);
-  
+
   REQUIRE(env, args, len = 1, "nl takes no args");
 
   NL;
-  
+
   CORE_RETURN("nl", NIL);
 }
 
@@ -264,17 +264,17 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("env");
 
   int len = LENGTH(args);
-  
+
   REQUIRE(env, args, len <= 1, "env requires 0 or 1 args");
 
   if (len == 1) {
     REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
-    
+
     CORE_RETURN("env", ENVP(CAR(args))
                 ? ENV_PARENT(CAR(args))
                 : FUN_ENV(CAR(args)));
   }
-  
+
   CORE_RETURN("env", env);
 }
 
@@ -391,7 +391,7 @@ ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_exit(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("exit");
-  
+
   REQUIRE(env, args, (LENGTH(args) == 1) && INTEGERP(CAR(args)));
 
   exit(INT_VAL(CAR(args)));
@@ -405,7 +405,7 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("eval");
-  
+
   REQUIRE(env, args, LENGTH(args) == 1);
 
   CORE_RETURN("eval", EVAL(env, EVAL(env, CAR(args))));
@@ -417,9 +417,9 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("lambda");
-  
+
   REQUIRE(env, args, TAILP(CAR(args))
-#ifndef AE_NO_SINGLE_SYM_PARAMS  
+#ifndef AE_NO_SINGLE_SYM_PARAMS
           || SYMBOLP(CAR(args))
 #endif
           );
@@ -456,7 +456,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 #ifdef AE_LOG_CORE
   LOG(caar, "caar");
   LOG(cdar, "cdar");
-#endif                      
+#endif
 
   if (! NILP(EVAL(env, caar)))
     CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
@@ -478,7 +478,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
 #endif
 
   REQUIRE(env, args, !NILP(CDR(args)), "if requires at least 2 args");
-  
+
   bool cond_result = ! NILP(EVAL(env, CAR(args)));
 
 #ifdef AE_LOG_CORE
@@ -490,7 +490,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
 #ifdef AE_LOG_CORE
     SLOG("chose then");
 #endif
-    
+
     CORE_RETURN("if", EVAL(env, CADR(args)));
   }
   else {
@@ -525,13 +525,13 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("length");
-  
+
   REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
 
   int len = LENGTH(CAR(args));
 
   REQUIRE(env, args, len >= 0, "core length only works on proper lists");
-          
+
   CORE_RETURN("length", NEW_INT(len));
 }
 
@@ -586,7 +586,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, (LENGTH(args) <= 2) && CONSP(CAR(args)));
 
   CAAR(args) = CADR(args);
-  
+
   CORE_RETURN("rplaca", CADR(args));
 }
 
@@ -600,7 +600,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, (LENGTH(args) <= 2) && CONSP(CAR(args)));
 
   CDAR(args) = CADR(args);
-  
+
   CORE_RETURN("rplacd", CADR(args));
 }
 
@@ -610,7 +610,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args) {
 
 ae_obj_t * ae_core_cons(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("cons");
-  
+
   REQUIRE(env, args, LENGTH(args) >= 1);
   REQUIRE(env, args, LENGTH(args) <= 2);
 

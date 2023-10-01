@@ -66,7 +66,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE(ret, "apply core");
+  LOG_RETURN_WITH_TYPE("apply core", ret);
 #endif
 
   return ret;
@@ -112,7 +112,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE(result, "apply user");
+  LOG_RETURN_WITH_TYPE("apply user", result);
 #endif
 
   return result;
@@ -223,7 +223,7 @@ ret:
 #ifdef AE_LOG_EVAL
  OUTDENT;
 
- LOG_RETURN_WITH_TYPE(ret, "apply");
+ LOG_RETURN_WITH_TYPE("apply", ret);
 #endif
 
   return ret;
@@ -239,7 +239,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   LOG (obj, "[eval by returning self]");
 
-  LOG_RETURN_WITH_TYPE(obj, "self");
+  LOG_RETURN_WITH_TYPE("self", obj);
 #endif
   
   return obj;
@@ -265,7 +265,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE(ret, "lookup");
+  LOG_RETURN_WITH_TYPE("lookup", ret);
 #endif
 
   return ret;
@@ -333,7 +333,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE(ret, "eval");
+  LOG_RETURN_WITH_TYPE("eval", ret);
 #endif
 
   return ret;

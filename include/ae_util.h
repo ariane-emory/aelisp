@@ -47,7 +47,7 @@
   (fprintf(stdout, (s), __VA_ARGS__));                                                              \
 }
 
-#define LOG_RETURN_WITH_TYPE(val, fun_name)                                                        \
+#define LOG_RETURN_WITH_TYPE(fun_name, val)                                                        \
 ({                                                                                                 \
     const char * type = GET_TYPE_STR(val);                                                         \
     /* */ char * tmp  = free_list_malloc(strlen(type) + 2);                                        \
