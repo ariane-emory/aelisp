@@ -42,11 +42,11 @@
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(SYM(CORE_NAME(fun)), "[apply by applying core]");  // extra spaces needed here to line up for some reason.
+  LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
   INDENT;
-  LOG(env,                 "apply core in env");
   LOG(fun,                 "apply core fun");
-  LOG(args,                "apply core to args");
+  LOG(env,                 "apply core fun in env");
+  LOG(args,                "apply core fun to args");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -57,7 +57,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   env = NEW_ENV(env, NIL, NIL);
 
 #  ifdef AE_LOG_EVAL
-  LOG(env, "apply core new_env");
+  LOG(env, "apply core fun new_env");
 #  endif
 #endif
 
@@ -66,7 +66,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE("apply core", ret);
+  LOG_RETURN_WITH_TYPE("apply core fun", ret);
 #endif
 
   return ret;
@@ -80,12 +80,12 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  LOG(fun,             "[apply by applying user]");
+  LOG(fun,             "[apply by applying user fun]");
   INDENT;
-  LOG(args,            "apply user to args");
-  LOG(env,             "apply user in env");
-  LOG(FUN_PARAMS(fun), "apply user with params");
-  LOG(FUN_BODY(fun),   "apply user with body");
+  LOG(args,            "apply user fun to args");
+  LOG(env,             "apply user fun in env");
+  LOG(FUN_PARAMS(fun), "apply user fun with params");
+  LOG(FUN_BODY(fun),   "apply user fun with body");
 #endif
 
 #ifndef AE_NO_SINGLE_SYM_PARAMS
@@ -100,11 +100,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
 
 #ifdef AE_LOG_EVAL
-  LOG(env,              "apply user in new env");
-  LOG(ENV_PARENT(env),  "new env parent");
-  LOG(ENV_SYMS(env),    "new env symbols");
-  LOG(ENV_VALS(env),    "new env values");
-  LOG(body,             "new env body");
+  LOG(env,              "apply user fun in new env");
+  LOG(ENV_PARENT(env),  "new user fun env parent");
+  LOG(ENV_SYMS(env),    "new user fun env symbols");
+  LOG(ENV_VALS(env),    "new user fun env values");
+  LOG(body,             "new user fun env body");
 #endif
 
   ae_obj_t * result = EVAL(env, body);
@@ -112,7 +112,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE("apply user", result);
+  LOG_RETURN_WITH_TYPE("apply user fun", result);
 #endif
 
   return result;

@@ -176,7 +176,7 @@
     EVAL(env, program_obj);
     SLOG("\nDone evaluating program.\n");
 
-#ifdef AE_DUMP_POOK_AFTER
+#ifdef AE_DUMP_POOL_AFTER
     pool_print();
 #endif
 
