@@ -78,5 +78,5 @@ Completed:
 - [x] Add ae_list_has_member.
 - [x] Add ae_list_remove_member.
 
-Cancelled:
-- [x] certain funcs should NOT return early when given ERRORS arguments. (Early return removed for now)
+Cancelled / Abandoned:
+- [x] certain funcs should NOT return early when given ERRORS arguments. (Early return abandoned for now)
