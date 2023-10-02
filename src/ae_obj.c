@@ -283,7 +283,7 @@ void ae_obj_set_delocated(ae_obj_t * const this, const bool deloc) {
   bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
   this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
   
-  printf("While setting deloc of %016p to (%08X), deloc was %08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
+  printf("While setting deloc of %016p to (0x%08X), deloc was 0x%08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
 
   printf("After:  0x%08X\n", this->metadata);
 }
@@ -358,7 +358,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
-  PR("While setting foo to '%016X' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n", foo, foo, old_foo, old_foo, this->metadata);
+  PR("While setting foo to '0x%016X' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n", foo, foo, old_foo, old_foo, this->metadata);
 #endif
 }
 
