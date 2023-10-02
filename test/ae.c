@@ -1099,9 +1099,10 @@ void deloc(void) {
     T(DELOCP(o));
 
     ae_obj_t * cons = CONS(NEW_INT(3), CONS(NEW_INT(4), NIL));
-
+    
     PUT(cons);
     NL;
+    
     
     //  PR("After:  "); 
     // ae_put_words(o);
