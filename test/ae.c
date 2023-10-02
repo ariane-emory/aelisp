@@ -1070,25 +1070,29 @@ void alist(void) {
 void deloc(void) {
   SETUP_TEST;
 
-  for(int ix = 0; ix < 64; ix++) {
-    ae_obj_t * this = NEW_INT(ix);
-    ae_obj_t * that = NEW_INT(ix);
+  /* for(int ix = 0; ix < 64; ix++) { */
+    ae_obj_t * obj = NEW_INT(ix);
+
+    // PR("Before: "); 
+    // ae_put_words(obj);
+    //NL;
     
+    T(! DELOCP(obj));
 
-    NL;
-    NL;
-//    PR("Before: "); 
-    ae_put_words(this);
-    NL;
-    ae_obj_set_delocated(this, true);
+    DELOC(obj);
+
+    T(DELOCP(obj));
+
+    RELOC(obj);
+
+    T(! DELOCP(obj));
+
     //  PR("After:  "); 
-    ae_put_words(this);
+    // ae_put_words(obj);
 
-    T(EQL(this, that));
-
-    ZERO(this);
-    ZERO(that);
-  }
+    /* ZERO(obj); */
+    /* ZERO(that); */
+  /* } */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
