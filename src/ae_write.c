@@ -222,9 +222,11 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
           COUNTED_FPRINTF(fwrite_stream, "%s< ", GET_TYPE_STR(this));
             
           if (NILP(ENV_PARENT(this)))
-            COUNTED_FPRINTF(fwrite_stream, "%018p → nil, ", this);
+            COUNTED_FPRINTF(fwrite_stream, "%s, %018p → nil, ",
+                            SYM_VAL(AGET(DEBUG_DATA(this), SYM(":last-bound-to"))),
+                            this);
           else 
-            COUNTED_FPRINTF(fwrite_stream, "%018p → %018p", this, ENV_PARENT(this));
+            COUNTED_FPRINTF(fwrite_stream, "%s, %018p → %018p", this, ENV_PARENT(this));
 
           COUNTED_FPRINTF(fwrite_stream, " >");
         }

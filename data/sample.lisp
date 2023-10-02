@@ -196,7 +196,7 @@ j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq xxx 777)
 ;;(setq yyy 888)
 
-(stop)
+;;(stop)
 
 ;; (nl)
 ;; (setq q (macro (xxx yyy)   (list (quote +) xxx yyy)))
