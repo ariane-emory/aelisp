@@ -344,7 +344,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 // _get_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ae_obj_get_deloc(const ae_obj_t * const this) {
+bool ae_obj_get_delocates(const ae_obj_t * const this) {
   assert(!NULLP(this));
   
   bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
@@ -360,7 +360,7 @@ bool ae_obj_get_deloc(const ae_obj_t * const this) {
 // _set_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_set_deloc(ae_obj_t * const this, const bool deloc) {
+void ae_obj_set_delocated(ae_obj_t * const this, const bool deloc) {
   assert(!NULLP(this));
   
   bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
