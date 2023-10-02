@@ -198,6 +198,10 @@ extern ae_obj_t * symbols_list;
 #define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define DELOCP(o)               (ae_obj_get_deloc((o)))
+#define DELOC(o)                (ae_obj_set_deloc((o), false))
+#define RELOC(o)                (ae_obj_set_deloc((o), true))
+////////////////////////////////////////////////////////////////////////////////////////////////////
 /* This could probably be DRYed up by using an X macro to create function versions of them, but  */
 /* their names would be ugly unless we renamed the types first to remove the AE_ prefix.          */
 /* Undecided.                                                                                     */

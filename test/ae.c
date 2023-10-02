@@ -1101,6 +1101,7 @@ void alist(void) {
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
+  DO(deloc)                                                                                        
 
 #define pair(fun) { #fun, fun },
 
