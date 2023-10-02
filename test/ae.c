@@ -1102,42 +1102,60 @@ void deloc(void) {
     obj car  = NEW_INT(3);
     obj cadr = NEW_INT(4);
     obj cons = CONS(car, CONS(cadr, NIL));
+    obj cdr  = CDR(cons); 
     
     PUT(cons);
     NL;
 
-    PR("cons' type = %s \n",      GET_TYPE_STR(cons));
-    PR("cons' car  = %016p \n",   CAR         (cons));
-    PR("cons' cdr  = %016p \n\n", CDR         (cons));
+    PR("cons'      = %016x \n",      (uintptr_t)             cons );
+    PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
+    PR("cons' car  = %016x \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = %016x \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car' type  = %s \n",      GET_TYPE_STR(car));
-    PR("car' car   = %016p \n",   CAR         (car));
-    PR("car' cdr   = %016p \n\n", CDR         (car));
+    PR("car'       = %016x \n",      (uintptr_t)             car  );
+    PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
+    if (CONSP(car)) {
+      PR("car' car   = %016x \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = %016x \n\n",  (uintptr_t)CDR         (car ));
+    }
+    NL;
     
-    PR("cadr' type = %s \n",      GET_TYPE_STR(cadr));
-    PR("cadr' car  = %016p \n",   CAR         (cadr));
-    PR("cadr' cdr  = %016p \n\n", CDR         (cadr));
+    PR("cdr'       = %016x \n",                              cdr  );
+    PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
+    if (CONSP(cdr)) {
+      PR("cdr'  cdr  = %016x \n",    (uintptr_t)CDR         (cdr ));
+      PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
+    }
 
     CAR(cons) = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t)pool_first) );
     CDR(cons) = (ae_obj_t *) ( ((uintptr_t)CDR(cons)) - ((uintptr_t)pool_first) );
     CAR(car)  = (ae_obj_t *) ( ((uintptr_t)CAR(car )) - ((uintptr_t)pool_first) );
     CDR(car)  = (ae_obj_t *) ( ((uintptr_t)CDR(car )) - ((uintptr_t)pool_first) );
-    CAR(cadr) = (ae_obj_t *) ( ((uintptr_t)CAR(cadr)) - ((uintptr_t)pool_first) );
-    CDR(cadr) = (ae_obj_t *) ( ((uintptr_t)CDR(cadr)) - ((uintptr_t)pool_first) );
+    CAR(cdr ) = (ae_obj_t *) ( ((uintptr_t)CAR(cdr )) - ((uintptr_t)pool_first) );
+    CDR(cdr ) = (ae_obj_t *) ( ((uintptr_t)CDR(cdr )) - ((uintptr_t)pool_first) );
 
-    PR("pool       = %016p \n\n", pool_begin);
+    PR("pool       = %016x \n",    (uintptr_t)pool_first);
+    PR("nil        = %016x \n\n",  (uintptr_t)NIL);
 
-    PR("cons' type = %s \n",      GET_TYPE_STR(cons));
-    PR("cons' car  = %016p \n",   CAR         (cons));
-    PR("cons' cdr  = %016p \n\n", CDR         (cons));
+    PR("cons'      = %016x \n",      (uintptr_t)             cons );
+    PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
+    PR("cons' car  = %016x \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = %016x \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car' type  = %s \n",      GET_TYPE_STR(car));
-    PR("car' car   = %016p \n",   CAR         (car));
-    PR("car' cdr   = %016p \n\n", CDR         (car));
+    PR("car'       = %016x \n",      (uintptr_t)             car  );
+    PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
+    if (CONSP(car)) {
+      PR("car' car   = %016x \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = %016x \n\n",  (uintptr_t)CDR         (car ));
+    }
+    NL;
     
-    PR("cadr' type = %s \n",      GET_TYPE_STR(cadr));
-    PR("cadr' car  = %016p \n",   CAR         (cadr));
-    PR("cadr' cdr  = %016p \n\n", CDR         (cadr));
+    PR("cdr'       = %016x \n",                              cdr  );
+    PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
+    if (CONSP(cdr)) {
+      PR("cdr'  cdr  = %016x \n",    (uintptr_t)CDR         (cdr ));
+      PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
+    }
     
     //  PR("After:  "); 
     // ae_put_words(o);
