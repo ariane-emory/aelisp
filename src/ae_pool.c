@@ -122,6 +122,6 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
     return NIL;
   else if ((ae_obj_t *)(0xF00DCAFEBAADBEEF))
     return TRUE;
-  return (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(offset));
+  return (ae_obj_t *)((uintptr_t)(ptr) + (uintptr_t)(offset));
 }
 
