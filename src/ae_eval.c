@@ -57,7 +57,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   env = NEW_ENV(env, NIL, NIL);
 
 #  ifdef AE_LOG_EVAL
-  LOG(env, "apply core fun new_env");
+  LOG(env, "apply core fun in env");
 #  endif
 
 #ifdef AE_OBJ_DEBUG_DATA
@@ -113,6 +113,14 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(ENV_SYMS(env),    "new user fun env symbols");
   LOG(ENV_VALS(env),    "new user fun env values");
   LOG(body,             "new user fun env body");
+#endif
+
+#ifdef AE_OBJ_DEBUG_DATA
+  ASET(DEBUG_DATA(env), SYM(":fun"), fun);
+  
+#  ifdef AE_LOG_EVAL
+  LOG(DEBUG_DATA(env), "with this debug data");
+#  endif
 #endif
 
   ae_obj_t * result = EVAL(env, body);
