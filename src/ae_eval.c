@@ -117,11 +117,13 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_OBJ_DEBUG_DATA
   ASET(DEBUG_DATA(env), SYM(":fun"), fun);
+
   
 #  ifdef AE_LOG_EVAL
   LOG(DEBUG_DATA(env), "with this debug data");
 #  endif
 #endif
+  while(1);
 
   ae_obj_t * result = EVAL(env, body);
 
