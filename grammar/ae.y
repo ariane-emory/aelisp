@@ -117,8 +117,8 @@
     /*   PUT(CADR(program_obj)); */
     /* } */
     
-    /* NL; */
-    /* pool_print(); */
+    NL;
+    pool_print();
     NL;
 
     puts("\nDescribing items in program.");

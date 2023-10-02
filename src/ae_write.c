@@ -207,16 +207,29 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_ENV:
     if (obj_debug) {
-      if (! COREP(AGET(DEBUG_DATA(this), SYM(":fun"))))
+      if (! COREP(AGET(DEBUG_DATA(this), SYM(":fun")))) {
+        if (COREP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
+          char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
+          
+          if (NILP(ENV_PARENT(this)))
+            COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), this, fun_name);
+          else
+            COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
+        }
+        else if (LAMBDAP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
+          char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
+          
+          COUNTED_FPRINTF(fwrite_stream, "%s< ", GET_TYPE_STR(this));
+            
+          if (NILP(ENV_PARENT(this)))
+            COUNTED_FPRINTF(fwrite_stream, "%018p → nil, ", this);
+          else 
+            COUNTED_FPRINTF(fwrite_stream, "%018p → %018p", this, ENV_PARENT(this));
+
+          COUNTED_FPRINTF(fwrite_stream, " >");
+        }
+      
         goto print_env_without_name;
-      
-      char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
-      
-      if (NILP(ENV_PARENT(this))) {
-        COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s>", GET_TYPE_STR(this), this, fun_name);
-      }
-      else {
-        COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
     }
     else {
