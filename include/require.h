@@ -16,8 +16,8 @@
                                                                                                    \
     ae_obj_t * err_data = NIL;                                                                     \
                                                                                                    \
-    ASET(err_data, SYM(":args"), args);                                                            \
-    ASET(err_data, SYM(":env"),  env);                                                             \
+    ASET(err_data, KW("args"), args);                                                              \
+    ASET(err_data, KW("env"),  env);                                                               \
                                                                                                    \
     return NEW_ERROR(err_data, msg);                                                               \
   }

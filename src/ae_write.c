@@ -207,17 +207,17 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_ENV:
 #ifdef AE_OBJ_DEBUG_DATA
-    if (! NILP(AGET(DEBUG_DATA(this), SYM(":fun")))) {
-      if (COREP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
-        char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
+    if (! NILP(AGET(DEBUG_DATA(this), KW("fun")))) {
+      if (COREP((AGET(DEBUG_DATA(this), KW("fun"))))) {
+        char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), KW("fun")));
         
         if (NILP(ENV_PARENT(this)))
           COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), fun_name, this );
         else
           COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
-      else if (LAMBDAP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
-        char * fun_name = SYM_VAL(AGET(DEBUG_DATA(AGET(DEBUG_DATA(this), SYM(":fun"))), SYM(":last-bound-to")));
+      else if (LAMBDAP((AGET(DEBUG_DATA(this), KW("fun"))))) {
+        char * fun_name = SYM_VAL(AGET(DEBUG_DATA(AGET(DEBUG_DATA(this), KW("fun"))), KW("last-bound-to")));
         
         if (NILP(ENV_PARENT(this))) 
           COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → nil >",
@@ -251,10 +251,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_LAMBDA:
   case AE_MACRO:
 #ifdef AE_OBJ_DEBUG_DATA
-    if (AHAS(DEBUG_DATA(this), SYM(":last-bound-to"))) {
+    if (AHAS(DEBUG_DATA(this), KW("last-bound-to"))) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p, ",
                       GET_TYPE_STR(this),
-                      SYM_VAL(AGET(DEBUG_DATA(this), SYM(":last-bound-to"))),
+                      SYM_VAL(AGET(DEBUG_DATA(this), KW("last-bound-to"))),
                       this);
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");
