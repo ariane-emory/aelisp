@@ -1108,24 +1108,24 @@ void deloc(void) {
     PUT(cons);
     NL;
 
-    PR("cons       = %" PRIxPTR " \n",      (uintptr_t)             cons );
+    PR("cons       = 0x%016" PRIx64 " \n",      (uintptr_t)             cons );
     PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
-    PR("cons' car  = %" PRIxPTR " \n",      (uintptr_t)CAR         (cons));
-    PR("cons' cdr  = %" PRIxPTR " \n\n",    (uintptr_t)CDR         (cons));
+    PR("cons' car  = 0x%016" PRIx64 " \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = 0x%016" PRIx64 " \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car        = %" PRIxPTR " \n",      (uintptr_t)             car  );
+    PR("car        = 0x%016" PRIx64 " \n",      (uintptr_t)             car  );
     PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
-      PR("car' car   = %" PRIxPTR " \n",    (uintptr_t)CAR         (car ));
-      PR("car' cdr   = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (car ));
+      PR("car' car   = 0x%016" PRIx64 " \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = 0x%016" PRIx64 " \n\n",  (uintptr_t)CDR         (car ));
     }
     NL;
     
-    PR("cdr        = %" PRIxPTR " \n",                              cdr  );
+    PR("cdr        = 0x%016" PRIx64 " \n",                              cdr  );
     PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      PR("cdr'  car  = %" PRIxPTR " \n",    (uintptr_t)CAR         (cdr ));
-      PR("cdr'  cdr  = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = 0x%016" PRIx64 " \n",    (uintptr_t)CAR         (cdr ));
+      PR("cdr'  cdr  = 0x%016" PRIx64 " \n\n",  (uintptr_t)CDR         (cdr ));
     }
 
 #define DELOC_PTR(ptr)                                                                             \
@@ -1141,28 +1141,28 @@ void deloc(void) {
     DELOC_PTR(CAR(cdr ));
     DELOC_PTR(CDR(cdr ));
 
-    PR("pool       = %" PRIxPTR " \n",    (uintptr_t)pool_first);
-    PR("nil        = %" PRIxPTR " \n\n",  (uintptr_t)NIL);
-    PR("size       = %16d \n\n",          sizeof(uintptr_t));
+    PR("pool       = 0x%016" PRIx64 " \n",      (uintptr_t)pool_first);
+    PR("nil        = 0x%016" PRIx64 " \n\n",    (uintptr_t)NIL);
+    PR("size       = %16d \n\n",              sizeof(uintptr_t));
 
-    PR("cons       = %" PRIxPTR " \n",      (uintptr_t)             cons );
-    PR("cons' type = %s \n",                (uintptr_t)GET_TYPE_STR(cons));
-    PR("cons' car  = %" PRIxPTR " \n",      (uintptr_t)CAR         (cons));
-    PR("cons' cdr  = %" PRIxPTR " \n\n",    (uintptr_t)CDR         (cons));
+    PR("cons       = 0x016%" PRIx64 " \n",      (uintptr_t)             cons );
+    PR("cons' type = %s \n",                  (uintptr_t)GET_TYPE_STR(cons));
+    PR("cons' car  = 0x%016" PRIx64 " \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = 0x%016" PRIx64 " \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car        = %" PRIxPTR " \n",      (uintptr_t)             car  );
-    PR("car'  type = %s \n",                (uintptr_t)GET_TYPE_STR(car ));
+    PR("car        = 0x%016" PRIx64 " \n",      (uintptr_t)             car  );
+    PR("car'  type = %s \n",                  (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
-      PR("car' car   = %" PRIxPTR " \n",    (uintptr_t)CAR         (car ));
-      PR("car' cdr   = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (car ));
+      PR("car' car   = 0x%016" PRIx64 " \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = 0x%016" PRIx64 " \n\n",  (uintptr_t)CDR         (car ));
     }
     NL;
     
-    PR("cdr        = %" PRIxPTR " \n",                              cdr  );
+    PR("cdr        = 0x%016" PRIx64 " \n",                              cdr  );
     PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      PR("cdr'  car  = %" PRIxPTR " \n",    (uintptr_t)CAR         (cdr ));
-      PR("cdr'  cdr  = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = 0x%016" PRIx64 " \n",    (uintptr_t)CAR         (cdr ));
+      PR("cdr'  cdr  = 0x%016" PRIx64 " \n\n",  (uintptr_t)CDR         (cdr ));
     }
     
     //  PR("After:  "); 
