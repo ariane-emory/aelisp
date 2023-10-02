@@ -1,5 +1,4 @@
 To Do:
-- [ ] DEF_MATH_OP could make fewer new AE_INTTEGERs.
 - [ ] Make a fun to de-locate / move the pointers in the pool.
 - [ ] Test to confirm that core setq returns an error if asked to set the value of nil, t or keywords.
 - [ ] Refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
@@ -24,6 +23,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] DEF_MATH_OP could make fewer new AE_INTEGERs.
 - [x] core left and right shift.
 - [x] core setq should return an error if asked to set the value of nil, t or keywords.
 - [x] Get rid of obj_debug, the #ifdef is better.

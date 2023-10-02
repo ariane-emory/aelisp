@@ -47,27 +47,26 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
   CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
                                                                                                    \
-  ae_obj_t * accum = NIL;                                                                          \
+  int        accum = 0;                                                                            \
   ae_obj_t * rest  = NIL;                                                                          \
                                                                                                    \
   if (NILP(CDR(args))) {                                                                           \
-    accum = NEW_INT(default);                                                                      \
+    accum = default;                                                                               \
     rest  = args;                                                                                  \
   }                                                                                                \
   else {                                                                                           \
     REQUIRE(env, args, INTEGERP(CAR(args)));                                                       \
                                                                                                    \
-    accum = CAR(args);                                                                             \
+    accum = INT_VAL(CAR(args));                                                                    \
     rest  = CDR(args);                                                                             \
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
     REQUIRE(env, args, INTEGERP(elem));                                                            \
-    /* INT_VAL(accum) = INT_VAL(accum) oper INT_VAL(elem); */                                      \
-    accum = NEW_INT(INT_VAL(accum) oper INT_VAL(elem));                                            \
+    accum = accum oper INT_VAL(elem);                                                              \
   }                                                                                                \
                                                                                                    \
-  CORE_RETURN(#name, accum);                                                                       \
+  CORE_RETURN(#name, NEW_INT(accum));                                                              \
 }
 
 FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
