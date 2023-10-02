@@ -1,3 +1,5 @@
+(1 . (2 . 3))
+
 ;; These first 5 expressions are parsed correctly by the grammar:
 (print (+ 1 2)) ;; a 'math_list'. 
 (print (+ 3 (* 4 5))) ;; another 'math_list'. 
