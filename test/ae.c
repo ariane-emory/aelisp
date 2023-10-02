@@ -1099,7 +1099,9 @@ void deloc(void) {
 
     T(DELOCP(o));
 
-    ae_obj_t * cons = CONS(NEW_INT(3), CONS(NEW_INT(4), NIL));
+    obj car  = NEW_INT(3);
+    obj cadr = NEW_INT(4);
+    obj cons = CONS(car, CONS(cadr, NIL));
     
     PUT(cons);
     NL;
