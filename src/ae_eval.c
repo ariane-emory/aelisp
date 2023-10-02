@@ -50,7 +50,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
 #  ifdef AE_OBJ_DEBUG_DATA
-  ASET(DEBUG_DATA(env), SYM(":fun"), fun);
+  ASET(DEBUG_DATA(env), KW("fun"), fun);
 #  endif
 #endif
 
@@ -111,7 +111,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
 #ifdef AE_OBJ_DEBUG_DATA
-  ASET(DEBUG_DATA(env), SYM(":fun"), fun);
+  ASET(DEBUG_DATA(env), KW("fun"), fun);
 
   
 #  ifdef AE_LOG_EVAL
@@ -200,17 +200,17 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (! ERRORP(ret))
     goto ret;
 
-  if (AHAS(ERR_OBJ(ret), SYM(":fun")))
+  if (AHAS(ERR_OBJ(ret), KW("fun")))
     ASET(ERR_OBJ(ret),
-         SYM(":fun"),
+         KW("fun"),
 #ifdef AE_CALLSTACK_IS_PROPER
-         CONS(fun, AGET(ERR_OBJ(ret), SYM(":fun"))));
+         CONS(fun, AGET(ERR_OBJ(ret), KW("fun"))));
 #else
-  /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM(":fun"))));
+  /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), KW("fun"))));
 #endif
   else
     ASET(ERR_OBJ(ret),
-         SYM(":fun"),
+         KW("fun"),
 #ifdef AE_CALLSTACK_IS_PROPER
          CONS(fun, NIL));
 #else
