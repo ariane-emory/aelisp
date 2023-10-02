@@ -1172,9 +1172,14 @@ void deloc(void) {
     
     T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
     T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
-    T(((uintptr_t)DELOCALIZED(pool_first)) == 0                   );
-    T(((uintptr_t)DELOCALIZED(pool_first)) == ( (uintptr_t)     0));
+    T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
     T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
+
+    T((LOCALIZED(0xC0FFEEF00DC0FFEE, pool_first)) == NIL       );
+    T((LOCALIZED(0xF00DCAFEBAADBEEF, pool_first)) == TRUE      );
+    T((LOCALIZED(0x0,                 pool_first)) == pool_first);
+    
+//    T(((uintptr_t)LOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

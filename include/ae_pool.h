@@ -4,10 +4,10 @@
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DELOCALIZED(ptr)  ((pool_delocalize_ptr(((struct ae_obj_t *)ptr))))
-#define LOCALIZED(ptr)    ((pool_localize_ptr(((struct ae_obj_t *)ptr))))
-#define DELOCALIZE(ptr)   ((ptr) = DELOCALIZED((ptr)))
-#define LOCALIZE(ptr)     ((ptr) = LOCALIZED((ptr)))
+#define DELOCALIZED(ptr)       ((pool_delocalize_ptr((struct ae_obj_t *)(ptr))))
+#define LOCALIZED(ptr, offset) ((pool_localize_ptr  ((struct ae_obj_t *)(ptr), (struct ae_obj_t *)(offset)))) 
+#define DELOCALIZE(ptr)        ((ptr) = DELOCALIZED ((ptr)))
+#define LOCALIZE(ptr, offset)  ((ptr) = LOCALIZED   ((struct ae_obj_t *)(ptr), (struct ae_obj_t *)(offset)))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // pool
