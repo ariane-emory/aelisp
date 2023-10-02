@@ -231,14 +231,14 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
                           this,
                           ENV_PARENT(this));
       }
-      else
+    }    
+    else
 #endif
-      {
+      if (true) {
         goto print_env_without_name;
       }
-  }
-  else {
-  print_env_without_name:
+    else {
+    print_env_without_name:
     if (NILP(ENV_PARENT(this))) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil >", GET_TYPE_STR(this), this);
     }

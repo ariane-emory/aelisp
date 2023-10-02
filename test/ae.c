@@ -1072,15 +1072,18 @@ void deloc(void) {
 
   for(int ix = 0; ix < 64; ix++) {
     this = NEW_INT(ix);
+    that = NEW_INT(ix);
 
-    PR("#%2d: ");
     NL;
+    PR("#%2d: ");
     ae_put_words(this);
     
     DELOC(this);
-    
+
     NL;
     ae_put_words(this);
+
+    T(EQ(this, that));
   }
 }
 
