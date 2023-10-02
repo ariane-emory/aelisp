@@ -1085,12 +1085,12 @@ void deloc(void) {
 
     T(MARKED_AS_DELOCALIZEDP(o));
 
-    RELOC(o);
+    UNMARK_DELOCALIZED(o);
 
     T(! MARKED_AS_DELOCALIZEDP(o));
 
 
-    RELOC(o);
+    UNMARK_DELOCALIZED(o);
 
     T(! MARKED_AS_DELOCALIZEDP(o));
 
@@ -1168,7 +1168,7 @@ void deloc(void) {
     /*   PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr )); */
     /* } */
 
-    obj an_int = NEW_INT(1);
+    obj an_int = NEW_INT(13);
     
     T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
     T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
@@ -1202,20 +1202,6 @@ void deloc(void) {
       T(left == right);
       TM("%016p != %016p", left, right);
     }
-
-    /* { */
-    /*   obj left  = LOCALIZED(DELOCALIZED(an_int), pool_first); */
-    /*   obj right = (obj)pool_first; */
-    /*   T(left == right); */
-    /*   TM("%016p != %016p", left, right); */
-    /* } */
-
-    /* /\* T( an_int == LOCALIZED(DELOCALIZED(an_int), pool_first) ); *\/ */
-    /* /\* TM("%016p != %016p", an_int, LOCALIZED(DELOCALIZED(an_int), pool_first)); *\/ */
-
-    /* /\* T((LOCALIZED(0x0,                   DELOCALIZED(an_int))) == DELOCALIZED(an_int)); *\/ */
-    /* /\* TM("%016p != %016p", LOCALIZED(0x0, DELOCALIZED(an_int)),    DELOCALIZED(an_int)); *\/ */
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
