@@ -1070,15 +1070,18 @@ void alist(void) {
 void deloc(void) {
   SETUP_TEST;
 
-  this = NEW_INT(18);
+  for(int ix = 0; ix < 64; ix++) {
+    this = NEW_INT(ix);
 
-  NL;
-  ae_put_words(this);
-
-  DELOC(this);
-  
-  NL;
-  ae_put_words(this);
+    PR("#%2d: ");
+    NL;
+    ae_put_words(this);
+    
+    DELOC(this);
+    
+    NL;
+    ae_put_words(this);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

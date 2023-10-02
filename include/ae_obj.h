@@ -175,7 +175,7 @@ extern ae_obj_t * symbols_list;
 #ifdef AE_OBJ_DEBUG_DATA
 #  define DEBUG_DATA(this)      ((this)->debug_data)
 #else
-#  define DEBUG_DATA(this)      (((void)this), NIL)
+#  define DEBUG_DATA(this)      (assert(0))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_STR(t)             (ae_type_str(((t))) + 3)
