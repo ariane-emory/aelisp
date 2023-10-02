@@ -1167,6 +1167,14 @@ void deloc(void) {
       PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr ));
       PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr ));
     }
+
+    obj an_int = NEW_INT(1);
+    
+    T(((uintptr_t)DELOCATED(NIL))        == 0xC0FFEEF00DC0FFEE  );
+    T(((uintptr_t)DELOCATED(TRUE))       == 0xF00DCAFEBAADBEEF  );
+    T(((uintptr_t)DELOCATED(pool_first)) == 0                   );
+    T(((uintptr_t)DELOCATED(pool_first)) == ( (uintptr_t)     0));
+    T(((uintptr_t)DELOCATED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
