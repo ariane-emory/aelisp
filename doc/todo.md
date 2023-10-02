@@ -1,12 +1,7 @@
 To Do:
 - [ ] Make a fun to de-locate / move the pointers in the pool.
 - [ ] core left and right shift.
-- [ ] core setq should return an error if asked to set the value of nil.
-- [ ] Test to confirm that core setq returns an error if asked to set the value of nil.
-- [ ] core setq should return an error if asked to set the value of t.
-- [ ] Test to confirm that core setq returns an error if asked to set the value of t.
-- [ ] core setq should return an error if asked to set the value of a keyword.
-- [ ] Test to confirm that core setq returns an error if asked to set the value of a keyword.
+- [ ] Test to confirm that core setq returns an error if asked to set the value of nil, t or keywords.
 - [ ] Refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] core apply
 - [ ] Fix macro expansion from eval.
@@ -29,6 +24,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] core setq should return an error if asked to set the value of nil, t or keywords.
 - [x] Get rid of obj_debug, the #ifdef is better.
 - [x] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [x] core rplaca/rplacd
