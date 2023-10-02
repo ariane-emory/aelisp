@@ -1,6 +1,5 @@
 To Do:
 - [ ] Make a fun to de-locate / move the pointers in the pool.
-- [ ] Get rid of obj_debug, the #ifdef is better.
 - [ ] core left and right shift.
 - [ ] core setq should return an error if asked to set the value of nil.
 - [ ] Test to confirm that core setq returns an error if asked to set the value of nil.
@@ -20,7 +19,6 @@ To Do:
 Under Consideration:
 - [ ] Maybe parse-time math on integers?
 - [ ] Maybe put line/column of source in metadata of relevant objects?
-- [ ] Maybe some special funs need to be paed cast ae_obj_t **'s or something like that?
 - [ ] Maybe slice up root_env_and_eval test? It's pretty big.
 - [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
@@ -31,6 +29,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Get rid of obj_debug, the #ifdef is better.
 - [x] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [x] core rplaca/rplacd
 - [x] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.

@@ -19,8 +19,8 @@
 ({                                                                                                 \
   SLOG("[core " name "]");                                                                         \
   INDENT;                                                                                          \
-  LOG(env,  name " env");                                                                          \
-  LOG(args, name " args");                                                                         \
+  LOG(args, name " with args");                                                                    \
+  LOG(env,  name " in env");                                                                       \
 })
 #else
 #  define CORE_BEGIN(name) ((void)name)
@@ -30,7 +30,7 @@
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
  OUTDENT;                                                                                          \
- LOG_RETURN_WITH_TYPE("apply core " name, val);                                                    \
+ LOG_RETURN_WITH_TYPE("applying core " name, val);                                                 \
  return val;                                                                                       \
 })
 #else
@@ -174,12 +174,13 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * val         = CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
+  REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant");
   REQUIRE(env, args, sym != NIL,  "nil is a constant symbol");
   REQUIRE(env, args, sym != TRUE, "t is a constant symbol");
 
 #ifdef AE_LOG_CORE
-  LOG(sym, "core setq sym");
-  LOG(val, "core setq val");
+  LOG(sym, "setting symbol");
+  LOG(val, "to value");
 #endif
 
   val                    = EVAL(env, val);
