@@ -1079,26 +1079,26 @@ void deloc(void) {
     // ae_put_words(o);
     //NL;
     
-    /* T(! MARKED_AS_DELOCALIZEDP(o)); */
+    T(! MARKED_AS_DELOCALIZEDP(o));
 
-    /* MARK_DELOCALIZED(o); */
+    MARK_DELOCALIZED(o);
 
-    /* T(MARKED_AS_DELOCALIZEDP(o)); */
+    T(MARKED_AS_DELOCALIZEDP(o));
 
-    /* RELOC(o); */
+    RELOC(o);
 
-    /* T(! MARKED_AS_DELOCALIZEDP(o)); */
+    T(! MARKED_AS_DELOCALIZEDP(o));
 
 
-    /* RELOC(o); */
+    RELOC(o);
 
-    /* T(! MARKED_AS_DELOCALIZEDP(o)); */
+    T(! MARKED_AS_DELOCALIZEDP(o));
 
-    /* MARK_DELOCALIZED(o); */
+    MARK_DELOCALIZED(o);
 
-    /* T(MARKED_AS_DELOCALIZEDP(o)); */
+    T(MARKED_AS_DELOCALIZEDP(o));
 
-    /* T(MARKED_AS_DELOCALIZEDP(o)); */
+    T(MARKED_AS_DELOCALIZEDP(o));
 
     /* obj car  = TRUE; */
     /* obj cadr = NEW_INT(4); */
