@@ -1,4 +1,5 @@
 To Do:
+- [ ] Get rid of obj_debug, the #ifdef is better.
 - [ ] core left and right shift.
 - [ ] core setq should return an error if asked to set the value of nil.
 - [ ] Test to confirm that core setq returns an error if asked to set the value of nil.
