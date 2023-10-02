@@ -1087,6 +1087,17 @@ void deloc(void) {
 
     T(! DELOCP(o));
 
+
+    RELOC(o);
+
+    T(! DELOCP(o));
+
+    DELOC(o);
+
+    T(DELOCP(o));
+
+    T(DELOCP(o));
+
     //  PR("After:  "); 
     // ae_put_words(o);
 
