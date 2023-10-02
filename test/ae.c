@@ -1186,6 +1186,8 @@ void deloc(void) {
       TM("%016p != %016p", left, right);
     }
 
+    NL;
+
     {
       obj left  = LOCALIZED(DELOCALIZED(an_int), pool_first);
       obj right = (obj)pool_first;

@@ -128,7 +128,7 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
   else if (ptr == (ae_obj_t *)(0xF00DCAFEBAADBEEF))
     return TRUE;
 
-  PR("Adding %016p to %016p.\n", offset, ptr);
+  PR("Adding      %016p to %016p.\n", offset, ptr);
   fflush(stdout);
   // while(1);
   
