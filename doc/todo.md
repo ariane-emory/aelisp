@@ -1,13 +1,14 @@
 To Do:
+- [ ] core left and right shift.
 - [ ] core setq should return an error if asked to set the value of nil.
-- [ ] test to confirm that core setq returns an error if asked to set the value of nil.
+- [ ] Test to confirm that core setq returns an error if asked to set the value of nil.
 - [ ] core setq should return an error if asked to set the value of t.
-- [ ] test to confirm that core setq returns an error if asked to set the value of t.
+- [ ] Test to confirm that core setq returns an error if asked to set the value of t.
 - [ ] core setq should return an error if asked to set the value of a keyword.
-- [ ] test to confirm that core setq returns an error if asked to set the value of a keyword.
-- [ ] refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
+- [ ] Test to confirm that core setq returns an error if asked to set the value of a keyword.
+- [ ] Refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] core apply
-- [ ] fix macro expansion from eval.
+- [ ] Fix macro expansion from eval.
 - [ ] Implement math for non-integer types.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters needing escaping.

@@ -1,3 +1,4 @@
+/* -*- mode: flex; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 %{
 #include <stdio.h>
 #include <string.h>
@@ -17,7 +18,12 @@
     enum yytokentype yy_tok_type,
     const ae_type_t ae_type) {
 #ifdef AE_LOG_LEX
-    printf("Lex grabbed '%s', a %s with yy_tok_type %d.\n", yytext, ae_type_str(ae_type), yy_tok_type);
+    if (ae_type == AE_INVALID) {
+      printf("Lex grabbed '%s', with yy_tok_type %d.\n", yytext, yy_tok_type);
+    }
+    else {
+      printf("Lex grabbed '%s', a %s with yy_tok_type %d.\n", yytext, TYPE_STR(ae_type), yy_tok_type);
+    }
     fflush(stdout);
 #endif
 
@@ -34,14 +40,22 @@
       yy_tok_type = SYMBOL;
       goto end;
     }
-    
-    switch (ae_type) {
-    case AE_SYMBOL:
+
+    if (ae_type == AE_INVALID)
+      goto end;
+
+    if (ae_type == AE_SYMBOL) {
       yylval = SYM(yytext);
-    case AE_INVALID:
-      goto end;      
+
+      goto end;
     }
-        
+
+    /* if (yy_tok_type == MATH_SYMBOL) { */
+    /*   yylval = SYM(yytext); */
+
+    /*   goto end; */
+    /* } */
+
     yylval = NEW(ae_type);
       
     switch (GET_TYPE(yylval)) {
@@ -120,28 +134,28 @@
 %%
 
 nil                                                                        |
-\([\f\n\t\v\ ]*\)                                                          TOKENIZE(NILTOK,   AE_SYMBOL  );
-\'                                                                         TOKENIZE(QUOTE,    AE_INVALID );
-\`                                                                         TOKENIZE(BACKTICK, AE_INVALID );
-\,\@                                                                       TOKENIZE(COMMA_AT, AE_INVALID );
-\,                                                                         TOKENIZE(COMMA,    AE_INVALID );
-\.                                                                         TOKENIZE(DOT,      AE_INVALID );
-\(                                                                         TOKENIZE(LPAREN,   AE_INVALID );
-\)                                                                         TOKENIZE(RPAREN,   AE_INVALID );
-\"((\\\")|([^\"]))*\"                                                      TOKENIZE(STRING,   AE_STRING  );
+\([\f\n\t\v\ ]*\)                                                          TOKENIZE(NILTOK,      AE_SYMBOL  );
+\'                                                                         TOKENIZE(QUOTE,       AE_INVALID );
+\`                                                                         TOKENIZE(BACKTICK,    AE_INVALID );
+\,\@                                                                       TOKENIZE(COMMA_AT,    AE_INVALID );
+\,                                                                         TOKENIZE(COMMA,       AE_INVALID );
+\.                                                                         TOKENIZE(DOT,         AE_INVALID );
+\(                                                                         TOKENIZE(LPAREN,      AE_INVALID );
+\)                                                                         TOKENIZE(RPAREN,      AE_INVALID );
+\"((\\\")|([^\"]))*\"                                                      TOKENIZE(STRING,      AE_STRING  );
 '[^']'                                                                     |
 '\\.'                                                                      |
 \?\\\\.                                                                    |
-\?\\.                                                                      TOKENIZE(CHAR,     AE_CHAR    );
-[\+\-\/\%\*]                                                               |
+\?\\.                                                                      TOKENIZE(CHAR,        AE_CHAR    );
+ [\+\-\/\%\*]                                                              TOKENIZE(SYMBOL,      AE_SYMBOL  );
 !?=|(>=?)|(<=?)                                                            |
 ([1-9][0-9]+)?[\+\-\/\*]                                                   |
 \*([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]?\*           |
-([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,   AE_SYMBOL  );
-[-+]?[0-9]+                                                                TOKENIZE(INTEGER,  AE_INTEGER );
+([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]? TOKENIZE(SYMBOL,      AE_SYMBOL  );
+[-+]?[0-9]+                                                                TOKENIZE(INTEGER,     AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*                                                        | 
-[-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,    AE_FLOAT   );
-[-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL, AE_RATIONAL);
+[-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
+[-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
 
