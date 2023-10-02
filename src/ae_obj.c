@@ -358,7 +358,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
-  PR("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n", foo, foo, old_foo, old_foo, this->metadata);
+  PR("While setting foo to '%016X' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n", foo, foo, old_foo, old_foo, this->metadata);
 #endif
 }
 
