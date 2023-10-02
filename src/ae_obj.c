@@ -253,7 +253,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 
 #define MASK(size, shift)                   ((unsigned int) (((1 << (size)) - 1) << (shift)))
 #define GET_MASKED(type, from, mask, shift) ((type) (((from) & (mask)) >> (shift)))
-#define TO_MASKED(value, mask, shift)       (assert(shift == 31), this->metadata & ~(mask)) | ((unsigned int)(value) << (shift))
+#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | ((unsigned int)(value) << (shift))
 
 
 #define AE_TYPE_BITS    6
