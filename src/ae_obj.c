@@ -276,16 +276,16 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 void ae_obj_set_delocated(ae_obj_t * const this, const bool deloc) {
   assert(!NULLP(this));
   
-  printf("Before: 0x%016X\n", this->metadata);
+  printf("Before: 0x%08X\n", this->metadata);
   
-  printf("mask is  %0016X, shift is %0016X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
+  printf("mask is  %008X, shift is %008X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
   
   bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
   this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
   
-  printf("While setting deloc of %016p to (%016X), deloc was %016X. Metadata is now 0x%016X.\n", deloc, deloc, old_deloc, this->metadata);
+  printf("While setting deloc of %016p to (%08X), deloc was %08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
 
-  printf("After:  0x%016X\n", this->metadata);
+  printf("After:  0x%08X\n", this->metadata);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -298,7 +298,7 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
   ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  // PR("While getting type, metadata was 0x%016X, type is %d.\n", this->metadata, type);
+  // PR("While getting type, metadata was 0x%08X, type is %d.\n", this->metadata, type);
 #endif
   
   // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
@@ -320,7 +320,7 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
   this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  // PR("While setting type to %d, type was %d. Metadata is now 0x%016X.\n", type, old_type, this->metadata); 
+  // PR("While setting type to %d, type was %d. Metadata is now 0x%08X.\n", type, old_type, this->metadata); 
 #endif
 
   // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
@@ -339,7 +339,7 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
   char foo = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  //PR("While getting foo, metadata was 0x%016X, foo is '%c' (%d).\n", this->metadata, foo, foo);
+  //PR("While getting foo, metadata was 0x%08X, foo is '%c' (%d).\n", this->metadata, foo, foo);
 #endif
 
   return foo;
@@ -358,7 +358,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
-  PR("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);
+  PR("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n", foo, foo, old_foo, old_foo, this->metadata);
 #endif
 }
 
@@ -372,7 +372,7 @@ bool ae_obj_get_delocated(const ae_obj_t * const this) {
   bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
 
 #ifdef AE_LOG_METADATA
-  PR("While getting deloc of %016p, metadata was 0x%016X, deloc is %d.\n", this->metadata, deloc);
+  PR("While getting deloc of %016p, metadata was 0x%08X, deloc is %d.\n", this->metadata, deloc);
 #endif
 
   return deloc;
