@@ -1102,7 +1102,7 @@ void deloc(void) {
 
     obj car  = TRUE;
     obj cadr = NEW_INT(4);
-    obj cons = CONS(car, CONS(cadr, NIL));
+    obj cons = CONS(NIL, CONS(TRUE, NIL));
     obj cdr  = CDR(cons); 
     
     PUT(cons);
@@ -1138,7 +1138,7 @@ void deloc(void) {
       else                                                                           \
         ptr = (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(pool_first));              \
       ptr;                                                                           \
-})
+      })
 
 
     printf("size of ae_obj_t * = %16d \n\n",         sizeof(ae_obj_t *));
@@ -1150,6 +1150,7 @@ void deloc(void) {
     NL;
     
     printf("cons' cdr  = 0x%016" PRIx64 " \n",    (uintptr_t)CDR         (cons));
+    DELOC_PTR(CAR(cons));
     DELOC_PTR(CDR(cons));
     printf("cons' cdr  = 0x%016" PRIx64 " \n\n",    (uintptr_t)CDR         (cons));
 
