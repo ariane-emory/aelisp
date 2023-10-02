@@ -1135,7 +1135,7 @@ void deloc(void) {
     else if (ptr == TRUE)                                                            \
       ptr = (ae_obj_t *)(~((uintptr_t)2));                                          \
     else                                                                             \
-      ptr = (ae_obj_t *)(~((uintptr_t)1) + ((uintptr_t)(ptr) - (uintptr_t)(pool_first)));
+    ptr = (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(pool_first));
 
 
     printf("size of ae_obj_t * = %16d \n\n",         sizeof(ae_obj_t *));
