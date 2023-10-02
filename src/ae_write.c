@@ -231,7 +231,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
                             this,
                             ENV_PARENT(this));
 
-          FSPC(fwrite_stream);
+          COUNTED_FPUTC(' ', fwrite_stream);
           
           WRITE(DEBUG_DATA(this));
 

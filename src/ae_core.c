@@ -188,8 +188,13 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   if (LAMBDAP(val) || MACROP(val)) {
 #  ifdef AE_LOG_CORE
     LOG(DEBUG_DATA(val), "core setq val's new debug data");
+    while(1);
 #  endif
     ASET(DEBUG_DATA(val), SYM(":last-bound-to"), sym);
+  }
+  else {
+    LOG(val, "bad val");
+    while(1);
   }
 #endif
   

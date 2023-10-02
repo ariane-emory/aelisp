@@ -18,9 +18,9 @@ j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq nl        (lambda ()         (princ "
 ;; "))                                                           )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq eq?        eq                                           )
-(setq tail?      tailp                                        )
-(setq proper?    properp                                      )
+;; (setq eq?        eq                                           )
+;; (setq tail?      tailp                                        )
+;; (setq proper?    properp                                      )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq list      (lambda  args       args                     ))
 ;; (setq list   (lambda (h . t)    (cons    h            t  )))
