@@ -1129,13 +1129,16 @@ void deloc(void) {
     }
 
 #define DELOC_PTR(ptr)                                                               \
-    printf("Delocating.\n");                                                         \
-    if (NILP(ptr))                                                                   \
-      ptr = (ae_obj_t *)(~((uintptr_t)1));                                          \
-    else if (ptr == TRUE)                                                            \
-      ptr = (ae_obj_t *)(~((uintptr_t)2));                                          \
-    else                                                                             \
-    ptr = (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(pool_first));
+    ({                                                                               \
+      printf("Delocating.\n");                                                       \
+      if (NILP(ptr))                                                                 \
+        ptr = (ae_obj_t *)(~((uintptr_t)1));                                         \
+      else if (ptr == TRUE)                                                          \
+        ptr = (ae_obj_t *)(~((uintptr_t)2));                                         \
+      else                                                                           \
+        ptr = (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(pool_first));              \
+      ptr;                                                                           \
+})
 
 
     printf("size of ae_obj_t * = %16d \n\n",         sizeof(ae_obj_t *));
@@ -1150,6 +1153,9 @@ void deloc(void) {
     DELOC_PTR(CDR(cons));
     printf("cons' cdr  = 0x%016" PRIx64 " \n\n",    (uintptr_t)CDR         (cons));
 
+
+    obj tmp = (obj)pool_first;
+    printf("DELOC_PTR(pool_first) is at         = 0x%016" PRIx64 " \n",      ((uintptr_t)(DELOC_PTR(tmp))));
     NL;NL;NL;
 
     
