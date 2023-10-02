@@ -184,6 +184,11 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 
   val                    = EVAL(env, val);
 
+#ifdef AE_OBJ_DEBUG_DATA
+  if (LAMBDAP(val) || MACROP(val))
+    ASET(DEBUG_DATA(val), SYM(":last-bound-to"), sym);
+#endif
+  
   ENV_SET(env, sym, val);
 
   CORE_RETURN("setq", val);
