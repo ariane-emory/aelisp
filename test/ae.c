@@ -1097,45 +1097,35 @@ void deloc(void) {
   T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
   T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
   T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
-  T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
-  
+  T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));  
   T((LOCALIZED(0xC0FFEEF00DC0FFEE,   pool_first)) == NIL       );
   T((LOCALIZED(0xF00DCAFEBAADBEEF,   pool_first)) == TRUE      );
   T((LOCALIZED(0x0,                   pool_first)) == pool_first);
   
-  NL;
   {
     obj left  = LOCALIZED((ae_obj_t *)0x0, pool_first);
     obj right = (obj)pool_first;
     T(left == right);
     TM("%016p != %016p", left, right);
-  }
-  
-  NL;
+  }  
   {
     obj left  = DELOCALIZED(LOCALIZED((ae_obj_t *)0x0, pool_first));
     obj right = (obj)0;
     T(left == right);
     TM("%016p != %016p", left, right);
   }
-  
-  NL;
   {
     obj left  = LOCALIZED(DELOCALIZED((ae_obj_t *)pool_first), pool_first);
     obj right = (obj)pool_first;
     T(left == right);
     TM("%016p != %016p", left, right);
-  }
-  
-  NL;
+  }  
   {
     obj left  = DELOCALIZED(LOCALIZED(an_int, pool_first));
     obj right = an_int;
     T(left == right);
     TM("%016p != %016p", left, right);
   }
-  
-  NL;
   {
     obj left  = LOCALIZED(DELOCALIZED(an_int), pool_first);
     obj right = an_int;

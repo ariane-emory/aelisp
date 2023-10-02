@@ -6,12 +6,14 @@
 
 #define DELOCALIZED(ptr)       ((pool_delocalize_ptr((struct ae_obj_t *)(ptr))))
 #define LOCALIZED(ptr, offset) ((pool_localize_ptr  ((struct ae_obj_t *)(ptr), (struct ae_obj_t *)(offset)))) 
-#define DELOCALIZE(ptr)                                                                             \
-  ((ptr) = DELOCALIZED ((ptr)));                                                                    \
-  MARK_DELOCALIZED((ptr));
-#define LOCALIZE(ptr, offset)                                                                       \
-  ((ptr) = LOCALIZED   ((ptr)))                                                                     \
-  MARK_DELOCALIZED((ptr));
+
+// These two need more thought:
+/* #define DELOCALIZE(ptr)                                                                             \ */
+/*   ((ptr) = DELOCALIZED ((ptr)));                                                                    \ */
+/*   MARK_DELOCALIZED((ptr)); */
+/* #define LOCALIZE(ptr, offset)                                                                       \ */
+/*   ((ptr) = LOCALIZED   ((ptr)))                                                                     \ */
+/*   MARK_DELOCALIZED((ptr)); */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // pool
