@@ -129,8 +129,8 @@ ae_obj_t *    ae_obj_truth          (const bool             this                
 ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                                  );
 void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool          ae_obj_get_delocalized  (const ae_obj_t * const this                                  );
-void          ae_obj_set_delocalized  (      ae_obj_t * const this, const bool             foo      );
+bool          ae_obj_get_delocalized(const ae_obj_t * const this                                  );
+void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // These two are not yet used and are just here as an example of how to set the next metadata region:
 char          ae_obj_get_foo        (const ae_obj_t * const this                                  );
@@ -174,8 +174,6 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_OBJ_DEBUG_DATA
 #  define DEBUG_DATA(this)        ((this)->debug_data)
-#else
-#  define DEBUG_DATA(this)        (assert(0))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_STR(t)               (ae_type_str(((t))) + 3)
