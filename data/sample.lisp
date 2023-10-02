@@ -6,21 +6,19 @@
 (print (+ x y)) ;; also a normal 'list', due to presence of the the symbols. 
 (print (+ 8 . (9))) ;; a normal 'list' identical to (8 9).
 
-(nl)
-
 ;; This one used to parse as a normal 'list' before the addition of the 'math_list' rule, but now fails to parse.
 ;; I'd compromise for it successfully parsing as a normal 'list', as it used to, it doesn't have to be a 'math_list'.
 (print (+ 10 . (11))) ;; a normal list, due to the grammar not supporting the dotted notation in math_lists, identical to (+ 10 11)
 
-j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 'standard library', such as it is:                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq nl        (lambda ()         (princ "
-;; "))                                                           )
+(setq nl        (lambda ()         (princ "
+"))                                                           )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq eq?        eq                                           )
-;; (setq tail?      tailp                                        )
-;; (setq proper?    properp                                      )
+(setq eq?        eq                                           )
+(setq tail?      tailp                                        )
+(setq proper?    properp                                      )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq list      (lambda  args       args                     ))
 ;; (setq list   (lambda (h . t)    (cons    h            t  )))
@@ -139,7 +137,7 @@ j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
 ;; (nl)
 
-;; (setq   x (quote (1 2 3 . 333)))
+(setq   x (quote (1 2 3 . 333)))
 
 (log   "(1 2 3 . 333) is improper:  " (improper? x        ))
 (log   "(1 2 3 . 333) length:       " (length    x        ))

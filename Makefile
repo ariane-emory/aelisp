@@ -5,7 +5,7 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
-	-DAE_OBJ_POOL_SIZE=3072 \
+	-DAE_OBJ_POOL_SIZE=4096 \
 	-DAE_DEADLY_MARGIN \
 	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_CORE_ENVS \

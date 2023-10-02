@@ -212,30 +212,24 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
           char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
           
           if (NILP(ENV_PARENT(this)))
-            COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), this, fun_name);
+            COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), fun_name, this );
           else
             COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
         }
         else if (LAMBDAP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
-          char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
+          char * fun_name = SYM_VAL(AGET(DEBUG_DATA(AGET(DEBUG_DATA(this), SYM(":fun"))), SYM(":last-bound-to")));
           
           if (NILP(ENV_PARENT(this))) 
-            COUNTED_FPRINTF(fwrite_stream, "%s< lll %s, %018p → nil >",
+            COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → nil >",
                             GET_TYPE_STR(this),
-                            SYM_VAL(AGET(DEBUG_DATA(this), SYM(":last-bound-to"))),
+                            fun_name,
                             this);
           else 
-            COUNTED_FPRINTF(fwrite_stream, "%s< lll %s, %018p → %018p >",
+            COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → %018p >",
                             GET_TYPE_STR(this),
-                            SYM_VAL(AGET(DEBUG_DATA(this), SYM(":last-bound-to"))),
+                            fun_name,
                             this,
                             ENV_PARENT(this));
-
-          COUNTED_FPUTC(' ', fwrite_stream);
-          
-          WRITE(DEBUG_DATA(this));
-
-          // while(1);
         }
         else {
           goto print_env_without_name;
