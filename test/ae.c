@@ -1127,10 +1127,18 @@ void deloc(void) {
       PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
     }
 
+#define DELOC_PTR(ptr)                                                                             \
+    if (NILP(ptr))                                                                                 \
+      ptr = (ae_obj_t *) ( ((uintptr_t)1) << ((sizeof(ae_obj_t *) * 8) - 1) );                     \
+    else if (TRUEP(ptr))                                                                           \
+      ptr = (ae_obj_t *) ( ((uintptr_t)1) << ((sizeof(ae_obj_t *) * 8) - 2) );                     \
+    else                                                                                           \
+      ptr = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t)pool_first) );
+    
     CAR(cons) = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t)pool_first) );
     CDR(cons) = (ae_obj_t *) ( ((uintptr_t)CDR(cons)) - ((uintptr_t)pool_first) );
-    CAR(car)  = (ae_obj_t *) ( ((uintptr_t)CAR(car )) - ((uintptr_t)pool_first) );
-    CDR(car)  = (ae_obj_t *) ( ((uintptr_t)CDR(car )) - ((uintptr_t)pool_first) );
+    /* CAR(car)  = (ae_obj_t *) ( ((uintptr_t)CAR(car )) - ((uintptr_t)pool_first) ); */
+    /* CDR(car)  = (ae_obj_t *) ( ((uintptr_t)CDR(car )) - ((uintptr_t)pool_first) ); */
     CAR(cdr ) = (ae_obj_t *) ( ((uintptr_t)CAR(cdr )) - ((uintptr_t)pool_first) );
     CDR(cdr ) = (ae_obj_t *) ( ((uintptr_t)CDR(cdr )) - ((uintptr_t)pool_first) );
 
