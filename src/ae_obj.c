@@ -273,7 +273,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 // _set_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_obj_set_delocated(ae_obj_t * const this, const bool deloc) {
+void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
   assert(!NULLP(this));
   
   printf("Before: 0x%08X\n", this->metadata);
@@ -366,7 +366,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 // _get_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ae_obj_get_delocated(const ae_obj_t * const this) {
+bool ae_obj_get_delocalized(const ae_obj_t * const this) {
   assert(!NULLP(this));
   
   bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;

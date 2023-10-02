@@ -1137,16 +1137,16 @@ void deloc(void) {
     NL;
     
     PR("cons' cdr  = 0x%016" PRIX64 " \n",                   (uintptr_t)CDR (cons));
-    DELOCATE(CAR(cons));
-    DELOCATE(CDR(cons));
+    DELOCALIZE(CAR(cons));
+    DELOCALIZE(CDR(cons));
     PR("cons' cdr  = 0x%016" PRIX64 " \n\n",                 (uintptr_t)CDR (cons));
 
-    PR("DELOCATED(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOCATED(pool_first))));
+    PR("DELOCALIZED(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOCALIZED(pool_first))));
     
     NL;NL;NL;
     
-    DELOCATE(CAR(cdr ));
-    DELOCATE(CDR(cdr ));
+    DELOCALIZE(CAR(cdr ));
+    DELOCALIZE(CDR(cdr ));
 
     PR("cons       = 0x016%" PRIX64 " \n",      (uintptr_t)             cons );
     PR("cons' type = %s \n",                    (uintptr_t)GET_TYPE_STR(cons));
@@ -1170,11 +1170,11 @@ void deloc(void) {
 
     obj an_int = NEW_INT(1);
     
-    T(((uintptr_t)DELOCATED(NIL))        == 0xC0FFEEF00DC0FFEE  );
-    T(((uintptr_t)DELOCATED(TRUE))       == 0xF00DCAFEBAADBEEF  );
-    T(((uintptr_t)DELOCATED(pool_first)) == 0                   );
-    T(((uintptr_t)DELOCATED(pool_first)) == ( (uintptr_t)     0));
-    T(((uintptr_t)DELOCATED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
+    T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
+    T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
+    T(((uintptr_t)DELOCALIZED(pool_first)) == 0                   );
+    T(((uintptr_t)DELOCALIZED(pool_first)) == ( (uintptr_t)     0));
+    T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

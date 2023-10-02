@@ -129,8 +129,8 @@ ae_obj_t *    ae_obj_truth          (const bool             this                
 ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                                  );
 void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool          ae_obj_get_delocated  (const ae_obj_t * const this                                  );
-void          ae_obj_set_delocated  (      ae_obj_t * const this, const bool             foo      );
+bool          ae_obj_get_delocalized  (const ae_obj_t * const this                                  );
+void          ae_obj_set_delocalized  (      ae_obj_t * const this, const bool             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // These two are not yet used and are just here as an example of how to set the next metadata region:
 char          ae_obj_get_foo        (const ae_obj_t * const this                                  );
@@ -198,9 +198,9 @@ extern ae_obj_t * symbols_list;
 #define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DELOCP(o)               (ae_obj_get_delocated((o)))
-#define DELOC(o)                (ae_obj_set_delocated((o), true))
-#define RELOC(o)                (ae_obj_set_delocated((o), false))
+#define DELOCP(o)               (ae_obj_get_delocalized((o)))
+#define DELOC(o)                (ae_obj_set_delocalized((o), true))
+#define RELOC(o)                (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /* This could probably be DRYed up by using an X macro to create function versions of them, but  */
 /* their names would be ugly unless we renamed the types first to remove the AE_ prefix.          */

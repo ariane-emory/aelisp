@@ -103,10 +103,10 @@ void pool_print(void) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _delocate_object
+// _delocalize_object
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct ae_obj_t * pool_delocate_ptr(struct ae_obj_t * const ptr) {
+struct ae_obj_t * pool_delocalize_ptr(struct ae_obj_t * const ptr) {
   if (NILP(ptr))
     return (ae_obj_t *)(0xC0FFEEF00DC0FFEE);
   else if (ptr == TRUE)
