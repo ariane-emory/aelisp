@@ -841,7 +841,7 @@ void root_env_and_eval(void) {
   expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(SYM("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(SYM("princ"), LIST(NEW_STRING("Lisp!")))))));
 
   NL;
-  PR("Printing \"Hello from Ash Lisp!\" on the next line:\n");
+  PR("Should Print \"Hello from Ash Lisp!\" on the next line:\n");
   this = EVAL(env, expr);
   T(EQL(NEW_INT(5), this));
   NL;
@@ -887,7 +887,7 @@ void root_env_and_eval(void) {
               LIST(NEW_INT(12)));
 
 
-  PR("\nPrinting 12 on the next line:\n");
+  PR("\nShould Print 12 on the next line:\n");
   rtrn = EVAL(env, expr);
   NL;
 
@@ -901,7 +901,7 @@ void root_env_and_eval(void) {
                       CONS(NEW_INT(2),
                            LIST(NEW_INT(3))))));
 
-  PR("\nPrinting 6 on the next line:\n");
+  PR("\nShould Print 6 on the next line:\n");
   rtrn = EVAL(env, expr);
   WRITE(rtrn);
   NL;
