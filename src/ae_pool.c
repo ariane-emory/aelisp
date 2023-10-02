@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <assert.h>
@@ -56,25 +57,6 @@ void pool_free_ae_obj(ae_obj_t * const this) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// print
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void pool_print(void) {
-  puts("\nPrinting pool contents.");
-  for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
-    int written = 0;
-    written +=  printf(" %04d: %018p ", ix, &pool[ix]);
-    written +=  PUT(&pool[ix]);
-    written ++; putchar(' ');
-    while (written++ < 85) putchar(' ');
-    // ae_put_words(&pool[ix]);
-    // putchar('x');
-    putchar('\n');
-  }
-  puts("Printed pool contents.");
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // clear
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -89,4 +71,32 @@ void pool_clear(void) {
 #ifdef AE_LOG_CLEAR
   puts("Cleared pool contents.");
 #endif
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// print
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void pool_print(void) {
+  puts("\nPrinting pool contents.");
+
+  bool started = false;
+  
+  for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
+    int written = 0;
+
+    if ((! started) && (! FREEP(&pool[ix])))
+      started = true;
+    else if (! started)
+      continue;
+    
+    written +=  printf(" %04d: %018p ", ix, &pool[ix]);
+    written +=  PUT(&pool[ix]);
+    written ++; putchar(' ');
+    while (written++ < 85) putchar(' ');
+    // ae_put_words(&pool[ix]);
+    // putchar('x');
+    putchar('\n');
+  }
+  puts("Printed pool contents.");
 }

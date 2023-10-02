@@ -7,6 +7,7 @@
 
 #include "ae_write.h"
 #include "ae_env.h"
+#include "ae_alist.h"
 #include "ae_list.h"
 #include "ae_util.h"
 
@@ -205,11 +206,27 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s>", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
-    if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil>", GET_TYPE_STR(this), this);
+    if (obj_debug) {
+      if (! COREP(AGET(DEBUG_DATA(this), SYM(":fun"))))
+        goto print_env_without_name;
+      
+      char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
+      
+      if (NILP(ENV_PARENT(this))) {
+        COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s>", GET_TYPE_STR(this), this, fun_name);
+      }
+      else {
+        COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
+      }
     }
     else {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
+    print_env_without_name:
+      if (NILP(ENV_PARENT(this))) {
+        COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil>", GET_TYPE_STR(this), this);
+      }
+      else {
+        COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
+      }
     }
     fwrite_counter--;
     break;
