@@ -1,5 +1,5 @@
 To Do:
-- [ ] Make a fun to de-locate / move the pointers in the pool.
+- [ ] Make some tests for LOCALIZE/LOCALIZED.
 - [ ] Test to confirm that core setq returns an error if asked to set the value of nil, t or keywords.
 - [ ] Refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] core apply
@@ -23,6 +23,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Make a fun to de-localized / move the pointers in the pool.
 - [x] DEF_MATH_OP could make fewer new AE_INTEGERs.
 - [x] core left and right shift.
 - [x] core setq should return an error if asked to set the value of nil, t or keywords.
