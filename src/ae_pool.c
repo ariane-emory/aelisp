@@ -114,7 +114,7 @@ struct ae_obj_t * pool_delocalize_ptr(struct ae_obj_t * const ptr) {
 
   ae_obj_t * ret = (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(pool_first));
 
-  PR("Subtracting %016p from %016p = %016p.\n", pool_first, ptr, ret);
+  // PR("Subtracting %016p from %016p = %016p.\n", pool_first, ptr, ret);
     
   return ret;
 }
@@ -131,7 +131,7 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
 
   ae_obj_t * ret = (ae_obj_t *)((uintptr_t)(ptr) + (uintptr_t)(offset));
 
-  PR("Adding      %016p to   %016p = %016p.\n", offset, ptr, ret);
+  // PR("Adding      %016p to   %016p = %016p.\n", offset, ptr, ret);
   
   return ret;
 }

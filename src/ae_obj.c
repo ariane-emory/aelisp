@@ -275,17 +275,21 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 
 void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
   assert(!NULLP(this));
-  
+
+#ifdef AE_LOG_METADATA
   printf("Before: 0x%08X\n", this->metadata);
   
   printf("mask is  %008X, shift is %008X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
+#endif
   
   bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
   this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
   
+#ifdef AE_LOG_METADATA
   printf("While setting deloc of %016p to (0x%08X), deloc was 0x%08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
 
   printf("After:  0x%08X\n", this->metadata);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
