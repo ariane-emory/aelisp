@@ -40,7 +40,7 @@ static char mem[free_list_size] = { 0 };
 
 #define PR(...)                   (fprintf(stdout, __VA_ARGS__))
 #define COUNT_LIST_LENGTH(l)      ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
-#define CORE_SETQ(env, sym, val)  (ae_core_setq(env, CONS(sym, LIST(val))))
+#define CORE_SETQ(env, sym, val)  (ae_core_setq(env, CONS(SYM(sym), CONS(val, NIL))))
 
 #define SETUP_TEST                                                                                 \
   obj    this    = NULL;                                                                           \
@@ -824,8 +824,12 @@ void root_env_and_eval(void) {
   PR("syms: "); WRITE(ENV_SYMS(env)); NL;
   PR("vals: "); WRITE(ENV_VALS(env)); NL;
 
-  CORE_SETQ(env, SYM("foo"), NEW_INT(666));
+  CORE_SETQ(env, "foo", NEW_INT(666));
 
+  T(ERRORP(CORE_SETQ(env, "nil",      NEW_INT(111))));
+  T(ERRORP(CORE_SETQ(env, "t",        NEW_INT(222))));
+  T(ERRORP(CORE_SETQ(env, ":keyword", NEW_INT(333))));
+  
   T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
   T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
   TM("Expected %d, got %d.", 672, INT_VAL(EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
@@ -921,7 +925,7 @@ void root_env_and_eval(void) {
 
 #define TEST_COND(input, expected)                                                                            \
   {                                                                                                           \
-    CORE_SETQ(env, SYM("a"), NEW_INT(input));                                                                 \
+    CORE_SETQ(env, "a", NEW_INT(input));                                                                      \
     this = EVAL(env, expr);                                                                                   \
     PR("Rtrn for " #input " is ");                                                                            \
     PRINC(this);                                                                                              \
