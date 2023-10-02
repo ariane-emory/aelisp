@@ -50,7 +50,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
 #  ifdef AE_OBJ_DEBUG_DATA
-  ASET(DEBUG_DATA(env), KW("fun"), fun);
+  DSET(env, "fun", fun);
 #  endif
 #endif
 
@@ -111,7 +111,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
 #ifdef AE_OBJ_DEBUG_DATA
-  ASET(DEBUG_DATA(env), KW("fun"), fun);
+  DSET(env, "fun", fun);
 
   
 #  ifdef AE_LOG_EVAL

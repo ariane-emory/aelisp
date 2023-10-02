@@ -174,9 +174,9 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_OBJ_DEBUG_DATA
 #  define DEBUG_DATA(this)           ((this)->debug_data)
-#  define DSET(this, key, val)       (ASET(DEBUG_DATA((this)), KW((key)), (val)))
-#  define DGET(this, key)            (AGET(DEBUG_DATA((this)), KW((key))))
-#  define DHAS(this, key)            (AHAS(DEBUG_DATA((this)), KW((key))))
+#  define DSET(this, key, val)       (ASET(DEBUG_DATA((this)), KW(key), (val)))
+#  define DGET(this, key)            (AGET(DEBUG_DATA((this)), KW(key)))
+#  define DHAS(this, key)            (AHAS(DEBUG_DATA((this)), KW(key)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                      (SYM(":" sym))
