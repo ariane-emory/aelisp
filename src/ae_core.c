@@ -163,10 +163,12 @@ ae_obj_t * ae_core_ahas(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
+#ifdef AE_LOG_CORE
   // No CORE_BEGIN!
   SLOG("[core_setq]");
   INDENT;
-
+#endif
+  
   int len = LENGTH(args);
 
   REQUIRE(env, args, len >= 1, "setq requires at least 1 arg");
