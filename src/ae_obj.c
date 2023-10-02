@@ -364,7 +364,7 @@ void ae_obj_set_delocated(ae_obj_t * const this, const bool deloc) {
   assert(!NULLP(this));
   
   bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
-  this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
+  this->metadata   = TO_MASKED (      true,  AE_DELOC_MASK, AE_DELOC_SHIFT);
 
 #ifdef AE_LOG_METADATA 
   PR("While setting deloc to (%d), deloc was '%c' (%d). Metadata is now 0x%016X.\n", deloc, deloc, old_deloc, this->metadata);

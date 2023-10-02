@@ -199,8 +199,8 @@ extern ae_obj_t * symbols_list;
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DELOCP(o)               (ae_obj_get_delocated((o)))
-#define DELOC(o)                (ae_obj_set_delocated((o), false))
-#define RELOC(o)                (ae_obj_set_delocated((o), true))
+#define DELOC(o)                (ae_obj_set_delocated((o), true))
+#define RELOC(o)                (ae_obj_set_delocated((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /* This could probably be DRYed up by using an X macro to create function versions of them, but  */
 /* their names would be ugly unless we renamed the types first to remove the AE_ prefix.          */
