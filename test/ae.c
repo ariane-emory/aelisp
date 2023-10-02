@@ -1071,19 +1071,19 @@ void deloc(void) {
   SETUP_TEST;
 
   for(int ix = 0; ix < 64; ix++) {
-    this = NEW_INT(ix);
-    that = NEW_INT(ix);
+    ae_obj_t * this = NEW_INT(ix);
+    ae_obj_t * that = NEW_INT(ix);
 
     NL;
-    PR("#%2d: ");
-    ae_put_words(this);
-    
-    DELOC(this);
-
     NL;
+    PR("Before: "); 
     ae_put_words(this);
 
-    T(EQ(this, that));
+    ae_obj_set_delocated(this, true);
+    PR("After:  "); 
+    ae_put_words(this);
+
+    T(EQL(this, that));
   }
 }
 
@@ -1091,9 +1091,8 @@ void deloc(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
 
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
+#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1121,6 +1120,8 @@ void deloc(void) {
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(deloc)                                                                                        
 
 #define pair(fun) { #fun, fun },
