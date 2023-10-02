@@ -71,6 +71,10 @@ typedef struct ae_obj_t {
   // the future it's remaining bits will store other info such as GC related flags:
   unsigned int                metadata;
 
+#ifdef AE_OBJ_DEBUG_DATA
+  struct ae_obj_t *           debug_data;
+#endif
+  
   union {
     ae_string_t               str_val;
     ae_string_t               sym_val;
@@ -164,6 +168,12 @@ extern ae_obj_t * symbols_list;
 #define FUN_PARAMS(this)        ((this)->params)
 #define FUN_BODY(this)          ((this)->body)
 #define FUN_ENV(this)           ((this)->env)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef AE_OBJ_DEBUG_DATA
+#  define DEBUG_DATA(this)      ((this)->debug_data)
+#else
+#  define DEBUG_DATA(this)      (((void)this), NIL)
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_STR(t)             (ae_type_str(((t))) + 3)
 #define GET_TYPE(this)          (ae_obj_get_type((this)))
@@ -288,4 +298,6 @@ SYM_VAL   (_obj) = (val);                                                       
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Just for convenience, true if AE_OBJ_DEBUG_DATA.
+extern const bool obj_debug;
+////////////////////////////////////////////////////////////////////////////////////////////////////
