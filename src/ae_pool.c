@@ -123,14 +123,14 @@ struct ae_obj_t * pool_delocalize_ptr(struct ae_obj_t * const ptr) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * const offset) {
-  if (ptr == ((ae_obj_t *)(0xC0FFEEF00DC0FFEE)))
+  if      (ptr == (ae_obj_t *)(0xC0FFEEF00DC0FFEE))
     return NIL;
-  else if ((ae_obj_t *)(0xF00DCAFEBAADBEEF))
+  else if (ptr == (ae_obj_t *)(0xF00DCAFEBAADBEEF))
     return TRUE;
 
   PR("Adding %016p to %016p.\n", offset, ptr);
   fflush(stdout);
-  while(1);
+  // while(1);
   
   return (ae_obj_t *)((uintptr_t)(ptr) + (uintptr_t)(offset));
 }
