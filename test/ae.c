@@ -1107,12 +1107,12 @@ void deloc(void) {
     PUT(cons);
     NL;
 
-    PR("cons'      = %016x \n",      (uintptr_t)             cons );
+    PR("cons       = %016x \n",      (uintptr_t)             cons );
     PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
     PR("cons' car  = %016x \n",      (uintptr_t)CAR         (cons));
     PR("cons' cdr  = %016x \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car'       = %016x \n",      (uintptr_t)             car  );
+    PR("car        = %016x \n",      (uintptr_t)             car  );
     PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
       PR("car' car   = %016x \n",    (uintptr_t)CAR         (car ));
@@ -1120,10 +1120,10 @@ void deloc(void) {
     }
     NL;
     
-    PR("cdr'       = %016x \n",                              cdr  );
+    PR("cdr        = %016x \n",                              cdr  );
     PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      PR("cdr'  cdr  = %016x \n",    (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = %016x \n",    (uintptr_t)CAR         (cdr ));
       PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
     }
 
@@ -1135,22 +1135,20 @@ void deloc(void) {
     else                                                                                           \
       ptr = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t)pool_first) );
     
-    CAR(cons) = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t)pool_first) );
-    CDR(cons) = (ae_obj_t *) ( ((uintptr_t)CDR(cons)) - ((uintptr_t)pool_first) );
-    /* CAR(car)  = (ae_obj_t *) ( ((uintptr_t)CAR(car )) - ((uintptr_t)pool_first) ); */
-    /* CDR(car)  = (ae_obj_t *) ( ((uintptr_t)CDR(car )) - ((uintptr_t)pool_first) ); */
-    CAR(cdr ) = (ae_obj_t *) ( ((uintptr_t)CAR(cdr )) - ((uintptr_t)pool_first) );
-    CDR(cdr ) = (ae_obj_t *) ( ((uintptr_t)CDR(cdr )) - ((uintptr_t)pool_first) );
+    DELOC_PTR(CAR(cons));
+    DELOC_PTR(CDR(cons));
+    DELOC_PTR(CAR(cdr ));
+    DELOC_PTR(CDR(cdr ));
 
     PR("pool       = %016x \n",    (uintptr_t)pool_first);
     PR("nil        = %016x \n\n",  (uintptr_t)NIL);
 
-    PR("cons'      = %016x \n",      (uintptr_t)             cons );
+    PR("cons       = %016x \n",      (uintptr_t)             cons );
     PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
     PR("cons' car  = %016x \n",      (uintptr_t)CAR         (cons));
     PR("cons' cdr  = %016x \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car'       = %016x \n",      (uintptr_t)             car  );
+    PR("car        = %016x \n",      (uintptr_t)             car  );
     PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
       PR("car' car   = %016x \n",    (uintptr_t)CAR         (car ));
@@ -1158,10 +1156,10 @@ void deloc(void) {
     }
     NL;
     
-    PR("cdr'       = %016x \n",                              cdr  );
+    PR("cdr        = %016x \n",                              cdr  );
     PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      PR("cdr'  cdr  = %016x \n",    (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = %016x \n",    (uintptr_t)CAR         (cdr ));
       PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
     }
     
