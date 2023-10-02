@@ -17,10 +17,10 @@
 #ifdef AE_LOG_CORE
 #  define CORE_BEGIN(name)                                                                         \
 ({                                                                                                 \
-  SLOG("[core " name "]");                                                                         \
+  SLOG("[core_" name "]");                                                                         \
   INDENT;                                                                                          \
-  LOG(args, name " with args");                                                                    \
-  LOG(env,  name " in env");                                                                       \
+  LOG(args, "with args");                                                                          \
+  LOG(env,  "in env");                                                                             \
 })
 #else
 #  define CORE_BEGIN(name) ((void)name)
@@ -30,7 +30,7 @@
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
  OUTDENT;                                                                                          \
- LOG_RETURN_WITH_TYPE("applying core " name, val);                                                 \
+ LOG_RETURN_WITH_TYPE("core_" name, val);                                                          \
  return val;                                                                                       \
 })
 #else
@@ -163,7 +163,9 @@ ae_obj_t * ae_core_ahas(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
-  CORE_BEGIN("setq");
+  // No CORE_BEGIN!
+  SLOG("[core_setq]");
+  INDENT;
 
   int len = LENGTH(args);
 

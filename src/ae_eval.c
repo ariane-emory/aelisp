@@ -44,7 +44,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
   INDENT;
-  LOG(args,                "apply core fun to args");
+  LOG(args,                "to args");
 #endif
 
 #ifdef AE_CORE_ENVS
@@ -53,7 +53,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
 #ifdef AE_LOG_EVAL
-  LOG(env, "apply core fun in env");
+  LOG(env, "in env");
 #endif
 
 #if defined(AE_OBJ_DEBUG_DATA) && defined(AE_LOG_EVAL)
@@ -67,7 +67,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE("apply core fun", ret);
+  LOG_RETURN_WITH_TYPE("applying core fun", ret);
 #endif
 
   return ret;
