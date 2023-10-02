@@ -5,13 +5,15 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
-	-DAE_OBJ_POOL_SIZE=4096 \
+	-DAE_OBJ_POOL_SIZE=2048 \
 	-DAE_DEADLY_MARGIN \
 	-DAE_CALLSTACK_IS_PROPER \
-	-DAE_LOG_CORE \
+	-DAE_CORE_ENVS \
 	-DAE_LOG_LEX \
 
+-DAE_OBJ_DEBUG_DATA \
 LOG_CFLAGS = \
+	-DAE_LOG_CORE \
 	-DAE_LOG_ENV \
 	-DAE_LOG_EVAL \
 	-DAE_DUMP_POOL_AFTER \
@@ -60,6 +62,7 @@ GDB       = gdb
 OBJDUMP   = objdump
 LEX       = flex
 YACC      = bison
+YACC      = /opt/homebrew/opt/bison/bin/bison
 
 SRCS      = $(shell find src  -name "*.c")
 TEST_SRCS = $(shell find test -name "*.c")
@@ -82,7 +85,7 @@ obj/%.o: src/%.c obj
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
-bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
+bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS)
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
@@ -90,13 +93,13 @@ bin/ae: tmp/ae.lex.c tmp/ae.tab.c $(OBJS)
 # Lexer/parser
 ################################################################################
 
-tmp/%.lex.c: grammar/%.lex tmp/%.tab.c tmp
+tmp/%.lex.c: grammar/%.l tmp/%.tab.c tmp
 	$(LEX) -o $@ $<
 
-tmp/%.lex.c: grammar/%.lex tmp
+tmp/%.l.c: grammar/%.l tmp
 	$(LEX) -o $@ $<
 
-tmp/%.tab.c: grammar/%.yacc tmp
+tmp/%.tab.c: grammar/%.y tmp
 	$(YACC) -d $< -o $@
 
 ################################################################################
@@ -120,8 +123,8 @@ bin/test:
 ################################################################################
 
 tests: clean all
-#	$(foreach bin, $(TEST_BINS), $(bin))
 	./bin/ae
+#	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae
