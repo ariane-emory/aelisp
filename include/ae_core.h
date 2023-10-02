@@ -50,13 +50,13 @@
   DO(progn)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                  \
-  DO(mod,   %, 1, 1)                                                                               \
-  DO(div,   /, 1, 1)         /* reducing these doesn't really seem like it would be worth the */   \
-  DO(mul,   *, 1, 1)         /* bother or the performance impact.                             */   \
-  DO(sub,   -, 0, 1)                                                                               \
-  DO(add,   +, 0, 1)                                                                               \
-  DO(lsft, <<, 1, 2)                                                                               \
-  DO(rsft, >>, 1, 2)                                                                               \
+  DO(mod,   %, 1)                                                                                  \
+  DO(div,   /, 1)            /* reducing these doesn't really seem like it would be worth the */   \
+  DO(mul,   *, 1)            /* bother or the performance impact.                             */   \
+  DO(sub,   -, 0)                                                                                  \
+  DO(add,   +, 0)                                                                                  \
+  DO(lsft, <<, 1)                                                                                  \
+  DO(rsft, >>, 1)                                                                                  \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_CMP_OP(DO)                                                                   \
   DO(gt,     > , &=, true)                                                                         \
