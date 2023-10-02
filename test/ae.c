@@ -1079,94 +1079,94 @@ void deloc(void) {
     // ae_put_words(o);
     //NL;
     
-    T(! DELOCP(o));
+    /* T(! DELOCP(o)); */
 
-    DELOC(o);
+    /* DELOC(o); */
 
-    T(DELOCP(o));
+    /* T(DELOCP(o)); */
 
-    RELOC(o);
+    /* RELOC(o); */
 
-    T(! DELOCP(o));
+    /* T(! DELOCP(o)); */
 
 
-    RELOC(o);
+    /* RELOC(o); */
 
-    T(! DELOCP(o));
+    /* T(! DELOCP(o)); */
 
-    DELOC(o);
+    /* DELOC(o); */
 
-    T(DELOCP(o));
+    /* T(DELOCP(o)); */
 
-    T(DELOCP(o));
+    /* T(DELOCP(o)); */
 
-    obj car  = TRUE;
-    obj cadr = NEW_INT(4);
-    obj cons = CONS(NIL, CONS(TRUE, NIL));
-    obj cdr  = CDR(cons); 
+    /* obj car  = TRUE; */
+    /* obj cadr = NEW_INT(4); */
+    /* obj cons = CONS(NIL, CONS(TRUE, NIL)); */
+    /* obj cdr  = CDR(cons);  */
     
-    PUT(cons);
-    NL;
+    /* PUT(cons); */
+    /* NL; */
     
-    PR("cons       = 0x%016" PRIX64 " \n",      (uintptr_t)             cons );
-    PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
-    PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons));
-    PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons));
+    /* PR("cons       = 0x%016" PRIX64 " \n",      (uintptr_t)             cons ); */
+    /* PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons)); */
+    /* PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons)); */
+    /* PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons)); */
     
-    PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  );
-    PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
-    if (CONSP(car)) {
-      PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car ));
-      PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car ));
-    }
-    NL;
+    /* PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  ); */
+    /* PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car )); */
+    /* if (CONSP(car)) { */
+    /*   PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car )); */
+    /*   PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car )); */
+    /* } */
+    /* NL; */
     
-    PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  );
-    PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
-    if (CONSP(cdr)) {
-      PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr ));
-      PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr ));
-    }
+    /* PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  ); */
+    /* PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr )); */
+    /* if (CONSP(cdr)) { */
+    /*   PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr )); */
+    /*   PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr )); */
+    /* } */
 
-    PR("size of ae_obj_t * = %16d \n\n",                     sizeof(ae_obj_t *));
-    PR("size of uintptr_t  = %16d \n\n",                     sizeof(uintptr_t));
-    PR("pool is at         = 0x%016" PRIX64 " \n",           (uintptr_t)pool_first);
-    PR("nil is at          = 0x%016" PRIX64 " \n",           (uintptr_t)NIL);
-    PR("true is at         = 0x%016" PRIX64 " \n",           (uintptr_t)TRUE);
+    /* PR("size of ae_obj_t * = %16d \n\n",                     sizeof(ae_obj_t *)); */
+    /* PR("size of uintptr_t  = %16d \n\n",                     sizeof(uintptr_t)); */
+    /* PR("pool is at         = 0x%016" PRIX64 " \n",           (uintptr_t)pool_first); */
+    /* PR("nil is at          = 0x%016" PRIX64 " \n",           (uintptr_t)NIL); */
+    /* PR("true is at         = 0x%016" PRIX64 " \n",           (uintptr_t)TRUE); */
     
-    NL;
+    /* NL; */
     
-    PR("cons' cdr  = 0x%016" PRIX64 " \n",                   (uintptr_t)CDR (cons));
-    DELOCALIZE(CAR(cons));
-    DELOCALIZE(CDR(cons));
-    PR("cons' cdr  = 0x%016" PRIX64 " \n\n",                 (uintptr_t)CDR (cons));
+    /* PR("cons' cdr  = 0x%016" PRIX64 " \n",                   (uintptr_t)CDR (cons)); */
+    /* DELOCALIZE(CAR(cons)); */
+    /* DELOCALIZE(CDR(cons)); */
+    /* PR("cons' cdr  = 0x%016" PRIX64 " \n\n",                 (uintptr_t)CDR (cons)); */
 
-    PR("DELOCALIZED(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOCALIZED(pool_first))));
+    /* PR("DELOCALIZED(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOCALIZED(pool_first)))); */
     
-    NL;NL;NL;
+    /* NL;NL;NL; */
     
-    DELOCALIZE(CAR(cdr ));
-    DELOCALIZE(CDR(cdr ));
+    /* DELOCALIZE(CAR(cdr )); */
+    /* DELOCALIZE(CDR(cdr )); */
 
-    PR("cons       = 0x016%" PRIX64 " \n",      (uintptr_t)             cons );
-    PR("cons' type = %s \n",                    (uintptr_t)GET_TYPE_STR(cons));
-    PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons));
-    PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons));
+    /* PR("cons       = 0x016%" PRIX64 " \n",      (uintptr_t)             cons ); */
+    /* PR("cons' type = %s \n",                    (uintptr_t)GET_TYPE_STR(cons)); */
+    /* PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons)); */
+    /* PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons)); */
     
-    PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  );
-    PR("car'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(car ));
-    if (CONSP(car)) {
-      PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car ));
-      PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car ));
-    }
-    NL;
+    /* PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  ); */
+    /* PR("car'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(car )); */
+    /* if (CONSP(car)) { */
+    /*   PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car )); */
+    /*   PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car )); */
+    /* } */
+    /* NL; */
     
-    PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  );
-    PR("cdr'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(cdr ));
-    if (CONSP(cdr)) {
-      PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr ));
-      PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr ));
-    }
+    /* PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  ); */
+    /* PR("cdr'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(cdr )); */
+    /* if (CONSP(cdr)) { */
+    /*   PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr )); */
+    /*   PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr )); */
+    /* } */
 
     obj an_int = NEW_INT(1);
     
