@@ -138,11 +138,11 @@
     /* puts("Wrote items in program obj."); */
     /* NL; */
 
-    /* puts("Writing program obj."); */
-    /* WRITE(program_obj); */
-    /* NL; */
-    /* puts("Wrote program obj."); */
-    /* NL; */
+    puts("Writing program obj.");
+    WRITE(program_obj);
+    NL;
+    puts("Wrote program obj.");
+    NL;
     
     /* puts("Writing interned symbols."); */
     /* ae_write(symbols_list); */
@@ -170,6 +170,7 @@
 
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
+    describe_parse(program_obj);
 
     SLOG("\n\nEvaluating program...");
     EVAL(env, program_obj);
@@ -181,7 +182,6 @@
     
     fclose(fp);
 
-    describe_parse(program_obj);
   }
 
     //////////////////////////////////////////////////////////////////////////////
