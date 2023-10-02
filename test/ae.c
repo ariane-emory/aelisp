@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <inttypes.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -1099,7 +1100,7 @@ void deloc(void) {
 
     T(DELOCP(o));
 
-    obj car  = NEW_INT(3);
+    obj car  = TRUE;
     obj cadr = NEW_INT(4);
     obj cons = CONS(car, CONS(cadr, NIL));
     obj cdr  = CDR(cons); 
@@ -1107,31 +1108,31 @@ void deloc(void) {
     PUT(cons);
     NL;
 
-    PR("cons       = %016x \n",      (uintptr_t)             cons );
+    PR("cons       = %" PRIxPTR " \n",      (uintptr_t)             cons );
     PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
-    PR("cons' car  = %016x \n",      (uintptr_t)CAR         (cons));
-    PR("cons' cdr  = %016x \n\n",    (uintptr_t)CDR         (cons));
+    PR("cons' car  = %" PRIxPTR " \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = %" PRIxPTR " \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car        = %016x \n",      (uintptr_t)             car  );
+    PR("car        = %" PRIxPTR " \n",      (uintptr_t)             car  );
     PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
-      PR("car' car   = %016x \n",    (uintptr_t)CAR         (car ));
-      PR("car' cdr   = %016x \n\n",  (uintptr_t)CDR         (car ));
+      PR("car' car   = %" PRIxPTR " \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (car ));
     }
     NL;
     
-    PR("cdr        = %016x \n",                              cdr  );
+    PR("cdr        = %" PRIxPTR " \n",                              cdr  );
     PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      PR("cdr'  car  = %016x \n",    (uintptr_t)CAR         (cdr ));
-      PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = %" PRIxPTR " \n",    (uintptr_t)CAR         (cdr ));
+      PR("cdr'  cdr  = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (cdr ));
     }
 
 #define DELOC_PTR(ptr)                                                                             \
     if (NILP(ptr))                                                                                 \
-      ptr = (ae_obj_t *) ( ((uintptr_t)1) << ((sizeof(ae_obj_t *) * 8) - 1) );                     \
-    else if (TRUEP(ptr))                                                                           \
-      ptr = (ae_obj_t *) ( ((uintptr_t)1) << ((sizeof(ae_obj_t *) * 8) - 2) );                     \
+      ptr = (ae_obj_t *) ( ~((uintptr_t)1) );                                                      \
+    else if (ptr == TRUE)                                                                          \
+      ptr = (ae_obj_t *) ( ~((uintptr_t)2) );                                                      \
     else                                                                                           \
       ptr = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t)pool_first) );
     
@@ -1140,27 +1141,28 @@ void deloc(void) {
     DELOC_PTR(CAR(cdr ));
     DELOC_PTR(CDR(cdr ));
 
-    PR("pool       = %016x \n",    (uintptr_t)pool_first);
-    PR("nil        = %016x \n\n",  (uintptr_t)NIL);
+    PR("pool       = %" PRIxPTR " \n",    (uintptr_t)pool_first);
+    PR("nil        = %" PRIxPTR " \n\n",  (uintptr_t)NIL);
+    PR("size       = %16d \n\n",          sizeof(uintptr_t));
 
-    PR("cons       = %016x \n",      (uintptr_t)             cons );
-    PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons));
-    PR("cons' car  = %016x \n",      (uintptr_t)CAR         (cons));
-    PR("cons' cdr  = %016x \n\n",    (uintptr_t)CDR         (cons));
+    PR("cons       = %" PRIxPTR " \n",      (uintptr_t)             cons );
+    PR("cons' type = %s \n",                (uintptr_t)GET_TYPE_STR(cons));
+    PR("cons' car  = %" PRIxPTR " \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = %" PRIxPTR " \n\n",    (uintptr_t)CDR         (cons));
     
-    PR("car        = %016x \n",      (uintptr_t)             car  );
-    PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car ));
+    PR("car        = %" PRIxPTR " \n",      (uintptr_t)             car  );
+    PR("car'  type = %s \n",                (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
-      PR("car' car   = %016x \n",    (uintptr_t)CAR         (car ));
-      PR("car' cdr   = %016x \n\n",  (uintptr_t)CDR         (car ));
+      PR("car' car   = %" PRIxPTR " \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (car ));
     }
     NL;
     
-    PR("cdr        = %016x \n",                              cdr  );
+    PR("cdr        = %" PRIxPTR " \n",                              cdr  );
     PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      PR("cdr'  car  = %016x \n",    (uintptr_t)CAR         (cdr ));
-      PR("cdr'  cdr  = %016x \n\n",  (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = %" PRIxPTR " \n",    (uintptr_t)CAR         (cdr ));
+      PR("cdr'  cdr  = %" PRIxPTR " \n\n",  (uintptr_t)CDR         (cdr ));
     }
     
     //  PR("After:  "); 
