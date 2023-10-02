@@ -1071,26 +1071,26 @@ void deloc(void) {
   SETUP_TEST;
 
   /* for(int ix = 0; ix < 64; ix++) { */
-    ae_obj_t * obj = NEW_INT(ix);
+    ae_obj_t * o = NEW_INT(14);
 
     // PR("Before: "); 
-    // ae_put_words(obj);
+    // ae_put_words(o);
     //NL;
     
-    T(! DELOCP(obj));
+    T(! DELOCP(o));
 
-    DELOC(obj);
+    DELOC(o);
 
-    T(DELOCP(obj));
+    T(DELOCP(o));
 
-    RELOC(obj);
+    RELOC(o);
 
-    T(! DELOCP(obj));
+    T(! DELOCP(o));
 
     //  PR("After:  "); 
-    // ae_put_words(obj);
+    // ae_put_words(o);
 
-    /* ZERO(obj); */
+    /* ZERO(o); */
     /* ZERO(that); */
   /* } */
 }
