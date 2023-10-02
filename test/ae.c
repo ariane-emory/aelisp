@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BEFORE_ACUTEST
-
 #include "ae_obj.h"
 #include "ae_list.h"
 #include "ae_alist.h"
@@ -19,6 +17,8 @@
 #include "ae_env.h"
 #include "ae_util.h"
 #include "ae_generate_macro.h"
+
+#define BEFORE_ACUTEST
 
 #include "acutest.h"
 
@@ -32,15 +32,15 @@ static char mem[free_list_size] = { 0 };
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define T                    TEST_CHECK
-#define TM                   TEST_MSG
-#define SPC                  (putchar(' '))
-#define NL                   (putchar('\n'))
-#define FF                   (fflush(stdout))
+#define T                         TEST_CHECK
+#define TM                        TEST_MSG
+#define SPC                       (putchar(' '))
+#define NL                        (putchar('\n'))
+#define FF                        (fflush(stdout))
 
-#define PR(...)              (fprintf(stdout, __VA_ARGS__))
-#define COUNT_LIST_LENGTH(l) list_length_counter = 0; EACH((l), incr_list_length_counter)
-#define SETQ(env, sym, val)  (ae_core_setq(env, CONS(sym, LIST(val))))
+#define PR(...)                   (fprintf(stdout, __VA_ARGS__))
+#define COUNT_LIST_LENGTH(l)      ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
+#define CORE_SETQ(env, sym, val)  (ae_core_setq(env, CONS(sym, LIST(val))))
 
 #define SETUP_TEST                                                                                 \
   obj    this    = NULL;                                                                           \
@@ -824,7 +824,7 @@ void root_env_and_eval(void) {
   PR("syms: "); WRITE(ENV_SYMS(env)); NL;
   PR("vals: "); WRITE(ENV_VALS(env)); NL;
 
-  SETQ(env, SYM("foo"), NEW_INT(666));
+  CORE_SETQ(env, SYM("foo"), NEW_INT(666));
 
   T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
   T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
@@ -921,7 +921,7 @@ void root_env_and_eval(void) {
 
 #define TEST_COND(input, expected)                                                                            \
   {                                                                                                           \
-    SETQ(env, SYM("a"), NEW_INT(input));                                                                      \
+    CORE_SETQ(env, SYM("a"), NEW_INT(input));                                                                 \
     this = EVAL(env, expr);                                                                                   \
     PR("Rtrn for " #input " is ");                                                                            \
     PRINC(this);                                                                                              \
