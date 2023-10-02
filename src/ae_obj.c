@@ -257,13 +257,16 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 
 #define AE_TYPE_BITS    6
 #define AE_FOO_BITS     8
-#define AE_DELOC_BITS   8
+#define AE_DELOC_BITS   1
 
-#define AE_TYPE_SHIFT   0
+#define AE_TYPE_SHIFT   0  // far right
 #define AE_FOO_SHIFT    AE_TYPE_BITS
+// a big gap
+#define AE_DELOC_SHIFT  (sizeof(((ae_obj_t *)NULL)->metadata) * 8 - AE_DELOC_BITS) 
 
 #define AE_TYPE_MASK    (MASK(AE_TYPE_BITS, AE_TYPE_SHIFT))
 #define AE_FOO_MASK     (MASK(AE_FOO_BITS,  AE_FOO_SHIFT))
+#define AE_DELOC_MASK   (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _get_type method
