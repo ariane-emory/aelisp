@@ -9,7 +9,7 @@
 #include "ae_write.h"
 
 #ifndef AE_OBJ_POOL_SIZE
-#  define AE_OBJ_POOL_SIZE (1 << 10)
+#  define AE_OBJ_POOL_SIZE (1 << 16)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +101,11 @@ void pool_print(void) {
   }
   puts("Printed pool contents.");
 }
+
+#define DELOCALIZED(ptr)       ((pool_delocalize_ptr((struct ae_obj_t *)(ptr))))
+#define LOCALIZED(ptr, offset) ((pool_localize_ptr  ((struct ae_obj_t *)(ptr), (struct ae_obj_t *)(offset)))) 
+#define DELOCALIZE(ptr)        ((ptr) = DELOCALIZED ((ptr)))
+#define LOCALIZE(ptr, offset)  ((ptr) = LOCALIZED   ((struct ae_obj_t *)(ptr), (struct ae_obj_t *)(offset)))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _delocalize_object
