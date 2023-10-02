@@ -1128,59 +1128,44 @@ void deloc(void) {
       PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr ));
     }
 
-#define DELOC_PTR(ptr)                                                               \
-    ({                                                                               \
-      printf("Delocating.\n");                                                       \
-      if (NILP(ptr))                                                                 \
-        ptr = (ae_obj_t *)(0xAC0FFEEAF00DBEEF /* ~((uintptr_t)1) */);                \
-      else if (ptr == TRUE)                                                          \
-        ptr = (ae_obj_t *)(0xBAADF00DBEEFCAFE /* ~((uintptr_t)2) */);                \
-      else                                                                           \
-        ptr = (ae_obj_t *)((uintptr_t)(ptr) - (uintptr_t)(pool_first));              \
-      ptr;                                                                           \
-      })
-
-
-    printf("size of ae_obj_t * = %16d \n\n",                    sizeof(ae_obj_t *));
-    printf("size of uintptr_t  = %16d \n\n",                    sizeof(uintptr_t));
-    printf("pool is at         = 0x%016" PRIX64 " \n",          (uintptr_t)pool_first);
-    printf("nil is at          = 0x%016" PRIX64 " \n",          (uintptr_t)NIL);
-    printf("true is at         = 0x%016" PRIX64 " \n",          (uintptr_t)TRUE);
+    PR("size of ae_obj_t * = %16d \n\n",                     sizeof(ae_obj_t *));
+    PR("size of uintptr_t  = %16d \n\n",                     sizeof(uintptr_t));
+    PR("pool is at         = 0x%016" PRIX64 " \n",           (uintptr_t)pool_first);
+    PR("nil is at          = 0x%016" PRIX64 " \n",           (uintptr_t)NIL);
+    PR("true is at         = 0x%016" PRIX64 " \n",           (uintptr_t)TRUE);
     
     NL;
     
-    printf("cons' cdr  = 0x%016" PRIX64 " \n",                  (uintptr_t)CDR (cons));
-    DELOC_PTR(CAR(cons));
-    DELOC_PTR(CDR(cons));
-    printf("cons' cdr  = 0x%016" PRIX64 " \n\n",                (uintptr_t)CDR (cons));
+    PR("cons' cdr  = 0x%016" PRIX64 " \n",                   (uintptr_t)CDR (cons));
+    DELOCATE(CAR(cons));
+    DELOCATE(CDR(cons));
+    PR("cons' cdr  = 0x%016" PRIX64 " \n\n",                 (uintptr_t)CDR (cons));
 
-
-    obj tmp = (obj)pool_first;
-    printf("DELOC_PTR(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOC_PTR(tmp))));
+    PR("DELOCATED(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOCATED(pool_first))));
+    
     NL;NL;NL;
-
     
-    DELOC_PTR(CAR(cdr ));
-    DELOC_PTR(CDR(cdr ));
+    DELOCATE(CAR(cdr ));
+    DELOCATE(CDR(cdr ));
 
-    printf("cons       = 0x016%" PRIX64 " \n",      (uintptr_t)             cons );
-    printf("cons' type = %s \n",                    (uintptr_t)GET_TYPE_STR(cons));
-    printf("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons));
-    printf("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons));
+    PR("cons       = 0x016%" PRIX64 " \n",      (uintptr_t)             cons );
+    PR("cons' type = %s \n",                    (uintptr_t)GET_TYPE_STR(cons));
+    PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons));
+    PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons));
     
-    printf("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  );
-    printf("car'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(car ));
+    PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  );
+    PR("car'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(car ));
     if (CONSP(car)) {
-      printf("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car ));
-      printf("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car ));
+      PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car ));
+      PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car ));
     }
     NL;
     
-    printf("cdr        = 0x%016" PRIX64 " \n",                              cdr  );
-    printf("cdr'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(cdr ));
+    PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  );
+    PR("cdr'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(cdr ));
     if (CONSP(cdr)) {
-      printf("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr ));
-      printf("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr ));
+      PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr ));
+      PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr ));
     }
 }
 
