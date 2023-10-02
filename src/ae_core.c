@@ -42,7 +42,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This only deals with AE_INTEGERS for now. It mutates its first argument.
-#define DEF_MATH_OP(name, oper, default)                                                           \
+#define DEF_MATH_OP(name, oper, default, min_args)                                                 \
 ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {                         \
   CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
@@ -50,7 +50,8 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
   ae_obj_t * accum = NIL;                                                                          \
   ae_obj_t * rest  = NIL;                                                                          \
                                                                                                    \
-  if (NILP(CDR(args))) {                                                                           \
+                                                                                                   \
+  if (min_args == 1 && NILP(CDR(args))) {                                                          \
     accum = NEW_INT(default);                                                                      \
     rest  = args;                                                                                  \
   }                                                                                                \
@@ -168,7 +169,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   SLOG("[core_setq]");
   INDENT;
 #endif
-  
+
   int len = LENGTH(args);
 
   REQUIRE(env, args, len >= 1, "setq requires at least 1 arg");
@@ -199,7 +200,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 
   }
 #endif
-  
+
   ENV_SET(env, sym, val);
 
   CORE_RETURN("setq", val);
