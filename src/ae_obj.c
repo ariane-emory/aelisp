@@ -339,3 +339,34 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   PR("While setting foo to '%c' (%d), foo was '%c' (%d). Metadata is now 0x%016X.\n", foo, foo, old_foo, old_foo, this->metadata);
 #endif
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get_deloc method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_obj_get_deloc(const ae_obj_t * const this) {
+  assert(!NULLP(this));
+  
+  bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
+
+#ifdef AE_LOG_METADATA
+  PR("While getting deloc, metadata was 0x%016X, deloc is %d.\n", this->metadata, deloc);
+#endif
+
+  return deloc;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_deloc method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ae_obj_set_deloc(ae_obj_t * const this, const bool deloc) {
+  assert(!NULLP(this));
+  
+  bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
+  this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
+
+#ifdef AE_LOG_METADATA 
+  PR("While setting deloc to (%d), deloc was '%c' (%d). Metadata is now 0x%016X.\n", deloc, deloc, old_deloc, this->metadata);
+#endif
+}

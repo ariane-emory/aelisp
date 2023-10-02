@@ -1100,7 +1100,7 @@ void alist(void) {
   DO(core_msleep)                                                                                  \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
-  DO(root_env_and_eval) /* failing when logging eval/core/env on */                                \
+  DO(root_env_and_eval)                                                                            \
 
 #define pair(fun) { #fun, fun },
 
