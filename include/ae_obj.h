@@ -198,7 +198,7 @@ extern ae_obj_t * symbols_list;
 #define NILP(o)                 ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DELOCP(o)               (ae_obj_get_delocalized((o)))
+#define DELOCALIZEDP(o)               (ae_obj_get_delocalized((o)))
 #define DELOC(o)                (ae_obj_set_delocalized((o), true))
 #define RELOC(o)                (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
