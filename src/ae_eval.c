@@ -200,17 +200,17 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (! ERRORP(ret))
     goto ret;
 
-  if (AHAS(ERR_OBJ(ret), SYM("fun")))
+  if (AHAS(ERR_OBJ(ret), SYM(":fun")))
     ASET(ERR_OBJ(ret),
-         SYM("fun"),
+         SYM(":fun"),
 #ifdef AE_CALLSTACK_IS_PROPER
-         CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
+         CONS(fun, AGET(ERR_OBJ(ret), SYM(":fun"))));
 #else
-  /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM("fun"))));
+  /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), SYM(":fun"))));
 #endif
   else
     ASET(ERR_OBJ(ret),
-         SYM("fun"),
+         SYM(":fun"),
 #ifdef AE_CALLSTACK_IS_PROPER
          CONS(fun, NIL));
 #else
@@ -319,7 +319,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
     
     const char * type = GET_TYPE_STR(obj);
     /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
-    sprintf(tmp, ":%s", type);
+   sprintf(tmp, ":%s", type);
     ae_obj_t   * sym  = SYM(tmp);
 
     LOG(sym, "dispatch to eval for");
