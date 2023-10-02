@@ -10,7 +10,8 @@
 void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
-  assert((! NULLP(value)));
+  assert(! KEYWORDP(symbol));
+  assert(! NULLP(value));
   
   ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
@@ -45,7 +46,18 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 
   ae_obj_t * ret = NIL;
   
-  if (NILP(symbol)) {
+  if (KEYWORDP(symbol)) {
+
+#ifdef AE_LOG_ENV
+    LOG(NIL, "Keyword found automatically.");
+#endif
+
+    ret = symbol;
+
+    goto end;
+  }
+
+    if (NILP(symbol)) {
 
 #ifdef AE_LOG_ENV
     LOG(NIL, "found NIL automatically.");
@@ -123,7 +135,8 @@ end:
 void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
-  assert((! NULLP(value)));
+  assert(! KEYWORDP(symbol));
+  assert(! NULLP(value));
 
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[setting]");

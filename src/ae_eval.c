@@ -44,32 +44,25 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
   INDENT;
-  // LOG(fun,                 "apply core fun");
   LOG(args,                "apply core fun to args");
-  LOG(env,                 "apply core fun in env1");
+#endif
+
+#ifdef AE_CORE_ENVS
+  env = NEW_ENV(env, NIL, NIL);
+  ASET(DEBUG_DATA(env), SYM(":fun"), fun);
+#endif
+
+#ifdef AE_LOG_EVAL
+  LOG(env, "apply core fun in env");
+#endif
+
+#if defined(AE_OBJ_DEBUG_DATA) && defined(AE_LOG_EVAL)
+  LOG(DEBUG_DATA(env), "with this debug data");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
 
-  ae_obj_t * ret = NIL;
-
-#ifdef AE_CORE_ENVS
-  env = NEW_ENV(env, NIL, NIL);
-
-#  ifdef AE_LOG_EVAL
-  LOG(env, "apply core fun in env2");
-#  endif
-
-#ifdef AE_OBJ_DEBUG_DATA
-    ASET(DEBUG_DATA(env), SYM(":fun"), fun);
-
-#    ifdef AE_LOG_EVAL
-    LOG(DEBUG_DATA(env), "with this debug data");
-#    endif
-#  endif
-#endif
-
-  ret = (*CORE_FUN(fun))(env, args);
+  ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
@@ -165,8 +158,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   LOG(fun,  "[eval by applying]");
   INDENT;
-  LOG(args, "dispatch application to args");
-  LOG(env,  "dispatch application in env");
+  LOG(args, "dispatch application for args");
+  LOG(env,  "in env");
 #endif
 
   fun = EVAL(env, fun);
@@ -191,7 +184,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   sprintf(tmp, ":%s",     type_str);
   ae_obj_t   * sym      = SYM(tmp);
 
-  LOG(sym, "dispatch application of");
+  LOG(sym, "dispatch to application for");
 
   free_list_free(tmp);
 #endif
@@ -312,12 +305,6 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
-#ifdef AE_LOG_EVAL
-  LOG(obj, "[eval]");
-  INDENT;
-  LOG(env, "in env");
-#endif
-
   assert(ENVP(env));
 
   eval_dispatch_row_t dispatch = {0};
@@ -331,9 +318,13 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
     sprintf(tmp, ":%s", type);
     ae_obj_t   * sym  = SYM(tmp);
 
-    LOG(sym, "dispatch eval as");
+    LOG(sym, "dispatch to eval for");
 
     free_list_free(tmp);
+
+    LOG(obj, "[eval]");
+    INDENT;
+    LOG(env, "in env");
   }
 #endif
 

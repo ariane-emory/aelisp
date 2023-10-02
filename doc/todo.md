@@ -1,4 +1,5 @@
 To Do:
+- [ ] Make a fun to de-locate / move the pointers in the pool.
 - [ ] Get rid of obj_debug, the #ifdef is better.
 - [ ] core left and right shift.
 - [ ] core setq should return an error if asked to set the value of nil.
