@@ -206,52 +206,66 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s>", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
-    if (obj_debug) {
-      if (! NILP(AGET(DEBUG_DATA(this), SYM(":fun")))) {
-        if (COREP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
-          char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
-          
-          if (NILP(ENV_PARENT(this)))
-            COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), fun_name, this );
-          else
-            COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
-        }
-        else if (LAMBDAP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
-          char * fun_name = SYM_VAL(AGET(DEBUG_DATA(AGET(DEBUG_DATA(this), SYM(":fun"))), SYM(":last-bound-to")));
-          
-          if (NILP(ENV_PARENT(this))) 
-            COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → nil >",
-                            GET_TYPE_STR(this),
-                            fun_name,
-                            this);
-          else 
-            COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → %018p >",
-                            GET_TYPE_STR(this),
-                            fun_name,
-                            this,
-                            ENV_PARENT(this));
-        }
-        else {
-          goto print_env_without_name;
-        }
+#ifdef AE_OBJ_DEBUG_DATA
+    if (! NILP(AGET(DEBUG_DATA(this), SYM(":fun")))) {
+      if (COREP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
+        char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), SYM(":fun")));
+        
+        if (NILP(ENV_PARENT(this)))
+          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), fun_name, this );
+        else
+          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
+      else if (LAMBDAP((AGET(DEBUG_DATA(this), SYM(":fun"))))) {
+        char * fun_name = SYM_VAL(AGET(DEBUG_DATA(AGET(DEBUG_DATA(this), SYM(":fun"))), SYM(":last-bound-to")));
+        
+        if (NILP(ENV_PARENT(this))) 
+          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → nil >",
+                          GET_TYPE_STR(this),
+                          fun_name,
+                          this);
+        else 
+          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → %018p >",
+                          GET_TYPE_STR(this),
+                          fun_name,
+                          this,
+                          ENV_PARENT(this));
+      }
+      else
+#endif
+      {
+        goto print_env_without_name;
+      }
+  }
+  else {
+  print_env_without_name:
+    if (NILP(ENV_PARENT(this))) {
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil >", GET_TYPE_STR(this), this);
     }
     else {
-    print_env_without_name:
-      if (NILP(ENV_PARENT(this))) {
-        COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil >", GET_TYPE_STR(this), this);
-      }
-      else {
-        COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
-      }
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
     }
-    fwrite_counter--;
-    break;
+  }
+  fwrite_counter--;
+  break;
   case AE_LAMBDA:
   case AE_MACRO:
-    COUNTED_FPRINTF(fwrite_stream, "%s< %018p, ", GET_TYPE_STR(this), this);
-    ae_fwrite_internal(FUN_PARAMS(this));
-    COUNTED_FPRINTF(fwrite_stream,">");
+#ifdef AE_OBJ_DEBUG_DATA
+    if (AHAS(DEBUG_DATA(this), SYM(":last-bound-to"))) {
+      COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p, ",
+                      GET_TYPE_STR(this),
+                      SYM_VAL(AGET(DEBUG_DATA(this), SYM(":last-bound-to"))),
+                      this);
+      ae_fwrite_internal(FUN_PARAMS(this));
+      COUNTED_FPRINTF(fwrite_stream,">");
+    }
+    else 
+#endif
+    {
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p, ", GET_TYPE_STR(this), this);
+      ae_fwrite_internal(FUN_PARAMS(this));
+      COUNTED_FPRINTF(fwrite_stream,">");      
+    }
     break;
   case AE_CONS:
     FLPAR;

@@ -46,7 +46,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   INDENT;
   // LOG(fun,                 "apply core fun");
   LOG(args,                "apply core fun to args");
-  LOG(env,                 "apply core fun in env");
+  LOG(env,                 "apply core fun in env1");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -57,7 +57,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   env = NEW_ENV(env, NIL, NIL);
 
 #  ifdef AE_LOG_EVAL
-  LOG(env, "apply core fun in env");
+  LOG(env, "apply core fun in env2");
 #  endif
 
 #ifdef AE_OBJ_DEBUG_DATA
@@ -191,7 +191,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   sprintf(tmp, ":%s",     type_str);
   ae_obj_t   * sym      = SYM(tmp);
 
-  LOG(sym, "dispatch application as");
+  LOG(sym, "dispatch application of");
 
   free_list_free(tmp);
 #endif
