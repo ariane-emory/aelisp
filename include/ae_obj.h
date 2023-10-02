@@ -179,6 +179,8 @@ extern ae_obj_t * symbols_list;
 #  define DHAS(this, key)            (AHAS(DEBUG_DATA(this), SYM(":" key)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define KW(sym)                      (SYM(":" sym))
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_STR(t)                  (ae_type_str(((t))) + 3)
 #define GET_TYPE(this)               (ae_obj_get_type((this)))
 #define SET_TYPE(this, type)         (ae_obj_set_type((this), (type)))
