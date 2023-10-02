@@ -18,6 +18,12 @@ ae_obj_t   true_obj     = { .metadata = AE_SYMBOL, .sym_val = "t"   };
 ae_obj_t   nil_obj      = { .metadata = AE_SYMBOL, .sym_val = "nil" };
 ae_obj_t * symbols_list = NIL;
 
+#ifdef AE_OBJ_DEBUG_DATA
+const bool obj_debug = true;
+#else
+const bool obj_debug = false;
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_type_str function
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,6 +154,10 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
   ZERO(this);
   SET_TYPE(this, type);
 
+#ifdef AE_OBJ_DEBUG_DATA
+  DEBUG_DATA(this) = NIL;
+#endif
+  
 #ifdef AE_LOG_INIT
   fputs("Initialized      ", stdout);
   PUT(this);
