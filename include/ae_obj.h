@@ -199,7 +199,7 @@ extern ae_obj_t * symbols_list;
 #define TRUEP(o)                ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DELOCALIZEDP(o)               (ae_obj_get_delocalized((o)))
-#define DELOC(o)                (ae_obj_set_delocalized((o), true))
+#define MARK_DELOCALIZED(o)                (ae_obj_set_delocalized((o), true))
 #define RELOC(o)                (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /* This could probably be DRYed up by using an X macro to create function versions of them, but  */

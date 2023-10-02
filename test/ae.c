@@ -1081,7 +1081,7 @@ void deloc(void) {
     
     /* T(! DELOCALIZEDP(o)); */
 
-    /* DELOC(o); */
+    /* MARK_DELOCALIZED(o); */
 
     /* T(DELOCALIZEDP(o)); */
 
@@ -1094,7 +1094,7 @@ void deloc(void) {
 
     /* T(! DELOCALIZEDP(o)); */
 
-    /* DELOC(o); */
+    /* MARK_DELOCALIZED(o); */
 
     /* T(DELOCALIZEDP(o)); */
 
