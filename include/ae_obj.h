@@ -121,17 +121,20 @@ typedef struct ae_obj_t {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_obj_init          (      ae_obj_t * const this,       ae_type_t        type      );
-ae_obj_t *    ae_obj_unsafe_move   (      ae_obj_t * const this,       ae_obj_t * const that      );
-ae_obj_t *    ae_obj_clone         (      ae_obj_t * const this                                   );
-bool          ae_obj_eql           (const ae_obj_t * const this, const ae_obj_t * const that      );
-ae_obj_t *    ae_obj_truth         (const bool             this                                   );
-ae_type_t     ae_obj_get_type      (const ae_obj_t * const this                                   );
-void          ae_obj_set_type      (      ae_obj_t * const this, const ae_type_t        type      );
+ae_obj_t *    ae_obj_init           (      ae_obj_t * const this,       ae_type_t        type     );
+ae_obj_t *    ae_obj_unsafe_move    (      ae_obj_t * const this,       ae_obj_t * const that     );
+ae_obj_t *    ae_obj_clone          (      ae_obj_t * const this                                  );
+bool          ae_obj_eql            (const ae_obj_t * const this, const ae_obj_t * const that     );
+ae_obj_t *    ae_obj_truth          (const bool             this                                  );
+ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                                  );
+void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool          ae_obj_get_delocated  (const ae_obj_t * const this                                  );
+void          ae_obj_set_delocated  (      ae_obj_t * const this, const bool             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // These two are not yet used and are just here as an example of how to set the next metadata region:
-char          ae_obj_get_foo       (const ae_obj_t * const this                                   );
-void          ae_obj_set_foo       (      ae_obj_t * const this, const char             foo       );
+char          ae_obj_get_foo        (const ae_obj_t * const this                                  );
+void          ae_obj_set_foo        (      ae_obj_t * const this, const char             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 extern ae_obj_t   true_obj;
