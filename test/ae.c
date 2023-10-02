@@ -22,7 +22,7 @@
 
 #include "acutest.h"
 
-#define free_list_size (1 << 12)
+#define free_list_size (1 << 16)
 
 #define obj ae_obj_t *
 
@@ -879,7 +879,7 @@ void root_env_and_eval(void) {
 
   T(LAMBDAP(rtrn));
 
-  obj subexpr = CONS(SYM("*"), CONS(NEW_INT(3), LIST(NEW_INT(5))));
+  obj subexpr = CONS(SYM("*"), CONS(NEW_INT(53), LIST(NEW_INT(54))));
 
   expr = CONS(CONS(SYM("lambda"),
                    CONS(LIST(SYM("x")),
@@ -888,7 +888,7 @@ void root_env_and_eval(void) {
                              LIST(CONS(SYM("+"),
                                        CONS(SYM("x"),
                                             LIST(subexpr))))))),
-              LIST(NEW_INT(12)));
+              LIST(NEW_INT(31)));
 
 
   PR("\nShould Print 12 on the next line:\n");
@@ -979,6 +979,7 @@ obj apply_user_fun(obj fun, obj env, obj args);
                                                    \
    T(! strcmp(tmp_str, expect_str));               \
    free(tmp_str);                                  \
+   tmp_str = NULL;                                 \
  }
 
 void macro_expand(void) {

@@ -156,9 +156,9 @@
 (log   "string:                     " (type? :STRING   "3"))
 (nl)
 
-(setq xxx (lambda (x) x))
+(setq qqq (lambda (x) x))
 
-(setq err (xxx (length '(1 2 . 333))))
+(setq err (qqq (length '(1 2 . 333))))
 
 (nl)
 (log   "This error:                 "                                err)
