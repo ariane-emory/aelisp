@@ -253,8 +253,8 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 
 #define MASK(size, shift)                   ((unsigned int) (((1 << (size)) - 1) << (shift)))
 #define GET_MASKED(type, from, mask, shift) ((type) (((from) & (mask)) >> (shift)))
-// #define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | ((unsigned int)(value) << (shift))
-#define TO_MASKED(value, mask, shift)       ((this->metadata & ~(mask)) | (((unsigned int)(value) << (shift)) & (mask)))
+#define TO_MASKED(value, mask, shift)       (assert(shift == 31), this->metadata & ~(mask)) | ((unsigned int)(value) << (shift))
+
 
 #define AE_TYPE_BITS    6
 #define AE_FOO_BITS     8
@@ -263,7 +263,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #define AE_TYPE_SHIFT   0  // far right
 #define AE_FOO_SHIFT    AE_TYPE_BITS
 // a big gap
-#define AE_DELOC_SHIFT  (AE_TYPE_BITS + AE_FOO_BITS)
+#define AE_DELOC_SHIFT  (sizeof(((ae_obj_t *)NULL)->metadata) * 8 - AE_DELOC_BITS)
 
 #define AE_TYPE_MASK    (MASK(AE_TYPE_BITS, AE_TYPE_SHIFT))
 #define AE_FOO_MASK     (MASK(AE_FOO_BITS,  AE_FOO_SHIFT))
@@ -276,14 +276,16 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 void ae_obj_set_delocated(ae_obj_t * const this, const bool deloc) {
   assert(!NULLP(this));
   
-  printf("mask is  %008X, shift is %008X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
+  printf("Before: 0x%016X\n", this->metadata);
+  
+  printf("mask is  %0016X, shift is %0016X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
   
   bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
   this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
+  
+  printf("While setting deloc of %016p to (%016X), deloc was %016X. Metadata is now 0x%016X.\n", deloc, deloc, old_deloc, this->metadata);
 
-#ifdef AE_LOG_METADATA 
-  PR("While setting deloc of %018p to (%08X), deloc was %08X. Metadata is now 0x%16X.\n", deloc, deloc, old_deloc, this->metadata);
-#endif
+  printf("After:  0x%016X\n", this->metadata);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -370,7 +372,7 @@ bool ae_obj_get_delocates(const ae_obj_t * const this) {
   bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
 
 #ifdef AE_LOG_METADATA
-  PR("While getting deloc of %018p, metadata was 0x%016X, deloc is %d.\n", this->metadata, deloc);
+  PR("While getting deloc of %016p, metadata was 0x%016X, deloc is %d.\n", this->metadata, deloc);
 #endif
 
   return deloc;

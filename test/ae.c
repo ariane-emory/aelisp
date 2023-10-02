@@ -1073,17 +1073,21 @@ void deloc(void) {
   for(int ix = 0; ix < 64; ix++) {
     ae_obj_t * this = NEW_INT(ix);
     ae_obj_t * that = NEW_INT(ix);
+    
 
     NL;
     NL;
-    PR("Before: "); 
+//    PR("Before: "); 
     ae_put_words(this);
-
+    NL;
     ae_obj_set_delocated(this, true);
-    PR("After:  "); 
+    //  PR("After:  "); 
     ae_put_words(this);
 
     T(EQL(this, that));
+
+    ZERO(this);
+    ZERO(that);
   }
 }
 
