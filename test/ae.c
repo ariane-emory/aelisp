@@ -1178,7 +1178,7 @@ void deloc(void) {
     T((LOCALIZED(0xC0FFEEF00DC0FFEE,   pool_first)) == NIL       );
     T((LOCALIZED(0xF00DCAFEBAADBEEF,   pool_first)) == TRUE      );
     T((LOCALIZED(0x0,                   pool_first)) == pool_first);
-    /* TM("%016p != %016p", LOCALIZED(0x0, pool_first),    pool_first); */
+    TM("%016p != %016p", LOCALIZED(0x0, pool_first),    pool_first); 
 
     /* T( an_int == LOCALIZED(DELOCALIZED(an_int), pool_first) ); */
     /* TM("%016p != %016p", an_int, LOCALIZED(DELOCALIZED(an_int), pool_first)); */
