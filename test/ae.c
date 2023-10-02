@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -1102,7 +1103,9 @@ void deloc(void) {
     
     PUT(cons);
     NL;
-    
+
+    CAR(cons) = (ae_obj_t *) ( ((uintptr_t)CAR(cons)) - ((uintptr_t) pool_first) );
+    CDR(cons) = (ae_obj_t *) ( ((uintptr_t)CDR(cons)) - ((uintptr_t) pool_first) );
     
     //  PR("After:  "); 
     // ae_put_words(o);
