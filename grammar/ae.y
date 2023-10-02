@@ -117,9 +117,11 @@
     /*   PUT(CADR(program_obj)); */
     /* } */
     
+#ifdef AE_DUMP_POOL_BEFORE
     NL;
     pool_print();
     NL;
+#endif
 
     puts("\nDescribing items in program.");
     FOR_EACH(obj, CONS(program_obj, NIL))
