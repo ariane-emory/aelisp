@@ -1072,136 +1072,76 @@ void alist(void) {
 void deloc(void) {
   SETUP_TEST;
 
-  /* for(int ix = 0; ix < 64; ix++) { */
-    ae_obj_t * o = NEW_INT(14);
-
-    // PR("Before: "); 
-    // ae_put_words(o);
-    //NL;
-    
-    T(! MARKED_AS_DELOCALIZEDP(o));
-
-    MARK_DELOCALIZED(o);
-
-    T(MARKED_AS_DELOCALIZEDP(o));
-
-    UNMARK_DELOCALIZED(o);
-
-    T(! MARKED_AS_DELOCALIZEDP(o));
-
-
-    UNMARK_DELOCALIZED(o);
-
-    T(! MARKED_AS_DELOCALIZEDP(o));
-
-    MARK_DELOCALIZED(o);
-
-    T(MARKED_AS_DELOCALIZEDP(o));
-
-    T(MARKED_AS_DELOCALIZEDP(o));
-
-    /* obj car  = TRUE; */
-    /* obj cadr = NEW_INT(4); */
-    /* obj cons = CONS(NIL, CONS(TRUE, NIL)); */
-    /* obj cdr  = CDR(cons);  */
-    
-    /* PUT(cons); */
-    /* NL; */
-    
-    /* PR("cons       = 0x%016" PRIX64 " \n",      (uintptr_t)             cons ); */
-    /* PR("cons' type = %s \n",         (uintptr_t)GET_TYPE_STR(cons)); */
-    /* PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons)); */
-    /* PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons)); */
-    
-    /* PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  ); */
-    /* PR("car'  type = %s \n",         (uintptr_t)GET_TYPE_STR(car )); */
-    /* if (CONSP(car)) { */
-    /*   PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car )); */
-    /*   PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car )); */
-    /* } */
-    /* NL; */
-    
-    /* PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  ); */
-    /* PR("cdr'  type = %s \n",         (uintptr_t)GET_TYPE_STR(cdr )); */
-    /* if (CONSP(cdr)) { */
-    /*   PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr )); */
-    /*   PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr )); */
-    /* } */
-
-    /* PR("size of ae_obj_t * = %16d \n\n",                     sizeof(ae_obj_t *)); */
-    /* PR("size of uintptr_t  = %16d \n\n",                     sizeof(uintptr_t)); */
-    /* PR("pool is at         = 0x%016" PRIX64 " \n",           (uintptr_t)pool_first); */
-    /* PR("nil is at          = 0x%016" PRIX64 " \n",           (uintptr_t)NIL); */
-    /* PR("true is at         = 0x%016" PRIX64 " \n",           (uintptr_t)TRUE); */
-    
-    /* NL; */
-    
-    /* PR("cons' cdr  = 0x%016" PRIX64 " \n",                   (uintptr_t)CDR (cons)); */
-    /* DELOCALIZE(CAR(cons)); */
-    /* DELOCALIZE(CDR(cons)); */
-    /* PR("cons' cdr  = 0x%016" PRIX64 " \n\n",                 (uintptr_t)CDR (cons)); */
-
-    /* PR("DELOCALIZED(pool_first) is at = 0x%016" PRIX64 " \n", ((uintptr_t)(DELOCALIZED(pool_first)))); */
-    
-    /* NL;NL;NL; */
-    
-    /* DELOCALIZE(CAR(cdr )); */
-    /* DELOCALIZE(CDR(cdr )); */
-
-    /* PR("cons       = 0x016%" PRIX64 " \n",      (uintptr_t)             cons ); */
-    /* PR("cons' type = %s \n",                    (uintptr_t)GET_TYPE_STR(cons)); */
-    /* PR("cons' car  = 0x%016" PRIX64 " \n",      (uintptr_t)CAR         (cons)); */
-    /* PR("cons' cdr  = 0x%016" PRIX64 " \n\n",    (uintptr_t)CDR         (cons)); */
-    
-    /* PR("car        = 0x%016" PRIX64 " \n",      (uintptr_t)             car  ); */
-    /* PR("car'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(car )); */
-    /* if (CONSP(car)) { */
-    /*   PR("car' car   = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (car )); */
-    /*   PR("car' cdr   = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (car )); */
-    /* } */
-    /* NL; */
-    
-    /* PR("cdr        = 0x%016" PRIX64 " \n",                              cdr  ); */
-    /* PR("cdr'  type = %s \n",                    (uintptr_t)GET_TYPE_STR(cdr )); */
-    /* if (CONSP(cdr)) { */
-    /*   PR("cdr'  car  = 0x%016" PRIX64 " \n",    (uintptr_t)CAR         (cdr )); */
-    /*   PR("cdr'  cdr  = 0x%016" PRIX64 " \n\n",  (uintptr_t)CDR         (cdr )); */
-    /* } */
-
-    obj an_int = NEW_INT(13);
-    
-    T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
-    T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
-    T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
-    T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
-
-    T((LOCALIZED(0xC0FFEEF00DC0FFEE,   pool_first)) == NIL       );
-    T((LOCALIZED(0xF00DCAFEBAADBEEF,   pool_first)) == TRUE      );
-    T((LOCALIZED(0x0,                   pool_first)) == pool_first);
-
-    NL;
-    {
-      obj left  = LOCALIZED((ae_obj_t *)0x0, pool_first);
-      obj right = (obj)pool_first;
-      T(left == right);
-      TM("%016p != %016p", left, right);
-    }
-
-    NL;
-    {
-      obj left  = DELOCALIZED(LOCALIZED((ae_obj_t *)0x0, pool_first));
-      obj right = (obj)0;
-      T(left == right);
-      TM("%016p != %016p", left, right);
-    }
-
-    NL;
-    {
-      obj left  = DELOCALIZED(LOCALIZED(an_int, pool_first));
-      obj right = an_int;
-      T(left == right);
-      TM("%016p != %016p", left, right);
-    }
+  ae_obj_t * an_int = NEW_INT(14);
+  
+  T(! MARKED_AS_DELOCALIZEDP(an_int));
+  
+  MARK_DELOCALIZED(an_int);
+  
+  T(MARKED_AS_DELOCALIZEDP(an_int));
+  
+  UNMARK_DELOCALIZED(an_int);
+  
+  T(! MARKED_AS_DELOCALIZEDP(an_int));
+  
+  UNMARK_DELOCALIZED(an_int);
+  
+  T(! MARKED_AS_DELOCALIZEDP(an_int));
+  
+  MARK_DELOCALIZED(an_int);
+  
+  T(MARKED_AS_DELOCALIZEDP(an_int));
+  
+  T(MARKED_AS_DELOCALIZEDP(an_int));
+  
+  T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
+  T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
+  T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
+  T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));
+  
+  T((LOCALIZED(0xC0FFEEF00DC0FFEE,   pool_first)) == NIL       );
+  T((LOCALIZED(0xF00DCAFEBAADBEEF,   pool_first)) == TRUE      );
+  T((LOCALIZED(0x0,                   pool_first)) == pool_first);
+  
+  NL;
+  {
+    obj left  = LOCALIZED((ae_obj_t *)0x0, pool_first);
+    obj right = (obj)pool_first;
+    T(left == right);
+    TM("%016p != %016p", left, right);
+  }
+  
+  NL;
+  {
+    obj left  = DELOCALIZED(LOCALIZED((ae_obj_t *)0x0, pool_first));
+    obj right = (obj)0;
+    T(left == right);
+    TM("%016p != %016p", left, right);
+  }
+  
+  NL;
+  {
+    obj left  = LOCALIZED(DELOCALIZED((ae_obj_t *)pool_first), pool_first);
+    obj right = (obj)pool_first;
+    T(left == right);
+    TM("%016p != %016p", left, right);
+  }
+  
+  NL;
+  {
+    obj left  = DELOCALIZED(LOCALIZED(an_int, pool_first));
+    obj right = an_int;
+    T(left == right);
+    TM("%016p != %016p", left, right);
+  }
+  
+  NL;
+  {
+    obj left  = LOCALIZED(DELOCALIZED(an_int), pool_first);
+    obj right = an_int;
+    T(left == right);
+    TM("%016p != %016p", left, right);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
