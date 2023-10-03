@@ -51,13 +51,25 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
   NL;
 #endif
 
-  if (list == NULL || list == NIL) {  
-    return false;
-  }
+  if (list == NULL || list == NIL) 
+    goto end;
     
   FOR_EACH(elem, list)
-    if (CAR(elem) == key)
+    if (CAR(elem) == key) {
+#ifdef AE_LOG_ALIST_PLIST
+      LOG(key, "found key");
+      NL;
+#endif
+
       return true;
+    }
+
+end:
+
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key, "did not find");
+  NL;
+#endif
   
   return false;
 }
@@ -82,4 +94,11 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
   
   return NIL;
 }
+
+
+
+
+
+
+
 
