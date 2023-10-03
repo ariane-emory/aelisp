@@ -32,9 +32,9 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
 }
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-/* #ifdef AE_LOG_ALIST */
-/*   PR("%s got list %8p.\n", __func__, list); */
-/* #endif */
+#ifdef AE_LOG_ALIST
+  PR("\n%s got list %8p.", __func__, list);
+#endif
 
   if (list == NULL)
     return false;
