@@ -217,7 +217,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
           COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
       else if LAMBDAP((DGET(this, "fun"))) {
-        char * fun_name = SYM_VAL(AGET(DEBUG_DATA(DGET(this, "fun")), KW("last-bound-to")));
+        char * fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
         
         if (NILP(ENV_PARENT(this))) 
           COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → nil >",
