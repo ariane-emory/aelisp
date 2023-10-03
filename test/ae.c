@@ -1101,7 +1101,7 @@ void plist(void) {
 
   /* NL; */
   /* OLOG(plist); */
-  NL;
+  // NL;
 }
 
 void deloc(void) {

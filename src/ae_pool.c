@@ -140,33 +140,36 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set_all_origins: it would be nice if this could live in the _env file.
+// _dset_all_allocated
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void pool_set_all_origins(struct ae_obj_t * const kw) {
-  /* PR("BEFORE:\n\n"); */
-  /* pool_print(); */
-  
+void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * const value) {
   int first_allocated;
 
   for (first_allocated = 0; first_allocated < AE_OBJ_POOL_SIZE; first_allocated++) 
     if (! FREEP(&pool[first_allocated]))
       break;
 
-  /* PR("first           %08x\n", pool_first); */
-  /* PR("last            %08x\n", pool_last); */
-  /* PR("first_allocated %d\n\n", first_allocated); */
+#ifdef AE_SHARED_PRIMORDIAL_TAIL
+  static ae_obj_t * common_tail = NIL;
+  ASET(common_tail, key, value); 
+#endif
   
-  ae_obj_t * common_tail = NIL;
-  ASET(common_tail, KW("origin"), kw); 
-
   int ix = AE_OBJ_POOL_SIZE;
   
   while (ix --> first_allocated) {
+#ifdef AE_SHARED_PRIMORDIAL_TAIL
     DOBJ(&pool[ix]) = common_tail;
+#else
+    ASET(DOBJ(&pool[ix]), key, value);
+#endif        
   }
+}
 
-  PR("\n\nAFTER:\n\n");
-  pool_print();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get_object
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+struct ae_obj_t * pool_get_object     (int const index) {
+  return &pool[index];
 }
