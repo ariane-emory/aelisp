@@ -1070,8 +1070,8 @@ void alist(void) {
   T(!  EQL(AGET(alist, SYM("name")),  NEW_STRING("Bob")));
   T(   EQL(AGET(alist, SYM("name")),  NEW_STRING("Jake")));
 
-  NL;
-  OLOG(alist);
+  /* NL; */
+  /* OLOG(alist); */
   NL;
 }
 
@@ -1083,7 +1083,7 @@ void plist(void) {
   T(!      PHAS(plist, SYM("name")));
 
   plist =  PSET(plist, SYM("name"),   NEW_STRING("Bob"));
-  LOG(plist, "THIS");
+  /* LOG(plist, "THIS"); */
   
   T(       PHAS(plist, SYM("name")));
   T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
@@ -1099,8 +1099,8 @@ void plist(void) {
   T(!  EQL(PGET(plist, SYM("name")),  NEW_STRING("Bob")));
   T(   EQL(PGET(plist, SYM("name")),  NEW_STRING("Jake")));
 
-  NL;
-  OLOG(plist);
+  /* NL; */
+  /* OLOG(plist); */
   NL;
 }
 

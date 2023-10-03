@@ -45,7 +45,7 @@ ae_obj_t * ae_plist_get(ae_obj_t * const * plist, ae_obj_t * const key) {
   if (*plist == NIL)
     return *plist;
 
-  OLOG(*plist);
+  //OLOG(*plist);
 
   for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
     /* OLOG(position); SPC; PUT(position); NL; FF; */
@@ -69,7 +69,6 @@ bool ae_plist_contains_key(ae_obj_t * const * plist, ae_obj_t * const key) {
 
   if (*plist == NIL) {
     /* PR("plist is NIL\n"); */
-    fflush(stdout);
     
     return false;
   }

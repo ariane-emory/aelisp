@@ -206,12 +206,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #  endif
   }
 
-  if (! DHAS(ret, "parent-fun")) {
-    DSET(ret, "parent-fun", fun);
-
-#  ifdef AE_LOG_EVAL
-    LOG(fun, "from  parent");
-#  endif
+  if (! DHAS(ret, "origin")) {
+    DSET(ret, "origin", fun);
   }
 #endif
 
@@ -269,6 +265,20 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   LOG_RETURN_WITH_TYPE("self", obj);
 #endif
   
+#if AE_DEBUG_OBJ
+  if (! DHAS(obj, "birth-place")) {
+    DSET(obj, "birth-place", env);
+    
+#  ifdef AE_LOG_EVAL
+    LOG(obj, "birthed");
+#  endif
+  }
+  
+  if (! DHAS(obj, "origin")) {
+    DSET(obj, "origin", KW("self"));
+  }
+#endif
+      
   return obj;
 }
 
@@ -282,6 +292,20 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   ae_obj_t * ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
+
+#if AE_DEBUG_OBJ
+  if (! DHAS(ret, "birth-place")) {
+    DSET(ret, "birth-place", env);
+
+#  ifdef AE_LOG_EVAL
+    LOG(ret, "birthed");
+#  endif
+  }
+
+  if (! DHAS(ret, "origin")) {
+    DSET(ret, "origin", KW("lookup"));
+  }
+#endif
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
@@ -351,14 +375,14 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * ret = (*dispatch.handler)(env, obj);
 
-#if AE_DEBUG_OBJ
-  if (! DHAS(ret, "birth-place"))
-    DSET(ret, "birth-place", env);
+/* #if AE_DEBUG_OBJ */
+/*   if (! DHAS(ret, "birth-place")) */
+/*     DSET(ret, "birth-place", env); */
   
-#  ifdef AE_LOG_EVAL
-  LOG(ret, "birthed");  
-#  endif
-#endif
+/* #  ifdef AE_LOG_EVAL */
+/*   LOG(ret, "birthed");   */
+/* #  endif */
+/* #endif */
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
