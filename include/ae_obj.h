@@ -73,7 +73,7 @@ typedef struct ae_obj_t {
   // the future it's remaining bits will store other info such as GC related flags:
   unsigned int                metadata;
 
-#ifdef AE_OBJ_DEBUG
+#ifdef AE_DEBUG_OBJ
   struct ae_obj_t *           debug_data;
 #endif
   
@@ -178,7 +178,7 @@ extern ae_obj_t * symbols_list;
 #define ESET(this, key, val)         (ASET(EOBJ((this)), KW(key), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "ae_alist.h"
-#ifdef AE_OBJ_DEBUG
+#ifdef AE_DEBUG_OBJ
 #  define DOBJ(this)                   ((this)->debug_data)
 #  ifdef AE_DEBUG_OBJ_IS_A_PLIST
 #    define DHAS(this, key)            (PHAS(DOBJ((this)), KW(key)))
@@ -189,12 +189,6 @@ extern ae_obj_t * symbols_list;
 #    define DGET(this, key)            (AGET(DOBJ((this)), KW(key)))
 #    define DSET(this, key, val)       (ASET(DOBJ((this)), KW(key), (val)))
 #  endif
-#endif
-#ifdef AE_OBJ_DEBUG
-#  define DOBJ(this)                ((this)->debug_data)
-#  define DHAS(this, key)            (AHAS(DOBJ((this)), KW(key)))
-#  define DGET(this, key)            (AGET(DOBJ((this)), KW(key)))
-#  define DSET(this, key, val)       (ASET(DOBJ((this)), KW(key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                      (SYM(":" sym))

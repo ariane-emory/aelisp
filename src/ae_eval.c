@@ -50,7 +50,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
-#  ifdef AE_OBJ_DEBUG
+#  ifdef AE_DEBUG_OBJ
   DSET(env, "fun", fun);
 #  endif
 #endif
@@ -59,7 +59,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(env, "in env");
 #endif
 
-#if defined(AE_OBJ_DEBUG) && defined(AE_LOG_EVAL)
+#if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
   LOG(DOBJ(env), "with this debug data");
 #endif
 
@@ -111,7 +111,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(body,             "new user fun env body");
 #endif
 
-#ifdef AE_OBJ_DEBUG
+#ifdef AE_DEBUG_OBJ
   DSET(env, "fun", fun);
   
 #  ifdef AE_LOG_EVAL
@@ -197,7 +197,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
 
-#if AE_OBJ_DEBUG
+#if AE_DEBUG_OBJ
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
@@ -351,7 +351,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * ret = (*dispatch.handler)(env, obj);
 
-#if AE_OBJ_DEBUG
+#if AE_DEBUG_OBJ
   if (! DHAS(ret, "birth-place"))
     DSET(ret, "birth-place", env);
   

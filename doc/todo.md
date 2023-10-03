@@ -29,7 +29,7 @@ Completed:
 - [x] DEF_MATH_OP could make fewer new AE_INTEGERs.
 - [x] core left and right shift.
 - [x] core setq should return an error if asked to set the value of nil, t or keywords.
-- [x] Get rid of obj_debug, the #ifdef is better.
+- [x] Get rid of debug_obj, the #ifdef is better.
 - [x] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [x] core rplaca/rplacd
 - [x] Improve parsing of sugared quote ('). Probably requires a new lexer token and a new yacc rule.
