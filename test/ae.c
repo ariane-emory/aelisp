@@ -1054,7 +1054,7 @@ void alist(void) {
 
   T(!      AHAS(alist, SYM("name")));
 
-  alist =  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
+  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
 
   LOG(alist, "THIS");
   
@@ -1062,19 +1062,15 @@ void alist(void) {
   T(  EQL( AGET(alist, SYM("name")),  NEW_STRING("Bob")));
   T(!      AHAS(alist, SYM("age")));
 
-  alist =  ASET(alist, SYM("age"),    NEW_INT(24));
+  /*    */ ASET(alist, SYM("age"),    NEW_INT(24));
 
   T(       AHAS(alist, SYM("age")));
   T( EQL(  AGET(alist, SYM("age")),   NEW_INT(24)));
 
-  alist =  ASET(alist, SYM("name"),   NEW_STRING("Jake"));
+  /*    */ ASET(alist, SYM("name"),   NEW_STRING("Jake"));
 
   T(!  EQL(AGET(alist, SYM("name")),  NEW_STRING("Bob")));
   T(   EQL(AGET(alist, SYM("name")),  NEW_STRING("Jake")));
-
-  /* NL; */
-  /* OLOG(alist); */
-  NL;
 }
 
 void plist(void) {
@@ -1084,26 +1080,21 @@ void plist(void) {
 
   T(!      PHAS(plist, SYM("name")));
 
-  plist =  PSET(plist, SYM("name"),   NEW_STRING("Bob"));
-  /* LOG(plist, "THIS"); */
+  /*    */ PSET(plist, SYM("name"),   NEW_STRING("Bob"));
   
   T(       PHAS(plist, SYM("name")));
   T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
   T(!      PHAS(plist, SYM("age")));
 
-  plist =  PSET(plist, SYM("age"),    NEW_INT(24));
+  /*    */ PSET(plist, SYM("age"),    NEW_INT(24));
 
   T(       PHAS(plist, SYM("age")));
   T( EQL(  PGET(plist, SYM("age")),   NEW_INT(24)));
 
-  PSET(plist, SYM("name"),   NEW_STRING("Jake"));
+  /*    */ PSET(plist, SYM("name"),   NEW_STRING("Jake"));
 
   T(!  EQL(PGET(plist, SYM("name")),  NEW_STRING("Bob")));
   T(   EQL(PGET(plist, SYM("name")),  NEW_STRING("Jake")));
-
-  /* NL; */
-  /* OLOG(plist); */
-  // NL;
 }
 
 void deloc(void) {
@@ -1175,10 +1166,11 @@ void deloc(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(alist)                                                                                        \
+
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
   DO(plist)                                                                                        \
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1205,7 +1197,6 @@ void deloc(void) {
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
-  DO(alist)                                                                                        \
   DO(deloc)                                                                                        
 
 

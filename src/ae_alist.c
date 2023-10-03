@@ -10,6 +10,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(*list, "Before %s:", __func__);
+  LOG(key,   "setting key");
+  LOG(value, "to value");
+#endif
+
   if (*list == NULL)
     *list = NIL;
     
@@ -24,7 +30,7 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
 end:
 
 #ifdef AE_LOG_ALIST_PLIST
-  LOG(*list, "After %s:", __func__);
+  LOG(*list, "After  %s:", __func__);
   NL;
 #endif
   
@@ -37,8 +43,8 @@ end:
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
-  LOG(key, "Look for key");
-  LOG(list, "in list");
+  LOG(list,  "Before %s:", __func__);
+  LOG(key,   "looking for key");
   NL;
 #endif
 
