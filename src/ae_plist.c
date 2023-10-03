@@ -65,26 +65,17 @@ ae_obj_t * ae_plist_get(ae_obj_t * const * plist, ae_obj_t * const key) {
 
 bool ae_plist_contains_key(ae_obj_t * const * plist, ae_obj_t * const key) {
   if (*plist == NULL)
-    return false;  // Return false if plist is NULL
+    return false;  
 
-  if (*plist == NIL) {
-    /* PR("plist is NIL\n"); */
-    
+  if (*plist == NIL)      
     return false;
-  }
 
   for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
     ae_obj_t * elem1 = CAR(position);
     ae_obj_t * elem2 = position ? CADR(position) : NIL;
 
-    /* OLOG(elem1); */
-    /* OLOG(elem2); */
-
-    if (elem1 == key) {
-      /* PR("found it."); */
-      
+    if (elem1 == key)
       return true;
-    }
   }
 
   return false;
