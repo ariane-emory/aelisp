@@ -8,9 +8,6 @@
 ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
   if (*list == NULL)
     *list = NIL;
-
-  if (*list == NIL)
-    goto add;
     
   FOR_EACH(elem, *list)
     if (CAR(elem) == key) {
@@ -18,10 +15,10 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
       goto end;
     }
 
-add:
   *list = CONS(NEW_CONS(key, value), *list);
   
 end:
+
 #ifdef AE_LOG_ALIST_PLIST
   LOG(*list, "After %s:", __func__);
   NL;
