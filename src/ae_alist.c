@@ -9,15 +9,16 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   if (*list == NULL)
     *list = NIL;
 
-  ae_obj_t * ret = NIL;
-  
-  if (*list != NIL)
-    FOR_EACH(elem, *list)
-      if (CAR(elem) == key) {
-        ret = (CDR(elem) = value);
-        goto end;
-      }
+  if (*list == NIL)
+    goto add;
+    
+  FOR_EACH(elem, *list)
+    if (CAR(elem) == key) {
+      (CDR(elem) = value);
+      goto end;
+    }
 
+add:
   *list = CONS(NEW_CONS(key, value), *list);
   
 end:
