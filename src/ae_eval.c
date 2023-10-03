@@ -200,9 +200,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (! ERRORP(ret))
     goto ret;
 
-  if (AHAS(ERR_OBJ(ret), KW("fun")))
-    ASET(ERR_OBJ(ret),
-         KW("fun"),
+  if (ERR_HAS(ret, "fun"))
+    ERR_SET(ret,
+            "fun",
 #ifdef AE_CALLSTACK_IS_PROPER
          CONS(fun, AGET(ERR_OBJ(ret), KW("fun"))));
 #else
