@@ -86,7 +86,10 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
     goto failed;
 
   FOR_EACH(elem, list) {
+
+#ifdef AE_LOG_ALIST_PLIST
     LOG(elem, "elem");
+#endif
     
     if (CAR(elem) == key) {
 #ifdef AE_LOG_ALIST_PLIST

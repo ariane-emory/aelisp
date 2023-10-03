@@ -87,7 +87,6 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key,  "%s looking for key", __func__);
   LOG(list, "in list");
-  NL;
 #endif
 
   if (list == NULL || list == NIL)
@@ -96,13 +95,16 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
   for (ae_obj_t * position = list;
        position != NIL;
        position  = CDR(CDR(position))) {
+
     ae_obj_t     * elem1 = CAR(position);
     ae_obj_t     * elem2 = position ? CADR(position) : NIL;
 
+#ifdef AE_LOG_ALIST_PLIST
     LOG(position, "position");
     LOG(elem1,    "elem1");
     if (elem2)
       LOG(elem2,  "elem2");
+#endif
     
     if (elem1 == key) {
 #ifdef AE_LOG_ALIST_PLIST
