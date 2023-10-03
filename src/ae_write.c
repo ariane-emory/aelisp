@@ -207,9 +207,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_ENV:
 #ifdef AE_OBJ_DEBUG_DATA
-    if (! NILP(AGET(DEBUG_DATA(this), KW("fun")))) {
-      if (COREP((AGET(DEBUG_DATA(this), KW("fun"))))) {
-        char * fun_name = CORE_NAME(AGET(DEBUG_DATA(this), KW("fun")));
+    if (DHAS(this, "fun")) {
+      if (COREP((DGET(this, "fun")))) {
+        char * fun_name = CORE_NAME(DGET(this, "fun"));
         
         if (NILP(ENV_PARENT(this)))
           COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), fun_name, this );
@@ -251,10 +251,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_LAMBDA:
   case AE_MACRO:
 #ifdef AE_OBJ_DEBUG_DATA
-    if (AHAS(DEBUG_DATA(this), KW("last-bound-to"))) {
+    if (DHAS(this, "last-bound-to")) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p, ",
                       GET_TYPE_STR(this),
-                      SYM_VAL(AGET(DEBUG_DATA(this), KW("last-bound-to"))),
+                      SYM_VAL(DGET(this, "last-bound-to")),
                       this);
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");
