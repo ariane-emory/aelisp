@@ -200,23 +200,20 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (! ERRORP(ret))
     goto ret;
 
-  if (ERR_HAS(ret, "fun"))
-    ERR_SET(ret,
-            "fun",
+  if (ERR_HAS(ret, "fun")) {
 #ifdef AE_CALLSTACK_IS_PROPER
-         CONS(fun, ERR_GET(ret, "fun")));
+    ERR_SET(ret, "fun", CONS(fun, ERR_GET(ret, "fun")));
 #else
-  /*  */ NEW_CONS(fun, ERR_GET(ret, "fun")));
+    ERR_SET(ret, "fun", NEW_CONS(fun, ERR_GET(ret, "fun")));
 #endif
-  else
-    ASET(ERR_OBJ(ret),
-         KW("fun"),
+  }
+  else {
 #ifdef AE_CALLSTACK_IS_PROPER
-         CONS(fun, NIL));
+    ASET(ERR_OBJ(ret), KW("fun"), CONS(fun, NIL));
 #else
-  /*  */ fun);
+    ASET(ERR_OBJ(ret), KW("fun"), fun);
 #endif
-
+  }
 ret:
   /* if (dispatch.replaces) { */
   /*   if (CONSP(obj)) {       */
