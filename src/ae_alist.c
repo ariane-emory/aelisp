@@ -11,8 +11,8 @@
 
 ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_ALIST_PLIST
-  LOG(*list, "Before %s:", __func__);
-  LOG(key,   "setting key");
+  LOG(key,   "%s setting key", __func__);
+  LOG(*list, "in list");
   LOG(value, "to value");
 #endif
 
@@ -43,13 +43,14 @@ end:
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
-  LOG(list,  "Before %s:", __func__);
-  LOG(key,   "looking for key");
+  LOG(key,  "%s looking for key:", __func__);
+  LOG(list, "in list");
   NL;
 #endif
 
-  if (list == NULL || list == NIL)
+  if (list == NULL || list == NIL) {  
     return false;
+  }
     
   FOR_EACH(elem, list)
     if (CAR(elem) == key)
@@ -63,10 +64,13 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
-  if (list == NULL)
-    return NIL;
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key,  "%s looking for key:", __func__);
+  LOG(list, "in list");  
+  NL;
+#endif
 
-  if (list == NIL)
+  if (list == NULL || list == NIL)
     return NIL;
 
   FOR_EACH(elem, list)
