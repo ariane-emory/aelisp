@@ -34,6 +34,9 @@
   DO(ahas)                                                                                         \
   DO(aset)                                                                                         \
   DO(aget)                                                                                         \
+  DO(phas)                                                                                         \
+  DO(pset)                                                                                         \
+  DO(pget)                                                                                         \
   DO(not)     /* reduceable */                                                                     \
   DO(eql)     /* reduceable */                                                                     \
   DO(eq)                                                                                           \
