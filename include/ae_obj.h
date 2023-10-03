@@ -71,7 +71,7 @@ typedef struct ae_obj_t {
   // the future it's remaining bits will store other info such as GC related flags:
   unsigned int                metadata;
 
-#ifdef AE_OBJ_DEBUG_DATA
+#ifdef AE_OBJ_DOBJ
   struct ae_obj_t *           debug_data;
 #endif
   
@@ -169,17 +169,17 @@ extern ae_obj_t * symbols_list;
 #define FUN_BODY(this)               ((this)->body)
 #define FUN_ENV(this)                ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ERR_MSG(this)                ((this)->message)
-#define ERR_OBJ(this)                ((this)->object)
-#define ERR_HAS(this, key)           (AHAS(ERR_OBJ((this)), KW(key)))
-#define ERR_GET(this, key)           (AGET(ERR_OBJ((this)), KW(key)))
-#define ERR_SET(this, key, val)      (ASET(ERR_OBJ((this)), KW(key), (val)))
+#define EMSG(this)                   ((this)->message)
+#define EOBJ(this)                   ((this)->object)
+#define EHAS(this, key)              (AHAS(EOBJ((this)), KW(key)))
+#define EGET(this, key)              (AGET(EOBJ((this)), KW(key)))
+#define ESET(this, key, val)         (ASET(EOBJ((this)), KW(key), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef AE_OBJ_DEBUG_DATA
-#  define DEBUG_DATA(this)           ((this)->debug_data)
-#  define DHAS(this, key)            (AHAS(DEBUG_DATA((this)), KW(key)))
-#  define DGET(this, key)            (AGET(DEBUG_DATA((this)), KW(key)))
-#  define DSET(this, key, val)       (ASET(DEBUG_DATA((this)), KW(key), (val)))
+#ifdef AE_OBJ_DOBJ
+#  define DOBJ(this)                ((this)->debug_data)
+#  define DHAS(this, key)            (AHAS(DOBJ((this)), KW(key)))
+#  define DGET(this, key)            (AGET(DOBJ((this)), KW(key)))
+#  define DSET(this, key, val)       (ASET(DOBJ((this)), KW(key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                      (SYM(":" sym))
@@ -252,8 +252,8 @@ _obj;                                                                           
 #define NEW_ERROR(obj, msg)                                                                        \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_ERROR);                                                                  \
-ERR_MSG   (_obj) = (msg);                                                                          \
-ERR_OBJ   (_obj) = (obj);                                                                          \
+EMSG   (_obj) = (msg);                                                                          \
+EOBJ   (_obj) = (obj);                                                                          \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -49,7 +49,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
-#  ifdef AE_OBJ_DEBUG_DATA
+#  ifdef AE_OBJ_DOBJ
   DSET(env, "fun", fun);
 #  endif
 #endif
@@ -58,8 +58,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(env, "in env");
 #endif
 
-#if defined(AE_OBJ_DEBUG_DATA) && defined(AE_LOG_EVAL)
-  LOG(DEBUG_DATA(env), "with this debug data");
+#if defined(AE_OBJ_DOBJ) && defined(AE_LOG_EVAL)
+  LOG(DOBJ(env), "with this debug data");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -110,12 +110,12 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(body,             "new user fun env body");
 #endif
 
-#ifdef AE_OBJ_DEBUG_DATA
+#ifdef AE_OBJ_DOBJ
   DSET(env, "fun", fun);
 
   
 #  ifdef AE_LOG_EVAL
-  LOG(DEBUG_DATA(env), "with this debug data");
+  LOG(DOBJ(env), "with this debug data");
 #  endif
 #endif
   
@@ -200,18 +200,18 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (! ERRORP(ret))
     goto ret;
 
-  if (ERR_HAS(ret, "fun")) {
+  if (EHAS(ret, "fun")) {
 #ifdef AE_CALLSTACK_IS_PROPER
-    ERR_SET(ret, "fun", CONS(fun, ERR_GET(ret, "fun")));
+    ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
 #else
-    ERR_SET(ret, "fun", NEW_CONS(fun, ERR_GET(ret, "fun")));
+    ESET(ret, "fun", NEW_CONS(fun, EGET(ret, "fun")));
 #endif
   }
   else {
 #ifdef AE_CALLSTACK_IS_PROPER
-    ERR_SET(ret, "fun", CONS(fun, NIL));
+    ESET(ret, "fun", CONS(fun, NIL));
 #else
-    ERR_SET(ret, "fun", fun);
+    ESET(ret, "fun", fun);
 #endif
   }
   

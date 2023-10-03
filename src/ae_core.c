@@ -188,12 +188,12 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 
   val                    = EVAL(env, val);
 
-#ifdef AE_OBJ_DEBUG_DATA
+#ifdef AE_OBJ_DOBJ
   if (LAMBDAP(val) || MACROP(val)) {
     DSET(val, "last-bound-to", sym);
 
 #  ifdef AE_LOG_CORE
-    LOG(DEBUG_DATA(val), "core setq val's new debug data");
+    LOG(DOBJ(val), "core setq val's new debug data");
 #  endif
 
   }
@@ -314,7 +314,7 @@ ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
-  CORE_RETURN("errmsg", NEW_STRING(ERR_MSG(CAR(args))));
+  CORE_RETURN("errmsg", NEW_STRING(EMSG(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,7 +326,7 @@ ae_obj_t * ae_core_errobj(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
 
-  CORE_RETURN("errobj", ERR_OBJ(CAR(args)));
+  CORE_RETURN("errobj", EOBJ(CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
