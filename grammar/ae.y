@@ -171,11 +171,20 @@
     yyin = fp;
     yyparse();
 
+
+    ae_obj_t * program_obj   = CONS(SYM("progn"), root);
+    ae_obj_t * read_origin = NIL;
+    ASET(read_origin, KW("origin"), KW("read"));
+
+    for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
+        if (! DHAS(pool_get_object(ix),"origin")) {
+            //PR("Setting origin of %p to %p\n", pool_get_object(ix), read_origin);
+            DOBJ(pool_get_object(ix)) = read_origin;
+        }
+    
 #ifdef AE_DUMP_POOL_BEFORE
     pool_print();
 #endif
-
-    ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
     describe_parse(program_obj);
 

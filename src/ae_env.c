@@ -233,7 +233,7 @@ ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * root  = pool_get_object(AE_OBJ_POOL_SIZE - 1);
   DOBJ(root)       = NIL;
   DSET(root, "origin", KW("root"));
-  #endif
+#endif
 
   return env;
 }
