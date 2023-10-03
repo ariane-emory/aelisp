@@ -3,16 +3,15 @@
 
 #include "ae_obj.h"
 #include "ae_list.h"
+#include "ae_util.h"
 
 #define YYSTYPE ae_obj_t *
 
 extern ae_obj_t * root;
+extern int main(void);
   
-  void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
-  int  yywrap() { return 1; }
-
-  extern int main(void);
-    
+void yyerror(const char *str) { ERR("Error: %s\n", str); }
+int  yywrap() { return 1; }    
 %}
 
 %token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT BACKTICK COMMA COMMA_AT
