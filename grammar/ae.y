@@ -1,4 +1,9 @@
 %{
+#include <stdio.h>
+
+#include "ae_obj.h"
+#include "ae_list.h"
+
 #define YYSTYPE ae_obj_t *
 
 extern ae_obj_t * root;
