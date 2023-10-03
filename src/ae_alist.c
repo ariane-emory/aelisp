@@ -37,7 +37,6 @@ end:
   NL;
 #endif
 
-  
   return value;
 }
 
