@@ -139,3 +139,30 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
   return ret;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_all_origins: it would be nice if this could live in the _env file.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void pool_set_all_origins(struct ae_obj_t * const kw) {
+
+  
+  int first_allocated;
+
+  for (first_allocated = 0; first_allocated < AE_OBJ_POOL_SIZE; first_allocated++) 
+    if (! FREEP(&pool[first_allocated]))
+      break;
+
+  PR("first           %08x\n", pool_first);
+  PR("last            %08x\n", pool_last);
+  PR("first_allocated %d\n\n", first_allocated);
+  
+  int ix = AE_OBJ_POOL_SIZE;
+
+  while (ix --> first_allocated) {
+    PR("%4d %08x ", ix, &pool[ix]); FF;
+   
+    PUT(&pool[ix]);
+    DSET(&pool[ix], "origin", kw); FF;
+    NL;
+  }
+}
