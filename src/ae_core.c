@@ -245,7 +245,14 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(val, "to value");
 #endif
 
-  val                    = EVAL(env, val);
+  ae_obj_t * setq_env = env;
+  
+#ifdef AE_CORE_ENVS
+  if (ENV_PARENT(env) != NIL)
+    setq_env = ENV_PARENT(env);
+#endif
+
+  val                    = EVAL(setq_env, val);
 
 #ifdef AE_DEBUG_OBJ
   if (LAMBDAP(val) || MACROP(val)) {
@@ -258,7 +265,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   }
 #endif
 
-  ENV_SET(env, sym, val);
+  ENV_SET(setq_env, sym, val);
 
   CORE_RETURN("setq", val);
 }
