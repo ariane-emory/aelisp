@@ -1168,9 +1168,9 @@ void deloc(void) {
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(alist)                                                                                        \
+  DO(plist)                                                                                        \
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
-  DO(plist)                                                                                        \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
