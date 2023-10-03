@@ -175,6 +175,19 @@ extern ae_obj_t * symbols_list;
 #define EGET(this, key)              (AGET(EOBJ((this)), KW(key)))
 #define ESET(this, key, val)         (ASET(EOBJ((this)), KW(key), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "ae_alist.h"
+#ifdef AE_OBJ_DEBUG
+#  define DOBJ(this)                   ((this)->debug_data)
+#  ifdef AE_DEBUG_OBJ_IS_A_PLIST
+#    define DHAS(this, key)            (PHAS(DOBJ((this)), KW(key)))
+#    define DGET(this, key)            (PGET(DOBJ((this)), KW(key)))
+#    define DSET(this, key, val)       (PSET(DOBJ((this)), KW(key), (val)))
+#  else // it's an alist
+#    define DHAS(this, key)            (AHAS(DOBJ((this)), KW(key)))
+#    define DGET(this, key)            (AGET(DOBJ((this)), KW(key)))
+#    define DSET(this, key, val)       (ASET(DOBJ((this)), KW(key), (val)))
+#  endif
+#endif
 #ifdef AE_OBJ_DEBUG
 #  define DOBJ(this)                ((this)->debug_data)
 #  define DHAS(this, key)            (AHAS(DOBJ((this)), KW(key)))
