@@ -11,10 +11,9 @@ extern ae_obj_t * root;
   void yyerror(const char *str) { fprintf(stderr, "Error: %s\n", str); }
   int  yywrap() { return 1; }
 
-  extern FILE * yyin;
   extern int main(void);
     
-    %}
+%}
 
 %token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT BACKTICK COMMA COMMA_AT
 
