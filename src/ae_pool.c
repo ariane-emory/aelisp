@@ -91,7 +91,7 @@ void pool_print(void) {
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
     
-    while (written++ < 93) putchar(' ');
+    while (written++ < 72) putchar(' ');
     
     WRITE(&pool[ix]);
     

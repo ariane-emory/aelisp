@@ -147,12 +147,12 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
 
   COUNTED_FPRINTF(stream, GET_TYPE_STR(this));
   COUNTED_FPRINTF(stream, "< ");
-  COUNTED_FPRINTF(stream, "%018p, ", this);
+  COUNTED_FPRINTF(stream, "%08p, ", this);
   
   switch (GET_TYPE(this)) {
   case AE_CONS:
     COUNTED_FPRINTF(stream,
-                    "%018p, %018p, %d",
+                    "%08p, %08p, %d",
                     CAR(this),
                     CDR(this),
                     LENGTH(this));
@@ -206,13 +206,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
   switch (GET_TYPE(this)) {
   case AE_ERROR:
-    COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %018p, %s >", GET_TYPE_STR(this), this, EOBJ(this), EMSG(this));
+    COUNTED_FPRINTF(fwrite_stream, "%s< %08p, %08p, %s >", GET_TYPE_STR(this), this, EOBJ(this), EMSG(this));
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s* >", GET_TYPE_STR(this), this, CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p, %s* >", GET_TYPE_STR(this), this, CORE_NAME(this));
     else
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s >", GET_TYPE_STR(this), this, CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p, %s >", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
 
@@ -230,20 +230,20 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         char * fun_name = CORE_NAME(DGET(this, "fun"));
         
         if (NILP(ENV_PARENT(this)))
-          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p " ARROW " nil, %s >", GET_TYPE_STR(this), fun_name, this );
+          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %08p " ARROW " nil, %s >", GET_TYPE_STR(this), fun_name, this );
         else
-          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p " ARROW " %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
+          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %08p " ARROW " %08p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
       else if (LAMBDAP(DGET(this, "fun"))) {
         char * fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
         
         if (NILP(ENV_PARENT(this))) 
-          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p " ARROW " nil >",
+          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %08p " ARROW " nil >",
                           GET_TYPE_STR(this),
                           fun_name,
                           this);
         else 
-          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p " ARROW " %018p >",
+          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %08p " ARROW " %08p >",
                           GET_TYPE_STR(this),
                           fun_name,
                           this,
@@ -258,10 +258,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else {
     print_env_without_name:
     if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p " ARROW " nil >", GET_TYPE_STR(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " nil >", GET_TYPE_STR(this), this);
     }
     else {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p " ARROW " %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " %08p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
     }
   }
     fwrite_counter -= ARROW_ADJUST;
@@ -270,7 +270,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_MACRO:
 #ifdef AE_DEBUG_OBJ
     if (DHAS(this, "last-bound-to")) {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p, ",
+      COUNTED_FPRINTF(fwrite_stream, "%s< %s, %08p, ",
                       GET_TYPE_STR(this),
                       SYM_VAL(DGET(this, "last-bound-to")),
                       this);
@@ -280,7 +280,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else 
 #endif
     {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p, ", GET_TYPE_STR(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p, ", GET_TYPE_STR(this), this);
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");      
     }
