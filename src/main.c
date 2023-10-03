@@ -98,55 +98,6 @@ void preface(void) {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// describe_parse
-//////////////////////////////////////////////////////////////////////////////
-
-void describe_parse(ae_obj_t * program_obj) {
-  /* printf("\nprogram:           "); */
-
-  /* if (! program_obj) { */
-  /*   PR("NULL!"); */
-  /*   return; */
-  /* } */
-  /* else { */
-  /*   PUT(CADR(program_obj)); */
-  /* } */
-    
-  /* #ifdef AE_DUMP_POOL_BEFORE */
-  /*     NL; */
-  /*     pool_print(); */
-  /*     NL; */
-  /* #endif */
-
-  /* puts("\nDescribing items in program."); */
-  /* FOR_EACH(obj, CONS(program_obj, NIL)) */
-  /*   describe(obj, false); */
-  /* puts("Described items in program."); */
-  /* NL; */
-
-  /* fputs("Count items in program obj: ", stdout);  */
-  /* printf("%d", LENGTH(CDR(program_obj))); */
-  /* NL; */
-  /* NL; */
-  
-  /* puts("Writing items in program obj."); */
-  /* if (CONSP(program_obj) && CDR(program_obj)) */
-  /*   EACH(CDR(program_obj), do_write); */
-  /* puts("Wrote items in program obj."); */
-  /* NL; */
-
-  puts("Writing program obj.");
-  WRITE(program_obj);
-  NL;
-  puts("Wrote program obj.");
-  NL;
-  
-  /* puts("Writing interned symbols."); */
-  /* ae_write(symbols_list); */
-  /* puts("\nWrote interned symbols.");     */
-}
-  
-//////////////////////////////////////////////////////////////////////////////
 // main
 //////////////////////////////////////////////////////////////////////////////
 
@@ -184,19 +135,17 @@ int main(void) {
   }
 #endif
   
-  /* for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) */
-  /*     if (! DHAS(pool_get_object(ix),"origin")) { */
-  /*         //PR("Setting origin of %p to %p\n", pool_get_object(ix), read_origin); */
-  /*         DOBJ(pool_get_object(ix)) = read_origin; */
-  /*     } */
-  
 #ifdef AE_DUMP_POOL_BEFORE
   pool_print();
 #endif
+
+  puts("Writing program obj.");
+  WRITE(program);
+  NL;
+  puts("Wrote program obj.");
+  NL;
   
-  describe_parse(program);
-  
-  SLOG("\nEvaluating program...");
+  SLOG("Evaluating program...");
   EVAL(env, program);
   SLOG("\nDone evaluating program.\n");
   
