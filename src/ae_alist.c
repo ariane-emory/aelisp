@@ -5,6 +5,10 @@
 #include "ae_write.h"
 #include "ae_util.h"
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
   if (*list == NULL)
     *list = NIL;
@@ -27,22 +31,12 @@ end:
   return value;
 }
 
-ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
-  if (list == NULL)
-    return NIL;
-
-  if (list == NIL)
-    return NIL;
-
-  FOR_EACH(elem, list)
-    if (CAR(elem) == key)
-      return CDR(elem);
-  
-  return NIL;
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _contains_key
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_ALIST 
+#ifdef AE_LOG_ALIST_PLIST
   LOG(key, "Look for key");
   LOG(list, "in list");
   NL;
@@ -56,5 +50,23 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
       return true;
   
   return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
+  if (list == NULL)
+    return NIL;
+
+  if (list == NIL)
+    return NIL;
+
+  FOR_EACH(elem, list)
+    if (CAR(elem) == key)
+      return CDR(elem);
+  
+  return NIL;
 }
 

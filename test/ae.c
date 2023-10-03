@@ -1056,6 +1056,8 @@ void alist(void) {
 
   alist =  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
 
+  LOG(alist, "THIS");
+  
   T(       AHAS(alist, SYM("name")));
   T(  EQL( AGET(alist, SYM("name")),  NEW_STRING("Bob")));
   T(!      AHAS(alist, SYM("age")));
