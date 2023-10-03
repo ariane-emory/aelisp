@@ -5,6 +5,10 @@
 #include "ae_write.h"
 #include "ae_util.h"
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key,   "%s setting key", __func__);
@@ -30,6 +34,7 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   *list = CONS(key, CONS(value, *list));
 
 end:
+
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key,   "after setting key")
   LOG(*list, "list is");
@@ -38,6 +43,45 @@ end:
 
   return value;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _contains_key
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key,  "%s looking for key", __func__);
+  LOG(list, "in list");
+#endif
+
+  if (list == NULL || list == NIL)
+    goto end;
+
+  for (ae_obj_t * position = list;
+       position != NIL;
+       position  = CDR(CDR(position)))
+    if (CAR(position) == key) {
+#ifdef AE_LOG_ALIST_PLIST
+      LOG(key, "found key");
+      NL;
+#endif
+      
+      return true;
+    }
+
+end:
+
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key, "did not find");
+  NL;
+#endif
+  
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
@@ -71,6 +115,7 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
   }
 
 end:
+
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key, "did not find");
   NL;
@@ -78,38 +123,4 @@ end:
 
   return NIL;
 }
-
-bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_ALIST_PLIST
-  LOG(key,  "%s looking for key", __func__);
-  LOG(list, "in list");
-#endif
-
-  if (list == NULL || list == NIL)
-    goto end;
-
-  for (ae_obj_t * position = list;
-       position != NIL;
-       position  = CDR(CDR(position)))
-    if (CAR(position) == key) {
-#ifdef AE_LOG_ALIST_PLIST
-      LOG(key, "found key");
-      NL;
-#endif
-      
-      return true;
-    }
-
-end:
-#ifdef AE_LOG_ALIST_PLIST
-  LOG(key, "did not find");
-  NL;
-#endif
-  
-  return false;
-}
-
-
-
-
 
