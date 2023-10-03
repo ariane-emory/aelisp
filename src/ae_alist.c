@@ -14,7 +14,6 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   LOG(key,   "%s setting key", __func__);
   LOG(*list, "in list");
   LOG(value, "to value");
-  NL;
 #endif
  
   if (*list == NULL)
@@ -48,11 +47,10 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key,  "%s looking for key:", __func__);
   LOG(list, "in list");
-  NL;
 #endif
 
   if (list == NULL || list == NIL) 
-    goto end;
+    goto failed;
     
   FOR_EACH(elem, list)
     if (CAR(elem) == key) {
@@ -64,7 +62,7 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
       return true;
     }
 
-end:
+failed:
 
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key, "did not find");
@@ -82,18 +80,55 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
   LOG(key,  "%s looking for key:", __func__);
   LOG(list, "in list");  
-  NL;
 #endif
 
   if (list == NULL || list == NIL)
-    return NIL;
+    goto failed;
 
-  FOR_EACH(elem, list)
-    if (CAR(elem) == key)
+  FOR_EACH(elem, list) {
+    LOG(elem, "elem");
+    
+    if (CAR(elem) == key) {
+#ifdef AE_LOG_ALIST_PLIST
+      LOG(key,      "found key");
+      LOG(CDR(elem), "with value");
+      NL;
+#endif
+
       return CDR(elem);
+    }
+  }
   
+failed:
+
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key, "did not find");
+  NL;
+#endif
+
   return NIL;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
