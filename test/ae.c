@@ -1050,28 +1050,20 @@ void macro_expand(void) {
 void alist(void) {
   SETUP_TEST;
 
-  ae_obj_t * alist = NIL;
+  ae_obj_t * list = NIL;
 
-  T(!      AHAS(alist, SYM("name")));
-
-  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
-
-  LOG(alist, "THIS");
-  
-  T(       AHAS(alist, SYM("name")));
-  T(  EQL( AGET(alist, SYM("name")),  NEW_STRING("Bob")));
-  T(!      AHAS(alist, SYM("age")));
-
-  /*    */ ASET(alist, SYM("age"),    NEW_INT(24));
-
-  T(       AHAS(alist, SYM("age")));
-  T( EQL(  AGET(alist, SYM("age")),   NEW_INT(24)));
-
-  /*    */ ASET(alist, SYM("name"),   NEW_STRING("Jake"));
-
-  T(!  EQL(AGET(alist, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL(AGET(alist, SYM("name")),  NEW_STRING("Jake")));
-}
+  T(!      AHAS(list, SYM("name")));
+  /*    */ ASET(list, SYM("name"),   NEW_STRING("Bob"));
+  T(       AHAS(list, SYM("name")));
+  T(  EQL( AGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!      AHAS(list, SYM("age")));
+  /*    */ ASET(list, SYM("age"),    NEW_INT(24));
+  T(       AHAS(list, SYM("age")));
+  T( EQL(  AGET(list, SYM("age")),   NEW_INT(24)));
+  /*    */ ASET(list, SYM("name"),   NEW_STRING("Jake"));
+  T(!  EQL(AGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL(AGET(list, SYM("name")),  NEW_STRING("Jake")));
+}          
 
 void plist(void) {
   SETUP_TEST;
@@ -1097,25 +1089,15 @@ void deloc(void) {
   ae_obj_t * an_int = NEW_INT(14);
   
   T(! MARKED_AS_DELOCALIZEDP(an_int));
-  
   MARK_DELOCALIZED(an_int);
-  
   T(MARKED_AS_DELOCALIZEDP(an_int));
-  
   UNMARK_DELOCALIZED(an_int);
-  
   T(! MARKED_AS_DELOCALIZEDP(an_int));
-  
   UNMARK_DELOCALIZED(an_int);
-  
   T(! MARKED_AS_DELOCALIZEDP(an_int));
-  
   MARK_DELOCALIZED(an_int);
-  
   T(MARKED_AS_DELOCALIZEDP(an_int));
-  
   T(MARKED_AS_DELOCALIZEDP(an_int));
-  
   T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
   T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
   T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
@@ -1161,10 +1143,10 @@ void deloc(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(alist)                                                                                        \
   DO(plist)                                                                                        \
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
-  DO(alist)                                                                                        \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
