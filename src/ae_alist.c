@@ -22,6 +22,8 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   
 end:
 #ifdef AE_LOG_ALIST_PLIST
+  LOG(*list, "After %s:", __func__);
+  NL;
 #endif
   
   return value;
