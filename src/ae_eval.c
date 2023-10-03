@@ -275,7 +275,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   }
   
   if (! DHAS(obj, "origin")) {
-    DSET(obj, "origin", KW("self"));
+    DSET(obj, "origin", KW("self-evaluated"));
   }
 #endif
       
