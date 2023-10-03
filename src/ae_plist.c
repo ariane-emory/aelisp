@@ -11,8 +11,8 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
 
   if (*list != NIL)
     for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
-      ae_obj_t * elem1 = CAR(position);
-      ae_obj_t * elem2 = position ? CADR(position) : NIL;
+      ae_obj_t    * elem1    = CAR(position);
+      ae_obj_t    * elem2    = position ? CADR(position) : NIL;
       
       if (elem1 == key)
         return CADR(position) = value;
@@ -22,14 +22,16 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
 }
 
 ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
+  if (list == NULL)
+    return NIL;
+
   if (list == NIL)
-    return *list;
+    return NIL;
 
-
-  for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
-    ae_obj_t * elem1 = CAR(position);
-    ae_obj_t * elem2 = position ? CADR(position) : NIL;
-      
+  for (ae_obj_t * position = list; position != NIL; position = CDR(CDR(position))) {
+    ae_obj_t    * elem1    = position;
+    ae_obj_t    * elem2    = position ? CADR(position) : NIL;
+    
     if (elem1 == key)
       return elem2;
   }
@@ -42,12 +44,15 @@ bool ae_plist_contains_key(ae_obj_t * const * list, ae_obj_t * const key) {
   PR("%s got list %8p.\n", __func__, list);
 #endif
   
-  if (list == NULL || *list == NUL)
+  if (list == NULL)
+    return false;
+
+  if (list == NIL)
     return false;
   
-    *(ae_obj_t **)list = NIL;
-    
-  for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position)))
+  for (ae_obj_t * position = *list;
+       position != NIL;
+       position = CDR(CDR(position)))
     if (CAR(position) == key)
       return true;
 
