@@ -3,6 +3,7 @@
 #include "ae_eval.h"
 #include "ae_obj.h"
 #include "ae_alist.h"
+#include "ae_plist.h"
 #include "ae_list.h"
 #include "ae_env.h"
 #include "ae_util.h"
@@ -355,7 +356,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
     DSET(ret, "birth-place", env);
   
 #  ifdef AE_LOG_EVAL
-  LOG(ret, "birthed");
+  LOG(ret, "birthed");  
 #  endif
 #endif
 
