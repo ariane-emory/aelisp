@@ -1079,26 +1079,16 @@ void plist(void) {
   ae_obj_t * plist = NIL;
 
   T(!      PHAS(plist, SYM("name")));
-
   /*    */ PSET(plist, SYM("name"),   NEW_STRING("Bob"));
-
   T(       PHAS(plist, SYM("name")));
-
   T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
-  
   T(!      PHAS(plist, SYM("age")));
-
   /*    */ PSET(plist, SYM("age"),    NEW_INT(24));
-
   T(       PHAS(plist, SYM("age")));
-
   T( EQL(  PGET(plist, SYM("age")),   NEW_INT(24)));
-
   /*    */ PSET(plist, SYM("name"),   NEW_STRING("Jake"));
-
   T(!  EQL(PGET(plist, SYM("name")),  NEW_STRING("Bob")));
   T(   EQL(PGET(plist, SYM("name")),  NEW_STRING("Jake")));
-  return;
 }
 
 void deloc(void) {
