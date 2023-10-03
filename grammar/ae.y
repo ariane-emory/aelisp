@@ -155,7 +155,7 @@
   // main
   //////////////////////////////////////////////////////////////////////////////
 
-  main() {
+  int main(void) {
     preface();
     
     free_list_add_block(&mem[0], free_list_size);
