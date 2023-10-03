@@ -1076,19 +1076,19 @@ void alist(void) {
 void plist(void) {
   SETUP_TEST;
 
-  ae_obj_t * plist = NIL;
+  ae_obj_t * list = NIL;
 
-  T(!      PHAS(plist, SYM("name")));
-  /*    */ PSET(plist, SYM("name"),   NEW_STRING("Bob"));
-  T(       PHAS(plist, SYM("name")));
-  T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
-  T(!      PHAS(plist, SYM("age")));
-  /*    */ PSET(plist, SYM("age"),    NEW_INT(24));
-  T(       PHAS(plist, SYM("age")));
-  T( EQL(  PGET(plist, SYM("age")),   NEW_INT(24)));
-  /*    */ PSET(plist, SYM("name"),   NEW_STRING("Jake"));
-  T(!  EQL(PGET(plist, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL(PGET(plist, SYM("name")),  NEW_STRING("Jake")));
+  T(!      PHAS(list, SYM("name")));
+  /*    */ PSET(list, SYM("name"),   NEW_STRING("Bob"));
+  T(       PHAS(list, SYM("name")));
+  T(  EQL( PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!      PHAS(list, SYM("age")));
+  /*    */ PSET(list, SYM("age"),    NEW_INT(24));
+  T(       PHAS(list, SYM("age")));
+  T( EQL(  PGET(list, SYM("age")),   NEW_INT(24)));
+  /*    */ PSET(list, SYM("name"),   NEW_STRING("Jake"));
+  T(!  EQL(PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL(PGET(list, SYM("name")),  NEW_STRING("Jake")));
 }
 
 void deloc(void) {
