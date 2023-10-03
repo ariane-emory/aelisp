@@ -1083,8 +1083,10 @@ void plist(void) {
   /*    */ PSET(plist, SYM("name"),   NEW_STRING("Bob"));
 
   T(       PHAS(plist, SYM("name")));
-  return;
+
   T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
+  return;
+
   T(!      PHAS(plist, SYM("age")));
 
   /*    */ PSET(plist, SYM("age"),    NEW_INT(24));
