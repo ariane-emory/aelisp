@@ -32,7 +32,7 @@
     if (yy_tok_type == NILTOK) {
       yylval = NIL;
 #ifdef AE_LOG_LEX
-      printf("Returning the nil object, ");
+      printf("Returning nil, ");
       PUT(yylval);
       putchar('\n');
       fflush(stdout);

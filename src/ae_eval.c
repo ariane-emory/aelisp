@@ -209,11 +209,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
   else {
 #ifdef AE_CALLSTACK_IS_PROPER
-    ASET(ERR_OBJ(ret), KW("fun"), CONS(fun, NIL));
+    ERR_SET(ret, "fun", CONS(fun, NIL));
 #else
-    ASET(ERR_OBJ(ret), KW("fun"), fun);
+    ERR_SET(ret, "fun", fun);
 #endif
   }
+  
 ret:
   /* if (dispatch.replaces) { */
   /*   if (CONSP(obj)) {       */
