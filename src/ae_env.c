@@ -235,8 +235,6 @@ ae_obj_t * ae_env_new_root(void) {
   DSET(root, "origin", KW("root"));
   #endif
 
-  pool_print();
-  
   return env;
 }
 

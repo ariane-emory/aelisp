@@ -117,11 +117,11 @@
     /*   PUT(CADR(program_obj)); */
     /* } */
     
-#ifdef AE_DUMP_POOL_BEFORE
-    NL;
-    pool_print();
-    NL;
-#endif
+/* #ifdef AE_DUMP_POOL_BEFORE */
+/*     NL; */
+/*     pool_print(); */
+/*     NL; */
+/* #endif */
 
     /* puts("\nDescribing items in program."); */
     /* FOR_EACH(obj, CONS(program_obj, NIL)) */
@@ -166,9 +166,14 @@
     OUTDENT;
     LOG(env, "Done populating");
 
+
     FILE * fp = fopen("data/sample.lisp", "r");
     yyin = fp;
     yyparse();
+
+#ifdef AE_DUMP_POOL_BEFORE
+    pool_print();
+#ifdef AE_DUMP_POOL_BEFORE
 
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
