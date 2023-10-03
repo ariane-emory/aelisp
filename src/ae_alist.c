@@ -2,35 +2,39 @@
 #include "ae_alist.h"
 #include "ae_util.h"
 
-ae_obj_t * ae_alist_set(ae_obj_t ** alist, ae_obj_t * const key, ae_obj_t * const value) {
-    if (*alist == NULL)
-      *(ae_obj_t **)alist = NIL;
+ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
+    if (*list == NULL)
+      *(ae_obj_t **)list = NIL;
 
-    FOR_EACH(elem, *alist)    
+    FOR_EACH(elem, *list)    
       if (CAR(elem) == key) {
         CDR(elem) = value;
-        return *alist;
+        return *list;
       }
   
-  return *alist = CONS(NEW_CONS(key, value), *alist);
+  return *list = CONS(NEW_CONS(key, value), *list);
 }
 
-ae_obj_t * ae_alist_get(ae_obj_t * const * alist, ae_obj_t * const key) {
-  if (*alist == NULL)
-    *(ae_obj_t **)alist = NIL;
+ae_obj_t * ae_alist_get(ae_obj_t * const * list, ae_obj_t * const key) {
+  if (list == NIL)
+    return *list;
 
-  FOR_EACH(elem, *alist)
+  FOR_EACH(elem, *list)
     if (CAR(elem) == key)
       return CDR(elem);
   
   return NIL; 
 }
 
-bool ae_alist_contains_key(ae_obj_t * const * alist, ae_obj_t * const key) {
-  if (*alist == NULL)
-    *(ae_obj_t **)alist = NIL;
+bool ae_alist_contains_key(ae_obj_t * const * list, ae_obj_t * const key) {
+#ifdef AE_LOG_ALIST
+  PR("%s got list %8p.\n", __func__, list);
+#endif
+
+  if (*list == NULL)
+    *(ae_obj_t **)list = NIL;
     
-  FOR_EACH(elem, *alist)
+  FOR_EACH(elem, *list)
     if (CAR(elem) == key)
       return true;
   

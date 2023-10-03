@@ -5,12 +5,12 @@
 #include "ae_write.h"
 #include "ae_util.h"
 
-ae_obj_t * ae_plist_set(ae_obj_t ** plist, ae_obj_t * const key, ae_obj_t * const value) {
-  if (*plist == NULL)
-    *(ae_obj_t **)plist = NIL;
+ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
+  if (*list == NULL)
+    *(ae_obj_t **)list = NIL;
 
-  if (*plist != NIL)
-    for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
+  if (*list != NIL)
+    for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
       ae_obj_t * elem1 = CAR(position);
       ae_obj_t * elem2 = position ? CADR(position) : NIL;
       
@@ -18,18 +18,15 @@ ae_obj_t * ae_plist_set(ae_obj_t ** plist, ae_obj_t * const key, ae_obj_t * cons
         return CADR(position) = value;
     }
 
-  return (*(ae_obj_t **)plist = CONS(key, CONS(value, *plist)));
+  return (*(ae_obj_t **)list = CONS(key, CONS(value, *list)));
 }
 
-ae_obj_t * ae_plist_get(ae_obj_t * const * plist, ae_obj_t * const key) {
-  if (*plist == NULL)
-    *(ae_obj_t **)plist = NIL;
-
-  if (*plist == NIL)
-    return *plist;
+ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
+  if (list == NIL)
+    return *list;
 
 
-  for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
+  for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
     ae_obj_t * elem1 = CAR(position);
     ae_obj_t * elem2 = position ? CADR(position) : NIL;
       
@@ -40,14 +37,17 @@ ae_obj_t * ae_plist_get(ae_obj_t * const * plist, ae_obj_t * const key) {
   return NIL;
 }
 
-bool ae_plist_contains_key(ae_obj_t * const * plist, ae_obj_t * const key) {
-  if (*plist == NULL)
-    return false;  
-
-  if (*plist == NIL)      
+bool ae_plist_contains_key(ae_obj_t * const * list, ae_obj_t * const key) {
+#ifdef AE_LOG_PLIST
+  PR("%s got list %8p.\n", __func__, list);
+#endif
+  
+  if (list == NULL || *list == NUL)
     return false;
-
-  for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position)))
+  
+    *(ae_obj_t **)list = NIL;
+    
+  for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position)))
     if (CAR(position) == key)
       return true;
 
