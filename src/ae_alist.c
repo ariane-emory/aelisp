@@ -14,6 +14,7 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   LOG(key,   "%s setting key", __func__);
   LOG(*list, "in list");
   LOG(value, "to value");
+  NL;
 #endif
 
   if (*list == NULL)

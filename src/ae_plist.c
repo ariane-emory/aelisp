@@ -24,45 +24,76 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
         return CADR(position) = value;
     }
 
-  return *list = CONS(key, CONS(value, *list));
+  *list = CONS(key, CONS(value, *list));
+  
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key,   "after setting key")
+  LOG(*list, "list is");
+  NL;
+#endif
+
+  return value;
 }
 
 ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST_PLIST
-  LOG(key,  "%s looking for key:", __func__);
+  LOG(key,  "%s looking for key", __func__);
   LOG(list, "in list");
-  NL;
 #endif
 
   if (list == NULL || list == NIL)
-    return NIL;
+    goto end;
 
   for (ae_obj_t * position = list; position != NIL; position = CDR(CDR(position))) {
     ae_obj_t    * elem1    = position;
     ae_obj_t    * elem2    = position ? CADR(position) : NIL;
     
-    if (elem1 == key)
+    if (elem1 == key) {
+#ifdef AE_LOG_ALIST_PLIST
+      LOG(key,   "found key");
+      LOG(elem2, "with value");
+      NL;
+#endif
+
       return elem2;
+    }
   }
-  
+
+end:
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key, "did not find");
+  NL;
+#endif
+
   return NIL;
 }
 
 bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-  #ifdef AE_LOG_ALIST_PLIST
-  LOG(key,  "%s looking for key:", __func__);
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key,  "%s looking for key", __func__);
   LOG(list, "in list");
-  NL;
 #endif
 
   if (list == NULL || list == NIL)
-    return false;
+    goto end;
 
   for (ae_obj_t * position = list;
        position != NIL;
        position = CDR(CDR(position)))
-    if (CAR(position) == key)
+    if (CAR(position) == key) {
+#ifdef AE_LOG_ALIST_PLIST
+      LOG(key, "found key");
+      NL;
+#endif
+      
       return true;
+    }
 
+end:
+#ifdef AE_LOG_ALIST_PLIST
+  LOG(key, "did not find");
+  NL;
+#endif
+  
   return false;
 }
