@@ -19,21 +19,24 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
  
   if (*list == NULL)
     *list = NIL;
-    
-  FOR_EACH(elem, *list)
-    if (CAR(elem) == key) {
-      (CDR(elem) = value);
-      goto end;
-    }
+
+  if (*list != NIL)
+    FOR_EACH(elem, *list)
+      if (CAR(elem) == key) {
+        (CDR(elem) = value);
+        goto end;
+      }
 
   *list = CONS(NEW_CONS(key, value), *list);
   
 end:
 
 #ifdef AE_LOG_ALIST_PLIST
-  LOG(*list, "After  %s:", __func__);
+  LOG(key,   "after setting key")
+  LOG(*list, "list is");
   NL;
 #endif
+
   
   return value;
 }

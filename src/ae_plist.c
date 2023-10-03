@@ -17,7 +17,7 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
 #endif
 
   if (*list == NULL)
-    *(ae_obj_t **)list = NIL;
+    *list = NIL;
 
   if (*list != NIL)
     for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
