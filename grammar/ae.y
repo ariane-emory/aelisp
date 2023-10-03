@@ -173,7 +173,7 @@
 
 #ifdef AE_DUMP_POOL_BEFORE
     pool_print();
-#ifdef AE_DUMP_POOL_BEFORE
+#endif
 
     ae_obj_t * program_obj = CONS(SYM("progn"), root);
 
