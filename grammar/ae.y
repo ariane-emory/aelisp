@@ -7,7 +7,7 @@
 
 #define YYSTYPE ae_obj_t *
 
-extern ae_obj_t * root;
+extern ae_obj_t * program;
 extern int main(void);
   
 void yyerror(const char *str) { ERR("Error: %s\n", str); }
@@ -23,7 +23,7 @@ int  yywrap() { return 1; }
 sexp: atom | list | quoted_sexp | quasiquoted_sexp | unquoted_sexp | spliced_sexp;
 atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
-program: sexps                               { root    = CONS(SYM("progn"), $$); };
+program: sexps                               { program = CONS(SYM("progn"), $$); };
 sexps:            sexp     sexps             { $$      = CONS($1, $2); } | { $$ = NIL; };
 list:             LPAREN   list_sexps RPAREN { $$      = $2; };
 list_sexps:       sexp     list_sexps        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };

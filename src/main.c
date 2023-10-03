@@ -15,8 +15,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #define free_list_size (1 << 16)
-
 static char mem[free_list_size] = { 0 };
+
+ae_obj_t * program = NIL;
 
 //////////////////////////////////////////////////////////////////////////////
 // extern decls
@@ -111,11 +112,11 @@ void describe_parse(ae_obj_t * program_obj) {
   /*   PUT(CADR(program_obj)); */
   /* } */
     
-/* #ifdef AE_DUMP_POOL_BEFORE */
-/*     NL; */
-/*     pool_print(); */
-/*     NL; */
-/* #endif */
+  /* #ifdef AE_DUMP_POOL_BEFORE */
+  /*     NL; */
+  /*     pool_print(); */
+  /*     NL; */
+  /* #endif */
 
   /* puts("\nDescribing items in program."); */
   /* FOR_EACH(obj, CONS(program_obj, NIL)) */

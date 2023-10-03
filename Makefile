@@ -96,7 +96,7 @@ obj/%.o: src/%.c obj
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
-bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) main.c 
+bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c 
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
