@@ -165,18 +165,21 @@ extern ae_obj_t * symbols_list;
 #define STR_VAL(this)                ((this)->str_val)
 #define SYM_VAL(this)                ((this)->sym_val)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ERR_MSG(this)                ((this)->message)
-#define ERR_OBJ(this)                ((this)->object)
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FUN_PARAMS(this)             ((this)->params)
 #define FUN_BODY(this)               ((this)->body)
 #define FUN_ENV(this)                ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ERR_MSG(this)                ((this)->message)
+#define ERR_OBJ(this)                ((this)->object)
+#define ERR_HAS(this, key)           (AHAS(ERR_OBJ((this)), KW(key)))
+#define ERR_GET(this, key)           (AGET(ERR_OBJ((this)), KW(key)))
+#define ERR_SET(this, key, val)      (ASET(ERR_OBJ((this)), KW(key), (val)))
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_OBJ_DEBUG_DATA
 #  define DEBUG_DATA(this)           ((this)->debug_data)
-#  define DSET(this, key, val)       (ASET(DEBUG_DATA((this)), KW(key), (val)))
-#  define DGET(this, key)            (AGET(DEBUG_DATA((this)), KW(key)))
 #  define DHAS(this, key)            (AHAS(DEBUG_DATA((this)), KW(key)))
+#  define DGET(this, key)            (AGET(DEBUG_DATA((this)), KW(key)))
+#  define DSET(this, key, val)       (ASET(DEBUG_DATA((this)), KW(key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                      (SYM(":" sym))
