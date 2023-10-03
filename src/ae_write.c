@@ -215,26 +215,35 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %018p, %s >", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
+
+#ifdef AE_WRITE_REAL_ARROW
+#  define ARROW "→"
+#  define ARROW_ADJUST 2
+#else
+#  define ARROW "->"
+#  define ARROW_ADJUST 0
+#endif
+    
 #ifdef AE_DEBUG_OBJ
     if (DHAS(this, "fun")) {
       if (COREP(DGET(this, "fun"))) {
         char * fun_name = CORE_NAME(DGET(this, "fun"));
         
         if (NILP(ENV_PARENT(this)))
-          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → nil, %s >", GET_TYPE_STR(this), fun_name, this );
+          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p " ARROW " nil, %s >", GET_TYPE_STR(this), fun_name, this );
         else
-          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p → %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
+          COUNTED_FPRINTF(fwrite_stream, "%s< %s, %018p " ARROW " %018p >", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
       else if (LAMBDAP(DGET(this, "fun"))) {
         char * fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
         
         if (NILP(ENV_PARENT(this))) 
-          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → nil >",
+          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p " ARROW " nil >",
                           GET_TYPE_STR(this),
                           fun_name,
                           this);
         else 
-          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p → %018p >",
+          COUNTED_FPRINTF(fwrite_stream, "%s< λ %s, %018p " ARROW " %018p >",
                           GET_TYPE_STR(this),
                           fun_name,
                           this,
@@ -249,13 +258,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else {
     print_env_without_name:
     if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → nil >", GET_TYPE_STR(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p " ARROW " nil >", GET_TYPE_STR(this), this);
     }
     else {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s< %018p " ARROW " %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
     }
   }
-    fwrite_counter -= 2;
+    fwrite_counter -= ARROW_ADJUST;
   break;
   case AE_LAMBDA:
   case AE_MACRO:

@@ -179,7 +179,7 @@
 
     describe_parse(program_obj);
 
-    SLOG("\n\nEvaluating program...");
+    SLOG("\nEvaluating program...");
     EVAL(env, program_obj);
     SLOG("\nDone evaluating program.\n");
 
