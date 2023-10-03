@@ -67,10 +67,15 @@ endif
 GDB       = gdb
 OBJDUMP   = objdump
 LEX       = flex
-YACC      = bison
 YACC      = /opt/homebrew/opt/bison/bin/bison
 
-SRCS      = $(shell find src  -name "*.c")
+ifeq ($(wildcard /opt/homebrew/opt/bison/bin/bison),)
+    YACC = bison
+else
+    YACC = /opt/homebrew/opt/bison/bin/bison
+endif
+
+SRCS      = $(shell find src  -name "*.c" -a -not -name "main.c" )
 TEST_SRCS = $(shell find test -name "*.c")
 OBJS      = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
@@ -91,7 +96,7 @@ obj/%.o: src/%.c obj
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
-bin/ae: main.c tmp/ae.l.c tmp/ae.tab.c $(OBJS)
+bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) main.c 
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
