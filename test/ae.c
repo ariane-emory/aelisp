@@ -1084,7 +1084,10 @@ void plist(void) {
 
   T(       PHAS(plist, SYM("name")));
 
+  PGET(plist, SYM("name"));
+  
   return;
+  
   T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
 
   T(!      PHAS(plist, SYM("age")));
