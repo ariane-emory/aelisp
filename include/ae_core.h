@@ -8,6 +8,7 @@
   /*=============================================================================================*/\
   DO(exit)                                                                                         \
   DO(msleep)                                                                                       \
+  DO(dobj)  /* debug data accessor */                                                              \
   DO(errmsg)  /* error accessor */                                                                 \
   DO(errobj)  /* error accessor */                                                                 \
   DO(numer)   /* rational/int accessor */                                                          \

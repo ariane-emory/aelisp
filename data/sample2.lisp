@@ -1,9 +1,20 @@
-j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(+ . (2 . 3))
+
+;; These first 5 expressions are parsed correctly by the grammar:
+(print (+ 1 2)) ;; a 'math_list'. 
+(print (+ 3 (* 4 5))) ;; another 'math_list'. 
+(print (+ x 6)) ;; a normal 'list', due to the presence of the 'x' symbol.
+(print (+ 7 x)) ;; a normal 'list', due to the presence of the 'x' symbol. 
+(print (+ x y)) ;; also a normal 'list', due to presence of the the symbols. 
+(print (+ 8 . (9))) ;; a normal 'list' identical to (8 9).
+
+;; This one used to parse as a normal 'list' before the addition of the 'math_list' rule, but now fails to parse.
+;; I'd compromise for it successfully parsing as a normal 'list', as it used to, it doesn't have to be a 'math_list'.
+(print (+ 10 . (11))) ;; a normal list, due to the grammar not supporting the dotted notation in math_lists, identical to (+ 10 11)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 'standard library', such as it is:                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq nl        (lambda ()         (princ "
-;; "))                                                           )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq eq?        eq                                           )
 (setq tail?      tailp                                        )
 (setq proper?    properp                                      )
@@ -125,38 +136,40 @@ j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
 ;; (nl)
 
-;; (setq   x (quote (1 2 3 . 333)))
+(setq   x (quote (1 2 3 . 333)))
 
-;; (log   "(1 2 3 . 333) is improper:  " (improper? x        ))
-;; (log   "(1 2 3 . 333) length:       " (length    x        ))
-;; (log   "(1 2 3 . 333) length errors:" (error?   (length x)))
-;; (log   "(1 2 3 . 333) is:           "  x                   )
-;; (log   "(car (1 2 3 . 333)) is:     " (car x              ))
-;; (log   "(cdr (1 2 3 . 333)) is:     " (cdr x              ))
-;; (nl)
+(log   "(1 2 3 . 333) is improper:  " (improper? x        ))
+(log   "(1 2 3 . 333) length:       " (length    x        ))
+(log   "(1 2 3 . 333) length errors:" (error?   (length x)))
+(log   "(1 2 3 . 333) is:           "  x                   )
+(log   "(car (1 2 3 . 333)) is:     " (car x              ))
+(log   "(cdr (1 2 3 . 333)) is:     " (cdr x              ))
+(nl)
 
-;; (log   "int:                        " (type? :INTEGER    3))
-;; (log   "! int:                      " (type? :FLOAT      3))
-;; (log   "! float:                    " (type? :INTEGER  3.0))
-;; (log   "float:                      " (type? :FLOAT    3.0))
-;; (log   "float:                      " (type? :FLOAT    3. ))
-;; (log   "float:                      " (type? :FLOAT     .3))
-;; (log   "rational:                   " (type? :RATIONAL 3/4))
-;; (log   "string:                     " (type? :STRING   "3"))
-;; (nl)
+(log   "int:                        " (type? :INTEGER    3))
+(log   "! int:                      " (type? :FLOAT      3))
+(log   "! float:                    " (type? :INTEGER  3.0))
+(log   "float:                      " (type? :FLOAT    3.0))
+(log   "float:                      " (type? :FLOAT    3. ))
+(log   "float:                      " (type? :FLOAT     .3))
+(log   "rational:                   " (type? :RATIONAL 3/4))
+(log   "string:                     " (type? :STRING   "3"))
+(nl)
 
-;; (setq xxx (lambda (x) x))
+(setq qqq (lambda (x) x))
 
-;; (setq err (xxx (length '(1 2 . 333))))
+(setq err (qqq (length '(1 2 . 333))))
 
-;; (nl)
-;; (log   "This error:                 "                                err)
-;; (log   "This error's message:       "                        (errmsg err))
-;; (log   "This error's obj:           "                        (errobj err))
-;; (log   "This error's fun stack:     "                  (aget (errobj err) 'fun))
-;; (log   "This lambda:                "            (cadr (aget (errobj err) 'fun)))
-;; (log   "This lambda's env:          "       (env (cadr (aget (errobj err) 'fun))))
-;; (log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) 'fun)))))
+(nl)
+(log   "This error:                 "                                err)
+(log   "This error's message:       "                        (errmsg err))
+(log   "This error's obj:           "                        (errobj err))
+(log   "This error's debug obj:     "                        (dobj   err))
+(log   "This error's fun stack:     "                  (aget (errobj err) :fun))
+(log   "This lambda:                "            (cadr (aget (errobj err) :fun)))
+(log   "This lambda's env:          "       (env (cadr (aget (errobj err) :fun))))
+(log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) :fun)))))
+
 ;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
 ;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
 
@@ -182,7 +195,7 @@ j;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq xxx 777)
 ;;(setq yyy 888)
 
-(stop)
+;;(stop)
 
 ;; (nl)
 ;; (setq q (macro (xxx yyy)   (list (quote +) xxx yyy)))

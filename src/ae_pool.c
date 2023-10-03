@@ -88,15 +88,18 @@ void pool_print(void) {
       continue;
     
     written +=  printf(" %04d: %08p ", ix, &pool[ix]);
-
-    // written +=  printf(GET_TYPE_STR(&pool[ix]));
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
     
     while (written++ < 93) putchar(' ');
-    // PR("%d ", written);
+    
     WRITE(&pool[ix]);
-    // putchar('x');
+    
+    putchar(' ');
+
+    if (! NILP(DOBJ(&pool[ix])))
+      WRITE(DOBJ(&pool[ix]));
+    
     putchar('\n');
   }
   puts("Printed pool contents.");

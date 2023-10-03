@@ -196,11 +196,24 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
 
-  if (! DHAS(ret, "parent-fun"))
+#if AE_OBJ_DEBUG
+  if (! DHAS(ret, "birth-place")) {
+    DSET(ret, "birth-place", env);
+
+#  ifdef AE_LOG_EVAL
+    LOG(ret, "birthed");
+#  endif
+  }
+
+  if (! DHAS(ret, "parent-fun")) {
     DSET(ret, "parent-fun", fun);
 
-  if (! DHAS(ret, "birth-place"))
-    DSET(ret, "birth-place", env);
+#  ifdef AE_LOG_EVAL
+    LOG(fun, "from  parent");
+#  endif
+  }
+#endif
+
   
   if ( ERRORP(ret)) {
     if (EHAS(ret, "fun")) {
@@ -340,6 +353,10 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 #if AE_OBJ_DEBUG
   if (! DHAS(ret, "birth-place"))
     DSET(ret, "birth-place", env);
+  
+#  ifdef AE_LOG_EVAL
+  LOG(ret, "birthed");
+#  endif
 #endif
 
 #ifdef AE_LOG_EVAL
