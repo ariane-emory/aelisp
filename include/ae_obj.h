@@ -71,7 +71,7 @@ typedef struct ae_obj_t {
   // the future it's remaining bits will store other info such as GC related flags:
   unsigned int                metadata;
 
-#ifdef AE_OBJ_DOBJ
+#ifdef AE_OBJ_DEBUG_OBJECTS
   struct ae_obj_t *           debug_data;
 #endif
   
@@ -175,7 +175,7 @@ extern ae_obj_t * symbols_list;
 #define EGET(this, key)              (AGET(EOBJ((this)), KW(key)))
 #define ESET(this, key, val)         (ASET(EOBJ((this)), KW(key), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef AE_OBJ_DOBJ
+#ifdef AE_OBJ_DEBUG_OBJECTS
 #  define DOBJ(this)                ((this)->debug_data)
 #  define DHAS(this, key)            (AHAS(DOBJ((this)), KW(key)))
 #  define DGET(this, key)            (AGET(DOBJ((this)), KW(key)))

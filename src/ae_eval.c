@@ -49,7 +49,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
-#  ifdef AE_OBJ_DOBJ
+#  ifdef AE_OBJ_DEBUG_OBJECTS
   DSET(env, "fun", fun);
 #  endif
 #endif
@@ -58,7 +58,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(env, "in env");
 #endif
 
-#if defined(AE_OBJ_DOBJ) && defined(AE_LOG_EVAL)
+#if defined(AE_OBJ_DEBUG_OBJECTS) && defined(AE_LOG_EVAL)
   LOG(DOBJ(env), "with this debug data");
 #endif
 
@@ -110,7 +110,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(body,             "new user fun env body");
 #endif
 
-#ifdef AE_OBJ_DOBJ
+#ifdef AE_OBJ_DEBUG_OBJECTS
   DSET(env, "fun", fun);
 
   
