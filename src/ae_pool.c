@@ -87,10 +87,10 @@ void pool_print(void) {
     else if (! started)
       continue;
     
-    written +=  printf(" %04d: %018p ", ix, &pool[ix]);
+    written +=  printf(" %04d:   %018p ", ix, &pool[ix]);
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
-    while (written++ < 100) putchar(' ');
+    while (written++ < 105) putchar(' ');
     WRITE(&pool[ix]);
     // putchar('x');
     putchar('\n');
