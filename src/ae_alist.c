@@ -42,15 +42,13 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
 }
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_ALIST
-  LOG(key, "%s got list %8p and key", __func__, list);
+#ifdef AE_LOG_ALIST 
+  LOG(key, "Look for key");
+  LOG(list, "in list");
   NL;
 #endif
 
-  if (list == NULL)
-    return false;
-
-  if (list == NIL)
+  if (list == NULL || list == NIL)
     return false;
     
   FOR_EACH(elem, list)
