@@ -167,9 +167,6 @@ int main(void) {
   yyin = fp;
   yyparse();
   
-  
-  ae_obj_t * program_obj = root;
-  
 #ifdef AE_DEBUG_OBJ    
   ae_obj_t * read_origin = NIL;
   ASET(read_origin, KW("origin"), KW("read"));
@@ -198,10 +195,10 @@ int main(void) {
   pool_print();
 #endif
   
-  describe_parse(program_obj);
+  describe_parse(program);
   
   SLOG("\nEvaluating program...");
-  EVAL(env, program_obj);
+  EVAL(env, program);
   SLOG("\nDone evaluating program.\n");
   
 #ifdef AE_DUMP_POOL_AFTER
