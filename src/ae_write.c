@@ -208,7 +208,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_ENV:
 #ifdef AE_OBJ_DOBJ
     if (DHAS(this, "fun")) {
-      if (COREP((DGET(this, "fun")))) {
+      if (COREP(DGET(this, "fun"))) {
         char * fun_name = CORE_NAME(DGET(this, "fun"));
         
         if (NILP(ENV_PARENT(this)))
