@@ -5,10 +5,10 @@ COMMON_CFLAGS = \
 	-Iinclude \
 	-I . \
 	-Wno-misleading-indentation \
-	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_CORE_ENVS \
 	-DAE_DEADLY_MARGIN \
 	-DAE_OBJ_DEBUG_DATA \
+	-DAE_CALLSTACK_IS_PROPER \
 
 UNUSED_CFLAGS = \
 	-DAE_LOG_EVAL \
