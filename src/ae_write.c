@@ -56,7 +56,7 @@ char * ae_s ## name(const ae_obj_t * const this) {                              
 
 #define DEF_F_METHOD(name, quotes)                                                                 \
 int ae_f ## name(const ae_obj_t * const this, FILE * stream) {                                     \
-  assert(! NULLP((this)));                                                                       \
+  assert(! NULLP((this)));                                                                         \
   FWRITE_RESET(stream, (quotes));                                                                  \
   return ae_fwrite_internal(this);                                                                 \
 }
@@ -158,17 +158,26 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
                     LENGTH(this));
     break;
   case AE_CHAR:
+  {
     COUNTED_FPUTC('\'', fwrite_stream);
-    fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    int old_fwrite_counter = fwrite_counter;
+    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
     COUNTED_FPUTC('\'', fwrite_stream);
     break;
+  }
   case AE_STRING:
+  {
     COUNTED_FPUTC('\"', fwrite_stream);
-    fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    int old_fwrite_counter = fwrite_counter;
+    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
     COUNTED_FPUTC('\"', fwrite_stream);
     break;
+  }
   default:
-    fwrite_counter = fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+  {
+    int old_fwrite_counter = fwrite_counter;
+    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+  }
   }
 
   COUNTED_FPRINTF(stream, " >");
@@ -246,7 +255,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "%s< %018p → %018p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
     }
   }
-  fwrite_counter--;
+    fwrite_counter -= 2;
   break;
   case AE_LAMBDA:
   case AE_MACRO:

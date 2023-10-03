@@ -123,11 +123,11 @@
     NL;
 #endif
 
-    puts("\nDescribing items in program.");
-    FOR_EACH(obj, CONS(program_obj, NIL))
-      describe(obj, false);
-    puts("Described items in program.");
-    NL;
+    /* puts("\nDescribing items in program."); */
+    /* FOR_EACH(obj, CONS(program_obj, NIL)) */
+    /*   describe(obj, false); */
+    /* puts("Described items in program."); */
+    /* NL; */
 
     /* fputs("Count items in program obj: ", stdout);  */
     /* printf("%d", LENGTH(CDR(program_obj))); */
