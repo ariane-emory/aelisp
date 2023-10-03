@@ -40,11 +40,6 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
 }
 
 bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_PLIST
-  LOG(key, "%s got list %8p and key", __func__, list);
-  NL;
-#endif
-  
   if (list == NULL)
     return false;
 

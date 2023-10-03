@@ -1174,6 +1174,7 @@ void deloc(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
+  DO(plist)                                                                                        \
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
@@ -1203,7 +1204,6 @@ void deloc(void) {
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
   DO(alist)                                                                                        \
-  DO(plist)                                                                                        \
   DO(deloc)                                                                                        
 
 
