@@ -49,7 +49,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
-#  ifdef AE_OBJ_DEBUG_OBJECTS
+#  ifdef AE_OBJ_DEBUG
   DSET(env, "fun", fun);
 #  endif
 #endif
@@ -58,7 +58,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(env, "in env");
 #endif
 
-#if defined(AE_OBJ_DEBUG_OBJECTS) && defined(AE_LOG_EVAL)
+#if defined(AE_OBJ_DEBUG) && defined(AE_LOG_EVAL)
   LOG(DOBJ(env), "with this debug data");
 #endif
 
@@ -110,9 +110,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   LOG(body,             "new user fun env body");
 #endif
 
-#ifdef AE_OBJ_DEBUG_OBJECTS
+#ifdef AE_OBJ_DEBUG
   DSET(env, "fun", fun);
-
   
 #  ifdef AE_LOG_EVAL
   LOG(DOBJ(env), "with this debug data");
@@ -197,25 +196,29 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
 
-  if (! ERRORP(ret))
-    goto ret;
+  if (! DHAS(ret, "parent-fun"))
+    DSET(ret, "parent-fun", fun);
 
-  if (EHAS(ret, "fun")) {
-#ifdef AE_CALLSTACK_IS_PROPER
-    ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
-#else
-    ESET(ret, "fun", NEW_CONS(fun, EGET(ret, "fun")));
-#endif
-  }
-  else {
-#ifdef AE_CALLSTACK_IS_PROPER
-    ESET(ret, "fun", CONS(fun, NIL));
-#else
-    ESET(ret, "fun", fun);
-#endif
-  }
+  if (! DHAS(ret, "birth-place"))
+    DSET(ret, "birth-place", env);
   
-ret:
+  if ( ERRORP(ret)) {
+    if (EHAS(ret, "fun")) {
+#ifdef AE_CALLSTACK_IS_PROPER
+      ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
+#else
+      ESET(ret, "fun", NEW_CONS(fun, EGET(ret, "fun")));
+#endif
+    }
+    else {
+#ifdef AE_CALLSTACK_IS_PROPER
+      ESET(ret, "fun", CONS(fun, NIL));
+#else
+      ESET(ret, "fun", fun);
+#endif
+    }
+  }
+
   /* if (dispatch.replaces) { */
   /*   if (CONSP(obj)) {       */
   /*     LOG(obj, "[REPLACING]"); */
@@ -333,6 +336,11 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(*dispatch.handler);
 
   ae_obj_t * ret = (*dispatch.handler)(env, obj);
+
+#if AE_OBJ_DEBUG
+  if (! DHAS(ret, "birth-place"))
+    DSET(ret, "birth-place", env);
+#endif
 
 #ifdef AE_LOG_EVAL
   OUTDENT;

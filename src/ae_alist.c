@@ -3,6 +3,9 @@
 #include "ae_util.h"
 
 ae_obj_t * ae_alist_set(ae_obj_t ** const alist, ae_obj_t * const key, ae_obj_t * const value) {
+  if (*(ae_obj_t **)alist)
+    *alist = NIL;
+  
   FOR_EACH(elem, *alist)    
     if (CAR(elem) == key) {
       CDR(elem) = value;
@@ -11,8 +14,11 @@ ae_obj_t * ae_alist_set(ae_obj_t ** const alist, ae_obj_t * const key, ae_obj_t 
   
   return *alist = CONS(NEW_CONS(key, value), *alist);
 }
-
-ae_obj_t * ae_alist_get(ae_obj_t * const alist, ae_obj_t * const key) {
+ 
+ae_obj_t * ae_alist_get(ae_obj_t ** const alist, ae_obj_t * const key) {
+  if (*(ae_obj_t **)alist)
+    *alist = NIL;
+  
   FOR_EACH(elem, alist)
     if (CAR(elem) == key)
       return CDR(elem);
@@ -20,7 +26,10 @@ ae_obj_t * ae_alist_get(ae_obj_t * const alist, ae_obj_t * const key) {
   return NIL; 
 }
 
-bool ae_alist_contains_key(ae_obj_t * const alist, ae_obj_t * const key) {
+bool ae_alist_contains_key(ae_obj_t ** const alist, ae_obj_t * const key) {
+  if (*(ae_obj_t **)alist)
+    return NIL;
+  
   FOR_EACH(elem, alist)
     if (CAR(elem) == key)
       return true;
