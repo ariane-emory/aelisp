@@ -97,11 +97,14 @@ void pool_print(void) {
     
     putchar(' ');
 
+#ifdef AE_DEBUG_OBJ
     if (! NILP(DOBJ(&pool[ix])))
       WRITE(DOBJ(&pool[ix]));
+#endif
     
     putchar('\n');
   }
+  
   puts("Printed pool contents.");
 }
 
@@ -144,6 +147,10 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * const value) {
+#ifndef AE_DEBUG_OBJ
+  (void)key;
+  (void)value;
+#else
   int first_allocated;
 
   for (first_allocated = 0; first_allocated < AE_OBJ_POOL_SIZE; first_allocated++) 
@@ -164,6 +171,7 @@ void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * cons
     ASET(DOBJ(&pool[ix]), key, value);
 #endif        
   }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
