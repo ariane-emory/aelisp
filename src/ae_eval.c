@@ -204,7 +204,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ERR_SET(ret,
             "fun",
 #ifdef AE_CALLSTACK_IS_PROPER
-         CONS(fun, AGET(ERR_OBJ(ret), KW("fun"))));
+         CONS(fun, ERR_GET(ret, "fun")));
 #else
   /*  */ NEW_CONS(fun, AGET(ERR_OBJ(ret), KW("fun"))));
 #endif
