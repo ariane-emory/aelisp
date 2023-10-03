@@ -33,7 +33,8 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 #ifdef AE_LOG_ALIST
-  PR("\n%s got list %8p.", __func__, list);
+  LOG(key, "%s got list %8p and key", __func__, list);
+  NL;
 #endif
 
   if (list == NULL)
