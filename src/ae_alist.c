@@ -21,6 +21,9 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   *list = CONS(NEW_CONS(key, value), *list);
   
 end:
+#ifdef AE_LOG_ALIST_PLIST
+#endif
+  
   return value;
 }
 
