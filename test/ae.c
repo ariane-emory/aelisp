@@ -10,6 +10,7 @@
 #include "ae_obj.h"
 #include "ae_list.h"
 #include "ae_alist.h"
+#include "ae_plist.h"
 #include "ae_free_list.h"
 #include "ae_core.h"
 #include "ae_eval.h"
@@ -1074,6 +1075,35 @@ void alist(void) {
   NL;
 }
 
+void plist(void) {
+  SETUP_TEST;
+
+  ae_obj_t * plist = NIL;
+
+  T(!      PHAS(plist, SYM("name")));
+
+  plist =  PSET(plist, SYM("name"),   NEW_STRING("Bob"));
+  LOG(plist, "THIS");
+  
+  T(       PHAS(plist, SYM("name")));
+  T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
+  T(!      PHAS(plist, SYM("age")));
+
+  plist =  PSET(plist, SYM("age"),    NEW_INT(24));
+
+  T(       PHAS(plist, SYM("age")));
+  T( EQL(  PGET(plist, SYM("age")),   NEW_INT(24)));
+
+  PSET(plist, SYM("name"),   NEW_STRING("Jake"));
+
+  T(!  EQL(PGET(plist, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL(PGET(plist, SYM("name")),  NEW_STRING("Jake")));
+
+  NL;
+  OLOG(plist);
+  NL;
+}
+
 void deloc(void) {
   SETUP_TEST;
 
@@ -1143,9 +1173,8 @@ void deloc(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
 
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
+#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1161,7 +1190,6 @@ void deloc(void) {
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
-  DO(alist)                                                                                        \
   DO(envs)                                                                                         \
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(core_cons_car_cdr)                                                                            \
@@ -1173,6 +1201,10 @@ void deloc(void) {
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(alist)                                                                                        \
+  DO(plist)                                                                                        \
   DO(deloc)                                                                                        
 
 #define pair(fun) { #fun, fun },

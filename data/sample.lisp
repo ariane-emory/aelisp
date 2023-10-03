@@ -59,7 +59,7 @@
     (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(+ . (2 . 3))
+(* 1 2 3 4 5 6 7 8)
 
 ;; ;; These first 5 expressions are parsed correctly by the grammar:
 ;; (print (+ 1 2)) ;; a 'math_list'. 
@@ -296,6 +296,7 @@
 ;; ;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
 ;; ;; (write defun) (nl)
 ;; ;; (princ "Params: ") (write (params defun)) (nl)
-;; ;; (princ "Body:   ") (write (body defun)) (nl)
-;; ;; (princ "AFTER") ; (nl)
+;; ;; (princ "Body:   ");; =>  (write (body defun));; =>  (nl)
+;; ;; (princ "AFTER");; =>  ; (nl)
 ;; ;; (nl)
+   
