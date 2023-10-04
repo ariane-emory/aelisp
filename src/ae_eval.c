@@ -260,7 +260,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  LOG (obj, "[eval by returning self]");
+  // LOG (obj, "[eval by returning self]");
 
   LOG_RETURN_WITH_TYPE("self", obj);
 #endif
