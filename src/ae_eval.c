@@ -95,8 +95,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   MAYBE_EVAL(SPECIALP(fun), args);
 
 #ifdef AE_LOG_EVAL
-  if (! SPECIALP(fun))
+  if (! SPECIALP(fun)) {
     LOG(args, "applying core '%s' to %d evaluated args:", CORE_NAME(fun), LENGTH(args));
+  }
+  else {
+    LOG(args, "applying core '%s' to %d unevaluated args:", CORE_NAME(fun), LENGTH(args));
+  }
 #endif
 
   //INDENT;
