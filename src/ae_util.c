@@ -6,12 +6,12 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const int  default_column      = 72;
-/* */ int  obj_column          =   default_column;
-/* */ int  tab_width           =   8;
-/* */ int  indentation         =   0;
-/* */ char obj_log_buffer[256] = { 0 };
-/* */ bool auto_column         =   true;
+/* */ int  log_column         =   log_column_default;
+/* */ bool log_column_auto    =   true;
+const int  log_column_default =   72;
+/* */ char log_buffer[256]    = { 0 };
+/* */ int  log_indentation    =   0;
+/* */ int  log_tab_width      =   8;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj_log
@@ -22,22 +22,22 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 
   int written = 0;
 
-  while (written++ < (indentation << 1)) SPC;
+  while (written++ < (log_indentation << 1)) SPC;
   
   written += PR("%s  ", desc);
   
-  if (written >= obj_column && auto_column) {
+  if (written >= log_column && log_column_auto) {
     written++; SPC;
 
-    obj_column = written;
+    log_column = written;
     
-    while (obj_column++ % tab_width);
+    while (log_column++ % log_tab_width);
   }
   else {
-    while (written++ < obj_column) SPC;
+    while (written++ < log_column) SPC;
   }
 
-  while (written++ < obj_column) SPC;
+  while (written++ < log_column) SPC;
 
   written += WRITE(obj);
 
@@ -51,7 +51,7 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void indent(void) {
-  indentation += 1;
+  log_indentation += 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,9 +59,9 @@ void indent(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void outdent(void) {
-  indentation    -= 1;
+  log_indentation    -= 1;
 
-  if (indentation < 0) {
+  if (log_indentation < 0) {
     FPR(stderr,
         "\nBANGED AGAINST THE LEFT MARGIN, THIS SHOULDN'T HAPPEN AND PROBABLY INDICATES "
         "A PROGRAMMER ERROR!\n");
@@ -70,6 +70,6 @@ void outdent(void) {
     assert(((void)"hit the margin", 0));
 #endif
     
-    indentation   = 0;
+    log_indentation   = 0;
   }
 }

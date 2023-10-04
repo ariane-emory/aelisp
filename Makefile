@@ -4,7 +4,7 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-Iinclude \
 	-I . \
-	-Wno-misleading-indentation \
+	-Wno-misleading-log_indentation \
 	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_DEADLY_MARGIN \
 	-DAE_LEXICAL_SCOPING \

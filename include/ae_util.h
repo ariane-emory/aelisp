@@ -30,15 +30,15 @@
 
 #define LOG(o, ...)                                                                                 \
   ({                                                                                                \
-    sprintf(obj_log_buffer, __VA_ARGS__);                                                           \
-    obj_log((o), (obj_log_buffer));                                                                 \
+    sprintf(log_buffer, __VA_ARGS__);                                                           \
+    obj_log((o), (log_buffer));                                                                 \
   })
 
 #define SLOG(s)                                                                                     \
   ({                                                                                                \
     NL;                                                                                             \
     int written  = 0;                                                                               \
-    while (written ++ < (indentation << 1)) SPC;                                                    \
+    while (written ++ < (log_indentation << 1)) SPC;                                                    \
     (fprintf(stdout, (s)));                                                                         \
     })
 
@@ -46,7 +46,7 @@
   ({                                                                                                \
     NL;                                                                                             \
     int written  = 0;                                                                               \
-    while (written ++ < (indentation << 1)) SPC;                                                    \
+    while (written ++ < (log_indentation << 1)) SPC;                                                    \
     (fprintf(stdout, (s), __VA_ARGS__));                                                            \
   })
 
@@ -65,12 +65,12 @@
 // Data
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern const int  default_column;
-extern       int  obj_column;
-extern       int  tab_width;
-extern       int  indentation;
-extern       char obj_log_buffer[256];
-extern       bool auto_column;
+extern       int  log_column;
+extern       bool log_column_auto;
+extern const int  log_column_default;
+extern       char log_buffer[256];
+extern       int  log_indentation;
+extern       int  log_tab_width;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Functions
