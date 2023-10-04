@@ -17,7 +17,7 @@
 #ifdef AE_LOG_CORE
 #  define CORE_BEGIN(name)                                                                         \
 ({                                                                                                 \
-  LOG(args, "[core_" name "]");                                                                     \
+  LOG(args, "[core_" name "]");                                                                    \
   INDENT;                                                                                          \
   LOG(env,  "in env");                                                                             \
 })
@@ -255,7 +255,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   INDENT;
   val = EVAL(setq_env, val);
   OUTDENT;
-  LOG(val, "evaluated value argument");
+  LOG(val, "evaluated value argument is");
 
 #ifdef AE_DEBUG_OBJ
   if (LAMBDAP(val) || MACROP(val)) {

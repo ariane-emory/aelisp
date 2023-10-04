@@ -83,11 +83,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #  endif
 #endif
 
-#ifdef AE_LOG_EVAL
-  INDENT;
-  //LOG(env,  "in env 0x%08p (%s)", env, GET_TYPE_STR(env));
-#endif
-
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
   //LOG(DOBJ(env), "with this debug data");
 #endif
@@ -108,12 +103,14 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
 #endif
 
-  //INDENT;
-  ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
-  //OUTDENT;
-
 #ifdef AE_LOG_EVAL
-  OUTDENT;
+  // INDENT;
+#endif
+
+  ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
+  
+#ifdef AE_LOG_EVAL
+// OUTDENT;
   LOG(ret, "applying core fun '%s' returned %s :%s", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
