@@ -13,10 +13,10 @@ COMMON_CFLAGS = \
 	-DAE_ERROR_OBJ_IS_A_PLIST \
 	-DAE_LEXICAL_SCOPING \
 	-DAE_SHARED_PRIMORDIAL_TAIL \
+	-DAE_DEBUG_OBJ \
 	-DAE_DEBUG_OBJ_IS_A_PLIST \
 
 UNUSED_CFLAGS = \
-	-DAE_DEBUG_OBJ \
 	-DAE_LOG_ALIST_PLIST \
 	-DAE_TRACK_ORIGIN \
 	-DAE_LOG_EVAL \
@@ -137,7 +137,7 @@ bin/test:
 
 tests: clean all
 	./bin/ae
-#	$(foreach bin, $(TEST_BINS), $(bin))
+	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae
