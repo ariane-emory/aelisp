@@ -134,7 +134,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
-  LOG_RETURN_WITH_TYPE("apply user fun", result);
+  LOG(result, "applying user fun returned %s :%s", a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+  // LOG_RETURN_WITH_TYPE("apply user fun", result);
 #endif
 
   return result;
@@ -365,6 +366,8 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(ENVP(env));
 
+  obj_column = 60;
+  
   eval_dispatch_row_t dispatch = {0};
 
   GET_DISPATCH(dispatch, eval_dispatch_table, obj);

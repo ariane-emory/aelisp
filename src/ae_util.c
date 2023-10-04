@@ -26,6 +26,7 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
   
   if (written >= obj_column) {
     written++; SPC;
+    written++; SPC;
     obj_column = written;
   }
   else {
