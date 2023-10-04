@@ -284,9 +284,9 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #ifdef AE_LOG_EVAL
-  LOG(sym, "[eval by looking up]");
+  // LOG(sym, "[eval by looking up]");
 
-  INDENT;
+  // INDENT;
 #endif
 
   ae_obj_t * ret = KEYWORDP(sym)
@@ -308,7 +308,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #endif
 
 #ifdef AE_LOG_EVAL
-  OUTDENT;
+  // OUTDENT;
 
   LOG_RETURN_WITH_TYPE("lookup", ret);
 #endif
