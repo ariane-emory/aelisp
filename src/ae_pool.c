@@ -90,6 +90,8 @@ void pool_print(void) {
     written +=  printf(" %04d: %08p ", ix, &pool[ix]);
     written +=  PUT(&pool[ix]);
     written ++; putchar(' ');
+
+    FF;
     
     while (written++ < 72) putchar(' ');
     
@@ -97,6 +99,8 @@ void pool_print(void) {
     
     putchar(' ');
 
+    FF;
+    
 #ifdef AE_DEBUG_OBJ
     if (! NILP(DOBJ(&pool[ix])))
       WRITE(DOBJ(&pool[ix]));

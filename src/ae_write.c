@@ -252,7 +252,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     }    
     else
 #endif
-      if (true) {
+      if (true){
         goto print_env_without_name;
       }
     else {
