@@ -73,9 +73,7 @@ static const char * a_or_an(const char * str) {
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(args, "applying core fun '%s' to %d args:", CORE_NAME(fun), LENGTH(args));
-  // LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
-  // LOG(args,                "to args");
+  LOG(args, "applying core '%s' to %d evaluated args:", CORE_NAME(fun), LENGTH(args));
 #endif
 
 #ifdef AE_CORE_ENVS
@@ -96,7 +94,14 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   MAYBE_EVAL(SPECIALP(fun), args);
 
+#ifdef AE_LOG_EVAL
+  if (! SPECIALP(fun))
+    LOG(args, "applying core '%s' to %d evaluated args:", CORE_NAME(fun), LENGTH(args));
+#endif
+
+  INDENT;
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
+  OUTDENT;
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
