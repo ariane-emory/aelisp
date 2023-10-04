@@ -334,7 +334,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
 #ifdef AE_LOG_EVAL
   // OUTDENT;
-  LOG(ret, "looking up '%s' found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+  LOG(ret, "looked up '%s' and found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
