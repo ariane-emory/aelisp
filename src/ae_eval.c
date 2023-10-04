@@ -35,15 +35,19 @@ static const char * a_or_an(const char * str) {
     }
 
 #define MAYBE_EVAL(special, args)                                                                  \
-  if (! special) {                                                                                 \
+  if (! special && CAR(args)) {                                                                     \
     ae_obj_t * evaled_args = NIL;                                                                  \
+    SLOG("evaluating fun's args:");                                                                \
+    INDENT;                                                                                        \
     FOR_EACH(elem, args)                                                                           \
     {                                                                                              \
       ae_obj_t * tmp = EVAL(env, elem);                                                            \
       PUSH(evaled_args, tmp);                                                                      \
     }                                                                                              \
     args = evaled_args;                                                                            \
-  }
+    OUTDENT;                                                                                       \
+  }                                                                                                
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply dispatch handlers
@@ -127,12 +131,12 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_DEBUG_OBJ
   DSET(env, "fun", fun);
-  
+
 #  ifdef AE_LOG_EVAL
   // LOG(DOBJ(env), "with this debug data");
 #  endif
 #endif
-  
+
   ae_obj_t * result = EVAL(env, body);
 
 #ifdef AE_LOG_EVAL
@@ -170,7 +174,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(CONSP(obj)); // should return an ERROR instead?
 
   obj_column = default_column;
-  
+
   ae_obj_t * fun  = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
@@ -226,12 +230,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #  endif
   }
 
-  if (! DHAS(ret, "origin")) { 
+  if (! DHAS(ret, "origin")) {
     DSET(ret, "origin", fun);
   }
 #endif
 
-  
+
   if ( ERRORP(ret)) {
     if (EHAS(ret, "fun")) {
 #ifdef AE_CALLSTACK_IS_PROPER
@@ -270,7 +274,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #endif
 
  //obj_column = default_column;
-  
+
   return ret;
 }
 
@@ -286,21 +290,21 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 
   // LOG_RETURN_WITH_TYPE("self", obj);
 #endif
-  
+
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
   if (! DHAS(obj, "birth-place")) {
     DSET(obj, "birth-place", env);
-    
+
 #  ifdef AE_LOG_EVAL
     LOG(obj, "birthed");
 #  endif
   }
-  
+
   if (! DHAS(obj, "origin")) {
     DSET(obj, "origin", KW("self-evaluated"));
   }
 #endif
-      
+
 #ifdef AE_LOG_EVAL
   LOG(obj, "self-evaluated %s :%s", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
   // LOG(obj, "[self-evaluated %s :%s]", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
@@ -375,7 +379,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(ENVP(env));
 
   //obj_column = default_column;
-  
+
   eval_dispatch_row_t dispatch = {0};
 
   GET_DISPATCH(dispatch, eval_dispatch_table, obj);
@@ -385,7 +389,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
     /* LOG(obj, "[eval]"); */
     /* INDENT; */
     /* LOG(env, "in env"); */
-    
+
    /*  const char * type = GET_TYPE_STR(obj); */
    /*  /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
    /*  sprintf(tmp, ":%s", type); */
@@ -404,7 +408,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 /* #if AE_DEBUG_OBJ */
 /*   if (! DHAS(ret, "birth-place")) */
 /*     DSET(ret, "birth-place", env); */
-  
+
 /* #  ifdef AE_LOG_EVAL */
 /*   LOG(ret, "birthed");   */
 /* #  endif */
