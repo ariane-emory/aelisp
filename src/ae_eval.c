@@ -279,6 +279,10 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   }
 #endif
       
+#ifdef AE_LOG_EVAL
+  LOG_RETURN_WITH_TYPE("self", obj);
+#endif
+
   return obj;
 }
 
