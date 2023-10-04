@@ -65,9 +65,9 @@
 // Data
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+extern const int  log_column_default;
 extern       int  log_column;
 extern       bool log_column_auto;
-extern const int  log_column_default;
 extern       char log_buffer[256];
 extern       int  log_indentation;
 extern       int  log_tab_width;
