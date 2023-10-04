@@ -51,7 +51,7 @@ static const char * a_or_an(const char * str) {
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(args, "[applying core fun '%s']", CORE_NAME(fun));
+  LOG(args, "applying core fun '%s'", CORE_NAME(fun));
   // LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
   // LOG(args,                "to args");
 #endif
@@ -78,7 +78,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-  LOG(ret, "[applying core fun '%s' returned %s :%s]", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+  LOG(ret, "applying core fun '%s' returned %s :%s", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
@@ -168,9 +168,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   ae_obj_t * args = CDR(obj);
 
 #ifdef AE_LOG_EVAL
-  LOG(fun,  "[eval by applying]");
+  char * tmp = SWRITE(fun);
+  LOG(obj,  "evaluate list by applying '%s'", tmp);
+  free (tmp);
+
   INDENT;
-  LOG(args, "dispatch application for args");
+  LOG(args, "to args");
   LOG(env,  "in env");
 #endif
 
@@ -191,14 +194,14 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   GET_DISPATCH(dispatch, apply_dispatch_table, fun);
 
 #ifdef AE_LOG_EVAL
-  const char * type_str = TYPE_STR(dispatch.type);
-  /* */ char * tmp      = free_list_malloc(strlen(type_str) + 2);
-  sprintf(tmp, ":%s",     type_str);
-  ae_obj_t   * sym      = SYM(tmp);
+  /* const char * type_str = TYPE_STR(dispatch.type); */
+  /* /\* *\/ char * tmp      = free_list_malloc(strlen(type_str) + 2); */
+  /* sprintf(tmp, ":%s",     type_str); */
+  /* ae_obj_t   * sym      = SYM(tmp); */
 
-  LOG(sym, "dispatch to application for");
+  /* LOG(sym, "dispatch to application for"); */
 
-  free_list_free(tmp);
+  /* free_list_free(tmp); */
 #endif
 
   MAYBE_EVAL(dispatch.special, args);
@@ -256,7 +259,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
  OUTDENT;
 
- LOG_RETURN_WITH_TYPE("apply", ret);
+ LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
@@ -324,7 +327,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
 #ifdef AE_LOG_EVAL
   // OUTDENT;
-  LOG(ret, "[looking up '%s' found %s :%s]", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+  LOG(ret, "looking up '%s' found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
