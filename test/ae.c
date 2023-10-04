@@ -1176,8 +1176,9 @@ void deloc(void) {
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
   DO(deloc)                                                                                        \
-  DO(alist)                                                                                        \
-  DO(plist)
+  DO(alist)
+
+//  DO(plist)
 
 #define pair(fun) { #fun, fun },
 
