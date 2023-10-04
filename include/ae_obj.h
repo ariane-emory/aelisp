@@ -182,13 +182,13 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // These 3 should probably go in a different file but I'm not sure where yet:
 #if AE_PREFER_ALIST
-#define KHAS(this, key)              (AHAS((this), (key)))
-#define KGET(this, key)              (AGET((this), (key)))
-#define KSET(this, key, val)         (ASET((this), (key), (val)))
+#  define KHAS(this, key)            (AHAS((this), (key)))
+#  define KGET(this, key)            (AGET((this), (key)))
+#  define KSET(this, key, val)       (ASET((this), (key), (val)))
 #else
-#define KHAS(this, key)              (PHAS((this), (key)))
-#define KGET(this, key)              (PGET((this), (key)))
-#define KSET(this, key, val)         (PSET((this), (key), (val)))
+#  define KHAS(this, key)            (PHAS((this), (key)))
+#  define KGET(this, key)            (PGET((this), (key)))
+#  define KSET(this, key, val)       (PSET((this), (key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EMSG(this)                   ((this)->message)
