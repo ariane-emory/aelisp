@@ -34,9 +34,6 @@
   DO(ahas)                                                                                         \
   DO(aset)                                                                                         \
   DO(aget)                                                                                         \
-  DO(khas)                                                                                         \
-  DO(kset)                                                                                         \
-  DO(kget)                                                                                         \
   DO(phas)                                                                                         \
   DO(pset)                                                                                         \
   DO(pget)                                                                                         \
