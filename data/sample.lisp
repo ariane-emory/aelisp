@@ -10,7 +10,7 @@
 (setq alist  nil                     )
 (setq alist (kset 'alist 'name "Bob" ))
 (setq alist (kset 'alist 'age   24   ))
-(setq alist (kset 'palist 'type 'human))
+(setq alist (kset 'alist 'type 'human))
 
 (nl) 
 (write alist)
