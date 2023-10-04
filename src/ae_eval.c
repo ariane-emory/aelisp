@@ -290,7 +290,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #endif
       
 #ifdef AE_LOG_EVAL
-  LOG(obj, "[self-evaluated %s :%s]", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
+  LOG(obj, "self-evaluated %s :%s", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
+  // LOG(obj, "[self-evaluated %s :%s]", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 #endif
 
   return obj;
