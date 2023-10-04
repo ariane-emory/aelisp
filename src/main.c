@@ -137,6 +137,7 @@ int main(void) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
   PR("Painting objects populating the root env with origin = primordial...");
+  NL;
   
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
     if (! FREEP(pool_get_object(ix))) {
@@ -148,6 +149,7 @@ int main(void) {
     }
 
   PR("Done painting objects populating the root env with origin = primordial.");
+  NL;
   
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
@@ -173,6 +175,7 @@ int main(void) {
   // pool_print();
 
   PR("Painting objects read from file with origin = read...");
+  NL;
     
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
     if (! FREEP(pool_get_object(ix)) && ! DHAS(pool_get_object(ix), "origin")) {
@@ -184,6 +187,7 @@ int main(void) {
     }
 
   PR("Done painting objects read from file with origin = read.");
+  NL;
   
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
