@@ -35,9 +35,9 @@ static const char * a_or_an(const char * str) {
     }
 
 #define MAYBE_EVAL(special, args)                                                                  \
-  if (! special && CAR(args)) {                                                                     \
+  if (! special && CAR(args)) {                                                                    \
     ae_obj_t * evaled_args = NIL;                                                                  \
-    SLOG("evaluating fun's args:");                                                                \
+    SLOGF("evaluating fun's %d args:", LENGTH(args));                                              \
     INDENT;                                                                                        \
     FOR_EACH(elem, args)                                                                           \
     {                                                                                              \
@@ -59,7 +59,7 @@ static const char * a_or_an(const char * str) {
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(args, "applying core fun '%s' to args", CORE_NAME(fun));
+  LOG(args, "applying core fun '%s' to %d args:", CORE_NAME(fun), LENGTH(args));
   // LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
   // LOG(args,                "to args");
 #endif
@@ -101,7 +101,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
-  LOG(args,            "applying user fun %s to args", tmp);
+  LOG(args,            "applying user fun %s to %d args", tmp, LENGTH(args));
   free(tmp);
   INDENT;
   // LOG(args,            "apply user fun to args");
@@ -180,7 +180,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
-  LOG(obj,  "evaluate list by applying '%s'", tmp);
+  LOG(obj,  "evaluate list by applying '%s' to %d args:", tmp, LENGTH(args));
   free (tmp);
 
   INDENT;
