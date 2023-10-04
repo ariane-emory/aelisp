@@ -8,14 +8,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (setq   alist  nil                     )
-(setq   alist (aset alist 'name "Bob" ))
-(setq   alist (aset alist 'age   24   ))
-(setq   alist (aset alist 'type 'human))
+(kset alist 'name "Bob" )
+(kset alist 'age   24   )
+(kset alist 'type 'human)
 
+(write "begin") (nl)
 (write alist)
+(write "end") (nl)
 (nl)
 
-(+ 11 (* 22 (- 33 44)))
+;; (+ 11 (* 22 (- 33 44)))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
@@ -290,4 +292,3 @@
 ;; ;; (princ "Body:   ");; =>  (write (body defun));; =>  (nl)
 ;; ;; (princ "AFTER");; =>  ; (nl)
 ;; ;; (nl)
-
