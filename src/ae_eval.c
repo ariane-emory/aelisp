@@ -60,7 +60,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
-  LOG(DOBJ(env), "with this debug data");
+  //LOG(DOBJ(env), "with this debug data");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -69,8 +69,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-
-  LOG_RETURN_WITH_TYPE("applying core fun", ret);
+  LOG(ret, "[applying core fun '%s' return a :%s]", CORE_NAME(fun), GET_TYPE_STR(ret));
+  // LOG_RETURN_WITH_TYPE("applying core fun", ret);
 #endif
 
   return ret;
@@ -280,7 +280,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #endif
       
 #ifdef AE_LOG_EVAL
-  LOG_RETURN_WITH_TYPE("self", obj);
+  LOG(obj, "[self-evaluated a :%s]", GET_TYPE_STR(obj));
+  // LOG_RETURN_WITH_TYPE("self", obj);
 #endif
 
   return obj;
@@ -313,8 +314,10 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
 #ifdef AE_LOG_EVAL
   // OUTDENT;
-
-  LOG_RETURN_WITH_TYPE("lookup", ret);
+  char * msg = free_list_malloc(128);
+  snprintf(msg, 128, "looking up '%s'", SYM_VAL(sym));
+  LOG_RETURN_WITH_TYPE(msg, ret);
+  free_list_free(msg);
 #endif
 
   return ret;
@@ -358,19 +361,18 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   {
-
-    LOG(obj, "[eval]");
-    INDENT;
-    LOG(env, "in env");
+    /* LOG(obj, "[eval]"); */
+    /* INDENT; */
+    /* LOG(env, "in env"); */
     
-    const char * type = GET_TYPE_STR(obj);
-    /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
-   sprintf(tmp, ":%s", type);
-    ae_obj_t   * sym  = SYM(tmp);
+   /*  const char * type = GET_TYPE_STR(obj); */
+   /*  /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
+   /*  sprintf(tmp, ":%s", type); */
+   /*  ae_obj_t   * sym  = SYM(tmp); */
 
-    LOG(sym, "dispatch to eval for");
+   /*  LOG(sym, "dispatch to eval for"); */
 
-    free_list_free(tmp);
+    /* free_list_free(tmp); */
   }
 #endif
 
@@ -388,9 +390,9 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 /* #endif */
 
 #ifdef AE_LOG_EVAL
-  OUTDENT;
+  // OUTDENT;
 
-  LOG_RETURN_WITH_TYPE("eval", ret);
+  // LOG_RETURN_WITH_TYPE("eval", ret);
 #endif
 
   return ret;
