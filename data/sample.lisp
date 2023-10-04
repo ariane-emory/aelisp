@@ -7,12 +7,12 @@
 (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(setq   alist  nil                     )
-(kset alist 'name "Bob" )
-(kset alist 'age   24   )
-(kset alist 'type 'human)
+(setq alist  nil                     )
+(setq alist (kset 'alist 'name "Bob" ))
+(setq alist (kset 'alist 'age   24   ))
+(setq alist (kset 'palist 'type 'human))
 
-(write "begin") (nl)
+(nl) 
 (write alist)
 (write "end") (nl)
 (nl)
