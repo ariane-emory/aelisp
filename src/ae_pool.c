@@ -102,8 +102,8 @@ void pool_print(void) {
     FF;
     
 #ifdef AE_DEBUG_OBJ
-    if (! NILP(DOBJ(&pool[ix])))
-      WRITE(DOBJ(&pool[ix]));
+    /* if (! NILP(DOBJ(&pool[ix]))) */
+    /*   WRITE(DOBJ(&pool[ix])); */
 #endif
     
     putchar('\n');
