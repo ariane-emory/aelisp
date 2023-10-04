@@ -117,7 +117,7 @@ int main(void) {
   yyin = fp;
   yyparse();
   
-#ifdef AE_TRACK_ORIGIN
+#ifdef AE_TRACK_ORIGINS
   ae_obj_t * read_origin = NIL;
   ASET(read_origin, KW("origin"), KW("read"));
   
