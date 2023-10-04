@@ -58,7 +58,7 @@ bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
     goto failed;
 
   for (ae_obj_t * position = list;
-       position != NIL;
+       position && position != NIL;
        position  = CDR(CDR(position)))
     if (CAR(position) == key) {
 #ifdef AE_LOG_KVP_HAS
@@ -93,7 +93,7 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
     goto failed;
 
   for (ae_obj_t * position = list;
-       position != NIL;
+       position && position != NIL;
        position  = CDR(CDR(position))) {
 
     ae_obj_t     * elem1 = CAR(position);
