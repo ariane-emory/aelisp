@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #include "ae_util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -6,6 +8,8 @@
 
 char obj_log_buffer[256] = { 0 };
 int  indentation         =   0;
+int  obj_column          =  72;
+int  auto_column         = true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj_log
@@ -19,8 +23,16 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
   while (written++ < (indentation << 1)) SPC;
   
   written += PR("%s ", desc);
-
-  while (written++ < 72) SPC;
+  
+  if (written >= obj_column) {
+    written++; SPC;
+    obj_column = written;
+  }
+  else {
+    while (written++ < obj_column) SPC;
+  }
+  
+  while (written++ < obj_column) SPC;
   
   written += WRITE(obj);
 
