@@ -119,16 +119,17 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
   else
 #endif
-    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+//    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+    env = NEW_ENV(env, FUN_PARAMS(fun), args);
 
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
 
 #ifdef AE_LOG_EVAL
-  /* LOG(env,              "apply user fun in new env"); */
-  /* LOG(ENV_PARENT(env),  "new user fun env parent"); */
-  /* LOG(ENV_SYMS(env),    "new env symbols"); */
-  /* LOG(ENV_VALS(env),    "new env values"); */
-  /* LOG(body,             "new env body"); */
+  LOG(env,              "apply user fun in new env");
+  LOG(ENV_PARENT(env),  "new user fun env parent");
+  LOG(ENV_SYMS(env),    "new env symbols");
+  LOG(ENV_VALS(env),    "new env values");
+  LOG(body,             "new env body");
 #endif
 
 #ifdef AE_DEBUG_OBJ
