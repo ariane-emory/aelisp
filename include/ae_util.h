@@ -28,26 +28,26 @@
 #define OLOG(o)          (obj_log((o), (#o)))
 
 #define LOG(o, ...)                                                                                 \
-{                                                                                                   \
-  sprintf(obj_log_buffer, __VA_ARGS__);                                                             \
-  obj_log((o), (obj_log_buffer));                                                                   \
-}
+  ({                                                                                                \
+    sprintf(obj_log_buffer, __VA_ARGS__);                                                           \
+    obj_log((o), (obj_log_buffer));                                                                 \
+  })
 
 #define SLOG(s)                                                                                     \
-{                                                                                                   \
-  NL;                                                                                               \
-  int written  = 0;                                                                                 \
-  while (written ++ < (indentation << 1)) SPC;                                                      \
-  (fprintf(stdout, (s)));                                                                           \
-}
+  ({                                                                                                \
+    NL;                                                                                             \
+    int written  = 0;                                                                               \
+    while (written ++ < (indentation << 1)) SPC;                                                    \
+    (fprintf(stdout, (s)));                                                                         \
+    })
 
-#define SLOGF(s, ...)                                                                                \
-{                                                                                                   \
-  NL;                                                                                               \
-  int written  = 0;                                                                                 \
-  while (written ++ < (indentation << 1)) SPC;                                                      \
-  (fprintf(stdout, (s), __VA_ARGS__));                                                              \
-}
+#define SLOGF(s, ...)                                                                               \
+  ({                                                                                                \
+    NL;                                                                                             \
+    int written  = 0;                                                                               \
+    while (written ++ < (indentation << 1)) SPC;                                                    \
+    (fprintf(stdout, (s), __VA_ARGS__));                                                            \
+  })
 
 #define LOG_RETURN_WITH_TYPE(fun_name, val)                                                        \
 ({                                                                                                 \
