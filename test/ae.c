@@ -781,7 +781,8 @@ void core_msleep(void) {
 
   obj expr = NIL;
 
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_quote(env);
 
   obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
@@ -811,7 +812,8 @@ void root_env_and_eval(void) {
   NL;
 
   obj env    = ENV_NEW_ROOT();
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_quote(env);
 
   obj listf  = EVAL(env, SYM("list"));
   OLOG(listf);
