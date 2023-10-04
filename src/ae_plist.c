@@ -49,7 +49,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_KVP_SET_GET
+#ifdef AE_LOG_KVP_HAS
   LOG(key,  "%s looking for key", __func__);
   LOG(list, "in list");
 #endif
@@ -61,7 +61,7 @@ bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
        position != NIL;
        position  = CDR(CDR(position)))
     if (CAR(position) == key) {
-#ifdef AE_LOG_KVP_SET_GET
+#ifdef AE_LOG_KVP_HAS
       LOG(key, "found key");
       NL;
 #endif
@@ -71,7 +71,7 @@ bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 
 failed:
 
-#ifdef AE_LOG_KVP_SET_GET
+#ifdef AE_LOG_KVP_HAS
   LOG(key, "did not find");
   NL;
 #endif

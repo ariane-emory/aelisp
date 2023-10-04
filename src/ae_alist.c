@@ -44,7 +44,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_KVP_SET_GET
+#ifdef AE_LOG_KVP_HAS
   LOG(key,  "%s looking for key:", __func__);
   LOG(list, "in list");
 #endif
@@ -54,7 +54,7 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
     
   FOR_EACH(elem, list)
     if (CAR(elem) == key) {
-#ifdef AE_LOG_KVP_SET_GET
+#ifdef AE_LOG_KVP_HAS
       LOG(key, "found key");
       NL;
 #endif
@@ -64,7 +64,7 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 
 failed:
 
-#ifdef AE_LOG_KVP_SET_GET
+#ifdef AE_LOG_KVP_HAS
   LOG(key, "did not find");
   NL;
 #endif
