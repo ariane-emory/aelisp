@@ -64,8 +64,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
 #ifdef AE_LOG_EVAL
-  LOG(env, "in env");
   INDENT;
+  LOG(env,  "in env");
 #endif
 
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
@@ -323,11 +323,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
 #ifdef AE_LOG_EVAL
   // OUTDENT;
-  /* char * msg = free_list_malloc(128); */
-  /* snprintf(msg, 128, "looking up '%s'", SYM_VAL(sym)); */
-  /* LOG_RETURN_WITH_TYPE(msg, ret); */
-  /* free_list_free(msg); */
-  LOG(ret, "[looking up '%s' found a %s]", SYM_VAL(sym), GET_TYPE_STR(ret));
+  LOG(ret, "[looking up '%s' found %s %s]", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
