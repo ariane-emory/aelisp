@@ -12,9 +12,9 @@ COMMON_CFLAGS = \
 	-DAE_SHARED_PRIMORDIAL_TAIL \
 	-DAE_DEBUG_OBJ \
 	-DAE_PAINT_EARLY_OBJECTS \
-	-DAE_LOG_EVAL \
 
 UNUSED_CFLAGS = \
+	-DAE_LOG_EVAL \
 	-DAE_LOG_CORE \
 	-DAE_DUMP_POOL_AFTER \
 	-DAE_DUMP_POOL_BEFORE \
@@ -135,8 +135,8 @@ bin/test:
 ################################################################################
 
 tests: clean all
+#	$(foreach bin, $(TEST_BINS), $(bin))
 	./bin/ae
-	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae
