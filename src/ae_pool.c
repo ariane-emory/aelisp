@@ -89,21 +89,21 @@ void pool_print(void) {
     
     written +=  printf(" %04d: %08p ", ix, &pool[ix]);
     written +=  PUT(&pool[ix]);
-    written ++; putchar(' ');
+    written ++; SPC;
 
     FF;
     
-    while (written++ < 72) putchar(' ');
+    while (written++ < 72) SPC;
     
     WRITE(&pool[ix]);
     
-    putchar(' ');
+    SPC; SPC;
 
     FF;
     
 #ifdef AE_DEBUG_OBJ
-    /* if (! NILP(DOBJ(&pool[ix]))) */
-    /*   WRITE(DOBJ(&pool[ix])); */
+    if (! NILP(DOBJ(&pool[ix])))
+      WRITE(DOBJ(&pool[ix]));
 #endif
     
     putchar('\n');

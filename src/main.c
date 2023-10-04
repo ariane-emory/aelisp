@@ -127,10 +127,10 @@ int main(void) {
   NL;
   
   ae_obj_t * primordial_origin = NIL;
-  ASET(primordial_origin, KW("origin"), KW("primordial"));
+  KSET(primordial_origin, KW("origin"), KW("primordial"));
   
   ae_obj_t * read_origin = NIL;
-  ASET(read_origin, KW("origin"), KW("read"));
+  KSET(read_origin, KW("origin"), KW("read"));
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // paint the objects populating the root env with origin = primordial
