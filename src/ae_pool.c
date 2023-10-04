@@ -79,7 +79,7 @@ void pool_print(void) {
 
   bool started = false;
   
-  for (int_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
+  for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
     int written = 0;
 
     if ((! started) && (! FREEP(&pool[ix])))
