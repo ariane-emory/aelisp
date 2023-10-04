@@ -31,5 +31,6 @@ void       ae_env_add     (ae_obj_t * const env, ae_obj_t * const symbol, ae_obj
 void       ae_env_set     (ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(void                                                                   );
-void       ae_env_define_list_and_quote(ae_obj_t * const env);                                    //
+void       ae_env_define_list (ae_obj_t * const env);                                             //
+void       ae_env_define_quote(ae_obj_t * const env);                                             //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
