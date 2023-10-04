@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
   LOG(*list, "in list");
   LOG(value, "to value");
@@ -30,7 +30,7 @@ ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   
 end:
 
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "after setting key")
   LOG(*list, "list is");
   NL;
@@ -44,7 +44,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
   LOG(key,  "%s looking for key:", __func__);
   LOG(list, "in list");
 #endif
@@ -54,7 +54,7 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
     
   FOR_EACH(elem, list)
     if (CAR(elem) == key) {
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
       LOG(key, "found key");
       NL;
 #endif
@@ -64,7 +64,7 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
 
 failed:
 
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
   LOG(key, "did not find");
   NL;
 #endif
@@ -77,7 +77,7 @@ failed:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
   LOG(key,  "%s looking for key:", __func__);
   LOG(list, "in list");  
 #endif
@@ -87,12 +87,12 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
 
   FOR_EACH(elem, list) {
 
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
     LOG(elem, "elem");
 #endif
     
     if (CAR(elem) == key) {
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
       LOG(key,      "found key");
       LOG(CDR(elem), "with value");
       NL;
@@ -104,7 +104,7 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
   
 failed:
 
-#ifdef AE_LOG_ALIST_PLIST_SET_GET
+#ifdef AE_LOG_KVP_SET_GET
   LOG(key, "did not find");
   NL;
 #endif
