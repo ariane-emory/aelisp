@@ -957,7 +957,8 @@ void list_fun(void) {
 
   obj env           = ENV_NEW_ROOT();
 
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_list(env);
 
   //obj list_fun      = ae_env_define_list_and_quote(env);
   obj list_fun      = ENV_FIND(env, SYM("list"));
@@ -990,7 +991,8 @@ void macro_expand(void) {
 
   PR("\n\nPopulating root env...");
   obj env = ENV_NEW_ROOT();
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_quote(env);
   PR("\nDone populating root env.\n");
 
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
