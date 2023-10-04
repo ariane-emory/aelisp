@@ -12,6 +12,14 @@
 #include "require.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Helpers
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static const char * a_or_an(const char * str) {
+  return strchr("aeiouAEIOU", str[0]) ? "an" : "a";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,8 +78,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-  LOG(ret, "[applying core fun '%s' returned a :%s]", CORE_NAME(fun), GET_TYPE_STR(ret));
-  // LOG_RETURN_WITH_TYPE("applying core fun", ret);
+  LOG(ret, "[applying core fun '%s' returned %s :%s]", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
@@ -283,9 +290,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #endif
       
 #ifdef AE_LOG_EVAL
-  char * tmp = strchr("aeiouAEIOU", GET_TYPE_STR(obj)[0]) ? "an" : "a";
-  LOG(obj, "[self-evaluated %s %s]", tmp, GET_TYPE_STR(obj));
-  // LOG_RETURN_WITH_TYPE("self", obj);
+  LOG(obj, "[self-evaluated %s :%s]", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 #endif
 
   return obj;
