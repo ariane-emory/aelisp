@@ -262,7 +262,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   // LOG (obj, "[eval by returning self]");
 
-  LOG_RETURN_WITH_TYPE("self", obj);
+  // LOG_RETURN_WITH_TYPE("self", obj);
 #endif
   
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
