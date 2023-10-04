@@ -124,16 +124,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   (void)env;
 
-#ifdef AE_LOG_EVAL
-  char * tmp = SWRITE(fun);
-  LOG(args,            "applying user fun %s to %d args", tmp, LENGTH(args));
-  free(tmp);
-  INDENT;
-  // LOG(args,            "apply user fun to args");
-  LOG(env,             "in env");
-  LOG(FUN_PARAMS(fun), "with params");
-  LOG(FUN_BODY(fun),   "with body");
-#endif
+  ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
 
 #ifndef AE_NO_SINGLE_SYM_PARAMS
   if (SYMBOLP(FUN_PARAMS(fun))
@@ -145,16 +136,24 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 //    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
     env = NEW_ENV(env, FUN_PARAMS(fun), args);
 
-  ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
+#ifdef AE_LOG_EVAL
+  /* LOG(env,              "user fun will be applied in new env:"); */
+  /* INDENT; */
+  /* LOG(ENV_SYMS(env),    "new env symbols"); */
+  /* LOG(ENV_VALS(env),    "new env values"); */
+  /* LOG(body,             "new env body"); */
+  /* OUTDENT; */
+#endif
 
 #ifdef AE_LOG_EVAL
-  LOG(env,              "user fun will be applied in new env:");
+  char * tmp = SWRITE(fun);
+  LOG(args,            "applying user fun %s to %d args", tmp, LENGTH(args));
+  free(tmp);
   INDENT;
-  LOG(ENV_PARENT(env),  "new user fun env parent");
-  LOG(ENV_SYMS(env),    "new env symbols");
-  LOG(ENV_VALS(env),    "new env values");
-  LOG(body,             "new env body");
-  OUTDENT;
+  // LOG(args,            "apply user fun to args");
+  LOG(env,             "in env");
+  LOG(FUN_PARAMS(fun), "with params");
+  LOG(body,            "with body");
 #endif
 
 #ifdef AE_DEBUG_OBJ
@@ -212,7 +211,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   free (tmp);
 
   INDENT;
-  LOG(args, "to args");
+  // LOG(args, "to args");
   LOG(env,  "in env");
 #endif
 
