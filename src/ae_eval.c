@@ -354,7 +354,10 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   {
-    LOG(obj,"LOOKING AT");
+
+    LOG(obj, "[eval]");
+    INDENT;
+    LOG(env, "in env");
     
     const char * type = GET_TYPE_STR(obj);
     /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
@@ -364,10 +367,6 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
     LOG(sym, "dispatch to eval for");
 
     free_list_free(tmp);
-
-    LOG(obj, "[eval]");
-    INDENT;
-    LOG(env, "in env");
   }
 #endif
 
