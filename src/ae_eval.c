@@ -45,7 +45,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
   LOG(args, "[applying core fun '%s']", CORE_NAME(fun));
   // LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
-  INDENT;
   // LOG(args,                "to args");
 #endif
 
@@ -58,6 +57,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   LOG(env, "in env");
+  INDENT;
 #endif
 
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
@@ -85,9 +85,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  LOG(fun,             "[apply by applying user fun]");
+  char * tmp = SWRITE(fun);
+  LOG(args,             "[applying user fun %s]", tmp);
+  free(tmp);
   INDENT;
-  LOG(args,            "apply user fun to args");
+  // LOG(args,            "apply user fun to args");
   LOG(env,             "apply user fun in env");
   LOG(FUN_PARAMS(fun), "apply user fun with params");
   LOG(FUN_BODY(fun),   "apply user fun with body");
@@ -281,7 +283,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #endif
       
 #ifdef AE_LOG_EVAL
-  LOG(obj, "[self-evaluated a :%s]", GET_TYPE_STR(obj));
+  char * tmp = strchr("aeiouAEIOU", GET_TYPE_STR(obj)[0]) ? "an" : "a";
+  LOG(obj, "[self-evaluated %s %s]", tmp, GET_TYPE_STR(obj));
   // LOG_RETURN_WITH_TYPE("self", obj);
 #endif
 
@@ -315,10 +318,11 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
 #ifdef AE_LOG_EVAL
   // OUTDENT;
-  char * msg = free_list_malloc(128);
-  snprintf(msg, 128, "looking up '%s'", SYM_VAL(sym));
-  LOG_RETURN_WITH_TYPE(msg, ret);
-  free_list_free(msg);
+  /* char * msg = free_list_malloc(128); */
+  /* snprintf(msg, 128, "looking up '%s'", SYM_VAL(sym)); */
+  /* LOG_RETURN_WITH_TYPE(msg, ret); */
+  /* free_list_free(msg); */
+  LOG(ret, "[looking up '%s' found a %s]", SYM_VAL(sym), GET_TYPE_STR(ret));
 #endif
 
   return ret;
