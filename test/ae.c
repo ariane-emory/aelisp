@@ -1170,10 +1170,10 @@ void deloc(void) {
   DO(core_msleep)                                                                                  \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
-  DO(root_env_and_eval)                                                                            \
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
-  DO(deloc)                                                                                        
+  DO(deloc)                                                                                        \
+  DO(root_env_and_eval)
 
 #define pair(fun) { #fun, fun },
 
