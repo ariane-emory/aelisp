@@ -6,11 +6,12 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-char obj_log_buffer[256] = { 0 };
-int  indentation         =   0;
-int  obj_column          =   72;
-int  tab_width           =   8;
-int  auto_column         =   true;
+const int  default_column      = 72;
+/* */ int  obj_column          =   default_column;
+/* */ int  tab_width           =   8;
+/* */ int  indentation         =   0;
+/* */ char obj_log_buffer[256] = { 0 };
+/* */ bool auto_column         =   true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj_log

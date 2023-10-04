@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "ae_obj.h"
@@ -64,10 +65,12 @@
 // Data
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern char obj_log_buffer[256];
-extern int  indentation;
-extern int  obj_column;
-extern int  tab_width;
+extern const int  default_column;
+extern       int  obj_column;
+extern       int  tab_width;
+extern       int  indentation;
+extern       char obj_log_buffer[256];
+extern       bool auto_column;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Functions
