@@ -96,6 +96,8 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
        position && position != NIL;
        position  = CDR(CDR(position))) {
 
+    assert(CDR(CDR(position)));
+    
     ae_obj_t     * elem1 = CAR(position);
     ae_obj_t     * elem2 = position ? CADR(position) : NIL;
 
