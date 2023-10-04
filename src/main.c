@@ -117,7 +117,7 @@ int main(void) {
   yyin = fp;
   yyparse();
   
-#ifdef AE_TRACK_ORIGINS
+// #ifdef AE_TRACK_ORIGINS_DURING_EVAL
   ae_obj_t * read_origin = NIL;
   ASET(read_origin, KW("origin"), KW("read"));
   
@@ -129,11 +129,10 @@ int main(void) {
   
   int ix = AE_OBJ_POOL_SIZE;
   
-  while (ix --> first_allocated) {
+  while (ix --> first_allocated)
     if (! DHAS(pool_get_object(ix), "origin"))
       DOBJ(pool_get_object(ix)) = read_origin;
-  }
-#endif
+// #endif
   
 #ifdef AE_DUMP_POOL_BEFORE
   pool_print();

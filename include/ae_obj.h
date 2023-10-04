@@ -15,8 +15,8 @@
 // Preconditions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#if defined(AE_TRACK_ORIGINS) && ! defined(AE_DEBUG_OBJ)
-#  error "AE_TRACK_ORIGINS requires AE_DEBUG_OBJ"
+#if defined(AE_TRACK_ORIGINS_DURING_EVAL) && ! defined(AE_DEBUG_OBJ)
+#  error "AE_TRACK_ORIGINS_DURING_EVAL requires AE_DEBUG_OBJ"
 #endif
 
 #if defined(AE_DEBUG_OBJ_IS_A_PLIST) && ! defined(AE_DEBUG_OBJ)
