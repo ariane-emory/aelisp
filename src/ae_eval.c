@@ -149,7 +149,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   free(tmp);
   INDENT;
   // LOG(args,            "apply user fun to args");
-  LOG(env,             "in env");
+  // LOG(env,             "in env");
   LOG(FUN_PARAMS(fun), "with params");
   LOG(body,            "with body");
 #endif
