@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
-  assert(0);
+  // assert(0);
 
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
@@ -46,7 +46,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-  assert(0);
+  // assert(0);
 
 #ifdef AE_LOG_KVP_HAS
   LOG(key,  "%s looking for key:", __func__);
@@ -81,7 +81,7 @@ failed:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
-  assert(0);
+  // assert(0);
 
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,  "%s looking for key:", __func__);

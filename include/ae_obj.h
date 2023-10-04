@@ -181,7 +181,7 @@ extern ae_obj_t * symbols_list;
 #define FUN_ENV(this)                ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // These 3 should probably go in a different file but I'm not sure where yet:
-#if PREFER_ALIST
+#if AE_PREFER_ALIST
 #define KHAS(this, key)              (AHAS((this), (key)))
 #define KGET(this, key)              (AGET((this), (key)))
 #define KSET(this, key, val)         (ASET((this), (key), (val)))
