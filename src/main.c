@@ -136,11 +136,18 @@ int main(void) {
 // paint the objects populating the root env with origin = primordial
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+  PR("Painting objects populating the root env with origin = primordial...");
+  
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
     if (! FREEP(pool_get_object(ix))) {
+#ifdef AE_LOG_KVP_SET_GET
       LOG(pool_get_object(ix), "#%d: Setting origin to 'primordial'", ix);
+#endif
+      
       DOBJ(pool_get_object(ix)) = primordial_origin;
     }
+
+  PR("Done painting objects populating the root env with origin = primordial.");
   
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
@@ -162,13 +169,22 @@ int main(void) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // paint the objects read from file with origin = read
 //////////////////////////////////////////////////////////////////////////////////////////////////
-  pool_print();
-  
+
+  // pool_print();
+
+  PR("Painting objects read from file with origin = read...");
+    
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
     if (! FREEP(pool_get_object(ix)) && ! DHAS(pool_get_object(ix), "origin")) {
+#ifdef AE_LOG_KVP_SET_GET
       LOG(pool_get_object(ix), "#%d: Setting origin to 'read'", ix);
+#endif
+      
       DOBJ(pool_get_object(ix)) = read_origin;
     }
+
+  PR("Done painting objects read from file with origin = read.");
+  
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
 //////////////////////////////////////////////////////////////////////////////////////////////////

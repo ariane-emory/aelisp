@@ -227,6 +227,16 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_SPECIAL_CORE_FUN(add_core_special_fun);
   FOR_EACH_CORE_FUN(add_core_fun);
 
+#ifdef PREFER_ALIST
+  ae_env_set(env, SYM("khas"), ae_env_find(env, SYM("ahas")));
+  ae_env_set(env, SYM("kget"), ae_env_find(env, SYM("aget")));
+  ae_env_set(env, SYM("kset"), ae_env_find(env, SYM("aset")));
+#else
+  ae_env_set(env, SYM("khas"), ae_env_find(env, SYM("phas")));
+  ae_env_set(env, SYM("kget"), ae_env_find(env, SYM("pget")));
+  ae_env_set(env, SYM("kset"), ae_env_find(env, SYM("pset")));
+#endif
+  
   return env;
 }
 
