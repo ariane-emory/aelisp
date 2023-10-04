@@ -9,20 +9,20 @@
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
+ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
-  LOG(*list, "in list");
+  LOG(list,  "in list");
   LOG(value, "to value");
 #endif
   
-  assert(TAILP(*list) && ! (LENGTH(*list) % 2));
+  assert(TAILP(list) && ! (LENGTH(list) % 2));
   
-  if (*list == NULL)
-    *list = NIL;
+  if (list == NULL)
+    list = NIL;
 
-  if (*list != NIL)
-    for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
+  if (list != NIL)
+    for (ae_obj_t * position = list; position != NIL; position = CDR(CDR(position))) {
       ae_obj_t    * elem1    = CAR(position);
       ae_obj_t    * elem2    = position ? CADR(position) : NIL;
       
@@ -33,18 +33,17 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
       }
     }
 
-  *list = CONS(key, CONS(value, *list));
+  list = CONS(key, CONS(value, list));
 
 end:
 
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "after setting key")
-  LOG(*list, "list is");
+  LOG(list, "list is");
   NL;
 #endif
 
-  return *list;
-  // return value;
+  return list;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

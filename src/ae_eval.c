@@ -34,7 +34,8 @@ static const char * a_or_an(const char * str) {
       break;                                                                                       \
     }
 
-#define MAYBE_EVAL(special, args)                                                                  \
+#ifdef AE_LOG_EVAL
+#  define MAYBE_EVAL(special, args)                                                                \
   if (! special && CAR(args)) {                                                                    \
     ae_obj_t * evaled_args = NIL;                                                                  \
     SLOGF("evaluating fun's %d args:", LENGTH(args));                                              \
@@ -47,7 +48,20 @@ static const char * a_or_an(const char * str) {
     args = evaled_args;                                                                            \
     OUTDENT;                                                                                       \
   }                                                                                                
-
+#else
+#  define MAYBE_EVAL(special, args)                                                                \
+  if (! special && CAR(args)) {                                                                    \
+    ae_obj_t * evaled_args = NIL;                                                                  \
+    INDENT;                                                                                        \
+    FOR_EACH(elem, args)                                                                           \
+    {                                                                                              \
+      ae_obj_t * tmp = EVAL(env, elem);                                                            \
+      PUSH(evaled_args, tmp);                                                                      \
+    }                                                                                              \
+    args = evaled_args;                                                                            \
+    OUTDENT;                                                                                       \
+  }                                                                                                
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply dispatch handlers
@@ -71,12 +85,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #  endif
 #endif
 
-//#ifdef AE_LOG_EVAL
+#ifdef AE_LOG_EVAL
   INDENT;
   LOG(env,  "in env 0x%08p (%s)", env, GET_TYPE_STR(env));
-  OLOG(env);
-  PUT(env);
-//#endif
+#endif
 
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
   //LOG(DOBJ(env), "with this debug data");
