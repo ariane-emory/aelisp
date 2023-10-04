@@ -15,13 +15,8 @@ ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const
   LOG(*list, "in list");
   LOG(value, "to value");
 #endif
-
-  if(! (LENGTH(*list) % 2)) {
-    SLOG("SHIT");
-    OLOG(*list);
-  }
   
-  assert(! (LENGTH(*list) % 2));
+  assert(TAILP(*list) && ! (LENGTH(*list) % 2));
   
   if (*list == NULL)
     *list = NIL;
@@ -136,9 +131,3 @@ failed:
 
   return NIL;
 }
-
-
-
-
-
-
