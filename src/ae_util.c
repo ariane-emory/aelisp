@@ -22,21 +22,21 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 
   while (written++ < (indentation << 1)) SPC;
   
-  written += PR("%s ", desc);
+  written += PR("%s  ", desc);
   
   if (written >= obj_column && auto_column) {
     written++; SPC;
 
     obj_column = written;
     
-    while (obj_column++ % 6);
+    while (obj_column++ % 8);
   }
   else {
     while (written++ < obj_column) SPC;
   }
-  
+
   while (written++ < obj_column) SPC;
-  
+
   written += WRITE(obj);
 
   fflush(stdout);
