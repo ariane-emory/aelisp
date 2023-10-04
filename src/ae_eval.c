@@ -71,10 +71,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #  endif
 #endif
 
-#ifdef AE_LOG_EVAL
+//#ifdef AE_LOG_EVAL
   INDENT;
-  LOG(env,  "in env");
-#endif
+  LOG(env,  "in env 0x%08p (%s)", env, GET_TYPE_STR(env));
+  OLOG(env);
+  PUT(env);
+//#endif
 
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
   //LOG(DOBJ(env), "with this debug data");
@@ -161,7 +163,7 @@ typedef struct {
 } apply_dispatch_row_t;
 
 static const apply_dispatch_row_t apply_dispatch_table[] = {
-  { AE_CORE,   &apply_core, true,  true  }, // 3rd field may be ignored internally by apply_core.
+  { AE_CORE,   &apply_core, true,  false  }, // 3rd field may be ignored internally by apply_core.
   { AE_LAMBDA, &apply_user, false, false },
   { AE_MACRO,  &apply_user, true,  true  },
 };
