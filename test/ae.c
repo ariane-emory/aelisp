@@ -781,7 +781,8 @@ void core_msleep(void) {
 
   obj expr = NIL;
 
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_quote(env);
 
   obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
@@ -811,7 +812,8 @@ void root_env_and_eval(void) {
   NL;
 
   obj env    = ENV_NEW_ROOT();
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_quote(env);
 
   obj listf  = EVAL(env, SYM("list"));
   OLOG(listf);
@@ -955,7 +957,8 @@ void list_fun(void) {
 
   obj env           = ENV_NEW_ROOT();
 
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_list(env);
 
   //obj list_fun      = ae_env_define_list_and_quote(env);
   obj list_fun      = ENV_FIND(env, SYM("list"));
@@ -988,7 +991,8 @@ void macro_expand(void) {
 
   PR("\n\nPopulating root env...");
   obj env = ENV_NEW_ROOT();
-  ae_env_define_list_and_quote(env);
+  ae_env_define_list(env);
+  ae_env_define_quote(env);
   PR("\nDone populating root env.\n");
 
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
@@ -1050,58 +1054,37 @@ void macro_expand(void) {
 void alist(void) {
   SETUP_TEST;
 
-  ae_obj_t * alist = NIL;
+  ae_obj_t * list = NIL;
 
-  T(!      AHAS(alist, SYM("name")));
-
-  alist =  ASET(alist, SYM("name"),   NEW_STRING("Bob"));
-
-  T(       AHAS(alist, SYM("name")));
-  T(  EQL( AGET(alist, SYM("name")),  NEW_STRING("Bob")));
-  T(!      AHAS(alist, SYM("age")));
-
-  alist =  ASET(alist, SYM("age"),    NEW_INT(24));
-
-  T(       AHAS(alist, SYM("age")));
-  T( EQL(  AGET(alist, SYM("age")),   NEW_INT(24)));
-
-  alist =  ASET(alist, SYM("name"),   NEW_STRING("Jake"));
-
-  T(!  EQL(AGET(alist, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL(AGET(alist, SYM("name")),  NEW_STRING("Jake")));
-
-  /* NL; */
-  /* OLOG(alist); */
-  NL;
-}
+  T(!      AHAS(list, SYM("name")));
+  /*    */ ASET(list, SYM("name"),   NEW_STRING("Bob"));
+  T(       AHAS(list, SYM("name")));
+  T(  EQL( AGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!      AHAS(list, SYM("age")));
+  /*    */ ASET(list, SYM("age"),    NEW_INT(24));
+  T(       AHAS(list, SYM("age")));
+  T( EQL(  AGET(list, SYM("age")),   NEW_INT(24)));
+  /*    */ ASET(list, SYM("name"),   NEW_STRING("Jake"));
+  T(!  EQL(AGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL(AGET(list, SYM("name")),  NEW_STRING("Jake")));
+}          
 
 void plist(void) {
   SETUP_TEST;
 
-  ae_obj_t * plist = NIL;
+  ae_obj_t * list = NIL;
 
-  T(!      PHAS(plist, SYM("name")));
-
-  plist =  PSET(plist, SYM("name"),   NEW_STRING("Bob"));
-  /* LOG(plist, "THIS"); */
-  
-  T(       PHAS(plist, SYM("name")));
-  T(  EQL( PGET(plist, SYM("name")),  NEW_STRING("Bob")));
-  T(!      PHAS(plist, SYM("age")));
-
-  plist =  PSET(plist, SYM("age"),    NEW_INT(24));
-
-  T(       PHAS(plist, SYM("age")));
-  T( EQL(  PGET(plist, SYM("age")),   NEW_INT(24)));
-
-  PSET(plist, SYM("name"),   NEW_STRING("Jake"));
-
-  T(!  EQL(PGET(plist, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL(PGET(plist, SYM("name")),  NEW_STRING("Jake")));
-
-  /* NL; */
-  /* OLOG(plist); */
-  // NL;
+  T(!      PHAS(list, SYM("name")));
+  /*    */ PSET(list, SYM("name"),   NEW_STRING("Bob"));
+  T(       PHAS(list, SYM("name")));
+  T(  EQL( PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!      PHAS(list, SYM("age")));
+  /*    */ PSET(list, SYM("age"),    NEW_INT(24));
+  T(       PHAS(list, SYM("age")));
+  T( EQL(  PGET(list, SYM("age")),   NEW_INT(24)));
+  /*    */ PSET(list, SYM("name"),   NEW_STRING("Jake"));
+  T(!  EQL(PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(   EQL(PGET(list, SYM("name")),  NEW_STRING("Jake")));
 }
 
 void deloc(void) {
@@ -1110,25 +1093,15 @@ void deloc(void) {
   ae_obj_t * an_int = NEW_INT(14);
   
   T(! MARKED_AS_DELOCALIZEDP(an_int));
-  
   MARK_DELOCALIZED(an_int);
-  
   T(MARKED_AS_DELOCALIZEDP(an_int));
-  
   UNMARK_DELOCALIZED(an_int);
-  
   T(! MARKED_AS_DELOCALIZEDP(an_int));
-  
   UNMARK_DELOCALIZED(an_int);
-  
   T(! MARKED_AS_DELOCALIZEDP(an_int));
-  
   MARK_DELOCALIZED(an_int);
-  
   T(MARKED_AS_DELOCALIZEDP(an_int));
-  
   T(MARKED_AS_DELOCALIZEDP(an_int));
-  
   T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
   T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
   T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
@@ -1201,12 +1174,10 @@ void deloc(void) {
   DO(core_msleep)                                                                                  \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
-  DO(root_env_and_eval)                                                                            \
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
-  DO(deloc)                                                                                        
-
-
+  DO(deloc)                                                                                        \
+  DO(root_env_and_eval)
 
 #define pair(fun) { #fun, fun },
 

@@ -6,22 +6,24 @@ COMMON_CFLAGS = \
 	-I . \
 	-Wno-misleading-indentation \
 	-DAE_CALLSTACK_IS_PROPER \
-	-DAE_DEADLY_MARGIN \
-	-DAE_DEBUG_OBJ_TRACK_ORIGIN \
-	-DAE_DUMP_POOL_BEFORE \
-	-DAE_DUMP_POOL_AFTER \
-	-DAE_LEXICAL_SCOPING \
-	-DAE_LOG_EVAL \
 	-DAE_CORE_ENVS \
-	-DAE_ERROR_OBJ_IS_A_PLIST \
+	-DAE_DEADLY_MARGIN \
+	-DAE_LEXICAL_SCOPING \
 	-DAE_SHARED_PRIMORDIAL_TAIL \
-	-DAE_DEBUG_OBJ_IS_A_PLIST \
+	-DAE_DEBUG_OBJ \
+	-DAE_PAINT_EARLY_OBJECTS \
+	-DAE_LOG_EVAL \
 
 UNUSED_CFLAGS = \
-	-DAE_DEBUG_OBJ \
 	-DAE_LOG_CORE \
+	-DAE_DUMP_POOL_AFTER \
+	-DAE_DUMP_POOL_BEFORE \
+	-DAE_PREFER_ALIST \
+	-DAE_LOG_KVP_SET_GET \
+	-DAE_TRACK_ORIGINS_DURING_EVAL \
 	-DAE_LOG_ALLOC \
 	-DAE_LOG_CLONE \
+	-DAE_LOG_CONS \
 	-DAE_LOG_ENV \
 	-DAE_LOG_FREE_LIST \
 	-DAE_LOG_INIT \
@@ -29,11 +31,10 @@ UNUSED_CFLAGS = \
 	-DAE_LOG_METADATA \
 	-DAE_LOG_MOVE \
 	-DAE_LOG_PARSE \
+	-DAE_LOG_PUSH \
 	-DAE_LOG_SYM \
 	-DAE_NO_SINGLE_SYM_PARAMS \
 	-DAE_OBJ_POOL_SIZE=4096 \
-  -DAE_LOG_CONS \
-  -DAE_LOG_PUSH \
 
 TEST_CFLAGS = \
 	-Wno-unused-value
@@ -67,10 +68,15 @@ endif
 GDB       = gdb
 OBJDUMP   = objdump
 LEX       = flex
-YACC      = bison
 YACC      = /opt/homebrew/opt/bison/bin/bison
 
-SRCS      = $(shell find src  -name "*.c")
+ifeq ($(wildcard /opt/homebrew/opt/bison/bin/bison),)
+    YACC = bison
+else
+    YACC = /opt/homebrew/opt/bison/bin/bison
+endif
+
+SRCS      = $(shell find src  -name "*.c" -a -not -name "main.c" )
 TEST_SRCS = $(shell find test -name "*.c")
 OBJS      = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
@@ -91,7 +97,7 @@ obj/%.o: src/%.c obj
 bin/test/%: bin/test
 	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
-bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS)
+bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c 
 	mkdir -p ./bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
@@ -130,7 +136,7 @@ bin/test:
 
 tests: clean all
 	./bin/ae
-#	$(foreach bin, $(TEST_BINS), $(bin))
+	$(foreach bin, $(TEST_BINS), $(bin))
 
 debug: clean all
 	$(GDB) ./bin/ae

@@ -23,6 +23,7 @@
 
 #define PR(...)          (fprintf(stdout,   __VA_ARGS__))
 #define FPR(stream, ...) (fprintf((stream), __VA_ARGS__))
+#define ERR(...)         ({ FPR(stderr, __VA_ARGS__); fflush(stderr); })
 #define ARRAY_SIZE(a)    (sizeof(a) / sizeof((a)[0]))
 #define OLOG(o)          (obj_log((o), (#o)))
 
@@ -40,7 +41,7 @@
   (fprintf(stdout, (s)));                                                                           \
 }
 
-#define FLOG(s, ...)                                                                                \
+#define SLOGF(s, ...)                                                                                \
 {                                                                                                   \
   NL;                                                                                               \
   int written  = 0;                                                                                 \

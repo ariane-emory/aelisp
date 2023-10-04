@@ -5,87 +5,133 @@
 #include "ae_write.h"
 #include "ae_util.h"
 
-#define FOR_EACH_PAIR(elem1, elem2, list)                       \
-  for (ae_obj_t * position = (list),                            \
-                * elem1    = CAR(position),                     \
-                * elem2    = position ? CADR(position) : NULL;  \
-       elem1 && elem2;                                          \
-       position = position ? CDR(CDR(position)) : NULL,         \
-       elem1    = position ? CAR(position)      : NULL,         \
-       elem2    = position ? CADR(position)     : NULL)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_plist_set(ae_obj_t ** plist, ae_obj_t * const key, ae_obj_t * const value) {
-  if (*plist == NULL)
-    *(ae_obj_t **)plist = NIL;
+ae_obj_t * ae_plist_set(ae_obj_t ** list, ae_obj_t * const key, ae_obj_t * const value) {
+#ifdef AE_LOG_KVP_SET_GET
+  LOG(key,   "%s setting key", __func__);
+  LOG(*list, "in list");
+  LOG(value, "to value");
+#endif
 
-  if (*plist != NIL)
-    for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
-      /* WRITE(position); NL; FF; */
-      
-      ae_obj_t * elem1 = CAR(position);
-      ae_obj_t * elem2 = position ? CADR(position) : NIL;
-      
-      /* OLOG(elem1); */
-      /* OLOG(elem2); */
+  if (*list == NULL)
+    *list = NIL;
+
+  if (*list != NIL)
+    for (ae_obj_t * position = *list; position != NIL; position = CDR(CDR(position))) {
+      ae_obj_t    * elem1    = CAR(position);
+      ae_obj_t    * elem2    = position ? CADR(position) : NIL;
       
       if (elem1 == key) {
-        // PR("Found it.");
+        CADR(position) = value;
 
-        return CADR(position) = value;
+        goto end;
       }
     }
 
-  return (*(ae_obj_t **)plist = CONS(key, CONS(value, *plist)));
+  *list = CONS(key, CONS(value, *list));
+
+end:
+
+#ifdef AE_LOG_KVP_SET_GET
+  LOG(key,   "after setting key")
+  LOG(*list, "list is");
+  NL;
+#endif
+
+  return *list;
+  // return value;
 }
 
-ae_obj_t * ae_plist_get(ae_obj_t * const * plist, ae_obj_t * const key) {
-  if (*plist == NULL)
-    *(ae_obj_t **)plist = NIL;
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _contains_key
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  if (*plist == NIL)
-    return *plist;
+bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
+#ifdef AE_LOG_KVP_HAS
+  LOG(key,  "%s looking for key", __func__);
+  LOG(list, "in list");
+#endif
 
-  //OLOG(*plist);
+  if (list == NULL || list == NIL)
+    goto failed;
 
-  for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
-    /* OLOG(position); SPC; PUT(position); NL; FF; */
-
-    ae_obj_t * elem1 = CAR(position);
-    ae_obj_t * elem2 = position ? CADR(position) : NIL;
-
-    /* OLOG(elem1); */
-    /* OLOG(elem2); */
-      
-    if (elem1 == key)
-      return elem2;
-  }
-  
-  return NIL;
-}
-
-bool ae_plist_contains_key(ae_obj_t * const * plist, ae_obj_t * const key) {
-  if (*plist == NULL)
-    return false;  // Return false if plist is NULL
-
-  if (*plist == NIL) {
-    /* PR("plist is NIL\n"); */
-    
-    return false;
-  }
-
-  for (ae_obj_t * position = *plist; position != NIL; position = CDR(CDR(position))) {
-    ae_obj_t * elem1 = CAR(position);
-    ae_obj_t * elem2 = position ? CADR(position) : NIL;
-
-    /* OLOG(elem1); */
-    /* OLOG(elem2); */
-
-    if (elem1 == key) {
-      /* PR("found it."); */
+  for (ae_obj_t * position = list;
+       position && position != NIL;
+       position  = CDR(CDR(position)))
+    if (CAR(position) == key) {
+#ifdef AE_LOG_KVP_HAS
+      LOG(key, "found key");
+      NL;
+#endif
       
       return true;
     }
-  }
 
+failed:
+
+#ifdef AE_LOG_KVP_HAS
+  LOG(key, "did not find");
+  NL;
+#endif
+  
   return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
+#ifdef AE_LOG_KVP_SET_GET
+  LOG(key,  "%s looking for key", __func__);
+  LOG(list, "in list");
+#endif
+
+  if (list == NULL || list == NIL)
+    goto failed;
+
+  for (ae_obj_t * position = list;
+       position && position != NIL;
+       position  = CDR(CDR(position))) {
+
+    assert(CDR(CDR(position)));
+    
+    ae_obj_t     * elem1 = CAR(position);
+    ae_obj_t     * elem2 = position ? CADR(position) : NIL;
+
+#ifdef AE_LOG_KVP_SET_GET
+    LOG(position, "position");
+    LOG(elem1,    "elem1");
+    if (elem2)
+      LOG(elem2,  "elem2");
+#endif
+    
+    if (elem1 == key) {
+#ifdef AE_LOG_KVP_SET_GET
+      LOG(key,   "found key");
+      LOG(elem2, "with value");
+      NL;
+#endif
+
+      return elem2;
+    }
+  }
+
+failed:
+
+#ifdef AE_LOG_KVP_SET_GET
+  LOG(key, "did not find");
+  NL;
+#endif
+
+  return NIL;
+}
+
+
+
+
+
+

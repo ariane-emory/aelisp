@@ -12,13 +12,22 @@
 #include "ae_plist.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Typedefs
+// Preconditions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#if defined(AE_TRACK_ORIGINS_DURING_EVAL) && ! defined(AE_DEBUG_OBJ)
+#  error "AE_TRACK_ORIGINS_DURING_EVAL requires AE_DEBUG_OBJ"
+#endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef char * ae_string_t;
 
-struct ae_obj_t; // forward decl.
 typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const, struct ae_obj_t * const);
+
+struct ae_obj_t; // forward decl.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Escaped chars helper macro
@@ -171,29 +180,33 @@ extern ae_obj_t * symbols_list;
 #define FUN_BODY(this)               ((this)->body)
 #define FUN_ENV(this)                ((this)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EMSG(this)                   ((this)->message)
-#define EOBJ(this)                    ((this)->object)
-#ifdef AE_ERROR_OBJ_IS_A_PLIST
-#  define EHAS(this, key)            (PHAS(EOBJ((this)), KW(key)))
-#  define EGET(this, key)            (PGET(EOBJ((this)), KW(key)))
-#  define ESET(this, key, val)       (PSET(EOBJ((this)), KW(key), (val)))
-#else // it's an alist
-#  define EHAS(this, key)            (AHAS(EOBJ((this)), KW(key)))
-#  define EGET(this, key)            (AGET(EOBJ((this)), KW(key)))
-#  define ESET(this, key, val)       (ASET(EOBJ((this)), KW(key), (val)))
+// These 3 should probably go in a different file but I'm not sure where yet:
+#if AE_PREFER_ALIST
+#define KHAS(this, key)              (AHAS((this), (key)))
+#define KGET(this, key)              (AGET((this), (key)))
+#define KSET(this, key, val)         (ASET((this), (key), (val)))
+#else
+#define KHAS(this, key)              (PHAS((this), (key)))
+#define KGET(this, key)              (PGET((this), (key)))
+#define KSET(this, key, val)         (PSET((this), (key), (val)))
 #endif
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define EMSG(this)                   ((this)->message)
+#define EOBJ(this)                   ((this)->object)
+#define EHAS(this, key)              (KHAS(EOBJ((this)), KW(key)))
+#define EGET(this, key)              (KGET(EOBJ((this)), KW(key)))
+#define ESET(this, key, val)         (KSET(EOBJ((this)), KW(key), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_DEBUG_OBJ
 #  define DOBJ(this)                 ((this)->debug_data)
-#  ifdef AE_DEBUG_OBJ_IS_A_PLIST
-#    define DHAS(this, key)          (PHAS(DOBJ((this)), KW(key)))
-#    define DGET(this, key)          (PGET(DOBJ((this)), KW(key)))
-#    define DSET(this, key, val)     (PSET(DOBJ((this)), KW(key), (val)))
-#  else // it's an alist
-#    define DHAS(this, key)          (AHAS(DOBJ((this)), KW(key)))
-#    define DGET(this, key)          (AGET(DOBJ((this)), KW(key)))
-#    define DSET(this, key, val)     (ASET(DOBJ((this)), KW(key), (val)))
-#  endif
+#  define DHAS(this, key)            (KHAS(DOBJ((this)), KW(key)))
+#  define DGET(this, key)            (KGET(DOBJ((this)), KW(key)))
+#  define DSET(this, key, val)       (KSET(DOBJ((this)), KW(key), (val)))
+#else
+#  define DOBJ(this)                 ((void)this, NIL)
+#  define DHAS(this, key)            ((void)this, (void)key, NIL)
+#  define DGET(this, key)            ((void)this, (void)key, NIL)
+#  define DSET(this, key, val)       ((void)this, (void)key, (void)val, NIL)
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                      (SYM(":" sym))

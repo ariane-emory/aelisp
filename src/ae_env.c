@@ -227,25 +227,33 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_SPECIAL_CORE_FUN(add_core_special_fun);
   FOR_EACH_CORE_FUN(add_core_fun);
 
-#ifdef AE_DEBUG_OBJ
-  pool_dset_all_allocated(KW("origin"), KW("primordial"));
-
-  ae_obj_t * root  = pool_get_object(AE_OBJ_POOL_SIZE - 1);
-  DOBJ(root)       = NIL;
-  DSET(root, "origin", KW("root"));
+#ifdef PREFER_ALIST
+  ae_env_set(env, SYM("khas"), ae_env_find(env, SYM("ahas")));
+  ae_env_set(env, SYM("kget"), ae_env_find(env, SYM("aget")));
+  ae_env_set(env, SYM("kset"), ae_env_find(env, SYM("aset")));
+#else
+  ae_env_set(env, SYM("khas"), ae_env_find(env, SYM("phas")));
+  ae_env_set(env, SYM("kget"), ae_env_find(env, SYM("pget")));
+  ae_env_set(env, SYM("kset"), ae_env_find(env, SYM("pset")));
 #endif
-
+  
   return env;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _define_list_fun
+// _define_list
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_env_define_list_and_quote(ae_obj_t * const env) {
+void ae_env_define_list(ae_obj_t * const env) {
   ae_obj_t * list_def = CONS(SYM("setq"), CONS(SYM("list"), CONS(CONS(SYM("lambda"), CONS(SYM("args"),  CONS(SYM("args"), NIL)  )), NIL)));
   ae_obj_t * list_fun = EVAL(env, list_def);
+}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _define_quote
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ae_env_define_quote(ae_obj_t * const env) {
   ae_obj_t * quote_def = CONS(SYM("setq"), CONS(SYM("quote"), CONS(CONS(SYM("macro"), CONS(CONS(SYM("args"), NIL),  CONS(SYM("args"), NIL)  )), NIL)));
   ae_obj_t * quote_fun = EVAL(env, quote_def);
 }

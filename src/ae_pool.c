@@ -79,7 +79,7 @@ void pool_print(void) {
 
   bool started = false;
   
-  for (size_t ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
+  for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++) {
     int written = 0;
 
     if ((! started) && (! FREEP(&pool[ix])))
@@ -89,14 +89,18 @@ void pool_print(void) {
     
     written +=  printf(" %04d: %08p ", ix, &pool[ix]);
     written +=  PUT(&pool[ix]);
-    written ++; putchar(' ');
+    written ++; SPC;
+
+    FF;
     
-    while (written++ < 72) putchar(' ');
+    while (written++ < 72) SPC;
     
     WRITE(&pool[ix]);
     
-    putchar(' ');
+    SPC; SPC;
 
+    FF;
+    
 #ifdef AE_DEBUG_OBJ
     if (! NILP(DOBJ(&pool[ix])))
       WRITE(DOBJ(&pool[ix]));

@@ -12,6 +12,14 @@
 #include "require.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Helpers
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static const char * a_or_an(const char * str) {
+  return strchr("aeiouAEIOU", str[0]) ? "an" : "a";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,9 +51,9 @@
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifdef AE_LOG_EVAL
-  LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
-  INDENT;
-  LOG(args,                "to args");
+  LOG(args, "[applying core fun '%s']", CORE_NAME(fun));
+  // LOG(SYM(CORE_NAME(fun)), "[apply by applying core fun]");  // extra spaces needed here to line up for some reason.
+  // LOG(args,                "to args");
 #endif
 
 #ifdef AE_CORE_ENVS
@@ -56,11 +64,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
 #ifdef AE_LOG_EVAL
-  LOG(env, "in env");
+  INDENT;
+  LOG(env,  "in env");
 #endif
 
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
-  LOG(DOBJ(env), "with this debug data");
+  //LOG(DOBJ(env), "with this debug data");
 #endif
 
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -69,8 +78,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   OUTDENT;
-
-  LOG_RETURN_WITH_TYPE("applying core fun", ret);
+  LOG(ret, "[applying core fun '%s' returned %s :%s]", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
@@ -84,9 +92,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  LOG(fun,             "[apply by applying user fun]");
+  char * tmp = SWRITE(fun);
+  LOG(args,             "[applying user fun %s]", tmp);
+  free(tmp);
   INDENT;
-  LOG(args,            "apply user fun to args");
+  // LOG(args,            "apply user fun to args");
   LOG(env,             "apply user fun in env");
   LOG(FUN_PARAMS(fun), "apply user fun with params");
   LOG(FUN_BODY(fun),   "apply user fun with body");
@@ -197,7 +207,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
 
-#if AE_DEBUG_OBJ
+#if AE_TRACK_ORIGINS_DURING_EVAL // in apply
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
@@ -206,7 +216,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #  endif
   }
 
-  if (! DHAS(ret, "origin")) {
+  if (! DHAS(ret, "origin")) { 
     DSET(ret, "origin", fun);
   }
 #endif
@@ -260,12 +270,12 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   (void)env;
 
 #ifdef AE_LOG_EVAL
-  LOG (obj, "[eval by returning self]");
+  // LOG (obj, "[eval by returning self]");
 
-  LOG_RETURN_WITH_TYPE("self", obj);
+  // LOG_RETURN_WITH_TYPE("self", obj);
 #endif
   
-#if AE_DEBUG_OBJ
+#if AE_TRACK_ORIGINS_DURING_EVAL // in self
   if (! DHAS(obj, "birth-place")) {
     DSET(obj, "birth-place", env);
     
@@ -279,21 +289,25 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   }
 #endif
       
+#ifdef AE_LOG_EVAL
+  LOG(obj, "[self-evaluated %s :%s]", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
+#endif
+
   return obj;
 }
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #ifdef AE_LOG_EVAL
-  LOG(sym, "[eval by looking up]");
+  // LOG(sym, "[eval by looking up]");
 
-  INDENT;
+  // INDENT;
 #endif
 
   ae_obj_t * ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
 
-#if AE_DEBUG_OBJ
+#if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
@@ -308,9 +322,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 #endif
 
 #ifdef AE_LOG_EVAL
-  OUTDENT;
-
-  LOG_RETURN_WITH_TYPE("lookup", ret);
+  // OUTDENT;
+  LOG(ret, "[looking up '%s' found %s :%s]", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
   return ret;
@@ -354,20 +367,18 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   {
-    LOG(obj,"LOOKING AT");
+    /* LOG(obj, "[eval]"); */
+    /* INDENT; */
+    /* LOG(env, "in env"); */
     
-    const char * type = GET_TYPE_STR(obj);
-    /* */ char * tmp  = free_list_malloc(strlen(type) + 2);
-   sprintf(tmp, ":%s", type);
-    ae_obj_t   * sym  = SYM(tmp);
+   /*  const char * type = GET_TYPE_STR(obj); */
+   /*  /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
+   /*  sprintf(tmp, ":%s", type); */
+   /*  ae_obj_t   * sym  = SYM(tmp); */
 
-    LOG(sym, "dispatch to eval for");
+   /*  LOG(sym, "dispatch to eval for"); */
 
-    free_list_free(tmp);
-
-    LOG(obj, "[eval]");
-    INDENT;
-    LOG(env, "in env");
+    /* free_list_free(tmp); */
   }
 #endif
 
@@ -385,9 +396,9 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 /* #endif */
 
 #ifdef AE_LOG_EVAL
-  OUTDENT;
+  // OUTDENT;
 
-  LOG_RETURN_WITH_TYPE("eval", ret);
+  // LOG_RETURN_WITH_TYPE("eval", ret);
 #endif
 
   return ret;
