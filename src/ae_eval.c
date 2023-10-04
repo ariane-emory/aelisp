@@ -197,7 +197,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
 
-#if AE_TRACK_ORIGIN
+#if AE_TRACK_ORIGIN // in apply
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
