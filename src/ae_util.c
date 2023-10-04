@@ -8,8 +8,9 @@
 
 char obj_log_buffer[256] = { 0 };
 int  indentation         =   0;
-int  obj_column          =  72;
-int  auto_column         =  true;
+int  obj_column          =   72;
+int  tab_width           =   8;
+int  auto_column         =   true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj_log
@@ -29,7 +30,7 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 
     obj_column = written;
     
-    while (obj_column++ % 8);
+    while (obj_column++ % tab_width);
   }
   else {
     while (written++ < obj_column) SPC;
