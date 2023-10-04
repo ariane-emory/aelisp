@@ -36,7 +36,7 @@ static const char * a_or_an(const char * str) {
 #  define MAYBE_EVAL(special, args)                                                                \
   if (! special && CAR(args)) {                                                                    \
     ae_obj_t * evaled_args = NIL;                                                                  \
-    SLOGF("evaluating fun's %d args:", LENGTH(args));                                              \
+    LOG(args, "evaluating fun's %d args:", LENGTH(args));                                          \
     INDENT;                                                                                        \
     FOR_EACH(elem, args)                                                                           \
     {                                                                                              \
@@ -45,6 +45,7 @@ static const char * a_or_an(const char * str) {
     }                                                                                              \
     args = evaled_args;                                                                            \
     OUTDENT;                                                                                       \
+    LOG(args, "evaluated fun's %d args:", LENGTH(args));                                           \
   }                                                                                                
 #else
 #  define MAYBE_EVAL(special, args)                                                                \
