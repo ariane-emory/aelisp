@@ -11,7 +11,7 @@
 #include "ae_free_list.h"
 #include "require.h"
 
-int default_column = 72;
+int default_column = 64;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helpers
@@ -95,13 +95,13 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
-  LOG(args,             "applying user fun %s to args", tmp);
+  LOG(args,            "applying user fun %s to args", tmp);
   free(tmp);
   INDENT;
   // LOG(args,            "apply user fun to args");
-  LOG(env,             "apply user fun in env");
-  LOG(FUN_PARAMS(fun), "apply user fun with params");
-  LOG(FUN_BODY(fun),   "apply user fun with body");
+  LOG(env,             "in env");
+  LOG(FUN_PARAMS(fun), "with params");
+  LOG(FUN_BODY(fun),   "with body");
 #endif
 
 #ifndef AE_NO_SINGLE_SYM_PARAMS
