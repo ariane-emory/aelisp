@@ -1051,42 +1051,6 @@ void macro_expand(void) {
   /* } */
 }
 
-void alist(void) {
-  SETUP_TEST;
-
-  ae_obj_t * list = NIL;
-
-  T(!      AHAS(list, SYM("name")));
-  /*    */ ASET(list, SYM("name"),   NEW_STRING("Bob"));
-  T(       AHAS(list, SYM("name")));
-  T(  EQL( AGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(!      AHAS(list, SYM("age")));
-  /*    */ ASET(list, SYM("age"),    NEW_INT(24));
-  T(       AHAS(list, SYM("age")));
-  T( EQL(  AGET(list, SYM("age")),   NEW_INT(24)));
-  /*    */ ASET(list, SYM("name"),   NEW_STRING("Jake"));
-  T(!  EQL(AGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL(AGET(list, SYM("name")),  NEW_STRING("Jake")));
-}          
-
-void plist(void) {
-  SETUP_TEST;
-
-  ae_obj_t * list = NIL;
-
-  T(!      PHAS(list, SYM("name")));
-  /*    */ PSET(list, SYM("name"),   NEW_STRING("Bob"));
-  T(       PHAS(list, SYM("name")));
-  T(  EQL( PGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(!      PHAS(list, SYM("age")));
-  /*    */ PSET(list, SYM("age"),    NEW_INT(24));
-  T(       PHAS(list, SYM("age")));
-  T( EQL(  PGET(list, SYM("age")),   NEW_INT(24)));
-  /*    */ PSET(list, SYM("name"),   NEW_STRING("Jake"));
-  T(!  EQL(PGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(   EQL(PGET(list, SYM("name")),  NEW_STRING("Jake")));
-}
-
 void deloc(void) {
   SETUP_TEST;
 
@@ -1141,6 +1105,61 @@ void deloc(void) {
     TM("%016p != %016p", left, right);
   }
 }
+                 
+void alist(void) {
+  SETUP_TEST;    
+                 
+  ae_obj_t * list = NIL;
+                 
+  T(!            AHAS(list, SYM("name")));
+  T(CONSP(list = ASET(list, SYM("name"),   NEW_STRING("Bob"))));
+  T(             AHAS(list, SYM("name")));
+  T(EQL(         AGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!            AHAS(list, SYM("age")));
+  T(CONSP(list = ASET(list, SYM("age"),    NEW_INT(24))));
+  T(             AHAS(list, SYM("age")));
+  T(EQL(         AGET(list, SYM("age")),   NEW_INT(24)));
+  T(CONSP(list = ASET(list, SYM("name"),   NEW_STRING("Jake"))));
+  T(! EQL(       AGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
+}                
+                 
+void plist(void) {
+  SETUP_TEST;    
+                 
+  ae_obj_t * list = NIL;
+                 
+  T(!            PHAS(list, SYM("name")));
+  T(CONSP(list = PSET(list, SYM("name"),   NEW_STRING("Bob"))));
+  T(             PHAS(list, SYM("name")));
+  T(EQL(         PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!            PHAS(list, SYM("age")));
+  T(CONSP(list = PSET(list, SYM("age"),    NEW_INT(24))));
+  T(             PHAS(list, SYM("age")));
+  T(EQL(         PGET(list, SYM("age")),   NEW_INT(24)));
+  T(CONSP(list = PSET(list, SYM("name"),   NEW_STRING("Jake"))));
+  T(! EQL(       PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
+}                
+                 
+void kvp_list(void) {
+  SETUP_TEST;    
+                 
+  ae_obj_t * list = NIL;
+                 
+  T(!            KHAS(list, SYM("name")));
+  T(CONSP(list = KSET(list, SYM("name"),   NEW_STRING("Bob"))));
+  T(             KHAS(list, SYM("name")));
+  T(EQL(         KGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(!            KHAS(list, SYM("age")));
+  T(CONSP(list = KSET(list, SYM("age"),    NEW_INT(24))));
+  T(             KHAS(list, SYM("age")));
+  T(EQL(         KGET(list, SYM("age")),   NEW_INT(24)));
+  T(CONSP(list = KSET(list, SYM("name"),   NEW_STRING("Jake"))));
+  T(! EQL(       KGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(  EQL(       KGET(list, SYM("name")),  NEW_STRING("Jake")));
+}                
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
@@ -1176,9 +1195,9 @@ void deloc(void) {
   DO(macro_expand)                                                                                 \
   DO(root_env_and_eval)                                                                            \
   DO(deloc)                                                                                        \
-  DO(alist)
-
-//  DO(plist)
+  DO(alist)                                                                                        \
+  DO(plist)                                                                                        \
+  DO(kvp_list)                                                                                     \
 
 #define pair(fun) { #fun, fun },
 
