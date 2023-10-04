@@ -11,6 +11,8 @@
 #include "ae_free_list.h"
 #include "require.h"
 
+int default_column = 72;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +127,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   DSET(env, "fun", fun);
   
 #  ifdef AE_LOG_EVAL
-  LOG(DOBJ(env), "with this debug data");
+  // LOG(DOBJ(env), "with this debug data");
 #  endif
 #endif
   
@@ -165,6 +167,8 @@ static const apply_dispatch_row_t apply_dispatch_table[] = {
 ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(CONSP(obj)); // should return an ERROR instead?
 
+  obj_column = default_column;
+  
   ae_obj_t * fun  = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
@@ -263,6 +267,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
  LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
+ //obj_column = default_column;
+  
   return ret;
 }
 
@@ -366,7 +372,7 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(ENVP(env));
 
-  obj_column = 60;
+  //obj_column = default_column;
   
   eval_dispatch_row_t dispatch = {0};
 
