@@ -41,7 +41,7 @@
   (fprintf(stdout, (s)));                                                                           \
 }
 
-#define FLOG(s, ...)                                                                                \
+#define SLOGF(s, ...)                                                                                \
 {                                                                                                   \
   NL;                                                                                               \
   int written  = 0;                                                                                 \
