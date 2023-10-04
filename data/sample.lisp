@@ -8,8 +8,8 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(setq put (lambda (symbol property value) (setq symbol (kset (eval symbol) property value))))
-;; (setq get (lambda (symbol property) (kget (eval (quote symbol)) property)))
+(setq put (lambda (sym property value) (setq sym (kset (eval sym) property value))))
+;; (setq get (lambda (sym property) (kget (eval (quote sym)) property)))
 
 (put 'alist 'name "Bob")
 ;; (print (get 'alist 'name))

@@ -251,11 +251,11 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
     setq_env = ENV_PARENT(env);
 #endif
 
-  LOG(val, "evaluating value argument");
+  LOG(val, "evaluating 'value' argument");
   INDENT;
   val = EVAL(setq_env, val);
   OUTDENT;
-  LOG(val, "evaluated value argument is");
+  LOG(val, "evaluated 'value' argument is");
 
 #ifdef AE_DEBUG_OBJ
   if (LAMBDAP(val) || MACROP(val)) {
@@ -508,7 +508,9 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  CORE_RETURN("eval", EVAL(env, EVAL(env, CAR(args))));
+  ae_obj_t * ret = EVAL(env, EVAL(env, CAR(args)));
+
+  CORE_RETURN("eval", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
