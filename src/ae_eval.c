@@ -206,7 +206,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #  endif
   }
 
-  if (! DHAS(ret, "origin")) {
+  if (! DHAS(ret, "origin")) { 
     DSET(ret, "origin", fun);
   }
 #endif
@@ -265,7 +265,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   LOG_RETURN_WITH_TYPE("self", obj);
 #endif
   
-#if AE_TRACK_ORIGIN
+#if AE_TRACK_ORIGIN // in self
   if (! DHAS(obj, "birth-place")) {
     DSET(obj, "birth-place", env);
     
@@ -293,7 +293,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     ? sym
     : ENV_FIND(env, sym);
 
-#if AE_TRACK_ORIGIN
+#if AE_TRACK_ORIGIN // in lookup
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
