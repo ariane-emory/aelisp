@@ -265,7 +265,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   LOG_RETURN_WITH_TYPE("self", obj);
 #endif
   
-#if AE_DEBUG_OBJ
+#if AE_TRACK_ORIGIN
   if (! DHAS(obj, "birth-place")) {
     DSET(obj, "birth-place", env);
     
@@ -293,7 +293,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     ? sym
     : ENV_FIND(env, sym);
 
-#if AE_DEBUG_OBJ
+#if AE_TRACK_ORIGIN
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
