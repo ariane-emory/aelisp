@@ -17,9 +17,8 @@
 #ifdef AE_LOG_CORE
 #  define CORE_BEGIN(name)                                                                         \
 ({                                                                                                 \
-  SLOG("[core_" name "]");                                                                         \
+  LOG(args, "[core_" name "]");                                                                     \
   INDENT;                                                                                          \
-  LOG(args, "with args");                                                                          \
   LOG(env,  "in env");                                                                             \
 })
 #else
@@ -223,7 +222,7 @@ ae_obj_t * ae_core_phas(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 #ifdef AE_LOG_CORE
   // No CORE_BEGIN!
-  SLOG("[core_setq]");
+  LOG(args, "[core_setq]");
   INDENT;
 #endif
 

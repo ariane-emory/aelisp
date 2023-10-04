@@ -1,13 +1,13 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; essentials:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq list   (lambda (h . t)    (cons    h            t  )))
-(setq list      (lambda  args       args                     ))
-(setq quote     (macro  (x)         x                        ))
-(setq nil?      (lambda (o)        (eq      nil          o  )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
 (setq xxxx 7777)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; essentials:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
+;; (setq list      (lambda  args       args                     ))
+;; (setq quote     (macro  (x)         x                        ))
+;; (setq nil?      (lambda (o)        (eq      nil          o  )))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
 
 ;; (setq put (lambda (symbol property value) (setq (quote symbol) (kset (eval (quote symbol)) property value))))
 ;; (setq get (lambda (symbol property) (kget (eval (quote symbol)) property)))
