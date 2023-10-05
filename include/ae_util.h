@@ -80,3 +80,4 @@ int  obj_log(const ae_obj_t * const obj, char * desc);
 void indent(void);
 void outdent(void);
 const char * a_or_an(const char * str);
+const char * s_or_blank(int count);
