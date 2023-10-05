@@ -3,8 +3,8 @@
 ;; ;; essentials:
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
-;; (setq list      (lambda  args       args                     ))
-;; (setq quote     (macro  (x)         x                        ))
+(setq list      (lambda  args       args                     ))
+(setq quote     (macro  (x)         x                        ))
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
@@ -26,6 +26,8 @@
 (setq setforme (lambda (sym val) (setq sym val)))
 (setforme 'q 555)
 q
+
+(list (quote asd) 'asd)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
