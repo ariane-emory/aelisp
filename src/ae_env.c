@@ -239,12 +239,3 @@ ae_obj_t * ae_env_new_root(void) {
   
   return env;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _define_list
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ae_env_define_list(ae_obj_t * const env) {
-  ae_obj_t * list_def = CONS(SYM("setq"), CONS(SYM("list"), CONS(CONS(SYM("lambda"), CONS(SYM("args"),  CONS(SYM("args"), NIL)  )), NIL)));
-  ae_obj_t * list_fun = EVAL(env, list_def);
-}
