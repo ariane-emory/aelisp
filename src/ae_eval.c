@@ -142,7 +142,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
-  LOG(args,            "applying user fun %s to %d args", tmp, LENGTH(args));
+  LOG(args,            "applying user fun %s to %d arg%s", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
   free(tmp);
   INDENT;
   // LOG(args,            "apply user fun to args");
@@ -203,7 +203,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
-  LOG(obj,  "evaluate list by applying '%s' to %d args:", tmp, LENGTH(args));
+  LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
   free (tmp);
 
   INDENT;
