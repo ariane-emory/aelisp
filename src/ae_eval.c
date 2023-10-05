@@ -77,6 +77,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifdef AE_CORE_ENVS
   env = NEW_ENV(env, NIL, NIL);
+  LOG(env, "new env for core fun '%s':", CORE_NAME(fun));
 #  ifdef AE_DEBUG_OBJ
   DSET(env, "fun", fun);
 #  endif
