@@ -56,7 +56,7 @@
     /* */ char * tmp  = free_list_malloc(strlen(type) + 2);                                        \
     sprintf(tmp, ":%s", type);                                                                     \
                                                                                                    \
-    LOG(val, "[%s returning a %s]", fun_name, tmp);                                                \
+    LOG(val, "[%s returned a %s]", fun_name, tmp);                                                 \
                                                                                                    \
     free_list_free(tmp);                                                                           \
   })
