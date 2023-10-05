@@ -4,9 +4,8 @@
 ;; (setq list   (lambda (h . t)    (cons    h            t  )))
 (setq list      (lambda  args       args                     ))
 (setq quote     (macro  (x)         x                        ))
-;; (setq nil?      (lambda (o)        (eq      nil          o  )))
+(setq nil?      (lambda (o)        (eq      nil          o  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
 
 (setq   alist  nil                     )
 (setq   alist (aset alist 'name "Bob" ))
@@ -15,39 +14,10 @@
 
 (write alist)
 (nl)
+
+(+ 11 (* 22 (- 33 44)))
+
 alist
-
-;; (+ 11 (* 22 (- 33 44)))
-
-;; (setq put (lambda (sym property value) (setq sym (kset (eval sym) property value))))
-;; (put 'alist 'name "Bob")
-
-;; (setq mput (macro  (sym property value) (list (quote setq) (eval sym) (list (quote kset) (eval sym) property value))))
-
-;; (mput 'alist 'name "Bob")
-
-;; (eval (mput 'alist 'name "Bob"))
-
-;(print alist)
-
-;(setq get (lambda (sym property)       (kget (eval sym) propert)))
-
-
-;; (print (get 'alist 'name))
-
-;; (print (get 'alist 'name))
-
-;; (setq alist  nil                     )
-;; (setq alist (kset 'alist 'name "Bob" ))
-;; (setq alist (kset 'alist 'age   24   ))
-;; (setq alist (kset 'alist 'type 'human))
-
-;; (nl) 
-;; (write alist)
-;; (write "end") (nl)
-;; (nl)
-
-;; (+ 11 (* 22 (- 33 44)))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
@@ -208,9 +178,6 @@ alist
 ;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
 ;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
 
-
-
-
 ;; ;; (nl)
 ;; ;; ;; This a-set doesn't work correctly. Looking/setting up in wrong env maybe?
 ;; ;; (setq   a-set
@@ -325,3 +292,4 @@ alist
 ;; ;; (princ "Body:   ");; =>  (write (body defun));; =>  (nl)
 ;; ;; (princ "AFTER");; =>  ; (nl)
 ;; ;; (nl)
+
