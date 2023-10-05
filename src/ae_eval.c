@@ -86,10 +86,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   /*   printf("NO NO NO\n"); */
   
   if (! SPECIALP(fun)) {
-    LOG(args, "applying core fun '%s' to %d evaluated args:", CORE_NAME(fun), LENGTH(args));
+    LOG(args, "applying core fun '%s' to %d evaluated arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
   else {
-    LOG(args, "applying core fun '%s' to %d unevaluated args:", CORE_NAME(fun), LENGTH(args));
+    LOG(args, "applying core fun '%s' to %d unevaluated arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
 #endif
 
