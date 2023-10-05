@@ -27,7 +27,7 @@
 (setforme 'q 555)
 q
 
-(list (quote asd) 'asd)
+(list (quote (quote asd)) ''asd (quote 'asd) '(quote asd))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
