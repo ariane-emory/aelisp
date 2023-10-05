@@ -45,6 +45,7 @@
   DO(car)                                                                                          \
   DO(progn)                                                                                        \
   DO(eval)                                                                                         \
+  DO(list)                                                                                         \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
   DO(quote)                                                                                        \
