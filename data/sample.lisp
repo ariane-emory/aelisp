@@ -7,14 +7,14 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+;; (setq put (lambda (sym property value) (setq sym (kset (eval sym) property value))))
+;; (put 'alist 'name "Bob")
 
-(setq put (lambda (sym property value) (setq sym (kset (eval sym) property value))))
+(setq mput (macro  (sym property value) (list (quote setq) (eval sym) (list (quote kset) (eval sym) property value))))
 
-; ;; (setq q (macro (xxx yyy)   (list (quote +) xxx yyy)))
+(mput 'alist 'name "Bob")
 
-(setq put (lambda (sym property value) (setq sym (kset (eval sym) property value))))
-  
-(put 'alist 'name "Bob")
+;; (eval (mput 'alist 'name "Bob"))
 
 ;(print alist)
 
