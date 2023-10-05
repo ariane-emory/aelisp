@@ -298,7 +298,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
  LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
-  log_column = log_column_default;
+// log_column = log_column_default;
   
   return ret;
 }
@@ -437,11 +437,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 /* #  endif */
 /* #endif */
 
-#ifdef AE_LOG_EVAL
-  // OUTDENT;
-
-  // LOG_RETURN_WITH_TYPE("eval", ret);
-#endif
+  LOG_RETURN_WITH_TYPE("eval", ret);
 
   return ret;
 }
