@@ -86,10 +86,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   /*   printf("NO NO NO\n"); */
   
   if (! SPECIALP(fun)) {
-    LOG(args, "applying core fun '%s' to %d evaluated arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
   else {
-    LOG(args, "applying core fun '%s' to %d unevaluated arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
 #endif
 
@@ -198,7 +198,7 @@ static const apply_dispatch_row_t apply_dispatch_table[] = {
 ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(CONSP(obj)); // should return an ERROR instead?
 
-  log_column = log_column_default;
+  // log_column = log_column_default;
 
   ae_obj_t * fun  = CAR(obj);
   ae_obj_t * args = CDR(obj);
@@ -292,14 +292,16 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   /*   } */
   /* } */
 
+  log_column = log_column_default;
+  
 #ifdef AE_LOG_EVAL
- OUTDENT;
-
- LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+  OUTDENT;
+  
+  LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
-// log_column = log_column_default;
-  
+  log_column = log_column_default;
+
   return ret;
 }
 
