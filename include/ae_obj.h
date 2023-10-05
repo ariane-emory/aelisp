@@ -195,13 +195,13 @@ extern ae_obj_t * symbols_list;
 #define EOBJ(this)                   ((this)->object)
 #define EHAS(this, key)              (KHAS(EOBJ((this)), KW(key)))
 #define EGET(this, key)              (KGET(EOBJ((this)), KW(key)))
-#define ESET(this, key, val)         (KSET(EOBJ((this)), KW(key), (val)))
+#define ESET(this, key, val)         (EOBJ((this)) = KSET(EOBJ((this)), KW(key), (val)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_DEBUG_OBJ
 #  define DOBJ(this)                 ((this)->debug_data)
 #  define DHAS(this, key)            (KHAS(DOBJ((this)), KW(key)))
 #  define DGET(this, key)            (KGET(DOBJ((this)), KW(key)))
-#  define DSET(this, key, val)       (KSET(DOBJ((this)), KW(key), (val)))
+#  define DSET(this, key, val)       (DOBJ((this)) = KSET(DOBJ((this)), KW(key), (val)))
 #else
 #  define DOBJ(this)                 ((void)this, NIL)
 #  define DHAS(this, key)            ((void)this, (void)key, NIL)

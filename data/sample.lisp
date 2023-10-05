@@ -7,6 +7,9 @@
 (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+(setq obvious (lambda (x) (print x) x))
+(obvious 7)
+
 (setq   alist  nil                     )
 (setq   alist (aset alist 'name "Bob" ))
 (setq   alist (aset alist 'age   24   ))
