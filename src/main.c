@@ -116,7 +116,7 @@ int main(void) {
   OUTDENT;
   LOG(root_env, "Done populating");
 
-  PR("\n\nroot_env is at:    %08p.\n\n", root_env);
+  PR("\n\nroot_env is at:    %08p.\n", root_env);
   
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS

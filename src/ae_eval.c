@@ -443,7 +443,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 /* #  endif */
 /* #endif */
 
-  LOG_RETURN_WITH_TYPE("eval", ret);
+  // LOG_RETURN_WITH_TYPE("eval", ret);
 
   return ret;
 }
