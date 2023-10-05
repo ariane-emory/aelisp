@@ -47,6 +47,7 @@
   DO(eval)                                                                                         \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
+  DO(quote)                                                                                        \
   DO(macro)                                                                                        \
   DO(lambda)                                                                                       \
   DO(setq)                                                                                         \
