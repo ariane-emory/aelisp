@@ -28,30 +28,30 @@
 #define ARRAY_SIZE(a)    (sizeof(a) / sizeof((a)[0]))
 #define OLOG(o)          (obj_log((o), (#o)))
 
-#define LOG(o, ...)                                                                                 \
-  ({                                                                                                \
-    sprintf(log_buffer, __VA_ARGS__);                                                           \
-    obj_log((o), (log_buffer));                                                                 \
+#define LOG(o, ...)                                                                                \
+  ({                                                                                               \
+    sprintf(log_buffer, __VA_ARGS__);                                                              \
+    obj_log((o), (log_buffer));                                                                    \
   })
 
-#define SLOG(s)                                                                                     \
-  ({                                                                                                \
-    NL;                                                                                             \
-    int written  = 0;                                                                               \
-    while (written ++ < (log_indentation << 1)) SPC;                                                    \
-    (fprintf(stdout, (s)));                                                                         \
-    })
+#define SLOG(s)                                                                                    \
+  ({                                                                                               \
+    NL;                                                                                            \
+    int written  = 0;                                                                              \
+    while (written ++ < (log_indentation << 1)) SPC;                                               \
+    (fprintf(stdout, (s)));                                                                        \
+  })
 
-#define SLOGF(s, ...)                                                                               \
-  ({                                                                                                \
-    NL;                                                                                             \
-    int written  = 0;                                                                               \
-    while (written ++ < (log_indentation << 1)) SPC;                                                    \
-    (fprintf(stdout, (s), __VA_ARGS__));                                                            \
+#define SLOGF(s, ...)                                                                              \
+  ({                                                                                               \
+    NL;                                                                                            \
+    int written  = 0;                                                                              \
+    while (written ++ < (log_indentation << 1)) SPC;                                               \
+    (fprintf(stdout, (s), __VA_ARGS__));                                                           \
   })
 
 #define LOG_RETURN_WITH_TYPE(fun_name, val)                                                        \
-({                                                                                                 \
+  ({                                                                                               \
     const char * type = GET_TYPE_STR(val);                                                         \
     /* */ char * tmp  = free_list_malloc(strlen(type) + 2);                                        \
     sprintf(tmp, ":%s", type);                                                                     \
@@ -59,7 +59,7 @@
     LOG(val, "[%s returning a %s]", fun_name, tmp);                                                \
                                                                                                    \
     free_list_free(tmp);                                                                           \
-})
+  })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Data
@@ -79,3 +79,4 @@ extern       int  log_tab_width;
 int  obj_log(const ae_obj_t * const obj, char * desc);
 void indent(void);
 void outdent(void);
+const char * a_or_an(const char * str);
