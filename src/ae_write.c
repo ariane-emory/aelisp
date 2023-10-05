@@ -226,41 +226,39 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 #  define ARROW "->"
 #  define ARROW_ADJUST 0
 #endif
-    
-#ifdef AE_DEBUG_OBJ
-    if (DHAS(this, "fun")) {
-      if (COREP(DGET(this, "fun"))) {
-        char * fun_name = CORE_NAME(DGET(this, "fun"));
-        
-        if (NILP(ENV_PARENT(this)))
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " nil, %s", GET_TYPE_STR(this), fun_name, this );
-        else
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %08p", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
-      }
-      else if (LAMBDAP(DGET(this, "fun")) || MACROP(DGET(this, "fun"))) {
-        char * fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
-        
-        if (NILP(ENV_PARENT(this))) 
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " nil", GET_TYPE_STR(this), fun_name, this);
-        else 
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %08p", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
-      }
-    }    
+
+    char parent_name[12] = { 0 };
+
+    if (NILP(ENV_PARENT(ENV_PARENT(this))))
+      strcpy(parent_name, "root");
     else
-#endif
-    {
-      if (NILP(ENV_PARENT(this))) {
-        COUNTED_FPRINTF(fwrite_stream, "%s<root>", GET_TYPE_STR(this), this);
-      }
-      else if (NILP(ENV_PARENT(ENV_PARENT(this)))) {
-        COUNTED_FPRINTF(fwrite_stream, "%s<%08p " ARROW " root>", GET_TYPE_STR(this), this);
-      }
-      else {
-        COUNTED_FPRINTF(fwrite_stream, "%s<%08p " ARROW " %08p>", GET_TYPE_STR(this), this, ENV_PARENT(this));
-      }
+      sprintf(parent_name, "%08p", ENV_PARENT(this));
+
+    if (ROOTP(this)) {
+      COUNTED_FPRINTF(fwrite_stream, "%s<root>", GET_TYPE_STR(this));
     }
+#ifdef AE_DEBUG_OBJ
+    else if (DHAS(this, "fun")) {
+      char * fun_name = "ERROR-DO-NO-WRITE-ME";
+      
+      if (COREP(DGET(this, "fun")))
+        fun_name = CORE_NAME(DGET(this, "fun"));
+      else if (LAMBDAP(DGET(this, "fun")) || MACROP(DGET(this, "fun")))
+        fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
+      else 
+        assert(((void)"unknown fun type", false));
+
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %s>", GET_TYPE_STR(this), fun_name, this, parent_name);
+    }
+#endif
+    else
+    {
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " %s>", GET_TYPE_STR(this), this, parent_name);
+    }
+    
     fwrite_counter -= ARROW_ADJUST;
-  break;
+
+    break;
   case AE_LAMBDA:
   case AE_MACRO:
 #ifdef AE_DEBUG_OBJ
