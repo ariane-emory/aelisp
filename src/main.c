@@ -112,10 +112,12 @@ int main(void) {
   
   PR("\nPopulating root env...");
   INDENT;
-  ae_obj_t * env = ENV_NEW_ROOT();
+  ae_obj_t * root_env = ENV_NEW_ROOT();
   OUTDENT;
-  LOG(env, "Done populating");
+  LOG(root_env, "Done populating");
 
+  PR("\n\nroot_env is at:    %08p.\n\n", root_env);
+  
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +214,7 @@ int main(void) {
   NL;
   
   SLOG("Evaluating program...");
-  EVAL(env, program);
+  EVAL(root_env, program);
   SLOG("\nDone evaluating program.\n");
   
 #ifdef AE_DUMP_POOL_AFTER
