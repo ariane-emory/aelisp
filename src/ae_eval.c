@@ -129,12 +129,17 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #ifndef AE_NO_SINGLE_SYM_PARAMS
   if (SYMBOLP(FUN_PARAMS(fun))
       && (! NILP(FUN_PARAMS(fun)))
-  )
+  ) {
     env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
+    LOG(env, "new env for user fun:");
+  }
   else
 #endif
 //    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+  {
     env = NEW_ENV(env, FUN_PARAMS(fun), args);
+    LOG(env, "new env for user fun:");
+  }
 
 #ifdef AE_LOG_EVAL
   /* LOG(env,              "user fun will be applied in new env:"); */
