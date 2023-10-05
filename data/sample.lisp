@@ -4,7 +4,7 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
 (setq list      (lambda  args       args                     ))
-(setq quote     (macro  (x)         x                        ))
+;; (setq quote     (macro  (x)         x                        ))
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
