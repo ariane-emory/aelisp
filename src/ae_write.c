@@ -180,7 +180,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   }
   }
 
-  COUNTED_FPRINTF(stream, ">");
+  COUNTED_FPRINTF(stream, "");
 
   return fwrite_counter;
 }
@@ -206,16 +206,16 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
   switch (GET_TYPE(this)) {
   case AE_ERROR:
-    COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s>", GET_TYPE_STR(this), EOBJ(this), EMSG(this));
-    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %08p, %s>", GET_TYPE_STR(this), this, EOBJ(this), EMSG(this));
+    COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), EMSG(this));
+    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %08p, %s", GET_TYPE_STR(this), this, EOBJ(this), EMSG(this));
     break;
   case AE_CORE:
     if (SPECIALP(this))
       COUNTED_FPRINTF(fwrite_stream, "%s<%s*>", GET_TYPE_STR(this), CORE_NAME(this));
-    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s*>", GET_TYPE_STR(this), this, CORE_NAME(this));
+    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s*", GET_TYPE_STR(this), this, CORE_NAME(this));
     else
       COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), CORE_NAME(this));
-    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s>", GET_TYPE_STR(this), this, CORE_NAME(this));
+    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
 
@@ -233,24 +233,17 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         char * fun_name = CORE_NAME(DGET(this, "fun"));
         
         if (NILP(ENV_PARENT(this)))
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " nil, %s>", GET_TYPE_STR(this), fun_name, this );
+          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " nil, %s", GET_TYPE_STR(this), fun_name, this );
         else
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %08p>", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
+          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %08p", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
       else if (LAMBDAP(DGET(this, "fun")) || MACROP(DGET(this, "fun"))) {
         char * fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
         
         if (NILP(ENV_PARENT(this))) 
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " nil>",
-                          GET_TYPE_STR(this),
-                          fun_name,
-                          this);
+          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " nil", GET_TYPE_STR(this), fun_name, this);
         else 
-          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %08p>",
-                          GET_TYPE_STR(this),
-                          fun_name,
-                          this,
-                          ENV_PARENT(this));
+          COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %08p", GET_TYPE_STR(this), fun_name, this, ENV_PARENT(this));
       }
     }    
     else
