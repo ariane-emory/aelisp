@@ -1,4 +1,3 @@
-(setq xxxx 7777)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; essentials:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -13,7 +12,9 @@
 
 (put 'alist 'name "Bob")
 
-(print (get 'alist 'name))
+(print alist)
+
+;; (print (get 'alist 'name))
 
 ;; (print (get 'alist 'name))
 
