@@ -13,8 +13,7 @@
 
 (put 'alist 'name "Bob")
 
-(nl)
-(princ "<<" (get 'alist 'name) ">>")
+(print (get 'alist 'name))
 
 ;; (print (get 'alist 'name))
 
