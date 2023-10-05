@@ -6,7 +6,7 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const int  log_column_default =   72;
+const int  log_column_default =   85;
 /* */ int  log_column         =   log_column_default;
 /* */ bool log_column_auto    =   true;
 /* */ char log_buffer[256]    = { 0 };
