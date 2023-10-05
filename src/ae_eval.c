@@ -98,6 +98,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
+
+  log_column = log_column_default;
   
 #ifdef AE_LOG_EVAL
 // OUTDENT;
@@ -164,6 +166,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   ae_obj_t * result = EVAL(env, body);
   // result = SPECIALP(fun) ? EVAL(env, result) : result;
 
+  log_column = log_column_default;
+  
 #ifdef AE_LOG_EVAL
   OUTDENT;
 
