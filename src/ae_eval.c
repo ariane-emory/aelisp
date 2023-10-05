@@ -26,7 +26,7 @@
 #  define MAYBE_EVAL(special, args)                                                                \
   if (! special && CAR(args)) {                                                                    \
     ae_obj_t * evaled_args = NIL;                                                                  \
-    LOG(args, "evaluating fun's %d args:", LENGTH(args));                                          \
+    LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));               \
     INDENT;                                                                                        \
     FOR_EACH(elem, args)                                                                           \
     {                                                                                              \
@@ -35,7 +35,7 @@
     }                                                                                              \
     args = evaled_args;                                                                            \
     OUTDENT;                                                                                       \
-    LOG(args, "evaluated fun's %d args:", LENGTH(args));                                           \
+    LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                \
   }                                                                                                
 #else
 #  define MAYBE_EVAL(special, args)                                                                \
