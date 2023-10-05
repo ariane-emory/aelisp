@@ -9,9 +9,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (setq put (lambda (sym property value) (setq sym (kset (eval sym) property value))))
-;; (setq get (lambda (sym property) (kget (eval (quote sym)) property)))
+(setq get (lambda (sym property)       (kget (eval sym) propert)))
 
 (put 'alist 'name "Bob")
+
+(nl)
+(princ "<<" (get 'alist 'name) ">>")
+
 ;; (print (get 'alist 'name))
 
 ;; (setq alist  nil                     )
