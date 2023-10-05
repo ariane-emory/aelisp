@@ -44,9 +44,9 @@
   DO(cdr)                                                                                          \
   DO(car)                                                                                          \
   DO(progn)                                                                                        \
+  DO(eval)                                                                                         \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
-  DO(eval)                                                                                         \
   DO(macro)                                                                                        \
   DO(lambda)                                                                                       \
   DO(setq)                                                                                         \

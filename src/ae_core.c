@@ -514,7 +514,7 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  ae_obj_t * ret = EVAL(env, EVAL(env, CAR(args)));
+  ae_obj_t * ret = EVAL(env, CAR(args));
 
   CORE_RETURN("eval", ret);
 }
