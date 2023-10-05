@@ -782,11 +782,10 @@ void core_msleep(void) {
   obj expr = NIL;
 
   ae_env_define_list(env);
-  ae_env_define_quote(env);
 
-  obj add   = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  obj incr2 = CONS(SYM("setq"),   CONS(SYM("xx"), add));
-  obj print = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
+  obj add    = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
+  obj incr2  = CONS(SYM("setq"),   CONS(SYM("xx"), add));
+  obj print  = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
   obj msleep = CONS(SYM("msleep"),  CONS(NEW_INT(100), NIL));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
@@ -813,7 +812,6 @@ void root_env_and_eval(void) {
 
   obj env    = ENV_NEW_ROOT();
   ae_env_define_list(env);
-  ae_env_define_quote(env);
 
   obj listf  = EVAL(env, SYM("list"));
   OLOG(listf);
@@ -992,7 +990,6 @@ void macro_expand(void) {
   PR("\n\nPopulating root env...");
   obj env = ENV_NEW_ROOT();
   ae_env_define_list(env);
-  ae_env_define_quote(env);
   PR("\nDone populating root env.\n");
 
   GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
