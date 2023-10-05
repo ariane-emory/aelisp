@@ -15,6 +15,7 @@
 
 (write alist)
 (nl)
+alist
 
 ;; (+ 11 (* 22 (- 33 44)))
 

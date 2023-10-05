@@ -255,18 +255,17 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     }    
     else
 #endif
-      if (true){
-        goto print_env_without_name;
+    {
+      if (NILP(ENV_PARENT(this))) {
+        COUNTED_FPRINTF(fwrite_stream, "%s< root >", GET_TYPE_STR(this), this);
       }
-    else {
-    print_env_without_name:
-    if (NILP(ENV_PARENT(this))) {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " nil >", GET_TYPE_STR(this), this);
+      else if (NILP(ENV_PARENT(ENV_PARENT(this)))) {
+        COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " root >", GET_TYPE_STR(this), this);
+      }
+      else {
+        COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " %08p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
+      }
     }
-    else {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " %08p >", GET_TYPE_STR(this), this, ENV_PARENT(this));
-    }
-  }
     fwrite_counter -= ARROW_ADJUST;
   break;
   case AE_LAMBDA:
