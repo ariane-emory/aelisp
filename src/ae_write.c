@@ -249,14 +249,16 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         assert(((void)"unknown fun type", false));
 
       COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %s>", GET_TYPE_STR(this), fun_name, this, parent_name);
+
+      fwrite_counter -= ARROW_ADJUST;
     }
 #endif
     else
     {
       COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " %s>", GET_TYPE_STR(this), this, parent_name);
+
+      fwrite_counter -= ARROW_ADJUST;
     }
-    
-    fwrite_counter -= ARROW_ADJUST;
 
     break;
   case AE_LAMBDA:
