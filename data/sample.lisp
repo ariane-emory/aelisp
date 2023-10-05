@@ -1,27 +1,31 @@
-(* 2 (+ 3 4))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; essentials:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq list   (lambda (h . t)    (cons    h            t  )))
-(setq list      (lambda  args       args                     ))
-(setq quote     (macro  (x)         x                        ))
-(setq nil?      (lambda (o)        (eq      nil          o  )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (* 2 (+ 3 4))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; essentials:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
+;; (setq list      (lambda  args       args                     ))
+;; (setq quote     (macro  (x)         x                        ))
+;; (setq nil?      (lambda (o)        (eq      nil          o  )))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(setq obvious (lambda (x) (print x) x))
-(obvious 7)
+;; (setq obvious (lambda (x) (print x) x))
+;; (obvious 7)
 
-(setq   alist  nil                     )
-(setq   alist (aset alist 'name "Bob" ))
-(setq   alist (aset alist 'age   24   ))
-(setq   alist (aset alist 'type 'human))
+;; (setq   alist  nil                     )
+;; (setq   alist (aset alist 'name "Bob" ))
+;; (setq   alist (aset alist 'age   24   ))
+;; (setq   alist (aset alist 'type 'human))
 
-(write alist)
-(nl)
+;; (write alist)
+;; (nl)
 
-(+ 11 (* 22 (- 33 44)))
+;; (+ 11 (* 22 (- 33 44)))
 
-alist
+;; alist
+
+(setq setforme (lambda (sym val) (setq sym val)))
+(setforme 'q 555)
+q
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
