@@ -147,7 +147,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   INDENT;
   // LOG(args,            "apply user fun to args");
   // LOG(env,             "in env");
-  LOG(FUN_PARAMS(fun), "with params");
+
+  // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
+  LOG(FUN_PARAMS(fun), "with param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
   LOG(body,            "with body");
 #endif
 
@@ -296,8 +298,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
  LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
- //log_column = log_column_default;
-
+  log_column = log_column_default;
+  
   return ret;
 }
 
@@ -400,8 +402,6 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(ENVP(env));
-
-  //log_column = log_column_default;
 
   eval_dispatch_row_t dispatch = {0};
 
