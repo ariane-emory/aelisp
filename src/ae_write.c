@@ -230,19 +230,11 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     // All ENVs begin with this:
     COUNTED_FPRINTF(fwrite_stream, "%s<", GET_TYPE_STR(this));
     
-    char parent_name[12] = { 0 };
-
-    if (NILP(ENV_PARENT(ENV_PARENT(this))))
-      strcpy(parent_name, "root");
-    else
-      sprintf(parent_name, "%08p", ENV_PARENT(this));
-
     if (ROOTP(this)) {
       COUNTED_FPRINTF(fwrite_stream, "root");
 
       goto end_of_env_write;
     }
-    
     
 #ifdef AE_DEBUG_OBJ
     if (DHAS(this, "fun")) {      
@@ -258,6 +250,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       COUNTED_FPRINTF(fwrite_stream, "%s,", fun_name);
     }
 #endif
+
+    char parent_name[12] = { 0 };
+
+    if (ROOTP(ENV_PARENT(this)))
+      strcpy(parent_name, "root");
+    else
+      sprintf(parent_name, "%08p", ENV_PARENT(this));
 
     // if no fun_name, this extra space is for the benefit of idle-highlight-mode:
     COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s", this, parent_name);
