@@ -530,7 +530,10 @@ void truth(void) {
   T(NILP(that));
 }
 
-void envs(void) {
+void env_scoping(void) {
+}
+
+void env_basics(void) {
   SETUP_TEST;
 
   this = NEW_ENV(NIL, NIL, NIL);
@@ -1150,8 +1153,6 @@ void kvp_list(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1167,7 +1168,7 @@ void kvp_list(void) {
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
-  DO(envs)                                                                                         \
+  DO(env_basics)                                                                                   \
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(core_cons_car_cdr)                                                                            \
   DO(core_eq_eql_not)                                                                              \
@@ -1182,6 +1183,9 @@ void kvp_list(void) {
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
   DO(kvp_list)                                                                                     \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(env_scoping);
 
 #define pair(fun) { #fun, fun },
 
