@@ -27,7 +27,6 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
-
   
 #ifdef AE_LOG_CORE
   LOG(caar, "caar");
