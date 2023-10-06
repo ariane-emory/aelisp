@@ -87,7 +87,7 @@ TEST_BINS = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
 
 all: bin/ae $(TEST_BINS)
 
-obj/%.o: src/%.c obj
+obj/%.o: src/%.c obj obj/core
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
 
 ################################################################################
@@ -122,6 +122,9 @@ tmp:
 	mkdir -p $@
 
 obj:
+	mkdir -p $@
+
+obj/core:
 	mkdir -p $@
 
 bin:
