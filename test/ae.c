@@ -611,8 +611,8 @@ void env_basics(void) {
 
   ENV_ADD(this, SYM("foo"), NEW_INT(12));
 
-  T(EQ(LENGTH(ENV_SYMS(this)), 1));
-  T(EQ(LENGTH(ENV_VALS(this)), 1));
+  T(LENGTH(ENV_SYMS(this)) == 1);
+  T(LENGTH(ENV_VALS(this)) == 1);
   T(MEMBERP(ENV_SYMS(this), SYM("foo")));
   T(! NILP(ENV_SYMS(this)));
   T(! NILP(ENV_VALS(this)));
@@ -621,20 +621,20 @@ void env_basics(void) {
 
   ENV_ADD(this, SYM("bar"), NEW_INT(24));
 
-  T(EQ(LENGTH(ENV_SYMS(this)), 2));
-  T(EQ(LENGTH(ENV_VALS(this)), 2));
+  T(LENGTH(ENV_SYMS(this)) == 2);
+  T(LENGTH(ENV_VALS(this)) == 2);
   T(MEMBERP(ENV_SYMS(this), SYM("bar")));
 
   T(! MEMBERP(ENV_SYMS(this), SYM("baz")));
 
   ENV_ADD(this, SYM("baz"), NEW_INT(36));
 
-  T(EQ(LENGTH(ENV_SYMS(this)), 3));
-  T(EQ(LENGTH(ENV_VALS(this)), 3));
+  T(LENGTH(ENV_SYMS(this)) == 3);
+  T(LENGTH(ENV_VALS(this)) == 3);
   T(MEMBERP(ENV_SYMS(this), SYM("baz")));
-  T(EQ(INT_VAL(ENV_FIND(this, SYM("foo"))), 12));
-  T(EQ(INT_VAL(ENV_FIND(this, SYM("bar"))), 24));
-  T(EQ(INT_VAL(ENV_FIND(this, SYM("baz"))), 36));
+  T(INT_VAL(ENV_FIND(this, SYM("foo"))) == 12);
+  T(INT_VAL(ENV_FIND(this, SYM("bar"))) == 24);
+  T(INT_VAL(ENV_FIND(this, SYM("baz"))) == 36);
 
   that = NEW_ENV(NIL, NIL, NIL); // not yet linked to.
 
@@ -644,18 +644,18 @@ void env_basics(void) {
 
   ENV_PARENT(this) = that; // link this to that.
 
-  T(EQ(INT_VAL(ENV_FIND(this, SYM("quux"))), 48));
+  T(INT_VAL(ENV_FIND(this, SYM("quux"))) == 48);
   T(EQ(ENV_FIND(this, SYM("quux")), ENV_FIND(that, SYM("quux"))));
   T(NILP(ENV_FIND(this, SYM("zot"))));
   T(NILP(ENV_FIND(that, SYM("foo"))));
 
   ENV_SET(this, SYM("bar"), NEW_INT(99));
 
-  T(EQ(INT_VAL(ENV_FIND(this, SYM("bar"))), 99));
+  T(INT_VAL(ENV_FIND(this, SYM("bar"))) == 99);
 
   ENV_SET(this, SYM("zot"), NEW_INT(66));
 
-  T(EQ(INT_VAL(ENV_FIND(this, SYM("zot"))), 66));
+  T(INT_VAL(ENV_FIND(this, SYM("zot"))) == 66);
 
 #ifdef AE_LOG_ENV_TEST
   pool_print();
@@ -681,11 +681,11 @@ void improper_list(void) {
 
   this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
   // OLOG(this); NL;
-  T(EQ(LENGTH(this)       , -1));
+  T(LENGTH(this)        == -1);
   TM("Expected length 3, got %d.", LENGTH(this));
 
   COUNT_LIST_LENGTH(this);
-  T(EQ(list_length_counter, 3));
+  T(list_length_counter == 3);
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
 
