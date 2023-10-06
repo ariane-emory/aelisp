@@ -255,7 +255,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
         assert(((void)"unknown fun type", false));
 
       COUNTED_FPRINTF(fwrite_stream, "%s,", fun_name);
-
     }
 #endif
 
