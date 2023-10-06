@@ -228,9 +228,10 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NULLP(o)                     (! (o))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
 #define SPECIALP(o)                  ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
 #define NILP(o)                      ({ CAPTURE(o); (! NULLP(CAPTURED)) && (CAPTURED == NIL);  })
 #define TRUEP(o)                     ({ CAPTURE(o); (! NULLP(CAPTURED)) && (CAPTURED == TRUE); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
