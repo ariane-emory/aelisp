@@ -17,7 +17,7 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
 
 #ifdef AE_LOG_ENV
-  LOG(symbol,    "[adding]");
+  LOG(symbol,  "[adding]");
 
   INDENT;
 
@@ -26,7 +26,7 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
   OUTDENT;
 
-  LOG(symbol,    "[done adding]");
+  LOG(symbol,  "[done adding]");
 #endif
 }
 

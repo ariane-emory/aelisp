@@ -23,8 +23,8 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, SYMBOLP(sym));
   REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant");
-  REQUIRE(env, args, sym != NIL,  "nil is a constant symbol");
-  REQUIRE(env, args, sym != TRUE, "t is a constant symbol");
+  REQUIRE(env, args, sym != NIL,      "nil is a constant symbol");
+  REQUIRE(env, args, sym != TRUE,     "t is a constant symbol");
 
 #ifdef AE_LOG_CORE
   LOG(sym, "setting symbol");
