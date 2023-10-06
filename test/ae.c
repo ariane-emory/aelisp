@@ -269,9 +269,9 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
 void newly_initialized_ae_obj_has_zeroed_data_fields(void) {
   SETUP_TEST;
   this = NEW(AE_ENV);
-  T(NULLP(ENV_PARENT(this)));
-  T(NULLP(ENV_SYMS  (this)));
-  T(NULLP(ENV_VALS  (this)));
+  T(! ENV_PARENT(this));
+  T(! ENV_SYMS  (this));
+  T(! ENV_VALS  (this));
 }
 
 void consed_list_tests(void) {
