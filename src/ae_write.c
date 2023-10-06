@@ -273,10 +273,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 #ifdef AE_DEBUG_OBJ
     if (DHAS(this, "last-bound-to")) {
       COUNTED_FPRINTF(fwrite_stream, "%s<%s, ", GET_TYPE_STR(this), SYM_VAL(DGET(this, "last-bound-to")));
-      /* COUNTED_FPRINTF(fwrite_stream, "%s< %s, %08p, ", */
-      /*                 GET_TYPE_STR(this), */
-      /*                 SYM_VAL(DGET(this, "last-bound-to")), */
-      /*                 this); */
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");
     }
