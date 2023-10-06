@@ -2,7 +2,7 @@ UNAME_S      = $(shell uname -s)
 SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" )
 TEST_SRCS    = $(shell find test -name "*.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
-TEST_BINS    = $(patsubst %-test.c, bin/test/%, $(TEST_SRCS))
+TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
 
 COMMON_CFLAGS = \
@@ -85,6 +85,7 @@ endif
 ################################################################################
 
 all: bin/ae $(TEST_BINS)
+	echo $(TEST_BINS)
 
 print:
 	echo $(INCLUDE_DIRS)	
