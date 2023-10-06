@@ -39,7 +39,7 @@
     (print (cond
              ((>= x 100) :BIG)
              ((>= x  50) :MEDIUM)
-             (t            :SMALL)))))
+             (t          :SMALL)))))
 
 (scoped-setq-test 200)
 (cond-test *q*)
