@@ -1,141 +1,174 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 'standard library', such as it is:                        ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq eq?        eq                                           )
-(setq tail?      tailp                                        )
-(setq proper?    properp                                      )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq list      (lambda  args       args                     ))
-;; (setq list   (lambda (h . t)    (cons    h            t  )))
-(setq quote     (macro  (x)         x                        ))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq stop      (lambda ()         (nl)    (exit         0  )))
-(setq sleep     (lambda (s)        (msleep (* 1000       s ))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq nil?      (lambda (o)        (eq?     nil          o  )))
-(setq improper? (lambda (o)        (not    (proper?      o )))) ;; this also needs to check if it's arg is tail?.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq type?     (lambda (t o)      (eq?      t     (type o ))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq atom?     (lambda (o)   (not (type?   :CONS        o ))))
-(setq char?     (lambda (o)        (type?   :CHAR        o  )))
-(setq cons?     (lambda (o)        (type?   :CONS        o  )))
-(setq core?     (lambda (o)        (type?   :CORE        o  )))
-(setq env?      (lambda (o)        (type?   :ENV         o  )))
-(setq error?    (lambda (o)        (type?   :ERROR       o  )))
-(setq float?    (lambda (o)        (type?   :FLOAT       o  )))
-(setq integer?  (lambda (o)        (type?   :INTEGER     o  )))
-(setq lambda?   (lambda (o)        (type?   :LAMBDA      o  )))
-(setq macro?    (lambda (o)        (type?   :MACRO       o  )))
-(setq rational? (lambda (o)        (type?   :RATIONAL    o  )))
-(setq string?   (lambda (o)        (type?   :STRING      o  )))
-(setq symbol?   (lambda (o)        (type?   :SYMBOL      o  )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq cadr      (lambda (x)        (car (cdr x)))             )
-(setq cdar      (lambda (x)        (cdr (car x)))             )
-(setq cddr      (lambda (x)        (cdr (cdr x)))             )
-(setq caar      (lambda (x)        (car (car x)))             )
-(setq caaar     (lambda (x)   (car (car (car x))))            )
-(setq caadr     (lambda (x)   (car (car (cdr x))))            )
-(setq cadar     (lambda (x)   (car (cdr (car x))))            )
-(setq caddr     (lambda (x)   (car (cdr (cdr x))))            )
-(setq cdaar     (lambda (x)   (cdr (car (car x))))            )
-(setq cdadr     (lambda (x)   (cdr (car (cdr x))))            )
-(setq cddar     (lambda (x)   (cdr (cdr (car x))))            )
-(setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))            )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; Local functions                                           ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq log                                                    ;)
-  (lambda (string obj)                                       ;)
-    (princ string)                                           ;)
-    (princ " ")                                              ;)
-    (princ obj)                                              ;)
-    (nl)))                                                   ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar (lambda (fun lst)                               ;)
-  (if (nil? lst)                                             ;)
-    nil                                                      ;)
-    (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; essentials:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
+;; (setq list      (lambda  args       args                     ))
+;; (setq quote     (macro  (x)         x                        ))
+;; (setq nil?      (lambda (o)        (eq      nil          o  )))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(* 1 2 3 4 5 6 7 8)
+;; (setq obvious (lambda (x) (print x) x))
+;; (obvious 7)
 
-;; ;; These first 5 expressions are parsed correctly by the grammar:
-;; (print (+ 1 2)) ;; a 'math_list'. 
-;; (print (+ 3 (* 4 5))) ;; another 'math_list'. 
-;; (print (+ x 6)) ;; a normal 'list', due to the presence of the 'x' symbol.
-;; (print (+ 7 x)) ;; a normal 'list', due to the presence of the 'x' symbol. 
-;; (print (+ x y)) ;; also a normal 'list', due to presence of the the symbols. 
-;; (print (+ 8 . (9))) ;; a normal 'list' identical to (8 9).
+;; (setq   alist  nil                     )
+;; (setq   alist (aset alist 'name "Bob" ))
+;; (setq   alist (aset alist 'age   24   ))
+;; (setq   alist (aset alist 'type 'human))
 
-;; ;; This one used to parse as a normal 'list' before the addition of the 'math_list' rule, but now fails to parse.
-;; ;; I'd compromise for it successfully parsing as a normal 'list', as it used to, it doesn't have to be a 'math_list'.
-;; (print (+ 10 . (11))) ;; a normal list, due to the grammar not supporting the dotted notation in math_lists, identical to (+ 10 11)
+;; (print alist)
+;; (exit)
 
-;; ;; (setq 10+    (lambda (x) (+ 10 x)))                          ;)
-;; ;; (setq result (mapcar 10+ '(1 2 3 4 5)))
-;; ;; (put (car result))   (nl)
-;; ;; (put (cadr result))  (nl)
-;; ;; (put (caddr result)) (nl)
-;; ;; (log "mapped: " (mapcar 10+ '(1 2 3 4 5)))                   ;)
+(set 'scoped-setq-test
+  (lambda (x)
+    (setq *q* x)))
+
+
+(setq cond-test
+  (lambda (x)
+    (print (cond
+             ((>= x 100) :BIG)
+             ((>= x  50) :MEDIUM)
+             (t          :SMALL)))))
+
+(scoped-setq-test 200)
+(cond-test *q*)
+
+(scoped-setq-test  75)
+(cond-test *q*)
+
+(scoped-setq-test  25)
+(cond-test *q*)
+
+(let ( (double (lambda (z) (* 2 z)))
+       (x 1)
+       (y 2))
+  (print (double x))
+  (print (double y))
+  (print (double (+ (double x) y))))
+
+;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; 'standard library', such as it is:                        ;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq eq?        eq                                           )
+;; (setq tail?      tailp                                        )
+;; (setq proper?    properp                                      )
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq stop      (lambda ()         (nl)    (exit         0  )))
+;; (setq sleep     (lambda (s)        (msleep (* 1000       s ))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq improper? (lambda (o)        (not    (proper?      o )))) ;; this also needs to check if it's arg is tail?.
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq type?     (lambda (t o)      (eq?      t     (type o ))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq atom?     (lambda (o)   (not (type?   :CONS        o ))))
+;; (setq char?     (lambda (o)        (type?   :CHAR        o  )))
+;; (setq cons?     (lambda (o)        (type?   :CONS        o  )))
+;; (setq core?     (lambda (o)        (type?   :CORE        o  )))
+;; (setq env?      (lambda (o)        (type?   :ENV         o  )))
+;; (setq error?    (lambda (o)        (type?   :ERROR       o  )))
+;; (setq float?    (lambda (o)        (type?   :FLOAT       o  )))
+;; (setq integer?  (lambda (o)        (type?   :INTEGER     o  )))
+;; (setq lambda?   (lambda (o)        (type?   :LAMBDA      o  )))
+;; (setq macro?    (lambda (o)        (type?   :MACRO       o  )))
+;; (setq rational? (lambda (o)        (type?   :RATIONAL    o  )))
+;; (setq string?   (lambda (o)        (type?   :STRING      o  )))
+;; (setq symbol?   (lambda (o)        (type?   :SYMBOL      o  )))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq cadr      (lambda (x)        (car (cdr x)))             )
+;; (setq cdar      (lambda (x)        (cdr (car x)))             )
+;; (setq cddr      (lambda (x)        (cdr (cdr x)))             )
+;; (setq caar      (lambda (x)        (car (car x)))             )
+;; (setq caaar     (lambda (x)   (car (car (car x))))            )
+;; (setq caadr     (lambda (x)   (car (car (cdr x))))            )
+;; (setq cadar     (lambda (x)   (car (cdr (car x))))            )
+;; (setq caddr     (lambda (x)   (car (cdr (cdr x))))            )
+;; (setq cdaar     (lambda (x)   (cdr (car (car x))))            )
+;; (setq cdadr     (lambda (x)   (cdr (car (cdr x))))            )
+;; (setq cddar     (lambda (x)   (cdr (cdr (car x))))            )
+;; (setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))            )
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; Local functions                                           ;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq log                                                    ;)
+;;   (lambda (string obj)                                       ;)
+;;     (princ string)                                           ;)
+;;     (princ " ")                                              ;)
+;;     (princ obj)                                              ;)
+;;     (nl)))                                                   ;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (setq mapcar (lambda (fun lst)                               ;)
+;;   (if (nil? lst)                                             ;)
+;;     nil                                                      ;)
+;;     (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+;; (* 1 2 3 4 5 6 7 8)
+
+;; (setq 10+    (lambda (x) (+ 10 x)))                          ;)
+;; (setq result (mapcar 10+ '(1 2 3 4 5)))
+;; (put (car result))   (nl)
+;; (put (cadr result))  (nl)
+;; (put (caddr result)) (nl)
+;; (log "mapped: " (mapcar 10+ '(1 2 3 4 5)))                   ;)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;; ;; ;; (stop)
 
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; ;; test some random stuff:                                   ;)
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; test some random stuff:                                   ;)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-;; ;; (log   "aenv:                       " (env                ))
-;; ;; (log   "atype:                      " (type     (env     )))
-;; ;; ; (log "aparent:                    " (parent   (env     )))
-;; ;; (log   "asyms:                      " (syms     (env     )))
-;; ;; (log   "avals:                      " (vals     (env     )))
-;; ;; (nl)
+;; (log   "aenv:                       " (env                ))
+;; (log   "atype:                      " (type     (env     )))
+;; ; (log "aparent:                    " (parent   (env     )))
+;; (log   "asyms:                      " (syms     (env     )))
+;; (log   "avals:                      " (vals     (env     )))
+;; (nl)
 
-;; ;; (log   "core lambda:                "  lambda              )
-;; ;; (log   "type:                       " (type      lambda   ))
-;; ;; (nl)
+;; (log   "core lambda:                "  lambda              )
+;; (log   "type:                       " (type      lambda   ))
+;; (nl)
 
-;; ;; (log   "lambda sleep:               "  sleep               )
-;; ;; (log   "type:                       " (type      sleep    ))
-;; ;; ; (log "parent:                     " (parent    sleep    ))
-;; ;; (log   "params:                     " (params    sleep    ))
-;; ;; (log   "body:                       " (body      sleep    ))
-;; ;; (nl)
+;; (log   "lambda sleep:               "  sleep               )
+;; (log   "type:                       " (type      sleep    ))
+;; ; (log "parent:                     " (parent    sleep    ))
+;; (log   "params:                     " (params    sleep    ))
+;; (log   "body:                       " (body      sleep    ))
+;; (nl)
 
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; ;; (setq   x (quote (1 2 . nil)))
+;; (setq   x (quote (1 2 . nil)))
 
-;; ;; (log   "(1 2 . nil) is proper:      " (properp   x        ))
-;; ;; (log   "(1 2 . nil) length:         " (length    x        ))
-;; ;; (log   "(1 2 . nil) length errors:  " (error?   (length x)))
-;; ;; (log   "(1 2 . nil) is:             "  x                   )
-;; ;; (log   "(car (1 2 . nil)) is:       " (car       x        ))
-;; ;; (log   "(cdr (1 2 . nil)) is:       " (cdr       x        ))
-;; ;; (nl)
+;; (log   "(1 2 . nil) is proper:      " (properp   x        ))
+;; (log   "(1 2 . nil) length:         " (length    x        ))
+;; (log   "(1 2 . nil) length errors:  " (error?   (length x)))
+;; (log   "(1 2 . nil) is:             "  x                   )
+;; (log   "(car (1 2 . nil)) is:       " (car       x        ))
+;; (log   "(cdr (1 2 . nil)) is:       " (cdr       x        ))
+;; (nl)
 
-;; ;; (setq   x (quote (1 2 . 333)))
+;; (setq   x (quote (1 2 . 333)))
 
-;; ;; (log   "(1 2 . 333) is improper:    " (improper? x        ))
-;; ;; (log   "(1 2 . 333) length:         " (length    x        ))
-;; ;; (log   "(1 2 . 333) length errors:  " (error?   (length x)))
-;; ;; (log   "(1 2 . 333) is:             "  x                   )
-;; ;; (log   "(car (1 2 . 333)) is:       " (car       x        ))
-;; ;; (log   "(cdr (1 2 . 333)) is:       " (cdr       x        ))
-;; ;; (nl)
+;; (log   "(1 2 . 333) is improper:    " (improper? x        ))
+;; (log   "(1 2 . 333) length:         " (length    x        ))
+;; (log   "(1 2 . 333) length errors:  " (error?   (length x)))
+;; (log   "(1 2 . 333) is:             "  x                   )
+;; (log   "(car (1 2 . 333)) is:       " (car       x        ))
+;; (log   "(cdr (1 2 . 333)) is:       " (cdr       x        ))
+;; (nl)
 
-;; ;; (setq   x (quote (1 2 3 . nil)))
+;; (setq   x (quote (1 2 3 . nil)))
 
-;; ;; (log   "(1 2 3 . nil) is proper:    " (properp   x        ))
-;; ;; (log   "(1 2 3 . nil) length:       " (length    x        ))
-;; ;; (log   "(1 2 3 . nil) length errors:" (error?   (length x)))
-;; ;; (log   "(1 2 3 . nil) is:           "  x                   )
-;; ;; (log   "(car (1 2 3 . nil)) is:     " (car       x        ))
-;; ;; (log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
-;; ;; (nl)
+;; (log   "(1 2 3 . nil) is proper:    " (properp   x        ))
+;; (log   "(1 2 3 . nil) length:       " (length    x        ))
+;; (log   "(1 2 3 . nil) length errors:" (error?   (length x)))
+;; (log   "(1 2 3 . nil) is:           "  x                   )
+;; (log   "(car (1 2 3 . nil)) is:     " (car       x        ))
+;; (log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
+;; (nl)
 
 ;; (setq   x (quote (1 2 3 . 333)))
 
@@ -171,16 +204,10 @@
 ;; (log   "This lambda's env:          "       (env (cadr (aget (errobj err) :fun))))
 ;; (log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) :fun)))))
 
-;; ;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
-;; ;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
+;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
+;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
 
 ;; ;; (nl)
-
-;; ;; (setq   alist  nil                     )
-;; ;; (setq   alist (aset alist 'name "Bob" ))
-;; ;; (setq   alist (aset alist 'age   24   ))
-;; ;; (setq   alist (aset alist 'type 'human))
-
 ;; ;; ;; This a-set doesn't work correctly. Looking/setting up in wrong env maybe?
 ;; ;; (setq   a-set
 ;; ;;   (lambda (al key val)
@@ -204,11 +231,6 @@
 ;; ;; (princ  "One body      ")  (princ             (car (body q)))   (nl)
 ;; ;; (princ  "One ev body   ")  (princ       (eval (car (body q))))  (nl)
 ;; ;; (princ  "One ev ev body ") (princ (eval (eval (car (body q))))) (nl)
-
-
-
-
-
 
 ;; ;; (nl)
 ;; ;; (setq q (macro (xxx yyy)   (cons (quote +) (cons xxx (cons yyy nil)))))
@@ -299,4 +321,4 @@
 ;; ;; (princ "Body:   ");; =>  (write (body defun));; =>  (nl)
 ;; ;; (princ "AFTER");; =>  ; (nl)
 ;; ;; (nl)
-   
+
