@@ -1185,7 +1185,7 @@ void kvp_list(void) {
   DO(kvp_list)                                                                                     \
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(env_scoping);
+  DO(env_scoping)
 
 #define pair(fun) { #fun, fun },
 
