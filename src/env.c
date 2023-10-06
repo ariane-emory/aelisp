@@ -178,7 +178,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
       LOG(syms, "containing syms");
 #endif
 
-      while (!NILP(syms) && !NILP(vals)) {
+      while (! NILP(syms) && ! NILP(vals)) {
         ae_obj_t * sym = CAR(syms);
 
 
