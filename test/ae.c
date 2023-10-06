@@ -532,11 +532,19 @@ void truth(void) {
 
 #define ENV_TRIO                         \
   obj root   = ENV_NEW_ROOT();           \
-  obj parent = ENV_NEW(root,  NIL, NIL); \
-  obj child  = ENV_NEW(parent, NIL, NIL);
+  obj parent = NEW_ENV(root,  NIL, NIL); \
+  obj child  = NEW_ENV(parent, NIL, NIL);
   
 
 void env_scoping(void) {
+  {
+    ENV_TRIO;
+
+    ENV_SET(parent,        SYM("foo"), SYM("bar"));
+    T(! ENV_BOUNDP(root,   SYM("foo")));
+    T(  ENV_BOUNDP(parent, SYM("foo")));
+    T(  ENV_BOUNDP(child,  SYM("foo")));
+  }
 }
 
 void env_basics(void) {
