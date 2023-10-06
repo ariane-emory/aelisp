@@ -239,9 +239,12 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
     if (ROOTP(this)) {
       COUNTED_FPRINTF(fwrite_stream, "root");
+
+      goto end_of_env_write;
     }
+    
 #ifdef AE_DEBUG_OBJ
-    else if (DHAS(this, "fun")) {
+    if (DHAS(this, "fun")) {
       char * fun_name = NULL;
       
       if (COREP(DGET(this, "fun")))
@@ -264,6 +267,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       fwrite_counter -= ARROW_ADJUST;
     }
 
+  end_of_env_write:
     // All ENVs end with this:
     COUNTED_FPRINTF(fwrite_stream, ">");
 
