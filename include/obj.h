@@ -231,8 +231,8 @@ extern ae_obj_t * symbols_list;
 #define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
 #define SPECIALP(o)                  ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
-#define NILP(o)                      ((! NULLP((o))) && ((o) == NIL))
-#define TRUEP(o)                     ((! NULLP((o))) && ((o) == TRUE))
+#define NILP(o)                      ({ CAPTURE(o); (! NULLP(CAPTURED)) && (CAPTURED == NIL);  })
+#define TRUEP(o)                     ({ CAPTURE(o); (! NULLP(CAPTURED)) && (CAPTURED == TRUE); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
 #define CAPTURED                     tmp_##__LINE__
