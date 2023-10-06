@@ -227,6 +227,9 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 #  define ARROW_ADJUST 0
 #endif
 
+    // ENVs begin with this:
+    COUNTED_FPRINTF(fwrite_stream, "%s<", GET_TYPE_STR(this));
+    
     char parent_name[12] = { 0 };
 
     if (NILP(ENV_PARENT(ENV_PARENT(this))))
@@ -235,7 +238,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       sprintf(parent_name, "%08p", ENV_PARENT(this));
 
     if (ROOTP(this)) {
-      COUNTED_FPRINTF(fwrite_stream, "%s<root>", GET_TYPE_STR(this));
+      COUNTED_FPRINTF(fwrite_stream, "root>");
     }
 #ifdef AE_DEBUG_OBJ
     else if (DHAS(this, "fun")) {
@@ -248,14 +251,15 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       else 
         assert(((void)"unknown fun type", false));
 
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, %08p " ARROW " %s>", GET_TYPE_STR(this), fun_name, this, parent_name);
+      COUNTED_FPRINTF(fwrite_stream, "%s, %08p " ARROW " %s>", fun_name, this, parent_name);
 
       fwrite_counter -= ARROW_ADJUST;
     }
 #endif
     else
     {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %08p " ARROW " %s>", GET_TYPE_STR(this), this, parent_name);
+      // this has an extra space for the benefit of idle-highlight-mode:
+      COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s>", this, parent_name);
 
       fwrite_counter -= ARROW_ADJUST;
     }
