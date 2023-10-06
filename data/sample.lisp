@@ -1,4 +1,3 @@
-;; (* 2 (+ 3 4))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; ;; essentials:
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -19,26 +18,26 @@
 ;; (print alist)
 ;; (exit)
 
-;; (set 'scoped-setq-test
-;;   (lambda (x)
-;;     (setq *q* x)))
+(set 'scoped-setq-test
+  (lambda (x)
+    (setq *q* x)))
 
 
-;; (setq cond-test
-;;   (lambda (x)
-;;     (print (cond
-;;              ((>= x 100) :BIG)
-;;              ((>= x  50) :MEDIUM)
-;;              (t          :SMALL)))))
+(setq cond-test
+  (lambda (x)
+    (print (cond
+             ((>= x 100) :BIG)
+             ((>= x  50) :MEDIUM)
+             (t          :SMALL)))))
 
-;; (scoped-setq-test 200)
-;; (cond-test *q*)
+(scoped-setq-test 200)
+(cond-test *q*)
 
-;; (scoped-setq-test  75)
-;; (cond-test *q*)
+(scoped-setq-test  75)
+(cond-test *q*)
 
-;; (scoped-setq-test  25)
-;; (cond-test *q*)
+(scoped-setq-test  25)
+(cond-test *q*)
 
 (let ( (double (lambda (z) (* 2 z)))
        (x 1)
