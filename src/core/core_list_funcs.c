@@ -80,11 +80,11 @@ ae_obj_t * ae_core_cons(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("length");
 
-  REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
+  REQUIRE(env, args, (LENGTH(args) == 1) && PROPERP(CAR(args)), "core length only works on proper lists");
 
   int len = LENGTH(CAR(args));
 
-  REQUIRE(env, args, len >= 0, "core length only works on proper lists");
+  // REQUIRE(env, args, len >= 0, "core length only works on proper lists");
 
   CORE_RETURN("length", NEW_INT(len));
 }
