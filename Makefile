@@ -1,9 +1,13 @@
-UNAME_S = $(shell uname -s)
+UNAME_S      = $(shell uname -s)
+SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" )
+TEST_SRCS    = $(shell find test -name "*.c")
+OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
+TEST_BINS    = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
+INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
 
 COMMON_CFLAGS = \
+	$(INCLUDE_DIRS) \
 	-ggdb \
-	-Iinclude \
-	-I . \
 	-Wno-misleading-log_indentation \
 	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_DEADLY_MARGIN \
@@ -76,16 +80,14 @@ else
     YACC = /opt/homebrew/opt/bison/bin/bison
 endif
 
-SRCS      = $(shell find src  -name "*.c" -a -not -name "main.c" )
-TEST_SRCS = $(shell find test -name "*.c")
-OBJS      = $(patsubst src/%.c, obj/%.o, $(SRCS))
-TEST_BINS = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
-
 ################################################################################
 # Targets
 ################################################################################
 
 all: bin/ae $(TEST_BINS)
+
+print:
+	echo $(INCLUDE_DIRS)	
 
 obj/%.o: src/%.c obj obj/core
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
