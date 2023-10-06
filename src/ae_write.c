@@ -254,19 +254,16 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       else 
         assert(((void)"unknown fun type", false));
 
-      COUNTED_FPRINTF(fwrite_stream, "%s, %08p " ARROW " %s", fun_name, this, parent_name);
+      COUNTED_FPRINTF(fwrite_stream, "%s,");
 
-      fwrite_counter -= ARROW_ADJUST;
     }
-    else
 #endif
-    {
-      // this has an extra space for the benefit of idle-highlight-mode:
-      COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s", this, parent_name);
 
-      fwrite_counter -= ARROW_ADJUST;
-    }
-
+    // if no fun_name, this extra space is for the benefit of idle-highlight-mode:
+    COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s", this, parent_name);
+    
+    fwrite_counter -= ARROW_ADJUST;
+    
   end_of_env_write:
     // All ENVs end with this:
     COUNTED_FPRINTF(fwrite_stream, ">");
