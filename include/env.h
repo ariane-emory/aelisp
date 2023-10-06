@@ -32,7 +32,7 @@ _obj;                                                                           
 #define ENV_VALS(env)          ((env)->values)                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_ADD(env, sym, val) (ae_env_add((env), (sym), (val)))                                                   //
-#define ENV_SET(env, sym, val) (ae_env_set((env), AUTO, (sym), (val)))                                             //
+#define ENV_SET(env, sym, val) (ae_env_set((env), NEAREST, (sym), (val)))                                          //
 #define ENV_FIND(env, sym)     (ae_env_lookup((env), (sym), NULL))                                                 //
 #define ENV_BOUNDP(env, sym)                                                                                        \
   ({                                                                                                                \
