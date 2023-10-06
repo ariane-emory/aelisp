@@ -48,7 +48,7 @@ static int gcd(const int left, const int right) {
 }
 
 void ae_rational_simplify(ae_obj_t * const this) {
-  assert(!NULLP(this));
+  assert(this);
   assert(RATIONALP(this));
   
   int this_gcd = gcd(NUMER_VAL(this), DENOM_VAL(this));
@@ -58,8 +58,8 @@ void ae_rational_simplify(ae_obj_t * const this) {
 }
 
 bool ae_obj_eql (const ae_obj_t * const this,  const ae_obj_t *  const that) {
-  assert(!NULLP(this));
-  assert(!NULLP(that));
+  assert(this);
+  assert(that);
       
   if (this             == that)
     return true;
@@ -137,7 +137,7 @@ ae_obj_t * ae_obj_truth (const bool this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
-  assert(!NULLP(this));
+  assert(this);
   
 #ifdef AE_LOG_INIT
   fputs("Initializing     ", stdout);
@@ -166,8 +166,8 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
-  assert(!NULLP(this));
-  assert(!NULLP(that));
+  assert(this);
+  assert(that);
   assert(this != that);
   
 #ifdef AE_LOG_MOVE
@@ -197,7 +197,7 @@ ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
-  assert(!NULLP(this));
+  assert(this);
   
 #ifdef AE_LOG_CLONE
   fputs("Cloning          ", stdout);
@@ -274,7 +274,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
-  assert(!NULLP(this));
+  assert(this);
 
 #ifdef AE_LOG_METADATA
   printf("Before: 0x%08X\n", this->metadata);
@@ -297,7 +297,7 @@ void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
-  assert(!NULLP(this));
+  assert(this);
   
   ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
@@ -318,7 +318,7 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
-  assert(!NULLP(this));
+  assert(this);
   
   ae_type_t old_type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
   this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
@@ -338,7 +338,7 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
 // This is not yet used and is just here as an example of how to get the next metadata region:
 
 char ae_obj_get_foo(const ae_obj_t * const this) {
-  assert(!NULLP(this));
+  assert(this);
   
   char foo = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
 
@@ -356,7 +356,7 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
 // This is not yet used and is just here as an example of how to set the next metadata region:
 
 void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
-  assert(!NULLP(this));
+  assert(this);
   
   char old_foo   = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
@@ -371,7 +371,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_obj_get_delocalized(const ae_obj_t * const this) {
-  assert(!NULLP(this));
+  assert(this);
   
   bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
 
