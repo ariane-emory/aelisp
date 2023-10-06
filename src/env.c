@@ -167,6 +167,9 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
 
   while (! NILP(pos)) {
     {
+      if (mode == GLOBAL && (! NILP(ENV_PARENT(pos))))
+        goto go_up;
+        
       ae_obj_t * syms = ENV_SYMS(pos);
       ae_obj_t * vals = ENV_VALS(pos);
 
@@ -199,7 +202,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
       }
     }
 
-    if (NILP(pos->parent)) {
+    if (NILP(ENV_PARENT(pos))) {
 
 #ifdef AE_LEXICAL_SCOPING      
       ENV_ADD(env, symbol, value);
@@ -210,6 +213,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
       goto end;
     } else {
 
+    go_up:
 #ifdef AE_LOG_ENV
       SLOG("going up");
 #endif
