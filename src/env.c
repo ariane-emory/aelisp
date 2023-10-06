@@ -36,8 +36,6 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const symbol, bool * found) {
 
-  (void)mode;
-
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
 
@@ -95,6 +93,11 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t 
   }
   
   ae_obj_t * pos = env;
+
+  // If GLOBAL, let's just dive right to the top:
+  if (mode == GLOBAL)
+    while (! NILP(ENV_PARENT(pos)))
+      pos = ENV_PARENT(pos);
   
   for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through envs
 
@@ -125,11 +128,15 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t 
       }
     } // end loop through syms/vals
 
+    // special case for symbols being one symbol:
     if (EQ(symbol, symbols)) {
       ret = values;
 
       goto end;
     }
+
+    if (mode == LOCAL)
+      break;
   } // end loop through envs
   
 #ifdef AE_LOG_ENV
