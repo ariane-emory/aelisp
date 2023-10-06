@@ -541,13 +541,21 @@ void env_scoping(void) {
   {
     ENV_TRIO;
 
-    /**/ENV_SET(   parent,   SYM("foo"), SYM("bar"));
-    T(  ENV_BOUNDP(root,     SYM("foo")));
-    T(  ENV_BOUNDP(parent,   SYM("foo")));
-    T(  ENV_BOUNDP(child,    SYM("foo")));
+    /**/ENV_SET(     parent, SYM("foo"), SYM("bar"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
     T(  ENV_BOUNDP_L(root,   SYM("foo")));
     T(! ENV_BOUNDP_L(parent, SYM("foo")));
     T(! ENV_BOUNDP_L(child,  SYM("foo")));
+
+    /**/ENV_SET_L(   child, SYM("foo"), SYM("baz"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(  ENV_BOUNDP_L(child,  SYM("foo")));
   }
   {
     ENV_TRIO;
@@ -561,15 +569,15 @@ void env_scoping(void) {
     T(! ENV_BOUNDP_L(child,  SYM("foo")));
   }
   {
-  /*   ENV_TRIO; */
+    ENV_TRIO;
 
-  /*   ENV_SET_L(       child,  SYM("foo"), SYM("bar")); */
-  /*   T(! ENV_BOUNDP(  root,   SYM("foo"))); */
-  /*   T(! ENV_BOUNDP(  parent, SYM("foo"))); */
-  /*   T(  ENV_BOUNDP(  child,  SYM("foo"))); */
-  /*   T(! ENV_BOUNDP_L(root,   SYM("foo"))); */
-  /*   T(! ENV_BOUNDP_L(parent, SYM("foo"))); */
-  /*   T(  ENV_BOUNDP_L(child,  SYM("foo"))); */
+    /**/ENV_SET_G(   parent, SYM("foo"), SYM("bar"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(! ENV_BOUNDP_L(child,  SYM("foo")));
   }
 }
 
