@@ -538,6 +538,7 @@ void truth(void) {
 
 void env_scoping(void) {
   {
+    SETUP_TEST;
     ENV_TRIO;
 
     ENV_SET(parent,        SYM("foo"), SYM("bar"));
