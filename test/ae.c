@@ -570,7 +570,7 @@ void env_scoping(void) {
   /*   T(! ENV_BOUNDP_L(root,   SYM("foo"))); */
   /*   T(! ENV_BOUNDP_L(parent, SYM("foo"))); */
   /*   T(  ENV_BOUNDP_L(child,  SYM("foo"))); */
-  /* } */
+  }
 }
 
 void env_basics(void) {
