@@ -44,8 +44,8 @@
   (print (double y))
   (print (double (+ (double x) y))))
 
-(print "syms: ") (princ (syms (env)))
-(print "vals: ") (princ (vals (env)))
+(nl) (nl) (princ "syms: ") (princ (syms (env)))
+(nl) (nl) (princ "vals: ") (princ (vals (env)))
 
 
 
