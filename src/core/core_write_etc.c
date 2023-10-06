@@ -79,3 +79,20 @@ ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   CORE_RETURN("print", NEW_INT(written));
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _nl
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args) {
+  CORE_BEGIN("nl");
+
+  int len = LENGTH(args);
+
+  REQUIRE(env, args, len = 1, "nl takes no args");
+
+  NL;
+
+  CORE_RETURN("nl", NIL);
+}
+
