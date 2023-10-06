@@ -42,9 +42,12 @@
              (t            :SMALL)))))
 
 (scoped-setq-test 200)
+(cond-test)
 
-*q*
+(scoped-setq-test  75)
+(cond-test)
 
+(scoped-setq-test  25)
 (cond-test)
   
 
