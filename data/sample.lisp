@@ -33,11 +33,20 @@
   (lambda (x)
     (setq *q* x)))
 
+
+(setq cond-test
+  (lambda ()
+    (print (cond
+             ((>= *q* 100) :BIG)
+             ((>= *q*  50) :MEDIUM)
+             (t            :SMALL)))))
+
 (scoped-setq-test 200)
 
 *q*
 
-
+(cond-test)
+  
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
