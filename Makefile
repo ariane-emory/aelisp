@@ -2,7 +2,7 @@ UNAME_S      = $(shell uname -s)
 SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" )
 TEST_SRCS    = $(shell find test -name "*.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
-TEST_BINS    = $(patsubst test/%.c, bin/test/%, $(TEST_SRCS))
+TEST_BINS    = $(patsubst %-test.c, bin/test/%, $(TEST_SRCS))
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
 
 COMMON_CFLAGS = \
@@ -96,8 +96,8 @@ obj/%.o: src/%.c obj obj/core
 # Executables
 ################################################################################
 
-bin/test/%: bin/test
-	$(CC) -o $@ $(patsubst bin/test/%, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
+bin/%-test: 
+	$(CC) -o $@ $(patsubst bin/%-test, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
 bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c 
 	mkdir -p ./bin
@@ -132,8 +132,8 @@ obj/core:
 bin:
 	mkdir -p $@
 
-bin/test:
-	mkdir -p $@
+#bin/test:
+#	mkdir -p $@
 
 ################################################################################
 # Utility targets
