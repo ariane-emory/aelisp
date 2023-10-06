@@ -11,7 +11,7 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
-  assert(! NULLP(value));
+  assert(value);
     
   ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
@@ -162,7 +162,7 @@ void ae_env_set(ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t * const s
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
-  assert(! NULLP(value));
+  assert(value);
   
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[setting]");
