@@ -19,7 +19,7 @@ _obj;                                                                           
 #define ENV_SYMS(env)          ((env)->symbols)                                                   //
 #define ENV_VALS(env)          ((env)->values)                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ENV_FIND(env, sym)     (ae_env_find((env), (sym)))                                        //
+#define ENV_FIND(env, sym)     (ae_env_lookup((env), (sym), NULL))                                //
 #define ENV_ADD(env, sym, val) (ae_env_add ((env), (sym), (val)))                                 //
 #define ENV_SET(env, sym, val) (ae_env_set ((env), (sym), (val)))                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,9 +28,9 @@ _obj;                                                                           
 #define ENVP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_ENV))                      //
 #define ROOTP(env)             (ENVP((env)) && (NILP(ENV_PARENT((env)))))                         //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_find    (ae_obj_t * const env, ae_obj_t * const symbol                          );
-void       ae_env_add     (ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value  );
-void       ae_env_set     (ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value  );
+ae_obj_t * ae_env_lookup  (ae_obj_t * const env, ae_obj_t * const symbol, bool * found            );
+void       ae_env_add     (ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value        );
+void       ae_env_set     (ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value        );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(void                                                                   );
 ////////////////////////////////////////////////////////////////////////////////////////////////////

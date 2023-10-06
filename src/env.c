@@ -34,7 +34,7 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
+ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_obj_t * const symbol, bool * found) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
 
@@ -45,6 +45,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 #endif
 
   ae_obj_t * ret = NIL;
+
+  if (found)
+    *found = false;
   
   if (KEYWORDP(symbol)) {
 
@@ -54,16 +57,22 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 
     ret = symbol;
 
+    if (found)
+      *found = true;
+
     goto end;
   }
 
-    if (NILP(symbol)) {
+  if (NILP(symbol)) {
 
 #ifdef AE_LOG_ENV
     LOG(NIL, "found NIL automatically.");
 #endif
 
     ret = NIL;
+
+    if (found)
+      *found = true;
 
     goto end;
   }
@@ -75,6 +84,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
 #endif
     
     ret = TRUE;
+
+    if (found)
+      *found = true;
 
     goto end;
   }
@@ -103,6 +115,9 @@ ae_obj_t * ae_env_find(ae_obj_t * const env, ae_obj_t * const symbol) {
         
         ret = CAR(values);
 
+        if (found)
+          *found = true;
+        
         goto end;
       }
 
@@ -228,13 +243,13 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_FUN(add_core_fun);
 
 #ifdef PREFER_ALIST
-  ae_env_set(env, SYM("khas"), ae_env_find(env, SYM("ahas")));
-  ae_env_set(env, SYM("kget"), ae_env_find(env, SYM("aget")));
-  ae_env_set(env, SYM("kset"), ae_env_find(env, SYM("aset")));
+  ENV_SET(env, SYM("khas"), ENV_FIND(env, SYM("ahas")));
+  ENV_SET(env, SYM("kget"), ENV_FIND(env, SYM("aget")));
+  ENV_SET(env, SYM("kset"), ENV_FIND(env, SYM("aset")));
 #else
-  ae_env_set(env, SYM("khas"), ae_env_find(env, SYM("phas")));
-  ae_env_set(env, SYM("kget"), ae_env_find(env, SYM("pget")));
-  ae_env_set(env, SYM("kset"), ae_env_find(env, SYM("pset")));
+  ENV_SET(env, SYM("khas"), ENV_FIND(env, SYM("phas")));
+  ENV_SET(env, SYM("kget"), ENV_FIND(env, SYM("pget")));
+  ENV_SET(env, SYM("kset"), ENV_FIND(env, SYM("pset")));
 #endif
   
   return env;
