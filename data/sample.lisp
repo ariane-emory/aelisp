@@ -7,11 +7,11 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(setq   alist (aset alist 'name "Bob" ))
-(setq   alist (aset alist 'age   24   ))
-(setq   alist (aset alist 'type 'human))
+(setq   klist (kset klist 'name "Bob" ))
+(setq   klist (kset klist 'age   24   ))
+(setq   klist (kset klist 'type 'human))
 
-(print alist) (nl)
+(print klist) (nl)
 
 
 ;; (exit)
