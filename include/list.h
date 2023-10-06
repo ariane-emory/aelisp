@@ -37,7 +37,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TAILP(o)                      ((! NULLP((o))) && (NILP((o)) || (CONSP((o)) && CAR((o)))))
 #define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
-#define PROPER_LISTP(o)               (ae_list_is_proper((o)))
+#define PROPERP(o)                    (ae_list_is_proper((o)))
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                       \
   for (ae_obj_t                                                                                    \

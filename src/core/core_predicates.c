@@ -65,7 +65,7 @@ ae_obj_t * ae_core_properp(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, LENGTH(args) == 1);
 
-  CORE_RETURN("properp", PROPER_LISTP(CAR(args)) ? TRUE : NIL);
+  CORE_RETURN("properp", PROPERP(CAR(args)) ? TRUE : NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

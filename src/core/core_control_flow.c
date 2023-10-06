@@ -39,7 +39,9 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 #endif
 
     if (! NILP(EVAL(env, item_car))) {
-      ret = EVAL(env, ae_core_progn(env, item_cdr));
+      ret = ae_core_progn(env, item_cdr);
+
+//      ret = EVAL(env, ae_core_progn(env, item_cdr));
 
       break;
     }
