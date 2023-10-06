@@ -23,11 +23,12 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("cond");
 
-  REQUIRE(env, args, "an empty cond does not make sense");
+  REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
 
+  
 #ifdef AE_LOG_CORE
   LOG(caar, "caar");
   LOG(cdar, "cdar");
@@ -46,7 +47,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_cond2(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("cond");
 
-  REQUIRE(env, args, "an empty cond does not make sense");
+  REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
 
   ae_obj_t * caar = CAAR(args);
   ae_obj_t * cdar = CDAR(args);
