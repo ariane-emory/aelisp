@@ -145,8 +145,8 @@ obj cons_together_a_list_of_ints(void) {
 
     const int expected_length = 2 + ix;
 
-    T(NEQ(list, head));
-    T(NEQ(list, new_head));
+    T(! EQ(list, head));
+    T(! EQ(list, new_head));
     T(EQ(CAR(list), new_head));
     T(EQ(CDR(list), tail));
     T(EQ(LENGTH(list), expected_length));
@@ -334,7 +334,7 @@ void intern_symbols(void) {
   T(EQ(LENGTH(symbols_list), 1));
 
   T(! strcmp(SYM_VAL(SYM("two")), "two"));
-  T(NEQ(SYM("one"), SYM("two")));
+  T(! EQ(SYM("one"), SYM("two")));
   T(EQ(LENGTH(symbols_list), 2));
 }
 
@@ -446,8 +446,8 @@ void eql(void) {
 
 #define NETP(first, second)                                                                        \
   if (first != second) {                                                                           \
-    T( NEQL( (first)  , (second) ));                                                               \
-    T( NEQL( (second) , (first)  ));                                                               \
+    T( ! EQL( (first)  , (second) ));                                                               \
+    T( ! EQL( (second) , (first)  ));                                                               \
   }
 
 #define ETP(first, second)                                                                         \
@@ -992,7 +992,7 @@ void root_env_and_eval(void) {
     PRINC(this);                                                                                              \
     PR(".");                                                                                                  \
     NL;                                                                                                       \
-    if (NEQL(this, NEW_INT(expected))) {                                                                      \
+    if (! EQL(this, NEW_INT(expected))) {                                                                      \
       NL;                                                                                                     \
       PR("this ");                                                                                            \
       WRITE(this);                                                                                            \

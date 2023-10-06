@@ -10,7 +10,7 @@ ae_obj_t * ae_core_eq(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * c
   CORE_BEGIN("eq");
 
   FOR_EACH(tailarg, CDR(args))
-    if (NEQ(CAR(args), tailarg))
+    if (! EQ(CAR(args), tailarg))
       CORE_RETURN("eq", NIL);
 
   CORE_RETURN("eq", TRUE);
@@ -24,7 +24,7 @@ ae_obj_t * ae_core_eql(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * 
   CORE_BEGIN("eql");
 
   FOR_EACH(tailarg, CDR(args))
-    if (NEQL(CAR(args), tailarg))
+    if (! EQL(CAR(args), tailarg))
       CORE_RETURN("eql", NIL);
 
   CORE_RETURN("eql", TRUE);

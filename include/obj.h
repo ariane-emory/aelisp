@@ -217,9 +217,7 @@ extern ae_obj_t * symbols_list;
 #define GET_TYPE_STR(o)              (TYPE_STR(GET_TYPE((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)               ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
-#define NEQ(this, that)              ((! NULLP((this))) && (! NULLP((that))) && ((this)) != ((that)))
 #define EQL(this, that)              ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
-#define NEQL(this, that)             ((! NULLP((this))) && (! NULLP((that))) && (! EQL((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                     (! CONSP((o)))
 #define NULLP(o)                     (! (o))
