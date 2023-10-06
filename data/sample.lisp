@@ -11,7 +11,7 @@
 ;; (setq obvious (lambda (x) (print x) x))
 ;; (obvious 7)
 
-;; (setq   alist  nil                     )
+;; setq   alist  nil                     )
 ;; (setq   alist (aset alist 'name "Bob" ))
 ;; (setq   alist (aset alist 'age   24   ))
 ;; (setq   alist (aset alist 'type 'human))
@@ -24,10 +24,11 @@
 ;; alist
 
 (setq setforme (lambda (sym val) (setq sym val)))
+(setq q 5)
 (setforme 'q 555)
 q
 
-(list (quote (quote asd)) ''asd (quote 'asd) '(quote asd))
+(list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
