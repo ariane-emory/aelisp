@@ -8,6 +8,9 @@
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("progn");
 
+  REQUIRE(env, args, PROPERP(args),    "progn requires a proper list");
+  REQUIRE(env, args, LENGTH(args) > 0, "an empty progn does not make sense");
+  
   ae_obj_t * ret = NIL;
 
   FOR_EACH(elem, args)
@@ -28,7 +31,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
   
   FOR_EACH(cond_item, args) {
-    REQUIRE(env, args, CONSP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be lists with at least two elements");
+    REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be proper lists with at least two elements");
 
     ae_obj_t * const item_car = CAR(cond_item);
     ae_obj_t * const item_cdr = CDR(cond_item);
@@ -40,8 +43,6 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 
     if (! NILP(EVAL(env, item_car))) {
       ret = ae_core_progn(env, item_cdr);
-
-//      ret = EVAL(env, ae_core_progn(env, item_cdr));
 
       break;
     }
