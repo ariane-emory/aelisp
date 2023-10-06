@@ -43,10 +43,10 @@
   DO(cons)                                                                                         \
   DO(cdr)                                                                                          \
   DO(car)                                                                                          \
-  DO(progn)                                                                                        \
   DO(eval)                                                                                         \
   DO(list)                                                                                         \
   DO(set)                                                                                          \
+  DO(progn)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
   DO(setq)                                                                                         \
