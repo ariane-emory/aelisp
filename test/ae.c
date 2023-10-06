@@ -530,7 +530,74 @@ void truth(void) {
   T(NILP(that));
 }
 
-void envs(void) {
+#define ENV_TRIO                          \
+  obj root   = ENV_NEW_ROOT();            \
+  obj parent = NEW_ENV(root,   NIL, NIL); \
+  obj child  = NEW_ENV(parent, NIL, NIL);
+  
+
+void env_scoping(void) {
+  SETUP_TEST;
+  {
+    ENV_TRIO;
+
+    /**/ENV_SET(     parent, SYM("foo"), SYM("bar"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(! ENV_BOUNDP_L(child,  SYM("foo")));
+
+    /**/ENV_SET_L(   child, SYM("foo"), SYM("baz"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(  ENV_BOUNDP_L(child,  SYM("foo")));
+  }
+  {
+    ENV_TRIO;
+
+    /**/ENV_SET_L(   parent, SYM("foo"), SYM("bar"));
+    T(! ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(! ENV_BOUNDP_L(root,   SYM("foo")));
+    T(  ENV_BOUNDP_L(parent, SYM("foo")));
+    T(! ENV_BOUNDP_L(child,  SYM("foo")));
+  }
+  {
+    ENV_TRIO;
+
+    /**/ENV_SET_G(   parent, SYM("foo"), SYM("bar"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(! ENV_BOUNDP_L(child,  SYM("foo")));
+    
+    /**/ENV_SET(     child,  SYM("foo"), SYM("baz"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(! ENV_BOUNDP_L(child,  SYM("foo")));
+
+    /**/ENV_SET_L(   child,  SYM("foo"), SYM("quux"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(  ENV_BOUNDP_L(child,  SYM("foo")));
+  }
+}
+
+void env_basics(void) {
   SETUP_TEST;
 
   this = NEW_ENV(NIL, NIL, NIL);
@@ -1167,7 +1234,8 @@ void kvp_list(void) {
   DO(remove_interned_symbol_from_list)                                                             \
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
-  DO(envs)                                                                                         \
+  DO(env_basics)                                                                                   \
+  DO(env_scoping)                                                                                  \
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(core_cons_car_cdr)                                                                            \
   DO(core_eq_eql_not)                                                                              \
@@ -1181,7 +1249,7 @@ void kvp_list(void) {
   DO(deloc)                                                                                        \
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
-  DO(kvp_list)                                                                                     \
+  DO(kvp_list)
 
 #define pair(fun) { #fun, fun },
 

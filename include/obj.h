@@ -279,8 +279,8 @@ _obj;                                                                           
 #define NEW_ERROR(obj, msg)                                                                        \
 ({                                                                                                 \
 ae_obj_t * _obj  = NEW(AE_ERROR);                                                                  \
-EMSG   (_obj) = (msg);                                                                          \
-EOBJ   (_obj) = (obj);                                                                          \
+EMSG   (_obj) = (msg);                                                                             \
+EOBJ   (_obj) = (obj);                                                                             \
 _obj;                                                                                              \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
