@@ -7,34 +7,37 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(setq   alist  nil                     )
-;; (setq   alist (aset alist 'name "Bob" ))
+;; (setq   alist  nil                     )
+(setq   alist (aset alist 'name "Bob" ))
 ;; (setq   alist (aset alist 'age   24   ))
 ;; (setq   alist (aset alist 'type 'human))
 
-;; (print alist)
+(print "syms: ") (princ (syms (env)))
+(print "vals: ") (princ (vals (env)))
+
+(print alist)
 ;; (exit)
 
-(set 'scoped-setq-test
-  (lambda (x)
-    (setq *q* x)))
+;; (set 'scoped-setq-test
+;;   (lambda (x)
+;;     (setq *q* x)))
 
 
-(setq cond-test
-  (lambda (x)
-    (print (cond
-             ((>= x 100) :BIG)
-             ((>= x  50) :MEDIUM)
-             (t          :SMALL)))))
+;; (setq cond-test
+;;   (lambda (x)
+;;     (print (cond
+;;              ((>= x 100) :BIG)
+;;              ((>= x  50) :MEDIUM)
+;;              (t          :SMALL)))))
 
-(scoped-setq-test 200)
-(cond-test *q*)
+;; (scoped-setq-test 200)
+;; (cond-test *q*)
 
-(scoped-setq-test  75)
-(cond-test *q*)
+;; (scoped-setq-test  75)
+;; (cond-test *q*)
 
-(scoped-setq-test  25)
-(cond-test *q*)
+;; (scoped-setq-test  25)
+;; (cond-test *q*)
 
 (let ( (double (lambda (z) (* 2 z)))
        (x 1)
