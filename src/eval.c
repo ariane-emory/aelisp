@@ -63,15 +63,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 /* #ifdef AE_LOG_EVAL */
 /*   LOG(args, "applying core '%s' to %d evaluated args:", CORE_NAME(fun), LENGTH(args)); */
 /* #endif */
-
-#ifdef AE_CORE_ENVS
-  env = NEW_ENV(env, NIL, NIL);
-  LOG(env, "new env for core fun '%s':", CORE_NAME(fun));
-#  ifdef AE_DEBUG_OBJ
-  DSET(env, "fun", fun);
-#  endif
-#endif
-
   
 #if defined(AE_DEBUG_OBJ) && defined(AE_LOG_EVAL)
   //LOG(DOBJ(env), "with this debug data");

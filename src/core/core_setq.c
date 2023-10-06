@@ -31,19 +31,12 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(val, "to value");
 #endif
 
-  ae_obj_t * setq_env = env;
-  
-#ifdef AE_CORE_ENVS
-  if (ENV_PARENT(env) != NIL)
-    setq_env = ENV_PARENT(env);
-#endif
-
 #ifdef AE_LOG_CORE
   LOG(val, "evaluating 'value' argument");
   INDENT;
 #endif
 
-  val = EVAL(setq_env, val);
+  val = EVAL(env, val);
 
 #ifdef AE_LOG_CORE
   OUTDENT;
@@ -61,7 +54,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
   }
 #endif
 
-  ENV_SET(setq_env, sym, val);
+  ENV_SET(env, sym, val);
 
   CORE_RETURN("setq", val);
 }

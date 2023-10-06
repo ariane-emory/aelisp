@@ -23,12 +23,20 @@
 
 ;; alist
 
-(setq setforme (lambda (sym val) (setq sym val)))
-(setq q 5)
-(setforme 'q 555)
+;; (setq setforme
+;;   (lambda (sym val) (setq sym val)))
+;; ;; (setq q 5)
+;; (setforme 'q 555)
+;; q
+
+(setq scoped-setq-test
+  (lambda ()
+    (setq q 555)))
+
 q
 
-(list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
+
+;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
