@@ -41,3 +41,16 @@ ae_obj_t * ae_core_not(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * 
 
   CORE_RETURN("not", TRUE);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _tailp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_tailp(ae_obj_t * const env, ae_obj_t * const args) {
+  CORE_BEGIN("tailp");
+
+  REQUIRE(env, args, (LENGTH(args) == 1) && TAILP(CAR(args)));
+
+  CORE_RETURN("tailp", TAILP(CAR(args)) ? TRUE : NIL);
+}
+
