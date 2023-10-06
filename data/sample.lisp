@@ -29,7 +29,7 @@
 ;; (setforme 'q 555)
 ;; q
 
-(setq scoped-setq-test
+(set 'scoped-setq-test
   (lambda ()
     (setq q 555)))
 
