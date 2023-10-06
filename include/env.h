@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "obj.h"
 #include "list.h"
 
@@ -19,9 +21,15 @@ _obj;                                                                           
 #define ENV_SYMS(env)          ((env)->symbols)                                                   //
 #define ENV_VALS(env)          ((env)->values)                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ENV_FIND(env, sym)     (ae_env_lookup((env), (sym), NULL))                                //
 #define ENV_ADD(env, sym, val) (ae_env_add ((env), (sym), (val)))                                 //
 #define ENV_SET(env, sym, val) (ae_env_set ((env), (sym), (val)))                                 //
+#define ENV_FIND(env, sym)     (ae_env_lookup((env), (sym), NULL))                                //
+#define ENV_BOUND(env, sym)                                                                        \
+  ({                                                                                               \
+  bool found = false;                                                                              \
+  ((void)ae_env_lookup((env), (sym), &found));                                                     \
+  found;                                                                                           \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_NEW_ROOT()         (ae_env_new_root())                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////

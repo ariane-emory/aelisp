@@ -85,10 +85,6 @@ endif
 ################################################################################
 
 all: bin/ae $(TEST_BINS)
-	echo $(TEST_BINS)
-
-print:
-	echo $(INCLUDE_DIRS)	
 
 obj/%.o: src/%.c obj obj/core obj/test
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
