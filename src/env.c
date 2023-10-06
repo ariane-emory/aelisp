@@ -180,7 +180,6 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
     while (! NILP(syms) && ! NILP(vals)) { // loop through syms/vals
       ae_obj_t * sym = CAR(syms);
 
-
       if (EQ(symbol, sym)) {
 
 #ifdef AE_LOG_ENV
