@@ -198,7 +198,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
 
       syms = CDR(syms);
       vals = CDR(vals);
-    } 
+    } // end while loop through syms/vals
 
     if (NILP(ENV_PARENT(pos))) {
       ENV_ADD(pos, symbol, value);
@@ -213,7 +213,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
       
       pos = ENV_PARENT(pos);
     }
-  }
+  } // end while loop through envs
 
 end:
   
