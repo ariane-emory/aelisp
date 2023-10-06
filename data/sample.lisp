@@ -7,9 +7,6 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-;; (setq obvious (lambda (x) (print x) x))
-;; (obvious 7)
-
 ;; (setq   alist  nil                     )
 ;; (setq   alist (aset alist 'name "Bob" ))
 ;; (setq   alist (aset alist 'age   24   ))
@@ -46,8 +43,17 @@
   (print (double y))
   (print (double (+ (double x) y))))
 
-;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
+
+
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Older stuff:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
+;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
