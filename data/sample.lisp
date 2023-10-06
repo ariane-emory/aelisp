@@ -17,39 +17,33 @@
 ;; (setq   alist (aset alist 'type 'human))
 
 ;; (write alist)
-;; (nl)
 
-;; (+ 11 (* 22 (- 33 44)))
-
-;; alist
-
-;; (setq setforme
-;;   (lambda (sym val) (setq sym val)))
-;; ;; (setq q 5)
-;; (setforme 'q 555)
-;; q
-
-(set 'scoped-setq-test
-  (lambda (x)
-    (setq *q* x)))
+;; (set 'scoped-setq-test
+;;   (lambda (x)
+;;     (setq *q* x)))
 
 
-(setq cond-test
-  (lambda (x)
-    (print (cond
-             ((>= x 100) :BIG)
-             ((>= x  50) :MEDIUM)
-             (t          :SMALL)))))
+;; (setq cond-test
+;;   (lambda (x)
+;;     (print (cond
+;;              ((>= x 100) :BIG)
+;;              ((>= x  50) :MEDIUM)
+;;              (t          :SMALL)))))
 
-(scoped-setq-test 200)
-(cond-test *q*)
+;; (scoped-setq-test 200)
+;; (cond-test *q*)
 
-(scoped-setq-test  75)
-(cond-test *q*)
+;; (scoped-setq-test  75)
+;; (cond-test *q*)
 
-(scoped-setq-test  25)
-(cond-test *q*)
-  
+;; (scoped-setq-test  25)
+;; (cond-test *q*)
+
+(let ( (x 1)
+       (y 2))
+  (print x)
+  (print y)
+  (print (+ x y)))
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
