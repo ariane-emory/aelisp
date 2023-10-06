@@ -54,6 +54,7 @@
   DO(macro)                                                                                        \
   DO(lambda)                                                                                       \
   DO(cond)                                                                                         \
+  DO(let)                                                                                          \
   DO(if)      /* reduceable */                                                                     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                  \

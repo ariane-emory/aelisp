@@ -1,0 +1,20 @@
+#include "core_includes.h"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _let
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
+#ifdef AE_LOG_CORE
+  // No CORE_BEGIN!
+  LOG(args, "[core_let]");
+  INDENT;
+#endif
+
+  (void)env;
+  (void)args;
+  
+  ae_obj_t * result = NIL;
+  
+  CORE_RETURN("let", result);
+}
