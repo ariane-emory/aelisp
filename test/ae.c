@@ -261,7 +261,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                \
     SETUP_TEST;                                                                                    \
     this = NEW(_type);                                                                             \
-    T(GET_TYPE(this) == _type));                                                                 \
+    T(GET_TYPE(this) == _type);                                                                 \
   }
   FOR_EACH_LEXED_TYPE(test);
 }
@@ -334,7 +334,7 @@ void intern_symbols(void) {
   T(LENGTH(symbols_list) == 1);
 
   T(! strcmp(SYM_VAL(SYM("two")), "two"));
-  T(! SYM("one") == SYM("two"));
+  T(! (SYM("one") == SYM("two")));
   T(LENGTH(symbols_list) == 2);
 }
 
@@ -361,11 +361,11 @@ void intern_symbols(void) {
       PR("> wrote %d characters, expected %d.", strlen(buff), expect);                             \
     }                                                                                              \
                                                                                                    \
-    T(strlen(buff) == expect));                                                                    \
-  T((int)strlen(buff) == (int)size));                                                              \
+    T(strlen(buff) == expect);                                                                     \
+    T((int)strlen(buff) == (int)size);                                                             \
     TM("strlen was %d but size was %d:\n\"%s\".\n",                                                \
        (int)strlen(buff), (int)size, buff);                                                        \
-    T((int)strlen(buff) == (int)reported));                                                        \
+    T((int)strlen(buff) == (int)reported);                                                         \
     TM("strlen was %d but reported was %d:\n\"%s\".\n",                                            \
        (int)strlen(buff), (int)reported, buff);                                                    \
   }
