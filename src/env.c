@@ -165,7 +165,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
 
   ae_obj_t * pos     = env;
 
-  while (! NILP(pos)) {
+  while (! NILP(pos)) { // loop through envs
     if (mode == GLOBAL && (! NILP(ENV_PARENT(pos))))
       goto go_up;
         
@@ -177,7 +177,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
     LOG(syms, "containing syms");
 #endif
 
-    while (! NILP(syms) && ! NILP(vals)) {
+    while (! NILP(syms) && ! NILP(vals)) { // loop through syms/vals
       ae_obj_t * sym = CAR(syms);
 
 
@@ -198,7 +198,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
 
       syms = CDR(syms);
       vals = CDR(vals);
-    } // end while loop through syms/vals
+    } // end loop through syms/vals
 
     if (NILP(ENV_PARENT(pos))) {
       ENV_ADD(pos, symbol, value);
@@ -213,7 +213,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
       
       pos = ENV_PARENT(pos);
     }
-  } // end while loop through envs
+  } // end loop through envs
 
 end:
   
