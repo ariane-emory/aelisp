@@ -166,6 +166,10 @@ extern ae_obj_t * symbols_list;
 #define UNSAFE_MOVE(to, from)        (ae_obj_unsafe_move((to), (from)))
 #define ZERO(this)                   (memset((this), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define MARKED_AS_DELOCALIZEDP(o)    (ae_obj_get_delocalized((o)))
+#define MARK_DELOCALIZED(o)          (ae_obj_set_delocalized((o), true))
+#define UNMARK_DELOCALIZED(o)        (ae_obj_set_delocalized((o), false))
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(this)               ((this)->char_val)
 #define DENOM_VAL(this)              ((this)->denominator_val)
 #define FLOAT_VAL(this)              ((this)->float_val)
@@ -228,10 +232,6 @@ extern ae_obj_t * symbols_list;
 #define TRUE                         (&true_obj)
 #define NILP(o)                      ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                     ((! NULLP((o))) && ((o) == TRUE))
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MARKED_AS_DELOCALIZEDP(o)    (ae_obj_get_delocalized((o)))
-#define MARK_DELOCALIZED(o)          (ae_obj_set_delocalized((o), true))
-#define UNMARK_DELOCALIZED(o)        (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
 #define CAPTURED                     tmp_##__LINE__
