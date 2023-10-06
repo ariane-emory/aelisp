@@ -227,12 +227,12 @@ void remove_interned_symbol_from_list(void) {
   // Add a duplicate element so that we can see that both instances are removed:
   symbols_list = CONS(that, symbols_list);
 
-  T(EQ(LENGTH(symbols_list), 5));
+  T(LENGTH(symbols_list) == 5);
   T(MEMBERP(symbols_list, that));
 
   symbols_list = REMOVE(symbols_list, that);
 
-  T(EQ(LENGTH(symbols_list), 3));
+  T(LENGTH(symbols_list) == 3);
   T(! MEMBERP(symbols_list, that));
   T(shitty_princ_based_equality_predicate(symbols_list, "(d c a)"));
 }
@@ -261,7 +261,7 @@ void newly_initialized_ae_obj_has_correct_type_field(void) {
   {                                                                                                \
     SETUP_TEST;                                                                                    \
     this = NEW(_type);                                                                             \
-    T(EQ(GET_TYPE(this), _type));                                                                  \
+    T(GET_TYPE(this) == _type));                                                                 \
   }
   FOR_EACH_LEXED_TYPE(test);
 }
@@ -294,8 +294,8 @@ void unsafe_move_an_ae_obj(void) {
   this = MOVE_NEW(that);
 
   T(RATIONALP(this));
-  T(EQ(this->numerator_val  , 123));
-  T(EQ(this->denominator_val, 321));
+  T(this->numerator_val   == 123);
+  T(this->denominator_val == 321);
 
   T(FREEP(that));
   T(that->numerator_val   == 0);
@@ -313,8 +313,8 @@ void clone_a_simple_ae_obj(void) {
 
   T(this != that);
   T(RATIONALP(that));
-  T(EQ(that->numerator_val  , 123));
-  T(EQ(that->denominator_val, 321));
+  T(that->numerator_val   == 123);
+  T(that->denominator_val == 321);
 }
 
 void pushed_and_consed_lists_princ_identically(void) {
@@ -330,12 +330,12 @@ void intern_symbols(void) {
   // deliberately avoid initializing symbols_list because SYM2 should do so itself automatically.
 
   T(! strcmp(SYM_VAL(SYM("one")), "one"));
-  T(EQ(SYM("one"), SYM("one")));
-  T(EQ(LENGTH(symbols_list), 1));
+  T(SYM("one") == SYM("one"));
+  T(LENGTH(symbols_list) == 1);
 
   T(! strcmp(SYM_VAL(SYM("two")), "two"));
-  T(! EQ(SYM("one"), SYM("two")));
-  T(EQ(LENGTH(symbols_list), 2));
+  T(! SYM("one") == SYM("two"));
+  T(LENGTH(symbols_list) == 2);
 }
 
 #define LENGTH_TEST(fun, expect, type, field, val, ...)                                            \
@@ -361,11 +361,11 @@ void intern_symbols(void) {
       PR("> wrote %d characters, expected %d.", strlen(buff), expect);                             \
     }                                                                                              \
                                                                                                    \
-    T(EQ(strlen(buff), expect));                                                                   \
-    T(EQ((int)strlen(buff), (int)size));                                                           \
+    T(strlen(buff) == expect));                                                                    \
+  T((int)strlen(buff) == (int)size));                                                              \
     TM("strlen was %d but size was %d:\n\"%s\".\n",                                                \
        (int)strlen(buff), (int)size, buff);                                                        \
-    T(EQ((int)strlen(buff), (int)reported));                                                       \
+    T((int)strlen(buff) == (int)reported));                                                        \
     TM("strlen was %d but reported was %d:\n\"%s\".\n",                                            \
        (int)strlen(buff), (int)reported, buff);                                                    \
   }
