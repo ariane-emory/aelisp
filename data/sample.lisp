@@ -44,7 +44,7 @@
        (y 2))
   (print (double x))
   (print (double y))
-  (print (+ (double x) y)))
+  (print (double (+ (double x) y))))
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
