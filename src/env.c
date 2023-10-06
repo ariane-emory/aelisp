@@ -96,7 +96,7 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t 
   
   ae_obj_t * pos = env;
   
-  for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through ends
+  for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through envs
 
 #ifdef AE_LOG_ENV
     LOG(pos, "in env");
@@ -123,14 +123,14 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t 
         
         goto end;
       }
-    }
+    } // end loop through syms/vals
 
     if (EQ(symbol, symbols)) {
       ret = values;
 
       goto end;
     }
-  }
+  } // end loop through envs
   
 #ifdef AE_LOG_ENV
   SLOG("didn't find it!");
