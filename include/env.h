@@ -32,12 +32,12 @@ _obj;                                                                           
 #define ENV_VALS(env)          ((env)->values)                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_ADD(env, sym, val) (ae_env_add((env), (sym), (val)))                                                   //
-#define ENV_SET(env, sym, val) (ae_env_set((env), NEAREST, (sym), (val)))                                          //
-#define ENV_FIND(env, sym)     (ae_env_lookup((env), (sym), NULL))                                                 //
+#define ENV_SET(env, sym, val) (ae_env_set((env),    NEAREST, (sym), (val)))                                       //
+#define ENV_FIND(env, sym)     (ae_env_lookup((env), NEAREST, (sym), NULL))                                        //
 #define ENV_BOUNDP(env, sym)                                                                                        \
   ({                                                                                                                \
   bool found = false;                                                                                               \
-  ((void)ae_env_lookup((env), (sym), &found));                                                                      \
+  ((void)ae_env_lookup((env), NEAREST, (sym), &found));                                                             \
   found;                                                                                                            \
   })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +46,9 @@ _obj;                                                                           
 #define ENVP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_ENV))                                       //
 #define ROOTP(env)             (ENVP((env)) && (NILP(ENV_PARENT((env)))))                                          //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_lookup  (ae_obj_t * const env,                         ae_obj_t * const symbol, bool * found     );
 void       ae_env_add     (ae_obj_t * const env,                         ae_obj_t * const symbol, ae_obj_t * value );
 void       ae_env_set     (ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const symbol, ae_obj_t * value );
+ae_obj_t * ae_env_lookup  (ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const symbol, bool *     found );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(void                                                                                    );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
