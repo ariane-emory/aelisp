@@ -39,13 +39,12 @@
 ;; (scoped-setq-test  25)
 ;; (cond-test *q*)
 
-(let ( (x 1)
+(let ( (double (lambda (z) (* 2 z)))
+       (x 1)
        (y 2))
-  (print x)
-  (print y)
-  (nl)
-  (nl)
-  (print (+ x y))
+  (print (double x))
+  (print (double y))
+  (print (+ (double x) y))
   )
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
