@@ -25,41 +25,27 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 
   REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
 
-  ae_obj_t * caar = CAAR(args);
-  ae_obj_t * cdar = CDAR(args);
+  ae_obj_t * ret = NIL;
+  
+  FOR_EACH(cond_item, args) {
+    REQUIRE(env, args, CONSP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be lists with at least two elements");
+
+    ae_obj_t * const item_car = CAR(cond_item);
+    ae_obj_t * const item_cdr = CDR(cond_item);
   
 #ifdef AE_LOG_CORE
-  LOG(caar, "caar");
-  LOG(cdar, "cdar");
+    LOG(item_car, "car");
+    LOG(item_cdr, "cdr");
 #endif
 
-  if (! NILP(EVAL(env, caar)))
-    CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
+    if (! NILP(EVAL(env, item_car))) {
+      ret = EVAL(env, ae_core_progn(env, item_cdr));
 
-  CORE_RETURN("cond", ae_core_cond(env, CDR(args)));
-}
+      break;
+    }
+  }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// old _cond
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_cond2(ae_obj_t * const env, ae_obj_t * const args) {
-  CORE_BEGIN("cond");
-
-  REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
-
-  ae_obj_t * caar = CAAR(args);
-  ae_obj_t * cdar = CDAR(args);
-
-#ifdef AE_LOG_CORE
-  LOG(caar, "caar");
-  LOG(cdar, "cdar");
-#endif
-
-  if (! NILP(EVAL(env, caar)))
-    CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
-
-  CORE_RETURN("cond", ae_core_cond2(env, CDR(args)));
+  CORE_RETURN("cond", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
