@@ -220,16 +220,17 @@ extern ae_obj_t * symbols_list;
 #define SET_TYPE(this, type)         (ae_obj_set_type((this), (type)))
 #define GET_TYPE_STR(o)              (TYPE_STR(GET_TYPE((o))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NIL                          (&nil_obj)
+#define TRUE                         (&true_obj)
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQ(this, that)               ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
 #define EQL(this, that)              ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                     (! CONSP((o)))
 #define NULLP(o)                     (! (o))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ATOMP(o)                     (! CONSP((o)))
 #define SPECIALP(o)                  ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NIL                          (&nil_obj)
-#define TRUE                         (&true_obj)
 #define NILP(o)                      ((! NULLP((o))) && ((o) == NIL))
 #define TRUEP(o)                     ((! NULLP((o))) && ((o) == TRUE))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
