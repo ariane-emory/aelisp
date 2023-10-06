@@ -166,49 +166,42 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
   ae_obj_t * pos     = env;
 
   while (! NILP(pos)) {
-    {
-      if (mode == GLOBAL && (! NILP(ENV_PARENT(pos))))
-        goto go_up;
+    if (mode == GLOBAL && (! NILP(ENV_PARENT(pos))))
+      goto go_up;
         
-      ae_obj_t * syms = ENV_SYMS(pos);
-      ae_obj_t * vals = ENV_VALS(pos);
+    ae_obj_t * syms = ENV_SYMS(pos);
+    ae_obj_t * vals = ENV_VALS(pos);
 
 #ifdef AE_LOG_ENV
-      LOG(pos,  "in env");
-      LOG(syms, "containing syms");
+    LOG(pos,  "in env");
+    LOG(syms, "containing syms");
 #endif
 
-      while (! NILP(syms) && ! NILP(vals)) {
-        ae_obj_t * sym = CAR(syms);
+    while (! NILP(syms) && ! NILP(vals)) {
+      ae_obj_t * sym = CAR(syms);
 
 
-        if (EQ(symbol, sym)) {
+      if (EQ(symbol, sym)) {
 
 #ifdef AE_LOG_ENV
-          LOG(syms, "found it in ->");
+        LOG(syms, "found it in ->");
 #endif
 
-          CAR(vals) = value;
+        CAR(vals) = value;
 
 #ifdef AE_LOG_ENV
-          LOG(vals, "values after");
+        LOG(vals, "values after");
 #endif
 
-          goto end;
-        }
-
-        syms = CDR(syms);
-        vals = CDR(vals);
+        goto end;
       }
-    }
+
+      syms = CDR(syms);
+      vals = CDR(vals);
+    } 
 
     if (NILP(ENV_PARENT(pos))) {
-
-#ifdef AE_LEXICAL_SCOPING      
-      ENV_ADD(env, symbol, value);
-#else
       ENV_ADD(pos, symbol, value);
-#endif
 
       goto end;
     } else {
