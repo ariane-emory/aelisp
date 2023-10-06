@@ -113,7 +113,7 @@ obj push_together_a_list_of_ints(void) {
   obj list    = LIST(num);
   obj tailtip = list;
 
-  T(EQ(LENGTH(tailtip), 1));
+  T(LENGTH(tailtip) == 1);
 
   for (int ix = 2; ix < 5; ix++) {
     int        int_val = ix;
@@ -123,8 +123,8 @@ obj push_together_a_list_of_ints(void) {
 
     T(CONSP(tailtip));
     T(INTEGERP(CAR(tailtip)));
-    T(EQ(INT_VAL(CAR(tailtip)), int_val));
-    T(EQ(LENGTH(list), ix));
+    T(INT_VAL(CAR(tailtip)) == int_val);
+    T(LENGTH(list) == ix);
     TM("Length is %zu.", LENGTH(tailtip));
   }
 
@@ -135,7 +135,7 @@ obj cons_together_a_list_of_ints(void) {
   obj head = NEW_INT(4);
   obj list = LIST(head);
 
-  T(EQ(LENGTH(list), 1));
+  T(LENGTH(list) == 1);
 
   for (unsigned int ix  = 0; ix < 3; ix++) {
     obj new_head = NEW_INT(3 - ix);
@@ -145,11 +145,11 @@ obj cons_together_a_list_of_ints(void) {
 
     const int expected_length = 2 + ix;
 
-    T(! EQ(list, head));
-    T(! EQ(list, new_head));
-    T(EQ(CAR(list), new_head));
-    T(EQ(CDR(list), tail));
-    T(EQ(LENGTH(list), expected_length));
+    T(list != head);
+    T(list != new_head);
+    T(CAR(list) == new_head);
+    T(CDR(list) == tail);
+    T(LENGTH(list) == expected_length);
     TEST_MSG(
       "Incorrect length %d, expected %d.",
       LENGTH(list),
@@ -175,11 +175,11 @@ obj ae_obj_to_pairs(obj const this) {
 }
 
 void basic_list_checks(obj this) {
-  T(EQ(LENGTH(this)       , 4));
+  T(LENGTH(this)        == 4);
 
   COUNT_LIST_LENGTH(this);
-  T(EQ(list_length_counter, 4));
-  T(EQ(list_length_counter, LENGTH(this)));
+  T(list_length_counter == 4);
+  T(list_length_counter == LENGTH(this));
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
 
@@ -208,19 +208,19 @@ void remove_interned_symbol_from_list(void) {
 #define TEST_SYM(str)                                                                              \
   {                                                                                                \
     int len = LENGTH(symbols_list);                                                                \
-    T(EQ(SYM(str), SYM(str)));                                                                     \
-    T(EQ(LENGTH(symbols_list), (len + 1)));                                                        \
+    T(SYM(str) == SYM(str)));                                                                    \
+    T(LENGTH(symbols_list) == (len + 1)));                                                       \
   }
 
   // using 'symbols_list' as the symbol list here:
-  T(EQ(SYM("a"), SYM("a")));
-  T(EQ(LENGTH(symbols_list), 1));
-  T(EQ(SYM("b"), SYM("b")));
-  T(EQ(LENGTH(symbols_list), 2));
-  T(EQ(SYM("c"), SYM("c")));
-  T(EQ(LENGTH(symbols_list), 3));
-  T(EQ(SYM("d"), SYM("d")));
-  T(EQ(LENGTH(symbols_list), 4));
+  T(SYM("a") == SYM("a"));
+  T(LENGTH(symbols_list) == 1);
+  T(SYM("b") == SYM("b"));
+  T(LENGTH(symbols_list) == 2);
+  T(SYM("c") == SYM("c"));
+  T(LENGTH(symbols_list) == 3);
+  T(SYM("d") == SYM("d"));
+  T(LENGTH(symbols_list) == 4);
 
   that = SYM("b");
 
@@ -992,7 +992,7 @@ void root_env_and_eval(void) {
     PRINC(this);                                                                                              \
     PR(".");                                                                                                  \
     NL;                                                                                                       \
-    if (! EQL(this, NEW_INT(expected))) {                                                                      \
+    if (! EQL(this, NEW_INT(expected))) {                                                                     \
       NL;                                                                                                     \
       PR("this ");                                                                                            \
       WRITE(this);                                                                                            \
