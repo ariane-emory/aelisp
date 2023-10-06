@@ -199,7 +199,7 @@ void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const s
       vals = CDR(vals);
     } // end loop through syms/vals
 
-    if (NILP(ENV_PARENT(pos))) {
+    if (mode == LOCAL || NILP(ENV_PARENT(pos))) {
       ENV_ADD(pos, symbol, value);
 
       goto end;
