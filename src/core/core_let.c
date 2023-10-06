@@ -31,7 +31,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
   FOR_EACH(varlist_item, varlist)
     ENV_SET_L(new_env,
               CAR(varlist_item), 
-              SYMBOLP(CAR(varlist_item))
+              SYMBOLP(varlist_item)
               ? NIL
               : EVAL(env, CDR(varlist)));
 
