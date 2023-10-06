@@ -49,8 +49,8 @@ _obj;                                                                           
   })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define   ENV_BOUNDP(env, sym)      (ENV_BOUND_IN(NEAREST, env, sym))
-#define   ENV_BOUNDP_G(env, sym)    (ENV_BOUND_IN(NEAREST, env, sym))
-#define   ENV_BOUNDP_L(env, sym)    (ENV_BOUND_IN(NEAREST, env, sym))
+#define   ENV_BOUNDP_G(env, sym)    (ENV_BOUND_IN( GLOBAL, env, sym))
+#define   ENV_BOUNDP_L(env, sym)    (ENV_BOUND_IN(  LOCAL, env, sym))
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_NEW_ROOT()           (ae_env_new_root())                                                            //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
