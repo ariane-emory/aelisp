@@ -147,12 +147,14 @@ end:
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_env_set(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
+void ae_env_set(ae_obj_t * const env, ae_env_set_mode_t mode, ae_obj_t * const symbol, ae_obj_t * const value) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
   assert(! NULLP(value));
 
+  (void)mode;
+  
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[setting]");
 
@@ -233,9 +235,9 @@ end:
 ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
 
-#define add_core_fun(name, ...)          ae_env_set(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, false));  
-#define add_core_special_fun(name, ...)  ae_env_set(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, true));
-#define add_core_op(name, sym, ...)      ae_env_set(env, SYM(#sym),  NEW_CORE(#name, &ae_core_##name, false));
+#define add_core_fun(name, ...)          ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, false));  
+#define add_core_special_fun(name, ...)  ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, true));
+#define add_core_op(name, sym, ...)      ENV_SET(env, SYM(#sym),  NEW_CORE(#name, &ae_core_##name, false));
   
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_CMP_OP(add_core_op);
