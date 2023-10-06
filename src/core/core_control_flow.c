@@ -36,7 +36,30 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   if (! NILP(EVAL(env, caar)))
     CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
 
-  CORE_RETURN("cpmd", ae_core_cond(env, CDR(args)));
+  CORE_RETURN("cond", ae_core_cond(env, CDR(args)));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// old _cond
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_cond2(ae_obj_t * const env, ae_obj_t * const args) {
+  CORE_BEGIN("cond");
+
+  REQUIRE(env, args, "an empty cond does not make sense");
+
+  ae_obj_t * caar = CAAR(args);
+  ae_obj_t * cdar = CDAR(args);
+
+#ifdef AE_LOG_CORE
+  LOG(caar, "caar");
+  LOG(cdar, "cdar");
+#endif
+
+  if (! NILP(EVAL(env, caar)))
+    CORE_RETURN("cond", EVAL(env, ae_core_progn(env, cdar)));
+
+  CORE_RETURN("cond", ae_core_cond2(env, CDR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
