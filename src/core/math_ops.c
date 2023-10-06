@@ -38,5 +38,7 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
   CORE_RETURN(#name, NEW_INT(accum));                                                              \
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
 

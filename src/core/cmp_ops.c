@@ -31,5 +31,7 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
   CORE_RETURN(#name, TRUTH(result));                                                               \
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 FOR_EACH_CORE_CMP_OP(DEF_CMP_OP);
 
