@@ -578,6 +578,22 @@ void env_scoping(void) {
     T(  ENV_BOUNDP_L(root,   SYM("foo")));
     T(! ENV_BOUNDP_L(parent, SYM("foo")));
     T(! ENV_BOUNDP_L(child,  SYM("foo")));
+    
+    /**/ENV_SET(     child,  SYM("foo"), SYM("baz"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(! ENV_BOUNDP_L(child,  SYM("foo")));
+
+    /**/ENV_SET_L(   child,  SYM("foo"), SYM("quux"));
+    T(  ENV_BOUNDP(  root,   SYM("foo")));
+    T(  ENV_BOUNDP(  parent, SYM("foo")));
+    T(  ENV_BOUNDP(  child,  SYM("foo")));
+    T(  ENV_BOUNDP_L(root,   SYM("foo")));
+    T(! ENV_BOUNDP_L(parent, SYM("foo")));
+    T(  ENV_BOUNDP_L(child,  SYM("foo")));
   }
 }
 
@@ -1201,6 +1217,8 @@ void kvp_list(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
+
+#define FOR_EACH_TEST_FUN(DO)                                                                      \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
@@ -1217,6 +1235,7 @@ void kvp_list(void) {
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
   DO(env_basics)                                                                                   \
+  DO(env_scoping)                                                                                  \
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(core_cons_car_cdr)                                                                            \
   DO(core_eq_eql_not)                                                                              \
@@ -1230,10 +1249,7 @@ void kvp_list(void) {
   DO(deloc)                                                                                        \
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
-  DO(kvp_list)                                                                                     \
-
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(env_scoping)
+  DO(kvp_list)
 
 #define pair(fun) { #fun, fun },
 
