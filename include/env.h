@@ -41,17 +41,19 @@ _obj;                                                                           
 #define    ENV_FIND_G(env, sym)     (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                   //
 #define    ENV_FIND_L(env, sym)     (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                   //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_BOUNDP(env, sym)                                                                                     \
+#define    ENV_BOUND_IN(mode, env, sym)                                                                             \
   ({                                                                                                                \
   bool found = false;                                                                                               \
-  ((void)ae_env_lookup(NEAREST, (env), (sym), &found));                                                             \
+  ((void)ae_env_lookup(mode, (env), (sym), &found));                                                                \
   found;                                                                                                            \
   })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_NEW_ROOT()         (ae_env_new_root())                                                              //
+#define   ENV_BOUNDP(env, sym)      (ENV_BOUND_IN(NEAREST, env, sym))
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENVP(o)                ((! NULLP((o))) && (GET_TYPE((o)) == AE_ENV))                                    //
-#define    ROOTP(env)             (ENVP((env)) && (NILP(ENV_PARENT((env)))))                                       //
+#define    ENV_NEW_ROOT()           (ae_env_new_root())                                                            //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define    ENVP(o)                  ((! NULLP((o))) && (GET_TYPE((o)) == AE_ENV))                                  //
+#define    ROOTP(env)               (ENVP((env)) && (NILP(ENV_PARENT((env)))))                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void       ae_env_add     (                        ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value );
 void       ae_env_set     (ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value );
