@@ -33,6 +33,8 @@
   (lambda ()
     (setq q 555)))
 
+(scoped-setq-test)
+
 q
 
 
