@@ -218,15 +218,6 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
-
-#ifdef AE_WRITE_REAL_ARROW
-#  define ARROW "→"
-#  define ARROW_ADJUST 2
-#else
-#  define ARROW "->"
-#  define ARROW_ADJUST 0
-#endif
-
     // All ENVs begin with this:
     COUNTED_FPRINTF(fwrite_stream, "%s<", GET_TYPE_STR(this));
     
@@ -257,6 +248,14 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       strcpy(parent_name, "root");
     else
       sprintf(parent_name, "%08p", ENV_PARENT(this));
+    
+#ifdef AE_WRITE_REAL_ARROW
+#  define ARROW "→"
+#  define ARROW_ADJUST 2
+#else
+#  define ARROW "->"
+#  define ARROW_ADJUST 0
+#endif
 
     // if no fun_name, this extra space is for the benefit of idle-highlight-mode:
     COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s", this, parent_name);
