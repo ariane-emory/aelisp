@@ -2,9 +2,9 @@
 
 #include <stdio.h>
 
-#include "ae_obj.h"
-#include "ae_list.h"
-#include "ae_util.h"
+#include "obj.h"
+#include "list.h"
+#include "util.h"
 
 #define YYSTYPE ae_obj_t *
 

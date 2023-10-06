@@ -7,17 +7,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ae_obj.h"
-#include "ae_list.h"
-#include "ae_alist.h"
-#include "ae_plist.h"
-#include "ae_free_list.h"
-#include "ae_core.h"
-#include "ae_eval.h"
-#include "ae_write.h"
-#include "ae_env.h"
-#include "ae_util.h"
-#include "ae_generate_macro.h"
+#include "obj.h"
+#include "list.h"
+#include "alist.h"
+#include "plist.h"
+#include "free_list.h"
+#include "core.h"
+#include "eval.h"
+#include "write.h"
+#include "env.h"
+#include "util.h"
+#include "generate_macro.h"
 
 #define BEFORE_ACUTEST
 

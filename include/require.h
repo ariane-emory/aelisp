@@ -2,9 +2,9 @@
 
 #include <string.h>
 
-#include "ae_list.h"
-#include "ae_alist.h"
-#include "ae_obj.h"
+#include "list.h"
+#include "alist.h"
+#include "obj.h"
 
 #define REQUIRE(env, args, cond, ...)                                                              \
   if (! (cond)) {                                                                                  \

@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "ae_obj.h"
-#include "ae_env.h"
-#include "ae_write.h"
+#include "obj.h"
+#include "env.h"
+#include "write.h"
   
 #define YYSTYPE ae_obj_t *
 

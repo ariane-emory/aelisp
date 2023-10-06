@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ae_obj.h"
-#include "ae_env.h"
-#include "ae_eval.h"
-#include "ae_free_list.h"
-#include "ae_write.h"
-#include "ae_util.h"
+#include "obj.h"
+#include "env.h"
+#include "eval.h"
+#include "free_list.h"
+#include "write.h"
+#include "util.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // data
