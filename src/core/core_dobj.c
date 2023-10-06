@@ -1,15 +1,4 @@
-#include <stdbool.h>
-
-#include "alist.h"
-#include "core.h"
-#include "env.h"
-#include "eval.h"
-#include "free_list.h"
-#include "list.h"
-#include "obj.h"
-#include "util.h"
-#include "write.h"
-#include "core_util_macros.h"
+#include "core_includes.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _dobj
