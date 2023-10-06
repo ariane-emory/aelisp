@@ -54,3 +54,15 @@ ae_obj_t * ae_core_tailp(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_RETURN("tailp", TAILP(CAR(args)) ? TRUE : NIL);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _properp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_properp(ae_obj_t * const env, ae_obj_t * const args) {
+  CORE_BEGIN("properp");
+
+  REQUIRE(env, args, LENGTH(args) == 1);
+
+  CORE_RETURN("properp", PROPER_LISTP(CAR(args)) ? TRUE : NIL);
+}
+
