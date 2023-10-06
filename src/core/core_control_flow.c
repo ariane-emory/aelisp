@@ -8,8 +8,6 @@
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("progn");
 
-  REQUIRE(env, args, LENGTH(args) > 0, "an empty progn does not make sense");
-  
   ae_obj_t * ret = NIL;
 
   FOR_EACH(elem, args)
