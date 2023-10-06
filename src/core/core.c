@@ -13,30 +13,6 @@
 #include "core_util_macros.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef AE_LOG_CORE
-#  define CORE_BEGIN(name)                                                                         \
-({                                                                                                 \
-  LOG(args, "[core_" name "]");                                                                    \
-  INDENT;                                                                                          \
-  LOG(env,  "in env");                                                                             \
-})
-#else
-#  define CORE_BEGIN(name) ((void)name)
-#endif
-
-#ifdef AE_LOG_CORE
-#  define CORE_RETURN(name, val)                                                                   \
-({                                                                                                 \
- OUTDENT;                                                                                          \
- LOG_RETURN_WITH_TYPE("core_" name, val);                                                          \
- return val;                                                                                       \
-})
-#else
-#  define CORE_RETURN(name, val) return ((val))
-#endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // math
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
