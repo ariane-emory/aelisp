@@ -11,12 +11,13 @@
 ;; (setq obvious (lambda (x) (print x) x))
 ;; (obvious 7)
 
-;; setq   alist  nil                     )
+;; (setq   alist  nil                     )
 ;; (setq   alist (aset alist 'name "Bob" ))
 ;; (setq   alist (aset alist 'age   24   ))
 ;; (setq   alist (aset alist 'type 'human))
 
-;; (write alist)
+;; (print alist)
+;; (exit)
 
 ;; (set 'scoped-setq-test
 ;;   (lambda (x)
@@ -44,8 +45,7 @@
        (y 2))
   (print (double x))
   (print (double y))
-  (print (+ (double x) y))
-  )
+  (print (+ (double x) y)))
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
