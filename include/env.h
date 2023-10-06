@@ -24,7 +24,7 @@ _obj;                                                                           
 #define ENV_ADD(env, sym, val) (ae_env_add ((env), (sym), (val)))                                 //
 #define ENV_SET(env, sym, val) (ae_env_set ((env), (sym), (val)))                                 //
 #define ENV_FIND(env, sym)     (ae_env_lookup((env), (sym), NULL))                                //
-#define ENV_BOUND(env, sym)                                                                        \
+#define ENV_BOUNDP(env, sym)                                                                       \
   ({                                                                                               \
   bool found = false;                                                                              \
   ((void)ae_env_lookup((env), (sym), &found));                                                     \

@@ -19,6 +19,7 @@
   DO(syms)    /* env accessor */                                                                   \
   DO(properp) /* reduceable */                                                                     \
   DO(tailp)   /* reduceable */                                                                     \
+  DO(boundp)                                                                                       \
   DO(nl)                                                                                           \
   /*=============================================================================================*/\
   DO(put)     /* reducing this would require a core to get objs' addresses, might not bother. */   \
