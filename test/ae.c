@@ -530,9 +530,9 @@ void truth(void) {
   T(NILP(that));
 }
 
-#define ENV_TRIO                         \
-  obj root   = ENV_NEW_ROOT();           \
-  obj parent = NEW_ENV(root,  NIL, NIL); \
+#define ENV_TRIO                          \
+  obj root   = ENV_NEW_ROOT();            \
+  obj parent = NEW_ENV(root,   NIL, NIL); \
   obj child  = NEW_ENV(parent, NIL, NIL);
   
 
