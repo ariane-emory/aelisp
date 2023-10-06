@@ -28,12 +28,15 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
-  FOR_EACH(varlist_item, varlist)
+  FOR_EACH(varlist_item, varlist) {
+    OLOG(varlist_item);
+    
     ENV_SET_L(new_env,
               CAR(varlist_item), 
               SYMBOLP(varlist_item)
               ? NIL
-              : EVAL(env, CDR(varlist)));
+              : EVAL(env, CADR(varlist_item)));
+  }
 
   LOG(ENV_SYMS(new_env), "new_env syms");
   LOG(ENV_VALS(new_env), "new_env vals");
