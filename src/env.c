@@ -93,7 +93,7 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_obj_t * const symbol, bool * f
   
   ae_obj_t * pos = env;
   
-  for (; ENVP(pos); pos = ENV_PARENT(pos)) {
+  for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through ends
 
 #ifdef AE_LOG_ENV
     LOG(pos, "in env");
@@ -106,7 +106,7 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_obj_t * const symbol, bool * f
     LOG(symbols, "containing syms");
 #endif
 
-    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values))
+    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) { // loop through syms/vals
       if (EQ(symbol, CAR(symbols))) {
 
 #ifdef AE_LOG_ENV
@@ -120,6 +120,7 @@ ae_obj_t * ae_env_lookup(ae_obj_t * const env, ae_obj_t * const symbol, bool * f
         
         goto end;
       }
+    }
 
     if (EQ(symbol, symbols)) {
       ret = values;
