@@ -7,7 +7,7 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-;; (setq   alist  nil                     )
+(setq   alist  nil                     )
 ;; (setq   alist (aset alist 'name "Bob" ))
 ;; (setq   alist (aset alist 'age   24   ))
 ;; (setq   alist (aset alist 'type 'human))
