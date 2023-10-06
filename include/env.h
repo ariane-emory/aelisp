@@ -34,12 +34,12 @@ _obj;                                                                           
 #define ENV_ADD(env, sym, val)   (ae_env_add(            (env), (sym), (val)))                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_SET(env, sym, val)   (ae_env_set(   NEAREST, (env), (sym), (val)))                                     //
-#define ENV_SET_G(env, sym, val) (ae_env_set(   NEAREST, (env), (sym), (val)))                                     //
-#define ENV_SET_L(env, sym, val) (ae_env_set(   NEAREST, (env), (sym), (val)))                                     //
+#define ENV_SET_G(env, sym, val) (ae_env_set(    GLOBAL, (env), (sym), (val)))                                     //
+#define ENV_SET_L(env, sym, val) (ae_env_set(     LOCAL, (env), (sym), (val)))                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_FIND(env, sym)       (ae_env_lookup(NEAREST, (env), (sym), NULL))                                      //
-#define ENV_FIND_G(env, sym)     (ae_env_lookup(NEAREST, (env), (sym), NULL))                                      //
-#define ENV_FIND_L(env, sym)     (ae_env_lookup(NEAREST, (env), (sym), NULL))                                      //
+#define ENV_FIND_G(env, sym)     (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                      //
+#define ENV_FIND_L(env, sym)     (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_BOUNDP(env, sym)                                                                                        \
   ({                                                                                                                \
