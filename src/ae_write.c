@@ -227,7 +227,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 #  define ARROW_ADJUST 0
 #endif
 
-    // ENVs begin with this:
+    // All ENVs begin with this:
     COUNTED_FPRINTF(fwrite_stream, "%s<", GET_TYPE_STR(this));
     
     char parent_name[12] = { 0 };
@@ -238,11 +238,11 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       sprintf(parent_name, "%08p", ENV_PARENT(this));
 
     if (ROOTP(this)) {
-      COUNTED_FPRINTF(fwrite_stream, "root>");
+      COUNTED_FPRINTF(fwrite_stream, "root");
     }
 #ifdef AE_DEBUG_OBJ
     else if (DHAS(this, "fun")) {
-      char * fun_name = "ERROR-DO-NO-WRITE-ME";
+      char * fun_name = NULL;
       
       if (COREP(DGET(this, "fun")))
         fun_name = CORE_NAME(DGET(this, "fun"));
@@ -251,7 +251,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       else 
         assert(((void)"unknown fun type", false));
 
-      COUNTED_FPRINTF(fwrite_stream, "%s, %08p " ARROW " %s>", fun_name, this, parent_name);
+      COUNTED_FPRINTF(fwrite_stream, "%s, %08p " ARROW " %s", fun_name, this, parent_name);
 
       fwrite_counter -= ARROW_ADJUST;
     }
@@ -259,10 +259,13 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else
     {
       // this has an extra space for the benefit of idle-highlight-mode:
-      COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s>", this, parent_name);
+      COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s", this, parent_name);
 
       fwrite_counter -= ARROW_ADJUST;
     }
+
+    // All ENVs end with this:
+    COUNTED_FPRINTF(fwrite_stream, ">");
 
     break;
   case AE_LAMBDA:
