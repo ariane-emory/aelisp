@@ -30,12 +30,13 @@
 ;; q
 
 (set 'scoped-setq-test
-  (lambda ()
-    (setq q 555)))
+  (lambda (x)
+    (setq *q* x)))
 
-(scoped-setq-test)
+(scoped-setq-test 200)
 
-q
+*q*
+
 
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
