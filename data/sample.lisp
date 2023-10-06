@@ -42,8 +42,9 @@
 (let ( (x 1)
        (y 2))
   (print x)
-  (print y)
-  (print (+ x y)))
+  ;; (print y)
+  ;; (print (+ x y))
+  )
 
 ;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 

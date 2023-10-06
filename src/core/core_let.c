@@ -9,7 +9,7 @@
 ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("let");
 
-  REQUIRE(env, args, LENGTH(args) > 2,    "let requires a varlist and a body");
+  REQUIRE(env, args, LENGTH(args) >= 2,    "let requires a varlist and a body");
   
   ae_obj_t * const varlist = CAR(args);
 
@@ -34,6 +34,9 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
               SYMBOLP(CAR(varlist_item))
               ? NIL
               : EVAL(env, CDR(varlist)));
+
+  LOG(ENV_SYMS(new_env), "new_env syms");
+  LOG(ENV_VALS(new_env), "new_env vals");
 
   ae_obj_t * ret           = ae_core_progn(new_env, body);
   
