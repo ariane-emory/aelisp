@@ -243,10 +243,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
       goto end_of_env_write;
     }
     
+    char * fun_name = NULL;
+    
 #ifdef AE_DEBUG_OBJ
-    if (DHAS(this, "fun")) {
-      char * fun_name = NULL;
-      
+    if (DHAS(this, "fun")) {      
       if (COREP(DGET(this, "fun")))
         fun_name = CORE_NAME(DGET(this, "fun"));
       else if (LAMBDAP(DGET(this, "fun")) || MACROP(DGET(this, "fun")))
@@ -258,8 +258,8 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
 
       fwrite_counter -= ARROW_ADJUST;
     }
-#endif
     else
+#endif
     {
       // this has an extra space for the benefit of idle-highlight-mode:
       COUNTED_FPRINTF(fwrite_stream, " %08p " ARROW " %s", this, parent_name);
