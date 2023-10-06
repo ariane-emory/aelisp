@@ -557,7 +557,7 @@ void env_scoping(void) {
   {
     ENV_TRIO;
 
-    ENV_SET(       childt, SYM("foo"), SYM("bar"));
+    ENV_SET(       child,  SYM("foo"), SYM("bar"));
     T(  ENV_BOUNDP(root,   SYM("foo")));
     T(  ENV_BOUNDP(parent, SYM("foo")));
     T(  ENV_BOUNDP(child,  SYM("foo")));
