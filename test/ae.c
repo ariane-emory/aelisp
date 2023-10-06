@@ -537,12 +537,20 @@ void truth(void) {
   
 
 void env_scoping(void) {
+  SETUP_TEST;
   {
-    SETUP_TEST;
     ENV_TRIO;
 
     ENV_SET_L(     parent, SYM("foo"), SYM("bar"));
     T(! ENV_BOUNDP(root,   SYM("foo")));
+    T(  ENV_BOUNDP(parent, SYM("foo")));
+    T(  ENV_BOUNDP(child,  SYM("foo")));
+  }
+  {
+    ENV_TRIO;
+
+    ENV_SET(       parent, SYM("foo"), SYM("bar"));
+    T(  ENV_BOUNDP(root,   SYM("foo")));
     T(  ENV_BOUNDP(parent, SYM("foo")));
     T(  ENV_BOUNDP(child,  SYM("foo")));
   }
