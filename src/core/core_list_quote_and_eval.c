@@ -22,6 +22,8 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_list(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("list");
 
+  (void)env;
+  
   ae_obj_t * ret = args;
 
   CORE_RETURN("list", ret);
