@@ -8,11 +8,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const value) {
+  assert(! NULLP(env));
+  assert(! NULLP(symbol));
+  assert(! NULLP(value));
+
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
-  assert(! NULLP(value));
-  
+    
   ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
 
