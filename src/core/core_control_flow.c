@@ -8,7 +8,6 @@
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("progn");
 
-  REQUIRE(env, args, PROPERP(args),    "progn requires a proper list");
   REQUIRE(env, args, LENGTH(args) > 0, "an empty progn does not make sense");
   
   ae_obj_t * ret = NIL;
@@ -86,7 +85,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
     SLOG("chose else");
 #endif
 
-    CORE_RETURN("if", EVAL(env, CONS(SYM("progn"), CDDR(args))));
+    CORE_RETURN("if", ae_core_progn(env, CDDR(args)));
   }
 }
 
