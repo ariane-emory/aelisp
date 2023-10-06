@@ -233,22 +233,24 @@ extern ae_obj_t * symbols_list;
 #define MARK_DELOCALIZED(o)          (ae_obj_set_delocalized((o), true))
 #define UNMARK_DELOCALIZED(o)        (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/* This could probably be DRYed up by using an X macro to create function versions of them, but  */
-/* their names would be ugly unless we renamed the types first to remove the AE_ prefix.          */
-/* Undecided.                                                                                     */
-#define CHARP(o)                     ((! NULLP((o))) && (GET_TYPE((o)) == AE_CHAR))
-#define CONSP(o)                     ((! NULLP((o))) && (GET_TYPE((o)) == AE_CONS))
-#define COREP(o)                     ((! NULLP((o))) && (GET_TYPE((o)) == AE_CORE))
-#define ERRORP(o)                    ((! NULLP((o))) && (GET_TYPE((o)) == AE_ERROR))
-#define FLOATP(o)                    ((! NULLP((o))) && (GET_TYPE((o)) == AE_FLOAT))
-#define FREEP(o)                     ((! NULLP((o))) && (GET_TYPE((o)) == AE_FREE))
-#define INTEGERP(o)                  ((! NULLP((o))) && (GET_TYPE((o)) == AE_INTEGER))
-#define INVALIDP(o)                  ((! NULLP((o))) && (GET_TYPE((o)) == AE_INVALID))
-#define LAMBDAP(o)                   ((! NULLP((o))) && (GET_TYPE((o)) == AE_LAMBDA))
-#define MACROP(o)                    ((! NULLP((o))) && (GET_TYPE((o)) == AE_MACRO))
-#define RATIONALP(o)                 ((! NULLP((o))) && (GET_TYPE((o)) == AE_RATIONAL))
-#define STRINGP(o)                   ((! NULLP((o))) && (GET_TYPE((o)) == AE_STRING))
-#define SYMBOLP(o)                   ((! NULLP((o))) && (GET_TYPE((o)) == AE_SYMBOL))
+#define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
+#define CAPTURED                     tmp_##__LINE__
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TYPE_PREDICATE(type, o)      ({ CAPTURE(o); !NULLP(CAPTURED) && GET_TYPE(CAPTURED) == type; })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define CHARP(o)                     TYPE_PREDICATE(AE_CHAR, o)
+#define CONSP(o)                     TYPE_PREDICATE(AE_CONS, o)
+#define COREP(o)                     TYPE_PREDICATE(AE_CORE, o)
+#define ERRORP(o)                    TYPE_PREDICATE(AE_ERROR, o)
+#define FLOATP(o)                    TYPE_PREDICATE(AE_FLOAT, o)
+#define FREEP(o)                     TYPE_PREDICATE(AE_FREE, o)
+#define INTEGERP(o)                  TYPE_PREDICATE(AE_INTEGER, o)
+#define INVALIDP(o)                  TYPE_PREDICATE(AE_INVALID, o)
+#define LAMBDAP(o)                   TYPE_PREDICATE(AE_LAMBDA, o)
+#define MACROP(o)                    TYPE_PREDICATE(AE_MACRO, o)
+#define RATIONALP(o)                 TYPE_PREDICATE(AE_RATIONAL, o)
+#define STRINGP(o)                   TYPE_PREDICATE(AE_STRING, o)
+#define SYMBOLP(o)                   TYPE_PREDICATE(AE_SYMBOL, o)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                              \
 ({                                                                                                 \
