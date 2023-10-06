@@ -90,7 +90,7 @@ all: bin/ae $(TEST_BINS)
 print:
 	echo $(INCLUDE_DIRS)	
 
-obj/%.o: src/%.c obj obj/core
+obj/%.o: src/%.c obj obj/core obj/test
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
 
 ################################################################################
@@ -128,6 +128,9 @@ obj:
 	mkdir -p $@
 
 obj/core:
+	mkdir -p $@
+
+obj/test:
 	mkdir -p $@
 
 bin:

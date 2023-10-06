@@ -1,8 +1,0 @@
-#pragma once
-
-#include "obj.h"
-
-ae_obj_t * ae_generate_macro_defmacro(void);
-ae_obj_t * ae_generate_macro_defun   (void);
-ae_obj_t * ae_generate_macro_and     (void);
-ae_obj_t * ae_generate_macro_or      (void);
