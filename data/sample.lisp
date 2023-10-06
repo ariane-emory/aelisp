@@ -12,10 +12,11 @@
 ;; (setq   alist (aset alist 'age   24   ))
 ;; (setq   alist (aset alist 'type 'human))
 
-(print "syms: ") (princ (syms (env)))
-(print "vals: ") (princ (vals (env)))
+;; (print "syms: ") (princ (syms (env)))
+;; (print "vals: ") (princ (vals (env)))
 
 (print alist)
+
 ;; (exit)
 
 ;; (set 'scoped-setq-test
@@ -39,12 +40,12 @@
 ;; (scoped-setq-test  25)
 ;; (cond-test *q*)
 
-(let ( (double (lambda (z) (* 2 z)))
-       (x 1)
-       (y 2))
-  (print (double x))
-  (print (double y))
-  (print (double (+ (double x) y))))
+;; (let ( (double (lambda (z) (* 2 z)))
+;;        (x 1)
+;;        (y 2))
+;;   (print (double x))
+;;   (print (double y))
+;;   (print (double (+ (double x) y))))
 
 
 
