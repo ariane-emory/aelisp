@@ -281,12 +281,12 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("×"),    ENV_FIND(env, SYM("mul")));
   ENV_SET(env, SYM("÷"),    ENV_FIND(env, SYM("div")));
   ENV_SET(env, SYM("∃"),    ENV_FIND(env, SYM("boundp")));
+  ENV_SET(env, SYM("≔"),    ENV_FIND(env, SYM("setq")));
   ENV_SET(env, SYM("∄"),    ENV_FIND(env, SYM("not-boundp"))); // not-boundp doesn't exist yet.
   ENV_SET(env, SYM("∈"),    ENV_FIND(env, SYM("memberp"))); // memberp doesn't exist yet.
   ENV_SET(env, SYM("∉"),    ENV_FIND(env, SYM("not-memberp"))); // not-memberp doesn't exist yet.
   ENV_SET(env, SYM("≠"),    ENV_FIND(env, SYM("neql"))); // neql doesn't exist yet.
   ENV_SET(env, SYM("∀"),    ENV_FIND(env, SYM("map"))); // map doesn't exist yet.
-≔  
   return env;
 }
 
