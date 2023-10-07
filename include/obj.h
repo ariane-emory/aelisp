@@ -245,8 +245,8 @@ extern ae_obj_t * symbols_list;
 #define RATIONALP(obj)                   TYPE_PREDICATE((obj), AE_RATIONAL)
 #define STRINGP(obj)                     TYPE_PREDICATE((obj), AE_STRING)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MACROP_INTERNAL(obj)             (((obj)) && TYPE_PREDICATE_INTERNAL((obj), AE_MACRO))
 #define COREP_INTERNAL(obj)              (((obj)) && TYPE_PREDICATE_INTERNAL((obj), AE_CORE))
+#define MACROP_INTERNAL(obj)             ({CAPTURE((obj)); TYPE_PREDICATE_INTERNAL(CAPTURED, AE_MACRO); })
 #define SPECIALP(obj)                    ({CAPTURE((obj)); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SYMBOLP_INTERNAL(obj)            ((obj) && TYPE_PREDICATE_INTERNAL((obj), AE_SYMBOL))
