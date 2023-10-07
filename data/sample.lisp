@@ -27,11 +27,13 @@
        (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
        (fib     (lambda (n)
                   (let ((memoized (aget *memo* n)))
-                    (if memoized memozed
-                        (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
+                    (cond
+                      (memoized memoized)
+                      ;; ((<= n 2) 1)
+                      (t (memoize n (+ (fib (- n 1)) (fib (- n 2)))))))))
        (result  (fib n)))
   result)
 )
 
 
-shove
+
