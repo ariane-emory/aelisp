@@ -158,7 +158,11 @@ end:
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ae_env_set(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_obj_t * const symbol, ae_obj_t * const value) {
+void ae_env_set(
+  ae_env_set_mode_t mode,
+  ae_obj_t * const env,
+  ae_obj_t * const symbol,
+  ae_obj_t * const value) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
