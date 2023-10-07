@@ -125,17 +125,11 @@
 
 
 
-(setq  *memo* nil)
-
-;; (setq  *memo* (kset *memo* 1 1))
-;; (setq  *memo* (kset *memo* 8 1))
-;; (setq  *memo* (kset *memo* 1 4))
-;; (setq  *memo* (kset *memo* 8 2))
-;; (print (cadr (setq  *memo* (kset *memo* 8 99))))
+;; (setq *memo* '(2 1 1 1)
 
 (setq fib memo-fib)
 
-(let ((x 15))
+(let ((x 20))
   (print (fib x)))
 
 (princ "memo: ")
