@@ -57,6 +57,7 @@
   DO(let)                                                                                          \
   DO(let_star)                                                                                     \
   DO(if)      /* reduceable */                                                                     \
+  DO(or)      /* reduceable */                                                                     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                  \
   DO(mod,   %, 1)                                                                                  \
