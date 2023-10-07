@@ -763,31 +763,31 @@ void core_eq_eql_not(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
 
-  this = CONS(NEW_INT(1), LIST(NEW_INT(2)));
-  that = CONS(NEW_INT(1), LIST(NEW_INT(2)));
+  this = CONS(NEW_INT(1), NEW_CONS(NEW_INT(2), NIL));
+  that = CONS(NEW_INT(1), NEW_CONS(NEW_INT(2), NIL));
 
-  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), LIST(NEW_INT  (5  ))                           )))); // 5 and 5 are equal numbers...
-  T(NILP (ae_core_eq   (env, CONS(NEW_INT(5), LIST(NEW_INT  (5  ))                           )))); // ... but they are not the same object.
-  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), LIST(NEW_FLOAT(5.0))                           )))); // 5 and 5.0 are equal-enough numbers...
-  T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), LIST(NEW_INT  (6  ))                           )))); // ... but 5 and 6 are not.
+  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), NEW_CONS(NEW_INT  (5  ), NIL)                 )))); // 5 and 5 are equal numbers...
+  T(NILP (ae_core_eq   (env, CONS(NEW_INT(5), NEW_CONS(NEW_INT  (5  ), NIL)                 )))); // ... but they are not the same object.
+  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), NEW_CONS(NEW_FLOAT(5.0), NIL)                 )))); // 5 and 5.0 are equal-enough numbers...
+  T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), NEW_CONS(NEW_INT  (6  ), NIL)                 )))); // ... but 5 and 6 are not.
 
-  T(TRUEP(ae_core_eq   (env, CONS(this      , LIST(this)                                     )))); // These are the same object and so are eq
-  T(TRUEP(ae_core_eql  (env, CONS(this      , LIST(this)                                     )))); // and also eql.
-  T(NILP (ae_core_eq   (env, CONS(this      , LIST(that)                                     )))); // These are the NOT the same object and so
-  T(NILP (ae_core_eql  (env, CONS(this      , LIST(that)                                     )))); // neither eq or eql.
-  T(NILP (ae_core_eq   (env, CONS(that      , LIST(this)                                     )))); // eq is commutative.
-  T(NILP (ae_core_eql  (env, CONS(that      , LIST(this)                                     )))); // eql too.
+  T(TRUEP(ae_core_eq   (env, CONS(this      , NEW_CONS(this, NIL)                           )))); // These are the same object and so are eq
+  T(TRUEP(ae_core_eql  (env, CONS(this      , NEW_CONS(this, NIL)                           )))); // and also eql.
+  T(NILP (ae_core_eq   (env, CONS(this      , NEW_CONS(that, NIL)                           )))); // These are the NOT the same object and so
+  T(NILP (ae_core_eql  (env, CONS(this      , NEW_CONS(that, NIL)                           )))); // neither eq or eql.
+  T(NILP (ae_core_eq   (env, CONS(that      , NEW_CONS(this, NIL)                           )))); // eq is commutative.
+  T(NILP (ae_core_eql  (env, CONS(that      , NEW_CONS(this, NIL)                           )))); // eql too.
 
-  T(TRUEP(ae_core_eq   (env, CONS(this      , CONS(this         , LIST(this                 )))))); // eq can take 3+ arguments...
-  T(NILP (ae_core_eq   (env, CONS(this      , CONS(this         , LIST(that                 ))))));
-  T(TRUEP(ae_core_eq   (env, CONS(NIL       , CONS(NIL          , LIST(NIL                  ))))));
-  T(NILP (ae_core_eq   (env, CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
+  T(TRUEP(ae_core_eq   (env, CONS(this      , CONS(this         , NEW_CONS(this      , NIL)))))); // eq can take 3+ arguments...
+  T(NILP (ae_core_eq   (env, CONS(this      , CONS(this         , NEW_CONS(that      , NIL))))));
+  T(TRUEP(ae_core_eq   (env, CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL))))));
+  T(NILP (ae_core_eq   (env, CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL))))));
 
-  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(5)           )))))); // ...so can eql.
-  T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , LIST(NEW_INT(6)           ))))));
+  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(5), NIL)))))); // ...so can eql.
+  T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(6), NIL))))));
 
-  T(TRUEP(ae_core_not  (env, CONS(NIL       , CONS(NIL          , LIST(NIL                  ))))));
-  T(NILP (ae_core_not  (env, CONS(NIL       , CONS(NIL          , LIST(TRUE                 ))))));
+  T(TRUEP(ae_core_not  (env, CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL))))));
+  T(NILP (ae_core_not  (env, CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL))))));
 }
 
 void core_print_princ_write(void) {
