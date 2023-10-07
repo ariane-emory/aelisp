@@ -30,9 +30,10 @@
 #ifdef AE_LOG_CORE
 #  define CORE_BEGIN(name)                                                                         \
 ({                                                                                                 \
-  LOG(args, "[core_" name "]");                                                                    \
+  char * tmp = SWRITE(env);                                                                        \
+  LOG(env,  "[applying 'core_"  name "' in env]", tmp);                                            \
   INDENT;                                                                                          \
-  LOG(env,  "in env");                                                                             \
+  free(tmp);                                                                                       \
 })
 #else
 #  define CORE_BEGIN(name) ((void)name)
@@ -43,9 +44,9 @@
 #ifdef AE_LOG_CORE
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
- OUTDENT;                                                                                          \
- LOG_RETURN_WITH_TYPE("core_" name, val);                                                          \
- return val;                                                                                       \
+  OUTDENT;                                                                                         \
+  LOG_RETURN_WITH_TYPE("core_" name, val);                                                         \
+  return val;                                                                                      \
 })
 #else
 #  define CORE_RETURN(name, val) return ((val))

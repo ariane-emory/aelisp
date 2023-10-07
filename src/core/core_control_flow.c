@@ -8,12 +8,10 @@
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("progn");
 
-  (void) env;
-
   ae_obj_t * ret = NIL;
 
   FOR_EACH(elem, args)
-    ret = elem;
+    ret = EVAL(env, elem);
 
   CORE_RETURN("progn", ret);
 }
@@ -28,23 +26,41 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
 
   ae_obj_t * ret = NIL;
+
+  int ctr = 0;
   
   FOR_EACH(cond_item, args) {
     REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be proper lists with at least two elements");
 
+    ctr++;
+    
+#ifdef AE_LOG_CORE
+    LOG(cond_item, "case #%d:",   ctr);
+    // LOG(item_car, "case #%d's test",   ctr);
+    // LOG(item_cdr, "case #%d's result", ctr);
+    INDENT;
+#endif
+
     ae_obj_t * const item_car = CAR(cond_item);
     ae_obj_t * const item_cdr = CDR(cond_item);
   
-#ifdef AE_LOG_CORE
-    LOG(item_car, "car");
-    LOG(item_cdr, "cdr");
-#endif
+/* #ifdef AE_LOG_CORE */
+/*     LOG(item_car, "case #%d's test",   ctr); */
+/*     LOG(item_cdr, "case #%d's result", ctr); */
+/* #endif */
+
+    // ae_obj_t * const matched  = EVAL(env, item_car) ;
 
     if (! NILP(EVAL(env, item_car))) {
       ret = ae_core_progn(env, item_cdr);
 
+      OUTDENT;
+      LOG(ret, "case #%d matched and produced result:", ctr);
       break;
     }
+    
+    OUTDENT;
+    SLOGF("case #%d doesn't match", ctr);
   }
 
   CORE_RETURN("cond", ret);

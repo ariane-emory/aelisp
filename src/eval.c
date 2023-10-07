@@ -68,7 +68,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   //LOG(DOBJ(env), "with this debug data");
 #endif
 
-  MAYBE_EVAL(SPECIALP(fun), args);
+//  MAYBE_EVAL(SPECIALP(fun), args);
 
 #ifdef AE_LOG_EVAL
   /* if (SPECIALP(fun)) */
@@ -161,6 +161,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
   ae_obj_t * result = EVAL(env, body);
+  // result = SPECIALP(fun) ? EVAL(env, result) : result;
 
   log_column = log_column_default;
   
@@ -203,18 +204,23 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   ae_obj_t * fun  = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
+  assert(TAILP(args));
+
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
   LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
-  free (tmp);
 
   INDENT;
   // LOG(args, "to args");
-  LOG(env,  "in env");
 #endif
 
   fun = EVAL(env, fun);
 
+#ifdef AE_LOG_EVAL
+  // LOG(env,  "applying '%s' in env:", tmp);
+  free (tmp);
+#endif
+  
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     LOG(fun, "Not applicable: ");
 
@@ -223,7 +229,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     assert(0);
   }
 
-  assert(TAILP(args));
 
   apply_dispatch_row_t dispatch = {0};
 
@@ -347,7 +352,9 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   // INDENT;
 #endif
 
-  ae_obj_t * ret = KEYWORDP(sym) ? sym : ENV_FIND(env, sym);
+  ae_obj_t * ret = KEYWORDP(sym)
+    ? sym
+    : ENV_FIND(env, sym);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
   if (! DHAS(ret, "birth-place")) {
