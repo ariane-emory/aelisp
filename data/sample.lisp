@@ -57,12 +57,14 @@
               (t (+ (fib (- n 1)) (fib (- n 2)))))))
 
 (setq memo-fib (lambda (n)
-            (cond
-              ((<= n 2) 1)
-              (t (+ (fib (- n 1)) (fib (- n 2)))))))
+                 (let ((memoized (pget *memo* n)))
+                   (cond
+                     (memoized memoized)
+                     ((<= n 2) 1)
+                     (t (+ (fib (- n 1)) (fib (- n 2))))))))
 
 
-
+(setq  *memo* nil)
 (setq  *memo* (kset *memo* 1 1))
 (setq  *memo* (kset *memo* 8 1))
 (setq  *memo* (kset *memo* 1 4))
