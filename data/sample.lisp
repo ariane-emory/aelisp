@@ -1,4 +1,4 @@
-;; mcm; time { for i in {1..20000}; do ./bin/ae; done; }
+;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 
 ;; (setq naive-fib (lambda (n)
 ;;   (if (<= n 2)
@@ -21,16 +21,13 @@
 ;;   result)
 ;; )
 
-(print
 (let* ((n 30)
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (λ (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
        (fib     (λ (n)
-                  (let ((memoized (aget *memo* n)))
-                    (∨ memoized (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
+                   (let ((memoized (aget *memo* n)))
+                     (∨ memoized (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
        (result  (fib n)))
   result)
-)
-
 
 
