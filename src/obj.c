@@ -298,6 +298,9 @@ void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
 
 ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
   assert(this);
+
+  if (! this)
+    return AE_INVALID;
   
   ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
