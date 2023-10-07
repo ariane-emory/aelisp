@@ -7,18 +7,18 @@
   /*=============================================================================================*/\
   DO(exit)                                                                                         \
   DO(msleep)                                                                                       \
-  DO(dobj)  /* debug data accessor */                                                              \
-  DO(errmsg)  /* error accessor */                                                                 \
-  DO(errobj)  /* error accessor */                                                                 \
+  DO(dobj)    /* debug data accessor   */                                                          \
+  DO(errmsg)  /* error accessor        */                                                          \
+  DO(errobj)  /* error accessor        */                                                          \
   DO(numer)   /* rational/int accessor */                                                          \
   DO(denom)   /* rational/int accessor */                                                          \
-  DO(body)    /* fun accessor */                                                                   \
-  DO(params)  /* fun accessor */                                                                   \
-  DO(env)     /* env/fun accessor */                                                               \
-  DO(vals)    /* env accessor */                                                                   \
-  DO(syms)    /* env accessor */                                                                   \
-  DO(properp) /* reduceable */                                                                     \
-  DO(tailp)   /* reduceable */                                                                     \
+  DO(body)    /* fun accessor          */                                                          \
+  DO(params)  /* fun accessor          */                                                          \
+  DO(env)     /* env/fun accessor      */                                                          \
+  DO(vals)    /* env accessor          */                                                          \
+  DO(syms)    /* env accessor          */                                                          \
+  DO(properp) /* reduceable            */                                                          \
+  DO(tailp)   /* reduceable            */                                                          \
   DO(boundp)                                                                                       \
   DO(nl)                                                                                           \
   /*=============================================================================================*/\
@@ -27,8 +27,8 @@
   DO(print)                                                                                        \
   DO(write)                                                                                        \
   /*=============================================================================================*/\
-  DO(type)    /* GET_TYPE proxy */                                                                 \
-  DO(length)  /* reduceable */                                                                     \
+  DO(type)                   /* GET_TYPE proxy */                                                  \
+  DO(length)                 /* reduceable     */                                                  \
   DO(rplacd)                                                                                       \
   DO(rplaca)                                                                                       \
   DO(ahas)                                                                                         \
@@ -37,8 +37,8 @@
   DO(phas)                                                                                         \
   DO(pset)                                                                                         \
   DO(pget)                                                                                         \
-  DO(not)     /* reduceable */                                                                     \
-  DO(eql)     /* reduceable */                                                                     \
+  DO(not)                    /* reduceable */                                                      \
+  DO(eql)                    /* reduceable */                                                      \
   DO(eq)                                                                                           \
   DO(cons)                                                                                         \
   DO(cdr)                                                                                          \
@@ -56,9 +56,9 @@
   DO(cond)                                                                                         \
   DO(let)                                                                                          \
   DO(let_star)                                                                                     \
-  DO(if)      /* reduceable */                                                                     \
-  DO(or)      /* reduceable */                                                                     \
-  DO(and)     /* reduceable */                                                                     \
+  DO(if)                     /* reduceable */                                                      \
+  DO(or)                     /* reduceable */                                                      \
+  DO(and)                    /* reduceable */                                                      \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                  \
   DO(mod,   %, 1)                                                                                  \
