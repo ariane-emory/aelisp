@@ -21,15 +21,15 @@
 ;;   result)
 ;; )
 
-(let* ((n 5)
+(let* ((n 30)
        (*memo* '((2 . 1) (1 . 1)))
-       (memoize (λ (k v) (cdr (car (≔ *memo* (aset *memo* k v))))))
-       (fib     (λ (n)
+       (memoize (λ (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
+       (𝑓       (λ (n)
                    (let ((memoized (aget *memo* n)))
                      (∨   memoized
-                          (memoize n (+ (fib (- n 1))
-                                        (fib (- n 2))))))))
-       (result  (fib n)))
+                          (memoize n (+ (𝑓 (- n 1))
+                                        (𝑓 (- n 2))))))))
+       (result  (𝑓 n)))
   result)
 
 ;; (print (<< 10))

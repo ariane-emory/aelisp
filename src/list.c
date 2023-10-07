@@ -67,7 +67,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
 #ifdef AE_LIST_MAP_RECURSES
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
 #else
-  ae_obj_t * new_list = LIST(fun(CAR(list)));
+  ae_obj_t * new_list = NEW_CONS(fun(CAR(list)), NIL);
   ae_obj_t * tailtip  = new_list;
 
   if (NILP(CDR(list)))
@@ -117,7 +117,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
     if (elem == member)
       continue;
     else if (NILP(new_list))
-      new_list = LIST(elem);
+      new_list = NEW_CONS(elem, NIL);
     else
       // this could be faster if we stashed the tailtip.
       PUSH(new_list, elem);
@@ -208,7 +208,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   FOR_EACH(ignored, *plist) 
     tailtip = position;
 
-  CDR(tailtip) = LIST(member);
+  CDR(tailtip) = NEW_CONS(member, NIL);
 
   AFTER_PUSH_MESSAGE(CDR(tailtip));
   
@@ -246,7 +246,7 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
 
   if (NILP(*plist)) {
     NEW_SYM;
-    *plist = LIST(new_sym);
+    *plist = NEW_CONS(new_sym, NIL);
 
     return new_sym;
   }
