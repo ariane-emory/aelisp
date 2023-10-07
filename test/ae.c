@@ -751,12 +751,12 @@ void core_cons_car_cdr(void) {
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, CONS(SYM("a"), NEW_CONS(NIL, NIL))), "(a)"       )); // cons 'a onto nil and get (a).
   T(shitty_princ_based_equality_predicate(ae_core_cdr (env, make_args_containing_one_list() ), "(b c)"       ));
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, make_args_for_cons()            ), "(nil a b c)" ));
-  T(NILP(ae_core_car(env,                  LIST(NIL))                                                        ));
-  T(NILP(ae_core_cdr(env,                  LIST(NIL))                                                        ));
-  T(NILP(ae_core_car(env, LIST(ae_core_car(env, LIST(NIL))))                                                 ));
-  T(NILP(ae_core_cdr(env, LIST(ae_core_cdr(env, LIST(NIL))))                                                 ));
-  T(NILP(ae_core_car(env, LIST(ae_core_cdr(env, LIST(NIL))))                                                 ));
-  T(NILP(ae_core_cdr(env, LIST(ae_core_car(env, LIST(NIL))))                                                 ));
+  T(NILP(ae_core_car(env,                  NEW_CONS(NIL, NIL))                                               ));
+  T(NILP(ae_core_cdr(env,                  NEW_CONS(NIL, NIL))                                               ));
+  T(NILP(ae_core_car(env, NEW_CONS(ae_core_car(env, NEW_CONS(NIL, NIL)), NIL))                               ));
+  T(NILP(ae_core_cdr(env, NEW_CONS(ae_core_cdr(env, NEW_CONS(NIL, NIL)), NIL))                               ));
+  T(NILP(ae_core_car(env, NEW_CONS(ae_core_cdr(env, NEW_CONS(NIL, NIL)), NIL))                               ));
+  T(NILP(ae_core_cdr(env, NEW_CONS(ae_core_car(env, NEW_CONS(NIL, NIL)), NIL))                               ));
 }
 
 void core_eq_eql_not(void) {
