@@ -15,8 +15,6 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define LIST(list)                    (CONS((list), NIL))
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CAR(list)                     ((list)->head)
 #define CDR(list)                     ((list)->tail)
 #define CAAR(list)                    (CAR(CAR(list)))
@@ -26,6 +24,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define CADAR(list)                   (CAR(CDR(CAR(list))))
 #define CADDR(list)                   (CAR(CDR(CDR(list))))
 #define CONS(head, tail)              (ae_list_cons((head), (tail)))
+//      ^ this only conses onto tails that are TAILP. To create improper lists, use NEW_CONS instead.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EACH(list, fun)               (ae_list_each(list, (ae_list_each_fun)fun))
 #define MAP(list, fun)                (ae_list_map(list, (ae_list_map_fun)fun))
