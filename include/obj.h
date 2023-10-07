@@ -228,8 +228,7 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Unary predicates
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TYPE_PREDICATE_INTERNAL(obj, type) ((obj) && (GET_TYPE((obj)) == type))
-#define TYPE_PREDICATE(obj, type)          ({ CAPTURE((obj)); (CAPTURED) && TYPE_PREDICATE_INTERNAL(CAPTURED, type); })
+#define TYPE_PREDICATE(obj, type)        ((obj) && (GET_TYPE((obj)) == type))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(obj)                       ({ CAPTURE((obj)); !CONSP(CAPTURED); })
 #define CHARP(obj)                       TYPE_PREDICATE((obj), AE_CHAR)
@@ -246,11 +245,11 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(obj)                     TYPE_PREDICATE((obj), AE_STRING)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // can't update COREP_INTERNAL fore some reason yet:
-#define COREP_INTERNAL(obj)              (((obj)) && TYPE_PREDICATE_INTERNAL((obj), AE_CORE))
-#define MACROP_INTERNAL(obj)             ({CAPTURE((obj)); TYPE_PREDICATE_INTERNAL(CAPTURED, AE_MACRO); })
+#define COREP_INTERNAL(obj)              (((obj)) && TYPE_PREDICATE((obj), AE_CORE))
+#define MACROP_INTERNAL(obj)             ({CAPTURE((obj)); TYPE_PREDICATE(CAPTURED, AE_MACRO); })
 #define SPECIALP(obj)                    ({CAPTURE((obj)); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SYMBOLP_INTERNAL(obj)            ((obj) && TYPE_PREDICATE_INTERNAL((obj), AE_SYMBOL))
+#define SYMBOLP_INTERNAL(obj)            ((obj) && TYPE_PREDICATE((obj), AE_SYMBOL))
 #define SYMBOLP(obj)                     ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED); })
 #define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,7 +258,7 @@ extern ae_obj_t * symbols_list;
 #define NILP(obj)                        ({ CAPTURE((obj)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
 #define TRUEP(obj)                       ({ CAPTURE((obj)); CAPTURED && TRUEP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CONSP_INTERNAL(obj)              ((obj) && TYPE_PREDICATE_INTERNAL((obj), AE_CONS))
+#define CONSP_INTERNAL(obj)              ((obj) && TYPE_PREDICATE((obj), AE_CONS))
 #define CONSP(obj)                       ({ CAPTURE((obj)); CONSP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TAILP(obj)                       ({ CAPTURE(obj); NILP_INTERNAL(CAPTURED) || (CONSP_INTERNAL(CAPTURED) && CAR(CAPTURED)); })
