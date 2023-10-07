@@ -61,14 +61,14 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
     
   
 #ifdef AE_LOG_CORE
-  LOG(CAR(args),                      "if");
-  LOG(CADR(args),                     "then");
-  LOG(CONS(SYM("progn"), CDDR(args)), "else");
+  LOG(if_cond,     "if");
+  LOG(then_branch, "then");
+  LOG(else_branch, "else");
 #endif
 
   REQUIRE(env, args, !NILP(CDR(args)), "if requires at least 2 args");
 
-  bool cond_result = ! NILP(EVAL(env, CAR(args)));
+  bool cond_result = ! NILP(EVAL(env, if_cond));
 
 #ifdef AE_LOG_CORE
   LOG(cond_result ? TRUE : NIL, "cond_result: ");
