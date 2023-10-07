@@ -214,7 +214,7 @@ extern ae_obj_t * symbols_list;
 #  define DOBJ(obj)                      ((obj)->debug_data)
 #  define DHAS(obj, key)                 (KHAS(DOBJ((obj)), KW(key)))
 #  define DGET(obj, key)                 (KGET(DOBJ((obj)), KW(key)))
-#  define DSET(obj, key, val)            (DOBJ((obj)) = (KSET(DOBJ((obj)), KW(key), (val))))
+#  define DSET(obj, key, val)            ({ CAPTURE(obj); DOBJ(CAPTURED) = (KSET(DOBJ(CAPTURED), KW(key), (val))); })
 #else
 #  define DOBJ(obj)                      ((void)obj, NIL)
 #  define DHAS(obj, key)                 ((void)obj, (void)key, NIL)
