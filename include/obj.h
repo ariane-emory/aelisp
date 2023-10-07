@@ -250,7 +250,7 @@ extern ae_obj_t * symbols_list;
 #define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SPECIALP(obj)                    (ae_obj_specialp((obj)))
-#define KEYWORDP(obj)                    ({ CAPTUREC((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
+#define KEYWORDP(obj)                    (ae_obj_keywordp((obj)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TRUEP(obj)                       ((obj) == TRUE)
 #define NILP(obj)                        ((obj) == NIL)
