@@ -30,6 +30,5 @@
        (result  (fib n)))
   result)
 
-(print '(⊥ Ø))
-(print Ø)
-(print ⊥)
+(print (list ⊥ Ø () nil))
+
