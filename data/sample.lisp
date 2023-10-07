@@ -27,7 +27,7 @@
        (memoize (lambd (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
        (fib     (lambda (n)
                   (let ((memoized (aget *memo* n)))
-                    (or memoized
+                    (if memoized memozed
                         (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
        (result  (fib n)))
   result)
