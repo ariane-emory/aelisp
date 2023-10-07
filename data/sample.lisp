@@ -23,7 +23,7 @@
 ;;   result)
 ;; )
 
-;; (print
+(print
  (let* ((n 30)
         (*memo*  '((2 . 1) (1 . 1)))
         (memoize  (lambda (k v)
@@ -39,7 +39,7 @@
                         (t (memoize n (+ (fib (- n 1)) (fib (- n 2)))))))))
         (result  (fib n)))
    result)
-;; )
+)
 
 
 
