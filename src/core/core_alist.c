@@ -16,7 +16,7 @@ ae_obj_t * ae_core_aset(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * key   = CADR(args);
   ae_obj_t * value = CADDR(args);
 
-  REQUIRE(env, args, SYMBOLP(key));
+  // REQUIRE(env, args, SYMBOLP(key));
 
   CORE_RETURN("aset", ASET(alist, key, value));
 }
@@ -35,7 +35,7 @@ ae_obj_t * ae_core_aget(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * alist = CAR(args);
   ae_obj_t * key   = CADR(args);
 
-  REQUIRE(env, args, SYMBOLP(key));
+  // REQUIRE(env, args, SYMBOLP(key));
 
   CORE_RETURN("aget", AGET(alist, key));
 }
@@ -54,7 +54,7 @@ ae_obj_t * ae_core_ahas(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * alist = CAR(args);
   ae_obj_t * key   = CADR(args);
 
-  REQUIRE(env, args, SYMBOLP(key));
+  // REQUIRE(env, args, SYMBOLP(key));
 
   CORE_RETURN("ahas", TRUTH(AHAS(alist, key)));
 }
