@@ -29,13 +29,13 @@
 ;;         (result  (fib n)))
 ;;    result))
 
-(print
+;; (print
  (let* ((n 30)
         (*memo*  '((2 . 1) (1 . 1)))
         (memoize  (lambda (k v)
                     (let ((head (cdr (car (setq *memo* (aset *memo* k v))))))
-                      (print *memo*)
-                      (print head)
+                      ;; (print *memo*)
+                      ;; (print head)
                       head)))
         (fib      (lambda (n)
                     (let ((memoized (aget *memo* n)))
@@ -44,9 +44,8 @@
                         ;; ((<= n 2) 1)
                         (t (memoize n (+ (fib (- n 1)) (fib (- n 2)))))))))
         (result  (fib n)))
-   result))
+   result)
+ ;; )
 
 
-
-;;(fib 20)
 
