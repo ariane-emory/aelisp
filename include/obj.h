@@ -226,7 +226,9 @@ extern ae_obj_t * symbols_list;
 #define EQ(this, that)               ((this) && (that) && ((this)) == ((that)))
 #define EQL(this, that)              ((this) && (that) && (ae_obj_eql((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+//#define SPECIALP(o)                  ({ CAPTURE(o); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 #define SPECIALP(o)                  ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
+//#define KEYWORDP(o)                  ({ CAPTURE(o); SYMBOLP(CAPTURED) && SYM_VAL(CAPTURED)[0] == ':'; })
 #define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
