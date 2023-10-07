@@ -229,7 +229,7 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_PREDICATE(obj, type)        ((obj) && (GET_TYPE((obj)) == type))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(obj)                       (! CONSP(CAPTURED))
+#define ATOMP(obj)                       (! CONSP(obj))
 #define CHARP(obj)                       TYPE_PREDICATE((obj), AE_CHAR)
 #define ENVP(obj)                        TYPE_PREDICATE((obj), AE_ENV)
 #define ERRORP(obj)                      TYPE_PREDICATE((obj), AE_ERROR)
