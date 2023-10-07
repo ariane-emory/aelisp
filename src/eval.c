@@ -347,9 +347,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   // INDENT;
 #endif
 
-  ae_obj_t * ret = KEYWORDP(sym)
-    ? sym
-    : ENV_FIND(env, sym);
+  ae_obj_t * ret = KEYWORDP(sym) ? sym : ENV_FIND(env, sym);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
   if (! DHAS(ret, "birth-place")) {
