@@ -80,7 +80,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
     SLOG("chose then");
 #endif
 
-    CORE_RETURN("if", EVAL(env, CADR(args)));
+    CORE_RETURN("if", ae_eval(env, then_branch));
   }
   else {
 
@@ -88,7 +88,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
     SLOG("chose else");
 #endif
 
-    CORE_RETURN("if", ae_core_progn(env, CDDR(args)));
+    CORE_RETURN("if", ae_core_progn(env, else_branch));
   }
 }
 

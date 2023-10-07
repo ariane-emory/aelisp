@@ -52,8 +52,9 @@
 #  define CORE_RETURN(name, val)                                                                   \
 ({                                                                                                 \
   OUTDENT;                                                                                         \
-  LOG_RETURN_WITH_TYPE("core_" name, val);                                                         \
-  return val;                                                                                      \
+  CAPTURE((val));                                                                                  \
+  LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                    \
+  return CAPTURED;                                                                                 \
 })
 #else
 #  define CORE_RETURN(name, val) return ((val))
