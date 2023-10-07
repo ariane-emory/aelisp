@@ -27,8 +27,8 @@
        (𝑓       (λ (n)
                    (let  ((memoized (aget *memo* n)))
                      (∨    memoized
-                          (memoize n (+ (𝑓 (- n 1))
-                                        (𝑓 (- n 2))))))))
+                          (memoize   n (+ (𝑓 (- n 1))
+                                          (𝑓 (- n 2))))))))
        (result  (𝑓 n)))
   result)
 
