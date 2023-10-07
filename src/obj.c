@@ -384,3 +384,21 @@ bool ae_obj_get_delocalized(const ae_obj_t * const this) {
 
   return deloc;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _tailp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_obj_tailp(const ae_obj_t * const this) {
+ assert(this);
+
+ if (NIL == this)
+   return true;
+
+ if (ATOMP(this))
+   return false;
+
+ assert(CAR(this));
+
+ return true;
+}

@@ -139,6 +139,7 @@ bool          ae_obj_eql            (const ae_obj_t * const this, const ae_obj_t
 ae_obj_t *    ae_obj_truth          (const bool             this                                  );
 ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                                  );
 void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
+bool          ae_obj_tailp          (const ae_obj_t * const this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool          ae_obj_get_delocalized(const ae_obj_t * const this                                  );
 void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool             foo      );
@@ -244,7 +245,7 @@ extern ae_obj_t * symbols_list;
 // can't update COREP_INTERNAL fore some reason yet:
 #define COREP(obj)                       (TYPE_PREDICATE((obj), AE_CORE))
 #define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
-#define SPECIALP(obj)                    ({CAPTURE((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
+#define SPECIALP(obj)                    ({ CAPTURE((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
 #define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
@@ -256,7 +257,7 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CONSP(obj)                       (TYPE_PREDICATE((obj), AE_CONS))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TAILP(obj)                       ({ CAPTURE(obj); NILP_INTERNAL(CAPTURED) || (CONSP(CAPTURED) && CAR(CAPTURED)); })
+#define TAILP(obj)                       (ae_obj_tailp(obj))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
