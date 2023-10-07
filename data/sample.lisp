@@ -27,10 +27,9 @@
        (memoize (λ (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
        (fib     (λ (n)
                   (let ((memoized (aget *memo* n)))
-                    (cond
-                      (memoized memoized)
-                      ;; ((<= n 2) 1)
-                      (t (memoize n (+ (fib (- n 1)) (fib (- n 2)))))))))
+                    (if 
+                      memoized memoized
+                      (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
        (result  (fib n)))
   result)
 )
