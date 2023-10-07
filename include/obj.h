@@ -156,75 +156,75 @@ extern ae_obj_t * symbols_list;
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ALLOC()                          (pool_alloc_ae_obj())
-#define COPY(this, that)                 (memcpy((this), (that), sizeof(ae_obj_t)))
-#define CLONE(this)                      (ae_obj_clone((this)))
-#define FREE(this)                       (pool_free_ae_obj((this)))
-#define INIT(this, type)                 (ae_obj_init((this), (type)))
+#define COPY(obj, that)                 (memcpy((obj), (that), sizeof(ae_obj_t)))
+#define CLONE(obj)                      (ae_obj_clone((obj)))
+#define FREE(obj)                       (pool_free_ae_obj((obj)))
+#define INIT(obj, type)                 (ae_obj_init((obj), (type)))
 #define MOVE_NEW(that)                   (UNSAFE_MOVE(ALLOC(), that))
 #define NEW(type)                        (INIT((ALLOC()), (type)))
 #define TRUTH(o)                         (ae_obj_truth((o)))
 #define UNSAFE_MOVE(to, from)            (ae_obj_unsafe_move((to), (from)))
-#define ZERO(this)                       (memset((this), 0, sizeof(ae_obj_t)))
+#define ZERO(obj)                       (memset((obj), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MARKED_AS_DELOCALIZEDP(o)        (ae_obj_get_delocalized((o)))
 #define MARK_DELOCALIZED(o)              (ae_obj_set_delocalized((o), true))
 #define UNMARK_DELOCALIZED(o)            (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CHAR_VAL(this)                   ((this)->char_val)
-#define DENOM_VAL(this)                  ((this)->denominator_val)
-#define FLOAT_VAL(this)                  ((this)->float_val)
-#define CORE_FUN(this)                   ((this)->fun_val)
-#define INT_VAL(this)                    ((this)->int_val)
-#define CORE_NAME(this)                  ((this)->name)
-#define NUMER_VAL(this)                  ((this)->numerator_val)
-#define STR_VAL(this)                    ((this)->str_val)
-#define SYM_VAL(this)                    ((this)->sym_val)
+#define CHAR_VAL(obj)                   ((obj)->char_val)
+#define DENOM_VAL(obj)                  ((obj)->denominator_val)
+#define FLOAT_VAL(obj)                  ((obj)->float_val)
+#define CORE_FUN(obj)                   ((obj)->fun_val)
+#define INT_VAL(obj)                    ((obj)->int_val)
+#define CORE_NAME(obj)                  ((obj)->name)
+#define NUMER_VAL(obj)                  ((obj)->numerator_val)
+#define STR_VAL(obj)                    ((obj)->str_val)
+#define SYM_VAL(obj)                    ((obj)->sym_val)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FUN_PARAMS(this)                 ((this)->params)
-#define FUN_BODY(this)                   ((this)->body)
-#define FUN_ENV(this)                    ((this)->env)
+#define FUN_PARAMS(obj)                 ((obj)->params)
+#define FUN_BODY(obj)                   ((obj)->body)
+#define FUN_ENV(obj)                    ((obj)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // These 3 should probably go in a different file but I'm not sure where yet:
 #if AE_PREFER_ALIST
-#  define KHAS(this, key)                (AHAS((this), (key)))
-#  define KGET(this, key)                (AGET((this), (key)))
-#  define KSET(this, key, val)           (ASET((this), (key), (val)))
+#  define KHAS(obj, key)                (AHAS((obj), (key)))
+#  define KGET(obj, key)                (AGET((obj), (key)))
+#  define KSET(obj, key, val)           (ASET((obj), (key), (val)))
 #else
-#  define KHAS(this, key)                (PHAS((this), (key)))
-#  define KGET(this, key)                (PGET((this), (key)))
-#  define KSET(this, key, val)           (PSET((this), (key), (val)))
+#  define KHAS(obj, key)                (PHAS((obj), (key)))
+#  define KGET(obj, key)                (PGET((obj), (key)))
+#  define KSET(obj, key, val)           (PSET((obj), (key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EMSG(this)                       ((this)->message)
-#define EOBJ(this)                       ((this)->object)
-#define EHAS(this, key)                  (KHAS(EOBJ((this)), KW(key)))
-#define EGET(this, key)                  (KGET(EOBJ((this)), KW(key)))
-#define ESET(this, key, val)             (EOBJ((this)) = (KSET(EOBJ((this)), KW(key), (val))))
+#define EMSG(obj)                       ((obj)->message)
+#define EOBJ(obj)                       ((obj)->object)
+#define EHAS(obj, key)                  (KHAS(EOBJ((obj)), KW(key)))
+#define EGET(obj, key)                  (KGET(EOBJ((obj)), KW(key)))
+#define ESET(obj, key, val)             (EOBJ((obj)) = (KSET(EOBJ((obj)), KW(key), (val))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_DEBUG_OBJ
-#  define DOBJ(this)                     ((this)->debug_data)
-#  define DHAS(this, key)                (KHAS(DOBJ((this)), KW(key)))
-#  define DGET(this, key)                (KGET(DOBJ((this)), KW(key)))
-#  define DSET(this, key, val)           (DOBJ((this)) = (KSET(DOBJ((this)), KW(key), (val))))
+#  define DOBJ(obj)                     ((obj)->debug_data)
+#  define DHAS(obj, key)                (KHAS(DOBJ((obj)), KW(key)))
+#  define DGET(obj, key)                (KGET(DOBJ((obj)), KW(key)))
+#  define DSET(obj, key, val)           (DOBJ((obj)) = (KSET(DOBJ((obj)), KW(key), (val))))
 #else
-#  define DOBJ(this)                     ((void)this, NIL)
-#  define DHAS(this, key)                ((void)this, (void)key, NIL)
-#  define DGET(this, key)                ((void)this, (void)key, NIL)
-#  define DSET(this, key, val)           ((void)this, (void)key, (void)val, NIL)
+#  define DOBJ(obj)                     ((void)obj, NIL)
+#  define DHAS(obj, key)                ((void)obj, (void)key, NIL)
+#  define DGET(obj, key)                ((void)obj, (void)key, NIL)
+#  define DSET(obj, key, val)           ((void)obj, (void)key, (void)val, NIL)
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_STR(t)                      (ae_type_str(((t))) + 3)
-#define GET_TYPE(this)                   (ae_obj_get_type((this)))
-#define SET_TYPE(this, type)             (ae_obj_set_type((this), (type)))
+#define GET_TYPE(obj)                   (ae_obj_get_type((obj)))
+#define SET_TYPE(obj, type)             (ae_obj_set_type((obj), (type)))
 #define GET_TYPE_STR(obj)                (TYPE_STR(GET_TYPE((obj))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NIL                              (&nil_obj)
 #define TRUE                             (&true_obj)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EQ(this, that)                   ((this) && (that) && ((this)) == ((that)))
-#define EQL(this, that)                  ((this) && (that) && (ae_obj_eql((this), (that))))
+#define EQ(obj, that)                   ((obj) && (that) && ((obj)) == ((that)))
+#define EQL(obj, that)                  ((obj) && (that) && (ae_obj_eql((obj), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Unary predicates
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
