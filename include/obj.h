@@ -257,10 +257,9 @@ extern ae_obj_t * symbols_list;
 #define NILP(obj)                        ({ CAPTURE((obj)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
 #define TRUEP(obj)                       ({ CAPTURE((obj)); CAPTURED && TRUEP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CONSP_INTERNAL(obj)              ((obj) && TYPE_PREDICATE((obj), AE_CONS))
-#define CONSP(obj)                       ({ CAPTURE((obj)); CONSP_INTERNAL(CAPTURED); })
+#define CONSP(obj)                       (TYPE_PREDICATE((obj), AE_CONS))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TAILP(obj)                       ({ CAPTURE(obj); NILP_INTERNAL(CAPTURED) || (CONSP_INTERNAL(CAPTURED) && CAR(CAPTURED)); })
+#define TAILP(obj)                       ({ CAPTURE(obj); NILP_INTERNAL(CAPTURED) || (CONSP(CAPTURED) && CAR(CAPTURED)); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
