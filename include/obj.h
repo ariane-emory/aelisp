@@ -226,14 +226,10 @@ extern ae_obj_t * symbols_list;
 #define EQ(this, that)               ((this) && (that) && ((this)) == ((that)))
 #define EQL(this, that)              ((this) && (that) && (ae_obj_eql((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NILP(o)                      ({ CAPTURE(o); (CAPTURED) && (CAPTURED == NIL);  })
-#define TRUEP(o)                     ({ CAPTURE(o); (CAPTURED) && (CAPTURED == TRUE); })
+#define TYPE_PREDICATE(type, o)      ({ CAPTURE((o)); (CAPTURED) && GET_TYPE(CAPTURED) == type; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TYPE_PREDICATE(type, o)      ({ CAPTURE(o); (CAPTURED) && GET_TYPE(CAPTURED) == type; })
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
+#define ATOMP(o)                     ({ CAPTURE((o)); !CONSP(CAPTURED); })
 #define CHARP(o)                     TYPE_PREDICATE(AE_CHAR, o)
-#define CONSP(o)                     TYPE_PREDICATE(AE_CONS, o)
 #define COREP(o)                     TYPE_PREDICATE(AE_CORE, o)
 #define ENVP(o)                      TYPE_PREDICATE(AE_ENV, o)
 #define ERRORP(o)                    TYPE_PREDICATE(AE_ERROR, o)
@@ -248,11 +244,21 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MACROP_INTERNAL(o)           (((o)) && GET_TYPE((o)) == AE_MACRO)
 #define COREP_INTERNAL(o)            (((o)) && GET_TYPE((o)) == AE_CORE)
-#define SPECIALP(o)                  ({CAPTURE(o); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
+#define SPECIALP(o)                  ({CAPTURE((o)); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SYMBOLP_INTERNAL(o)          ((o) && GET_TYPE((o)) == AE_SYMBOL)
-#define SYMBOLP(o)                   ({ CAPTURE(o);  SYMBOLP_INTERNAL(CAPTURED); })
-#define KEYWORDP(o)                  ({ CAPTURE(o); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
+#define SYMBOLP(o)                   ({ CAPTURE((o)); SYMBOLP_INTERNAL(CAPTURED); })
+#define KEYWORDP(o)                  ({ CAPTURE((o)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NILP_INTERNAL(o)             ((o) && ((o) == NIL))
+#define TRUEP_INTERNAL(o)            ((o) && ((o) == TRUE))
+#define NILP(o)                      ({ CAPTURE((o)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
+#define TRUEP(o)                     ({ CAPTURE((o)); CAPTURED && TRUEP_INTERNAL(CAPTURED); })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define CONSP_INTERNAL(o)            ((o) && GET_TYPE((o)) == AE_CONS)
+#define CONSP(o)                     ({ CAPTURE((o)); CONSP_INTERNAL(CAPTURED); })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TAILP(o)                     ({ NILP((o)) || ((o) && ((CONSP((o)) && CAR((o))))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                                                  \
 ({                                                                                                                     \

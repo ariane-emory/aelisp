@@ -35,7 +35,6 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define SYM2(sym_list, str)           (ae_list_intern_string((sym_list), (str)))
 #define SYM(str)                      (SYM2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TAILP(o)                      ({ NILP((o)) || ((o) && ((CONSP((o)) && CAR((o))))); })
 #define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
 #define PROPERP(o)                    (ae_list_is_proper((o)))
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
