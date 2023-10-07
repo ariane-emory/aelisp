@@ -224,38 +224,37 @@ extern ae_obj_t * symbols_list;
 #define SET_TYPE(obj, type)              (ae_obj_set_type((obj), (type)))
 #define GET_TYPE_STR(obj)                (TYPE_STR(GET_TYPE((obj))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NIL                              (&nil_obj)
-#define TRUE                             (&true_obj)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EQL(obj, other)                  (ae_obj_eql((obj), (other)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Unary predicates
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TYPE_PREDICATE(obj, type)        ((GET_TYPE((obj)) == type))
+#define TYPEP(obj, type)                 ((GET_TYPE((obj)) == type))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(obj)                       (! CONSP(obj))
-#define CHARP(obj)                       (TYPE_PREDICATE((obj), AE_CHAR))
-#define CONSP(obj)                       (TYPE_PREDICATE((obj), AE_CONS))
-#define COREP(obj)                       (TYPE_PREDICATE((obj), AE_CORE))
-#define ENVP(obj)                        (TYPE_PREDICATE((obj), AE_ENV))
-#define ERRORP(obj)                      (TYPE_PREDICATE((obj), AE_ERROR))
-#define FLOATP(obj)                      (TYPE_PREDICATE((obj), AE_FLOAT))
-#define FREEP(obj)                       (TYPE_PREDICATE((obj), AE_FREE))
-#define INTEGERP(obj)                    (TYPE_PREDICATE((obj), AE_INTEGER))
-#define INVALIDP(obj)                    (TYPE_PREDICATE((obj), AE_INVALID))
-#define LAMBDAP(obj)                     (TYPE_PREDICATE((obj), AE_LAMBDA))
-#define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
-#define RATIONALP(obj)                   (TYPE_PREDICATE((obj), AE_RATIONAL))
-#define STRINGP(obj)                     (TYPE_PREDICATE((obj), AE_STRING))
-#define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
+#define CHARP(obj)                       (TYPEP((obj), AE_CHAR))
+#define CONSP(obj)                       (TYPEP((obj), AE_CONS))
+#define COREP(obj)                       (TYPEP((obj), AE_CORE))
+#define ENVP(obj)                        (TYPEP((obj), AE_ENV))
+#define ERRORP(obj)                      (TYPEP((obj), AE_ERROR))
+#define FLOATP(obj)                      (TYPEP((obj), AE_FLOAT))
+#define FREEP(obj)                       (TYPEP((obj), AE_FREE))
+#define INTEGERP(obj)                    (TYPEP((obj), AE_INTEGER))
+#define INVALIDP(obj)                    (TYPEP((obj), AE_INVALID))
+#define LAMBDAP(obj)                     (TYPEP((obj), AE_LAMBDA))
+#define MACROP(obj)                      (TYPEP((obj), AE_MACRO))
+#define RATIONALP(obj)                   (TYPEP((obj), AE_RATIONAL))
+#define STRINGP(obj)                     (TYPEP((obj), AE_STRING))
+#define SYMBOLP(obj)                     (TYPEP((obj), AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SPECIALP(obj)                    (ae_obj_specialp((obj)))
 #define KEYWORDP(obj)                    (ae_obj_keywordp((obj)))
+#define SPECIALP(obj)                    (ae_obj_specialp((obj)))
+#define TAILP(obj)                       (ae_obj_tailp((obj)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TRUEP(obj)                       ((obj) == TRUE)
 #define NILP(obj)                        ((obj) == NIL)
+#define TRUEP(obj)                       ((obj) == TRUE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TAILP(obj)                       (ae_obj_tailp(obj))
+#define NIL                              (&nil_obj)
+#define TRUE                             (&true_obj)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
