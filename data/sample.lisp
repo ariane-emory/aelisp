@@ -24,8 +24,8 @@
 (print
 (let* ((n 30)
        (*memo* '((2 . 1) (1 . 1)))
-       (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-       (fib     (lambda (n)
+       (memoize (λ (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+       (fib     (λ (n)
                   (let ((memoized (aget *memo* n)))
                     (cond
                       (memoized memoized)
