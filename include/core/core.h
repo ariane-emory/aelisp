@@ -47,7 +47,7 @@
   DO(list,     false)                                                                                                  \
   DO(set,      false)                                                                                                  \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                                                  \
+#define FOR_EACH_CORE_SPECIAL_FUN(DO)                                                                                  \
   DO(progn)                                                                                                            \
   DO(setq)                                                                                                             \
   DO(quote)                                                                                                            \
@@ -85,5 +85,5 @@
 FOR_EACH_CORE_MATH_OP(DECL_CORE);
 FOR_EACH_CORE_CMP_OP(DECL_CORE);
 FOR_EACH_CORE_FUN(DECL_CORE);
-FOR_EACH_SPECIAL_CORE_FUN(DECL_CORE);
+FOR_EACH_CORE_SPECIAL_FUN(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
