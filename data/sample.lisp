@@ -12,7 +12,7 @@
 
 (let ((memoize (lambda (k v) (car (cdr (setq *memo* (pset *memo* k v))))))
       (fib     (lambda (n)
-                 (let ((memoized (pget *memo* n)))
+                 (let ((memoized  (pget *memo* n)))
                    (cond
                      (memoized memoized)
                      ((<= n 2) 1)
