@@ -7,49 +7,69 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(setq   klist (kset klist 'name "Bob" ))
-(setq   klist (kset klist 'age   24   ))
-(setq   klist (kset klist 'type 'human))
+;; (setq   klist (kset klist 'name "Bob" ))
+;; (setq   klist (kset klist 'age   24   ))
+;; (setq   klist (kset klist 'type 'human))
 
-(print klist) (nl)
-
-
-;; (exit)
-
-(set 'scoped-setq-test
-  (lambda (x)
-    (setq *q* x)))
+;; (print klist) (nl)
 
 
-(setq cond-test
-  (lambda (x)
-    (print (cond
-             ((>= x 100) :BIG)
-             ((>= x  50) :MEDIUM)
-             (t          :SMALL)))))
+;; ;; (exit)
 
-(scoped-setq-test 200)
-(cond-test *q*)
-
-(scoped-setq-test  75)
-(cond-test *q*)
-
-(scoped-setq-test  25)
-(cond-test *q*)
-
-(let ( (double (lambda (z) (* 2 z)))
-       (x 1)
-       (y 2))
-  (print (double x))
-  (print (double y))
-  (print (double (+ (double x) y))))
-
-(nl) (nl) (princ "syms: ") (princ (syms (env)))
-(nl) (nl) (princ "vals: ") (princ (vals (env)))
+;; (set 'scoped-setq-test
+;;   (lambda (x)
+;;     (setq *q* x)))
 
 
+;; (setq cond-test
+;;   (lambda (x)
+;;     (print (cond
+;;              ((>= x 100) :BIG)
+;;              ((>= x  50) :MEDIUM)
+;;              (t          :SMALL)))))
 
+;; (scoped-setq-test 200)
+;; (cond-test *q*)
 
+;; (scoped-setq-test  75)
+;; (cond-test *q*)
+
+;; (scoped-setq-test  25)
+;; (cond-test *q*)
+
+;; (let ( (double (lambda (z) (* 2 z)))
+;;        (x 1)
+;;        (y 2))
+;;   (print (double x))
+;;   (print (double y))
+;;   (print (double (+ (double x) y))))
+
+;; (nl) (nl) (princ "syms: ") (princ (syms (env)))
+;; (nl) (nl) (princ "vals: ") (princ (vals (env)))
+
+;; (setq fib (lambda (n)
+;;   (if (<= n 2)
+;;       1
+;;     (+ (fib (- n 1)) (fib (- n 2))))))
+
+;; (setq fib (lambda (n)
+;;             (cond
+;;               ((<= n 2) 1)
+;;               (t (+ (fib (- n 1)) (fib (- n 2)))))))
+
+;; (fib 10)
+
+;; (if (< 5 6)
+;;   (print "MATCHED")
+;;   (print "NO MATCH"))
+ 
+;; (print )
+;; (+ 3 4)
+
+(cond ((< 5 6) (print "MATCHED"))
+      (t       (print "NO MATCH"))) 
+
+;; (progn (print "HELLO WORLD"))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Older stuff:
