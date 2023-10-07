@@ -268,10 +268,11 @@ ae_obj_t * ae_env_new_root(void) {
 #endif
 
   ENV_SET(env, SYM("let*"), ENV_FIND(env, SYM("let_star")));
-  ENV_SET(env, SYM("¬"),    ENV_FIND(env, SYM("not")));
   ENV_SET(env, SYM("λ"),    ENV_FIND(env, SYM("lambda")));
   ENV_SET(env, SYM("∧"),    ENV_FIND(env, SYM("and")));
   ENV_SET(env, SYM("∨"),    ENV_FIND(env, SYM("or")));
+  ENV_SET(env, SYM("¬"),    ENV_FIND(env, SYM("not")));
+  ENV_SET(env, SYM("≔"),    ENV_FIND(env, SYM("setq")));
   /* ENV_SET(env, SYM("⊥"),    ENV_FIND(env, SYM("nil"))); // Lexed. */
 
 #ifdef AE_PRETTY
@@ -283,7 +284,6 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("×"),    ENV_FIND(env, SYM("mul")));
   ENV_SET(env, SYM("÷"),    ENV_FIND(env, SYM("div")));
   ENV_SET(env, SYM("∃"),    ENV_FIND(env, SYM("boundp")));
-  ENV_SET(env, SYM("≔"),    ENV_FIND(env, SYM("setq")));
   ENV_SET(env, SYM("∄"),    ENV_FIND(env, SYM("not-boundp"))); // not-boundp doesn't exist yet.
   ENV_SET(env, SYM("∈"),    ENV_FIND(env, SYM("memberp"))); // memberp doesn't exist yet.
   ENV_SET(env, SYM("∉"),    ENV_FIND(env, SYM("not-memberp"))); // not-memberp doesn't exist yet.

@@ -23,12 +23,12 @@
 
 (let* ((n 30)
        (*memo* '((2 . 1) (1 . 1)))
-       (memoize (λ (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+       (memoize (λ (k v) (cdr (car (≔ *memo* (aset *memo* k v))))))
        (fib     (λ (n)
                    (let ((memoized (aget *memo* n)))
-                     (∨ memoized (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
+                     (∨   memoized (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))
        (result  (fib n)))
   result)
 
-(print (list ⊥ Ø () nil))
+;; (print (list ⊥ Ø () nil))
 
