@@ -373,7 +373,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 // _get_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ae_obj_get_delocalized(const ae_obj_t * const this) {
+bool ae_obj_delocalizedp(const ae_obj_t * const this) {
   assert(this);
   
   bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;

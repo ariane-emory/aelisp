@@ -141,7 +141,7 @@ ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                
 void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
 bool          ae_obj_tailp          (const ae_obj_t * const this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool          ae_obj_get_delocalized(const ae_obj_t * const this                                  );
+bool          ae_obj_delocalizedp   (const ae_obj_t * const this                                  );
 void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // These two are not yet used and are just here as an example of how to set the next metadata region:
@@ -156,51 +156,51 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ALLOC()                         (pool_alloc_ae_obj())
-#define COPY(obj, other)                (memcpy((obj), (other), sizeof(ae_obj_t)))
-#define CLONE(obj)                      (ae_obj_clone((obj)))
-#define FREE(obj)                       (pool_free_ae_obj((obj)))
-#define INIT(obj, type)                 (ae_obj_init((obj), (type)))
-#define MOVE_NEW(other)                 (UNSAFE_MOVE(ALLOC(), other))
-#define NEW(type)                       (INIT((ALLOC()), (type)))
-#define TRUTH(o)                        (ae_obj_truth((o)))
-#define UNSAFE_MOVE(to, from)           (ae_obj_unsafe_move((to), (from)))
-#define ZERO(obj)                       (memset((obj), 0, sizeof(ae_obj_t)))
+#define ALLOC()                          (pool_alloc_ae_obj())
+#define COPY(obj, other)                 (memcpy((obj), (other), sizeof(ae_obj_t)))
+#define CLONE(obj)                       (ae_obj_clone((obj)))
+#define FREE(obj)                        (pool_free_ae_obj((obj)))
+#define INIT(obj, type)                  (ae_obj_init((obj), (type)))
+#define MOVE_NEW(other)                  (UNSAFE_MOVE(ALLOC(), other))
+#define NEW(type)                        (INIT((ALLOC()), (type)))
+#define TRUTH(o)                         (ae_obj_truth((o)))
+#define UNSAFE_MOVE(to, from)            (ae_obj_unsafe_move((to), (from)))
+#define ZERO(obj)                        (memset((obj), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MARKED_AS_DELOCALIZEDP(o)       (ae_obj_get_delocalized((o)))
-#define MARK_DELOCALIZED(o)             (ae_obj_set_delocalized((o), true))
-#define UNMARK_DELOCALIZED(o)           (ae_obj_set_delocalized((o), false))
+#define DELOCALIZEDP(o)                  (ae_obj_delocalizedp((o)))
+#define MARK_DELOCALIZED(o)              (ae_obj_set_delocalized((o), true))
+#define UNMARK_DELOCALIZED(o)            (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CHAR_VAL(obj)                   ((obj)->char_val)
-#define DENOM_VAL(obj)                  ((obj)->denominator_val)
-#define FLOAT_VAL(obj)                  ((obj)->float_val)
-#define CORE_FUN(obj)                   ((obj)->fun_val)
-#define INT_VAL(obj)                    ((obj)->int_val)
-#define CORE_NAME(obj)                  ((obj)->name)
-#define NUMER_VAL(obj)                  ((obj)->numerator_val)
-#define STR_VAL(obj)                    ((obj)->str_val)
-#define SYM_VAL(obj)                    ((obj)->sym_val)
+#define CHAR_VAL(obj)                    ((obj)->char_val)
+#define DENOM_VAL(obj)                   ((obj)->denominator_val)
+#define FLOAT_VAL(obj)                   ((obj)->float_val)
+#define CORE_FUN(obj)                    ((obj)->fun_val)
+#define INT_VAL(obj)                     ((obj)->int_val)
+#define CORE_NAME(obj)                   ((obj)->name)
+#define NUMER_VAL(obj)                   ((obj)->numerator_val)
+#define STR_VAL(obj)                     ((obj)->str_val)
+#define SYM_VAL(obj)                     ((obj)->sym_val)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FUN_PARAMS(obj)                 ((obj)->params)
-#define FUN_BODY(obj)                   ((obj)->body)
-#define FUN_ENV(obj)                    ((obj)->env)
+#define FUN_PARAMS(obj)                  ((obj)->params)
+#define FUN_BODY(obj)                    ((obj)->body)
+#define FUN_ENV(obj)                     ((obj)->env)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // These 3 should probably go in a different file but I'm not sure where yet:
 #if AE_PREFER_ALIST
-#  define KHAS(obj, key)                (AHAS((obj), (key)))
-#  define KGET(obj, key)                (AGET((obj), (key)))
-#  define KSET(obj, key, val)           (ASET((obj), (key), (val)))
+#  define KHAS(obj, key)                 (AHAS((obj), (key)))
+#  define KGET(obj, key)                 (AGET((obj), (key)))
+#  define KSET(obj, key, val)            (ASET((obj), (key), (val)))
 #else
-#  define KHAS(obj, key)                (PHAS((obj), (key)))
-#  define KGET(obj, key)                (PGET((obj), (key)))
-#  define KSET(obj, key, val)           (PSET((obj), (key), (val)))
+#  define KHAS(obj, key)                 (PHAS((obj), (key)))
+#  define KGET(obj, key)                 (PGET((obj), (key)))
+#  define KSET(obj, key, val)            (PSET((obj), (key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EMSG(obj)                       ((obj)->message)
-#define EOBJ(obj)                       ((obj)->object)
-#define EHAS(obj, key)                  (KHAS(EOBJ((obj)), KW(key)))
-#define EGET(obj, key)                  (KGET(EOBJ((obj)), KW(key)))
-#define ESET(obj, key, val)             (EOBJ((obj)) = (KSET(EOBJ((obj)), KW(key), (val))))
+#define EMSG(obj)                        ((obj)->message)
+#define EOBJ(obj)                        ((obj)->object)
+#define EHAS(obj, key)                   (KHAS(EOBJ((obj)), KW(key)))
+#define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
+#define ESET(obj, key, val)              (EOBJ((obj)) = (KSET(EOBJ((obj)), KW(key), (val))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_DEBUG_OBJ
 #  define DOBJ(obj)                      ((obj)->debug_data)
@@ -244,11 +244,11 @@ extern ae_obj_t * symbols_list;
 #define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
 #define RATIONALP(obj)                   TYPE_PREDICATE((obj), AE_RATIONAL)
 #define STRINGP(obj)                     TYPE_PREDICATE((obj), AE_STRING)
+#define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // can't update COREP_INTERNAL fore some reason yet:
 #define SPECIALP(obj)                    ({ CAPTURE((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
 #define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TRUEP(obj)                       ((obj) == TRUE)

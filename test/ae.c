@@ -1107,16 +1107,16 @@ void deloc(void) {
 
   ae_obj_t * an_int = NEW_INT(14);
   
-  T(! MARKED_AS_DELOCALIZEDP(an_int));
+  T(!DELOCALIZEDP(an_int));
   MARK_DELOCALIZED(an_int);
-  T(MARKED_AS_DELOCALIZEDP(an_int));
+  T(DELOCALIZEDP(an_int));
   UNMARK_DELOCALIZED(an_int);
-  T(! MARKED_AS_DELOCALIZEDP(an_int));
+  T(!DELOCALIZEDP(an_int));
   UNMARK_DELOCALIZED(an_int);
-  T(! MARKED_AS_DELOCALIZEDP(an_int));
+  T(!DELOCALIZEDP(an_int));
   MARK_DELOCALIZED(an_int);
-  T(MARKED_AS_DELOCALIZEDP(an_int));
-  T(MARKED_AS_DELOCALIZEDP(an_int));
+  T(DELOCALIZEDP(an_int));
+  T(DELOCALIZEDP(an_int));
   T(((uintptr_t)DELOCALIZED(NIL))        == 0xC0FFEEF00DC0FFEE  );
   T(((uintptr_t)DELOCALIZED(TRUE))       == 0xF00DCAFEBAADBEEF  );
   T(((uintptr_t)DELOCALIZED(pool_first)) == 0                    );
