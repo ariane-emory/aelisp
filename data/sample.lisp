@@ -7,12 +7,6 @@
 ;; (setq nil?      (lambda (o)        (eq      nil          o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-;; (setq   klist (kset klist 'name "Bob" ))
-;; (setq   klist (kset klist 'age   24   ))
-;; (setq   klist (kset klist 'type 'human))
-
-;; (print klist) (nl)
-
 
 ;; ;; (exit)
 
@@ -47,17 +41,34 @@
 ;; (nl) (nl) (princ "syms: ") (princ (syms (env)))
 ;; (nl) (nl) (princ "vals: ") (princ (vals (env)))
 
-;; (setq fib (lambda (n)
-;;   (if (<= n 2)
-;;       1
-;;     (+ (fib (- n 1)) (fib (- n 2))))))
+(setq normal-fib (lambda (n)
+  (if (<= n 2)
+    1
+    (+ (fib (- n 1)) (fib (- n 2))))))
 
-;; (setq fib (lambda (n)
-;;             (cond
-;;               ((<= n 2) 1)
-;;               (t (+ (fib (- n 1)) (fib (- n 2)))))))
+(setq cond-fib (lambda (n)
+            (cond
+              ((<= n 2) 1)
+              (t (+ (fib (- n 1)) (fib (- n 2)))))))
 
-;; (fib 10)
+(setq fib normal-fib)
+(setq expr '(fib 20))
+(print expr)
+
+;;(print (eval expr))
+
+
+(setq   klist (kset klist 'name "Bob" ))
+(setq   klist (kset klist 'age   24   ))
+(setq   klist (kset klist 'type 'human))
+
+(print klist) (nl)
+
+(setq  *memo* (kset *memo* 1 1))
+(setq  *memo* (kset *memo* 8 1))
+(setq  *memo* (kset *memo* 1 4))
+(setq  *memo* (kset *memo* 8 2))
+(print *memo*)
 
 ;; (if (< 5 6)
 ;;   (print "MATCHED")
@@ -69,10 +80,10 @@
 ;; (cond ((< 5 6) (print "MATCHED"))
 ;;       (t       (print "NO MATCH")))
 
-(if (> 5 6)
-  (print "MATCHED")
-  (print "ELSE BRANCH")
-  (print "NO MATCH"))
+;; (if (> 5 6)
+;;   (print "MATCHED")
+;;   (print "ELSE BRANCH")
+;;   (print "NO MATCH"))
 
 ;; (progn (print "HELLO WORLD"))
 

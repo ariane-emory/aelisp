@@ -26,7 +26,7 @@ ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
       ae_obj_t    * elem1    = CAR(position);
       ae_obj_t    * elem2    = position ? CADR(position) : NIL;
       
-      if (elem1 == key) {
+      if (EQL(elem1, key)) {
         CADR(position) = value;
 
         goto end;
@@ -62,7 +62,7 @@ bool ae_plist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
   for (ae_obj_t * position = list;
        position && position != NIL;
        position  = CDR(CDR(position)))
-    if (CAR(position) == key) {
+    if (EQL(CAR(position), key)) {
 #ifdef AE_LOG_KVP_HAS
       LOG(key, "found key");
       NL;
@@ -110,7 +110,7 @@ ae_obj_t * ae_plist_get(ae_obj_t * const list, ae_obj_t * const key) {
       LOG(elem2,  "elem2");
 #endif
     
-    if (elem1 == key) {
+    if (EQL(CAR(position), key)) {
 #ifdef AE_LOG_KVP_SET_GET
       LOG(key,   "found key");
       LOG(elem2, "with value");
