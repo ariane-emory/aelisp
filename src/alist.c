@@ -23,7 +23,7 @@ ae_obj_t * ae_alist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
 
   if (list != NIL)
     FOR_EACH(elem, list)
-      if (CAR(elem) == key) {
+      if (EQL(CAR(elem), key)) {
         (CDR(elem) = value);
         goto end;
       }
@@ -57,7 +57,7 @@ bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
     goto failed;
     
   FOR_EACH(elem, list)
-    if (CAR(elem) == key) {
+    if (EQL(CAR(elem), key)) {
 #ifdef AE_LOG_KVP_HAS
       LOG(key, "found key");
       NL;
@@ -97,7 +97,7 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
     LOG(elem, "elem");
 #endif
     
-    if (CAR(elem) == key) {
+    if (EQL(CAR(elem), key)) {
 #ifdef AE_LOG_KVP_SET_GET
       LOG(key,      "found key");
       LOG(CDR(elem), "with value");
