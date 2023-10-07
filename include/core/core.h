@@ -5,47 +5,47 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN(DO)                                                                                          \
   /*================================================================================================================*/ \
-  DO(exit)                                                                                                             \
-  DO(msleep)                                                                                                           \
-  DO(dobj)                                   /* debug data accessor   */                                               \
-  DO(errmsg)                                 /* error accessor        */                                               \
-  DO(errobj)                                 /* error accessor        */                                               \
-  DO(numer)                                  /* rational/int accessor */                                               \
-  DO(denom)                                  /* rational/int accessor */                                               \
-  DO(body)                                   /* fun accessor          */                                               \
-  DO(params)                                 /* fun accessor          */                                               \
-  DO(env)                                    /* env/fun accessor      */                                               \
-  DO(vals)                                   /* env accessor          */                                               \
-  DO(syms)                                   /* env accessor          */                                               \
-  DO(properp)                                /* reduceable            */                                               \
-  DO(tailp)                                  /* reduceable            */                                               \
-  DO(boundp)                                                                                                           \
-  DO(nl)                                                                                                               \
+  DO(exit,     false)                                                                                                  \
+  DO(msleep,   false)                                                                                                  \
+  DO(dobj,     false)                        /* debug data accessor   */                                               \
+  DO(errmsg,   false)                        /* error accessor        */                                               \
+  DO(errobj,   false)                        /* error accessor        */                                               \
+  DO(numer,    false)                        /* rational/int accessor */                                               \
+  DO(denom,    false)                        /* rational/int accessor */                                               \
+  DO(body,     false)                        /* fun accessor          */                                               \
+  DO(params,   false)                        /* fun accessor          */                                               \
+  DO(env,      false)                        /* env/fun accessor      */                                               \
+  DO(vals,     false)                        /* env accessor          */                                               \
+  DO(syms,     false)                        /* env accessor          */                                               \
+  DO(properp,  false)                        /* reduceable            */                                               \
+  DO(tailp,    false)                        /* reduceable            */                                               \
+  DO(boundp,   false)                                                                                                  \
+  DO(nl,       false)                                                                                                  \
   /*================================================================================================================*/ \
-  DO(put)                                                                                                              \
-  DO(princ)                                                                                                            \
-  DO(print)                                                                                                            \
-  DO(write)                                                                                                            \
+  DO(put,      false)                                                                                                  \
+  DO(princ,    false)                                                                                                  \
+  DO(print,    false)                                                                                                  \
+  DO(write,    false)                                                                                                  \
   /*================================================================================================================*/ \
-  DO(type)                                   /* GET_TYPE proxy */                                                      \
-  DO(length)                                 /* reduceable     */                                                      \
-  DO(rplacd)                                                                                                           \
-  DO(rplaca)                                                                                                           \
-  DO(ahas)                                                                                                             \
-  DO(aset)                                                                                                             \
-  DO(aget)                                                                                                             \
-  DO(phas)                                                                                                             \
-  DO(pset)                                                                                                             \
-  DO(pget)                                                                                                             \
-  DO(not)                                    /* reduceable     */                                                      \
-  DO(eql)                                    /* reduceable     */                                                      \
-  DO(eq)                                                                                                               \
-  DO(cons)                                                                                                             \
-  DO(cdr)                                                                                                              \
-  DO(car)                                                                                                              \
-  DO(eval)                                                                                                             \
-  DO(list)                                                                                                             \
-  DO(set)                                                                                                              \
+  DO(type,     false)                             /* GET_TYPE proxy */                                                 \
+  DO(length,   false)                             /* reduceable     */                                                 \
+  DO(rplacd,   false)                                                                                                  \
+  DO(rplaca,   false)                                                                                                  \
+  DO(ahas,     false)                                                                                                  \
+  DO(aset,     false)                                                                                                  \
+  DO(aget,     false)                                                                                                  \
+  DO(phas,     false)                                                                                                  \
+  DO(pset,     false)                                                                                                  \
+  DO(pget,     false)                                                                                                  \
+  DO(not,      false)                             /* reduceable     */                                                 \
+  DO(eql,      false)                             /* reduceable     */                                                 \
+  DO(eq,       false)                                                                                                  \
+  DO(cons,     false)                                                                                                  \
+  DO(cdr,      false)                                                                                                  \
+  DO(car,      false)                                                                                                  \
+  DO(eval,     false)                                                                                                  \
+  DO(list,     false)                                                                                                  \
+  DO(set,      false)                                                                                                  \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                                                  \
   DO(progn)                                                                                                            \
