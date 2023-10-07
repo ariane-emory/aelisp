@@ -220,7 +220,9 @@ int main(void) {
 #ifdef AE_DUMP_POOL_AFTER
   pool_print();
 #endif
-  
+
+  /* PR("syms: "); WRITE(ENV_SYMS(root_env)); */
+  /* PR("vals: "); WRITE(ENV_SYMS(root_env)); */
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////  

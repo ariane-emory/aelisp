@@ -21,7 +21,7 @@
 ;;   result)
 ;; )
 
-(let* ((n 30)
+(let* ((n 5)
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (λ (k v) (cdr (car (≔ *memo* (aset *memo* k v))))))
        (fib     (λ (n)
@@ -30,5 +30,6 @@
        (result  (fib n)))
   result)
 
-;; (print (list ⊥ Ø () nil))
+(print (<< 10))
 
+(print (¬ t))

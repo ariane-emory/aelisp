@@ -257,6 +257,9 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_SPECIAL_CORE_FUN(add_core_special_fun);
   FOR_EACH_CORE_FUN(add_core_fun);
 
+  // There are obviously more performance-friendly ways to do this that don't put these symbols as the top of the env's
+  // symbols list, pick one of them and implement it. The lexer could even handle many of them directly.
+  
 #ifdef PREFER_ALIST
   ENV_SET(env, SYM("khas"), ENV_FIND(env, SYM("ahas")));
   ENV_SET(env, SYM("kget"), ENV_FIND(env, SYM("aget")));
@@ -273,14 +276,17 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("∨"),    ENV_FIND(env, SYM("or")));
   ENV_SET(env, SYM("¬"),    ENV_FIND(env, SYM("not")));
   ENV_SET(env, SYM("≔"),    ENV_FIND(env, SYM("setq")));
+  ENV_SET(env, SYM("⊤"),    ENV_FIND(env, SYM("t")));
+  ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("lte")));
+  ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM("gte")));
   /* ENV_SET(env, SYM("⊥"),    ENV_FIND(env, SYM("nil"))); // Lexed. */
 
 #ifdef AE_PRETTY
   ENV_SET(env, SYM("!"),    ENV_FIND(env, SYM("not")));
   ENV_SET(env, SYM("⊤"),    ENV_FIND(env, SYM("t")));
-  /* ENV_SET(env, SYM("Ø"),    ENV_FIND(env, SYM("nil"))); // Lexed.*/ 
   ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("lte")));
   ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM("gte")));
+  /* ENV_SET(env, SYM("Ø"),    ENV_FIND(env, SYM("nil"))); // Lexed.*/ 
   ENV_SET(env, SYM("×"),    ENV_FIND(env, SYM("mul")));
   ENV_SET(env, SYM("÷"),    ENV_FIND(env, SYM("div")));
   ENV_SET(env, SYM("∃"),    ENV_FIND(env, SYM("boundp")));
