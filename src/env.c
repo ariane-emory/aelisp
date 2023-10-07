@@ -262,6 +262,8 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("kget"), ENV_FIND(env, SYM("pget")));
   ENV_SET(env, SYM("kset"), ENV_FIND(env, SYM("pset")));
 #endif
+
+  ENV_SET(env, SYM("let*"), ENV_FIND(env, SYM("let_star")));
   
   return env;
 }
