@@ -272,12 +272,12 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("λ"),    ENV_FIND(env, SYM("lambda")));
   ENV_SET(env, SYM("∧"),    ENV_FIND(env, SYM("and")));
   ENV_SET(env, SYM("∨"),    ENV_FIND(env, SYM("or")));
-  ENV_SET(env, SYM("⊥"),    ENV_FIND(env, SYM("nil")));
+  /* ENV_SET(env, SYM("⊥"),    ENV_FIND(env, SYM("nil"))); // Lexed. */
 
 #ifdef AE_PRETTY
   ENV_SET(env, SYM("!"),    ENV_FIND(env, SYM("not")));
   ENV_SET(env, SYM("⊤"),    ENV_FIND(env, SYM("t")));
-  ENV_SET(env, SYM("Ø"),    ENV_FIND(env, SYM("nil")));
+  /* ENV_SET(env, SYM("Ø"),    ENV_FIND(env, SYM("nil"))); // Lexed.*/ 
   ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("lte")));
   ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM("gte")));
   ENV_SET(env, SYM("×"),    ENV_FIND(env, SYM("mul")));
