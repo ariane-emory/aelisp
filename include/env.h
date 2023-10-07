@@ -48,13 +48,13 @@ _obj;                                                                           
   found;                                                                                                            \
   })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_BOUNDP(env, sym)     (ENV_BOUND_IN(NEAREST, env, sym))
-#define    ENV_BOUNDP_G(env, sym)   (ENV_BOUND_IN( GLOBAL, env, sym))
-#define    ENV_BOUNDP_L(env, sym)   (ENV_BOUND_IN(  LOCAL, env, sym))
+#define    ENV_BOUNDP(env, sym)     (ENV_BOUND_IN(NEAREST, env, sym))                                              //
+#define    ENV_BOUNDP_G(env, sym)   (ENV_BOUND_IN( GLOBAL, env, sym))                                              //
+#define    ENV_BOUNDP_L(env, sym)   (ENV_BOUND_IN(  LOCAL, env, sym))                                              //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_NEW_ROOT()           (ae_env_new_root())                                                            //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ROOTP(env)               (ENVP((env)) && (NILP(ENV_PARENT((env)))))                                     //
+#define    ROOTP(env)               (ae_env_rootp((env)))                                                          //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool       ae_env_rootp   (                  const ae_obj_t * const env                                            );
 void       ae_env_add     (                        ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value );
