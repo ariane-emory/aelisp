@@ -17,7 +17,7 @@
   DO(env,      false)                        /* env/fun accessor      */                                               \
   DO(vals,     false)                        /* env accessor          */                                               \
   DO(syms,     false)                        /* env accessor          */                                               \
-  DO(properp,  false)                        /* reduceable            */                                               \
+  DO(properp,  false)                        /* reduceable            */                                              \
   DO(tailp,    false)                        /* reduceable            */                                               \
   DO(boundp,   false)                                                                                                  \
   DO(nl,       false)                                                                                                  \
@@ -46,19 +46,17 @@
   DO(eval,     false)                                                                                                  \
   DO(list,     false)                                                                                                  \
   DO(set,      false)                                                                                                  \
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_FUN_SPECIAL(DO)                                                                                  \
-  DO(progn)                                                                                                            \
-  DO(setq)                                                                                                             \
-  DO(quote)                                                                                                            \
-  DO(macro)                                                                                                            \
-  DO(lambda)                                                                                                           \
-  DO(cond)                                                                                                             \
-  DO(let)                                                                                                              \
-  DO(let_star)                                                                                                         \
-  DO(if)                                     /* reduceable */                                                          \
-  DO(or)                                     /* reduceable */                                                          \
-  DO(and)                                    /* reduceable */                                                          \
+  DO(progn,    true )                                                                                                  \
+  DO(setq,     true )                                                                                                  \
+  DO(quote,    true )                                                                                                  \
+  DO(macro,    true )                                                                                                  \
+  DO(lambda,   true )                                                                                                  \
+  DO(cond,     true )                                                                                                  \
+  DO(let,      true )                                                                                                  \
+  DO(let_star, true )                                                                                                  \
+  DO(if,       true )                        /* reduceable */                                                          \
+  DO(or,       true )                        /* reduceable */                                                          \
+  DO(and,      true )                        /* reduceable */                                                          \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -85,5 +83,4 @@
 FOR_EACH_CORE_MATH_OP(DECL_CORE);
 FOR_EACH_CORE_CMP_OP(DECL_CORE);
 FOR_EACH_CORE_FUN(DECL_CORE);
-FOR_EACH_CORE_FUN_SPECIAL(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

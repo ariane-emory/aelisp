@@ -248,13 +248,11 @@ end:
 ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
 
-#define add_core_fun(name, ...)          ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, false));  
-#define add_core_special_fun(name, ...)  ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, true));
+#define add_core_fun(name, special, ...) ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, special));  
 #define add_core_op(name, sym, ...)      ENV_SET(env, SYM(#sym),  NEW_CORE(#name, &ae_core_##name, false));
   
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_CMP_OP(add_core_op);
-  FOR_EACH_CORE_FUN_SPECIAL(add_core_special_fun);
   FOR_EACH_CORE_FUN(add_core_fun);
 
   // There are obviously more performance-friendly ways to do this that don't put these symbols as the top of the env's

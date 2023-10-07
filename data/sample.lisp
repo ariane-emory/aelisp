@@ -25,10 +25,10 @@
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (λ (k v) (cdr (car  (≔    *memo* (aset *memo* k v))))))
        (𝑓       (λ (n)
-                   (let  ((memoized (aget *memo*  n)))
-                     (∨    memoized
-                          (memoize   n (+ (𝑓 (- n 1))
-                                          (𝑓 (- n 2)))))))))
+                  (let  ((memoized (aget *memo*  n)))
+                    (∨    memoized
+                         (memoize   n (+ (𝑓 (- n 1))
+                                         (𝑓 (- n 2)))))))))
   (𝑓 n))
 
 ;; (print (<< 10))
