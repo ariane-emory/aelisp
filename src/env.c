@@ -254,7 +254,7 @@ ae_obj_t * ae_env_new_root(void) {
   
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_CMP_OP(add_core_op);
-  FOR_EACH_CORE_SPECIAL_FUN(add_core_special_fun);
+  FOR_EACH_CORE_FUN_SPECIAL(add_core_special_fun);
   FOR_EACH_CORE_FUN(add_core_fun);
 
   // There are obviously more performance-friendly ways to do this that don't put these symbols as the top of the env's
