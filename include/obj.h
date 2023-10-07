@@ -244,11 +244,11 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(obj)                     TYPE_PREDICATE((obj), AE_STRING)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // can't update COREP_INTERNAL fore some reason yet:
-#define COREP_INTERNAL(obj)              (((obj)) && TYPE_PREDICATE((obj), AE_CORE))
+#define COREP_INTERNAL(obj)              (TYPE_PREDICATE((obj), AE_CORE))
 #define MACROP_INTERNAL(obj)             ({CAPTURE((obj)); TYPE_PREDICATE(CAPTURED, AE_MACRO); })
 #define SPECIALP(obj)                    ({CAPTURE((obj)); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SYMBOLP_INTERNAL(obj)            ((obj) && TYPE_PREDICATE((obj), AE_SYMBOL))
+#define SYMBOLP_INTERNAL(obj)            (TYPE_PREDICATE((obj), AE_SYMBOL))
 #define SYMBOLP(obj)                     ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED); })
 #define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
