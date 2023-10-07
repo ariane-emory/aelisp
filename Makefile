@@ -1,3 +1,4 @@
+SHELL        = bash
 UNAME_S      = $(shell uname -s)
 SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" )
 TEST_SRCS    = $(shell find test -name "*.c")
