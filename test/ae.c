@@ -969,7 +969,7 @@ void root_env_and_eval(void) {
 
   expr = CONS(SYM("if"), CONS(SYM("nil"), LIST(NEW_INT(11))));
   T(NILP(EVAL(env, expr)));
-
+ 
   expr = CONS(SYM("lambda"),
               CONS(LIST(SYM("x")),
                    CONS(

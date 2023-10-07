@@ -61,8 +61,6 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(CONS(SYM("progn"), CDDR(args)), "else");
 #endif
 
-  CORE_RETURN("iff", NEW_INT(33));
-  
   REQUIRE(env, args, !NILP(CDR(args)), "if requires at least 2 args");
 
   bool cond_result = ! NILP(EVAL(env, CAR(args)));
