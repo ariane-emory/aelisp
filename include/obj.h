@@ -243,11 +243,11 @@ extern ae_obj_t * symbols_list;
 #define RATIONALP(o)                     TYPE_PREDICATE(AE_RATIONAL, o)
 #define STRINGP(o)                       TYPE_PREDICATE(AE_STRING, o)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MACROP_INTERNAL(o)               (((o)) && GET_TYPE((o)) == AE_MACRO)
-#define COREP_INTERNAL(o)                (((o)) && GET_TYPE((o)) == AE_CORE)
+#define MACROP_INTERNAL(o)               (((o)) && TYPE_PREDICATE_INTERNAL(AE_MACRO, (o)))
+#define COREP_INTERNAL(o)                (((o)) && TYPE_PREDICATE_INTERNAL(AE_CORE, (o)))
 #define SPECIALP(o)                      ({CAPTURE((o)); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SYMBOLP_INTERNAL(o)              ((o) && GET_TYPE((o)) == AE_SYMBOL)
+#define SYMBOLP_INTERNAL(o)              ((o) && TYPE_PREDICATE_INTERNAL(AE_SYMBOL, (o)))
 #define SYMBOLP(o)                       ({ CAPTURE((o)); SYMBOLP_INTERNAL(CAPTURED); })
 #define KEYWORDP(o)                      ({ CAPTURE((o)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +256,7 @@ extern ae_obj_t * symbols_list;
 #define NILP(o)                          ({ CAPTURE((o)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
 #define TRUEP(o)                         ({ CAPTURE((o)); CAPTURED && TRUEP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CONSP_INTERNAL(o)                ((o) && GET_TYPE((o)) == AE_CONS)
+#define CONSP_INTERNAL(o)                ((o) && TYPE_PREDICATE_INTERNAL(AE_CONS, (o)))
 #define CONSP(o)                         ({ CAPTURE((o)); CONSP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TAILP(o) ({ CAPTURE(o); NILP_INTERNAL(CAPTURED) || (CONSP_INTERNAL(CAPTURED) && CAR(CAPTURED)); })
