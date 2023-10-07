@@ -226,9 +226,6 @@ extern ae_obj_t * symbols_list;
 #define EQ(this, that)               ((this) && (that) && ((this)) == ((that)))
 #define EQL(this, that)              ((this) && (that) && (ae_obj_eql((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
-#define CAPTURED                     tmp_##__LINE__
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP(o)                      ({ CAPTURE(o); (CAPTURED) && (CAPTURED == NIL);  })
 #define TRUEP(o)                     ({ CAPTURE(o); (CAPTURED) && (CAPTURED == TRUE); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

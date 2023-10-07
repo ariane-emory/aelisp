@@ -1211,6 +1211,18 @@ void kvp_list(void) {
   T(  EQL(       KGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
 
+void tailp(void) {
+  SETUP_TEST;
+
+  T(TAILP(SYM("nil")));
+  T(TAILP(CONS(SYM("foo"), NIL)));
+  T(TAILP(CONS(NEW_INT(12), CONS(SYM("bar"), NIL))));
+  T(TAILP(NEW_CONS(NEW_INT(33), SYM("baz"))));
+  T(TAILP(CONS(NIL, NEW_CONS(NEW_INT(33), SYM("baz"))))); 
+  T(! TAILP(NEW_INT(22)));
+  // T(TAILP(NIL));    // This would generate a -Werror=address error.
+  // T(! TAILP(TRUE)); // This would generate a -Werror=address error.
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
@@ -1219,6 +1231,7 @@ void kvp_list(void) {
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(tailp)                                                                                        \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
   DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
