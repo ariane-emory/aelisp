@@ -10,7 +10,7 @@ ae_obj_t * ae_core_eq(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * c
   CORE_BEGIN("eq");
 
   FOR_EACH(tailarg, CDR(args))
-    if (! EQ(CAR(args), tailarg))
+    if (CAR(args) != tailarg)
       CORE_RETURN("eq", NIL);
 
   CORE_RETURN("eq", TRUE);
