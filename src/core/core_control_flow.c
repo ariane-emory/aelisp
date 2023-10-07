@@ -55,6 +55,11 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("iff");
 
+  ae_obj_t * const if_cond     = CAR(args);
+  ae_obj_t * const then_branch = CADR(args);
+  ae_obj_t * const else_branch = CDDR(args);
+    
+  
 #ifdef AE_LOG_CORE
   LOG(CAR(args),                      "if");
   LOG(CADR(args),                     "then");
