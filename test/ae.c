@@ -841,19 +841,19 @@ void core_math(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
 
-  this = ae_core_add(env, CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
+  this = ae_core_add(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
   T(EQL(this, NEW_INT(31)));
 
-  this = ae_core_sub(env, CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
+  this = ae_core_sub(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
   T(EQL(this, NEW_INT(17)));
 
-  this = ae_core_sub(env, CONS(NEW_INT(3),  CONS(NEW_INT(4), LIST(NEW_INT(24)))));
+  this = ae_core_sub(env, CONS(NEW_INT(3),  CONS(NEW_INT(4), NEW_CONS(NEW_INT(24), NIL))));
   T(EQL(this, NEW_INT(-25)));
 
-  this = ae_core_mul(env, CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
+  this = ae_core_mul(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
   T(EQL(this, NEW_INT(288)));
 
-  this = ae_core_div(env, CONS(NEW_INT(24), CONS(NEW_INT(4), LIST(NEW_INT(3) ))));
+  this = ae_core_div(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
   T(EQL(this, NEW_INT(2)));
 }
 
@@ -861,23 +861,23 @@ void core_cmp(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
 
-  T(TRUEP(ae_core_equal (env, CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(2)))))));
-  T(NILP (ae_core_equal (env, CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(3)))))));
+  T(TRUEP(ae_core_equal (env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL))))));
+  T(NILP (ae_core_equal (env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))))));
 
-  T(NILP (ae_core_nequal(env, CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(2)))))));
-  T(TRUEP(ae_core_nequal(env, CONS(NEW_INT(2), CONS(NEW_INT(2), LIST(NEW_INT(3)))))));
+  T(NILP (ae_core_nequal(env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL))))));
+  T(TRUEP(ae_core_nequal(env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))))));
 
-  T(TRUEP(ae_core_lt (env, CONS(NEW_INT(2), CONS(NEW_INT(4), LIST(NEW_INT(6)))))));
-  T(NILP (ae_core_gt (env, CONS(NEW_INT(2), CONS(NEW_INT(4), LIST(NEW_INT(6)))))));
+  T(TRUEP(ae_core_lt (env, CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL))))));
+  T(NILP (ae_core_gt (env, CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL))))));
 
-  T(TRUEP(ae_core_gt (env, CONS(NEW_INT(6), CONS(NEW_INT(4), LIST(NEW_INT(2)))))));
-  T(NILP (ae_core_lt (env, CONS(NEW_INT(6), CONS(NEW_INT(4), LIST(NEW_INT(2)))))));
+  T(TRUEP(ae_core_gt (env, CONS(NEW_INT(6), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL))))));
+  T(NILP (ae_core_lt (env, CONS(NEW_INT(6), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL))))));
 
-  T(TRUEP(ae_core_lte(env, CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(6))))))));
-  T(NILP (ae_core_gte(env, CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(6))))))));
+  T(TRUEP(ae_core_lte(env, CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)))))));
+  T(NILP (ae_core_gte(env, CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)))))));
 
-  T(TRUEP(ae_core_gte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(2))))))));
-  T(NILP (ae_core_lte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), LIST(NEW_INT(2))))))));
+  T(TRUEP(ae_core_gte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)))))));
+  T(NILP (ae_core_lte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)))))));
 }
 
 void core_msleep(void) {
@@ -932,19 +932,19 @@ void root_env_and_eval(void) {
   T(ERRORP(CORE_SETQ(env, "t",        NEW_INT(222))));
   T(ERRORP(CORE_SETQ(env, ":keyword", NEW_INT(333))));
   
-  T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))))));
-  T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
-  TM("Expected %d, got %d.", 672, INT_VAL(EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), LIST(SYM("foo")))))));
+  T(EQL(NEW_INT(25),  EVAL(env, CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))))));
+  T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), NEW_CONS(SYM("foo"), NIL))))));
+  TM("Expected %d, got %d.", 672, INT_VAL(EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), NEW_CONS(SYM("foo"), NIL))))));
 
-  T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  LIST(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))))));
+  T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))), NIL))))));
 
-  EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), LIST(NEW_INT(9)))));
-  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), LIST(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9))))))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), NEW_CONS(NEW_INT(9), NIL))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))), NIL))));
 
   T(EQL(NEW_INT(9),   EVAL(env, SYM("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, SYM("baz"))));
 
-  expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), LIST(NEW_STRING("Hello "))), CONS(CONS(SYM("princ"), LIST(NEW_STRING("from Ash"))), LIST(CONS(SYM("princ"), LIST(NEW_STRING("Lisp!")))))));
+  expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("Hello "), NIL)), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("from Ash"), NIL)), NEW_CONS(CONS(SYM("princ"), LIST(NEW_STRING("Lisp!"))), NIL))));
 
   NL;
   PR("Should Print \"Hello from Ash Lisp!\" on the next line:\n");
@@ -952,45 +952,45 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(5), this));
   NL;
 
-  expr = CONS(SYM("quote"), LIST(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15))))));
+  expr = CONS(SYM("quote"), NEW_CONS(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15)))), NIL));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
-  expr = CONS(SYM("quote"), LIST(SYM("a")));
+  expr = CONS(SYM("quote"), NEW_CONS(SYM("a"), NIL));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a"));
 
-  expr = CONS(SYM("if"), CONS(SYM("t"), CONS(NEW_INT(11), CONS(SYM("ignored"), LIST(NEW_INT(22))))));
+  expr = CONS(SYM("if"), CONS(SYM("t"), CONS(NEW_INT(11), CONS(SYM("ignored"), NEW_CONS(NEW_INT(22), NIL)))));
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
-  expr = CONS(SYM("if"), CONS(SYM("t"), LIST(NEW_INT(11))));
+  expr = CONS(SYM("if"), CONS(SYM("t"), NEW_CONS(NEW_INT(11), NIL)));
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
-  expr = CONS(SYM("if"), CONS(SYM("nil"), CONS(NEW_INT(11), CONS(SYM("ignored"), LIST(NEW_INT(22))))));
+  expr = CONS(SYM("if"), CONS(SYM("nil"), CONS(NEW_INT(11), CONS(SYM("ignored"), NEW_CONS(NEW_INT(22), NIL)))));
   T(EQL(NEW_INT(22), EVAL(env, expr)));
 
-  expr = CONS(SYM("if"), CONS(SYM("nil"), LIST(NEW_INT(11))));
+  expr = CONS(SYM("if"), CONS(SYM("nil"), NEW_CONS(NEW_INT(11), NIL)));
   T(NILP(EVAL(env, expr)));
  
   expr = CONS(SYM("lambda"),
-              CONS(LIST(SYM("x")),
+              CONS(NEW_CONS(SYM("x"), NIL),
                    CONS(
-                     CONS(SYM("princ"), LIST(SYM("x"))), LIST(
+                     CONS(SYM("princ"), NEW_CONS(SYM("x"), NIL)), NEW_CONS(
                        CONS(SYM("+"),
-                            CONS(SYM("x"), LIST(NEW_INT(2))))))));
+                            CONS(SYM("x"), LIST(NEW_INT(2)))), NIL))));
 
   rtrn = EVAL(env, expr);
 
   T(LAMBDAP(rtrn));
 
-  obj subexpr = CONS(SYM("*"), CONS(NEW_INT(53), LIST(NEW_INT(54))));
+  obj subexpr = CONS(SYM("*"), CONS(NEW_INT(53), NEW_CONS(NEW_INT(54), NIL)));
 
   expr = CONS(CONS(SYM("lambda"),
-                   CONS(LIST(SYM("x")),
+                   CONS(NEW_CONS(SYM("x"), NIL),
                         CONS(CONS(SYM("princ"),
-                                  LIST(SYM("x"))),
-                             LIST(CONS(SYM("+"),
+                                  NEW_CONS(SYM("x"), NIL)),
+                             NEW_CONS(CONS(SYM("+"),
                                        CONS(SYM("x"),
-                                            LIST(subexpr))))))),
-              LIST(NEW_INT(31)));
+                                            LIST(subexpr))), NIL)))),
+              NEW_CONS(NEW_INT(31), NIL));
 
 
   PR("\nShould Print 12 on the next line:\n");
@@ -999,13 +999,13 @@ void root_env_and_eval(void) {
 
   // no princ:
   expr = CONS(CONS(SYM("lambda"),
-                 CONS(LIST(SYM("x")),
-                      LIST(CONS(SYM("+"),
+                   CONS(NEW_CONS(SYM("x"), NIL),
+                      NEW_CONS(CONS(SYM("+"),
                                 CONS(SYM("x"),
-                                     LIST(NEW_INT(1))))))),
-            LIST(CONS(SYM("+"),
+                                     LIST(NEW_INT(1)))), NIL))),
+            NEW_CONS(CONS(SYM("+"),
                       CONS(NEW_INT(2),
-                           LIST(NEW_INT(3))))));
+                           LIST(NEW_INT(3)))), NIL));
 
   PR("\nShould Print 6 on the next line:\n");
   rtrn = EVAL(env, expr);
@@ -1014,10 +1014,10 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(6), rtrn));
 
-  obj    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(1)))), LIST(NEW_INT(10)));
-  obj    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), LIST(NEW_INT(2)))), LIST(NEW_INT(20)));
-  obj    expr3 = CONS(TRUE, LIST(NEW_INT(30)));
-  expr                = CONS(SYM("cond"), CONS(expr1, CONS(expr2, LIST(expr3))));
+  obj    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), NEW_CONS(NEW_INT(1), NIL))), NEW_CONS(NEW_INT(10), NIL));
+  obj    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), NEW_CONS(NEW_INT(2), NIL))), NEW_CONS(NEW_INT(20), NIL));
+  obj    expr3 = CONS(TRUE, NEW_CONS(NEW_INT(30), NIL));
+  expr                = CONS(SYM("cond"), CONS(expr1, CONS(expr2, NEW_CONS(expr3, NIL))));
 
   NL;
   PR("Evaluating this cond: ");
@@ -1056,7 +1056,7 @@ void list_fun(void) {
 
   obj env           = ENV_NEW_ROOT();
   obj list_fun      = ENV_FIND(env, SYM("list"));
-  obj list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), LIST(NEW_INT(3)))));
+  obj list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))));
   obj ret           = EVAL(env, list_fun_call);
 
   T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
