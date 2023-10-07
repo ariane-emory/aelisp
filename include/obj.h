@@ -155,20 +155,20 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ALLOC()                          (pool_alloc_ae_obj())
-#define COPY(obj, other)                 (memcpy((obj), (other), sizeof(ae_obj_t)))
+#define ALLOC()                         (pool_alloc_ae_obj())
+#define COPY(obj, other)                (memcpy((obj), (other), sizeof(ae_obj_t)))
 #define CLONE(obj)                      (ae_obj_clone((obj)))
 #define FREE(obj)                       (pool_free_ae_obj((obj)))
 #define INIT(obj, type)                 (ae_obj_init((obj), (type)))
-#define MOVE_NEW(other)                   (UNSAFE_MOVE(ALLOC(), other))
-#define NEW(type)                        (INIT((ALLOC()), (type)))
-#define TRUTH(o)                         (ae_obj_truth((o)))
-#define UNSAFE_MOVE(to, from)            (ae_obj_unsafe_move((to), (from)))
+#define MOVE_NEW(other)                 (UNSAFE_MOVE(ALLOC(), other))
+#define NEW(type)                       (INIT((ALLOC()), (type)))
+#define TRUTH(o)                        (ae_obj_truth((o)))
+#define UNSAFE_MOVE(to, from)           (ae_obj_unsafe_move((to), (from)))
 #define ZERO(obj)                       (memset((obj), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MARKED_AS_DELOCALIZEDP(o)        (ae_obj_get_delocalized((o)))
-#define MARK_DELOCALIZED(o)              (ae_obj_set_delocalized((o), true))
-#define UNMARK_DELOCALIZED(o)            (ae_obj_set_delocalized((o), false))
+#define MARKED_AS_DELOCALIZEDP(o)       (ae_obj_get_delocalized((o)))
+#define MARK_DELOCALIZED(o)             (ae_obj_set_delocalized((o), true))
+#define UNMARK_DELOCALIZED(o)           (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHAR_VAL(obj)                   ((obj)->char_val)
 #define DENOM_VAL(obj)                  ((obj)->denominator_val)
@@ -202,22 +202,22 @@ extern ae_obj_t * symbols_list;
 #define ESET(obj, key, val)             (EOBJ((obj)) = (KSET(EOBJ((obj)), KW(key), (val))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_DEBUG_OBJ
-#  define DOBJ(obj)                     ((obj)->debug_data)
-#  define DHAS(obj, key)                (KHAS(DOBJ((obj)), KW(key)))
-#  define DGET(obj, key)                (KGET(DOBJ((obj)), KW(key)))
-#  define DSET(obj, key, val)           (DOBJ((obj)) = (KSET(DOBJ((obj)), KW(key), (val))))
+#  define DOBJ(obj)                      ((obj)->debug_data)
+#  define DHAS(obj, key)                 (KHAS(DOBJ((obj)), KW(key)))
+#  define DGET(obj, key)                 (KGET(DOBJ((obj)), KW(key)))
+#  define DSET(obj, key, val)            (DOBJ((obj)) = (KSET(DOBJ((obj)), KW(key), (val))))
 #else
-#  define DOBJ(obj)                     ((void)obj, NIL)
-#  define DHAS(obj, key)                ((void)obj, (void)key, NIL)
-#  define DGET(obj, key)                ((void)obj, (void)key, NIL)
-#  define DSET(obj, key, val)           ((void)obj, (void)key, (void)val, NIL)
+#  define DOBJ(obj)                      ((void)obj, NIL)
+#  define DHAS(obj, key)                 ((void)obj, (void)key, NIL)
+#  define DGET(obj, key)                 ((void)obj, (void)key, NIL)
+#  define DSET(obj, key, val)            ((void)obj, (void)key, (void)val, NIL)
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_STR(t)                      (ae_type_str(((t))) + 3)
-#define GET_TYPE(obj)                   (ae_obj_get_type((obj)))
-#define SET_TYPE(obj, type)             (ae_obj_set_type((obj), (type)))
+#define GET_TYPE(obj)                    (ae_obj_get_type((obj)))
+#define SET_TYPE(obj, type)              (ae_obj_set_type((obj), (type)))
 #define GET_TYPE_STR(obj)                (TYPE_STR(GET_TYPE((obj))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NIL                              (&nil_obj)
@@ -230,7 +230,7 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_PREDICATE(obj, type)        ((obj) && (GET_TYPE((obj)) == type))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(obj)                       ({ CAPTURE((obj)); !CONSP(CAPTURED); })
+#define ATOMP(obj)                       (! CONSP(CAPTURED))
 #define CHARP(obj)                       TYPE_PREDICATE((obj), AE_CHAR)
 #define COREP(obj)                       TYPE_PREDICATE((obj), AE_CORE)
 #define ENVP(obj)                        TYPE_PREDICATE((obj), AE_ENV)
