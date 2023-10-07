@@ -243,6 +243,7 @@ extern ae_obj_t * symbols_list;
 #define CHARP(o)                     TYPE_PREDICATE(AE_CHAR, o)
 #define CONSP(o)                     TYPE_PREDICATE(AE_CONS, o)
 #define COREP(o)                     TYPE_PREDICATE(AE_CORE, o)
+#define ENVP(o)                      TYPE_PREDICATE(AE_ENV, o)
 #define ERRORP(o)                    TYPE_PREDICATE(AE_ERROR, o)
 #define FLOATP(o)                    TYPE_PREDICATE(AE_FLOAT, o)
 #define FREEP(o)                     TYPE_PREDICATE(AE_FREE, o)
