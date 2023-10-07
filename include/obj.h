@@ -246,9 +246,8 @@ extern ae_obj_t * symbols_list;
 #define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
 #define SPECIALP(obj)                    ({CAPTURE((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SYMBOLP_INTERNAL(obj)            (TYPE_PREDICATE((obj), AE_SYMBOL))
-#define SYMBOLP(obj)                     ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED); })
-#define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
+#define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
+#define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TRUEP(obj)                       ((obj) == TRUE)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
