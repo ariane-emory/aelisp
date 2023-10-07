@@ -22,6 +22,11 @@
 ;;              ((>= x  50) :MEDIUM)
 ;;              (t          :SMALL)))))
 
+(setq fib normal-fib)
+(setq expr '(fib 20))
+(print expr)
+;;(print (eval expr))
+
 ;; (scoped-setq-test 200)
 ;; (cond-test *q*)
 
@@ -51,24 +56,30 @@
               ((<= n 2) 1)
               (t (+ (fib (- n 1)) (fib (- n 2)))))))
 
-(setq fib normal-fib)
-(setq expr '(fib 20))
-(print expr)
+(setq memo-fib (lambda (n)
+            (cond
+              ((<= n 2) 1)
+              (t (+ (fib (- n 1)) (fib (- n 2)))))))
 
-;;(print (eval expr))
 
-
-(setq   klist (kset klist 'name "Bob" ))
-(setq   klist (kset klist 'age   24   ))
-(setq   klist (kset klist 'type 'human))
-
-(print klist) (nl)
 
 (setq  *memo* (kset *memo* 1 1))
 (setq  *memo* (kset *memo* 8 1))
 (setq  *memo* (kset *memo* 1 4))
 (setq  *memo* (kset *memo* 8 2))
 (print *memo*)
+
+
+(setq fib memo-fib)
+
+(let ((x 20))
+  (print (fib x)))
+
+
+
+
+
+
 
 ;; (if (< 5 6)
 ;;   (print "MATCHED")
