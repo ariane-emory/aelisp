@@ -10,8 +10,6 @@
 ;;        (*memo*  '(2 1 1 1))
 ;;        (memoize  (lambda (k v)
 ;;                    (let ((second (car (cdr (setq *memo* (pset *memo* k v))))))
-;;                      ;; (print *memo*)
-;;                      ;; (print second)
 ;;                      second)))
 ;;        (fib      (lambda (n)
 ;;                    (let ((memoized (pget *memo* n)))
@@ -24,21 +22,17 @@
 ;; )
 
 ;; (print
- (let* ((n 30)
-        (*memo*  '((2 . 1) (1 . 1)))
-        (memoize  (lambda (k v)
-                    (let ((head (cdr (car (setq *memo* (aset *memo* k v))))))
-                      ;; (print *memo*)
-                      ;; (print head)
-                      head)))
-        (fib      (lambda (n)
-                    (let ((memoized (aget *memo* n)))
-                      (cond
-                        (memoized memoized)
-                        ;; ((<= n 2) 1)
-                        (t (memoize n (+ (fib (- n 1)) (fib (- n 2)))))))))
-        (result  (fib n)))
-   result)
+(let* ((n 30)
+       (*memo* '((2 . 1) (1 . 1)))
+       (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+       (fib     (lambda (n)
+                  (let ((memoized (aget *memo* n)))
+                    (cond
+                      (memoized memoized)
+                      ;; ((<= n 2) 1)
+                      (t (memoize n (+ (fib (- n 1)) (fib (- n 2)))))))))
+       (result  (fib n)))
+  result)
 ;; )
 
 
