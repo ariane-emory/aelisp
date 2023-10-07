@@ -55,6 +55,7 @@
   DO(lambda)                                                                                       \
   DO(cond)                                                                                         \
   DO(let)                                                                                          \
+  DO(let_star)                                                                                     \
   DO(if)      /* reduceable */                                                                     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                  \
