@@ -704,6 +704,44 @@ obj make_args_for_cons(void) {
   return CONS(NIL, LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c"))))));
 }
 
+void fun_specialness(void) {
+  SETUP_TEST;
+  obj env   = ENV_NEW_ROOT();
+
+  T(COREP(ENV_FIND(env, SYM("progn"))));
+  T(SPECIALP(ENV_FIND(env, SYM("progn"))));
+
+  T(COREP(ENV_FIND(env, SYM("if"))));
+  T(SPECIALP(ENV_FIND(env, SYM("if"))));
+
+  T(COREP(ENV_FIND(env, SYM("cond"))));
+  T(SPECIALP(ENV_FIND(env, SYM("cond"))));
+
+  T(COREP(ENV_FIND(env, SYM("lambda"))));
+  T(SPECIALP(ENV_FIND(env, SYM("lambda"))));
+
+  T(COREP(ENV_FIND(env, SYM("let"))));
+  T(SPECIALP(ENV_FIND(env, SYM("let"))));
+
+  T(COREP(ENV_FIND(env, SYM("print"))));
+  T(! SPECIALP(ENV_FIND(env, SYM("print"))));
+
+  T(COREP(ENV_FIND(env, SYM("cons"))));
+  T(! SPECIALP(ENV_FIND(env, SYM("cons"))));
+
+  T(COREP(ENV_FIND(env, SYM("car"))));
+  T(! SPECIALP(ENV_FIND(env, SYM("car"))));
+
+  T(COREP(ENV_FIND(env, SYM("cdr"))));
+  T(! SPECIALP(ENV_FIND(env, SYM("cdr"))));
+
+  T(COREP(ENV_FIND(env, SYM("+"))));
+  T(! SPECIALP(ENV_FIND(env, SYM("+"))));
+
+  T(COREP(ENV_FIND(env, SYM("=="))));
+  T(! SPECIALP(ENV_FIND(env, SYM("=="))));
+}
+
 void core_cons_car_cdr(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
@@ -1265,7 +1303,8 @@ void tailp(void) {
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
   DO(kvp_list)                                                                                     \
-  DO(root_env_and_eval) 
+  DO(root_env_and_eval)                                                                            \
+  DO(fun_specialness)
 
 #define pair(fun) { #fun, fun },
 

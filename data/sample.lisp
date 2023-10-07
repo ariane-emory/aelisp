@@ -66,8 +66,13 @@
 ;; (print )
 ;; (+ 3 4)
 
-(cond ((< 5 6) (print "MATCHED"))
-      (t       (print "NO MATCH"))) 
+;; (cond ((< 5 6) (print "MATCHED"))
+;;       (t       (print "NO MATCH")))
+
+
+(setq ww 8)
+
+(+ 7 ww)
 
 ;; (progn (print "HELLO WORLD"))
 
