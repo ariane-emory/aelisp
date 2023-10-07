@@ -104,8 +104,8 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * const right_branch = CDDR(args);    
   
 #ifdef AE_LOG_CORE
-  LOG(if_cond,     "or left");
-  LOG(then_branch, "or right");
+  LOG(left_branch,    "or's left branch");
+  LOG(right_branch,   "or's right branch");
 #endif
 
   REQUIRE(env, args, !NILP(CDR(args)), "or requires 2 args");
