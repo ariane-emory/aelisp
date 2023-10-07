@@ -31,3 +31,5 @@
   result)
 
 (print '(⊥ Ø))
+(print Ø)
+(print ⊥)
