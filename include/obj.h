@@ -156,11 +156,11 @@ extern ae_obj_t * symbols_list;
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ALLOC()                          (pool_alloc_ae_obj())
-#define COPY(obj, that)                 (memcpy((obj), (that), sizeof(ae_obj_t)))
+#define COPY(obj, other)                 (memcpy((obj), (other), sizeof(ae_obj_t)))
 #define CLONE(obj)                      (ae_obj_clone((obj)))
 #define FREE(obj)                       (pool_free_ae_obj((obj)))
 #define INIT(obj, type)                 (ae_obj_init((obj), (type)))
-#define MOVE_NEW(that)                   (UNSAFE_MOVE(ALLOC(), that))
+#define MOVE_NEW(other)                   (UNSAFE_MOVE(ALLOC(), other))
 #define NEW(type)                        (INIT((ALLOC()), (type)))
 #define TRUTH(o)                         (ae_obj_truth((o)))
 #define UNSAFE_MOVE(to, from)            (ae_obj_unsafe_move((to), (from)))
@@ -223,8 +223,8 @@ extern ae_obj_t * symbols_list;
 #define NIL                              (&nil_obj)
 #define TRUE                             (&true_obj)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EQ(obj, that)                   ((obj) && (that) && ((obj)) == ((that)))
-#define EQL(obj, that)                  ((obj) && (that) && (ae_obj_eql((obj), (that))))
+#define EQ(obj, other)                   ((obj) && (other) && ((obj)) == ((other)))
+#define EQL(obj, other)                  ((obj) && (other) && (ae_obj_eql((obj), (other))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Unary predicates
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
