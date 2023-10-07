@@ -268,7 +268,7 @@ ae_obj_t * ae_env_new_root(void) {
 #endif
 
   ENV_SET(env, SYM("let*"), ENV_FIND(env, SYM("let_star")));
-  ENV_SET(env, SYM("∨*"),   ENV_FIND(env, SYM("or")));
+  ENV_SET(env, SYM("∨"),    ENV_FIND(env, SYM("or")));
   ENV_SET(env, SYM("λ"),    ENV_FIND(env, SYM("lambda")));
   
   
