@@ -25,7 +25,7 @@ _obj->parent    = (parent_);                                                    
 _obj->symbols   = (symbols_);                                                                                       \
 _obj->values    = (values_);                                                                                        \
 _obj;                                                                                                               \
-})                                                                                                                  
+})
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_PARENT(env)          ((env)->parent)                                                                //
 #define    ENV_SYMS(env)            ((env)->symbols)                                                               //
@@ -59,7 +59,7 @@ _obj;                                                                           
 bool       ae_env_rootp   (                  const ae_obj_t * const env                                            );
 void       ae_env_add     (                        ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value );
 void       ae_env_set     (ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * value );
-ae_obj_t * ae_env_lookup  (ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t * const symbol, bool     * found );
+ae_obj_t * ae_env_lookup  (ae_env_set_mode_t mode, const ae_obj_t * const env, const ae_obj_t * const symbol, bool     * const found );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(void                                                                                    );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
