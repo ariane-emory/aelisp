@@ -697,11 +697,11 @@ void improper_list(void) {
 }
 
 obj make_args_containing_one_list(void) {
-  return LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))));
+  return NEW_CONS(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))), NIL);
 }
 
 obj make_args_for_cons(void) {
-  return CONS(NIL, LIST(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c"))))));
+  return CONS(NIL, NEW_CONS(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))), NIL));
 }
 
 void fun_specialness(void) {
@@ -747,8 +747,8 @@ void core_cons_car_cdr(void) {
   obj env   = ENV_NEW_ROOT();
 
   T(ae_core_car(env, make_args_containing_one_list()) == SYM("a"                                             ));
-  T(ae_core_car(env, LIST(ae_core_cdr(env, make_args_containing_one_list()))) == SYM("b"                     ));
-  T(shitty_princ_based_equality_predicate(ae_core_cons(env, CONS(SYM("a"), LIST(NIL))), "(a)"                )); // cons 'a onto nil and get (a).
+  T(ae_core_car(env, NEW_CONS(ae_core_cdr(env, make_args_containing_one_list()), NIL)) == SYM("b"            ));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(env, CONS(SYM("a"), NEW_CONS(NIL, NIL))), "(a)"       )); // cons 'a onto nil and get (a).
   T(shitty_princ_based_equality_predicate(ae_core_cdr (env, make_args_containing_one_list() ), "(b c)"       ));
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, make_args_for_cons()            ), "(nil a b c)" ));
   T(NILP(ae_core_car(env,                  LIST(NIL))                                                        ));
