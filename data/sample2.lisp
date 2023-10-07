@@ -1,57 +1,8 @@
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; essentials:
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
-;; (setq list      (lambda  args       args                     ))
-;; (setq quote     (macro  (x)         x                        ))
-;; (setq nil?      (lambda (o)        (eq      nil          o  )))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;; (setq obvious (lambda (x) (print x) x))
-;; (obvious 7)
-
-;; (setq   alist  nil                     )
-;; (setq   alist (aset alist 'name "Bob" ))
-;; (setq   alist (aset alist 'age   24   ))
-;; (setq   alist (aset alist 'type 'human))
-
-;; (print alist)
-;; (exit)
-
-(set 'scoped-setq-test
-  (lambda (x)
-    (setq *q* x)))
-
-
-(setq cond-test
-  (lambda (x)
-    (print (cond
-             ((>= x 100) :BIG)
-             ((>= x  50) :MEDIUM)
-             (t          :SMALL)))))
-
-(scoped-setq-test 200)
-(cond-test *q*)
-
-(scoped-setq-test  75)
-(cond-test *q*)
-
-(scoped-setq-test  25)
-(cond-test *q*)
-
-(let ( (double (lambda (z) (* 2 z)))
-       (x 1)
-       (y 2))
-  (print (double x))
-  (print (double y))
-  (print (double (+ (double x) y))))
-
-;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
-
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; 'standard library', such as it is:                        ;)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq eq?        eq                                           )
+;; (setq eql?       eql                                          )
 ;; (setq tail?      tailp                                        )
 ;; (setq proper?    properp                                      )
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -76,7 +27,7 @@
 ;; (setq string?   (lambda (o)        (type?   :STRING      o  )))
 ;; (setq symbol?   (lambda (o)        (type?   :SYMBOL      o  )))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq cadr      (lambda (x)        (car (cdr x)))             )
+(   setq cadr      (lambda (x)        (car (cdr x)))             )
 ;; (setq cdar      (lambda (x)        (cdr (car x)))             )
 ;; (setq cddr      (lambda (x)        (cdr (cdr x)))             )
 ;; (setq caar      (lambda (x)        (car (car x)))             )
@@ -103,6 +54,111 @@
 ;;     nil                                                      ;)
 ;;     (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; essentials:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
+;; (setq list      (lambda  args       args                     ))
+;; (setq quote     (macro  (x)         x                        ))
+;; (setq nil?      (lambda (o)        (eq      nil          o  )))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;; ;; (exit)
+
+;; (set 'scoped-setq-test
+;;   (lambda (x)
+;;     (setq *q* x)))
+
+
+;; (setq cond-test
+;;   (lambda (x)
+;;     (print (cond
+;;              ((>= x 100) :BIG)
+;;              ((>= x  50) :MEDIUM)
+;;              (t          :SMALL)))))
+
+;;(print (eval expr))
+
+;; (scoped-setq-test 200)
+;; (cond-test *q*)
+
+;; (scoped-setq-test  75)
+;; (cond-test *q*)
+
+;; (scoped-setq-test  25)
+;; (cond-test *q*)
+
+;; (let ( (double (lambda (z) (* 2 z)))
+;;        (x 1)
+;;        (y 2))
+;;   (print (double x))
+;;   (print (double y))
+;;   (print (double (+ (double x) y))))
+
+;; (nl) (nl) (princ "syms: ") (princ (syms (env)))
+;; (nl) (nl) (princ "vals: ") (princ (vals (env)))
+
+(setq normal-fib (lambda (n)
+  (if (<= n 2)
+    1
+    (+ (fib (- n 1)) (fib (- n 2))))))
+
+(setq cond-fib (lambda (n)
+            (cond
+              ((<= n 2) 1)
+              (t (+ (fib (- n 1)) (fib (- n 2)))))))
+
+(setq memo-fib (lambda (n)
+                 (let ((memoized (pget *memo* n))
+                       (memoize  (lambda (k v) (cadr (setq *memo* (pset *memo* k v))))))
+                   (cond
+                     (memoized  memoized)
+                     ((<= n 2)  1)
+                     (t (progn (memjoize n (+ (memo-fib (- n 1)) (memo-fib (- n 2))))))))))
+
+
+
+
+;; (setq *memo* '(2 1 1 1)
+
+(setq fib memo-fib)
+
+(let ((x 40))
+  (fib x))
+
+;; (princ "memo: ")
+;; (princ *memo*)
+
+
+
+
+
+
+;; (if (< 5 6)
+;;   (print "MATCHED")
+;;   (print "NO MATCH"))
+ 
+;; (print )
+;; (+ 3 4)
+
+;; (cond ((< 5 6) (print "MATCHED"))
+;;       (t       (print "NO MATCH")))
+
+;; (if (> 5 6)
+;;   (print "MATCHED")
+;;   (print "ELSE BRANCH")
+;;   (print "NO MATCH"))
+
+;; (progn (print "HELLO WORLD"))
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Older stuff:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
 
 ;; (* 1 2 3 4 5 6 7 8)
 

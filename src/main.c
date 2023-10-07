@@ -102,7 +102,7 @@ void preface(void) {
 //////////////////////////////////////////////////////////////////////////////
 
 int main(void) {
-  preface();
+  // preface();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // set up the free list and populate the root env
@@ -110,13 +110,13 @@ int main(void) {
   
   free_list_add_block(&mem[0], free_list_size);
   
-  PR("\nPopulating root env...");
-  INDENT;
+  /* PR("\nPopulating root env..."); */
+  /* INDENT; */
   ae_obj_t * root_env = ENV_NEW_ROOT();
-  OUTDENT;
-  LOG(root_env, "Done populating");
+  /* OUTDENT; */
+  /* LOG(root_env, "Done populating"); */
 
-  PR("\n\nroot_env is at:    %08p.\n", root_env);
+  /* PR("\n\nroot_env is at:    %08p.\n", root_env); */
   
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS
@@ -207,15 +207,15 @@ int main(void) {
   pool_print();
 #endif
 
-  puts("Writing program obj.");
-  WRITE(program);
-  NL;
-  puts("Wrote program obj.");
-  NL;
+  /* puts("Writing program obj."); */
+  /* WRITE(program); */
+  /* NL; */
+  /* puts("Wrote program obj."); */
+  /* NL; */
   
-  SLOG("Evaluating program...");
+  /* SLOG("Evaluating program..."); */
   EVAL(root_env, program);
-  SLOG("\nDone evaluating program.\n");
+  /* SLOG("\nDone evaluating program.\n"); */
   
 #ifdef AE_DUMP_POOL_AFTER
   pool_print();
