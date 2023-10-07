@@ -252,10 +252,10 @@ extern ae_obj_t * symbols_list;
 #define SYMBOLP(obj)                     ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED); })
 #define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TRUEP(obj)                       ((obj) == TRUE)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP_INTERNAL(obj)               ((obj) == NIL)
-#define TRUEP_INTERNAL(obj)              ((obj) == TRUE)
 #define NILP(obj)                        ({ CAPTURE((obj)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
-#define TRUEP(obj)                       ({ CAPTURE((obj)); CAPTURED && TRUEP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CONSP(obj)                       (TYPE_PREDICATE((obj), AE_CONS))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
