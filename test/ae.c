@@ -1258,11 +1258,11 @@ void tailp(void) {
   DO(core_msleep)                                                                                  \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
-  DO(root_env_and_eval)                                                                            \
   DO(deloc)                                                                                        \
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
-  DO(kvp_list)
+  DO(kvp_list)                                                                                     \
+  DO(root_env_and_eval) 
 
 #define pair(fun) { #fun, fun },
 
