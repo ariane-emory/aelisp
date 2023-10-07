@@ -33,7 +33,7 @@ ae_obj_t * ae_alist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
 end:
 
 #ifdef AE_LOG_KVP_SET_GET
-  LOG(key,   "after setting key")
+  LOG(key,   "after setting key");
   LOG(list, "list is");
   NL;
 #endif

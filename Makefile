@@ -8,13 +8,14 @@ INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
 COMMON_CFLAGS = \
 	$(INCLUDE_DIRS) \
 	-ggdb \
-	-Wno-misleading-log_indentation \
+	-Wno-misleading-indentation \
 	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_DEADLY_MARGIN \
 	-DAE_LEXICAL_SCOPING \
 	-DAE_SHARED_PRIMORDIAL_TAIL \
 	-DAE_PAINT_EARLY_OBJECTS \
 	-DAE_OBJ_POOL_SIZE=2000000 \
+	-DAE_LOG_KVP_SET_GET \
 	-O3 \
 
 UNUSED_CFLAGS = \
