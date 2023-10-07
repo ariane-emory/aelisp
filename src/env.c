@@ -164,6 +164,10 @@ void ae_env_set(
   ae_obj_t * const symbol,
   ae_obj_t * const value) {
   assert(ENVP(env));
+
+  if (! SYMBOLP(symbol))
+    LOG(symbol, "NOT A SYMBOL");
+  
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
   assert(value);
