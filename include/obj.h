@@ -232,6 +232,8 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(obj)                       (! CONSP(obj))
 #define CHARP(obj)                       TYPE_PREDICATE((obj), AE_CHAR)
+#define CONSP(obj)                       (TYPE_PREDICATE((obj), AE_CONS))
+#define COREP(obj)                       (TYPE_PREDICATE((obj), AE_CORE))
 #define ENVP(obj)                        TYPE_PREDICATE((obj), AE_ENV)
 #define ERRORP(obj)                      TYPE_PREDICATE((obj), AE_ERROR)
 #define FLOATP(obj)                      TYPE_PREDICATE((obj), AE_FLOAT)
@@ -239,12 +241,11 @@ extern ae_obj_t * symbols_list;
 #define INTEGERP(obj)                    TYPE_PREDICATE((obj), AE_INTEGER)
 #define INVALIDP(obj)                    TYPE_PREDICATE((obj), AE_INVALID)
 #define LAMBDAP(obj)                     TYPE_PREDICATE((obj), AE_LAMBDA)
+#define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
 #define RATIONALP(obj)                   TYPE_PREDICATE((obj), AE_RATIONAL)
 #define STRINGP(obj)                     TYPE_PREDICATE((obj), AE_STRING)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // can't update COREP_INTERNAL fore some reason yet:
-#define COREP(obj)                       (TYPE_PREDICATE((obj), AE_CORE))
-#define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
 #define SPECIALP(obj)                    ({ CAPTURE((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
@@ -255,7 +256,6 @@ extern ae_obj_t * symbols_list;
 #define NILP_INTERNAL(obj)               ((obj) == NIL)
 #define NILP(obj)                        ({ CAPTURE((obj)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CONSP(obj)                       (TYPE_PREDICATE((obj), AE_CONS))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TAILP(obj)                       (ae_obj_tailp(obj))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
