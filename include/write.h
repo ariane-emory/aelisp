@@ -8,21 +8,21 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define PUT(this)               (ae_put(this))
-#define FPUT(this, stream)      (ae_fput((this), (stream)))
-#define SPUT(this)              (ae_sput((this)))
+#define PUT(obj)                   (ae_put(obj))
+#define FPUT(obj, stream)          (ae_fput((obj), (stream)))
+#define SPUT(obj)                  (ae_sput((obj)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define PRINC(this)             (ae_princ(this))
-#define FPRINC(this, stream)    (ae_fprinc((this), (stream)))
-#define SPRINC(this)            (ae_sprinc(this))
+#define PRINC(obj)                 (ae_princ(obj))
+#define FPRINC(obj, stream)        (ae_fprinc((obj), (stream)))
+#define SPRINC(obj)                (ae_sprinc(obj))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define PRINT(this)             (ae_print(this))
-#define FPRINT(this, stream)    (ae_fprint((this), (stream)))
-#define SPRINT(this)            (ae_sprint(this))
+#define PRINT(obj)                 (ae_print(obj))
+#define FPRINT(obj, stream)        (ae_fprint((obj), (stream)))
+#define SPRINT(obj)                (ae_sprint(obj))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define WRITE(this)             (ae_write(this))
-#define FWRITE(this, stream)    (ae_fwrite((this), (stream)))
-#define SWRITE(this)            (ae_swrite(this))
+#define WRITE(obj)                 (ae_write(obj))
+#define FWRITE(obj, stream)        (ae_fwrite((obj), (stream)))
+#define SWRITE(obj)                (ae_swrite(obj))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
