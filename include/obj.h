@@ -231,7 +231,6 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(obj)                       (! CONSP(CAPTURED))
 #define CHARP(obj)                       TYPE_PREDICATE((obj), AE_CHAR)
-#define COREP(obj)                       TYPE_PREDICATE((obj), AE_CORE)
 #define ENVP(obj)                        TYPE_PREDICATE((obj), AE_ENV)
 #define ERRORP(obj)                      TYPE_PREDICATE((obj), AE_ERROR)
 #define FLOATP(obj)                      TYPE_PREDICATE((obj), AE_FLOAT)
@@ -239,13 +238,14 @@ extern ae_obj_t * symbols_list;
 #define INTEGERP(obj)                    TYPE_PREDICATE((obj), AE_INTEGER)
 #define INVALIDP(obj)                    TYPE_PREDICATE((obj), AE_INVALID)
 #define LAMBDAP(obj)                     TYPE_PREDICATE((obj), AE_LAMBDA)
-#define MACROP(obj)                      TYPE_PREDICATE((obj), AE_MACRO)
 #define RATIONALP(obj)                   TYPE_PREDICATE((obj), AE_RATIONAL)
 #define STRINGP(obj)                     TYPE_PREDICATE((obj), AE_STRING)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // can't update COREP_INTERNAL fore some reason yet:
 #define COREP_INTERNAL(obj)              (TYPE_PREDICATE((obj), AE_CORE))
+#define COREP(obj)                       (TYPE_PREDICATE((obj), AE_CORE))
 #define MACROP_INTERNAL(obj)             ({CAPTURE((obj)); TYPE_PREDICATE(CAPTURED, AE_MACRO); })
+#define MACROP(obj)                      (TYPE_PREDICATE((obj), AE_MACRO))
 #define SPECIALP(obj)                    ({CAPTURE((obj)); MACROP_INTERNAL(CAPTURED) || (COREP_INTERNAL(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SYMBOLP_INTERNAL(obj)            (TYPE_PREDICATE((obj), AE_SYMBOL))
