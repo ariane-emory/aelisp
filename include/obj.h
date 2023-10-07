@@ -258,16 +258,8 @@ extern ae_obj_t * symbols_list;
 #define CONSP_INTERNAL(o)            ((o) && GET_TYPE((o)) == AE_CONS)
 #define CONSP(o)                     ({ CAPTURE((o)); CONSP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// #define TAILP(o)                     ({ NILP((o)) || ((o) && ((CONSP((o)) && CAR((o))))); })
+#define TAILP(o) ({ CAPTURE(o); NILP_INTERNAL(CAPTURED) || (CONSP_INTERNAL(CAPTURED) && CAR(CAPTURED)); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-#define TAILP(o) ({ \
-    CAPTURE(o); \
-    NILP_INTERNAL(CAPTURED) || (CONSP_INTERNAL(CAPTURED) && CAR(CAPTURED)); \
-})
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
