@@ -223,8 +223,8 @@ extern ae_obj_t * symbols_list;
 #define NIL                          (&nil_obj)
 #define TRUE                         (&true_obj)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EQ(this, that)               ((! NULLP((this))) && (! NULLP((that))) && ((this)) == ((that)))
-#define EQL(this, that)              ((! NULLP((this))) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
+#define EQ(this, that)               ((this) && (! NULLP((that))) && ((this)) == ((that)))
+#define EQL(this, that)              ((this) && (! NULLP((that))) && (ae_obj_eql((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NULLP(o)                     (! (o))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
