@@ -30,5 +30,5 @@
        (result  (fib n)))
   result)
 
-(print (list ⊥ Ø () nil))
+;; (print (list ⊥ Ø () nil))
 
