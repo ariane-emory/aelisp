@@ -251,8 +251,8 @@ extern ae_obj_t * symbols_list;
 #define SYMBOLP(o)                       ({ CAPTURE((o)); SYMBOLP_INTERNAL(CAPTURED); })
 #define KEYWORDP(o)                      ({ CAPTURE((o)); SYMBOLP_INTERNAL(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NILP_INTERNAL(o)                 ((o) && ((o) == NIL))
-#define TRUEP_INTERNAL(o)                ((o) && ((o) == TRUE))
+#define NILP_INTERNAL(o)                 ((o) == NIL)
+#define TRUEP_INTERNAL(o)                ((o) == TRUE)
 #define NILP(o)                          ({ CAPTURE((o)); CAPTURED && NILP_INTERNAL(CAPTURED);  })
 #define TRUEP(o)                         ({ CAPTURE((o)); CAPTURED && TRUEP_INTERNAL(CAPTURED); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
