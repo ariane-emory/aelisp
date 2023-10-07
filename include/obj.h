@@ -226,8 +226,6 @@ extern ae_obj_t * symbols_list;
 #define EQ(this, that)               ((this) && (that) && ((this)) == ((that)))
 #define EQL(this, that)              ((this) && (that) && (ae_obj_eql((this), (that))))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NULLP(o)                     (! (o))
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SPECIALP(o)                  ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
 #define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +236,7 @@ extern ae_obj_t * symbols_list;
 #define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
 #define CAPTURED                     tmp_##__LINE__
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TYPE_PREDICATE(type, o)      ({ CAPTURE(o); !NULLP(CAPTURED) && GET_TYPE(CAPTURED) == type; })
+#define TYPE_PREDICATE(type, o)      ({ CAPTURE(o); (CAPTURED) && GET_TYPE(CAPTURED) == type; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CHARP(o)                     TYPE_PREDICATE(AE_CHAR, o)
 #define CONSP(o)                     TYPE_PREDICATE(AE_CONS, o)
