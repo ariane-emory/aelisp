@@ -697,11 +697,11 @@ void improper_list(void) {
 }
 
 obj make_args_containing_one_list(void) {
-  return NEW_CONS(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))), NIL);
+  return NEW_CONS(CONS(SYM("a"), CONS(SYM("b"), NEW_CONS(SYM("c"), NIL))), NIL);
 }
 
 obj make_args_for_cons(void) {
-  return CONS(NIL, NEW_CONS(CONS(SYM("a"), CONS(SYM("b"), LIST(SYM("c")))), NIL));
+  return CONS(NIL, NEW_CONS(CONS(SYM("a"), CONS(SYM("b"), NEW_CONS(SYM("c"), NIL))), NIL));
 }
 
 void fun_specialness(void) {
@@ -936,15 +936,15 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(672), EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), NEW_CONS(SYM("foo"), NIL))))));
   TM("Expected %d, got %d.", 672, INT_VAL(EVAL(env, CONS(SYM("+"), CONS(NEW_INT(6), NEW_CONS(SYM("foo"), NIL))))));
 
-  T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))), NIL))))));
+  T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))))));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), NEW_CONS(NEW_INT(9), NIL))));
-  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), LIST(NEW_INT(9)))), NIL))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))));
 
   T(EQL(NEW_INT(9),   EVAL(env, SYM("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, SYM("baz"))));
 
-  expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("Hello "), NIL)), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("from Ash"), NIL)), NEW_CONS(CONS(SYM("princ"), LIST(NEW_STRING("Lisp!"))), NIL))));
+  expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("Hello "), NIL)), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("from Ash"), NIL)), NEW_CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("Lisp!"), NIL)), NIL))));
 
   NL;
   PR("Should Print \"Hello from Ash Lisp!\" on the next line:\n");
@@ -952,7 +952,7 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(5), this));
   NL;
 
-  expr = CONS(SYM("quote"), NEW_CONS(CONS(NEW_INT(5), CONS(NEW_INT(10), LIST(NEW_INT(15)))), NIL));
+  expr = CONS(SYM("quote"), NEW_CONS(CONS(NEW_INT(5), CONS(NEW_INT(10), NEW_CONS(NEW_INT(15), NIL))), NIL));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "(5 10 15)"));
 
   expr = CONS(SYM("quote"), NEW_CONS(SYM("a"), NIL));
@@ -975,7 +975,7 @@ void root_env_and_eval(void) {
                    CONS(
                      CONS(SYM("princ"), NEW_CONS(SYM("x"), NIL)), NEW_CONS(
                        CONS(SYM("+"),
-                            CONS(SYM("x"), LIST(NEW_INT(2)))), NIL))));
+                            CONS(SYM("x"), NEW_CONS(NEW_INT(2), NIL))), NIL))));
 
   rtrn = EVAL(env, expr);
 
@@ -989,7 +989,7 @@ void root_env_and_eval(void) {
                                   NEW_CONS(SYM("x"), NIL)),
                              NEW_CONS(CONS(SYM("+"),
                                        CONS(SYM("x"),
-                                            LIST(subexpr))), NIL)))),
+                                            NEW_CONS(subexpr, NIL))), NIL)))),
               NEW_CONS(NEW_INT(31), NIL));
 
 
@@ -1002,10 +1002,10 @@ void root_env_and_eval(void) {
                    CONS(NEW_CONS(SYM("x"), NIL),
                       NEW_CONS(CONS(SYM("+"),
                                 CONS(SYM("x"),
-                                     LIST(NEW_INT(1)))), NIL))),
+                                     NEW_CONS(NEW_INT(1), NIL))), NIL))),
             NEW_CONS(CONS(SYM("+"),
                       CONS(NEW_INT(2),
-                           LIST(NEW_INT(3)))), NIL));
+                           NEW_CONS(NEW_INT(3), NIL))), NIL));
 
   PR("\nShould Print 6 on the next line:\n");
   rtrn = EVAL(env, expr);
