@@ -92,7 +92,7 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
     return false;
   
   FOR_EACH_CONST(elem, list)
-    if (EQ(elem, member))
+    if (elem == member)
       return true;
   
   return false;
@@ -114,7 +114,7 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
   ae_obj_t * new_list = NIL;
   
   FOR_EACH(elem, list)
-    if (EQ(elem, member))
+    if (elem == member)
       continue;
     else if (NILP(new_list))
       new_list = LIST(elem);

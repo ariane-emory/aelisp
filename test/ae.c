@@ -645,7 +645,7 @@ void env_basics(void) {
   ENV_PARENT(this) = that; // link this to that.
 
   T(INT_VAL(ENV_FIND(this, SYM("quux"))) == 48);
-  T(EQ(ENV_FIND(this, SYM("quux")), ENV_FIND(that, SYM("quux"))));
+  T(ENV_FIND(this, SYM("quux")) == ENV_FIND(that, SYM("quux")));
   T(NILP(ENV_FIND(this, SYM("zot"))));
   T(NILP(ENV_FIND(that, SYM("foo"))));
 
@@ -708,8 +708,8 @@ void core_cons_car_cdr(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
 
-  T(EQ(ae_core_car(env, make_args_containing_one_list()), SYM("a")                                           ));
-  T(EQ(ae_core_car(env, LIST(ae_core_cdr(env, make_args_containing_one_list()))), SYM("b")                   ));
+  T(ae_core_car(env, make_args_containing_one_list()) == SYM("a"                                             ));
+  T(ae_core_car(env, LIST(ae_core_cdr(env, make_args_containing_one_list()))) == SYM("b"                     ));
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, CONS(SYM("a"), LIST(NIL))), "(a)"                )); // cons 'a onto nil and get (a).
   T(shitty_princ_based_equality_predicate(ae_core_cdr (env, make_args_containing_one_list() ), "(b c)"       ));
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, make_args_for_cons()            ), "(nil a b c)" ));
