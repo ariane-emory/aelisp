@@ -112,7 +112,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * either_result = EVAL(env, either_branch);
 
 #ifdef AE_LOG_CORE
-  LOG(either_result ? TRUE : NIL, "either_result: ");
+  LOG(either_result, "either_result: ");
 #endif
 
   if (! NILP(either_result)) {
@@ -144,33 +144,31 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args) {
   ae_obj_t * const and_that_branch     = CADR(args);
   
 #ifdef AE_LOG_CORE
-  LOG(this_branch, "either");
-  LOG(and_that_branch,     "and_that");
+  LOG(this_branch,     "this");
+  LOG(and_that_branch, "and_that");
 #endif
 
   REQUIRE(env, args, !NILP(CDR(args)), "and requires 2 args");
  
   ae_obj_t * this_result = EVAL(env, this_branch);
+  
+#ifdef AE_LOG_CORE
+  LOG(this_result, "this_result: ");
+#endif
+  
+  if (NILP(this_result)) {
 
 #ifdef AE_LOG_CORE
-  LOG(this_result ? TRUE : NIL, "this_result: ");
+    SLOG("not this");
 #endif
 
-  if (! NILP(this_result)) {
-
-#ifdef AE_LOG_CORE
-    SLOG("chose either");
-#endif
-
-    CORE_RETURN("and", this_result);
+    CORE_RETURN("and", NIL);
   }
-  else {
 
 #ifdef AE_LOG_CORE
-    SLOG("chose and_that");
+    SLOG("this and");
 #endif
 
     CORE_RETURN("and", ae_eval(env, and_that_branch));
-  }
 }
 
