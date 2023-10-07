@@ -12,7 +12,7 @@
 
 ;; (setq cadr     (lambda (x)   (car  (cdr x))))
 
-;; (print
+(print
 (let ((n 30)
       (*memo* '(2 1 1 1))
       (memoize (lambda (k v) (car (cdr (setq *memo* (pset *memo* k v))))))
@@ -23,7 +23,7 @@
                      ;; ((<= n 2) 1)
                      (t (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))))
   (fib n))
-;; )
+)
 
 ;;(fib 20)
 
