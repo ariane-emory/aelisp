@@ -229,7 +229,7 @@ extern ae_obj_t * symbols_list;
 // Unary predicates
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_PREDICATE_INTERNAL(obj, type) (GET_TYPE((obj)) == type)
-#define TYPE_PREDICATE(obj, type)          ({ CAPTURE((obj)); (CAPTURED) && TYPE_PREDICATE_INTERNAL((obj), type); })
+#define TYPE_PREDICATE(obj, type)          ({ CAPTURE((obj)); (CAPTURED) && TYPE_PREDICATE_INTERNAL(CAPTURED, type); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ATOMP(obj)                       ({ CAPTURE((obj)); !CONSP(CAPTURED); })
 #define CHARP(obj)                       TYPE_PREDICATE((obj), AE_CHAR)
