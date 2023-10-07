@@ -56,7 +56,7 @@ char * ae_s ## name(const ae_obj_t * const this) {                              
 
 #define DEF_F_METHOD(name, quotes)                                                                 \
 int ae_f ## name(const ae_obj_t * const this, FILE * stream) {                                     \
-  assert(! NULLP((this)));                                                                         \
+  assert(this);                                                                                    \
   FWRITE_RESET(stream, (quotes));                                                                  \
   return ae_fwrite_internal(this);                                                                 \
 }
@@ -104,7 +104,7 @@ DEF_S_METHOD(put_words);
 int ae_put_words(const ae_obj_t * const this) { return ae_fput_words(this, stdout); }
 
 int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
-  assert(! NULLP(this));
+  assert(this);
 
   int                         written = 0;
   const unsigned char * const start   = (unsigned char *)this;
@@ -130,7 +130,7 @@ int ae_fput_words(const ae_obj_t * const this, FILE * stream) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ae_fput(const ae_obj_t * const this, FILE * stream) {
-  assert(! NULLP(this));
+  assert(this);
 
   FWRITE_RESET(stream, false);
 
