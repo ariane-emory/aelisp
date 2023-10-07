@@ -36,7 +36,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define SYM(str)                      (SYM2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
-#define PROPERP(o)                    (ae_list_is_proper((o)))
+#define PROPERP(obj)                  (ae_list_is_proper((obj)))
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                                           \
   for (ae_obj_t                                                                                                        \
