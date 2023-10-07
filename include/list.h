@@ -15,27 +15,27 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define LIST(this)                    (CONS((this), NIL))
+#define LIST(list)                    (CONS((list), NIL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CAR(this)                     ((this)->head)
-#define CDR(this)                     ((this)->tail)
-#define CAAR(this)                    (CAR(CAR(this)))
-#define CADR(this)                    (CAR(CDR(this)))
-#define CDAR(this)                    (CDR(CAR(this)))
-#define CDDR(this)                    (CDR(CDR(this)))
-#define CADAR(this)                   (CAR(CDR(CAR(this))))
-#define CADDR(this)                   (CAR(CDR(CDR(this))))
+#define CAR(list)                     ((list)->head)
+#define CDR(list)                     ((list)->tail)
+#define CAAR(list)                    (CAR(CAR(list)))
+#define CADR(list)                    (CAR(CDR(list)))
+#define CDAR(list)                    (CDR(CAR(list)))
+#define CDDR(list)                    (CDR(CDR(list)))
+#define CADAR(list)                   (CAR(CDR(CAR(list))))
+#define CADDR(list)                   (CAR(CDR(CDR(list))))
 #define CONS(head, tail)              (ae_list_cons((head), (tail)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EACH(this, fun)               (ae_list_each(this, (ae_list_each_fun)fun))
-#define MAP(this, fun)                (ae_list_map(this, (ae_list_map_fun)fun))
-#define LENGTH(this)                  (ae_list_length(this))
-#define PUSH(this, that)              (ae_list_push_back(&(this), (that)))
+#define EACH(list, fun)               (ae_list_each(list, (ae_list_each_fun)fun))
+#define MAP(list, fun)                (ae_list_map(list, (ae_list_map_fun)fun))
+#define LENGTH(list)                  (ae_list_length(list))
+#define PUSH(list, that)              (ae_list_push_back(&(list), (that)))
 #define REMOVE(list, elem)            (ae_list_remove_member(list, elem))
 #define SYM2(sym_list, str)           (ae_list_intern_string((sym_list), (str)))
 #define SYM(str)                      (SYM2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MEMBERP(this, that)           (ae_list_has_member((this), (that)))
+#define MEMBERP(list, that)           (ae_list_has_member((list), (that)))
 #define PROPERP(obj)                  (ae_list_is_proper((obj)))
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                                           \
