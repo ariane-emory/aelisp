@@ -10,8 +10,9 @@
 // Helper for avoiding double evaluation of macro parameters
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
-#define CAPTURED                     tmp_##__LINE__
+#define CAPTURE(o)               ae_obj_t *       tmp_##__LINE__ = (o)
+#define CAPTUREC(o)        const ae_obj_t * const tmp_##__LINE__ = (o)
+#define CAPTURED           tmp_##__LINE__
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Logging-related

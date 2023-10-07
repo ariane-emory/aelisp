@@ -139,6 +139,9 @@ bool          ae_obj_eql            (const ae_obj_t * const this, const ae_obj_t
 ae_obj_t *    ae_obj_truth          (const bool             this                                  );
 ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                                  );
 void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool          ae_obj_keywordp       (const ae_obj_t * const this                                  );
+bool          ae_obj_specialp       (const ae_obj_t * const this                                  );
 bool          ae_obj_tailp          (const ae_obj_t * const this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool          ae_obj_delocalizedp   (const ae_obj_t * const this                                  );
@@ -247,9 +250,9 @@ extern ae_obj_t * symbols_list;
 #define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // can't update COREP_INTERNAL fore some reason yet:
-#define SPECIALP(obj)                    ({ CAPTURE((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
+#define SPECIALP(obj)                    ({ CAPTUREC((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define KEYWORDP(obj)                    ({ CAPTURE((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
+#define KEYWORDP(obj)                    ({ CAPTUREC((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TRUEP(obj)                       ((obj) == TRUE)
 #define NILP(obj)                        ((obj) == NIL)
