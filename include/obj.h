@@ -229,17 +229,22 @@ extern ae_obj_t * symbols_list;
 #define CAPTURE(o)                   const ae_obj_t * const tmp_##__LINE__ = (o)
 #define CAPTURED                     tmp_##__LINE__
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//#define SPECIALP(o)                  ({ CAPTURE(o); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
+// The new version of SPECIALP is commented out because it causes problems I haven't gotten around
+// to diagnosing yet:
 #define SPECIALP(o)                  ((MACROP ((o))) || (COREP   ((o)) && ((o)->special)))
-//#define KEYWORDP(o)                  ({ CAPTURE(o); SYMBOLP(CAPTURED) && SYM_VAL(CAPTURED)[0] == ':'; })
-#define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
+// #define SPECIALP(o)               ({ CAPTURE(o); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
+// The new version of SPECIALP is commented out because it causes problems I haven't gotten around
+// to diagnosing yet:
+#define KEYWORDP(o)                  ((SYMBOLP((o))) && (SYM_VAL ((o)))[0] == ':')
+// #define KEYWORDP(o)               ({ CAPTURE(o); SYMBOLP(CAPTURED) && SYM_VAL(CAPTURED)[0] == ':'; })
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP(o)                      ({ CAPTURE(o); (CAPTURED) && (CAPTURED == NIL);  })
 #define TRUEP(o)                     ({ CAPTURE(o); (CAPTURED) && (CAPTURED == TRUE); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TYPE_PREDICATE(type, o)      ({ CAPTURE(o); (CAPTURED) && GET_TYPE(CAPTURED) == type; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ATOMP(o)                     ({ CAPTURE(o); !CONSP(CAPTURED); })
 #define CHARP(o)                     TYPE_PREDICATE(AE_CHAR, o)
 #define CONSP(o)                     TYPE_PREDICATE(AE_CONS, o)
 #define COREP(o)                     TYPE_PREDICATE(AE_CORE, o)

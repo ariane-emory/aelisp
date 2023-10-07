@@ -161,7 +161,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
   ae_obj_t * result = EVAL(env, body);
-  // result = SPECIALP(fun) ? EVAL(env, result) : result;
 
   log_column = log_column_default;
   
