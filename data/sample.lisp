@@ -69,8 +69,9 @@
 ;; (cond ((< 5 6) (print "MATCHED"))
 ;;       (t       (print "NO MATCH")))
 
-(if (< 5 6)
+(if (> 5 6)
   (print "MATCHED")
+  (print "ELSE BRANCH")
   (print "NO MATCH"))
 
 ;; (progn (print "HELLO WORLD"))
