@@ -110,7 +110,7 @@ bool shitty_princ_based_equality_predicate(
 
 obj push_together_a_list_of_ints(void) {
   obj num     = NEW_INT(1);
-  obj list    = LIST(num);
+  obj list    = NEW_CONS(num, NIL);
   obj tailtip = list;
 
   T(LENGTH(tailtip) == 1);
@@ -133,7 +133,7 @@ obj push_together_a_list_of_ints(void) {
 
 obj cons_together_a_list_of_ints(void) {
   obj head = NEW_INT(4);
-  obj list = LIST(head);
+  obj list = NEW_CONS(head, NIL);
 
   T(LENGTH(list) == 1);
 
@@ -171,7 +171,7 @@ obj ae_obj_double(obj const this) {
 }
 
 obj ae_obj_to_pairs(obj const this) {
-  return CONS(this, LIST(this));
+  return CONS(this, NEW_CONS(this, NIL));
 }
 
 void basic_list_checks(obj this) {
