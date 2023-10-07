@@ -249,9 +249,7 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(obj)                     (TYPE_PREDICATE((obj), AE_STRING))
 #define SYMBOLP(obj)                     (TYPE_PREDICATE((obj), AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// can't update COREP_INTERNAL fore some reason yet:
 #define SPECIALP(obj)                    ({ CAPTUREC((obj)); MACROP(CAPTURED) || (COREP(CAPTURED) && CAPTURED->special); })
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KEYWORDP(obj)                    ({ CAPTUREC((obj)); SYMBOLP(CAPTURED) ? CAPTURED->sym_val[0] == ':' : false; })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TRUEP(obj)                       ((obj) == TRUE)
