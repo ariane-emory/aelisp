@@ -1,4 +1,4 @@
-;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
+;; mcm; time { for i in {1..20000}; do ./bin/ae; done; }
 
 ;; (setq naive-fib (lambda (n)
 ;;   (if (<= n 2)
