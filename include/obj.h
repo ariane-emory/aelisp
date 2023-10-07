@@ -199,11 +199,16 @@ extern ae_obj_t * symbols_list;
 #  define KSET(obj, key, val)            (PSET((obj), (key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Helper for avoiding double evaluation of macro parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define CAPTURE(o)                       ae_obj_t * tmp_##__LINE__ = (o)
+#define CAPTURED                         tmp_##__LINE__
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EMSG(obj)                        ((obj)->message)
 #define EOBJ(obj)                        ((obj)->object)
 #define EHAS(obj, key)                   (KHAS(EOBJ((obj)), KW(key)))
 #define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
-#define ESET(obj, key, val)              (EOBJ((obj)) = (KSET(EOBJ((obj)), KW(key), (val))))
+#define ESET(obj, key, val)              ({ CAPTURE((obj)); EOBJ(CAPTURED) = (KSET(EOBJ(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_DEBUG_OBJ
 #  define DOBJ(obj)                      ((obj)->debug_data)
