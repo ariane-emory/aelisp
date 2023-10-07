@@ -10,15 +10,15 @@
 
 ;; (setq cadr     (lambda (x)   (car  (cdr x))))
 
-(let ((memoize (lambda (k v) (car (car (cdr (setq *memo* (aset *memo* k v)))))))
-      (fib     (lambda (n)
-                 (let ((memoized  (aget *memo* n)))
-                   (cond
-                     (memoized memoized)
-                     ((<= n 2) 1)
-                     (t (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))))  
-  (print (fib 30)))
-
+(print (let ((n 30)
+             (memoize (lambda (k v) (car (cdr (setq *memo* (pset *memo* k v))))))
+             (fib     (lambda (n)
+                        (let ((memoized  (pget *memo* n)))
+                          (cond
+                            (memoized memoized)
+                            ((<= n 2) 1)
+                            (t (memoize n (+ (fib (- n 1)) (fib (- n 2))))))))))
+         (fib n)))
 
 ;;(fib 20)
 
