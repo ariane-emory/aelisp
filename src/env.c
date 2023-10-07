@@ -113,7 +113,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t 
 #endif
 
     for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) { // loop through syms/vals
-      if (EQ(symbol, CAR(symbols))) {
+      if (symbol ==  CAR(symbols)) {
 
 #ifdef AE_LOG_ENV
         LOG(CAR(values), "found it ->"); 
@@ -129,7 +129,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t 
     } // end loop through syms/vals
 
     // special case for symbols being one symbol:
-    if (EQ(symbol, symbols)) {
+    if (symbol == symbols) {
       ret = values;
 
       goto end;
@@ -189,7 +189,7 @@ void ae_env_set(ae_env_set_mode_t mode, ae_obj_t * const env, ae_obj_t * const s
     while (! NILP(syms) && ! NILP(vals)) { // loop through syms/vals
       ae_obj_t * sym = CAR(syms);
 
-      if (EQ(symbol, sym)) {
+      if (symbol == sym) {
 
 #ifdef AE_LOG_ENV
         LOG(syms, "found it in ->");
