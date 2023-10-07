@@ -27,10 +27,15 @@
     ae_obj_t * evaled_args = NIL;                                                                  \
     LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));               \
     INDENT;                                                                                        \
+    int ctr = 0;                                                                                   \
     FOR_EACH(elem, args)                                                                           \
     {                                                                                              \
+      ctr++;                                                                                       \
+      LOG(elem, "eval arg  #%d", ctr);                                                             \
+      INDENT;                                                                                      \
       ae_obj_t * tmp = EVAL(env, elem);                                                            \
       PUSH(evaled_args, tmp);                                                                      \
+      OUTDENT;                                                                                     \
     }                                                                                              \
     args = evaled_args;                                                                            \
     OUTDENT;                                                                                       \
@@ -68,24 +73,14 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   //LOG(DOBJ(env), "with this debug data");
 #endif
 
-//  MAYBE_EVAL(SPECIALP(fun), args);
+  MAYBE_EVAL(SPECIALP(fun), args);
 
 #ifdef AE_LOG_EVAL
-  /* if (SPECIALP(fun)) */
-  /*   printf("YES YES YES\n"); */
-  /* else */
-  /*   printf("NO NO NO\n"); */
-  
-  if (! SPECIALP(fun)) {
+  if (! SPECIALP(fun))
     LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
-  }
-  else {
+  else
     LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
-  }
-#endif
-
-#ifdef AE_LOG_EVAL
-   INDENT;
+  //INDENT;
 #endif
 
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
@@ -93,7 +88,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   log_column = log_column_default;
   
 #ifdef AE_LOG_EVAL
- OUTDENT;
+  //OUTDENT;
   LOG(ret, "applying core fun '%s' returned %s :%s", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif
 
@@ -199,8 +194,6 @@ static const apply_dispatch_row_t apply_dispatch_table[] = {
 ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(CONSP(obj)); // should return an ERROR instead?
 
-  // log_column = log_column_default;
-
   ae_obj_t * fun  = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
@@ -209,18 +202,14 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #ifdef AE_LOG_EVAL
   char * tmp = SWRITE(fun);
   LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+  free (tmp);
 
-  INDENT;
   // LOG(args, "to args");
+  LOG(env,  "in env");
 #endif
 
   fun = EVAL(env, fun);
 
-#ifdef AE_LOG_EVAL
-  // LOG(env,  "applying '%s' in env:", tmp);
-  free (tmp);
-#endif
-  
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     LOG(fun, "Not applicable: ");
 
@@ -247,9 +236,13 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   MAYBE_EVAL(dispatch.special, args);
 
+  //INDENT;
+  
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(env, fun, args)
     : (*dispatch.handler)(env, fun, args);
+
+  //OUTDENT;
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
   if (! DHAS(ret, "birth-place")) {
@@ -300,7 +293,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   log_column = log_column_default;
   
 #ifdef AE_LOG_EVAL
-  OUTDENT;
+//  OUTDENT;
   
   LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 #endif

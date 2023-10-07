@@ -845,6 +845,9 @@ void core_cmp(void) {
 void core_msleep(void) {
   SETUP_TEST;
   obj env    = ENV_NEW_ROOT();
+
+  ENV_SET(env, SYM("xx"), NEW_INT(0));
+  
   obj expr   = NIL;
   obj add    = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2  = CONS(SYM("setq"),   CONS(SYM("xx"), add));

@@ -46,9 +46,9 @@
   DO(eval)                                                                                         \
   DO(list)                                                                                         \
   DO(set)                                                                                          \
-  DO(progn)                                                                                        \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_SPECIAL_CORE_FUN(DO)                                                              \
+  DO(progn)                                                                                        \
   DO(setq)                                                                                         \
   DO(quote)                                                                                        \
   DO(macro)                                                                                        \

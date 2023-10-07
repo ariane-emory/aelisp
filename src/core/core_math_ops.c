@@ -18,6 +18,10 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
     rest  = args;                                                                                  \
   }                                                                                                \
   else {                                                                                           \
+    if (! INTEGERP(CAR(args))) {                                                                   \
+      LOG(CAR(args), "NOT AN INTEGER");                                                            \
+    }                                                                                              \
+                                                                                                   \
     REQUIRE(env, args, INTEGERP(CAR(args)));                                                       \
                                                                                                    \
     accum = INT_VAL(CAR(args));                                                                    \
@@ -25,7 +29,12 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
+    if (! INTEGERP(CAR(args))) {                                                                   \
+      LOG(CAR(args), "NOT AN INTEGER");                                                            \
+    }                                                                                              \
+                                                                                                   \
     REQUIRE(env, args, INTEGERP(elem));                                                            \
+                                                                                                   \
     accum = accum oper INT_VAL(elem);                                                              \
   }                                                                                                \
                                                                                                    \
