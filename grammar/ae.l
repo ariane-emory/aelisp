@@ -6,13 +6,13 @@
 #include "obj.h"
 #include "env.h"
 #include "write.h"
-  
+
 #define YYSTYPE ae_obj_t *
 
 #include "ae.tab.h"
 
 #define TOKENIZE(yy_tok_type, ae_type) return tokenize(#yy_tok_type, yy_tok_type, ae_type);
-  
+
   enum yytokentype tokenize(
     const char * const name,
     enum yytokentype yy_tok_type,
@@ -27,7 +27,7 @@
     fflush(stdout);
 #endif
 
-    yylval = 0; 
+    yylval = 0;
 
     if (yy_tok_type == NILTOK) {
       yylval = NIL;
@@ -57,7 +57,7 @@
     /* } */
 
     yylval = NEW(ae_type);
-      
+
     switch (GET_TYPE(yylval)) {
     case AE_CONS:
       break;
@@ -80,7 +80,7 @@
       strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
       DENOM_VAL(yylval) = atoi(tmp2);
       free(tmp2);
-      
+
       break;
     case AE_STRING:
       yylval->str_val = malloc(strlen(yytext) - 1);
@@ -126,7 +126,7 @@
       fflush(stdout);
     }
 #endif
-    
+
     return yy_tok_type;
   }
 %}
@@ -156,16 +156,19 @@ nil                                                                        |
 ⊥                                                                          |
 ≤                                                                          |
 ≥                                                                          |
+×                                                                          |
+÷                                                                          |
+Ø                                                                          |
+∈                                                                          |
 !?=|(>=?)|(<=?)                                                            |
 ([1-9][0-9]+)?[\+\-\/\*]                                                   |
 \*([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]?\*              |
 ([\-+:&])?([a-zA-Z][a-zA-Z0-9\*]*)(((\-+)|\/+)([a-zA-Z0-9\*]+))*[\?\!]?    TOKENIZE(SYMBOL,      AE_SYMBOL  );
 [-+]?[0-9]+                                                                TOKENIZE(INTEGER,     AE_INTEGER );
-[-+]?[0-9]+\.[0-9]*                                                        | 
+[-+]?[0-9]+\.[0-9]*                                                        |
 [-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
 
 %%
-

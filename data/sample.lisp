@@ -30,4 +30,4 @@
        (result  (fib n)))
   result)
 
-
+(print '(⊥ Ø))
