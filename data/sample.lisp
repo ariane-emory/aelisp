@@ -113,4 +113,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (print (error "fuck"))
-(print (error "shit" '((thing . "boop"))))
+
+(setq rich-error (error "shit" '(thing  "boop")))
+
+(print rich-error)
+k
+(print (errobj rich-error))
