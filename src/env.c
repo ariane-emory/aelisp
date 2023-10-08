@@ -1,4 +1,4 @@
-#include <stdarg.h
+#include <stdarg.h>
 
 #include "env.h"
 #include "eval.h"
@@ -246,37 +246,50 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef ae_obj_t * (*ae_core_fun_t)(ae_obj_t * const env, ae_obj_t * const args);
+
 #define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 6, 5, 4, 3, 2, 1)
 #define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, N, ...) N
 
-#define load_fun(env, name, special, ...)                                                                               \
-  load_fun_helper(env, #name, special, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
+#define load_fun(c_name, special, ...) \
+  load_fun_helper(env, #c_name, &ae_core_##c_name, special, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
 
 //==================================================================================================
 
 static void load_fun_helper(
-  ae_obj_t *   const env,
-  const char * const name,
-  const bool         special,
-  int                count,
+  ae_obj_t   *  const env,
+  const char *  const c_name,
+  ae_core_fun_t const fun,
+  bool                special,
+  int                 count,
   ...) {
+  printf("\n");
+
+  printf("count: %d\n", count);
   
   va_list args;
 
-  (void)name;
-  (void)specil;
-
   va_start(args, count);
 
+  bool set_alt_name = false;
+  
   for (int ix = 0; ix < count; ix++) {
     char * alt_name = va_arg(args, char *);
 
-    if (alt_name == FUNDEF_END)
+    if (alt_name == FUNDEF_END) 
       break;
 
-    ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, special))
+    SLOGF("alt name: %s", alt_name); FF;
+    ENV_SET(env, SYM(alt_name), NEW_CORE(c_name, fun, special));
+
+    set_alt_name = true;
   }
 
+  if (! set_alt_name) {
+    SLOGF("c name: %s", c_name); FF;
+    ENV_SET(env, SYM(c_name), NEW_CORE(c_name, fun, special));
+  }
+  
   va_end(args);
 }
 
@@ -284,56 +297,8 @@ static void load_fun_helper(
 
 ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
-
-#define add_core_fun(name, special, ...) ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, special));  
-#define add_core_op(name, sym, ...)      ENV_SET(env, SYM(#sym),  NEW_CORE(#name, &ae_core_##name, false));
   
-  FOR_EACH_CORE_MATH_OP(add_core_op);
-  FOR_EACH_CORE_CMP_OP(add_core_op);
-
   FOR_EACH_CORE_FUN(load_fun);
-  
-  // FOR_EACH_CORE_FUN(add_core_fun);
-
-  // There are obviously more performance-friendly ways to do this that don't put these symbols as the top of the env's
-  // symbols list, pick one of them and implement it. The lexer could even handle many of them directly.
-  
-#ifdef PREFER_ALIST
-  ENV_SET(env, SYM("khas"), ENV_FIND(env, SYM("ahas")));
-  ENV_SET(env, SYM("kget"), ENV_FIND(env, SYM("aget")));
-  ENV_SET(env, SYM("kset"), ENV_FIND(env, SYM("aset")));
-#else
-  ENV_SET(env, SYM("khas"), ENV_FIND(env, SYM("phas")));
-  ENV_SET(env, SYM("kget"), ENV_FIND(env, SYM("pget")));
-  ENV_SET(env, SYM("kset"), ENV_FIND(env, SYM("pset")));
-#endif
-
-  ENV_SET(env, SYM("let*"), ENV_FIND(env, SYM("let_star")));
-  ENV_SET(env, SYM("λ"),    ENV_FIND(env, SYM("lambda")));
-  ENV_SET(env, SYM("∧"),    ENV_FIND(env, SYM("and")));
-  ENV_SET(env, SYM("∨"),    ENV_FIND(env, SYM("or")));
-  ENV_SET(env, SYM("¬"),    ENV_FIND(env, SYM("not")));
-  ENV_SET(env, SYM("≔"),    ENV_FIND(env, SYM("setq")));
-  ENV_SET(env, SYM("⊤"),    ENV_FIND(env, SYM("t")));
-  ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("lte")));
-  ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM("gte")));
-  /* ENV_SET(env, SYM("⊥"),    ENV_FIND(env, SYM("nil"))); // Lexed. */
-
-#ifdef AE_PRETTY
-  ENV_SET(env, SYM("!"),    ENV_FIND(env, SYM("not")));
-  ENV_SET(env, SYM("⊤"),    ENV_FIND(env, SYM("t")));
-  ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("lte")));
-  ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM("gte")));
-  /* ENV_SET(env, SYM("Ø"),    ENV_FIND(env, SYM("nil"))); // Lexed.*/ 
-  ENV_SET(env, SYM("×"),    ENV_FIND(env, SYM("mul")));
-  ENV_SET(env, SYM("÷"),    ENV_FIND(env, SYM("div")));
-  ENV_SET(env, SYM("∃"),    ENV_FIND(env, SYM("boundp")));
-  ENV_SET(env, SYM("∄"),    ENV_FIND(env, SYM("not-boundp"))); // not-boundp doesn't exist yet.
-  ENV_SET(env, SYM("∈"),    ENV_FIND(env, SYM("memberp"))); // memberp doesn't exist yet.
-  ENV_SET(env, SYM("∉"),    ENV_FIND(env, SYM("not-memberp"))); // not-memberp doesn't exist yet.
-  ENV_SET(env, SYM("≠"),    ENV_FIND(env, SYM("neql"))); // neql doesn't exist yet.
-  ENV_SET(env, SYM("∀"),    ENV_FIND(env, SYM("map"))); // map doesn't exist yet.
-#endif
   
   return env;
 }

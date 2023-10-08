@@ -227,7 +227,7 @@ ae_obj_t * new_sym;                                                             
   new_sym = NEW_SYMBOL(_str);                                                                      \
 }
 
-ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, ae_string_t string) {
+ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const string) {
   assert((! *plist) || TAILP(*plist));
   assert(string);
   assert(strlen(string) != 0);

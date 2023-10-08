@@ -52,13 +52,13 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods list-related methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_list_cons         (      ae_obj_t *  const head,  ae_obj_t *  const tail                             );
-ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const member                           );
-ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const member                           );
-bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const member                           );
+ae_obj_t *    ae_list_cons         (      ae_obj_t *  const head,  ae_obj_t *  const  tail                            );
+ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
+ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const  member                          );
+bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const  member                          );
 int           ae_list_length       (const ae_obj_t *  const list                                                      );
-ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_fun   fun                              );
-void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun  fun                              );
-ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, ae_string_t       string                           );
+ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_fun    fun                             );
+void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun   fun                             );
+ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, const char * const string                          );
 bool          ae_list_is_proper    (const ae_obj_t *  const list                                                      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -54,7 +54,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
 // _let_star
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("let_star");
 
   REQUIRE(env, args, LENGTH(args) >= 2,    "let_star requires a varlist and a body");
