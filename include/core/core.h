@@ -42,7 +42,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
-  DO(exit,     false,  0,  0,                                                 FUNDEF_END )                             \
+  DO(exit,     false,  1,  1,                                                 FUNDEF_END )                             \
   DO(msleep,   false,  1,  1,                                                 FUNDEF_END )                             \
   DO(dobj,     false,  1,  1, "debug-object",                                 FUNDEF_END ) /* debug data accessor   */ \
   DO(errmsg,   false,  1,  1, "error-message",                                FUNDEF_END ) /* error accessor        */ \
