@@ -10,6 +10,17 @@
         (if (not (nil? (cdr lst)))
             (double-in-place (cdr lst)))))
 
+(setq transform!
+      (lambda (pred fun lst)
+        (cond 
+          ((nil? lst) nil)
+          ((eq :INTEGER ((car lst)))
+           (rplaca lst (* 2 (car lst))))
+          ((eq :CONS (type (car lst)))
+           (transform! pred fun (car lst))))
+        (if (not (nil? (cdr lst)))
+            (transform! pred fun (cdr lst)))))
+
 (setq l '(4 8))
 
 (double-in-place l)
