@@ -119,3 +119,7 @@
 (print rich-error)
 
 (print (errobj rich-error))
+
+(print rich-error)
+
+(print (errobj rich-error))
