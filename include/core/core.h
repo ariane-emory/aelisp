@@ -49,7 +49,7 @@
   DO(list,     false,                                                         FUNDEF_END )                             \
   DO(set,      false,                                                         FUNDEF_END )                             \
   DO(progn,    true,                                                          FUNDEF_END )                             \
-  DO(setq,     true,  "≔",                                                        FUNDEF_END )                          \
+  DO(setq,     true,  "setq", "≔",                                            FUNDEF_END )                             \
   DO(quote,    true,                                                          FUNDEF_END )                             \
   DO(macro,    true,                                                          FUNDEF_END )                             \
   DO(lambda,   true,  "λ",                                                    FUNDEF_END )                             \
