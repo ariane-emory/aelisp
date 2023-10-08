@@ -378,3 +378,16 @@
 ;; ;; (princ "AFTER");; =>  ; (nl)
 ;; ;; (nl)
 
+;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (print (error "fuck"))
+
+;; (setq rich-error (error "shit" '(:thing  "boop")))
+
+;; (print rich-error)
+
+;; (print (errobj rich-error))
+
+;; (print rich-error)
+
+;; (print (errobj rich-error))
