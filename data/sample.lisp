@@ -8,7 +8,8 @@
           ((eq :CONS (type (car lst)))
            (transform! pred fun (car lst))
            (transform! pred fun (cdr lst)))
-          (t (transform! pred fun (cdr lst))))))
+          (t (transform! pred fun (cdr lst))))
+        lst))
 
 (setq l '(2 (4  8)))
 
