@@ -19,6 +19,7 @@
   DO(quote,    true,   1,  1,                                                 FUNDEF_END )                             \
   DO(not,      false,  1, -1, "not", "¬", "nil?",                             FUNDEF_END ) /* reduceable            */ \
   DO(if,       true,   2, -1,                                                 FUNDEF_END ) /* reduceable            */ \
+  DO(when,     true,   1, -1,                                                 FUNDEF_END ) /* reduceable            */ \
   DO(and,      true,  -1, -1, "and", "∧",                                     FUNDEF_END ) /* reduceable            */ \
   DO(or,       true,  -1, -1, "or", "∨",                                      FUNDEF_END ) /* reduceable            */ \
   DO(let_str,  true,   2, -1, "let*",                                         FUNDEF_END )                             \

@@ -4,13 +4,13 @@
                (lambda (obj)
                  (let ((head (car obj))
                        (tail (cdr obj)))
-                   (if (pred head)
+                   (when (pred head)
                      (rplaca obj (fun head)))
-                   (if (eq :CONS (type head))
+                   (when (eq :CONS (type head))
                      (transform! pred fun head))
-                   (if tail
+                   (when tail
                      (rplacd obj (transform! pred fun tail)))
-                   (if (and (not (eq :CONS (type tail))) (pred tail))
+                   (when (and (not (eq :CONS (type tail))) (pred tail))
                      (rplacd obj (fun tail)))))))
           (cond 
            ((and (not (eq :CONS (type obj))) (pred obj))

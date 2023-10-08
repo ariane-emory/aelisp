@@ -93,6 +93,45 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _when
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args) {
+  CORE_BEGIN("when");
+
+  ae_obj_t * const when_cond   = CAR(args);
+  ae_obj_t * const then_branch = CDR(args);
+  
+#ifdef AE_LOG_CORE
+  LOG(when_cond,   "when");
+  LOG(then_branch, "then");
+#endif
+
+  REQUIRE(env, args, !NILP(CDR(args)), "when requires at least 2 args");
+
+  bool cond_result = ! NILP(EVAL(env, when_cond));
+
+#ifdef AE_LOG_CORE
+  LOG(cond_result ? TRUE : NIL, "cond_result: ");
+#endif
+
+  if (cond_result) {
+
+#ifdef AE_LOG_CORE
+    SLOG("chose when");
+#endif
+
+    CORE_RETURN("when", ae_core_progn(env, then_branch));
+  }
+
+#ifdef AE_LOG_CORE
+  SLOG("chose nil");
+#endif
+  
+  CORE_RETURN("when", NIL);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _or
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
