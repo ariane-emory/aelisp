@@ -19,10 +19,21 @@
 
 (setq double (lambda (x) (* 2 x)))
       
-(setq map (lambda (func lst)
-            (if (nil? lst)
-                nil
-                (cons (func (car lst))
-                      (map func (cdr lst))))))
+(setq map
+      (lambda (func lst)
+        (if (nil? lst)
+            nil
+            (cons (func (car lst))
+                  (map func (cdr lst))))))
 
 (print (map double '(3 6 9)))
+
+(setq preload
+      (lambda (lst)
+        (if (nil? lst)
+            nil
+            (cons (car lst)
+                  (preload (cdr lst))))))
+
+(print (map double '(3 6 9)))
+(print (preload '(car (4 8))))
