@@ -221,8 +221,13 @@ int main(void) {
   pool_print();
 #endif
 
-//  PR("syms: "); WRITE(ENV_SYMS(root_env)); NL;
-  /* PR("vals: "); WRITE(ENV_VALS(root_env)); NL; */
+#ifdef AE_DUMP_SYMS
+  PR("syms: "); WRITE(ENV_SYMS(root_env)); NL;
+#endif
+
+#ifdef AE_DUMP_VALS
+  PR("vals: "); WRITE(ENV_VALS(root_env)); NL;
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////  

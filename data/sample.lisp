@@ -6,10 +6,7 @@
 ;;     (+ (fib (- n 1)) (fib (- n 2))))))
 
 (let* ((𝑛 30)
-       (car car)
-       (cdr cdr)
-       (+ +)
-       (- -)
+       (∨ ∨)
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (λ (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
        (𝑓       (λ (𝑥)
