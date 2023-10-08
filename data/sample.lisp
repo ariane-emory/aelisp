@@ -1,3 +1,24 @@
+;; old version
+(setq transform!
+      (lambda (pred fun obj)
+        (if (not (eq :CONS (type obj))) 
+            (if (pred obj) 
+                (setf obj (fun obj)))
+          (let ((head (car obj))
+                (tail (cdr obj)))
+            (cond 
+              ((nil? obj) obj)
+              ((pred head)
+               (rplaca obj (fun head)))
+              ((eq :CONS (type head))
+               (transform! pred fun head)))
+            (if tail
+                (rplacd obj (transform! pred fun tail)))
+            (if (and (not (eq :CONS (type tail))) (pred tail))
+                (rplacd obj (fun tail)))))
+        obj))
+
+
 (setq transform!
       (lambda (pred fun obj)
         (let ((process-cons
