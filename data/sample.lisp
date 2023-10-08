@@ -1,3 +1,21 @@
+
+(setq double-in-place
+      (lambda (lst)
+        (cond 
+          ((nil? lst) nil)
+          ((eq :INTEGER (type (car lst)))
+           (rplaca lst (* 2 (car lst))))
+          ((eq :CONS (type (car lst)))
+           (double-in-place (car lst))))
+        (if (not (nil? (cdr lst)))
+            (double-in-place (cdr lst)))))
+
+(setq l '(4 8))
+
+(double-in-place l)
+(print l)
+
+
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 
 ;; (setq naive-fib (lambda (n)
@@ -28,18 +46,16 @@
 
 ;; (print (map double '(3 6 9)))
 
-(sets l '(1 2 3))
-(rplaca l 4)
-;(print l)
 
-;; (setq preload
-;;       (lambda (lst)
-;;         (cond ((nil? lst) nil)
-;;               ((integer? (car lst)) (progn
-;;                                       (rplaca (car lst) (* 2 (car lst)))
-;;                                       lst
-;;                                       ))
-;;               (t         (cons (car lst)
-;;                                (preload (cdr lst)))))))
+;; (setq l '(1 2 3))
+;; (rplaca l 4)
+;; (print l)
 
-;; (print (preload '(car (4 8))))
+;; (let ((lst '(1 (2 3))))
+;;   (dolist (item lst)
+;;     (when (consp item)
+;;       (rplaca item (* 2 (car item)))
+;;       (rplacd item (* 2 (cadr item))))
+;;     (when (numberp item)
+;;       (setf lst (cons (* 2 item) (cdr lst)))))
+;;   lst)
