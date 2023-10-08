@@ -1,23 +1,23 @@
 (setq transform!
-      (lambda (pred fun lst)
-        (if (not (eq :CONS (type lst))) 
-            (if (pred lst) 
-                (setf lst (fun lst)))
-          (let ((head (car lst))
-                (tail (cdr lst)))
+      (lambda (pred fun obj)
+        (if (not (eq :CONS (type obj))) 
+            (if (pred obj) 
+                (setf obj (fun obj)))
+          (let ((head (car obj))
+                (tail (cdr obj)))
             (cond 
-              ((nil? lst) lst)
+              ((nil? obj) obj)
               ((pred head)
-               (rplaca lst (fun head)))
+               (rplaca obj (fun head)))
               ((eq :CONS (type head))
                (transform! pred fun head)))
             ;; Handle the rest of the list
             (if tail
-                (rplacd lst (transform! pred fun tail)))
+                (rplacd obj (transform! pred fun tail)))
             ;; Special case for the end of an improper list
             (if (and (not (eq :CONS (type tail))) (pred tail))
-                (rplacd lst (fun tail)))))
-        lst)) ; Moved outside the if condition but still within the function body.
+                (rplacd obj (fun tail)))))
+        obj)) ; Moved outside the if condition but still within the function body.
 
 
 
