@@ -1,6 +1,6 @@
 To Do:
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
-- [ ] Refactor FOR_EACH_CORE_FUN and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
+- [ ] Refactor FOR_EACH_CORE_FUN_GROUP_1 and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] Fix macro expansion from eval.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.

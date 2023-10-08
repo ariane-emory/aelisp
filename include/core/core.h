@@ -5,7 +5,41 @@
 #define FUNDEF_END NULL
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_FUN(DO)                                                                                          \
+#define FOR_EACH_CORE_FUN_GROUP_1(DO)                                                                                  \
+  /*================================================================================================================*/ \
+  DO(eql,      false,                                                         FUNDEF_END )            /* reduceable */ \
+  DO(eq,       false,                                                         FUNDEF_END )                             \
+  DO(cond,     true,                                                          FUNDEF_END )                             \
+  DO(progn,    true,                                                          FUNDEF_END )                             \
+  DO(cons,     false,                                                         FUNDEF_END )                             \
+  DO(setq,     true,  "setq", "≔",                                            FUNDEF_END )                             \
+  DO(aset,     false,                                                         FUNDEF_END )                             \
+  DO(aget,     false,                                                         FUNDEF_END )                             \
+  DO(list,     false,                                                         FUNDEF_END )                             \
+  DO(quote,    true,                                                          FUNDEF_END )                             \
+  DO(not,      false, "not", "¬",                                             FUNDEF_END )            /* reduceable */ \
+  DO(if,       true,                                                          FUNDEF_END )            /* reduceable */ \
+  DO(and,      true,  "and", "∧",                                             FUNDEF_END )            /* reduceable */ \
+  DO(or,       true,  "or", "∨",                                              FUNDEF_END )            /* reduceable */ \
+  DO(let_str,  true,  "let*",                                                 FUNDEF_END )                             \
+  DO(cdr,      false,                                                         FUNDEF_END )                             \
+  DO(car,      false,                                                         FUNDEF_END )                             \
+  DO(let,      true,                                                          FUNDEF_END )                             \
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define FOR_EACH_CORE_MATH_OP(DO)                                                                                      \
+  DO(rsft, >>, 1)                                                                                                      \
+  DO(lsft, <<, 1)                                                                                                      \
+  DO(mod,   %, 1)                                                                                                      \
+  DO(div,   /, 1)                            /* reducing these doesn't really seem like it would be worth the */       \
+  DO(mul,   *, 1)                            /* bother or the performance impact.                             */       \
+  DO(sub,   -, 0)                                                                                                      \
+  DO(add,   +, 0)                                                                                                      \
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
   DO(exit,     false,                                                         FUNDEF_END )                             \
   DO(msleep,   false,                                                         FUNDEF_END )                             \
@@ -41,36 +75,8 @@
   DO(pget,     false,                                                         FUNDEF_END )                             \
   DO(ahas,     false,                                                         FUNDEF_END )                             \
   DO(lambda,   true,  "lambda", "λ",                                          FUNDEF_END )                             \
-  DO(setq,     true,  "setq", "≔",                                            FUNDEF_END )                             \
-  DO(eql,      false,                                                         FUNDEF_END )            /* reduceable */ \
-  DO(eq,       false,                                                         FUNDEF_END )                             \
-  DO(cond,     true,                                                          FUNDEF_END )                             \
-  DO(progn,    true,                                                          FUNDEF_END )                             \
-  DO(aset,     false,                                                         FUNDEF_END )                             \
-  DO(aget,     false,                                                         FUNDEF_END )                             \
-  DO(list,     false,                                                         FUNDEF_END )                             \
-  DO(quote,    true,                                                          FUNDEF_END )                             \
-  DO(not,      false, "not", "¬",                                             FUNDEF_END )            /* reduceable */ \
-  DO(or,       true,  "or", "∨",                                              FUNDEF_END )            /* reduceable */ \
-  DO(and,      true,  "and", "∧",                                             FUNDEF_END )            /* reduceable */ \
-  DO(if,       true,                                                          FUNDEF_END )            /* reduceable */ \
-  DO(let_str,  true,  "let*",                                                 FUNDEF_END )                             \
-  DO(let,      true,                                                          FUNDEF_END )                             \
-  DO(cons,     false,                                                         FUNDEF_END )                             \
-  DO(cdr,      false,                                                         FUNDEF_END )                             \
-  DO(car,      false,                                                         FUNDEF_END )                             \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define FOR_EACH_CORE_MATH_OP(DO)                                                                                      \
-  DO(rsft, >>, 1)                                                                                                      \
-  DO(lsft, <<, 1)                                                                                                      \
-  DO(mod,   %, 1)                                                                                                      \
-  DO(div,   /, 1)                            /* reducing these doesn't really seem like it would be worth the */       \
-  DO(mul,   *, 1)                            /* bother or the performance impact.                             */       \
-  DO(sub,   -, 0)                                                                                                      \
-  DO(add,   +, 0)                                                                                                      \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_CMP_OP(DO)                                                                                       \
   DO(gt,     > , &=, true)                                                                                             \
@@ -80,10 +86,12 @@
   DO(nequal, !=, |=, false)                                                                                            \
   DO(equal,  ==, &=, true)                                                                                             \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DECL_CORE(name, ...) ae_obj_t * ae_core_##name(ae_obj_t * const env, ae_obj_t * const args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOR_EACH_CORE_MATH_OP(DECL_CORE);
 FOR_EACH_CORE_CMP_OP(DECL_CORE);
-FOR_EACH_CORE_FUN(DECL_CORE);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+FOR_EACH_CORE_FUN_GROUP_1(DECL_CORE);
+FOR_EACH_CORE_FUN_GROUP_2(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
