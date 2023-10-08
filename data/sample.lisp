@@ -59,6 +59,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq double (lambda (x) (* 2 x)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq transform!
   (lambda (pred fun obj)
     (cond
@@ -77,19 +81,24 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq double (lambda (x) (* 2 x)))
-      
-;; tests
 (setq l '(2 (4 8)))
 (transform! (lambda (x) (eq :INTEGER (type x))) double l)
 (print l) ;; sucessfully prints (4 (8 16)).
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq l (transform! (lambda (x) (eq :INTEGER (type x))) double '(2 (4 8))))
 (print l) ;; successfully prints (4 (8 16)).
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq l '(2 (4 . a)))
 (transform! (lambda (obj) (eq :INTEGER (type obj))) (lambda (num) (* 2 num)) l)
-(print l) ;; should print (4 (8 . a))
+(print l) ;; successdully prints (4 (8 . a))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq l (transform! (lambda (x) (eq :INTEGER (type x))) double '(2 (4 . 8))))
-(print l) ;; should (4 (8 . 16))!
+(print l) ;; successfully prints (4 (8 . 16))!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
