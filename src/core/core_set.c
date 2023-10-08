@@ -1,17 +1,17 @@
 #include "core_includes.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set
+// _setf
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_set(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_setf(ae_obj_t * const env, ae_obj_t * const args) {
 #ifdef AE_LOG_CORE
   // No CORE_BEGIN!
-  LOG(args, "[core_set]");
+  LOG(args, "[core_setf]");
   INDENT;
 #endif
 
   ae_obj_t * result = ae_core_setq(env, args);
   
-  CORE_RETURN("set", result);
+  CORE_RETURN("setf", result);
 }
