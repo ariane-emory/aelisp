@@ -288,7 +288,7 @@ _obj->special = _special;                                                       
 _obj;                                                                                                                  \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_ERROR(obj, msg)                                                                                            \
+#define NEW_ERROR(msg, obj)                                                                                            \
 ({                                                                                                                     \
 ae_obj_t * _obj  = NEW(AE_ERROR);                                                                                      \
 EMSG   (_obj) = (msg);                                                                                                 \

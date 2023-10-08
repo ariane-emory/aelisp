@@ -13,7 +13,7 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args) {
   if (! TAILP(CADR(args)))
     REQUIRE(env, args, CONSP(CADR(args)), "error's 2nd arg must be a list");
 
-  ae_obj_t * const err = NEW_ERROR(CADR(args), STR_VAL(CAR(args)));
+  ae_obj_t * const err = NEW_ERROR(STR_VAL(CAR(args)), CADR(args));
 
   CORE_RETURN("error", err);
 }

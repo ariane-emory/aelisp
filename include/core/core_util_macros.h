@@ -29,7 +29,7 @@
     ASET(err_data, KW("args"), args);                                                              \
     ASET(err_data, KW("env"),  env);                                                               \
                                                                                                    \
-    return NEW_ERROR(err_data, msg);                                                               \
+    return NEW_ERROR(msg, err_data);                                                               \
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
