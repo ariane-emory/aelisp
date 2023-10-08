@@ -15,8 +15,9 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args) {
   if (LENGTH(args) == 2) {
     LOG(args, "error's args:");
     LOG(CDR(args), "error's args tail:");
+    LOG(CADR(args), "error's args 2nd:");
     FF;
-    //   REQUIRE(env, args, PROPERP(CADR(args)), "error's 2nd arg must be a list or nil");
+    REQUIRE(env, args, PROPERP(CADR(args)), "error's 2nd arg must be a list or nil");
     err = NEW_ERROR(STR_VAL(CAR(args)), CADR(args));
   }
   else {
