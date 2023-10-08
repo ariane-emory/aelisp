@@ -89,7 +89,7 @@ ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args) {
 
   int len = LENGTH(args);
 
-  REQUIRE(env, args, len = 1, "nl takes no args");
+  REQUIRE(env, args, len == 0, "nl takes no args");
 
   NL;
 

@@ -36,7 +36,7 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("rplaca");
 
-  REQUIRE(env, args, (LENGTH(args) <= 2) && CONSP(CAR(args)));
+  REQUIRE(env, args, (LENGTH(args) == 2) && CONSP(CAR(args)));
 
   CAAR(args) = CADR(args);
 
@@ -50,7 +50,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("rplacd");
 
-  REQUIRE(env, args, (LENGTH(args) <= 2) && CONSP(CAR(args)));
+  REQUIRE(env, args, (LENGTH(args) == 2) && CONSP(CAR(args)));
 
   CDAR(args) = CADR(args);
 
