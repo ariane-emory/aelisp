@@ -31,8 +31,17 @@
 (setq preload
       (lambda (lst)
         (cond ((nil? lst) nil)
-              (t          (cons (car lst)
-                                (preload (cdr lst)))))))
+              ((integer? (car lst)) (progn
+                                      (rplaca (car lst) (* 2 (car lst)))
+                                      lst
+                                      ))
+              (t         (cons (car lst)
+                               (preload (cdr lst)))))))
 
 (print (map double '(3 6 9)))
-(print (preload '(car (4 8i))))
+
+(sets l '(1 2 3))
+(rplaca l 4)
+;(print l)
+
+;; (print (preload '(car (4 8))))
