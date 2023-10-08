@@ -13,20 +13,22 @@
 (setq transform!
       (lambda (pred fun lst)
         (cond 
-          ((nil? lst) nil)
-          ((pred (car lst))
-           (rplaca lst (fun  (car lst))))
+          ((nil? lst) lst)
+          ((pred (car lst)) 
+           (rplaca lst (fun (car lst)))
+           (transform! pred fun (cdr lst)))
           ((eq :CONS (type (car lst)))
-           (transform! pred fun (car lst))))
-        (if (not (nil? (cdr lst)))
-            (transform! pred fun (cdr lst)))))
+           (transform! pred fun (car lst))
+           (transform! pred fun (cdr lst)))
+          (t (transform! pred fun (cdr lst))))
+        lst))
 
-(setq l '(4 8))
-
-(transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) l)
-
+(setq l (transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) '(4 8)))
 (print l)
 
+(setq l '(4 8))
+(transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) l)
+(print l)
 
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 
