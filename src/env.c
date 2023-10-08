@@ -244,16 +244,19 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _rootp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_env_rootp(const ae_obj_t * const env) {
+  assert(ENVP(env));
+
+  return NILP(ENV_PARENT(env));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef ae_obj_t * (*ae_core_fun_t)(ae_obj_t * const env, ae_obj_t * const args);
-
-#define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 6, 5, 4, 3, 2, 1)
-#define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, N, ...) N
-
-#define load_fun(c_name, special, ...) \
-  load_fun_helper(env, #c_name, &ae_core_##c_name, special, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
-
 //==================================================================================================
 
 static void load_fun_helper(
@@ -298,17 +301,12 @@ static void load_fun_helper(
 ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
   
+#define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 6, 5, 4, 3, 2, 1)
+#define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, N, ...) N
+#define load_fun(c_name, special, ...) \
+  load_fun_helper(env, #c_name, &ae_core_##c_name, special, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
+
   FOR_EACH_CORE_FUN(load_fun);
   
   return env;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _rootp
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool ae_env_rootp(const ae_obj_t * const env) {
-  assert(ENVP(env));
-
-  return NILP(ENV_PARENT(env));
 }
