@@ -13,7 +13,6 @@ COMMON_CFLAGS = \
 	-O3 \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=$(POOL_SIZE) \
-	-DAE_CALLSTACK_IS_PROPER \
 	-DAE_DEADLY_MARGIN \
 
 UNUSED_CFLAGS = \
