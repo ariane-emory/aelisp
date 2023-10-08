@@ -23,7 +23,7 @@
 
 (let* ((n 30)
        (*memo* '((2 . 1) (1 . 1)))
-       (memoize (λ (k v) (cdr (car (≔ *memo* (aset *memo* k v))))))
+       (memoize (λ (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
        (𝑓       (λ (n)
                   (let  ((memoized (aget *memo*  n)))
                     (∨    memoized
