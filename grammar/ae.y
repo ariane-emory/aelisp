@@ -28,7 +28,7 @@ atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 program: sexps                               { program = CONS(SYM("progn"), $$); };
 sexps:            sexp     sexps             { $$      = CONS($1, $2); } | { $$ = NIL; };
 list:             LPAREN   list_sexps RPAREN { $$      = $2; };
-list_sexps:       sexp     list_sexps        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };
+list_elements:    sexp     list_elements     { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };
 
 quoted_sexp:      QUOTE    sexp              { $$      = CONS(SYM("quote"),      CONS($2, NIL)); };
 quasiquoted_sexp: BACKTICK sexp              { $$      = CONS(SYM("quasiquote"), CONS($2, NIL)); };
