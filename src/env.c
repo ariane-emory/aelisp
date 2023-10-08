@@ -311,8 +311,8 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_CMP_OP(add_core_op);
   
   ENV_SET(env, SYM("⊤"),    ENV_FIND(env, SYM("t")));
-  ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("lte")));
-  ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM("gte")));
+  ENV_SET(env, SYM("≤"),    ENV_FIND(env, SYM("<=")));
+  ENV_SET(env, SYM("≥"),    ENV_FIND(env, SYM(">=")));
 
   return env;
 }

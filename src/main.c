@@ -223,8 +223,8 @@ int main(void) {
   pool_print();
 #endif
 
-  /* PR("syms: "); WRITE(ENV_SYMS(root_env)); */
-  /* PR("vals: "); WRITE(ENV_SYMS(root_env)); */
+  PR("syms: "); WRITE(ENV_SYMS(root_env)); NL;
+  PR("vals: "); WRITE(ENV_VALS(root_env)); NL;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////  

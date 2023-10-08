@@ -39,7 +39,7 @@
   DO(phas,     false,                                                         FUNDEF_END )                             \
   DO(pset,     false,                                                         FUNDEF_END )                             \
   DO(pget,     false,                                                         FUNDEF_END )                             \
-  DO(not,      false, "¬",                                                    FUNDEF_END )            /* reduceable */ \
+  DO(not,      false, "not", "¬",                                             FUNDEF_END )            /* reduceable */ \
   DO(eql,      false,                                                         FUNDEF_END )            /* reduceable */ \
   DO(eq,       false,                                                         FUNDEF_END )                             \
   DO(cons,     false,                                                         FUNDEF_END )                             \
@@ -52,13 +52,13 @@
   DO(setq,     true,  "setq", "≔",                                            FUNDEF_END )                             \
   DO(quote,    true,                                                          FUNDEF_END )                             \
   DO(macro,    true,                                                          FUNDEF_END )                             \
-  DO(lambda,   true,  "λ",                                                    FUNDEF_END )                             \
+  DO(lambda,   true,  "lambda", "λ",                                          FUNDEF_END )                    \
   DO(cond,     true,                                                          FUNDEF_END )                             \
   DO(let,      true,                                                          FUNDEF_END )                             \
   DO(let_str,  true,  "let*",                                                 FUNDEF_END )                             \
   DO(if,       true,                                                          FUNDEF_END )            /* reduceable */ \
-  DO(or,       true,  "∨",                                                    FUNDEF_END )            /* reduceable */ \
-  DO(and,      true,  "∧",                                                    FUNDEF_END )            /* reduceable */ \
+  DO(or,       true,  "or", "∨",                                              FUNDEF_END )            /* reduceable */ \
+  DO(and,      true,  "and", "∧",                                             FUNDEF_END )            /* reduceable */  \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
