@@ -91,6 +91,6 @@ ae_obj_t * ae_core_nilp(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, LENGTH(args) == 1);
   REQUIRE(env, args, CAR(args));
 
-  CORE_RETURN("nilp", NILP(env, CAR(args)) ? TRUE : NIL);
+  CORE_RETURN("nilp", NILP(CAR(args)) ? TRUE : NIL);
 }
 
