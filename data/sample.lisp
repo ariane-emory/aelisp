@@ -106,6 +106,6 @@
 
 (setq l 2)
 (transform! integer? double l)
-(print l) ;; should print 4 but prints 2
+(print l) ;; should return an :ERROR
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
