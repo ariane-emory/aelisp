@@ -8,11 +8,14 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("error");
 
   REQUIRE(env, args, CAR(args) && NILP(CADDR(args)), "error requires 1 or 2  args");
-
+  REQUIRE(env, args, STRINGP(CAR(args)), "error's 1st arg must be a string");
+  
   if (! TAILP(CADR(args)))
     REQUIRE(env, args, CONSP(CADR(args)), "error's 2nd arg must be a list");
-  
-  CORE_RETURN("error", NEW_ERROR(CAR(args), CADR(args)));
+
+  ae_obj_t * const err = NEW_ERROR(CADR(args), STR_VAL(CAR(args)));
+
+  CORE_RETURN("error", err);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
