@@ -57,6 +57,7 @@
   DO(properp,  false,  1,  1, "proper?",                                      FUNDEF_END ) /* reduceable            */ \
   DO(tailp,    false,  1,  1, "tail?",                                        FUNDEF_END ) /* reduceable            */ \
   DO(boundp,   false,  1,  1, "bound?",                                       FUNDEF_END )                             \
+  DO(nilp,     false,  1,  1, "nil?",                                         FUNDEF_END )                             \
   DO(nl,       false,  0,  0,                                                 FUNDEF_END )                             \
   /*================================================================================================================*/ \
   DO(put,      false,  1, -1,                                                 FUNDEF_END )                             \

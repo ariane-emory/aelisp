@@ -81,3 +81,16 @@ ae_obj_t * ae_core_boundp(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_RETURN("boundp", ENV_BOUNDP(env, CAR(args)) ? TRUE : NIL);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _nilp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_nilp(ae_obj_t * const env, ae_obj_t * const args) {
+  CORE_BEGIN("nilp");
+
+  REQUIRE(env, args, LENGTH(args) == 1);
+  REQUIRE(env, args, CAR(args));
+
+  CORE_RETURN("nilp", NILP(env, CAR(args)) ? TRUE : NIL);
+}
+
