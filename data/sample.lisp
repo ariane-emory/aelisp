@@ -18,7 +18,7 @@
                 (rplacd obj (fun tail)))))
         obj))
 
-
+;; verbose version
 (setq transform!
       (lambda (pred fun obj)
         (let ((process-cons
@@ -40,8 +40,7 @@
             (process-cons obj)))
           obj)))
 
-
-
+;; short version
 (setq transform!
   (lambda (pred fun obj)
     (cond
@@ -58,6 +57,27 @@
       (t obj))
     obj)) 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq transform!
+  (lambda (pred fun obj)
+    (cond
+      ((pred obj) (setf obj (fun obj)))
+      ((eq :CONS (type obj))
+       (let ((head (car obj))
+             (tail (cdr obj)))
+         (cond
+           ((pred head) (rplaca obj (fun head)))
+           ((eq :CONS (type head)) (transform! pred fun head)))
+         (cond
+           ((pred tail) (rplacd obj (fun tail)))
+           ((eq :CONS (type tail)) (rplacd obj (transform! pred fun tail))))))
+      (t obj))
+    obj))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; tests
 (setq l '(2 (4 8)))
 (transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) l)
 (print l) ;; sucessfully prints (4 (8 16)).
