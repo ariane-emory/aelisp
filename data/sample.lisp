@@ -23,8 +23,6 @@
 
 (setq l '(4 8))
 
-;;k(double-in-place l)
-
 (transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) l)
 
 (print l)
