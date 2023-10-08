@@ -73,10 +73,10 @@
              (tail (cdr obj)))
          (cond
            ((pred head) (rplaca obj (fun head)))
-           ((eq :CONS (type head)) (transform! pred fun head)))
+           ((eq :CONS (type head))  (transform! pred fun head)))
          (cond
            ((pred tail) (rplacd obj (fun tail)))
-           ((eq :CONS (type tail)) (rplacd obj (transform! pred fun tail))))))
+           ((eq :CONS (type tail))  (rplacd obj (transform! pred fun tail))))))
       (t obj))
     obj))
 
