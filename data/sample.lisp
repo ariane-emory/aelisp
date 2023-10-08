@@ -1,24 +1,23 @@
 (setq transform!
       (lambda (pred fun obj)
-        (if (not (eq :CONS (type obj))) 
-            (if (pred obj) 
-                (setf obj (fun obj)))
-          (let ((head (car obj))
-                (tail (cdr obj)))
-            (cond 
-              ((nil? obj) obj)
-              ((pred head)
-               (rplaca obj (fun head)))
-              ((eq :CONS (type head))
-               (transform! pred fun head)))
-            ;; Handle the rest of the list
-            (if tail
-                (rplacd obj (transform! pred fun tail)))
-            ;; Special case for the end of an improper list
-            (if (and (not (eq :CONS (type tail))) (pred tail))
-                (rplacd obj (fun tail)))))
-        obj)) ; Moved outside the if condition but still within the function body.
-
+        (let ((process-cons
+               (lambda (obj)
+                 (let ((head (car obj))
+                       (tail (cdr obj)))
+                   (if (pred head)
+                     (rplaca obj (fun head)))
+                   (if (eq :CONS (type head))
+                     (transform! pred fun head))
+                   (if tail
+                     (rplacd obj (transform! pred fun tail)))
+                   (if (and (not (eq :CONS (type tail))) (pred tail))
+                     (rplacd obj (fun tail)))))))
+          (cond 
+           ((and (not (eq :CONS (type obj))) (pred obj))
+            (setf obj (fun obj)))
+           ((eq :CONS (type obj))
+            (process-cons obj)))
+          obj)))
 
 
 ;; (setq l '(2 (4 8)))
