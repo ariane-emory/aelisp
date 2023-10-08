@@ -46,8 +46,8 @@
   DO(msleep,   false,  1,  1,                                                 FUNDEF_END )                             \
   DO(dobj,     false,  1,  1, "debug-object",                                 FUNDEF_END ) /* debug data accessor   */ \
   DO(error,    false,  1,  2,                                                 FUNDEF_END )                             \
-  DO(errmsg,   false,  1,  1, "error-message",                                FUNDEF_END ) /* error accessor        */ \
-  DO(errobj,   false,  1,  1, "error-object",                                 FUNDEF_END ) /* error accessor        */ \
+  DO(errmsg,   false,  1,  1, "errmsg", "error-message",                      FUNDEF_END ) /* error accessor        */ \
+  DO(errobj,   false,  1,  1, "errobj", "error-object",                       FUNDEF_END ) /* error accessor        */ \
   DO(type,     false,  1,  1,                                                 FUNDEF_END ) /* GET_TYPE proxy        */ \
   DO(body,     false,  1,  1,                                                 FUNDEF_END ) /* fun accessor          */ \
   DO(params,   false,  1,  1,                                                 FUNDEF_END ) /* fun accessor          */ \
