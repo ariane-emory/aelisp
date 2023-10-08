@@ -59,7 +59,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq double (lambda (x) (* 2 x)))
+(setq double   (lambda (x) (* 2 x)))
+(setq integer? (lambda (x) (eq :INTEGER (type x))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -82,12 +83,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq l '(2 (4 8)))
-(transform! (lambda (x) (eq :INTEGER (type x))) double l)
+(transform! integer? double l)
 (print l) ;; sucessfully prints (4 (8 16)).
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq l (transform! (lambda (x) (eq :INTEGER (type x))) double '(2 (4 8))))
+(setq l (transform! integer? double '(2 (4 8))))
 (print l) ;; successfully prints (4 (8 16)).
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -98,7 +99,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq l (transform! (lambda (x) (eq :INTEGER (type x))) double '(2 (4 . 8))))
+(setq l (transform! integer? double '(2 (4 . 8))))
 (print l) ;; successfully prints (4 (8 . 16))!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq l 2)
+(transform! integer? double l)
+(print l) ;; should print 4 but prints 2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
