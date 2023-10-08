@@ -19,3 +19,10 @@
  l)
 
 (print l)
+
+(setq l (transform!
+         (lambda (x) (eq :INTEGER (type x)))
+         (lambda (x) (* 2 x))
+         '(2 (4  8))))
+
+(print l)
