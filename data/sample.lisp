@@ -12,6 +12,8 @@
 
 (setq transform!
       (lambda (pred fun lst)
+        (let ((head (car lst))
+              (tail (cdr lst)))
         (cond 
           ((nil? lst) lst)
           ((pred (car lst)) 
@@ -20,7 +22,7 @@
           ((eq :CONS (type (car lst)))
            (transform! pred fun (car lst))
            (transform! pred fun (cdr lst)))
-          (t (transform! pred fun (cdr lst))))
+          (t (transform! pred fun (cdr lst)))))
         lst))
 
 (setq l (transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) '(4 8)))
