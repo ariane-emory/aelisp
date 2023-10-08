@@ -5,15 +5,24 @@
 ;;     1
 ;;     (+ (fib (- n 1)) (fib (- n 2))))))
 
-(let* ((𝑛 30)
-       (∨ ∨)
-       (*memo* '((2 . 1) (1 . 1)))
-       (memoize (λ (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-       (𝑓       (λ (𝑥)
-                  (let  ((memoized (aget *memo*  𝑥)))
-                    (∨    memoized
-                          (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-                                         (𝑓 (- 𝑥 2)))))))))
-  (𝑓 𝑛))
+;; (let* ((𝑛 30)
+;;        (∨ ∨)
+;;        (*memo* '((2 . 1) (1 . 1)))
+;;        (memoize (λ (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
+;;        (𝑓       (λ (𝑥)
+;;                   (let  ((memoized (aget *memo*  𝑥)))
+;;                     (∨    memoized
+;;                           (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
+;;                                          (𝑓 (- 𝑥 2)))))))))
+;;   (𝑓 𝑛))
 
 
+(setq double (lambda (x) (* 2 x)))
+      
+(setq map (lambda (func lst)
+            (if (nil? lst)
+                nil
+                (cons (func (car lst))
+                      (map func (cdr lst))))))
+
+(print (map double '(3 6 9)))
