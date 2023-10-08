@@ -1,17 +1,19 @@
 (setq transform!
       (lambda (pred fun lst)
-        (cond 
-          ((nil? lst) lst)
-          ((pred (car lst)) 
-           (rplaca lst (fun (car lst)))
-           (transform! pred fun (cdr lst)))
-          ((eq :CONS (type (car lst)))
-           (transform! pred fun (car lst))
-           (transform! pred fun (cdr lst)))
-          (t (transform! pred fun (cdr lst))))
-        ;; Additional check for the cdr of the list.
-        (if (and lst (pred (cdr lst)))
-            (rplacd lst (fun (cdr lst))))
+        (let ((head (car lst))
+              (tail (cdr lst)))
+          (cond 
+            ((nil? lst) lst)
+            ((pred head) 
+             (rplaca lst (fun head))
+             (transform! pred fun tail))
+            ((eq :CONS (type head))
+             (transform! pred fun head)
+             (transform! pred fun tail))
+            (t (transform! pred fun tail)))
+          ;; Additional check for the cdr of the list.
+          (if (and lst (pred tail))
+              (rplacd lst (fun tail))))
         lst))
 
 (setq l '(2 (4 8)))
