@@ -21,14 +21,21 @@
 ;;   result)
 ;; )
 
-(let* ((𝑛 30)
+(let* ((𝑛 30) lisp-indent-offset
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (λ (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
        (𝑓       (λ (𝑥)
                   (let  ((memoized (aget *memo*  𝑥)))
                     (∨    memoized
-                          (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-                                         (𝑓 (- 𝑥 2)))))))))
+                         (memoize   𝑥 (+ (𝑓 (- 𝑥 1))
+                                         (𝑓 (- 𝑥 2))))))))
+       (car car)
+       (cdr cdr)
+       (aset aset)
+       (aget aget)
+       (+ +)
+       (- -)
+)
   (𝑓 𝑛))
 
 ;; (print (<< 10))

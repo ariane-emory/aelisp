@@ -118,8 +118,6 @@ int main(void) {
 
   /* PR("\n\nroot_env is at:    %08p.\n", root_env); */
 
-  LOG(ENV_SYMS(root_env), "root_env symbols");
-  
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,8 +221,8 @@ int main(void) {
   pool_print();
 #endif
 
-  PR("syms: "); WRITE(ENV_SYMS(root_env)); NL;
-  PR("vals: "); WRITE(ENV_VALS(root_env)); NL;
+//  PR("syms: "); WRITE(ENV_SYMS(root_env)); NL;
+  /* PR("vals: "); WRITE(ENV_VALS(root_env)); NL; */
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////  
