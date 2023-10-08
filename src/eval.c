@@ -260,20 +260,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
 
   if ( ERRORP(ret)) {
-    if (EHAS(ret, "fun")) {
-#ifdef AE_CALLSTACK_IS_PROPER
+    if (EHAS(ret, "fun"))
       ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
-#else
-      ESET(ret, "fun", NEW_CONS(fun, EGET(ret, "fun")));
-#endif
-    }
-    else {
-#ifdef AE_CALLSTACK_IS_PROPER
+    else
       ESET(ret, "fun", CONS(fun, NIL));
-#else
-      ESET(ret, "fun", fun);
-#endif
-    }
   }
 
   /* if (dispatch.replaces) { */
