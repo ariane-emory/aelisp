@@ -264,8 +264,14 @@ static void load_fun_helper(
   const char *  const c_name,
   ae_core_fun_t const fun,
   bool                special,
+  int                 min_args,
+  int                 max_args,
   int                 count,
   ...) {
+
+  (void)min_args; // not implemented yet.
+  (void)max_args; // not implemented yet.
+  
   /* printf("\n"); */
 
   /* printf("count: %d\n", count); */
@@ -283,14 +289,14 @@ static void load_fun_helper(
       break;
 
     // SLOGF("alt name: %s", alt_name); FF;
-    ENV_SET(env, SYM(alt_name), NEW_CORE(c_name, fun, special));
+    ENV_SET(env, SYM(alt_name), NEW_CORE(c_name, fun, special, min_args, max_args));
 
     set_alt_name = true;
   }
 
   if (! set_alt_name) {
     // SLOGF("c name: %s", c_name); FF;
-    ENV_SET(env, SYM(c_name), NEW_CORE(c_name, fun, special));
+    ENV_SET(env, SYM(c_name), NEW_CORE(c_name, fun, special, min_args, max_args));
   }
   
   va_end(args);
@@ -303,8 +309,9 @@ ae_obj_t * ae_env_new_root(void) {
   
 #define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1)
 #define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, N, ...) N
-#define load_fun(c_name, special, min_args, max_args, ...) load_fun_helper(env, #c_name, &ae_core_##c_name, special, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
-#define add_core_op(name, sym, ...) ENV_SET(env, SYM(#sym), NEW_CORE(#name, &ae_core_##name, false));
+#define load_fun(c_name, special, min_args, max_args, ...) \
+  load_fun_helper(env, #c_name, &ae_core_##c_name, special, min_args, max_args, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
+#define add_core_op(name, sym, ...) ENV_SET(env, SYM(#sym), NEW_CORE(#name, &ae_core_##name, false, 1, -1));
 
   ENV_SET(env, SYM("⊤"), ENV_FIND(env, SYM("t")));
   FOR_EACH_CORE_CMP_OP(add_core_op);

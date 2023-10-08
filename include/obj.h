@@ -279,7 +279,7 @@ CDR       (_obj) = (tail);                                                      
 _obj;                                                                                                                  \
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_CORE(name, val, _special)                                                                                  \
+#define NEW_CORE(name, val, _special, min_args, max_args)                                                              \
 ({                                                                                                                     \
 ae_obj_t * _obj  = NEW(AE_CORE);                                                                                       \
 CORE_FUN  (_obj) = (val);                                                                                              \
