@@ -17,7 +17,7 @@
   DO(aget,     false,  2,  2,                                                 FUNDEF_END )                             \
   DO(list,     false, -1, -1,                                                 FUNDEF_END )                             \
   DO(quote,    true,   1,  1,                                                 FUNDEF_END )                             \
-  DO(not,      false,  1, -1, "not", "¬",                                     FUNDEF_END ) /* reduceable            */ \
+  DO(not,      false,  1, -1, "not", "¬", "nil?",                             FUNDEF_END ) /* reduceable            */ \
   DO(if,       true,   2, -1,                                                 FUNDEF_END ) /* reduceable            */ \
   DO(and,      true,  -1, -1, "and", "∧",                                     FUNDEF_END ) /* reduceable            */ \
   DO(or,       true,  -1, -1, "or", "∨",                                      FUNDEF_END ) /* reduceable            */ \
@@ -57,7 +57,6 @@
   DO(properp,  false,  1,  1, "proper?",                                      FUNDEF_END ) /* reduceable            */ \
   DO(tailp,    false,  1,  1, "tail?",                                        FUNDEF_END ) /* reduceable            */ \
   DO(boundp,   false,  1,  1, "bound?",                                       FUNDEF_END )                             \
-  DO(nilp,     false,  1,  1, "nil?",                                         FUNDEF_END )                             \
   DO(nl,       false,  0,  0,                                                 FUNDEF_END )                             \
   /*================================================================================================================*/ \
   DO(put,      false,  1, -1,                                                 FUNDEF_END )                             \
