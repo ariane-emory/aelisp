@@ -1,3 +1,5 @@
+#include <stdarg.h
+
 #include "env.h"
 #include "eval.h"
 #include "core.h"
@@ -244,6 +246,41 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 6, 5, 4, 3, 2, 1)
+#define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, N, ...) N
+
+#define load_fun(env, name, special, ...)                                                                               \
+  load_fun_helper(env, #name, special, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
+
+//==================================================================================================
+
+static void load_fun_helper(
+  ae_obj_t *   const env,
+  const char * const name,
+  const bool         special,
+  int                count,
+  ...) {
+  
+  va_list args;
+
+  (void)name;
+  (void)specil;
+
+  va_start(args, count);
+
+  for (int ix = 0; ix < count; ix++) {
+    char * alt_name = va_arg(args, char *);
+
+    if (alt_name == FUNDEF_END)
+      break;
+
+    ENV_SET(env, SYM(#name), NEW_CORE(#name, &ae_core_##name, special))
+  }
+
+  va_end(args);
+}
+
+//==================================================================================================
 
 ae_obj_t * ae_env_new_root(void) {
   ae_obj_t * env = NEW_ENV(NIL, NIL, NIL);
@@ -253,7 +290,10 @@ ae_obj_t * ae_env_new_root(void) {
   
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_CMP_OP(add_core_op);
-  FOR_EACH_CORE_FUN(add_core_fun);
+
+  FOR_EACH_CORE_FUN(load_fun);
+  
+  // FOR_EACH_CORE_FUN(add_core_fun);
 
   // There are obviously more performance-friendly ways to do this that don't put these symbols as the top of the env's
   // symbols list, pick one of them and implement it. The lexer could even handle many of them directly.
