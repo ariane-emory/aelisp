@@ -14,8 +14,8 @@
       (lambda (pred fun lst)
         (cond 
           ((nil? lst) nil)
-          ((eq :INTEGER ((car lst)))
-           (rplaca lst (* 2 (car lst))))
+          ((pred (car lst))
+           (rplaca lst (fun  (car lst))))
           ((eq :CONS (type (car lst)))
            (transform! pred fun (car lst))))
         (if (not (nil? (cdr lst)))
@@ -23,7 +23,10 @@
 
 (setq l '(4 8))
 
-(double-in-place l)
+;;k(double-in-place l)
+
+(transform! (lambda (x) (eq :INTEGER (type x))) (lambda (x) (* 2 x)) l)
+
 (print l)
 
 
