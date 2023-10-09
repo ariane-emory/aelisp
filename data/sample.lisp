@@ -86,12 +86,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq describe-elapsed
  (lambda (elapsed repetitions)
-  (princ "total ms: ")
+  (princ "total ums: ")
   (princ elapsed) (nl)
-  (princ "total s: ")
+  (princ "total ms: ")
   (princ (/ elapsed 1000)) (nl)
+  (princ "total s: ")
+  (princ (/ elapsed 1000000)) (nl)
   (princ "each ms: ")
-  (princ (/ elapsed repetitions)) (nl)))
+  (princ (/ elapsed repetitions 1000)) (nl)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq bench
  (lambda (repetitions qexpr)
@@ -104,7 +106,7 @@
      (eval qexpr)
      (setq total (+ total (- (time) bef))))
      (when (== 0 (% ctr 10))
-      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ total) (princ " ms so far.")))
+      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
    total)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq repetitions 5000)
