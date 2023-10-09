@@ -99,24 +99,21 @@
 ;; (print (double 333))
 ;; (print double)
 
-(setq memoize-expr(prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+(setq memoize-expr (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
 (setq memoize (eval memoize-expr))
 ;; (print memoize)
 ;; (print memoize-expr)
 (setq *memo* '((2 . 1) (1 . 1)))
 ;;(memoize 4 9)
 (print *memo*)
+(setq  fib-expr
+ (pretch '(𝑓 (lambda (𝑥)
+              (let  ((memoized (aget *memo*  𝑥)))
+               (∨    memoized
+                (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
+                               (𝑓 (- 𝑥 2))))))))))
+(print fib-expr)
 
-(print
- (let* ((𝑛 30)
-        (*memo* '((2 . 1) (1 . 1)))
-        (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-        (𝑓       (lambda (𝑥)
-                  (let  ((memoized (aget *memo*  𝑥)))
-                   (∨    memoized
-                    (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-                                 (𝑓 (- 𝑥 2)))))))))
-  (𝑓 𝑛)))
 
 (stop)
                                         ;(print *memo*)
