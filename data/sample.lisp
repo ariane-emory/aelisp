@@ -104,7 +104,7 @@
 ;; (print memoize)
 ;; (print memoize-expr)
 (setq *memo* '((2 . 1) (1 . 1)))
-(memoize 4 9)
+;;(memoize 4 9)
 (print *memo*)
 
 (print
