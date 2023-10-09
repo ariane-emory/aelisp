@@ -63,7 +63,7 @@
 ;;  (memo-fib 30))
 ;; (print (- (time) now))
 (print
-(let* ((𝑛 30)
+(let* ((nth 30)
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
        (fib       (lambda (𝑥)
@@ -71,5 +71,5 @@
                     (∨    memoized
                          (memoize  𝑥 (+ (fib (- 𝑥 1))
                                         (fib (- 𝑥 2)))))))))
- (fib 𝑛))
+ (fib nth))
 )
