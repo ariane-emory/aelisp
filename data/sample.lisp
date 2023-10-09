@@ -99,8 +99,8 @@
 (print (double 333))
 (print double)
 
-(setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
 (setq memoize-expr(prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+(setq memoize (eval memoize-expr))
 (print memoize)
 (print memoize-expr)
 (setq *memo* '((2 . 1) (1 . 1)))
