@@ -105,6 +105,5 @@
                                                  (𝑓 (- 𝑥 2)))))))))
          (𝑓 𝑛))))
 
-(print preloaded)
 (setq 𝑓 (eval preloaded))
-(print 𝑓)
+j(print 𝑓)
