@@ -26,6 +26,7 @@
 
 (setq double   (lambda (x) (* 2 x)))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
+(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -83,3 +84,9 @@
         (lambda (x) :REPLACED)
         '(1 (2 3) (4 5 6)))) ;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(print (transform!
+        (lambda (x) (and (symbol? x) (bound? x)))
+        (lambda (x) (eval x))
+        '(cons (1 x))))
