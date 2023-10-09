@@ -87,7 +87,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(else_branch, "else");
 #endif
 
-  REQUIRE(env, args, !NILP(CDR(args)), "if requires at least 2 args");
+  REQUIRE(env, args, LENGTH(args) >= 2, "if requires at least 2 args");
 
   bool cond_result = ! NILP(EVAL(env, if_cond));
 
@@ -128,7 +128,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(then_branch, "then");
 #endif
 
-  REQUIRE(env, args, !NILP(CDR(args)), "when requires at least 2 args");
+  REQUIRE(env, args, LENGTH(args) >= 2, "when requires at least 2 args");
 
   bool cond_result = ! NILP(EVAL(env, when_cond));
 
@@ -167,7 +167,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(or_branch,     "or");
 #endif
 
-  REQUIRE(env, args, !NILP(CDR(args)), "or requires 2 args");
+  REQUIRE(env, args, LENGTH(args) == 2, "or requires 2 args");
  
   ae_obj_t * either_result = EVAL(env, either_branch);
 
@@ -208,7 +208,7 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(and_that_branch, "and_that");
 #endif
 
-  REQUIRE(env, args, !NILP(CDR(args)), "and requires 2 args");
+  REQUIRE(env, args, LENGTH(args) == 2, "and requires 2 args");
  
   ae_obj_t * this_result = EVAL(env, this_branch);
   

@@ -880,7 +880,7 @@ void core_cmp(void) {
   T(NILP (ae_core_lte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)))))));
 }
 
-void core_msleep(void) {
+void core_sleep(void) {
   SETUP_TEST;
   obj env    = ENV_NEW_ROOT();
 
@@ -890,13 +890,13 @@ void core_msleep(void) {
   obj add    = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
   obj incr2  = CONS(SYM("setq"),   CONS(SYM("xx"), add));
   obj print  = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
-  obj msleep = CONS(SYM("msleep"),  CONS(NEW_INT(100), NIL));
+  obj sleep = CONS(SYM("sleep"),  CONS(NEW_INT(100), NIL));
 
   EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
 
   for (int ix = 0; ix < 6; ix++) {
     expr            = CONS(incr2, expr);
-    expr            = CONS(msleep, expr);
+    expr            = CONS(sleep, expr);
     expr            = CONS(print, expr);
   }
 
@@ -1296,7 +1296,7 @@ void tailp(void) {
   DO(core_print_princ_write)                                                                       \
   DO(core_math)                                                                                    \
   DO(core_cmp)                                                                                     \
-  DO(core_msleep)                                                                                  \
+  DO(core_sleep)                                                                                   \
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
   DO(deloc)                                                                                        \
