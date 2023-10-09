@@ -63,6 +63,8 @@
 ;;  (memo-fib 30))
 ;; (print (- (time) now))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
  (lambda (n) 
   (let* ((nth 30)
@@ -74,8 +76,6 @@
                            (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
                                           (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq prefetch
  (lambda (expr)
@@ -94,6 +94,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq *memo* '((2 . 1) (1 . 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq describe-elapsed
+ (lambda (elapsed repetitions)
+  (princ "total ms: ")
+  (princ elapsed) (nl)
+  (princ "total s: ")
+  (princ (/ elapsed 1000)) (nl)
+  (princ "each ms: ")
+  (princ (/ elapsed 1000 repetitions)) (nl)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq bench
  (lambda (repetitions qexpr)
   (let ((before (time)))
@@ -102,34 +111,25 @@
    (- (time) before))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq repetitions 10)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq before (time))
 (repeat repetitions
  (memo-fib 30))
 (setq after (time))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(princ "total us: ")
-(princ (- after before)) (nl)
-(princ "total ms: ")
-(princ (/ (- after before) 1000)) (nl)
-(princ "each ms: ")
-(princ (/ (- after before) 1000 repetitions)) (nl)
+(describe-elapsed (- after before) repetitions)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq elapsed (bench repetitions '(memo-fib 30)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(princ "total us: ")
-(princ elapsed) (nl)
-(princ "total ms: ")
-(princ (/ elapsed 1000)) (nl)
-(princ "each ms: ")
-(princ (/ elapsed 1000 repetitions)) (nl)
+(describe-elapsed elapsed repetitions)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq elapsed (bench repetitions '(prefetch-fib 30)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(princ "total us: ")
-(princ elapsed) (nl)
-(princ "total ms: ")
-(princ (/ elapsed 1000)) (nl)
-(princ "each ms: ")
-(princ (/ elapsed 1000 repetitions)) (nl)
+(describe-elapsed elapsed repetitions)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq elapsed (bench repetitions '(sleep 1000)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(describe-elapsed elapsed repetitions)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
