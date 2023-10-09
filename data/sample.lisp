@@ -75,6 +75,25 @@
                                           (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq prefetch
+ (lambda (expr)
+  (eval
+   (transform! expr
+    (lambda (x) (and (symbol? x) (bound? x)))
+    (lambda (x) (eval x))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq prefetch-fib (prefetch
+  '(lambda (nth)
+    (let  ((memoized (aget *memo* nth))
+           (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+     (or memoized
+      (memoize  nth (+ (prefetch-fib (- nth 1))
+                       (prefetch-fib (- nth 2)))))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq *memo* '((2 . 1) (1 . 1)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq bench
  (lambda (repetitions qexpr)
   (let ((before (time)))
@@ -104,7 +123,7 @@
 (princ "each ms: ")
 (princ (/ elapsed 1000 repetitions)) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq elapsed (bench repetitions '(memo-fib 30)))
+(setq elapsed (bench repetitions '(prefetch-fib 30)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (princ "total us: ")
 (princ elapsed) (nl)
