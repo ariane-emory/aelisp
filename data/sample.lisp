@@ -110,9 +110,10 @@ lisp-indent-function
 ;; (print (fib 30))
 
 (setq prefetch (lambda (expr) 
-                 (eval (transform! (lambda (x) (and (symbol? x) (bound? x)))
-                             (lambda (x) (eval x))
-                             expr))))
+                 (eval (transform!
+                        (lambda (x) (and (symbol? x) (bound? x)))
+                        (lambda (x) (eval x))
+                        expr))))
 
 (setq double (prefetch '(lambda (x) (* 2 x))))
 (print (double 333))
