@@ -112,27 +112,69 @@
              (transform! pred fun tail)))))
     obj))
 
+(setq transform!
+  (lambda (pred fun obj)
+    (if (not (eq :CONS (type obj)))
+        (error "obj must be a list")
+        (let ((head (car obj))
+              (tail (cdr obj)))
+          ;; Check and potentially transform the head
+          (cond
+            ((pred head) (rplaca obj (fun head)))
+            ((eq :CONS (type head)) (transform! pred fun head)))
+
+          ;; Check and potentially transform the tail
+          (cond
+            ((pred tail)
+             (if (eq :CONS (type obj))
+                 (rplacd obj (fun tail))
+                 (setf obj (fun tail))))
+            ((eq :CONS (type tail))
+             (transform! pred fun tail)))))
+    obj))
+
+(setq transform!
+  (lambda (pred fun obj)
+    (if (not (eq :CONS (type obj)))
+        (error "obj must be a list")
+      (let ((head (car obj))
+            (tail (cdr obj)))
+        ;; Check and potentially transform the head
+        (cond
+          ((pred head) (rplaca obj (fun head)))
+          ((eq :CONS (type head)) (transform! pred fun head)))
+
+        ;; Check and potentially transform the tail
+        (cond
+          ((pred tail) 
+           ;; Don't directly update obj, just rplacd or rplaca
+           (if (eq :CONS (type obj))
+               (rplacd obj (fun tail))))
+          ((eq :CONS (type tail))
+           (transform! pred fun tail)))))
+    obj))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq l '(2 (4 8)))
 (transform! integer? double l)
-(print l) ;; sucessfully prints (4 (8 16)).
+(print l) ;; case 1: sucessfully prints (4 (8 16)).
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq l (transform! integer? double '(2 (4 8))))
-(print l) ;; successfully prints (4 (8 16)).
+(print l) ;; case 2: successfully prints (4 (8 16)).
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq l '(2 (4 . a)))
 (transform! (lambda (obj) (eq :INTEGER (type obj))) (lambda (num) (* 2 num)) l)
-(print l) ;; successdully prints (4 (8 . a))
+(print l) ;; case 3: successdully prints (4 (8 . a))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq l (transform! integer? double '(2 (4 . 8))))
-(print l) ;; successfully prints (4 (8 . 16))!
+(print l) ;; case 5: successfully prints (4 (8 . 16))!
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -145,5 +187,13 @@
 (print (transform!
         (lambda (x) (and (proper? x) (eql (length (car x)) 2)))
         (lambda (x) :REPLACED)
-        '(1 (2 3) (4 5 6)))) ;; prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
+        '(1 (2 3) (4 5 6)))) ;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
 
+(4 (8 16))
+(4 (8 16))
+(4 (8 . a))
+(4 (8 . 16))
+CORE<error> returned an error: ERROR<obj must be a list>
+CORE<if*> returned an error: ERROR<obj must be a list>
+2
+(1 . :REPLACED)

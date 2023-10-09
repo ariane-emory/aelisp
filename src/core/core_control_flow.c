@@ -12,8 +12,8 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
 
   FOR_EACH(elem, args) {
     ret = EVAL(env, elem);
-    /* if (ERRORP(ret)) */
-    /*   break; */
+    if (ERRORP(ret))
+      break;
   }
 
   CORE_RETURN("progn", ret);
@@ -80,7 +80,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   if (cond_result) {
 
 #ifdef AE_LOG_CORE
-    SLOG("chose then");
+    LOG(then_branch, "chose then");
 #endif
 
     CORE_RETURN("if", ae_eval(env, then_branch));
@@ -88,7 +88,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
   else {
 
 #ifdef AE_LOG_CORE
-    SLOG("chose else");
+    LOG(else_branch, "chose else");
 #endif
 
     CORE_RETURN("if", ae_core_progn(env, else_branch));
@@ -121,7 +121,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args) {
   if (cond_result) {
 
 #ifdef AE_LOG_CORE
-    SLOG("chose when");
+    LOG(then_branch, "chose then");
 #endif
 
     CORE_RETURN("when", ae_core_progn(env, then_branch));
@@ -160,7 +160,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
   if (! NILP(either_result)) {
 
 #ifdef AE_LOG_CORE
-    SLOG("chose either");
+    LOG(either_branch, "chose either");
 #endif
 
     CORE_RETURN("or", either_result);
@@ -168,7 +168,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
   else {
 
 #ifdef AE_LOG_CORE
-    SLOG("chose or");
+    LOG(or_branch, "chose or");
 #endif
 
     CORE_RETURN("or", ae_eval(env, or_branch));
