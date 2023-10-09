@@ -96,3 +96,13 @@
 (setq double (prefetch '(lambda (x) (* 2 x))))
 (print (double 333))
 
+
+(setq *memo* '((2 . 1) (1 . 1)))
+;; (setq memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+
+;; (setq double (prefetch '(lambda (x) (* 2 x))))
+
+;; (print (double 333))
+;; (memoize :foo :bar)
+;; (print *memo*)
+
