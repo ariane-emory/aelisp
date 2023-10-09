@@ -81,11 +81,27 @@
  (memo-fib 30))
 (setq after (time))
 
+(setq bench
+ (lambda (repetitions qexpr)
+  (let ((before (time)))
+   (repeat repetitions 
+    (eval expr))
+  (- (time) before))))
+
 (princ "total us: ")
 (princ (- after before)) (nl)
 (princ "total ms: ")
 (princ (/ (- after before) 1000)) (nl)
 (princ "each ms: ")
 (princ (/ (- after before) 1000 repetitions)) (nl)
+
+(setq elapsed (bench 1000 '(memo-fib 30)))
+
+(princ "total us: ")
+(princ elapsed) (nl)
+(princ "total ms: ")
+(princ (/ elapsed 1000)) (nl)
+(princ "each ms: ")
+(princ (/ elapsed 1000 repetitions)) (nl)
 
 
