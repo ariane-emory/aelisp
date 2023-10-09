@@ -5,7 +5,7 @@ TEST_SRCS    = $(shell find test -name "*.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
-POOL_SIZE   := $(shell echo "$$(( 1 << 13 ))" )
+POOL_SIZE   := $(shell echo "$$(( 1 << 16))" )
 
 COMMON_CFLAGS = \
 	$(INCLUDE_DIRS) \

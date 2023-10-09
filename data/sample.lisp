@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; -*-lisp-indent-function: 1; -*-
+;; -*- lisp-indent-function: (put 'setq 'lisp-indent-function 1); -*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -26,7 +26,7 @@
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+lisp-indent-function
 (setq transform!
       (lambda (pred fun obj)
         (if (not (eq :CONS (type obj)))
@@ -95,19 +95,25 @@
        (transform!
         (lambda (x) (and (symbol? x) (bound? x)))
         (lambda (x) (eval x))
-        '(lambda (x)
-          (let  ((memoized (aget *memo*  𝑥)))
+        '(lambda (z)
+          (let  ((memoized (aget *memo*  z)))
             (∨    memoized
-                  (memoize  𝑥 (+ (fib (- 𝑥 1))
-                                 (fib (- 𝑥 2))))))))))
+                  (memoize  𝑥 (+ (fib (- z 1))
+                                 (fib (- z 2))))))))))
 
-(setq *memo* '((2 . 1) (1 . 1)))
+;; (setq *memo* '((2 . 1) (1 . 1)))
 
-(print prefetched)
-;;(setq fib (eval prefetched))
-;;(print fib)
-;; (stop)
-(print (fib 30))
+;; (print prefetched)
+;; ;;(setq fib (eval prefetched))
+;; ;;(print fib)
+;; ;; (stop)
+;; (print (fib 30))
 
+(setq prefetch (lambda (expr) 
+                 (eval (transform! (lambda (x) (and (symbol? x) (bound? x)))
+                             (lambda (x) (eval x))
+                             expr))))
 
+(setq double (prefetch '(lambda (x) (* 2 x))))
+(print (double 333))
 
