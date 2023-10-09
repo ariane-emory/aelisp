@@ -102,6 +102,8 @@
 (setq *memo* '((2 . 1) (1 . 1)))
 (setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
 (print memoize)
+(memoize 4 9)
+(print *memo*)
 
 (stop)
  (print (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
