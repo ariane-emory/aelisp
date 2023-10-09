@@ -92,24 +92,27 @@
 ;;         (lambda (x) (eval x))
 ;;         '(cons (1 x))))
 
-(setq prefetched
-      (transform!
-       (lambda (x) (and (symbol? x) (bound? x)))
-       (lambda (x) (eval x))
-       '(let* ((𝑛 30)
-               (*memo* '((2 . 1) (1 . 1)))
-               (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-               (fib       (lambda (𝑥)
-                          (let  ((memoized (aget *memo*  𝑥)))
-                            (∨    memoized
-                                  (memoize  𝑥 (+ (fib (- 𝑥 1))
-                                                 (fib (- 𝑥 2)))))))))
-         (fib 𝑛))))
+(setq memoize (lambda (k v)
+                (cdr (car (setq *memo* (aset *memo* k v))))))
+
+(setq fib
+      (eval 
+       (transform!
+        (lambda (x) (and (symbol? x) (bound? x)))
+        (lambda (x) (eval x))
+        '(lambda (x)
+          (let  ((memoized (aget *memo*  𝑥)))
+            (∨    memoized
+                  (memoize  𝑥 (+ (fib (- 𝑥 1))
+                                 (fib (- 𝑥 2))))))))))
+
+(setq *memo* '((2 . 1) (1 . 1)))
 
 (print prefetched)
-(stop))
-(setq fib (eval prefetche))
-(nl)
-(nl)
-(print (eval fib))
+;;(setq fib (eval prefetched))
+;;(print fib)
+;; (stop)
+(print (fib 30))
+
+
 

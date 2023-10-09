@@ -14,6 +14,8 @@ COMMON_CFLAGS = \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=$(POOL_SIZE) \
 	-DAE_DEBUG_OBJ \
+	-DAE_LOG_CORE \
+	-DAE_LOG_EVAL \
 
 UNUSED_CFLAGS = \
 	-DAE_LOG_CORE \
