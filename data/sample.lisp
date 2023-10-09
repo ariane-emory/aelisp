@@ -1,22 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (when nil
-;;   (let* ((𝑛 30)
-;;          (∨ ∨)
-;;          (*memo* '((2 . 1) (1 . 1)))
-;;          (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-;;          (fib       (lambda (𝑥)
-;;                     (let  ((memoized (aget *memo*  𝑥)))
-;;                       (∨    memoized
-;;                             (memoize  𝑥 (+ (fib (- 𝑥 1))
-;;                                            (fib (- 𝑥 2)))))))))
-;;     (fib 𝑛)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq integer? (lambda (x) (eq :INTEGER (type x))))
-;; (setq cons?    (lambda (x) (eq :CONS    (type x))))
-;; (setq stop     (lambda ()  (exit 0)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
   (if (not (eq :CONS (type expr)))
@@ -58,35 +42,6 @@
 ;;         (lambda (x) :REPLACED)
 ;;         '(1 (2 3) (4 5 6)))) ;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (print (transform!
-;;         (lambda (x) (and (symbol? x) (bound? x)))
-;;         (lambda (x) (eval x))
-;;         '(cons (1 x))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq prefetch
-;;  (lambda (expr)
-;;   (eval
-;;    (transform! expr
-;;     (lambda (x) (and (symbol? x) (bound? x)))
-;;     (lambda (x) (eval x))))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq fib (prefetch
-;;   '(lambda (nth)
-;;     (let  ((memoized (aget *memo* nth))
-;;            (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
-;;      (or memoized
-;;       (memoize  nth (+ (fib (- nth 1))
-;;                      (fib (- nth 2)))))))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq *memo* '((2 . 1) (1 . 1)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq now (time))
-;; (fib 30)
-;; (print (- (time) now))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq now (time))
 (setq memo-fib
  (lambda ()
   (let*
@@ -99,6 +54,8 @@
                       (memoize  𝑥 (+ (fib (- 𝑥 1))
                                      (fib (- 𝑥 2)))))))))
   (fib 𝑛))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq now (time))
 (memo-fib)
 (print (- (time) now))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
