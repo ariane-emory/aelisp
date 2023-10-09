@@ -26,24 +26,24 @@
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-lisp-indent-function
+
 (setq transform!
-      (lambda (pred fun obj)
-        (if (not (eq :CONS (type obj)))
-            (error "obj must be a list")
+      (lambda (expr pred fun)
+        (if (not (eq :CONS (type expr)))
+            (error "expr must be a list")
             (cond
-              ((pred obj) (setf obj (fun obj)))
-              ((eq :CONS (type obj))
-               (let ((head (car obj))
-                     (tail (cdr obj)))
+              ((pred expr) (setf expr (fun expr)))
+              ((eq :CONS (type expr))
+               (let ((head (car expr))
+                     (tail (cdr expr)))
                  (cond
-                   ((pred head) (rplaca obj (fun head)))
-                   ((eq :CONS (type head))  (transform! pred fun head)))
+                   ((pred head) (rplaca expr (fun head)))
+                   ((eq :CONS (type head))  (transform! head pred fun)))
                  (cond
-                   ((pred tail) (rplacd obj (fun tail)))
-                   ((eq :CONS (type tail))  (rplacd obj (transform! pred fun tail))))))
-              (t obj))
-            obj)))
+                   ((pred tail) (rplacd expr (fun tail)))
+                   ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
+              (t expr))
+            expr)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -90,30 +90,11 @@ lisp-indent-function
 (setq memoize (lambda (k v)
                 (cdr (car (setq *memo* (aset *memo* k v))))))
 
-(setq fib
-      (eval 
-       (transform!
-        (lambda (x) (and (symbol? x) (bound? x)))
-        (lambda (x) (eval x))
-        '(lambda (z)
-          (let  ((memoized (aget *memo*  z)))
-            (∨    memoized
-                  (memoize  𝑥 (+ (fib (- z 1))
-                                 (fib (- z 2))))))))))
-
-;; (setq *memo* '((2 . 1) (1 . 1)))
-
-;; (print prefetched)
-;; ;;(setq fib (eval prefetched))
-;; ;;(print fib)
-;; ;; (stop)
-;; (print (fib 30))
 
 (setq prefetch (lambda (expr) 
-                 (eval (transform!
+                 (eval (transform! expr
                         (lambda (x) (and (symbol? x) (bound? x)))
-                        (lambda (x) (eval x))
-                        expr))))
+                        (lambda (x) (eval x))))))
 
 (setq double (prefetch '(lambda (x) (* 2 x))))
 (print (double 333))
