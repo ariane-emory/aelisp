@@ -7,24 +7,24 @@
 (setq double (lambda (x) (* 2 x)))
 (setq stop     (lambda ()  (exit 0)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq transform!
-;;  (lambda (expr pred fun)
-;;   (if (not (eq :CONS (type expr)))
-;;    (error "expr must be a list")
-;;    (cond
-;;     ((pred expr) (setf expr (fun expr)))
-;;     ((eq :CONS (type expr))
-;;      (let ((head (car expr))
-;;            (tail (cdr expr)))
-;;       (cond
-;;        ((pred head) (rplaca expr (fun head)))
-;;        ((eq :CONS (type head))  (transform! head pred fun)))
-;;       (cond
-;;        ((pred tail) (rplacd expr (fun tail)))
-;;        ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
-;;     (t expr))
-;;    expr)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq transform!
+ (lambda (expr pred fun)
+  (if (not (eq :CONS (type expr)))
+   (error "expr must be a list")
+   (cond
+    ((pred expr) (setf expr (fun expr)))
+    ((eq :CONS (type expr))
+     (let ((head (car expr))
+           (tail (cdr expr)))
+      (cond
+       ((pred head) (rplaca expr (fun head)))
+       ((eq :CONS (type head))  (transform! head pred fun)))
+      (cond
+       ((pred tail) (rplacd expr (fun tail)))
+       ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
+    (t expr))
+   expr)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq l '(2 (4 8)))
 ;; (transform! l integer? double)
 ;; (print l) ;; case 1: sucessfully prints (4 (8 16)).
@@ -55,39 +55,39 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq memo-fib
- (lambda (n) 
-  (let* ((nth 30)
-         (*memo* '((2 . 1) (1 . 1)))
-         (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-         (memo-fib       (lambda (𝑥)
-                          (let ((memoized (aget *memo*  𝑥)))
-                           (or memoized
-                              (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
-                                             (memo-fib (- 𝑥 2)))))))))
-   (memo-fib nth))))
+;; (setq memo-fib
+;;  (lambda (n) 
+;;   (let* ((nth 30)
+;;          (*memo* '((2 . 1) (1 . 1)))
+;;          (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+;;          (memo-fib       (lambda (𝑥)
+;;                           (let ((memoized (aget *memo*  𝑥)))
+;;                            (or memoized
+;;                               (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
+;;                                              (memo-fib (- 𝑥 2)))))))))
+;;    (memo-fib nth))))
 
-(memo-fib 30)
+;; (memo-fib 30)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq prefetch
-;;  (lambda (expr)
-;;   (eval
-;;    (transform! expr
-;;     (lambda (x) (and (symbol? x) (bound? x)))
-;;     (lambda (x) (eval x))))))
+(setq prefetch
+ (lambda (expr)
+  (eval
+   (transform! expr
+    (lambda (x) (and (symbol? x) (bound? x)))
+    (lambda (x) (eval x))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq prefetch-fib (prefetch
-;;                     '(lambda (nth)
-;;                       (let  ((memoized (aget *memo* nth))
-;;                              (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
-;;                        (or memoized
-;;                         (memoize  nth (+ (prefetch-fib (- nth 1))
-;;                                          (prefetch-fib (- nth 2)))))))))
+ (setq prefetch-fib (prefetch
+                     '(lambda (nth)
+                       (let  ((memoized (aget *memo* nth))
+                              (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+                        (or memoized
+                         (memoize  nth (+ (prefetch-fib (- nth 1))
+                                          (prefetch-fib (- nth 2)))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq *memo* '((2 . 1) (1 . 1)))
+(setq *memo* '((2 . 1) (1 . 1)))
 
-
+(prefetch-fib 30)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq describe-elapsed
