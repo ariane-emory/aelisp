@@ -66,10 +66,11 @@
 (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq prefetch
- (lambda (expr) 
-  (transform! expr
-   (lambda (x) (and (symbol? x) (bound? x)))
-   (lambda (x) (eval x)))))
+ (lambda (expr)
+  (eval
+   (transform! expr
+    (lambda (x) (and (symbol? x) (bound? x)))
+    (lambda (x) (eval x))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq  fib-expr
  (prefetch
@@ -82,5 +83,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq *memo* '((2 . 1) (1 . 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq fib (eval fib-expr))
+(setq fib fib-expr)
 (print (fib 30))
