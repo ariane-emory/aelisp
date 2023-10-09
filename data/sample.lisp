@@ -76,11 +76,11 @@
    (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq before (time))
-(repeat 500
+(repeat 10
  (memo-fib 30))
 (setq after (time))
 
 (print (- after before))
-(print (/ (- after before) 100))
+(print (/ (- after before) 1000))
 
 
