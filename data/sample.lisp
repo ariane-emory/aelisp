@@ -102,9 +102,9 @@
     (setq ctr (+ 1 ctr))
     (let ((bef (time)))
      (eval qexpr)
-     (setq total (+ total (- (time) bef)))))
+     (setq total (+ total (- (time) bef))))
      (when (== 0 (% ctr 10))
-      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ total) (princ " ms so far."))
+      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ total) (princ " ms so far.")))
    total)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq repetitions 1000)
