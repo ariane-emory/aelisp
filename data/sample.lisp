@@ -75,13 +75,17 @@
                                           (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq repetitions 10)
+(setq repetitions 100)
 (setq before (time))
 (repeat repetitions
  (memo-fib 30))
 (setq after (time))
 
+(print "total us:")
 (print (- after before))
+(print "total ms:")
 (print (/ (- after before) 1000))
+(print "each ms:")
+(print (/ (- after before) 1000 repetitions))
 
 
