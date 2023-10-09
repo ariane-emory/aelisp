@@ -251,13 +251,13 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   return clone;
 }
 
-#define METADATA_TYPE                       typeof(((ae_obj_t *)NULL)->metadata)
-#define METADATA_SIZE                       (sizeof(((ae_obj_t *)NULL)->metadata))
-#define METADATA_CAST(x)                    ((METADATA_TYPE)(x))
+#define METADATA_TYPE                        typeof(((ae_obj_t *)NULL)->metadata)
+#define METADATA_SIZE                        sizeof(((ae_obj_t *)NULL)->metadata)
+#define METADATA_CAST(x)                     ((METADATA_TYPE)(x))
 
-#define MASK(size, shift)                   (METADATA_CAST(((1 << (size)) - 1) << (shift)))
-#define GET_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift)))
-#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | (METADATA_CAST((value) << (shift)))
+#define MASK(size, shift)                    (METADATA_CAST(((1 << (size)) - 1) << (shift)))
+#define FROM_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift)))
+#define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST((value) << (shift)))
 
 
 #define AE_TYPE_BITS    6
@@ -286,7 +286,7 @@ void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
   printf("mask is  %008X, shift is %008X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
 #endif
   
-  bool old_deloc   = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
+  bool old_deloc   = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
   this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
   
 #ifdef AE_LOG_METADATA
@@ -306,7 +306,7 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
   if (! this)
     return AE_INVALID;
   
-  ae_type_t type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
+  ae_type_t type = FROM_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
   // PR("While getting type, metadata was 0x%08X, type is %d.\n", this->metadata, type);
@@ -327,7 +327,7 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
 void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
   assert(this);
   
-  ae_type_t old_type = GET_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
+  ae_type_t old_type = FROM_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
   this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
 #ifdef AE_LOG_METADATA
@@ -347,7 +347,7 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
 char ae_obj_get_foo(const ae_obj_t * const this) {
   assert(this);
   
-  char foo = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
+  char foo = FROM_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA
   //PR("While getting foo, metadata was 0x%08X, foo is '%c' (%d).\n", this->metadata, foo, foo);
@@ -365,7 +365,7 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
 void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   assert(this);
   
-  char old_foo   = GET_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
+  char old_foo   = FROM_MASKED(char, this->metadata, AE_FOO_MASK, AE_FOO_SHIFT);
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
@@ -380,7 +380,7 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 bool ae_obj_delocalizedp(const ae_obj_t * const this) {
   assert(this);
   
-  bool deloc = GET_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
+  bool deloc = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
 
 #ifdef AE_LOG_METADATA
   PR("While getting deloc of %016p, metadata was 0x%08X, deloc is %d.\n", this->metadata, deloc);
