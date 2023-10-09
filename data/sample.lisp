@@ -101,15 +101,13 @@
 
 (setq memoize-expr(prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
 (setq memoize (eval memoize-expr))
-(print memoize)
-(print memoize-expr)
+;; (print memoize)
+;; (print memoize-expr)
 (setq *memo* '((2 . 1) (1 . 1)))
 (memoize 4 9)
 (print *memo*)
 
 (stop)
- (print (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
- (memoize 111 222)
                                         ;(print *memo*)
  ;; (setq double (prefetch '(lambda (x) (* 2 x))))
 
