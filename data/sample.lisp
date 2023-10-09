@@ -63,17 +63,17 @@
 ;;  (memo-fib 30))
 ;; (print (- (time) now))
 
-(setq fib
+(setq memo-fib
  (lambda (n) 
   (let* ((nth 30)
          (*memo* '((2 . 1) (1 . 1)))
          (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-         (fib       (lambda (𝑥)
+         (memo-fib       (lambda (𝑥)
                      (let ((memoized (aget *memo*  𝑥)))
                       (∨    memoized
-                           (memoize  𝑥 (+ (fib (- 𝑥 1))
-                                          (fib (- 𝑥 2)))))))))
-   (fib nth))))
+                           (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
+                                          (memo-fib (- 𝑥 2)))))))))
+   (memo-fib nth))))
 
-(print (fib 30))
+(print (memo-fib 30))
 
