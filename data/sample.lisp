@@ -75,8 +75,9 @@
                                           (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq repetitions 10)
 (setq before (time))
-(repeat 10
+(repeat repetitions
  (memo-fib 30))
 (setq after (time))
 
