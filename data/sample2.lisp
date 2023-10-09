@@ -1,455 +1,60 @@
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; 'standard library', such as it is:                        ;)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq eq?        eq                                           )
-;; (setq eql?       eql                                          )
-;; (setq tail?      tailp                                        )
-;; (setq proper?    properp                                      )
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq stop      (lambda ()         (nl)    (exit         0  )))
-;; (setq sleep     (lambda (s)        (msleep (* 1000       s ))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq improper? (lambda (o)        (not    (proper?      o )))) ;; this also needs to check if it's arg is tail?.
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq type?     (lambda (t o)      (eq?      t     (type o ))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq atom?     (lambda (o)   (not (type?   :CONS        o ))))
-;; (setq char?     (lambda (o)        (type?   :CHAR        o  )))
-;; (setq cons?     (lambda (o)        (type?   :CONS        o  )))
-;; (setq core?     (lambda (o)        (type?   :CORE        o  )))
-;; (setq env?      (lambda (o)        (type?   :ENV         o  )))
-;; (setq error?    (lambda (o)        (type?   :ERROR       o  )))
-;; (setq float?    (lambda (o)        (type?   :FLOAT       o  )))
-;; (setq integer?  (lambda (o)        (type?   :INTEGER     o  )))
-;; (setq lambda?   (lambda (o)        (type?   :LAMBDA      o  )))
-;; (setq macro?    (lambda (o)        (type?   :MACRO       o  )))
-;; (setq rational? (lambda (o)        (type?   :RATIONAL    o  )))
-;; (setq string?   (lambda (o)        (type?   :STRING      o  )))
-;; (setq symbol?   (lambda (o)        (type?   :SYMBOL      o  )))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(   setq cadr      (lambda (x)        (car (cdr x)))             )
-;; (setq cdar      (lambda (x)        (cdr (car x)))             )
-;; (setq cddr      (lambda (x)        (cdr (cdr x)))             )
-;; (setq caar      (lambda (x)        (car (car x)))             )
-;; (setq caaar     (lambda (x)   (car (car (car x))))            )
-;; (setq caadr     (lambda (x)   (car (car (cdr x))))            )
-;; (setq cadar     (lambda (x)   (car (cdr (car x))))            )
-;; (setq caddr     (lambda (x)   (car (cdr (cdr x))))            )
-;; (setq cdaar     (lambda (x)   (cdr (car (car x))))            )
-;; (setq cdadr     (lambda (x)   (cdr (car (cdr x))))            )
-;; (setq cddar     (lambda (x)   (cdr (cdr (car x))))            )
-;; (setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))            )
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; Local functions                                           ;)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq log                                                    ;)
-;;   (lambda (string obj)                                       ;)
-;;     (princ string)                                           ;)
-;;     (princ " ")                                              ;)
-;;     (princ obj)                                              ;)
-;;     (nl)))                                                   ;)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (setq mapcar (lambda (fun lst)                               ;)
-;;   (if (nil? lst)                                             ;)
-;;     nil                                                      ;)
-;;     (cons (fun (car lst)) (mapcar fun (cdr lst))))))         ;)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; essentials:
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; (setq list   (lambda (h . t)    (cons    h            t  )))
-;; (setq list      (lambda  args       args                     ))
-;; (setq quote     (macro  (x)         x                        ))
-;; (setq nil?      (lambda (o)        (eq      nil          o  )))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-
-;; ;; (exit)
-
-;; (set 'scoped-setq-test
-;;   (lambda (x)
-;;     (setq *q* x)))
-
-
-;; (setq cond-test
-;;   (lambda (x)
-;;     (print (cond
-;;              ((>= x 100) :BIG)
-;;              ((>= x  50) :MEDIUM)
-;;              (t          :SMALL)))))
-
-;;(print (eval expr))
-
-;; (scoped-setq-test 200)
-;; (cond-test *q*)
-
-;; (scoped-setq-test  75)
-;; (cond-test *q*)
-
-;; (scoped-setq-test  25)
-;; (cond-test *q*)
-
-;; (let ( (double (lambda (z) (* 2 z)))
-;;        (x 1)
-;;        (y 2))
-;;   (print (double x))
-;;   (print (double y))
-;;   (print (double (+ (double x) y))))
-
-;; (nl) (nl) (princ "syms: ") (princ (syms (env)))
-;; (nl) (nl) (princ "vals: ") (princ (vals (env)))
-
-(setq normal-fib (lambda (n)
-  (if (<= n 2)
-    1
-    (+ (fib (- n 1)) (fib (- n 2))))))
-
-(setq cond-fib (lambda (n)
-            (cond
-              ((<= n 2) 1)
-              (t (+ (fib (- n 1)) (fib (- n 2)))))))
-
-;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
-
-(setq memo-fib (lambda (n)
-                 (let ((memoized (pget *memo* n))
-                       (memoize  (lambda (k v) (car (cdr (setq *memo* (pset *memo* k v)))))))
-                   (cond
-                     (memoized  memoized)
-                     ((<= n 2)  1)
-                     (t (progn (memjoize n (+ (memo-fib (- n 1)) (memo-fib (- n 2))))))))))
-
-
-
-
-;; (setq *memo* '(2 1 1 1)
-
-(setq fib memo-fib)
-
-(let ((x 40))
-  (fib x))
-
-;; (princ "memo: ")
-;; (princ *memo*)
-
-
-
-
-
-
-;; (if (< 5 6)
-;;   (print "MATCHED")
-;;   (print "NO MATCH"))
- 
-;; (print )
-;; (+ 3 4)
-
-;; (cond ((< 5 6) (print "MATCHED"))
-;;       (t       (print "NO MATCH")))
-
-;; (if (> 5 6)
-;;   (print "MATCHED")
-;;   (print "ELSE BRANCH")
-;;   (print "NO MATCH"))
-
-;; (progn (print "HELLO WORLD"))
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Older stuff:
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; (list (quote (quote asd)) ''asd (quote 'asd) '(quote asd) q)
-
-;; (* 1 2 3 4 5 6 7 8)
-
-;; (setq 10+    (lambda (x) (+ 10 x)))                          ;)
-;; (setq result (mapcar 10+ '(1 2 3 4 5)))
-;; (put (car result))   (nl)
-;; (put (cadr result))  (nl)
-;; (put (caddr result)) (nl)
-;; (log "mapped: " (mapcar 10+ '(1 2 3 4 5)))                   ;)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;; ;; ;; (stop)
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; test some random stuff:                                   ;)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;; (log   "aenv:                       " (env                ))
-;; (log   "atype:                      " (type     (env     )))
-;; ; (log "aparent:                    " (parent   (env     )))
-;; (log   "asyms:                      " (syms     (env     )))
-;; (log   "avals:                      " (vals     (env     )))
-;; (nl)
-
-;; (log   "core lambda:                "  lambda              )
-;; (log   "type:                       " (type      lambda   ))
-;; (nl)
-
-;; (log   "lambda sleep:               "  sleep               )
-;; (log   "type:                       " (type      sleep    ))
-;; ; (log "parent:                     " (parent    sleep    ))
-;; (log   "params:                     " (params    sleep    ))
-;; (log   "body:                       " (body      sleep    ))
-;; (nl)
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (setq   x (quote (1 2 . nil)))
-
-;; (log   "(1 2 . nil) is proper:      " (properp   x        ))
-;; (log   "(1 2 . nil) length:         " (length    x        ))
-;; (log   "(1 2 . nil) length errors:  " (error?   (length x)))
-;; (log   "(1 2 . nil) is:             "  x                   )
-;; (log   "(car (1 2 . nil)) is:       " (car       x        ))
-;; (log   "(cdr (1 2 . nil)) is:       " (cdr       x        ))
-;; (nl)
-
-;; (setq   x (quote (1 2 . 333)))
-
-;; (log   "(1 2 . 333) is improper:    " (improper? x        ))
-;; (log   "(1 2 . 333) length:         " (length    x        ))
-;; (log   "(1 2 . 333) length errors:  " (error?   (length x)))
-;; (log   "(1 2 . 333) is:             "  x                   )
-;; (log   "(car (1 2 . 333)) is:       " (car       x        ))
-;; (log   "(cdr (1 2 . 333)) is:       " (cdr       x        ))
-;; (nl)
-
-;; (setq   x (quote (1 2 3 . nil)))
-
-;; (log   "(1 2 3 . nil) is proper:    " (properp   x        ))
-;; (log   "(1 2 3 . nil) length:       " (length    x        ))
-;; (log   "(1 2 3 . nil) length errors:" (error?   (length x)))
-;; (log   "(1 2 3 . nil) is:           "  x                   )
-;; (log   "(car (1 2 3 . nil)) is:     " (car       x        ))
-;; (log   "(cdr (1 2 3 . nil)) is:     " (cdr       x        ))
-;; (nl)
-
-;; (setq   x (quote (1 2 3 . 333)))
-
-;; (log   "(1 2 3 . 333) is improper:  " (improper? x        ))
-;; (log   "(1 2 3 . 333) length:       " (length    x        ))
-;; (log   "(1 2 3 . 333) length errors:" (error?   (length x)))
-;; (log   "(1 2 3 . 333) is:           "  x                   )
-;; (log   "(car (1 2 3 . 333)) is:     " (car x              ))
-;; (log   "(cdr (1 2 3 . 333)) is:     " (cdr x              ))
-;; (nl)
-
-;; (log   "int:                        " (type? :INTEGER    3))
-;; (log   "! int:                      " (type? :FLOAT      3))
-;; (log   "! float:                    " (type? :INTEGER  3.0))
-;; (log   "float:                      " (type? :FLOAT    3.0))
-;; (log   "float:                      " (type? :FLOAT    3. ))
-;; (log   "float:                      " (type? :FLOAT     .3))
-;; (log   "rational:                   " (type? :RATIONAL 3/4))
-;; (log   "string:                     " (type? :STRING   "3"))
-;; (nl)
-
-;; (setq qqq (lambda (x) x))
-
-;; (setq err (qqq (length '(1 2 . 333))))
-
-;; (nl)
-;; (log   "This error:                 "                                err)
-;; (log   "This error's message:       "                        (errmsg err))
-;; (log   "This error's obj:           "                        (errobj err))
-;; (log   "This error's debug obj:     "                        (dobj   err))
-;; (log   "This error's fun stack:     "                  (aget (errobj err) :fun))
-;; (log   "This lambda:                "            (cadr (aget (errobj err) :fun)))
-;; (log   "This lambda's env:          "       (env (cadr (aget (errobj err) :fun))))
-;; (log   "This lambda's env^2:        "  (env (env (cadr (aget (errobj err) :fun)))))
-
-;; (log   "This lambda's syms:         " (syms (env (cadr (aget (errobj err) 'fun)))))
-;; (log   "This lambda's vals:         " (vals (env (cadr (aget (errobj err) 'fun)))))
-
-;; ;; (nl)
-;; ;; ;; This a-set doesn't work correctly. Looking/setting up in wrong env maybe?
-;; ;; (setq   a-set
-;; ;;   (lambda (al key val)
-;; ;;     (setq al (aset (eval al) key val))))
-
-;; ;; (princ "a-setted:                    ") (write (a-set 'alist 'hair 'red))    (nl)
-;; ;; (log   "alist:                      "        alist )
-;; ;; (log   "thing:                      "   (car alist))
-;; ;; (rplaca (car alist) 'species)
-;; ;; (log   "alist after rplaca:         "        alist)
-;; ;; (nl)
-
-;; (setq xxx 777)
-;; ;;(setq yyy 888)
-
-;; ;;(stop)
-
-;; ;; (nl)
-;; ;; (setq q (macro (xxx yyy)   (list (quote +) xxx yyy)))
-;; ;; (princ  "One           ")  (princ q) (nl)
-;; ;; (princ  "One body      ")  (princ             (car (body q)))   (nl)
-;; ;; (princ  "One ev body   ")  (princ       (eval (car (body q))))  (nl)
-;; ;; (princ  "One ev ev body ") (princ (eval (eval (car (body q))))) (nl)
-
-;; ;; (nl)
-;; ;; (setq q (macro (xxx yyy)   (cons (quote +) (cons xxx (cons yyy nil)))))
-;; ;; (princ  "Two            ") (princ q) (nl)
-;; ;; (princ  "Two body       ") (princ             (car (body q)))   (nl)
-;; ;; (princ  "Two ev body    ") (princ       (eval (car (body q))))  (nl)
-;; ;; (princ  "Two ev ev body ") (princ (eval (eval (car (body q))))) (nl)
-
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; (stop)
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; ;; (setq test (lambda (first . rest)
-;; ;;              (princ "first:  ")  (write first)
-;; ;;              (princ " rest:   ") (write rest)
-;; ;;              first))
-
-;; ;; (test 1 2 3 4)
-
-;; ;; (nl)
-
-;; ;; (setq test (macro (first . rest)
-;; ;;              (princ "first:  ")  (write first)
-;; ;;              (princ " rest:   ") (write rest)
-;; ;;              first))
-
-;; ;; (write (test 1 2 3 4))
-;; ;; (nl)
-
-;; ;; (eval (test 1 2 3 4))
-
-;; ;; (princ "numer:               ") (princ (numer 3/4))        (nl)
-;; ;; (princ "denom:               ") (princ (denom 3/4))        (nl)
-;; ;; (nl)
-
-;; ;; (princ "BEFORE add") (nl)
-;; ;; (write (setq add (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
-;; ;; (princ "Params:              ") (write (params add))       (nl)
-;; ;; (princ "Body:                ") (write (body add))         (nl)
-;; ;; (princ "Expanded             ") (write (add 7 8))          (nl)
-;; ;; (princ "Evaled:              ") (write (eval (add 7 8)))   (nl)
-;; ;; (princ "AFTER") (nl)
-;; ;; (nl)
-
-;; ;; (princ "BEFORE defmacro") (nl)
-;; ;; ;;     (setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))
-;; ;; (write (setq defmacro (macro (name params body) (list (quote setq) name (list (quote macro) params body))))) (nl)
-;; ;; (princ "Params:              ") (write (params defmacro))                                                                                       (nl)
-;; ;; (princ "Body:                ") (write (body   defmacro))                                                                                       (nl)
-;; ;; (princ "Expanded             ") (write        (defmacro blam (x y) (list (+ x y))))                                                             (nl)
-;; ;; (princ "Evaled:              ") (write (eval  (defmacro blam (x y) (list (+ x y)))))                                                            (nl)
-;; ;; (princ "Set:                 ") (write                  blam)                                                                                   (nl)
-;; ;; (princ "Ev. params:          ") (write (params          blam))                                                                                  (nl)
-;; ;; (princ "Ev. body:            ") (write (body            blam))                                                                                  (nl)
-;; ;; (princ "2 Expanded           ") (write        (defmacro defun (name params body) (list (quote setq) name (list (quote lambda) params body))))   (nl)
-;; ;; (princ "2 Evaled:            ") (write (eval  (defmacro defun (name params body) (list (quote setq) name (list (quote lambda) params body)))))  (nl)
-;; ;; (princ "2 Set:               ") (write                  defun)                                                                                  (nl)
-;; ;; (princ "2 Ev. params:        ") (write (params          defun))                                                                                 (nl)
-;; ;; (princ "2 Ev. body  :        ") (write (body            defun))                                                                                 (nl)
-;; ;; ;(princ "3 Called:            ") (write (               (defun hello (str) (list (quote (print "Hello "))))))                                    (nl)
-;; ;; (princ "3 Called:            ") (write                  (defun x (y) (quote z) (quote y)))                                                      (nl)
-;; ;; (princ "AFTER") (nl)
-;; ;; (nl)
-
-;; ;; ;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
-
-;; ;; (stop)
-
-;; ;; (princ "BEFORE madd2") (nl)
-;; ;; (write (eval (defmacro madd (xxx yyy) (list (quote +) xxx yyy))))
-;; ;; (princ "Params: ") (write (params madd)) (nl)
-;; ;; (princ "Body:   ") (write (body madd)) (nl)
-;; ;; (princ "AFTER") (nl)
-;; ;; (nl)
-
-;; ;; (princ "BEFORE madd1") (nl)
-;; ;; (write (setq madd (macro (xxx yyy) (list (quote +) xxx yyy)))) (nl)
-;; ;; (princ "Params: ") (write (params madd)) (nl)
-;; ;; (princ "Body:   ") (write (body madd)) (nl)
-;; ;; (princ "AFTER") (nl)
-;; ;; (nl)
-
-;; ;; (princ "BEFORE defun") (nl)
-;; ;; (setq defun (macro (name params . body) (list (quote setq) name (list (quote lambda) params . body))))
-;; ;; (defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))
-;; ;; (write defun) (nl)
-;; ;; (princ "Params: ") (write (params defun)) (nl)
-;; ;; (princ "Body:   ");; =>  (write (body defun));; =>  (nl)
-;; ;; (princ "AFTER");; =>  ; (nl)
-;; ;; (nl)
-
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (print (error "fuck"))
-
-;; (setq rich-error (error "shit" '(:thing  "boop")))
-
-;; (print rich-error)
-
-;; (print (errobj rich-error))
-
-;; (print rich-error)
-
-;; (print (errobj rich-error))
-
-;; ;; old version
-;; (setq transform!
-;;       (lambda (pred fun obj)
-;;         (if (not (eq :CONS (type obj))) 
-;;             (if (pred obj) 
-;;                 (setf obj (fun obj)))
-;;             (let ((head (car obj))
-;;                   (tail (cdr obj)))
-;;               (cond 
-;;                 ((nil? obj) obj)
-;;                 ((pred head)
-;;                  (rplaca obj (fun head)))
-;;                 ((eq :CONS (type head))
-;;                  (transform! pred fun head)))
-;;               (if tail
-;;                   (rplacd obj (transform! pred fun tail)))
-;;               (if (and (not (eq :CONS (type tail))) (pred tail))
-;;                   (rplacd obj (fun tail)))))
-;;         obj))
-
-;; ;; verbose version
-;; (setq transform!
-;;       (lambda (pred fun obj)
-;;         (let ((process-cons
-;;                 (lambda (obj)
-;;                   (let ((head (car obj))
-;;                         (tail (cdr obj)))
-;;                     (when (pred head)
-;;                       (rplaca obj (fun head)))
-;;                     (when (eq :CONS (type head))
-;;                       (transform! pred fun head))
-;;                     (when tail
-;;                       (rplacd obj (transform! pred fun tail)))
-;;                     (when (and (not (eq :CONS (type tail))) (pred tail))
-;;                       (rplacd obj (fun tail)))))))
-;;           (cond 
-;;             ((and (not (eq :CONS (type obj))) (pred obj))
-;;              (setf obj (fun obj)))
-;;             ((eq :CONS (type obj))
-;;              (process-cons obj)))
-;;           obj)))
-
-;; ;; short version
-;; (setq transform!
-;;       (lambda (pred fun obj)
-;;         (cond
-;;           ((pred obj) (setf obj (fun obj)))
-;;           ((eq :CONS (type obj))
-;;            (let ((head (car obj))
-;;                  (tail (cdr obj)))
-;;              (cond
-;;                ((pred head) (rplaca obj (fun head)))
-;;                ((eq :CONS (type head)) (transform! pred fun head)))         
-;;              (if tail (rplacd obj (transform! pred fun tail)))
-;;              (if (and (not (eq :CONS (type tail))) (pred tail))
-;;                  (rplacd obj (fun tail)))))
-;;           (t obj))
-;;         obj)) 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; -*- lisp-indent-function: (put 'setq 'lisp-indent-function 1); -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+w;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (when nil
+;;   (let* ((𝑛 30)
+;;          (∨ ∨)
+;;          (*memo* '((2 . 1) (1 . 1)))
+;;          (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
+;;          (fib       (lambda (𝑥)
+;;                     (let  ((memoized (aget *memo*  𝑥)))
+;;                       (∨    memoized
+;;                             (memoize  𝑥 (+ (fib (- 𝑥 1))
+;;                                            (fib (- 𝑥 2)))))))))
+;;     (fib 𝑛)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq integer? (lambda (x) (eq :INTEGER (type x))))
+(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
+(setq cons?    (lambda (x) (eq :CONS    (type x))))
+(setq stop     (lambda ()  (exit 0)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq transform!
+ (lambda (expr pred fun)
+  (if (not (eq :CONS (type expr)))
+   (error "expr must be a list")
+   (cond
+    ((pred expr) (setf expr (fun expr)))
+    ((eq :CONS (type expr))
+     (let ((head (car expr))
+           (tail (cdr expr)))
+      (cond
+       ((pred head) (rplaca expr (fun head)))
+       ((eq :CONS (type head))  (transform! head pred fun)))
+      (cond
+       ((pred tail) (rplacd expr (fun tail)))
+       ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
+    (t expr))
+   expr)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq prefetch
+ (lambda (expr) 
+  (transform! expr
+   (lambda (x) (and (symbol? x) (bound? x)))
+   (lambda (x) (eval x)))))
+
+(setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
+
+(setq  fib-expr
+ (prefetch
+  '(lambda (nth)
+    (let  ((memoized (aget *memo* nth)))
+     (or memoized
+      (memoize  nth (+ (fib (- nth 1))
+                       (fib (- nth 2)))))))))
+
+(setq *memo* '((2 . 1) (1 . 1)))
+
+(setq fib (eval fib-expr))
+(print (fib 30))

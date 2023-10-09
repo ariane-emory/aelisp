@@ -95,15 +95,7 @@
    (lambda (x) (and (symbol? x) (bound? x)))
    (lambda (x) (eval x)))))
 
-;; (setq double (eval (prefetch '(lambda (x) (* 2 x)))))
-;; (print (double 333))
-;; (print double)
-
 (setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
-;; (print memoize)
-;; (print memoize-expr)
-;;(memoize 4 9)
-(print *memo*)
 
 (setq  fib-expr
  (prefetch
@@ -116,8 +108,6 @@
 (setq *memo* '((2 . 1) (1 . 1)))
 
 (setq fib (eval fib-expr))
-(print fib-expr)
-;; (print fib)
 (print (fib 30))
 
 (stop)
