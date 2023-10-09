@@ -111,7 +111,7 @@
     (let ((bef (time)))
      (eval qexpr)
      (setq total (+ total (- (time) bef))))
-     (when (== 0 (% ctr 10))
+     (when t ;; (== 0 (% ctr 10))
       (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
    (describe-elapsed total repetitions))))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -138,7 +138,7 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (describe-elapsed elapsed repetitions)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq repetitions 1000)
+(setq repetitions 100)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib (lambda (n)
   (if (<= n 2)
@@ -150,7 +150,7 @@
               ((<= n 2) 1)
               (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (bench repetitions (naive-fib 20))
+;; (bench repetitions '(print (naive-fib 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq pl-fib (lambda (n)
               (if (<= n 2)
@@ -158,11 +158,13 @@
                (+ (pl-fib (- n 1)) (pl-fib (- n 2))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;(bench repetitions '(naive-fib 20))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (print (body pl-fib))
 (prefetch (body pl-fib))
 ;; (transform! (body pl-fib)
 ;;  (lambda (x) (and (symbol? x) (bound? x)))
 ;;  (lambda (x) (eval x)))
 (print (body pl-fib))
-(bench repetitions (pl-fib 20))
+(bench repetitions '(print (pl-fib 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
