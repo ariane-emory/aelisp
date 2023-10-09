@@ -94,14 +94,14 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq *memo* '((2 . 1) (1 . 1)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq describe-elapsed
-;;  (lambda (elapsed repetitions)
-;;   (princ "total ms: ")
-;;   (princ elapsed) (nl)
-;;   (princ "total s: ")
-;;   (princ (/ elapsed 1000)) (nl)
-;;   (princ "each ms: ")
-;;   (princ (/ elapsed 1000 repetitions)) (nl)))
+(setq describe-elapsed
+ (lambda (elapsed repetitions)
+  (princ "total ms: ")
+  (princ elapsed) (nl)
+  (princ "total s: ")
+  (princ (/ elapsed 1000)) (nl)
+  (princ "each ms: ")
+  (princ (/ elapsed 1000 repetitions)) (nl)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq bench
  (lambda (repetitions qexpr)
@@ -116,9 +116,8 @@
      (setq total (+ total (- (time) bef)))))
    (nl)
    total)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq repetitions 10)
+(setq repetitions 100)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  (setq before (time))
 ;; (repeat repetitions
