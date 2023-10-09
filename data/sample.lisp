@@ -107,13 +107,15 @@
 ;;(memoize 4 9)
 (print *memo*)
 (setq  fib-expr
- (pretch '(𝑓 (lambda (𝑥)
+ (prefetch '(lambda (𝑥)
               (let  ((memoized (aget *memo*  𝑥)))
                (∨    memoized
                 (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-                               (𝑓 (- 𝑥 2))))))))))
+                               (𝑓 (- 𝑥 2)))))))))
+(setq 𝑓 (eval fib-expr))
 (print fib-expr)
-
+(print 𝑓)
+(print (𝑓 30))
 
 (stop)
                                         ;(print *memo*)
