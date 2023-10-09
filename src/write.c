@@ -318,10 +318,10 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     }
     break;
   case AE_INTEGER:
-    COUNTED_FPRINTF(fwrite_stream, "%d", INT_VAL(this));
+    COUNTED_FPRINTF(fwrite_stream, "%lld", INT_VAL(this));
     break;
   case AE_RATIONAL:
-    COUNTED_FPRINTF(fwrite_stream, "%d/%d", NUMER_VAL(this) , DENOM_VAL(this));
+    COUNTED_FPRINTF(fwrite_stream, "%ld/%ld", NUMER_VAL(this) , DENOM_VAL(this));
     break;
   case AE_FLOAT:
     COUNTED_FPRINTF(fwrite_stream, "%g", FLOAT_VAL(this));

@@ -81,11 +81,11 @@
  (memo-fib 30))
 (setq after (time))
 
-(print "total us:")
-(print (- after before))
-(print "total ms:")
-(print (/ (- after before) 1000))
-(print "each ms:")
-(print (/ (- after before) 1000 repetitions))
+(princ "total us: ")
+(princ (- after before)) (nl)
+(princ "total ms: ")
+(princ (/ (- after before) 1000)) (nl)
+(princ "each ms: ")
+(princ (/ (- after before) 1000 repetitions)) (nl)
 
 
