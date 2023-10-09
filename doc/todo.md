@@ -1,4 +1,7 @@
 To Do:
+_ [ ] prefetch function.
+- [ ] bestline REPL.
+- [ ] #include equivalent.
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [ ] Refactor FOR_EACH_CORE_FUN_GROUP_1 and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] Fix macro expansion from eval.
