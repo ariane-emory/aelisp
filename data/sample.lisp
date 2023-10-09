@@ -75,10 +75,12 @@
                                           (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq now (time))
-(repeat 100
+(setq before (time))
+(repeat 500
  (memo-fib 30))
-(print (- (time) now))
-(print (/ (- (time) now) 500)) 
+(setq after (time))
+
+(print (- after before))
+(print (/ (- after before) 100))
 
 
