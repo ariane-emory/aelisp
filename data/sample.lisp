@@ -69,51 +69,52 @@
 
 ;; (memo-fib 30)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq prefetch
- (lambda (expr)
-  (eval
-   (transform! expr
-    (lambda (x) (and (symbol? x) (bound? x)))
-    (lambda (x) (eval x))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq prefetch-fib (prefetch
-                     '(lambda (nth)
-                       (let  ((memoized (aget *memo* nth))
-                              (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
-                        (or memoized
-                         (memoize  nth (+ (prefetch-fib (- nth 1))
-                                          (prefetch-fib (- nth 2)))))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq *memo* '((2 . 1) (1 . 1)))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq prefetch
+;;  (lambda (expr)
+;;   (eval
+;;    (transform! expr
+;;     (lambda (x) (and (symbol? x) (bound? x)))
+;;     (lambda (x) (eval x))))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  (setq prefetch-fib (prefetch
+;;                      '(lambda (nth)
+;;                        (let  ((memoized (aget *memo* nth))
+;;                               (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+;;                         (or memoized
+;;                          (memoize  nth (+ (prefetch-fib (- nth 1))
+;;                                           (prefetch-fib (- nth 2)))))))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq *memo* '((2 . 1) (1 . 1)))
 
-(prefetch-fib 30)
+;; (prefetch-fib 30)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq describe-elapsed
-;;  (lambda (elapsed repetitions)
-;;   (princ "total ums: ")
-;;   (princ elapsed) (nl)
-;;   (princ "total ms: ")
-;;   (princ (/ elapsed 1000)) (nl)
-;;   (princ "total s: ")
-;;   (princ (/ elapsed 1000000)) (nl)
-;;   (princ "each ms: ")
-;;   (princ (/ elapsed repetitions 1000)) (nl)))
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; (setq bench
-;; ;;  (lambda (repetitions qexpr)
-;; ;;   (nl)
-;; ;;   (let ((ctr 0 )
-;; ;;         (total 0))
-;; ;;    (repeat repetitions
-;; ;;     (setq ctr (+ 1 ctr))
-;; ;;     (let ((bef (time)))
-;; ;;      (eval qexpr)
-;; ;;      (setq total (+ total (- (time) bef))))
-;; ;;      (when (== 0 (% ctr 10))
-;; ;;       (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
-;; ;;    total)))
+(setq describe-elapsed
+ (lambda (elapsed repetitions)
+  (nl)
+  (princ "total ums: ")
+  (princ elapsed) (nl)
+  (princ "total ms: ")
+  (princ (/ elapsed 1000)) (nl)
+  (princ "total s: ")
+  (princ (/ elapsed 1000000)) (nl)
+  (princ "each ms: ")
+  (princ (/ elapsed repetitions 1000)) (nl)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq bench
+ (lambda (repetitions qexpr)
+  (nl)
+  (let ((ctr 0 )
+        (total 0))
+   (repeat repetitions
+    (setq ctr (+ 1 ctr))
+    (let ((bef (time)))
+     (eval qexpr)
+     (setq total (+ total (- (time) bef))))
+     (when (== 0 (% ctr 10))
+      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
+   (describe-elapsed total repetitions))))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq repetitions 5000)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -139,14 +140,16 @@
 ;; (describe-elapsed elapsed repetitions)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq normal-fib (lambda (n)
   (if (<= n 2)
     1
-    (+ (fib (- n 1)) (fib (- n 2))))))
-
+    (+ (normal-fib (- n 1)) (normal-fib (- n 2))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq cond-fib (lambda (n)
             (cond
               ((<= n 2) 1)
-              (t (+ (fib (- n 1)) (fib (- n 2)))))))
-
+              (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(bench 5000 (normal-fib 20))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
