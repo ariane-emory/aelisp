@@ -11,12 +11,12 @@
 ;;          (∨ ∨)
 ;;          (*memo* '((2 . 1) (1 . 1)))
 ;;          (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-;;          (𝑓       (lambda (𝑥)
+;;          (fib       (lambda (𝑥)
 ;;                     (let  ((memoized (aget *memo*  𝑥)))
 ;;                       (∨    memoized
-;;                             (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-;;                                            (𝑓 (- 𝑥 2)))))))))
-;;     (𝑓 𝑛)))
+;;                             (memoize  𝑥 (+ (fib (- 𝑥 1))
+;;                                            (fib (- 𝑥 2)))))))))
+;;     (fib 𝑛)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -103,19 +103,23 @@
 (setq memoize (eval memoize-expr))
 ;; (print memoize)
 ;; (print memoize-expr)
-(setq *memo* '((2 . 1) (1 . 1)))
 ;;(memoize 4 9)
 (print *memo*)
+
 (setq  fib-expr
- (prefetch '(lambda (𝑥)
-              (let  ((memoized (aget *memo*  𝑥)))
-               (∨    memoized
-                (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-                               (𝑓 (- 𝑥 2)))))))))
-(setq 𝑓 (eval fib-expr))
+ (prefetch
+  '(lambda (nth)
+    (let  ((memoized (aget *memo* nth)))
+     (or memoized
+      (memoize  nth (+ (fib (- nth 1))
+                       (fib (- nth 2)))))))))
+
+(setq *memo* '((2 . 1) (1 . 1)))
+
+(setq fib (eval fib-expr))
 (print fib-expr)
-(print 𝑓)
-(print (𝑓 30))
+;; (print fib)
+(print (fib 30))
 
 (stop)
                                         ;(print *memo*)
