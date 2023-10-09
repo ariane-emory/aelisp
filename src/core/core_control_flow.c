@@ -9,7 +9,7 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("repeat");
 
   REQUIRE(env, args, LENGTH(args) >= 2, "repeat requires at least 2 args");
-  int times = INT_VAL(EVAL(env, CAR(args)));
+  long long int times = INT_VAL(EVAL(env, CAR(args)));
   
   REQUIRE(env, args, times, "repeat's 1st arg evaluate to an integer");
 

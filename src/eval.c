@@ -208,10 +208,13 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   LOG(env,  "in env");
 #endif
 
+  ae_obj_t * head = fun;
   fun = EVAL(env, fun);
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
-    LOG(fun, "Not applicable: ");
+    NL;
+    LOG(head, "Result of looking up head: ");
+    LOG(fun,  "is inapplicable object: ");
 
     /* This assert should be replaced by returning an ERROR obj: */
 
