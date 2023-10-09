@@ -13,8 +13,7 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args) {
   
   REQUIRE(env, args, times, "repeat's 1st arg evaluate to an integer");
 
-  
-  for (int ix = 0; ix < times; ix++)
+  for (long long int ix = 0; ix < times; ix++)
     ae_core_progn(env, CDR(args));
 
   CORE_RETURN("repeat", NIL);
