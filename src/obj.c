@@ -251,9 +251,9 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   return clone;
 }
 
-#define MASK(size, shift)                   ((unsigned int) (((1 << (size)) - 1) << (shift)))
+#define MASK(size, shift)                   ((typeof(((ae_obj_t *)NULL)->metadata)) (((1 << (size)) - 1) << (shift)))
 #define GET_MASKED(type, from, mask, shift) ((type) (((from) & (mask)) >> (shift)))
-#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | ((unsigned int)(value) << (shift))
+#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | ((typeof(((ae_obj_t *)NULL)->metadata))(value) << (shift))
 
 
 #define AE_TYPE_BITS    6
