@@ -28,7 +28,6 @@
 (setq l '(2 (4 8)))
 (transform! l integer? double)
 (print l) ;; case 1: sucessfully prints (4 (8 16)).
-(exit 0)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq l (transform! '(2 (4 8)) integer? double))
 (print l) ;; case 2: successfully prints (4 (8 16)).
@@ -39,17 +38,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq l (transform! '(2 (4 . 8)) integer? double))
 (print l) ;; case 5: successfully prints (4 (8 . 16))!
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq l 2)
 (transform! integer? double l)
 (print l) ;; correctly returns an :ERROR
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(print (transform!
+;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
+(print (transform! '(1 (2 3) (4 5 6))
         (lambda (x) (and (proper? x) (eql (length (car x)) 2)))
-        (lambda (x) :REPLACED)
-        '(1 (2 3) (4 5 6)))) ;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
-
+        (lambda (x) :REPLACED))) 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq now (time))
 ;; (memo-fib)
