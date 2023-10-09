@@ -72,8 +72,7 @@
     (lambda (x) (and (symbol? x) (bound? x)))
     (lambda (x) (eval x))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq  fib-expr
- (prefetch
+(setq fib (prefetch
   '(lambda (nth)
     (let  ((memoized (aget *memo* nth))
            (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
@@ -83,5 +82,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq *memo* '((2 . 1) (1 . 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq fib fib-expr)
 (print (fib 30))
