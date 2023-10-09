@@ -258,7 +258,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
 #endif
 
-
   if ( ERRORP(ret)) {
     FPRINT(fun, stderr);
     FPR(stderr, " returned an error: ");
@@ -268,6 +267,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
     else
       ESET(ret, "fun", CONS(fun, NIL));
+
+    return ret;
   }
 
   /* if (dispatch.replaces) { */
