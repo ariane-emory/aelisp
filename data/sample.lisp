@@ -13,9 +13,9 @@
 ;;                                            (fib (- 𝑥 2)))))))))
 ;;     (fib 𝑛)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq integer? (lambda (x) (eq :INTEGER (type x))))
-(setq cons?    (lambda (x) (eq :CONS    (type x))))
-(setq stop     (lambda ()  (exit 0)))
+;; (setq integer? (lambda (x) (eq :INTEGER (type x))))
+;; (setq cons?    (lambda (x) (eq :CONS    (type x))))
+;; (setq stop     (lambda ()  (exit 0)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
