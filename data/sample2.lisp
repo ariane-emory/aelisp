@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; -*- lisp-indent-function: (put 'setq 'lisp-indent-function 1); -*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; -*- lisp-indent-function: (put 'setq 'lisp-indent-function 1); -*-
 w;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (when nil
@@ -52,7 +52,7 @@ w;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
   '(lambda (nth)
     (let  ((memoized (aget *memo* nth)))
      (or memoized
-      (memoize  nth (+ (fib (- nth 1))
-                       (fib (- nth 2)))))))))
+        (memoize  nth (+ (fib (- nth 1))
+                         (fib (- nth 2)))))))))
 (print (fib 30))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
