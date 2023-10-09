@@ -5,6 +5,7 @@
 (setq double   (lambda (x) (* 2 x)))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
+(setq stop     (lambda () (nl) (exit 0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
@@ -91,7 +92,7 @@
 ;;         (lambda (x) (eval x))
 ;;         '(cons (1 x))))
 
-(setq peloaded
+(setq prefetched
       (transform!
        (lambda (x) (and (symbol? x) (bound? x)))
        (lambda (x) (eval x))
@@ -105,5 +106,10 @@
                                                  (fib (- 𝑥 2)))))))))
          (fib 𝑛))))
 
-(setq fib (eval preloaded))
-(print (fib 30))
+(print prefetched)
+(stop))
+(setq fib (eval prefetche))
+(nl)
+(nl)
+(print (eval fib))
+
