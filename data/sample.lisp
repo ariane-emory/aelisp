@@ -2,26 +2,21 @@
 ;; -*-lisp-indent-function: 1; -*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq double   (lambda (x) (* 2 x)))
-(setq integer? (lambda (x) (eq :INTEGER (type x))))
-(setq cons?    (lambda (x) (eq :CONS    (type x))))
-(setq stop     (lambda () (nl) (exit 0)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when nil
-  (let* ((𝑛 30)
-         (∨ ∨)
-         (*memo* '((2 . 1) (1 . 1)))
-         (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
-         (𝑓       (lambda (𝑥)
-                    (let  ((memoized (aget *memo*  𝑥)))
-                      (∨    memoized
-                            (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
-                                           (𝑓 (- 𝑥 2)))))))))
-    (𝑓 𝑛)))
+;; (when nil
+;;   (let* ((𝑛 30)
+;;          (∨ ∨)
+;;          (*memo* '((2 . 1) (1 . 1)))
+;;          (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
+;;          (𝑓       (lambda (𝑥)
+;;                     (let  ((memoized (aget *memo*  𝑥)))
+;;                       (∨    memoized
+;;                             (memoize  𝑥 (+ (𝑓 (- 𝑥 1))
+;;                                            (𝑓 (- 𝑥 2)))))))))
+;;     (𝑓 𝑛)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
