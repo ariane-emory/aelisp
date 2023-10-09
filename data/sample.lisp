@@ -1,11 +1,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq cons?    (lambda (x) (eq :CONS    (type x))))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
 (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
-(setq cons?    (lambda (x) (eq :CONS    (type x))))
-(setq stop     (lambda ()  (exit 0)))
 (setq double (lambda (x) (* 2 x)))
+(setq stop     (lambda ()  (exit 0)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
@@ -24,20 +24,20 @@
        ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
     (t expr))
    expr)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq l '(2 (4 8)))
-(transform! l integer? double)
-(print l) ;; case 1: sucessfully prints (4 (8 16)).
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq l (transform! '(2 (4 8)) integer? double))
-(print l) ;; case 2: successfully prints (4 (8 16)).
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq l '(2 (4 . a)))
-(transform! l (lambda (obj) (eq :INTEGER (type obj))) (lambda (num) (* 2 num)))
-(print l) ;; case 3: successdully prints (4 (8 . a))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq l (transform! '(2 (4 . 8)) integer? double))
-(print l) ;; case 5: successfully prints (4 (8 . 16))!
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq l '(2 (4 8)))
+;; (transform! l integer? double)
+;; (print l) ;; case 1: sucessfully prints (4 (8 16)).
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq l (transform! '(2 (4 8)) integer? double))
+;; (print l) ;; case 2: successfully prints (4 (8 16)).
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq l '(2 (4 . a)))
+;; (transform! l (lambda (obj) (eq :INTEGER (type obj))) (lambda (num) (* 2 num)))
+;; (print l) ;; case 3: successdully prints (4 (8 . a))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq l (transform! '(2 (4 . 8)) integer? double))
+;; (print l) ;; case 5: successfully prints (4 (8 . 16))!
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
 ;; (print (transform! '(1 (2 3) (4 5 6))
@@ -52,6 +52,8 @@
 ;; (repeat 1000
 ;;  (memo-fib 30))
 ;; (print (- (time) now))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
  (lambda (n) 
@@ -64,8 +66,6 @@
                               (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
                                              (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq prefetch
  (lambda (expr)
@@ -84,30 +84,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq *memo* '((2 . 1) (1 . 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq describe-elapsed
- (lambda (elapsed repetitions)
-  (princ "total ums: ")
-  (princ elapsed) (nl)
-  (princ "total ms: ")
-  (princ (/ elapsed 1000)) (nl)
-  (princ "total s: ")
-  (princ (/ elapsed 1000000)) (nl)
-  (princ "each ms: ")
-  (princ (/ elapsed repetitions 1000)) (nl)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq bench
- (lambda (repetitions qexpr)
-  (nl)
-  (let ((ctr 0 )
-        (total 0))
-   (repeat repetitions
-    (setq ctr (+ 1 ctr))
-    (let ((bef (time)))
-     (eval qexpr)
-     (setq total (+ total (- (time) bef))))
-     (when (== 0 (% ctr 10))
-      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
-   total)))
+;; (setq describe-elapsed
+;;  (lambda (elapsed repetitions)
+;;   (princ "total ums: ")
+;;   (princ elapsed) (nl)
+;;   (princ "total ms: ")
+;;   (princ (/ elapsed 1000)) (nl)
+;;   (princ "total s: ")
+;;   (princ (/ elapsed 1000000)) (nl)
+;;   (princ "each ms: ")
+;;   (princ (/ elapsed repetitions 1000)) (nl)))
+;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; (setq bench
+;; ;;  (lambda (repetitions qexpr)
+;; ;;   (nl)
+;; ;;   (let ((ctr 0 )
+;; ;;         (total 0))
+;; ;;    (repeat repetitions
+;; ;;     (setq ctr (+ 1 ctr))
+;; ;;     (let ((bef (time)))
+;; ;;      (eval qexpr)
+;; ;;      (setq total (+ total (- (time) bef))))
+;; ;;      (when (== 0 (% ctr 10))
+;; ;;       (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
+;; ;;    total)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq repetitions 5000)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -124,9 +124,9 @@
 ;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (describe-elapsed elapsed repetitions)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq elapsed (bench repetitions '(progn (setq *memo* '((2 . 1) (1 . 1))) (print (prefetch-fib 30)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(describe-elapsed elapsed repetitions)
+;; (setq elapsed (bench repetitions '(progn (setq *memo* '((2 . 1) (1 . 1))) (print (prefetch-fib 30)))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (describe-elapsed elapsed repetitions)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq elapsed (bench repetitions '(sleep 1000)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
