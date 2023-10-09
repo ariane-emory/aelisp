@@ -111,9 +111,11 @@
               ((<= n 2) 1)
               (t (+ (fib (- n 1)) (fib (- n 2)))))))
 
+;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
+
 (setq memo-fib (lambda (n)
                  (let ((memoized (pget *memo* n))
-                       (memoize  (lambda (k v) (cadr (setq *memo* (pset *memo* k v))))))
+                       (memoize  (lambda (k v) (car (cdr (setq *memo* (pset *memo* k v)))))))
                    (cond
                      (memoized  memoized)
                      ((<= n 2)  1)

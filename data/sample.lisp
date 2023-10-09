@@ -53,3 +53,14 @@
 (transform! integer? double l)
 (print l) ;; should return an :ERROR
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq memo-fib (lambda (n)
+                 (let ((memoized (pget *memo* n))
+                       (memoize  (lambda (k v) (car (cdr (setq *memo* (pset *memo* k v)))))))
+                   (cond
+                     (memoized  memoized)
+                     ((<= n 2)  1)
+                     (t (progn (memjoize n (+ (memo-fib (- n 1)) (memo-fib (- n 2))))))))))
