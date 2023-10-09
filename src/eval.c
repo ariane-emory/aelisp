@@ -261,7 +261,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   if ( ERRORP(ret)) {
     FPRINT(fun, stderr);
-    FPR(stderr, " returnad an error: ");
+    FPR(stderr, " returned an error: ");
     FWRITE(ret, stderr);
     
     if (EHAS(ret, "fun"))

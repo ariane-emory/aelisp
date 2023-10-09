@@ -10,8 +10,11 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
 
   ae_obj_t * ret = NIL;
 
-  FOR_EACH(elem, args)
+  FOR_EACH(elem, args) {
     ret = EVAL(env, elem);
+    if (ERRORP(ret))
+      break;
+  }
 
   CORE_RETURN("progn", ret);
 }
