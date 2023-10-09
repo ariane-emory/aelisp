@@ -64,7 +64,6 @@
 ;; (print (- (time) now))
 (print
 (let* ((𝑛 30)
-       (∨ ∨)
        (*memo* '((2 . 1) (1 . 1)))
        (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
        (fib       (lambda (𝑥)
