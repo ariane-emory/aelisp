@@ -7,8 +7,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_1(DO)                                                                                  \
   /*================================================================================================================*/ \
-  DO(eql,      false, -1, -1,                                                 FUNDEF_END ) /* reduceable            */ \
-  DO(eq,       false, -1, -1,                                                 FUNDEF_END )                             \
+  DO(eql,      false, -1, -1, "eql", "eql?",                                  FUNDEF_END ) /* reduceable            */ \
+  DO(eq,       false, -1, -1, "eq",  "eq?",                                   FUNDEF_END )                             \
   DO(cond,     true,   1, -1,                                                 FUNDEF_END )                             \
   DO(progn,    true,  -1, -1,                                                 FUNDEF_END )                             \
   DO(cons,     false,  2,  2,                                                 FUNDEF_END )                             \
