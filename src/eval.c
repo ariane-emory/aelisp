@@ -260,6 +260,11 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
 
   if ( ERRORP(ret)) {
+    FWRITE(fun, stderr);
+    FPR(stderr, " returnad an error: ");
+    FWRITE(ret, stderr);
+    FPR(stderr, "\n");
+    
     if (EHAS(ret, "fun"))
       ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
     else
