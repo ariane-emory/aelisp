@@ -5,7 +5,7 @@ TEST_SRCS    = $(shell find test -name "*.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
-POOL_SIZE   := $(shell echo "$$(( 1 << 16))" )
+POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
 
 COMMON_CFLAGS = \
 	$(INCLUDE_DIRS) \
@@ -14,11 +14,11 @@ COMMON_CFLAGS = \
 	-Wno-misleading-indentation \
 	-DAE_OBJ_POOL_SIZE=$(POOL_SIZE) \
 	-DAE_DEADLY_MARGIN \
+
+UNUSED_CFLAGS = \
 	-DAE_DEBUG_OBJ \
 	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
-
-UNUSED_CFLAGS = \
 	-DAE_LOG_ENV \
 	-DAE_DUMP_SYMS \
 	-DAE_DUMP_POOL_AFTER \

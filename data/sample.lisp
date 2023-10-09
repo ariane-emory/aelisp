@@ -62,7 +62,7 @@
 ;; (repeat 1000
 ;;  (memo-fib 30))
 ;; (print (- (time) now))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
  (lambda (n) 
   (let* ((nth 30)
@@ -74,6 +74,11 @@
                            (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
                                           (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq now (time))
+(repeat 100
+ (memo-fib 30))
+(print (- (time) now))
+(print (/ (- (time) now) 500)) 
 
-(print (memo-fib 30))
 
