@@ -189,11 +189,3 @@
         (lambda (x) :REPLACED)
         '(1 (2 3) (4 5 6)))) ;; case 6: prints (1 :REPLACED), but i want (1 :REPLACED (4 5 6)). Not sure if problem is with transform! or its arguments?
 
-(4 (8 16))
-(4 (8 16))
-(4 (8 . a))
-(4 (8 . 16))
-CORE<error> returned an error: ERROR<obj must be a list>
-CORE<if*> returned an error: ERROR<obj must be a list>
-2
-(1 . :REPLACED)
