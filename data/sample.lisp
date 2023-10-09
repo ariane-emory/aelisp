@@ -13,7 +13,6 @@
 ;;                                            (fib (- 𝑥 2)))))))))
 ;;     (fib 𝑛)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq double   (lambda (x) (* 2 x)))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
 (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
@@ -71,12 +70,11 @@
    (lambda (x) (and (symbol? x) (bound? x)))
    (lambda (x) (eval x)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq  fib-expr
  (prefetch
   '(lambda (nth)
-    (let  ((memoized (aget *memo* nth)))
+    (let  ((memoized (aget *memo* nth))
+           (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
      (or memoized
       (memoize  nth (+ (fib (- nth 1))
                      (fib (- nth 2)))))))))
