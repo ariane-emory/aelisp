@@ -10,7 +10,7 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {      
   CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
                                                                                                    \
-  int        accum = 0;                                                                            \
+  long long int  accum  = 0;                                                                       \
   ae_obj_t * rest  = NIL;                                                                          \
                                                                                                    \
   if (NILP(CDR(args))) {                                                                           \
