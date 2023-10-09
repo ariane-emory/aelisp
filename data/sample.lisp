@@ -98,11 +98,12 @@
 (setq double (eval (prefetch '(lambda (x) (* 2 x)))))
 (print (double 333))
 (print double)
+
+(setq *memo* '((2 . 1) (1 . 1)))
+(setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
+(print memoize)
+
 (stop)
-
-
- (setq *memo* '((2 . 1) (1 . 1)))
- (setq memoize (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
  (print (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
  (memoize 111 222)
                                         ;(print *memo*)
