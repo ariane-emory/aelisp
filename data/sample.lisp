@@ -20,30 +20,31 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq double   (lambda (x) (* 2 x)))
+;; (setq double   (lambda (x) (* 2 x)))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
 (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
+(setq stop     (lambda ()  (exit 0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq transform!
-      (lambda (expr pred fun)
-        (if (not (eq :CONS (type expr)))
-            (error "expr must be a list")
-            (cond
-              ((pred expr) (setf expr (fun expr)))
-              ((eq :CONS (type expr))
-               (let ((head (car expr))
-                     (tail (cdr expr)))
-                 (cond
-                   ((pred head) (rplaca expr (fun head)))
-                   ((eq :CONS (type head))  (transform! head pred fun)))
-                 (cond
-                   ((pred tail) (rplacd expr (fun tail)))
-                   ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
-              (t expr))
-            expr)))
+ (lambda (expr pred fun)
+  (if (not (eq :CONS (type expr)))
+   (error "expr must be a list")
+   (cond
+    ((pred expr) (setf expr (fun expr)))
+    ((eq :CONS (type expr))
+     (let ((head (car expr))
+           (tail (cdr expr)))
+      (cond
+       ((pred head) (rplaca expr (fun head)))
+       ((eq :CONS (type head))  (transform! head pred fun)))
+      (cond
+       ((pred tail) (rplacd expr (fun tail)))
+       ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
+    (t expr))
+   expr)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -88,23 +89,26 @@
 ;;         '(cons (1 x))))
 
 
-(setq prefetch (lambda (expr) 
-                 (eval (transform! expr
-                        (lambda (x) (and (symbol? x) (bound? x)))
-                        (lambda (x) (eval x))))))
+(setq prefetch
+ (lambda (expr) 
+  (transform! expr
+   (lambda (x) (and (symbol? x) (bound? x)))
+   (lambda (x) (eval x)))))
 
-(setq double (prefetch '(lambda (x) (* 2 x))))
+(setq double (eval (prefetch '(lambda (x) (* 2 x)))))
 (print (double 333))
+(print double)
+(stop)
 
 
-(setq *memo* '((2 . 1) (1 . 1)))
-(setq memoize (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+ (setq *memo* '((2 . 1) (1 . 1)))
+ (setq memoize (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+ (print (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+ (memoize 111 222)
+                                        ;(print *memo*)
+ ;; (setq double (prefetch '(lambda (x) (* 2 x))))
 
-(memoize 111 222)
-;(print *memo*)
-;; (setq double (prefetch '(lambda (x) (* 2 x))))
-
-;; (print (double 333))
-;; (memoize :foo :bar)
-;; (print *memo*)
+ ;; (print (double 333))
+ ;; (memoize :foo :bar)
+ ;; (print *memo*)
 
