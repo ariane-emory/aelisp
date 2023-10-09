@@ -269,8 +269,8 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 // a big gap
 #define AE_DELOC_SHIFT  (METADATA_SIZE * 8 - AE_DELOC_BITS)
 
-#define AE_TYPE_MASK    (MASK(AE_TYPE_BITS, AE_TYPE_SHIFT))
-#define AE_FOO_MASK     (MASK(AE_FOO_BITS,  AE_FOO_SHIFT))
+#define AE_TYPE_MASK    (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT))
+#define AE_FOO_MASK     (MASK(AE_FOO_BITS,    AE_FOO_SHIFT))
 #define AE_DELOC_MASK   (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
