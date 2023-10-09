@@ -251,8 +251,9 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   return clone;
 }
 
-#define METADATA_TYPE      typeof(((ae_obj_t *)NULL)->metadata)
-#define METADATA_SIZE      (sizeof(((ae_obj_t *)NULL)->metadata))
+#define METADATA_TYPE                       typeof(((ae_obj_t *)NULL)->metadata)
+#define METADATA_SIZE                       (sizeof(((ae_obj_t *)NULL)->metadata))
+#define METADATA_CAST(x)                    ((METADATA_TYPE)(x))
 
 #define MASK(size, shift)                   ((METADATA_TYPE) (((1 << (size)) - 1) << (shift)))
 #define GET_MASKED(type, from, mask, shift) ((type) (((from) & (mask)) >> (shift)))
