@@ -257,7 +257,7 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 
 #define MASK(size, shift)                   (METADATA_CAST(((1 << (size)) - 1) << (shift)))
 #define GET_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift)))
-#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | ((typeof(((ae_obj_t *)NULL)->metadata))(value) << (shift))
+#define TO_MASKED(value, mask, shift)       (this->metadata & ~(mask)) | (METADATA_CAST((value) << (shift)))
 
 
 #define AE_TYPE_BITS    6
