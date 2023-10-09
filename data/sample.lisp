@@ -26,18 +26,18 @@
    expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq l '(2 (4 8)))
-(transform! integer? double l)
+(transform! l integer? double)
 (print l) ;; case 1: sucessfully prints (4 (8 16)).
 (exit 0)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq l (transform! integer? double '(2 (4 8))))
+(setq l (transform! '(2 (4 8)) integer? double))
 (print l) ;; case 2: successfully prints (4 (8 16)).
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq l '(2 (4 . a)))
 (transform! (lambda (obj) (eq :INTEGER (type obj))) (lambda (num) (* 2 num)) l)
 (print l) ;; case 3: successdully prints (4 (8 . a))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq l (transform! integer? double '(2 (4 . 8))))
+(setq l (transform! '(2 (4 . 8)) integer? double))
 (print l) ;; case 5: successfully prints (4 (8 . 16))!
 
 (setq l 2)
