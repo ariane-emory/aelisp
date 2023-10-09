@@ -71,10 +71,10 @@
          (*memo* '((2 . 1) (1 . 1)))
          (memoize (lambda (k v) (cdr (car (≔    *memo* (aset *memo* k v))))))
          (memo-fib       (lambda (𝑥)
-                     (let ((memoized (aget *memo*  𝑥)))
-                      (∨    memoized
-                           (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
-                                          (memo-fib (- 𝑥 2)))))))))
+                          (let ((memoized (aget *memo*  𝑥)))
+                           (∨    memoized
+                            (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
+                                         (memo-fib (- 𝑥 2)))))))))
    (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq prefetch
@@ -85,12 +85,12 @@
     (lambda (x) (eval x))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq prefetch-fib (prefetch
-  '(lambda (nth)
-    (let  ((memoized (aget *memo* nth))
-           (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
-     (or memoized
-      (memoize  nth (+ (prefetch-fib (- nth 1))
-                       (prefetch-fib (- nth 2)))))))))
+                    '(lambda (nth)
+                      (let  ((memoized (aget *memo* nth))
+                             (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+                       (or memoized
+                        (memoize  nth (+ (prefetch-fib (- nth 1))
+                                       (prefetch-fib (- nth 2)))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq *memo* '((2 . 1) (1 . 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -105,10 +105,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq bench
  (lambda (repetitions qexpr)
-  (let ((before (time)))
-   (repeat repetitions 
-    (eval qexpr))
-   (- (time) before))))
+  (let ((total 0))
+   (let ((before (time)))
+    (repeat repetitions 
+     (eval qexpr))
+    (setq total (+ total (- (time) before))))
+  total)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq repetitions 10)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
