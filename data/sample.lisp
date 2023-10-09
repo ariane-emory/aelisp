@@ -63,17 +63,6 @@
 ;;         (lambda (x) (eval x))
 ;;         '(cons (1 x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq memo-fib
- (lambda (n))
-  (let* ((*memo* '((2 . 1) (1 . 1)))
-         (memoize (lambda (k v) (cdr (car  (setq *memo* (aset *memo* k v))))))
-         (memo-fib       (lambda (𝑥)
-                    (let  ((memoized       (aget *memo*  𝑥)))
-                      (∨    memoized
-                            (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
-                                           (memo-fib (- 𝑥 2)))))))))
-    (memo-fib 𝑛)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq prefetch
@@ -98,6 +87,16 @@
 ;; (print (- (time) now))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq now (time))
-(memo-fib 30)
+(setq memo-fib
+ (lambda ()
+  (let* ((𝑛 30)
+         (*memo* '((2 . 1) (1 . 1)))
+         (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+         (fib       (lambda (𝑥)
+                     (let  ((memoized (aget     *memo*  𝑥)))
+                      (∨     memoized
+                            (memoize  𝑥 (+ (fib (- 𝑥 1))
+                                           (fib (- 𝑥 2))))))))))
+  (fib 𝑛)))
 (print (- (time) now))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
