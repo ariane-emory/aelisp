@@ -87,9 +87,6 @@
 ;;         (lambda (x) (eval x))
 ;;         '(cons (1 x))))
 
-(setq memoize (lambda (k v)
-                (cdr (car (setq *memo* (aset *memo* k v))))))
-
 
 (setq prefetch (lambda (expr) 
                  (eval (transform! expr
