@@ -87,17 +87,6 @@
 ;; (setq *memo* '((2 . 1) (1 . 1)))
 ;; (prefetch-fib 30)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq describe-elapsed
- (lambda (total repetitions)
-  (nl)
-  (princ "total ums: ")
-  (princ total) (nl)
-  (princ "total ms: ")
-  (princ (/ total 1000)) (nl)
-  (princ "total s: ")
-  (princ (/ total 1000000)) (nl)
-  (princ "each ms: ")
-  (princ (/ total repetitions 1000)) (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq benchmark
  (lambda (repetitions qexpr)
@@ -111,7 +100,18 @@
      (setq total (+ total (elapsed before))))
      (when t ;; (== 0 (% ctr 10))
       (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
-   (describe-elapsed total repetitions))))
+   (let ((describe-elapsed
+          (lambda (total repetitions)
+           (nl)
+           (princ "total ums: ")
+           (princ total) (nl)
+           (princ "total ms: ")
+           (princ (/ total 1000)) (nl)
+           (princ "total s: ")
+           (princ (/ total 1000000)) (nl)
+           (princ "each ms: ")
+           (princ (/ total repetitions 1000)) (nl))))
+         (describe-elapsed total repetitions)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib
  (lambda (n)
