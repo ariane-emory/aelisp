@@ -407,6 +407,22 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get_deloc method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_obj_get_delocalized(const ae_obj_t * const this) {
+  assert(this);
+  
+  bool deloc = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
+
+#ifdef AE_LOG_METADATA
+  PR("While getting deloc of %016p, metadata was 0x%08X, deloc is %d.\n", this->metadata, deloc);
+#endif
+
+  return deloc;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -430,17 +446,63 @@ void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _get_deloc method
+// _get_min_args method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ae_obj_get_delocalized(const ae_obj_t * const this) {
-  assert(this);
-  
-  bool deloc = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
+int ae_obj_get_min_args(const ae_obj_t * const this) {
+    assert(this);
+    
+    int min_args = FROM_MASKED(int, this->metadata, AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
 
 #ifdef AE_LOG_METADATA
-  PR("While getting deloc of %016p, metadata was 0x%08X, deloc is %d.\n", this->metadata, deloc);
+    // PR("While getting min_args, metadata was 0x%08X, min_args is %d.\n", this->metadata, min_args);
 #endif
 
-  return deloc;
+    return min_args;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_min_args method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ae_obj_set_min_args(ae_obj_t * const this, const int min_args) {
+    assert(this);
+    
+    int old_min_args = FROM_MASKED(int, this->metadata, AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
+    this->metadata = TO_MASKED(min_args, AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
+
+#ifdef AE_LOG_METADATA
+    // PR("While setting min_args to %d, min_args was %d. Metadata is now 0x%08X.\n", min_args, old_min_args, this->metadata); 
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _get_max_args method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int ae_obj_get_max_args(const ae_obj_t * const this) {
+    assert(this);
+    
+    int max_args = FROM_MASKED(int, this->metadata, AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
+
+#ifdef AE_LOG_METADATA
+    // PR("While getting max_args, metadata was 0x%08X, max_args is %d.\n", this->metadata, max_args);
+#endif
+
+    return max_args;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_max_args method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ae_obj_set_max_args(ae_obj_t * const this, const int max_args) {
+    assert(this);
+    
+    int old_max_args = FROM_MASKED(int, this->metadata, AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
+    this->metadata = TO_MASKED(max_args, AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
+
+#ifdef AE_LOG_METADATA
+    // PR("While setting max_args to %d, max_args was %d. Metadata is now 0x%08X.\n", max_args, old_max_args, this->metadata); 
+#endif
 }

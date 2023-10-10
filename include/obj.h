@@ -144,12 +144,15 @@ bool          ae_obj_keywordp       (const ae_obj_t * const this                
 bool          ae_obj_specialp       (const ae_obj_t * const this                                  );
 bool          ae_obj_tailp          (const ae_obj_t * const this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool          ae_obj_get_delocalized   (const ae_obj_t * const this                                  );
+bool          ae_obj_get_delocalized(const ae_obj_t * const this                                  );
 void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // These two are not yet used and are just here as an example of how to set the next metadata region:
 char          ae_obj_get_foo        (const ae_obj_t * const this                                  );
 void          ae_obj_set_foo        (      ae_obj_t * const this, const char             foo      );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int           ae_obj_get_max_args   (const ae_obj_t * const this                                  );
+void          ae_obj_set_max_args   (ae_obj_t * const this,       const int               max_args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 extern ae_obj_t   true_obj;
