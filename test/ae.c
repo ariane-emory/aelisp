@@ -1323,8 +1323,6 @@ void tailp(void) {
 void bubble_list(void) {
   SETUP_TEST;
 
-  obj env = ENV_NEW_ROOT();
-
   obj list = CONS(SYM("foo"),
                   CONS(SYM("bar"),
                        CONS(SYM("baz"),
@@ -1335,6 +1333,35 @@ void bubble_list(void) {
                                                 CONS(SYM("waldo"),
                                                      CONS(SYM("fred"),
                                                           CONS(SYM("plugh"), CONS(SYM("xyzzy"), CONS(SYM("thud"), NIL))))))))))));
+
+  obj target = SYM("baz");
+  obj prior  = NIL;
+  obj doubly_prior = NIL;
+  
+  for (ae_obj_t
+         * position = list,
+         * elem     = CAR(position);
+       CONSP(position);
+       elem = CAR(position = CDR(position))) {
+    LOG(elem,  "elem: ");
+    LOG(prior, "prior: ");
+    NL;
+    doubly_prior = prior
+    prior = position;
+    if (elem == target) {
+      LOG(position, "found it: ");
+      NL;
+      if (! NILP(prior)) {
+        PR("Swapping...\n");    // (foo bar baz
+        obj tmp = CAR(prior);
+        CAR(prior) = elem;
+        CAR(position) = tmp;
+      }
+      break;
+    }
+  }
+
+  LOG(list, "list: ");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
