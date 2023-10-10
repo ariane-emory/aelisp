@@ -144,7 +144,7 @@ bool          ae_obj_keywordp       (const ae_obj_t * const this                
 bool          ae_obj_specialp       (const ae_obj_t * const this                                  );
 bool          ae_obj_tailp          (const ae_obj_t * const this                                  );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool          ae_obj_delocalizedp   (const ae_obj_t * const this                                  );
+bool          ae_obj_get_delocalized   (const ae_obj_t * const this                                  );
 void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // These two are not yet used and are just here as an example of how to set the next metadata region:
@@ -170,7 +170,7 @@ extern ae_obj_t * symbols_list;
 #define UNSAFE_MOVE(to, from)            (ae_obj_unsafe_move((to), (from)))
 #define ZERO(obj)                        (memset((obj), 0, sizeof(ae_obj_t)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DELOCALIZEDP(o)                  (ae_obj_delocalizedp((o)))
+#define DELOCALIZEDP(o)                  (ae_obj_get_delocalized((o)))
 #define MARK_DELOCALIZED(o)              (ae_obj_set_delocalized((o), true))
 #define UNMARK_DELOCALIZED(o)            (ae_obj_set_delocalized((o), false))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

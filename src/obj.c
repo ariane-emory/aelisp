@@ -332,29 +332,6 @@ bool ae_obj_keywordp(const ae_obj_t * const this) {
 #define AE_DELOC_MASK              (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set_deloc method
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
-  assert(this);
-
-#ifdef AE_LOG_METADATA
-  printf("Before: 0x%08X\n", this->metadata);
-  
-  printf("mask is  %008X, shift is %008X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
-#endif
-  
-  bool old_deloc   = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
-  this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
-  
-#ifdef AE_LOG_METADATA
-  printf("While setting deloc of %016p to (0x%08X), deloc was 0x%08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
-
-  printf("After:  0x%08X\n", this->metadata);
-#endif
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _get_type method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -418,8 +395,6 @@ char ae_obj_get_foo(const ae_obj_t * const this) {
 // _set_foo method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// This is not yet used and is just here as an example of how to set the next metadata region:
-
 void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   assert(this);
   
@@ -432,10 +407,33 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_deloc method
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
+  assert(this);
+
+#ifdef AE_LOG_METADATA
+  printf("Before: 0x%08X\n", this->metadata);
+  
+  printf("mask is  %008X, shift is %008X.\n", AE_DELOC_MASK, AE_DELOC_SHIFT);
+#endif
+  
+  bool old_deloc   = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT);
+  this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
+  
+#ifdef AE_LOG_METADATA
+  printf("While setting deloc of %016p to (0x%08X), deloc was 0x%08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
+
+  printf("After:  0x%08X\n", this->metadata);
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _get_deloc method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ae_obj_delocalizedp(const ae_obj_t * const this) {
+bool ae_obj_get_delocalized(const ae_obj_t * const this) {
   assert(this);
   
   bool deloc = FROM_MASKED(bool, this->metadata, AE_DELOC_MASK, AE_DELOC_SHIFT) ? true : false;
