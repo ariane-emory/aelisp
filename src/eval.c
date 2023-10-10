@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "eval.h"
@@ -73,8 +74,35 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   //LOG(DOBJ(env), "with this debug data");
 #endif
 
-  MAYBE_EVAL(SPECIALP(fun), args);
+  bool invalid_arg_count = false;
 
+  if (CORE_MIN_ARGS(fun) != -1 && LENGTH(args) < CORE_MIN_ARGS(fun))
+    invalid_arg_count = true;
+
+  if (CORE_MAX_ARGS(fun) != -1 && LENGTH(args) > CORE_MAX_ARGS(fun))
+    invalid_arg_count = true;
+
+  if (invalid_arg_count) {
+    char * msg_tmp = free_list_malloc(256);
+
+    
+    sprintf(msg_tmp, "%s:%d: core '%s' requires %d to %d args, but got %d",
+            __FILE__,
+            __LINE__,
+            CORE_NAME(fun),
+            CORE_MIN_ARGS(fun),
+            CORE_MAX_ARGS(fun),
+            LENGTH(args));
+
+    char * msg = free_list_malloc(strlen(msg_tmp) + 1);
+    strcpy(msg, msg_tmp);
+    free_list_free(msg_tmp);
+    
+    return NEW_ERROR(msg, NIL);
+  }
+  
+  MAYBE_EVAL(SPECIALP(fun), args);
+  
 #ifdef AE_LOG_EVAL
   if (! SPECIALP(fun))
     LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
