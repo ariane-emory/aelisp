@@ -458,7 +458,7 @@ unsigned int ae_obj_get_max_args(const ae_obj_t * const this) {
   // PR("While getting max_args, metadata was 0x%08X, max_args is %u.\n", this->metadata, max_args);
 #endif
 
-  PR("got max args of core fun '%s' = %u.\n", CORE_NAME(this), max_args);
+  /* PR("got max args of core fun '%s' = %u.\n", CORE_NAME(this), max_args); */
     
   return max_args;
 }
@@ -470,9 +470,9 @@ unsigned int ae_obj_get_max_args(const ae_obj_t * const this) {
 void ae_obj_set_max_args(ae_obj_t * const this, const unsigned int max_args) {
   assert(this);
 
-  PR("setting core fun '%s' max args to %u.\n", CORE_NAME(this), max_args);    
+  /* PR("setting core fun '%s' max args to %u.\n", CORE_NAME(this), max_args);     */
   
-  assert(max_args <= 15);  // Ensuring valid 4-bit value
+  /* assert(max_args <= 15);  // Ensuring valid 4-bit value */
     
   this->metadata = TO_MASKED(max_args, AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
 
@@ -494,7 +494,7 @@ unsigned int ae_obj_get_min_args(const ae_obj_t * const this) {
   // PR("While getting min_args, metadata was 0x%08X, min_args is %u.\n", this->metadata, min_args);
 #endif
 
-  PR("got min args of core fun '%s' = %u.\n", CORE_NAME(this), min_args);
+  /* PR("got min args of core fun '%s' = %u.\n", CORE_NAME(this), min_args); */
     
   return min_args;
 }
@@ -506,9 +506,9 @@ unsigned int ae_obj_get_min_args(const ae_obj_t * const this) {
 void ae_obj_set_min_args(ae_obj_t * const this, const unsigned int min_args) {
   assert(this);
 
-  PR("setting core fun '%s' min args to %u.\n", CORE_NAME(this), min_args);    
+  /* PR("setting core fun '%s' min args to %u.\n", CORE_NAME(this), min_args);     */
 
-  assert(min_args <= 15);  // Ensuring valid 4-bit value
+  /* assert(min_args <= 15);  // Ensuring valid 4-bit value */
     
   this->metadata = TO_MASKED(min_args, AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
 
