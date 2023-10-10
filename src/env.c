@@ -37,63 +37,134 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, const ae_obj_t * const env, const ae_obj_t * const symbol, bool * const found_ptr) {
+
     assert(ENVP(env));
     assert(SYMBOLP(symbol));
 
-    ae_obj_t *prior_symbols = NULL;
-    ae_obj_t *prior_values  = NULL;
+#ifdef AE_LOG_ENV
+    LOG(symbol, "[looking up]");
+    INDENT;
+#endif
 
-    const ae_obj_t * pos = env;
+    if (found_ptr)
+        *found_ptr = false;
+
+    // Check for keywords that are automatically resolved:
+    if (KEYWORDP(symbol)) {
+#ifdef AE_LOG_ENV
+        LOG(NIL, "Keyword found automatically.");
+#endif
+        if (found_ptr)
+            *found_ptr = true;
+
+#ifdef AE_LOG_ENV
+        OUTDENT;
+        LOG(symbol, "[looked up]");
+#endif
+        return (ae_obj_t *)symbol;
+    }
+
+    if (NILP(symbol)) {
+#ifdef AE_LOG_ENV
+        LOG(NIL, "found NIL automatically.");
+#endif
+        if (found_ptr)
+            *found_ptr = true;
+
+#ifdef AE_LOG_ENV
+        OUTDENT;
+        LOG(NIL, "[looked up]");
+#endif
+        return NIL;
+    }
+
+    if (TRUEP(symbol)) {
+#ifdef AE_LOG_ENV
+        LOG(TRUE, "found TRUE automatically");
+#endif
+        if (found_ptr)
+            *found_ptr = true;
+
+#ifdef AE_LOG_ENV
+        OUTDENT;
+        LOG(TRUE, "[looked up]");
+#endif
+        return TRUE;
+    }
+
+    ae_obj_t *ret = NULL;  // Initialize the return value
+    const ae_obj_t *pos = env;
 
     // If GLOBAL, dive right to the top:
     if (mode == GLOBAL)
-        while (! NILP(ENV_PARENT(pos)))
+        while (!NILP(ENV_PARENT(pos)))
             pos = ENV_PARENT(pos);
 
     for (; ENVP(pos); pos = ENV_PARENT(pos)) {
-        ae_obj_t *symbols = ENV_SYMS(pos);
-        ae_obj_t *values  = ENV_VALS(pos);
+#ifdef AE_LOG_ENV
+        LOG(pos, "in env");
+#endif
 
-        for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
+        ae_obj_t *symbols = ENV_SYMS(pos);
+        ae_obj_t *values = ENV_VALS(pos);
+        ae_obj_t *prev_symbols = NIL;
+        ae_obj_t *prev_values = NIL;
+
+#ifdef AE_LOG_ENV
+        LOG(symbols, "containing syms");
+#endif
+
+        for (; CONSP(symbols); prev_symbols = symbols, prev_values = values, symbols = CDR(symbols), values = CDR(values)) {
             if (symbol == CAR(symbols)) {
-                if (found_ptr) {
+
+#ifdef AE_LOG_ENV
+                LOG(CAR(values), "found it ->");
+#endif
+
+                ret = CAR(values);
+
+                if (found_ptr)
                     *found_ptr = true;
 
-                    #ifdef AE_ENV_BUBBLING
-                    // If the symbol was found and it's not the first element
-                    if (prior_symbols && prior_values) {
-                        // Swap elements by adjusting the cdr pointers for the previous elements.
-                        ae_obj_t *temp_symbols = CDR(prior_symbols);
-                        CDR(prior_symbols) = CDR(symbols);
-                        CDR(symbols) = temp_symbols;
+#ifdef AE_ENV_BUBBLING
+                // Swap symbols
+                if (prev_symbols) {
+                    ae_obj_t *temp = CDR(prev_symbols);
+                    CDR(prev_symbols) = symbols;
+                    CDR(symbols) = temp;
 
-                        ae_obj_t *temp_values = CDR(prior_values);
-                        CDR(prior_values) = CDR(values);
-                        CDR(values) = temp_values;
-                    }
-                    #endif
+                    // Swap values in the parallel list
+                    temp = CDR(prev_values);
+                    CDR(prev_values) = values;
+                    CDR(values) = temp;
                 }
-                return CAR(values);
+#endif
+
+                goto end;
             }
-            prior_symbols = symbols;
-            prior_values = values;
         }
 
-        // Handle the special case for symbols being a single symbol
+        // Special case for symbols being one symbol:
         if (symbol == symbols) {
-            return values;
+            ret = values;
+            goto end;
         }
 
-        if (mode == LOCAL) {
+        if (mode == LOCAL)
             break;
-        }
     }
 
-    if (found_ptr) {
-        *found_ptr = false;
-    }
+#ifdef AE_LOG_ENV
+    SLOG("didn't find it!");
+#endif
 
-    return NIL;
+end:
+#ifdef AE_LOG_ENV
+    OUTDENT;
+    LOG(ret, "[looked up]");
+#endif
+
+    return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
