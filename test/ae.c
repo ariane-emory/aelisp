@@ -43,25 +43,25 @@ static char mem[free_list_size] = { 0 };
 #define COUNT_LIST_LENGTH(l)      ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
 #define CORE_SETQ(env, sym, val)  (ae_core_setq(env, CONS(SYM(sym), CONS(val, NIL))))
 
-#define SETUP_TEST                                                                                 \
-  obj    this    = NULL;                                                                           \
-  obj    that    = NULL;                                                                           \
-  symbols_list          = NIL;                                                                     \
-  memset(mem, 0, free_list_size);                                                                  \
-  free_list_reset();                                                                               \
-  free_list_add_block(&mem[0], free_list_size);                                                    \
-  pool_clear();                                                                                    \
-  if (tmp_str) {                                                                                   \
-    free(tmp_str);                                                                                 \
-    tmp_str = NULL;                                                                                \
-  }                                                                                                \
-  (void)this;                                                                                      \
+#define SETUP_TEST                                                                                                     \
+  obj    this    = NULL;                                                                                               \
+  obj    that    = NULL;                                                                                               \
+  symbols_list          = NIL;                                                                                         \
+  memset(mem, 0, free_list_size);                                                                                      \
+  free_list_reset();                                                                                                   \
+  free_list_add_block(&mem[0], free_list_size);                                                                        \
+  pool_clear();                                                                                                        \
+  if (tmp_str) {                                                                                                       \
+    free(tmp_str);                                                                                                     \
+    tmp_str = NULL;                                                                                                    \
+  }                                                                                                                    \
+  (void)this;                                                                                                          \
   (void)that;
 
-#define DESCR(fun)                                                                                 \
-  PR("\n\n[describe %s " #fun  "] ", GET_TYPE_STR(fun));                                               \
-  LOG(FUN_PARAMS(fun), "params");                                                                  \
-  LOG(FUN_ENV(fun), "env");                                                                        \
+#define DESCR(fun)                                                                                                     \
+  PR("\n\n[describe %s " #fun  "] ", GET_TYPE_STR(fun));                                                               \
+  LOG(FUN_PARAMS(fun), "params");                                                                                      \
+  LOG(FUN_ENV(fun), "env");                                                                                            \
   LOG(FUN_BODY(fun), "body")
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,12 +205,12 @@ void basic_list_checks(obj this) {
 void remove_interned_symbol_from_list(void) {
   SETUP_TEST;
 
-#define TEST_SYM(str)                                                                              \
-  {                                                                                                \
-    int len = LENGTH(symbols_list);                                                                \
-    T(SYM(str) == SYM(str)));                                                                    \
-    T(LENGTH(symbols_list) == (len + 1)));                                                       \
-  }
+#define TEST_SYM(str)                                                                                                  \
+  {                                                                                                                    \
+    int len = LENGTH(symbols_list);                                                                                    \
+    T(SYM(str) == SYM(str)));                                                                                          \
+  T(LENGTH(symbols_list) == (len + 1)));                                                                               \
+}
 
   // using 'symbols_list' as the symbol list here:
   T(SYM("a") == SYM("a"));
@@ -257,11 +257,11 @@ void newly_allocated_ae_obj_type_is_AE_INVALID(void)
 }
 
 void newly_initialized_ae_obj_has_correct_type_field(void) {
-#define test(_type)                                                                                \
-  {                                                                                                \
-    SETUP_TEST;                                                                                    \
-    this = NEW(_type);                                                                             \
-    T(GET_TYPE(this) == _type);                                                                 \
+#define test(_type)                                                                                                    \
+  {                                                                                                                    \
+    SETUP_TEST;                                                                                                        \
+    this = NEW(_type);                                                                                                 \
+    T(GET_TYPE(this) == _type);                                                                                        \
   }
   FOR_EACH_LEXED_TYPE(test);
 }
@@ -338,36 +338,36 @@ void intern_symbols(void) {
   T(LENGTH(symbols_list) == 2);
 }
 
-#define LENGTH_TEST(fun, expect, type, field, val, ...)                                            \
-  {                                                                                                \
-    this        = NEW(type);                                                                       \
-    this->field = val;                                                                             \
-                                                                                                   \
-    __VA_ARGS__;                                                                                   \
-                                                                                                   \
-    char * buff;                                                                                   \
-    size_t size;                                                                                   \
-    FILE * stream   = open_memstream(&buff, &size);                                                \
-    int    reported = ae_##fun(this, stream);                                                      \
-                                                                                                   \
-    fclose(stream);                                                                                \
-    free(buff);                                                                                    \
-                                                                                                   \
-    if (strlen(buff) != expect)                                                                    \
-    {                                                                                              \
-      NL;                                                                                          \
-      PR("With " #fun ",  <");                                                                     \
-      PR(buff);                                                                                    \
-      PR("> wrote %d characters, expected %d.", strlen(buff), expect);                             \
-    }                                                                                              \
-                                                                                                   \
-    T(strlen(buff) == expect);                                                                     \
-    T((int)strlen(buff) == (int)size);                                                             \
-    TM("strlen was %d but size was %d:\n\"%s\".\n",                                                \
-       (int)strlen(buff), (int)size, buff);                                                        \
-    T((int)strlen(buff) == (int)reported);                                                         \
-    TM("strlen was %d but reported was %d:\n\"%s\".\n",                                            \
-       (int)strlen(buff), (int)reported, buff);                                                    \
+#define LENGTH_TEST(fun, expect, type, field, val, ...)                                                                \
+  {                                                                                                                    \
+    this        = NEW(type);                                                                                           \
+    this->field = val;                                                                                                 \
+                                                                                                                       \
+    __VA_ARGS__;                                                                                                       \
+                                                                                                                       \
+    char * buff;                                                                                                       \
+    size_t size;                                                                                                       \
+    FILE * stream   = open_memstream(&buff, &size);                                                                    \
+    int    reported = ae_##fun(this, stream);                                                                          \
+                                                                                                                       \
+    fclose(stream);                                                                                                    \
+    free(buff);                                                                                                        \
+                                                                                                                       \
+    if (strlen(buff) != expect)                                                                                        \
+    {                                                                                                                  \
+      NL;                                                                                                              \
+      PR("With " #fun ",  <");                                                                                         \
+      PR(buff);                                                                                                        \
+      PR("> wrote %d characters, expected %d.", strlen(buff), expect);                                                 \
+    }                                                                                                                  \
+                                                                                                                       \
+    T(strlen(buff) == expect);                                                                                         \
+    T((int)strlen(buff) == (int)size);                                                                                 \
+    TM("strlen was %d but size was %d:\n\"%s\".\n",                                                                    \
+       (int)strlen(buff), (int)size, buff);                                                                            \
+    T((int)strlen(buff) == (int)reported);                                                                             \
+    TM("strlen was %d but reported was %d:\n\"%s\".\n",                                                                \
+       (int)strlen(buff), (int)reported, buff);                                                                        \
   }
 
 void fprinc_fwrite_lengths(void) {
@@ -418,43 +418,43 @@ void eql(void) {
   obj obj_string_a_c  = NEW_STRING("a");
   obj obj_string_b_a  = NEW_STRING("b");
 
-#define FOR_EVERY_OBJ_DO(X)                                                                        \
-  X(  obj_int_2a)                                                                                  \
-    X(obj_int_2b)                                                                                  \
-    X(obj_float_2a)                                                                                \
-    X(obj_float_2b)                                                                                \
-    X(obj_int_3a)                                                                                  \
-    X(obj_int_3b)                                                                                  \
-    X(obj_float_3a)                                                                                \
-    X(obj_float_3b)                                                                                \
-    X(obj_bool_false)                                                                              \
-    X(obj_bool_true)                                                                               \
-    X(obj_list_consed)                                                                             \
-    X(obj_list_pushed)                                                                             \
-    X(obj_rat_2a)                                                                                  \
-    X(obj_rat_2b)                                                                                  \
-    X(obj_rat_3a)                                                                                  \
-    X(obj_rat_3b)                                                                                  \
-    X(obj_char_a_a)                                                                                \
-    X(obj_char_a_b)                                                                                \
-    X(obj_char_b_a)                                                                                \
-    X(obj_char_b_b)                                                                                \
-    X(obj_string_a_a)                                                                              \
-    X(obj_string_a_b)                                                                              \
-    X(obj_string_a_c)                                                                              \
+#define FOR_EVERY_OBJ_DO(X)                                                                                            \
+  X(  obj_int_2a)                                                                                                      \
+    X(obj_int_2b)                                                                                                      \
+    X(obj_float_2a)                                                                                                    \
+    X(obj_float_2b)                                                                                                    \
+    X(obj_int_3a)                                                                                                      \
+    X(obj_int_3b)                                                                                                      \
+    X(obj_float_3a)                                                                                                    \
+    X(obj_float_3b)                                                                                                    \
+    X(obj_bool_false)                                                                                                  \
+    X(obj_bool_true)                                                                                                   \
+    X(obj_list_consed)                                                                                                 \
+    X(obj_list_pushed)                                                                                                 \
+    X(obj_rat_2a)                                                                                                      \
+    X(obj_rat_2b)                                                                                                      \
+    X(obj_rat_3a)                                                                                                      \
+    X(obj_rat_3b)                                                                                                      \
+    X(obj_char_a_a)                                                                                                    \
+    X(obj_char_a_b)                                                                                                    \
+    X(obj_char_b_a)                                                                                                    \
+    X(obj_char_b_b)                                                                                                    \
+    X(obj_string_a_a)                                                                                                  \
+    X(obj_string_a_b)                                                                                                  \
+    X(obj_string_a_c)                                                                                                  \
     X(obj_string_b_a)
 
-#define NETP(first, second)                                                                        \
-  if (first != second) {                                                                           \
-    T( ! EQL( (first)  , (second) ));                                                               \
-    T( ! EQL( (second) , (first)  ));                                                               \
+#define NETP(first, second)                                                                                            \
+  if (first != second) {                                                                                               \
+    T( ! EQL( (first)  , (second) ));                                                                                  \
+    T( ! EQL( (second) , (first)  ));                                                                                  \
   }
 
-#define ETP(first, second)                                                                         \
-  T( EQL( (first)  , (second) ));                                                                  \
+#define ETP(first, second)                                                                                             \
+  T( EQL( (first)  , (second) ));                                                                                      \
   T( EQL( (second) , (first)  ));
 
-#define SELF_EQL(o)                                                                                \
+#define SELF_EQL(o)                                                                                                    \
   ETP( obj_bool_false , obj_bool_false );
 
   //  Everything is equal to itself.
@@ -530,9 +530,9 @@ void truth(void) {
   T(NILP(that));
 }
 
-#define ENV_TRIO                          \
-  obj root   = ENV_NEW_ROOT();            \
-  obj parent = NEW_ENV(root,   NIL, NIL); \
+#define ENV_TRIO                                                                                                       \
+  obj root   = ENV_NEW_ROOT();                                                                                         \
+  obj parent = NEW_ENV(root,   NIL, NIL);                                                                              \
   obj child  = NEW_ENV(parent, NIL, NIL);
   
 
@@ -779,28 +779,48 @@ void core_eq_eql_not(void) {
   this = CONS(NEW_INT(1), NEW_CONS(NEW_INT(2), NIL));
   that = CONS(NEW_INT(1), NEW_CONS(NEW_INT(2), NIL));
 
-  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), NEW_CONS(NEW_INT  (5  ), NIL)                 )))); // 5 and 5 are equal numbers...
-  T(NILP (ae_core_eq   (env, CONS(NEW_INT(5), NEW_CONS(NEW_INT  (5  ), NIL)                 )))); // ... but they are not the same object.
-  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), NEW_CONS(NEW_FLOAT(5.0), NIL)                 )))); // 5 and 5.0 are equal-enough numbers...
-  T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), NEW_CONS(NEW_INT  (6  ), NIL)                 )))); // ... but 5 and 6 are not.
+  obj args = NIL;
+  
+  args = CONS(NEW_INT(5), NEW_CONS(NEW_INT  (5  ), NIL));
+  T(TRUEP(ae_core_eql  (env, args, LENGTH(args)))); // 5 and 5 are equal numbers...
+  args = CONS(NEW_INT(5), NEW_CONS(NEW_INT  (5  ), NIL));
+  T(NILP (ae_core_eq   (env, args, LENGTH(args)))); // ... but they are not the same object.
+  args = CONS(NEW_INT(5), NEW_CONS(NEW_FLOAT(5.0), NIL));
+  T(TRUEP(ae_core_eql  (env, args, LENGTH(args)))); // 5 and 5.0 are equal-enough numbers...
+  args = CONS(NEW_INT(5), NEW_CONS(NEW_INT  (6  ), NIL));
+  T(NILP (ae_core_eql  (env, args, LENGTH(args)))); // ... but 5 and 6 are not.
 
-  T(TRUEP(ae_core_eq   (env, CONS(this      , NEW_CONS(this, NIL)                           )))); // These are the same object and so are eq
-  T(TRUEP(ae_core_eql  (env, CONS(this      , NEW_CONS(this, NIL)                           )))); // and also eql.
-  T(NILP (ae_core_eq   (env, CONS(this      , NEW_CONS(that, NIL)                           )))); // These are the NOT the same object and so
-  T(NILP (ae_core_eql  (env, CONS(this      , NEW_CONS(that, NIL)                           )))); // neither eq or eql.
-  T(NILP (ae_core_eq   (env, CONS(that      , NEW_CONS(this, NIL)                           )))); // eq is commutative.
-  T(NILP (ae_core_eql  (env, CONS(that      , NEW_CONS(this, NIL)                           )))); // eql too.
+  args = CONS(this      , NEW_CONS(this, NIL));
+  T(TRUEP(ae_core_eq   (env, args, LENGTH(args)))); // These are the same object and so are eq
+  args = CONS(this      , NEW_CONS(this, NIL));
+  T(TRUEP(ae_core_eql  (env, args, LENGTH(args)))); // and also eql.
+  args = CONS(this      , NEW_CONS(that, NIL));
+  T(NILP (ae_core_eq   (env, args, LENGTH(args)))); // These are the NOT the same object and so
+  args = CONS(this      , NEW_CONS(that, NIL));
+  T(NILP (ae_core_eql  (env, args, LENGTH(args)))); // neither eq or eql.
+  args = CONS(that      , NEW_CONS(this, NIL));
+  T(NILP (ae_core_eq   (env, args, LENGTH(args)))); // eq is commutative.
+  args = CONS(that      , NEW_CONS(this, NIL));
+  T(NILP (ae_core_eql  (env, args, LENGTH(args)))); // eql too.
 
-  T(TRUEP(ae_core_eq   (env, CONS(this      , CONS(this         , NEW_CONS(this      , NIL)))))); // eq can take 3+ arguments...
-  T(NILP (ae_core_eq   (env, CONS(this      , CONS(this         , NEW_CONS(that      , NIL))))));
-  T(TRUEP(ae_core_eq   (env, CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL))))));
-  T(NILP (ae_core_eq   (env, CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL))))));
+  args = CONS(this      , CONS(this         , NEW_CONS(this      , NIL)));
+  T(TRUEP(ae_core_eq   (env, args, LENGTH(args)))); // eq can take 3+ arguments...
+  args = CONS(this      , CONS(this         , NEW_CONS(that      , NIL)));
+  T(NILP (ae_core_eq   (env, args, LENGTH(args))));
+  args = CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL)));
+  T(TRUEP(ae_core_eq   (env, args, LENGTH(args))));
+  args = CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL)));
+  T(NILP (ae_core_eq   (env, args, LENGTH(args))));
 
-  T(TRUEP(ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(5), NIL)))))); // ...so can eql.
-  T(NILP (ae_core_eql  (env, CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(6), NIL))))));
+  args = CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(5), NIL)));
+  T(TRUEP(ae_core_eql  (env, args, LENGTH(args)))); // ...so can eql.
+  args = CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(6), NIL)));
+  T(NILP (ae_core_eql  (env, args, LENGTH(args))));
 
-  T(TRUEP(ae_core_not  (env, CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL))))));
-  T(NILP (ae_core_not  (env, CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL))))));
+  args = CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL)));
+  T(TRUEP(ae_core_not  (env, args, LENGTH(args))));
+  args = CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL)));
+  T(NILP (ae_core_not  (env, args, LENGTH(args))));
 }
 
 void core_print_princ_write(void) {
@@ -812,24 +832,24 @@ void core_print_princ_write(void) {
     PR("write-ing '\"hello\" 5 a abc' on the next line, with quoting: ");
     NL;
 
-    obj written  = ae_core_write(env,
-      CONS(NEW_STRING("hello"),
-           CONS(NEW_INT(5),
-           CONS(NEW_CHAR('a'),
-           CONS(SYM("abc"),
-           NIL)))));
+    obj args    = CONS(NEW_STRING("hello"),
+                       CONS(NEW_INT(5),
+                            CONS(NEW_CHAR('a'),
+                                 CONS(SYM("abc"),
+                                      NIL))));
+    obj written = ae_core_write(env, args, LENGTH(args));
     NL;
     T(INT_VAL(written) == 17);
     TM("Expected %d, wrote %d.", 17, INT_VAL(written));
   }
   {
     PR("\nprint-ing \"hello\",  5 a, abc on the next 3 lines, with quoting: ");
-    obj written = ae_core_print(env,
-      CONS(NEW_STRING("hello"),
-           CONS(NEW_INT(5),
-           CONS(NEW_CHAR('a'),
-           CONS(SYM("abc"),
-           NIL)))));
+    obj args    = CONS(NEW_STRING("hello"),
+                       CONS(NEW_INT(5),
+                            CONS(NEW_CHAR('a'),
+                                 CONS(SYM("abc"),
+                                      NIL))));
+    obj written = ae_core_print(env, args, LENGTH(args));
     NL;
     T(INT_VAL(written) == 21);
     TM("Expected %d, wrote %d.", 14, INT_VAL(written));
@@ -837,12 +857,12 @@ void core_print_princ_write(void) {
   {
     PR("\nprinc-ing 'hello5aabc' on the next line, without quoting: ");
     NL;
-    obj written = ae_core_princ(env,
-      CONS(NEW_STRING("hello"),
-           CONS(NEW_INT(5),
-           CONS(NEW_CHAR('a'),
-           CONS(SYM("abc"),
-           NIL)))));;
+    obj args    = CONS(NEW_STRING("hello"),
+                       CONS(NEW_INT(5),
+                            CONS(NEW_CHAR('a'),
+                                 CONS(SYM("abc"),
+                                      NIL))));
+    obj written = ae_core_princ(env, args, LENGTH(args));;
     NL;
     T(INT_VAL(written) == 10);
     TM("Expected %d, wrote %d.", 10, INT_VAL(written));
@@ -852,45 +872,64 @@ void core_print_princ_write(void) {
 
 void core_math(void) {
   SETUP_TEST;
-  obj env   = ENV_NEW_ROOT();
-
-  this = ae_core_add(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
+  obj env  = ENV_NEW_ROOT();
+  obj args = NIL;
+  
+  args = CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL)));
+  this = ae_core_add(env, args, LENGTH(args));
   T(EQL(this, NEW_INT(31)));
 
-  this = ae_core_sub(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
+  args = CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL)));
+  this = ae_core_sub(env, args, LENGTH(args));
   T(EQL(this, NEW_INT(17)));
 
-  this = ae_core_sub(env, CONS(NEW_INT(3),  CONS(NEW_INT(4), NEW_CONS(NEW_INT(24), NIL))));
+  args = CONS(NEW_INT(3),  CONS(NEW_INT(4), NEW_CONS(NEW_INT(24), NIL)));
+  this = ae_core_sub(env, args, LENGTH(args));
   T(EQL(this, NEW_INT(-25)));
 
-  this = ae_core_mul(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
+  args = CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL)));
+  this = ae_core_mul(env, args, LENGTH(args));
   T(EQL(this, NEW_INT(288)));
 
-  this = ae_core_div(env, CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL))));
+  args = CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL)));
+  this = ae_core_div(env, args, LENGTH(args));
   T(EQL(this, NEW_INT(2)));
 }
 
 void core_cmp(void) {
   SETUP_TEST;
-  obj env   = ENV_NEW_ROOT();
+  obj env  = ENV_NEW_ROOT();
+  obj args = NIL;
+  
+  args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL)));
+  T(TRUEP(ae_core_equal (env, args, LENGTH(args))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL)));
+  T(NILP (ae_core_equal (env, args, LENGTH(args))));
 
-  T(TRUEP(ae_core_equal (env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL))))));
-  T(NILP (ae_core_equal (env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL)));
+  T(NILP (ae_core_nequal(env, args, LENGTH(args))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL)));
+  T(TRUEP(ae_core_nequal(env, args, LENGTH(args))));
 
-  T(NILP (ae_core_nequal(env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL))))));
-  T(TRUEP(ae_core_nequal(env, CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)));
+  T(TRUEP(ae_core_lt (env, args, LENGTH(args))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)));
+  T(NILP (ae_core_gt (env, args, LENGTH(args))));
 
-  T(TRUEP(ae_core_lt (env, CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL))))));
-  T(NILP (ae_core_gt (env, CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL))))));
+  args = CONS(NEW_INT(6), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)));
+  T(TRUEP(ae_core_gt (env, args, LENGTH(args))));
+  args = CONS(NEW_INT(6), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)));
+  T(NILP (ae_core_lt (env, args, LENGTH(args))));
 
-  T(TRUEP(ae_core_gt (env, CONS(NEW_INT(6), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL))))));
-  T(NILP (ae_core_lt (env, CONS(NEW_INT(6), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL))))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL))));
+  T(TRUEP(ae_core_lte(env, args, LENGTH(args))));
+  args = CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL))));
+  T(NILP (ae_core_gte(env, args, LENGTH(args))));
 
-  T(TRUEP(ae_core_lte(env, CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)))))));
-  T(NILP (ae_core_gte(env, CONS(NEW_INT(2), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)))))));
-
-  T(TRUEP(ae_core_gte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)))))));
-  T(NILP (ae_core_lte(env, CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL)))))));
+  args = CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL))));
+  T(TRUEP(ae_core_gte(env, args, LENGTH(args))));
+  args = CONS(NEW_INT(6), CONS(NEW_INT(4), CONS(NEW_INT(4), NEW_CONS(NEW_INT(2), NIL))));
+  T(NILP (ae_core_lte(env, args, LENGTH(args))));
 }
 
 void core_sleep(void) {
@@ -1001,8 +1040,8 @@ void root_env_and_eval(void) {
                         CONS(CONS(SYM("princ"),
                                   NEW_CONS(SYM("x"), NIL)),
                              NEW_CONS(CONS(SYM("+"),
-                                       CONS(SYM("x"),
-                                            NEW_CONS(subexpr, NIL))), NIL)))),
+                                           CONS(SYM("x"),
+                                                NEW_CONS(subexpr, NIL))), NIL)))),
               NEW_CONS(NEW_INT(31), NIL));
 
 
@@ -1013,12 +1052,12 @@ void root_env_and_eval(void) {
   // no princ:
   expr = CONS(CONS(SYM("lambda"),
                    CONS(NEW_CONS(SYM("x"), NIL),
-                      NEW_CONS(CONS(SYM("+"),
-                                CONS(SYM("x"),
-                                     NEW_CONS(NEW_INT(1), NIL))), NIL))),
-            NEW_CONS(CONS(SYM("+"),
-                      CONS(NEW_INT(2),
-                           NEW_CONS(NEW_INT(3), NIL))), NIL));
+                        NEW_CONS(CONS(SYM("+"),
+                                      CONS(SYM("x"),
+                                           NEW_CONS(NEW_INT(1), NIL))), NIL))),
+              NEW_CONS(CONS(SYM("+"),
+                            CONS(NEW_INT(2),
+                                 NEW_CONS(NEW_INT(3), NIL))), NIL));
 
   PR("\nShould Print 6 on the next line:\n");
   rtrn = EVAL(env, expr);
@@ -1038,23 +1077,23 @@ void root_env_and_eval(void) {
   PR(".");
   NL;
 
-#define TEST_COND(input, expected)                                                                            \
-  {                                                                                                           \
-    CORE_SETQ(env, "a", NEW_INT(input));                                                                      \
-    this = EVAL(env, expr);                                                                                   \
-    PR("Rtrn for " #input " is ");                                                                            \
-    PRINC(this);                                                                                              \
-    PR(".");                                                                                                  \
-    NL;                                                                                                       \
-    if (! EQL(this, NEW_INT(expected))) {                                                                     \
-      NL;                                                                                                     \
-      PR("this ");                                                                                            \
-      WRITE(this);                                                                                            \
-      PR(" == expected ");                                                                                    \
-      WRITE(NEW_INT(expected));                                                                               \
-      NL;                                                                                                     \
-    }                                                                                                         \
-    T(EQL(this, NEW_INT(expected)));                                                                          \
+#define TEST_COND(input, expected)                                                                                     \
+  {                                                                                                                    \
+    CORE_SETQ(env, "a", NEW_INT(input));                                                                               \
+    this = EVAL(env, expr);                                                                                            \
+    PR("Rtrn for " #input " is ");                                                                                     \
+    PRINC(this);                                                                                                       \
+    PR(".");                                                                                                           \
+    NL;                                                                                                                \
+    if (! EQL(this, NEW_INT(expected))) {                                                                              \
+      NL;                                                                                                              \
+      PR("this ");                                                                                                     \
+      WRITE(this);                                                                                                     \
+      PR(" == expected ");                                                                                             \
+      WRITE(NEW_INT(expected));                                                                                        \
+      NL;                                                                                                              \
+    }                                                                                                                  \
+    T(EQL(this, NEW_INT(expected)));                                                                                   \
   }
 
   TEST_COND(1, 10);
@@ -1078,20 +1117,20 @@ void list_fun(void) {
 
 obj apply_user_fun(obj fun, obj env, obj args);
 
-#define GENERATED_MACRO_TEST(name, expect_str)     \
- {                                                 \
-   tmp_str = SPRINC(ae_generate_macro_ ## name()); \
-                                                   \
-   if (strcmp(tmp_str, expect_str)) {              \
-     NL;                                           \
-     PR("Got      %s\n", tmp_str);                 \
-     PR("Wanted   %s\n", expect_str);              \
-   }                                               \
-                                                   \
-   T(! strcmp(tmp_str, expect_str));               \
-   free(tmp_str);                                  \
-   tmp_str = NULL;                                 \
- }
+#define GENERATED_MACRO_TEST(name, expect_str)                                                                         \
+  {                                                                                                                    \
+    tmp_str = SPRINC(ae_generate_macro_ ## name());                                                                    \
+                                                                                                                       \
+    if (strcmp(tmp_str, expect_str)) {                                                                                 \
+      NL;                                                                                                              \
+      PR("Got      %s\n", tmp_str);                                                                                    \
+      PR("Wanted   %s\n", expect_str);                                                                                 \
+    }                                                                                                                  \
+                                                                                                                       \
+    T(! strcmp(tmp_str, expect_str));                                                                                  \
+    free(tmp_str);                                                                                                     \
+    tmp_str = NULL;                                                                                                    \
+  }
 
 void macro_expand(void) {
   SETUP_TEST;
@@ -1282,41 +1321,41 @@ void tailp(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
+#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                                                 \
 
-#define FOR_EACH_TEST_FUN(DO)                                                                      \
-  DO(tailp)                                                                                        \
-  DO(test_setup_is_okay)                                                                           \
-  DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
-  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                    \
-  DO(newly_initialized_ae_obj_has_correct_type_field)                                              \
-  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                              \
-  DO(unsafe_move_an_ae_obj)                                                                        \
-  DO(clone_a_simple_ae_obj)                                                                        \
-  DO(consed_list_tests)                                                                            \
-  DO(pushed_list_tests)                                                                            \
-  DO(pushed_and_consed_lists_princ_identically)                                                    \
-  DO(improper_list)                                                                                \
-  DO(intern_symbols)                                                                               \
-  DO(remove_interned_symbol_from_list)                                                             \
-  DO(truth)                                                                                        \
-  DO(eql)                                                                                          \
-  DO(env_basics)                                                                                   \
-  DO(env_scoping)                                                                                  \
-  DO(fprinc_fwrite_lengths)                                                                        \
-  DO(core_cons_car_cdr)                                                                            \
-  DO(core_eq_eql_not)                                                                              \
-  DO(core_print_princ_write)                                                                       \
-  DO(core_math)                                                                                    \
-  DO(core_cmp)                                                                                     \
-  DO(core_sleep)                                                                                   \
-  DO(list_fun)                                                                                     \
-  DO(macro_expand)                                                                                 \
-  DO(deloc)                                                                                        \
-  DO(alist)                                                                                        \
-  DO(plist)                                                                                        \
-  DO(kvp_list)                                                                                     \
-  DO(root_env_and_eval)                                                                            \
+#define FOR_EACH_TEST_FUN(DO)                                                                                          \
+  DO(tailp)                                                                                                            \
+  DO(test_setup_is_okay)                                                                                               \
+  DO(newly_allocated_ae_obj_is_inside_pool)                                                                            \
+  DO(newly_allocated_ae_obj_type_is_AE_INVALID)                                                                        \
+  DO(newly_initialized_ae_obj_has_correct_type_field)                                                                  \
+  DO(newly_initialized_ae_obj_has_zeroed_data_fields)                                                                  \
+  DO(unsafe_move_an_ae_obj)                                                                                            \
+  DO(clone_a_simple_ae_obj)                                                                                            \
+  DO(consed_list_tests)                                                                                                \
+  DO(pushed_list_tests)                                                                                                \
+  DO(pushed_and_consed_lists_princ_identically)                                                                        \
+  DO(improper_list)                                                                                                    \
+  DO(intern_symbols)                                                                                                   \
+  DO(remove_interned_symbol_from_list)                                                                                 \
+  DO(truth)                                                                                                            \
+  DO(eql)                                                                                                              \
+  DO(env_basics)                                                                                                       \
+  DO(env_scoping)                                                                                                      \
+  DO(fprinc_fwrite_lengths)                                                                                            \
+  DO(core_cons_car_cdr)                                                                                                \
+  DO(core_eq_eql_not)                                                                                                  \
+  DO(core_print_princ_write)                                                                                           \
+  DO(core_math)                                                                                                        \
+  DO(core_cmp)                                                                                                         \
+  DO(core_sleep)                                                                                                       \
+  DO(list_fun)                                                                                                         \
+  DO(macro_expand)                                                                                                     \
+  DO(deloc)                                                                                                            \
+  DO(alist)                                                                                                            \
+  DO(plist)                                                                                                            \
+  DO(kvp_list)                                                                                                         \
+  DO(root_env_and_eval)                                                                                                \
   DO(fun_specialness)
 
 #define pair(fun) { #fun, fun },
