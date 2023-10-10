@@ -7,7 +7,7 @@
 
 // This only deals with AE_INTEGERS for now.
 #define DEF_CMP_OP(name, oper, assign, init)                                                       \
-ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {                         \
+ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {                         \
   CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
                                                                                                    \

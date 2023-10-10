@@ -6,7 +6,7 @@
 // _let
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let");
 
   REQUIRE(env, args, LENGTH(args) >= 2,    "let requires a varlist and a body");
@@ -45,7 +45,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(ENV_VALS(new_env), "new_env vals");
 #endif
 
-  ae_obj_t * ret           = ae_core_progn(new_env, body);
+  ae_obj_t * ret           = ae_core_progn(new_env, body, LENGTH(body));
   
   CORE_RETURN("let", ret);
 }
@@ -54,7 +54,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args) {
 // _let_star
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let_star");
 
   REQUIRE(env, args, LENGTH(args) >= 2,    "let_star requires a varlist and a body");
@@ -93,7 +93,7 @@ ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args) {
   LOG(ENV_VALS(new_env), "new_env vals");
 #endif
 
-  ae_obj_t * ret           = ae_core_progn(new_env, body);
+  ae_obj_t * ret           = ae_core_progn(new_env, body, LENGTH(body));
   
   CORE_RETURN("let_star", ret);
 }

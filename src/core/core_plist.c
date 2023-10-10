@@ -4,7 +4,7 @@
 // _pset
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_pset(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_pset(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("pset");
 
   int len = LENGTH(args);
@@ -25,7 +25,7 @@ ae_obj_t * ae_core_pset(ae_obj_t * const env, ae_obj_t * const args) {
 // _pget
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_pget(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_pget(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("pget");
 
   int len = LENGTH(args);
@@ -44,7 +44,7 @@ ae_obj_t * ae_core_pget(ae_obj_t * const env, ae_obj_t * const args) {
 // _phas
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_phas(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_phas(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("phas");
 
   int len = LENGTH(args);

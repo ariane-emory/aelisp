@@ -4,7 +4,7 @@
 // _write
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("write");
 
   int written = 0;
@@ -27,7 +27,7 @@ ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 // _put
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("put");
 
   int written = 0;
@@ -44,7 +44,7 @@ ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * 
 // _princ
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("princ");
 
   int written = 0;
@@ -61,7 +61,7 @@ ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 // _print
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("print");
 
   int written = 0;
@@ -84,7 +84,7 @@ ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 // _nl
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_nl(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("nl");
 
   int len = LENGTH(args);

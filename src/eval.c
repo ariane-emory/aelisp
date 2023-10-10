@@ -74,14 +74,16 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   //LOG(DOBJ(env), "with this debug data");
 #endif
 
-  bool invalid_arg_count = false;
+  bool invalid_args_length = false;
 
+  int args_length = LENGTH(args);
+  
   if      (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun))
-    invalid_arg_count = true;
+    invalid_args_length = true;
   else if (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))
-    invalid_arg_count = true;
+    invalid_args_length = true;
 
-  if (invalid_arg_count) {
+  if (invalid_args_length) {
     char * msg_tmp = free_list_malloc(256);
 
     // if CORE_MIN_ARGSS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
@@ -120,7 +122,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     strcpy(msg, msg_tmp);
     free_list_free(msg_tmp);
     
-    return NEW_ERROR(msg, NIL);
+    ae_obj_t * err_data = NIL;
+
+    KSET(err_data, KW("args"), args);
+    KSET(err_data, KW("env"),  env);
+
+    return NEW_ERROR(msg, err_data);
   }
   
   MAYBE_EVAL(SPECIALP(fun), args);
@@ -133,7 +140,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   //INDENT;
 #endif
 
-  ae_obj_t * ret = (*CORE_FUN(fun))(env, args);
+  ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
 
   log_column = log_column_default;
   

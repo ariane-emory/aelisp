@@ -4,7 +4,7 @@
 // _type
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_type(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("type");
 
   REQUIRE(env, args, (LENGTH(args) == 1));

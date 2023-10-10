@@ -6,7 +6,7 @@
 
 // This only deals with AE_INTEGERS for now. It mutates its first argument.
 #define DEF_MATH_OP(name, oper, default)                                                           \
-ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args) {                         \
+ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {                         \
   CORE_BEGIN(#name);                                                                               \
   assert(CONSP(args));                                                                             \
                                                                                                    \

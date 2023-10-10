@@ -25,7 +25,7 @@
 
 typedef char * ae_string_t;
 
-typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const, struct ae_obj_t * const);
+typedef struct ae_obj_t * (*ae_core_fun)(struct ae_obj_t * const, struct ae_obj_t * const, int args_length);
 
 struct ae_obj_t; // forward decl.
 

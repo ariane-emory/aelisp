@@ -5,7 +5,7 @@
 // _repeat
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("repeat");
 
   REQUIRE(env, args, LENGTH(args) >= 2, "repeat requires at least 2 args");
@@ -14,7 +14,7 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args) {
   REQUIRE(env, args, times, "repeat's 1st arg evaluate to an integer");
 
   for (long long int ix = 0; ix < times; ix++)
-    ae_core_progn(env, CDR(args));
+    ae_core_progn(env, CDR(args), LENGTH(CDR(args)));
 
   CORE_RETURN("repeat", NIL);
 }
@@ -23,7 +23,7 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args) {
 // _progn
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("progn");
 
   ae_obj_t * ret = NIL;
@@ -41,7 +41,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args) {
 // _cond
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("cond");
 
   REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
@@ -60,7 +60,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 #endif
 
     if (! NILP(EVAL(env, item_car))) {
-      ret = ae_core_progn(env, item_cdr);
+      ret = ae_core_progn(env, item_cdr, LENGTH(item_cdr));
 
       break;
     }
@@ -73,7 +73,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args) {
 // _if
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("if");
 
   ae_obj_t * const if_cond     = CAR(args);
@@ -109,7 +109,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
     LOG(else_branch, "chose else");
 #endif
 
-    CORE_RETURN("if", ae_core_progn(env, else_branch));
+    CORE_RETURN("if", ae_core_progn(env, else_branch, LENGTH(else_branch)));
   }
 }
 
@@ -117,7 +117,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args) {
 // _when
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("when");
 
   ae_obj_t * const when_cond   = CAR(args);
@@ -142,7 +142,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args) {
     LOG(then_branch, "chose then");
 #endif
 
-    CORE_RETURN("when", ae_core_progn(env, then_branch));
+    CORE_RETURN("when", ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 
 #ifdef AE_LOG_CORE
@@ -156,7 +156,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args) {
 // _or
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("or");
 
   ae_obj_t * const either_branch = CAR(args);
@@ -197,7 +197,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args) {
 // _and
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
   ae_obj_t * const this_branch = CAR(args);

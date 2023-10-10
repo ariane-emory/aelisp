@@ -4,7 +4,7 @@
 // _aset
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_aset(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_aset(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("aset");
 
   int len = LENGTH(args);
@@ -25,7 +25,7 @@ ae_obj_t * ae_core_aset(ae_obj_t * const env, ae_obj_t * const args) {
 // _aget
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_aget(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_aget(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("aget");
 
   int len = LENGTH(args);
@@ -44,7 +44,7 @@ ae_obj_t * ae_core_aget(ae_obj_t * const env, ae_obj_t * const args) {
 // _ahas
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_ahas(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_ahas(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("ahas");
 
   int len = LENGTH(args);

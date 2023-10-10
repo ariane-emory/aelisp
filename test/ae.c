@@ -746,17 +746,30 @@ void core_cons_car_cdr(void) {
   SETUP_TEST;
   obj env   = ENV_NEW_ROOT();
 
-  T(ae_core_car(env, make_args_containing_one_list()) == SYM("a"                                             ));
-  T(ae_core_car(env, NEW_CONS(ae_core_cdr(env, make_args_containing_one_list()), NIL)) == SYM("b"            ));
-  T(shitty_princ_based_equality_predicate(ae_core_cons(env, CONS(SYM("a"), NEW_CONS(NIL, NIL))), "(a)"       )); // cons 'a onto nil and get (a).
-  T(shitty_princ_based_equality_predicate(ae_core_cdr (env, make_args_containing_one_list() ), "(b c)"       ));
-  T(shitty_princ_based_equality_predicate(ae_core_cons(env, make_args_for_cons()            ), "(nil a b c)" ));
-  T(NILP(ae_core_car(env,                  NEW_CONS(NIL, NIL))                                               ));
-  T(NILP(ae_core_cdr(env,                  NEW_CONS(NIL, NIL))                                               ));
-  T(NILP(ae_core_car(env, NEW_CONS(ae_core_car(env, NEW_CONS(NIL, NIL)), NIL))                               ));
-  T(NILP(ae_core_cdr(env, NEW_CONS(ae_core_cdr(env, NEW_CONS(NIL, NIL)), NIL))                               ));
-  T(NILP(ae_core_car(env, NEW_CONS(ae_core_cdr(env, NEW_CONS(NIL, NIL)), NIL))                               ));
-  T(NILP(ae_core_cdr(env, NEW_CONS(ae_core_car(env, NEW_CONS(NIL, NIL)), NIL))                               ));
+  obj args = make_args_containing_one_list();
+  T(ae_core_car(env, args, LENGTH(args)) == SYM("a"));
+
+  args = NEW_CONS(ae_core_cdr(env, args, LENGTH(args)), NIL);
+  T(ae_core_car(env, args, LENGTH(args)) == SYM("b"));
+
+  T(shitty_princ_based_equality_predicate(ae_core_cdr (env, args, LENGTH(args)), "(b c)"));
+
+  args = CONS(SYM("a"), NEW_CONS(NIL, NIL));
+  T(shitty_princ_based_equality_predicate(ae_core_cons(env, args, LENGTH(args)), "(a)")); // cons 'a onto nil and get (a).
+
+  args = make_args_for_cons();
+  T(shitty_princ_based_equality_predicate(ae_core_cons(env, args, LENGTH(args)), "(nil a b c)" ));
+
+  args = NEW_CONS(NIL, NIL);
+  T(NILP(ae_core_car(env, args, LENGTH(args))));
+  T(NILP(ae_core_cdr(env, args, LENGTH(args))));
+
+  args = NEW_CONS(NIL, NIL);
+  args = NEW_CONS(ae_core_car(env, args, LENGTH(args)), NIL);
+  T(NILP(ae_core_car(env, args, LENGTH(args))));
+  T(NILP(ae_core_cdr(env, args, LENGTH(args))));
+  T(NILP(ae_core_car(env, args, LENGTH(args))));
+  T(NILP(ae_core_cdr(env, args, LENGTH(args))));
 }
 
 void core_eq_eql_not(void) {

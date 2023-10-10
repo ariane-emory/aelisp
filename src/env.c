@@ -256,7 +256,7 @@ bool ae_env_rootp(const ae_obj_t * const env) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-typedef ae_obj_t * (*ae_core_fun_t)(ae_obj_t * const env, ae_obj_t * const args);
+typedef ae_obj_t * (*ae_core_fun_t)(ae_obj_t * const env, ae_obj_t * const args, int args_length);
 //==================================================================================================
 
 static void load_fun_helper(

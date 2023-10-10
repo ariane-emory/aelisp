@@ -4,7 +4,7 @@
 // _error
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("error");
 
   REQUIRE(env, args, LENGTH(args) == 1 || LENGTH(args) == 2, "error requires 1 or 2 args");
@@ -24,7 +24,7 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args) {
 // _errmsg
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("errmsg");
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));
@@ -36,7 +36,7 @@ ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args) {
 // _errobj
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_errobj(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_errobj(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("errobj");
 
   REQUIRE(env, args, (LENGTH(args) == 1) && ERRORP(CAR(args)));

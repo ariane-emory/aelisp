@@ -6,7 +6,7 @@
 // _setq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
 #ifdef AE_LOG_CORE
   // No CORE_BEGIN!
   LOG(args, "[core_setq]");
