@@ -88,16 +88,16 @@
 ;; (prefetch-fib 30)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq describe-elapsed
- (lambda (elapsed repetitions)
+ (lambda (total repetitions)
   (nl)
   (princ "total ums: ")
-  (princ elapsed) (nl)
+  (princ total) (nl)
   (princ "total ms: ")
-  (princ (/ elapsed 1000)) (nl)
+  (princ (/ total 1000)) (nl)
   (princ "total s: ")
-  (princ (/ elapsed 1000000)) (nl)
+  (princ (/ total 1000000)) (nl)
   (princ "each ms: ")
-  (princ (/ elapsed repetitions 1000)) (nl)))
+  (princ (/ total repetitions 1000)) (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq benchmark
  (lambda (repetitions qexpr)
@@ -112,31 +112,6 @@
      (when t ;; (== 0 (% ctr 10))
       (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
    (describe-elapsed total repetitions))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq repetitions 5000)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (setq before (time))
-;; (repeat repetitions
-;;  ;; (memo-fib 30)
-;;  (print 1)
-;;  )
-;; (setq after (time))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (describe-elapsed (- after before) repetitions)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq elapsed (benchmark repetitions '(memo-fib 30)))
-;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (describe-elapsed elapsed repetitions)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq elapsed (benchmark repetitions '(progn (setq *memo* '((2 . 1) (1 . 1))) (print (prefetch-fib 30)))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (describe-elapsed elapsed repetitions)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq elapsed (benchmark repetitions '(sleep 1000)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (describe-elapsed elapsed repetitions)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq repetitions 100)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib
  (lambda (n)
@@ -149,18 +124,10 @@
   (cond
    ((<= n 2) 1)
    (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (benchmark repetitions '(print (naive-fib 10)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq pl-fib
- (lambda (n)
-  (if (<= n 2)
-   1
-   (+ (pl-fib (- n 1)) (pl-fib (- n 2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(benchmark repetitions '(naive-fib 20))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(prefetch (body naive-fib))
-(print (body naive-fib))
-(benchmark repetitions '(print (naive-fib 10)))
+(setq fun naive-fib)
+(setq repetitions 100)
+(prefetch (body fun))
+(print (body fun))
+(benchmark repetitions (list 'print (list fun 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
