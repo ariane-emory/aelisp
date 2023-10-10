@@ -37,123 +37,116 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, const ae_obj_t * const env, const ae_obj_t * const symbol, bool * const found) {
-
-  assert(ENVP(env));
-  assert(SYMBOLP(symbol));
-
-#ifdef AE_LOG_ENV
-  LOG(symbol, "[looking up]");
-  
-  INDENT;
-#endif
-
-  ae_obj_t * ret = NIL;
-
-  if (found)
-    *found = false;
-  
-  if (KEYWORDP(symbol)) {
-
-#ifdef AE_LOG_ENV
-    LOG(NIL, "Keyword found automatically.");
-#endif
-
-    ret = (ae_obj_t *)symbol;
-
-    if (found)
-      *found = true;
-
-    goto end;
-  }
-
-  if (NILP(symbol)) {
-
-#ifdef AE_LOG_ENV
-    LOG(NIL, "found NIL automatically.");
-#endif
-
-    ret = NIL;
-
-    if (found)
-      *found = true;
-
-    goto end;
-  }
-
-  if (TRUEP(symbol)) {
-
-#ifdef AE_LOG_ENV
-    LOG(TRUE, "found TRUE automatically");
-#endif
     
-    ret = TRUE;
+    assert(ENVP(env));
+    assert(SYMBOLP(symbol));
+
+#ifdef AE_LOG_ENV
+    LOG(symbol, "[looking up]");
+    INDENT;
+#endif
+
+    ae_obj_t * ret = NIL;
 
     if (found)
-      *found = true;
-
-    goto end;
-  }
+        *found = false;
   
-  const ae_obj_t * pos = env;
-
-  // If GLOBAL, let's just dive right to the top:
-  if (mode == GLOBAL)
-    while (! NILP(ENV_PARENT(pos)))
-      pos = ENV_PARENT(pos);
-  
-  for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through envs
-
+    if (KEYWORDP(symbol)) {
 #ifdef AE_LOG_ENV
-    LOG(pos, "in env");
+        LOG(NIL, "Keyword found automatically.");
 #endif
-    
-    ae_obj_t * symbols = ENV_SYMS(pos);
-    ae_obj_t * values  = ENV_VALS(pos);
-
-#ifdef AE_LOG_ENV
-    LOG(symbols, "containing syms");
-#endif
-
-    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) { // loop through syms/vals
-      if (symbol ==  CAR(symbols)) {
-
-#ifdef AE_LOG_ENV
-        LOG(CAR(values), "found it ->"); 
-#endif
-        
-        ret = CAR(values);
-
+        ret = (ae_obj_t *)symbol;
         if (found)
-          *found = true;
-        
+            *found = true;
         goto end;
-      }
-    } // end loop through syms/vals
-
-    // special case for symbols being one symbol:
-    if (symbol == symbols) {
-      ret = values;
-
-      goto end;
     }
 
-    if (mode == LOCAL)
-      break;
-  } // end loop through envs
-  
+    if (NILP(symbol)) {
 #ifdef AE_LOG_ENV
-  SLOG("didn't find it!");
+        LOG(NIL, "found NIL automatically.");
+#endif
+        ret = NIL;
+        if (found)
+            *found = true;
+        goto end;
+    }
+
+    if (TRUEP(symbol)) {
+#ifdef AE_LOG_ENV
+        LOG(TRUE, "found TRUE automatically");
+#endif
+        ret = TRUE;
+        if (found)
+            *found = true;
+        goto end;
+    }
+  
+    const ae_obj_t * pos = env;
+
+    // If GLOBAL, let's just dive right to the top:
+    if (mode == GLOBAL)
+        while (! NILP(ENV_PARENT(pos)))
+            pos = ENV_PARENT(pos);
+    
+    for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through envs
+#ifdef AE_LOG_ENV
+        LOG(pos, "in env");
+#endif
+#ifdef AE_ENV_BUBBLING
+        ae_obj_t *symbols_prior = NIL, *values_prior = NIL;
+#endif
+        ae_obj_t * symbols = ENV_SYMS(pos);
+        ae_obj_t * values  = ENV_VALS(pos);
+
+        // Loop through symbols/values
+        for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
+            if (symbol == CAR(symbols)) {
+#ifdef AE_ENV_BUBBLING
+                // Swap current with prior, if there's a prior
+                if (!NILP(symbols_prior)) {
+                    ae_obj_t *tmp = CAR(symbols_prior);
+                    CAR(symbols_prior) = CAR(symbols);
+                    CAR(symbols) = tmp;
+
+                    tmp = CAR(values_prior);
+                    CAR(values_prior) = CAR(values);
+                    CAR(values) = tmp;
+                }
+#endif
+                ret = CAR(values);
+                if (found)
+                    *found = true;
+                goto end;
+            }
+
+#ifdef AE_ENV_BUBBLING
+            symbols_prior = symbols;
+            values_prior = values;
+#endif
+        }
+
+        // Special case for symbols being one symbol:
+        if (symbol == symbols) {
+            ret = values;
+            goto end;
+        }
+
+        if (mode == LOCAL)
+            break;
+    }
+
+#ifdef AE_LOG_ENV
+    SLOG("didn't find it!");
 #endif
   
 end:
   
 #ifdef AE_LOG_ENV
-  OUTDENT;
-
-  LOG(ret, "[looked up]");
+    OUTDENT;
+    LOG(ret, "[looked up]");
 #endif
   
-  return ret;
+    return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
