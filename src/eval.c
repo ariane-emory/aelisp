@@ -76,10 +76,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   bool invalid_arg_count = false;
 
-  if (CORE_MIN_ARGS(fun) != -1 && LENGTH(args) < CORE_MIN_ARGS(fun))
+  if (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun))
     invalid_arg_count = true;
 
-  if (CORE_MAX_ARGS(fun) != -1 && LENGTH(args) > CORE_MAX_ARGS(fun))
+  if (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))
     invalid_arg_count = true;
 
   if (invalid_arg_count) {

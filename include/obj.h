@@ -151,11 +151,11 @@ void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool    
 char          ae_obj_get_foo        (const ae_obj_t * const this                                  );
 void          ae_obj_set_foo        (      ae_obj_t * const this, const char             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int           ae_obj_get_min_args   (const ae_obj_t * const this                                  );
-void          ae_obj_set_min_args   (      ae_obj_t * const this, const int               min_args);
+unsigned int  ae_obj_get_min_args   (const ae_obj_t * const this                                  );
+void          ae_obj_set_min_args   (      ae_obj_t * const this, const unsigned int      min_args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int           ae_obj_get_max_args   (const ae_obj_t * const this                                  );
-void          ae_obj_set_max_args   (      ae_obj_t * const this, const int               max_args);
+unsigned int  ae_obj_get_max_args   (const ae_obj_t * const this                                  );
+void          ae_obj_set_max_args   (      ae_obj_t * const this, const unsigned int      max_args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 extern ae_obj_t   true_obj;
@@ -294,7 +294,9 @@ ae_obj_t * _obj  = NEW(AE_CORE);                                                
 CORE_FUN  (_obj) = (val);                                                                                              \
 strcpy(CORE_NAME(_obj), name);                                                                                         \
 _obj->special = _special;                                                                                              \
+PR("Calling ae_obj_set_min_args(_obj, %d)\n", min_args);                                                               \
 ae_obj_set_min_args(_obj, min_args);                                                                                   \
+PR("Calling ae_obj_set_max_args(_obj, %d)\n", max_args);                                                               \
 ae_obj_set_max_args(_obj, max_args);                                                                                   \
 _obj;                                                                                                                  \
 })
