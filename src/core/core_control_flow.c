@@ -8,10 +8,11 @@
 ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("repeat");
 
-  REQUIRE(env, args, LENGTH(args) >= 2, "repeat requires at least 2 args");
-  long long int times = INT_VAL(EVAL(env, CAR(args)));
-  
-  REQUIRE(env, args, times, "repeat's 1st arg evaluate to an integer");
+  ae_obj_t * first_arg = EVAL(env, CAR(args));
+
+  REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
+
+  long long int times = INT_VAL(first_arg);
 
   for (long long int ix = 0; ix < times; ix++)
     ae_core_progn(env, CDR(args), LENGTH(CDR(args)));
