@@ -21,8 +21,13 @@
     char * fmt      = ("" __VA_ARGS__)[0]                                                          \
       ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \
       : "%s:%d: \"Error in %s: require " #cond "!\"";                                              \
-    char * msg      = free_list_malloc(256);                                                       \
-    sprintf(msg, fmt, __FILE__, __LINE__, __func__);                                               \
+                                                                                                   \
+    char * msg_tmp      = free_list_malloc(256);                                                   \
+    sprintf(msg_tmp, fmt, __FILE__, __LINE__, __func__);                                           \
+                                                                                                   \
+    char * msg          = free_list_malloc(strlen(msg_tmp) + 1);                                   \
+    strcpy(msg, msg_tmp);                                                                          \
+    free_list_free(msg_tmp);                                                                       \
                                                                                                    \
     ae_obj_t * err_data = NIL;                                                                     \
                                                                                                    \
