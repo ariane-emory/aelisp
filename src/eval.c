@@ -87,6 +87,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   if (invalid_args_length) {
     char * msg_tmp = free_list_malloc(256);
 
+    LOG(args, "invalid arg count:");
+    
     // if CORE_MIN_ARGSS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
     if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
       sprintf(msg_tmp, "%s:%d: core '%s' requires at most %d args, but got %d",

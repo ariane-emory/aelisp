@@ -36,117 +36,66 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, const ae_obj_t * const env, const ae_obj_t * const symbol, bool * const found) {
-    
+ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, const ae_obj_t * const env, const ae_obj_t * const symbol, bool * const found_ptr) {
     assert(ENVP(env));
     assert(SYMBOLP(symbol));
 
-#ifdef AE_LOG_ENV
-    LOG(symbol, "[looking up]");
-    INDENT;
-#endif
+    ae_obj_t *prior_symbols = NULL;
+    ae_obj_t *prior_values  = NULL;
 
-    ae_obj_t * ret = NIL;
-
-    if (found)
-        *found = false;
-  
-    if (KEYWORDP(symbol)) {
-#ifdef AE_LOG_ENV
-        LOG(NIL, "Keyword found automatically.");
-#endif
-        ret = (ae_obj_t *)symbol;
-        if (found)
-            *found = true;
-        goto end;
-    }
-
-    if (NILP(symbol)) {
-#ifdef AE_LOG_ENV
-        LOG(NIL, "found NIL automatically.");
-#endif
-        ret = NIL;
-        if (found)
-            *found = true;
-        goto end;
-    }
-
-    if (TRUEP(symbol)) {
-#ifdef AE_LOG_ENV
-        LOG(TRUE, "found TRUE automatically");
-#endif
-        ret = TRUE;
-        if (found)
-            *found = true;
-        goto end;
-    }
-  
     const ae_obj_t * pos = env;
 
-    // If GLOBAL, let's just dive right to the top:
-    if (mode == GLOBAL)
-        while (! NILP(ENV_PARENT(pos)))
+    // If GLOBAL, dive right to the top:
+    if (mode == GLOBAL) {
+        while (! NILP(ENV_PARENT(pos))) {
             pos = ENV_PARENT(pos);
-    
-    for (; ENVP(pos); pos = ENV_PARENT(pos)) { // loop through envs
-#ifdef AE_LOG_ENV
-        LOG(pos, "in env");
-#endif
-#ifdef AE_ENV_BUBBLING
-        ae_obj_t *symbols_prior = NIL, *values_prior = NIL;
-#endif
-        ae_obj_t * symbols = ENV_SYMS(pos);
-        ae_obj_t * values  = ENV_VALS(pos);
-
-        // Loop through symbols/values
-        for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
-            if (symbol == CAR(symbols)) {
-#ifdef AE_ENV_BUBBLING
-                // Swap current with prior, if there's a prior
-                if (!NILP(symbols_prior)) {
-                    ae_obj_t *tmp = CAR(symbols_prior);
-                    CAR(symbols_prior) = CAR(symbols);
-                    CAR(symbols) = tmp;
-
-                    tmp = CAR(values_prior);
-                    CAR(values_prior) = CAR(values);
-                    CAR(values) = tmp;
-                }
-#endif
-                ret = CAR(values);
-                if (found)
-                    *found = true;
-                goto end;
-            }
-
-#ifdef AE_ENV_BUBBLING
-            symbols_prior = symbols;
-            values_prior = values;
-#endif
         }
-
-        // Special case for symbols being one symbol:
-        if (symbol == symbols) {
-            ret = values;
-            goto end;
-        }
-
-        if (mode == LOCAL)
-            break;
     }
 
-#ifdef AE_LOG_ENV
-    SLOG("didn't find it!");
-#endif
-  
-end:
-  
-#ifdef AE_LOG_ENV
-    OUTDENT;
-    LOG(ret, "[looked up]");
-#endif
-  
-    return ret;
+    for (; ENVP(pos); pos = ENV_PARENT(pos)) {
+        ae_obj_t *symbols = ENV_SYMS(pos);
+        ae_obj_t *values = ENV_VALS(pos);
+
+        for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
+            if (symbol == CAR(symbols)) {
+                if (found_ptr) {
+                    *found_ptr = true;
+
+                    #ifdef AE_ENV_BUBBLING
+                    // If the symbol was found and it's not the first element
+                    if (prior_symbols && prior_values) {
+                        // Swap elements by adjusting the cdr pointers for the previous elements.
+                        ae_obj_t *temp_symbols = CDR(prior_symbols);
+                        CDR(prior_symbols) = CDR(symbols);
+                        CDR(symbols) = temp_symbols;
+
+                        ae_obj_t *temp_values = CDR(prior_values);
+                        CDR(prior_values) = CDR(values);
+                        CDR(values) = temp_values;
+                    }
+                    #endif
+                }
+                return CAR(values);
+            }
+            prior_symbols = symbols;
+            prior_values = values;
+        }
+
+        // Handle the special case for symbols being a single symbol
+        if (symbol == symbols) {
+            return values;
+        }
+
+        if (mode == LOCAL) {
+            break;
+        }
+    }
+
+    if (found_ptr) {
+        *found_ptr = false;
+    }
+
+    return NIL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
