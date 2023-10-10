@@ -1,4 +1,3 @@
-(env)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,9 +85,7 @@
 ;;                                           (prefetch-fib (- nth 2)))))))))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq *memo* '((2 . 1) (1 . 1)))
-
 ;; (prefetch-fib 30)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq describe-elapsed
  (lambda (elapsed repetitions)
@@ -109,9 +106,9 @@
         (total 0))
    (repeat repetitions
     (setq ctr (+ 1 ctr))
-    (let ((bef (time)))
+    (let ((before (time)))
      (eval qexpr)
-     (setq total (+ total (- (time) bef))))
+     (setq total (+ total (elapsed before))))
      (when t ;; (== 0 (% ctr 10))
       (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
    (describe-elapsed total repetitions))))
