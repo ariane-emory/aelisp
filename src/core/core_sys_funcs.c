@@ -21,7 +21,7 @@ ae_obj_t * ae_core_time(ae_obj_t * const env, ae_obj_t * const args) {
 // _msleep
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_msleep(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * ae_core_sleep(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("msleep");
 
   REQUIRE(env, args, (LENGTH(args) == 1) && INTEGERP(CAR(args)));

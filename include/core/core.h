@@ -24,9 +24,9 @@
   DO(cons,     false,          2,          2,                                 FUNDEF_END )                             \
   DO(not,      false,          1,  UNLIMITED, "not", "¬", "nil?",             FUNDEF_END ) /* reduceable            */ \
   DO(if,       true,           2,  UNLIMITED,                                 FUNDEF_END ) /* reduceable            */ \
-  DO(when,     true,           1,  UNLIMITED,                                 FUNDEF_END ) /* reduceable            */ \
-  DO(and,      true,   UNLIMITED,  UNLIMITED, "and", "∧",                     FUNDEF_END ) /* reduceable            */ \
-  DO(or,       true,   UNLIMITED,  UNLIMITED, "or", "∨",                      FUNDEF_END ) /* reduceable            */ \
+  DO(when,     true,           2,  UNLIMITED,                                 FUNDEF_END ) /* reduceable            */ \
+  DO(and,      true,           2,  UNLIMITED, "and", "∧",                     FUNDEF_END ) /* reduceable            */ \
+  DO(or,       true,           2,  UNLIMITED, "or", "∨",                      FUNDEF_END ) /* reduceable            */ \
   DO(let_str,  true,           2,  UNLIMITED, "let*",                         FUNDEF_END )                             \
   DO(let,      true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(cdr,      false,          1,          1,                                 FUNDEF_END )                             \
@@ -50,7 +50,7 @@
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
   DO(exit,     false,          0,          1,                                 FUNDEF_END )                             \
-  DO(msleep,   false,          1,          1, "sleep",                        FUNDEF_END )                             \
+  DO(sleep,    false,          1,          1,                                 FUNDEF_END )                             \
   DO(dobj,     false,          1,          1, "debug-object",                 FUNDEF_END ) /* debug data accessor   */ \
   DO(error,    false,          1,          2,                                 FUNDEF_END )                             \
   DO(errmsg,   false,          1,          1, "errmsg", "error-message",      FUNDEF_END ) /* error accessor        */ \
