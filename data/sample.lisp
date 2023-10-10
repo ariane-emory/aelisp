@@ -4,8 +4,7 @@
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
 (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
-(setq double (lambda (x) (* 2 x)))
-(setq stop     (lambda ()  (exit 0)))
+(setq double   (lambda (x) (* 2 x)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
@@ -25,6 +24,12 @@
     (t expr))
    expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq prefetch
+ (lambda (expr)
+  (transform! expr
+    (lambda (x) (and (symbol? x) (bound? x)))
+    (lambda (x) (eval x)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq l '(2 (4 8)))
 ;; (transform! l integer? double)
 ;; (print l) ;; case 1: sucessfully prints (4 (8 16)).
@@ -43,50 +48,6 @@
 ;; (print (transform! '(1 (2 3) (4 5 6))
 ;;         (lambda (x) (and (proper? x) (eql (length (car x)) 2)))
 ;;         (lambda (x) :REPLACED))) 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq now (time))
-;; (memo-fib)
-;; (print (- (time) now))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq now (time))
-;; (repeat 1000
-;;  (memo-fib 30))
-;; (print (- (time) now))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq memo-fib
-;;  (lambda (n) 
-;;   (let* ((nth 30)
-;;          (*memo* '((2 . 1) (1 . 1)))
-;;          (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-;;          (memo-fib       (lambda (𝑥)
-;;                           (let ((memoized (aget *memo*  𝑥)))
-;;                            (or memoized
-;;                               (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
-;;                                              (memo-fib (- 𝑥 2)))))))))
-;;    (memo-fib nth))))
-
-;; (memo-fib 30)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq prefetch
- (lambda (expr)
-  (transform! expr
-    (lambda (x) (and (symbol? x) (bound? x)))
-    (lambda (x) (eval x)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (setq prefetch-fib (prefetch
-;;                      '(lambda (nth)
-;;                        (let  ((memoized (aget *memo* nth))
-;;                               (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
-;;                         (or memoized
-;;                          (memoize  nth (+ (prefetch-fib (- nth 1))
-;;                                           (prefetch-fib (- nth 2)))))))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq *memo* '((2 . 1) (1 . 1)))
-;; (prefetch-fib 30)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq benchmark
  (lambda (repetitions qexpr)
@@ -98,20 +59,34 @@
     (let ((before (time)))
      (eval qexpr)
      (setq total (+ total (elapsed before))))
-     (when t ;; (== 0 (% ctr 10))
-      (nl) (princ "Iteration #") (princ ctr) (princ ", ") (princ (/ total 1000)) (princ " ms so far.")))
-   (let ((describe-elapsed
-          (lambda (total repetitions)
-           (nl)
-           (princ "total ums: ")
-           (princ total) (nl)
-           (princ "total ms: ")
-           (princ (/ total 1000)) (nl)
-           (princ "total s: ")
-           (princ (/ total 1000000)) (nl)
-           (princ "each ms: ")
-           (princ (/ total repetitions 1000)) (nl))))
-         (describe-elapsed total repetitions)))))
+     (when (== 0 (% ctr 5))
+      (nl)
+      (princ "Iteration #")
+      (princ ctr)
+      (princ ", ")
+      (princ (/ total 1000))
+      (princ " ms so far.")))
+   (nl)
+   (princ "total ums: ")
+   (princ total) (nl)
+   (princ "total ms: ")
+   (princ (/ total 1000)) (nl)
+   (princ "total s: ")
+   (princ (/ total 1000000)) (nl)
+   (princ "each ms: ")
+   (princ (/ total repetitions 1000)) (nl))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq memo-fib
+ (lambda (n) 
+  (let* ((nth 30)
+         (*memo* '((2 . 1) (1 . 1)))
+         (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+         (memo-fib       (lambda (𝑥)
+                          (let ((memoized (aget *memo*  𝑥)))
+                           (or memoized
+                              (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
+                                             (memo-fib (- 𝑥 2)))))))))
+   (memo-fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib
  (lambda (n)
