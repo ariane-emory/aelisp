@@ -18,9 +18,8 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attri
     rest  = args;                                                                                  \
   }                                                                                                \
   else {                                                                                           \
-    if (! INTEGERP(CAR(args))) {                                                                   \
+    if (! INTEGERP(CAR(args)))                                                                     \
       LOG(CAR(args), "NOT AN INTEGER");                                                            \
-    }                                                                                              \
                                                                                                    \
     REQUIRE(env, args, INTEGERP(CAR(args)));                                                       \
                                                                                                    \
@@ -29,9 +28,8 @@ ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attri
   }                                                                                                \
                                                                                                    \
   FOR_EACH(elem, rest) {                                                                           \
-    if (! INTEGERP(CAR(args))) {                                                                   \
+    if (! INTEGERP(CAR(args)))                                                                     \
       LOG(CAR(args), "NOT AN INTEGER");                                                            \
-    }                                                                                              \
                                                                                                    \
     REQUIRE(env, args, INTEGERP(elem));                                                            \
                                                                                                    \
