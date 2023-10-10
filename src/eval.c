@@ -173,9 +173,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
   else
 #endif
-//    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
   {
-    env = NEW_ENV(env, FUN_PARAMS(fun), args);
+    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+    //env = NEW_ENV(env, FUN_PARAMS(fun), args);
 
 #  ifdef AE_LOG_EVAL
     LOG(env, "new env for user fun:");

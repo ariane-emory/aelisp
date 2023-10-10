@@ -1,22 +1,30 @@
 (setq hello
  (let ((x "hello"))
   (let ((y "world"))
-   (lambda hello (princ x " " y)))))
+   (lambda ()
+    (let ((do-it (lambda () (princ x " " y))))
+     (do-it))))))
 
 (hello)
-;; (exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
- (lambda (nth) 
-  (let ((*memo* '((2 . 1) (1 . 1)))
-        (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-        (fib     (lambda (𝑥)
-                  (let ((memoized (aget *memo*  𝑥)))
-                   (or memoized
-                    (memoize  𝑥 (+ (fib (- 𝑥 1))
-                                 (fib (- 𝑥 2)))))))))
+ (let ((*memo* '((2 . 1) (1 . 1))))
+  (lambda (nth) 
+   (let* ((memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+          (fib     (lambda (𝑥)
+                    (let ((memoized (aget *memo*  𝑥)))
+                     (or memoized (memoize  𝑥 (+ (fib (- 𝑥 1)) (fib (- 𝑥 2)))))))))
+   (fib nth)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq memo-fib-2
+  (lambda (nth) 
+   (let* ((*memo* '((2 . 1) (1 . 1)))
+          (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+          (fib     (lambda (𝑥)
+                    (let ((memoized (aget *memo*  𝑥)))
+                     (or memoized (memoize  𝑥 (+ (fib (- 𝑥 1)) (fib (- 𝑥 2)))))))))
    (fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib
@@ -80,7 +88,7 @@
 ;;         (lambda (x) :REPLACED))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq benchmark
- (lambda (repetitions qexpr)
+ (lambda (repetitions print-interval qexpr)
   (nl)
   (let ((ctr 0 )
         (total 0))
@@ -89,7 +97,7 @@
     (let ((before (time)))
      (eval qexpr)
      (setq total (+ total (elapsed before))))
-    (when (== 0 (% ctr 5))
+    (when (== 0 (% ctr print-interval))
      (nl)
      (princ "Iteration #")
      (princ ctr)
@@ -108,11 +116,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq fun          memo-fib)
 (setq num          30)
-(setq reps         100)
+(setq reps         10000)
 (setq prefetch-fun nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when prefetch-fun
- (prefetch (body fun)))
+(when prefetch-fun (prefetch (body fun)))
 (print (body fun))
-(benchmark reps (list 'print (list fun num)))
+;; (benchmark reps 100 (list 'print (list fun num)))
+(benchmark reps 100 (list fun num))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
