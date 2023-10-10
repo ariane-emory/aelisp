@@ -45,7 +45,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
-  DO(exit,     false,          1,          1,                                                 FUNDEF_END )                             \
+  DO(exit,     false,          0,          1,                                                 FUNDEF_END )                             \
   DO(msleep,   false,          1,          1, "sleep",                                        FUNDEF_END )                             \
   DO(dobj,     false,          1,          1, "debug-object",                                 FUNDEF_END ) /* debug data accessor   */ \
   DO(error,    false,          1,          2,                                                 FUNDEF_END )                             \
@@ -54,7 +54,7 @@
   DO(type,     false,          1,          1,                                                 FUNDEF_END ) /* GET_TYPE proxy        */ \
   DO(body,     false,          1,          1,                                                 FUNDEF_END ) /* fun accessor          */ \
   DO(params,   false,          1,          1,                                                 FUNDEF_END ) /* fun accessor          */ \
-  DO(env,      false,          1,          1,                                                 FUNDEF_END ) /* env/fun accessor      */ \
+  DO(env,      false,          0,          1,                                                 FUNDEF_END ) /* env/fun accessor      */ \
   DO(vals,     false,          1,          1,                                                 FUNDEF_END ) /* env accessor          */ \
   DO(syms,     false,          1,          1,                                                 FUNDEF_END ) /* env accessor          */ \
   DO(denom,    false,          1,          1,                                                 FUNDEF_END ) /* rational/int accessor */ \

@@ -40,9 +40,9 @@ ae_obj_t * ae_core_msleep(ae_obj_t * const env, ae_obj_t * const args) {
 ae_obj_t * ae_core_exit(ae_obj_t * const env, ae_obj_t * const args) {
   CORE_BEGIN("exit");
 
-  REQUIRE(env, args, (LENGTH(args) == 1) && INTEGERP(CAR(args)));
+  REQUIRE(env, args, NILP(CAR(args)) || INTEGERP(CAR(args)));
 
-  exit(INT_VAL(CAR(args)));
+  exit(INTEGERP(CAR(args)) ? INT_VAL(CAR(args)) : 0);
 
   CORE_RETURN("exit", CAR(args));
 }
