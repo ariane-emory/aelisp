@@ -15,45 +15,45 @@
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define GET_DISPATCH(row, table, obj)                                                              \
-  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
-    if (table[ix].type == GET_TYPE(obj)) {                                                         \
-      row = table[ix];                                                                             \
-      break;                                                                                       \
+#define GET_DISPATCH(row, table, obj)                                                                                  \
+  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                                    \
+    if (table[ix].type == GET_TYPE(obj)) {                                                                             \
+      row = table[ix];                                                                                                 \
+      break;                                                                                                           \
     }
 
 #ifdef AE_LOG_EVAL
-#  define MAYBE_EVAL(special, args)                                                                \
-  if (! special && CAR(args)) {                                                                    \
-    ae_obj_t * evaled_args = NIL;                                                                  \
-    LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));               \
-    INDENT;                                                                                        \
-    int ctr = 0;                                                                                   \
-    FOR_EACH(elem, args)                                                                           \
-    {                                                                                              \
-      ctr++;                                                                                       \
-      LOG(elem, "eval arg  #%d", ctr);                                                             \
-      INDENT;                                                                                      \
-      ae_obj_t * tmp = EVAL(env, elem);                                                            \
-      PUSH(evaled_args, tmp);                                                                      \
-      OUTDENT;                                                                                     \
-    }                                                                                              \
-    args = evaled_args;                                                                            \
-    OUTDENT;                                                                                       \
-    LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                \
+#  define MAYBE_EVAL(special, args)                                                                                    \
+  if (! special && CAR(args)) {                                                                                        \
+    ae_obj_t * evaled_args = NIL;                                                                                      \
+    LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                   \
+    INDENT;                                                                                                            \
+    int ctr = 0;                                                                                                       \
+    FOR_EACH(elem, args)                                                                                               \
+    {                                                                                                                  \
+      ctr++;                                                                                                           \
+      LOG(elem, "eval arg  #%d", ctr);                                                                                 \
+      INDENT;                                                                                                          \
+      ae_obj_t * tmp = EVAL(env, elem);                                                                                \
+      PUSH(evaled_args, tmp);                                                                                          \
+      OUTDENT;                                                                                                         \
+    }                                                                                                                  \
+    args = evaled_args;                                                                                                \
+    OUTDENT;                                                                                                           \
+    LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                    \
   }                                                                                                
 #else
-#  define MAYBE_EVAL(special, args)                                                                \
-  if (! special && CAR(args)) {                                                                    \
-    ae_obj_t * evaled_args = NIL;                                                                  \
-    INDENT;                                                                                        \
-    FOR_EACH(elem, args)                                                                           \
-    {                                                                                              \
-      ae_obj_t * tmp = EVAL(env, elem);                                                            \
-      PUSH(evaled_args, tmp);                                                                      \
-    }                                                                                              \
-    args = evaled_args;                                                                            \
-    OUTDENT;                                                                                       \
+#  define MAYBE_EVAL(special, args)                                                                                    \
+  if (! special && CAR(args)) {                                                                                        \
+    ae_obj_t * evaled_args = NIL;                                                                                      \
+    INDENT;                                                                                                            \
+    FOR_EACH(elem, args)                                                                                               \
+    {                                                                                                                  \
+      ae_obj_t * tmp = EVAL(env, elem);                                                                                \
+      PUSH(evaled_args, tmp);                                                                                          \
+    }                                                                                                                  \
+    args = evaled_args;                                                                                                \
+    OUTDENT;                                                                                                           \
   }                                                                                                
 #endif
 
@@ -76,23 +76,37 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   bool invalid_arg_count = false;
 
-  if (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun))
+  if      (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun))
     invalid_arg_count = true;
-
-  if (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))
+  else if (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))
     invalid_arg_count = true;
 
   if (invalid_arg_count) {
     char * msg_tmp = free_list_malloc(256);
 
-    
-    sprintf(msg_tmp, "%s:%d: core '%s' requires %d to %d args, but got %d",
-            __FILE__,
-            __LINE__,
-            CORE_NAME(fun),
-            CORE_MIN_ARGS(fun),
-            CORE_MAX_ARGS(fun),
-            LENGTH(args));
+    // if CORE_MIN_ARGSS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
+    if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
+      sprintf(msg_tmp, "%s:%d: core '%s' requires at most %d args, but got %d",
+              __FILE__,
+              __LINE__,
+              CORE_NAME(fun),
+              CORE_MAX_ARGS(fun),
+              LENGTH(args));
+    else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15)
+      sprintf(msg_tmp, "%s:%d: core '%s' requires at least %d args, but got %d",
+              __FILE__,
+              __LINE__,
+              CORE_NAME(fun),
+              CORE_MIN_ARGS(fun),
+              LENGTH(args));
+    else
+      sprintf(msg_tmp, "%s:%d: core '%s' requires %d to %d args, but got %d",
+              __FILE__,
+              __LINE__,
+              CORE_NAME(fun),
+              CORE_MIN_ARGS(fun),
+              CORE_MAX_ARGS(fun),
+              LENGTH(args));
 
     char * msg = free_list_malloc(strlen(msg_tmp) + 1);
     strcpy(msg, msg_tmp);
@@ -440,12 +454,12 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
     /* INDENT; */
     /* LOG(env, "in env"); */
 
-   /*  const char * type = GET_TYPE_STR(obj); */
-   /*  /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
-   /*  sprintf(tmp, ":%s", type); */
-   /*  ae_obj_t   * sym  = SYM(tmp); */
+    /*  const char * type = GET_TYPE_STR(obj); */
+    /*  /\* *\/ char * tmp  = free_list_malloc(strlen(type) + 2); */
+    /*  sprintf(tmp, ":%s", type); */
+    /*  ae_obj_t   * sym  = SYM(tmp); */
 
-   /*  LOG(sym, "dispatch to eval for"); */
+    /*  LOG(sym, "dispatch to eval for"); */
 
     /* free_list_free(tmp); */
   }
