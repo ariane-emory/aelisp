@@ -269,9 +269,6 @@ static void load_fun_helper(
   int                 count,
   ...) {
 
-  (void)min_args; // not implemented yet.
-  (void)max_args; // not implemented yet.
-  
   /* printf("\n"); */
 
   /* printf("count: %d\n", count); */
