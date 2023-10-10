@@ -31,6 +31,7 @@
   DO(let,      true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(cdr,      false,          1,          1,                                 FUNDEF_END )                             \
   DO(car,      false,          1,          1,                                 FUNDEF_END )                             \
+  DO(elapsed,  false,          1,          1,                                 FUNDEF_END )                             \
   DO(time,     false,          0,          0,                                 FUNDEF_END )                             \
   DO(repeat,   true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,5 @@ ae_obj_t * ae_core_setf(ae_obj_t * const env, ae_obj_t * const args, __attribute
   INDENT;
 #endif
 
-  ae_obj_t * result = ae_core_setq(env, args, args_length);
-  
-  CORE_RETURN("setf", result);
+  CORE_RETURN("setf", ae_core_setq(env, args, args_length));
 }

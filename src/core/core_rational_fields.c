@@ -6,9 +6,7 @@
 
 ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("numer");
-
-  REQUIRE(env, args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
-
+  REQUIRE(env, args, RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
   CORE_RETURN("numer", NEW_INT(NUMER_VAL(CAR(args))));
 }
 
@@ -18,9 +16,7 @@ ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
 ae_obj_t * ae_core_denom(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("denom");
-
-  REQUIRE(env, args, (LENGTH(args) == 1) && (RATIONALP(CAR(args)) || INTEGERP(CAR(args))));
-
+  REQUIRE(env, args, RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
   CORE_RETURN("denom", NEW_INT((RATIONALP(CAR(args)))
                                ? DENOM_VAL(CAR(args))
                                : 1));

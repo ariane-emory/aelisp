@@ -13,13 +13,8 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   INDENT;
 #endif
 
-  int len = LENGTH(args);
-
-  REQUIRE(env, args, len >= 1, "setq requires at least 1 arg");
-  REQUIRE(env, args, len <= 2, "setq requires 1 or 2 args");
-
-  ae_obj_t * sym         = CAR(args);
-  ae_obj_t * val         = CADR(args);
+  ae_obj_t * sym = CAR(args);
+  ae_obj_t * val = CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
   REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant");
