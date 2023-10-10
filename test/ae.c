@@ -42,9 +42,9 @@ static char mem[free_list_size] = { 0 };
 #define PR(...)                   (fprintf(stdout, __VA_ARGS__))
 #define COUNT_LIST_LENGTH(l)      ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
 #define CORE_SETQ(env, sym, val)  ({                                                                                   \
-  obj args = CONS(SYM(sym), CONS(val, NIL));                                                                           \
-  (ae_core_setq(env, args, LENGTH(args)));                                                                             \
-})
+      obj args = CONS(SYM(sym), CONS(val, NIL));                                                                       \
+      (ae_core_setq(env, args, LENGTH(args)));                                                                         \
+    })
 
 #define SETUP_TEST                                                                                                     \
   obj    this    = NULL;                                                                                               \
@@ -1320,48 +1320,104 @@ void tailp(void) {
   // T(! TAILP(TRUE)); // This would generate a -Werror=address error.
 }
 
+obj lookup_and_bubble(obj symbols, obj values, obj target) {
+  obj symbols_prior = NIL;
+  obj values_prior  = NIL;
+  obj before_symbols_prior = NIL;
+  obj before_values_prior = NIL;
+
+    while (CONSP(symbols) && CONSP(values)) {
+        if (CAR(symbols) == target) {
+            // Swap in the symbols list
+            if (! NILP(before_symbols_prior)) {
+                CDR(before_symbols_prior) = symbols;
+            } else {
+                // If the target is the first symbol, adjust the head of the list
+                symbols = symbols_prior;
+            }
+            CDR(symbols_prior) = CDR(symbols);
+            CDR(symbols) = symbols_prior;
+
+            // Swap in the values list
+            if (! NILP(before_values_prior)) {
+                CDR(before_values_prior) = values;
+            } else {
+                // If the target corresponds to the first value, adjust the head of the list
+                values = values_prior;
+            }
+            CDR(values_prior) = CDR(values);
+            CDR(values) = values_prior;
+
+            // Return the value corresponding to the target symbol after the swap
+            return CAR(values);
+        }
+
+        before_symbols_prior = symbols_prior;
+        symbols_prior = symbols;
+        symbols = CDR(symbols);
+
+        before_values_prior = values_prior;
+        values_prior = values;
+        values = CDR(values);
+    }
+
+    // Target symbol not found
+    return NIL;
+}
+
 void bubble_list(void) {
   SETUP_TEST;
 
-  obj list = CONS(SYM("foo"),
+  obj symbols = CONS(SYM("foo"),
                   CONS(SYM("bar"),
                        CONS(SYM("baz"),
                             CONS(SYM("quux"),
-                                 CONS(SYM("corge"),
-                                      CONS(SYM("grault"),
-                                           CONS(SYM("garply"),
-                                                CONS(SYM("waldo"),
-                                                     CONS(SYM("fred"),
-                                                          CONS(SYM("plugh"), CONS(SYM("xyzzy"), CONS(SYM("thud"), NIL))))))))))));
+                                 CONS(SYM("corge"), NIL)))));
+  obj values = CONS(NEW_INT(1),
+                 CONS(NEW_INT(2),
+                      CONS(NEW_INT(3),
+                           CONS(NEW_INT(4),
+                                CONS(NEW_INT(5), NIL)))));
 
-  obj target = SYM("baz");
-  obj prior  = NIL;
-  obj doubly_prior = NIL;
+  obj ret = lookup_and_bubble(symbols, values, SYM("baz"));
+
+  LOG(ret, "got;");
+  LOG(symbols , "symbols:");
+  LOG(values, "values:");
   
-  for (ae_obj_t
-         * position = list,
-         * elem     = CAR(position);
-       CONSP(position);
-       elem = CAR(position = CDR(position))) {
-    LOG(elem,  "elem: ");
-    LOG(prior, "prior: ");
-    NL;
-    doubly_prior = prior
-    prior = position;
-    if (elem == target) {
-      LOG(position, "found it: ");
-      NL;
-      if (! NILP(prior)) {
-        PR("Swapping...\n");    // (foo bar baz
-        obj tmp = CAR(prior);
-        CAR(prior) = elem;
-        CAR(position) = tmp;
-      }
-      break;
-    }
-  }
+  /* obj target = SYM("baz"); */
+  /* obj prior  = NIL; */
+  /* obj before_prior = NIL; */
+  /* for (ae_obj_t */
+  /*        * position = list, */
+  /*        * elem     = CAR(position); */
+  /*      CONSP(position); */
+  /*      elem = CAR(position = CDR(position))) { */
+  /*   LOG(elem,  "elem: "); */
+  /*   LOG(prior, "prior: "); */
+  /*   NL; */
 
-  LOG(list, "list: ");
+  /*   if (elem == target) { */
+  /*     LOG(position, "found it: "); */
+  /*     NL; */
+  /*     if (! NILP(prior)) { */
+  /*       PR("Swapping...\n"); */
+  /*       if (! NILP(before_prior)) { */
+  /*         CDR(before_prior) = position; */
+  /*       } else { */
+  /*         list = position;  // If swapping the first element */
+  /*       } */
+  /*       CDR(prior) = CDR(position); */
+  /*       CDR(position) = prior; */
+  /*       break; */
+  /*     } */
+  /*   } */
+
+  /*   before_prior = prior; */
+  /*   prior = position; */
+  /* } */
+
+  /* LOG(list, "list: "); */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
