@@ -8,11 +8,7 @@
 ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("env");
 
-  int len = LENGTH(args);
-
-  REQUIRE(env, args, len <= 1, "env requires 0 or 1 args");
-
-  if (len == 1) {
+  if (args_length == 1) {
     REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
     CORE_RETURN("env", ENVP(CAR(args))

@@ -9,8 +9,6 @@
 ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let");
 
-  REQUIRE(env, args, LENGTH(args) >= 2,    "let requires a varlist and a body");
-  
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -57,8 +55,6 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let_star");
 
-  REQUIRE(env, args, LENGTH(args) >= 2,    "let_star requires a varlist and a body");
-  
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");

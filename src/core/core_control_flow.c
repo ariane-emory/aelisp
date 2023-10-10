@@ -192,8 +192,8 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
-  ae_obj_t * const this_branch = CAR(args);
-  ae_obj_t * const and_that_branch     = CADR(args);
+  ae_obj_t * const this_branch     = CAR(args);
+  ae_obj_t * const and_that_branch = CADR(args);
   
 #ifdef AE_LOG_CORE
   LOG(this_branch,     "this");
