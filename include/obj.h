@@ -152,7 +152,7 @@ char          ae_obj_get_foo        (const ae_obj_t * const this                
 void          ae_obj_set_foo        (      ae_obj_t * const this, const char             foo      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int           ae_obj_get_max_args   (const ae_obj_t * const this                                  );
-void          ae_obj_set_max_args   (ae_obj_t * const this,       const int               max_args);
+void          ae_obj_set_max_args   (      ae_obj_t * const this, const int               max_args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 extern ae_obj_t   true_obj;
