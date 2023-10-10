@@ -111,8 +111,9 @@
 (setq reps         5000)
 (setq prefetch-fun nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when prefetch-fun (prefetch (body fun)))
-(print (body fun))
-;; (benchmark reps 100 (list 'print (list fun num)))
-(benchmark reps 100 (list fun num))
+;; (when prefetch-fun (prefetch (body fun)))
+;; (print (body fun))
+;; ;; (benchmark reps 100 (list 'print (list fun num)))
+;; (benchmark reps 100 (list fun num))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(memo-fib 30)

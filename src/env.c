@@ -127,26 +127,25 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
           *found_ptr = true;
 
 #ifdef AE_ENV_BUBBLING
-    // If the symbol was found and it's not already at the front:
-    if (prev_symbols) {
-        ae_obj_t *next_symbols = CDR(symbols);
-        ae_obj_t *next_values = CDR(values);
+        // If the symbol was found and it's not already at the front:
+        if (! NILP(prev_symbols)) {
+          ae_obj_t *next_symbols = CDR(symbols);
+          ae_obj_t *next_values = CDR(values);
 
-        // Detach the symbol-value pair from their respective lists:
-        CDR(prev_symbols) = next_symbols;
-        CDR(prev_values) = next_values;
+          // Detach the symbol-value pair from their respective lists:
+          CDR(prev_symbols) = next_symbols;
+          CDR(prev_values) = next_values;
 
-        // Prepend the detached symbol-value pair to the beginning of the lists:
-        CDR(symbols) = ENV_SYMS(pos);
-        CDR(values) = ENV_VALS(pos);
+          // Prepend the detached symbol-value pair to the beginning of the lists:
+          CDR(symbols) = ENV_SYMS(pos);
+          CDR(values) = ENV_VALS(pos);
         
-        // Adjust the env's symbols and values pointers directly:
-        env->symbols = symbols;
-        env->values = values;
-        
-        LOG(ENV_SYMS(pos), "env syms after");
-        LOG(ENV_VALS(pos), "env vals after");
-    }
+          // Adjust the environment's main symbol and value pointers:
+          ((ae_obj_t *)pos)->symbols = symbols;  // This directly modifies the environment's symbols pointer to the new front
+          ((ae_obj_t *)pos)->values = values;   // This directly modifies the environment's values pointer to the new front
+          LOG(symbols, "new syms");
+          LOG(values, "new vals");
+        }
 #endif
 
         goto end;
