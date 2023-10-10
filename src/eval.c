@@ -78,57 +78,57 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   int args_length = LENGTH(args);
   
-  if      (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun))
-    invalid_args_length = true;
-  else if (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))
-    invalid_args_length = true;
+  /* if      (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) */
+  /*   invalid_args_length = true; */
+  /* else if (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun)) */
+  /*   invalid_args_length = true; */
 
-  if (invalid_args_length) {
-    char * msg_tmp = free_list_malloc(256);
+  /* if (invalid_args_length) { */
+  /*   char * msg_tmp = free_list_malloc(256); */
 
-    // if CORE_MIN_ARGSS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
-    if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
-      sprintf(msg_tmp, "%s:%d: core '%s' requires at most %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MAX_ARGS(fun),
-              LENGTH(args));
-    else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15)
-      sprintf(msg_tmp, "%s:%d: core '%s' requires at least %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              LENGTH(args));
-    else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun))
-      sprintf(msg_tmp, "%s:%d: core '%s' requires %d arg%s, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              s_or_blank(CORE_MIN_ARGS(fun)),
-              LENGTH(args));
-    else 
-      sprintf(msg_tmp, "%s:%d: core '%s' requires %d to %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              CORE_MAX_ARGS(fun),
-              LENGTH(args));
+  /*   // if CORE_MIN_ARGSS(fun) == 15, then it has no minimum number of args, generate an appropriate message: */
+  /*   if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15) */
+  /*     sprintf(msg_tmp, "%s:%d: core '%s' requires at most %d args, but got %d", */
+  /*             __FILE__, */
+  /*             __LINE__, */
+  /*             CORE_NAME(fun), */
+  /*             CORE_MAX_ARGS(fun), */
+  /*             LENGTH(args)); */
+  /*   else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15) */
+  /*     sprintf(msg_tmp, "%s:%d: core '%s' requires at least %d args, but got %d", */
+  /*             __FILE__, */
+  /*             __LINE__, */
+  /*             CORE_NAME(fun), */
+  /*             CORE_MIN_ARGS(fun), */
+  /*             LENGTH(args)); */
+  /*   else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun)) */
+  /*     sprintf(msg_tmp, "%s:%d: core '%s' requires %d arg%s, but got %d", */
+  /*             __FILE__, */
+  /*             __LINE__, */
+  /*             CORE_NAME(fun), */
+  /*             CORE_MIN_ARGS(fun), */
+  /*             s_or_blank(CORE_MIN_ARGS(fun)), */
+  /*             LENGTH(args)); */
+  /*   else  */
+  /*     sprintf(msg_tmp, "%s:%d: core '%s' requires %d to %d args, but got %d", */
+  /*             __FILE__, */
+  /*             __LINE__, */
+  /*             CORE_NAME(fun), */
+  /*             CORE_MIN_ARGS(fun), */
+  /*             CORE_MAX_ARGS(fun), */
+  /*             LENGTH(args)); */
 
-    char * msg = free_list_malloc(strlen(msg_tmp) + 1);
-    strcpy(msg, msg_tmp);
-    free_list_free(msg_tmp);
+  /*   char * msg = free_list_malloc(strlen(msg_tmp) + 1); */
+  /*   strcpy(msg, msg_tmp); */
+  /*   free_list_free(msg_tmp); */
     
-    ae_obj_t * err_data = NIL;
+  /*   ae_obj_t * err_data = NIL; */
 
-    KSET(err_data, KW("args"), args);
-    KSET(err_data, KW("env"),  env);
+  /*   KSET(err_data, KW("args"), args); */
+  /*   KSET(err_data, KW("env"),  env); */
 
-    return NEW_ERROR(msg, err_data);
-  }
+  /*   return NEW_ERROR(msg, err_data); */
+  /* } */
   
   MAYBE_EVAL(SPECIALP(fun), args);
   

@@ -1324,9 +1324,8 @@ void tailp(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                                                 \
 
-#define FOR_EACH_TEST_FUN(DO)                                                                                          \
+#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                                                 \
   DO(tailp)                                                                                                            \
   DO(test_setup_is_okay)                                                                                               \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                                            \
@@ -1360,6 +1359,9 @@ void tailp(void) {
   DO(kvp_list)                                                                                                         \
   DO(root_env_and_eval)                                                                                                \
   DO(fun_specialness)
+
+#define FOR_EACH_TEST_FUN(DO)                                                                                          \
+  DO(bubble_list) 
 
 #define pair(fun) { #fun, fun },
 
