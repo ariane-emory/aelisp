@@ -5,41 +5,32 @@
 // _eval
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_eval(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_eval(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("eval");
-
-  REQUIRE(env, args, LENGTH(args) == 1);
-
-  ae_obj_t * ret = EVAL(env, CAR(args));
-
-  CORE_RETURN("eval", ret);
+  CORE_RETURN("eval", EVAL(env, CAR(args)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _list
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_list(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_list(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("list");
-
-  (void)env;
-  
-  ae_obj_t * ret = args;
-
-  CORE_RETURN("list", ret);
+  CORE_RETURN("list", args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _quote
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_quote(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_quote(__attribute__((unused)) ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("quote");
-
-  REQUIRE(env, args, LENGTH(args) == 1);
-
-  ae_obj_t * ret = CAR(args);
-
-  CORE_RETURN("quote", ret);
+  CORE_RETURN("quote", CAR(args));
 }
 
