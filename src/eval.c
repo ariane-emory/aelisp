@@ -100,7 +100,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
               CORE_MIN_ARGS(fun),
               LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun))
-      sprintf(msg_tmp, "%s:%d: core '%s' requires %d arg%ss, but got %d",
+      sprintf(msg_tmp, "%s:%d: core '%s' requires %d arg%s, but got %d",
               __FILE__,
               __LINE__,
               CORE_NAME(fun),
