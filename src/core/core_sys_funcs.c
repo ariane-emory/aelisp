@@ -52,8 +52,16 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("exit");
-  REQUIRE(env, args, NILP(CAR(args)) || INTEGERP(CAR(args)));
-  exit(INTEGERP(CAR(args)) ? INT_VAL(CAR(args)) : 0);
+  
+  int exit_code = 0;
+
+  if (args_length == 1) {
+    REQUIRE(env, args, INTEGERP(CAR(args)));
+    exit_code = INT_VAL(CAR(args));
+  }
+  
+  exit(exit_code);
+  
   CORE_RETURN("exit", CAR(args));
 }
 
