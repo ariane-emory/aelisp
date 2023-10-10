@@ -110,7 +110,7 @@
    (princ "each ms: ")
    (princ (/ total repetitions 1000)) (nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq fun          memo-fib)
+(setq fun          memo-fib-2)
 (setq num          30)
 (setq reps         100)
 (setq prefetch-fun nil)
