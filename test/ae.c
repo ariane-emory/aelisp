@@ -1322,6 +1322,19 @@ void tailp(void) {
 
 void bubble_list(void) {
   SETUP_TEST;
+
+  obj env = ENV_NEW_ROOT();
+
+  obj list = CONS(SYM("foo"),
+                  CONS(SYM("bar"),
+                       CONS(SYM("baz"),
+                            CONS(SYM("quux"),
+                                 CONS(SYM("corge"),
+                                      CONS(SYM("grault"),
+                                           CONS(SYM("garply"),
+                                                CONS(SYM("waldo"),
+                                                     CONS(SYM("fred"),
+                                                          CONS(SYM("plugh"), CONS(SYM("xyzzy"), CONS(SYM("thud"), NIL))))))))))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
