@@ -45,8 +45,6 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("cond");
 
-  REQUIRE(env, args, LENGTH(args) > 0, "an empty cond does not make sense");
-
   ae_obj_t * ret = NIL;
   
   FOR_EACH(cond_item, args) {
@@ -80,15 +78,12 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ae_obj_t * const if_cond     = CAR(args);
   ae_obj_t * const then_branch = CADR(args);
   ae_obj_t * const else_branch = CDDR(args);
-    
-  
+      
 #ifdef AE_LOG_CORE
   LOG(if_cond,     "if");
   LOG(then_branch, "then");
   LOG(else_branch, "else");
 #endif
-
-  REQUIRE(env, args, LENGTH(args) >= 2, "if requires at least 2 args");
 
   bool cond_result = ! NILP(EVAL(env, if_cond));
 
@@ -129,8 +124,6 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
   LOG(then_branch, "then");
 #endif
 
-  REQUIRE(env, args, LENGTH(args) >= 2, "when requires at least 2 args");
-
   bool cond_result = ! NILP(EVAL(env, when_cond));
 
 #ifdef AE_LOG_CORE
@@ -168,8 +161,6 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   LOG(or_branch,     "or");
 #endif
 
-  REQUIRE(env, args, LENGTH(args) == 2, "or requires 2 args");
- 
   ae_obj_t * either_result = EVAL(env, either_branch);
 
 #ifdef AE_LOG_CORE

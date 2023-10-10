@@ -1,5 +1,5 @@
 To Do:
-_ [ ] prefetch function.
+_ [ ] core 'and' and 'or' shold  be able to handle 3+ args.
 - [ ] bestline REPL.
 - [ ] #include equivalent.
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
@@ -26,6 +26,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+_ [x] prefetch function.
 - [x] Test to confirm that core setq returns an error if asked to set the value of nil, t or keywords.
 - [x] Make some tests for LOCALIZE/LOCALIZED.
 - [x] Make a fun to de-localized / move the pointers in the pool.
