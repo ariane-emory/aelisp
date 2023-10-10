@@ -36,135 +36,144 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 // _find
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, const ae_obj_t * const env, const ae_obj_t * const symbol, bool * const found_ptr) {
+ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_obj_t * const symbol, bool * const found_ptr) {
 
-    assert(ENVP(env));
-    assert(SYMBOLP(symbol));
+  assert(ENVP(env));
+  assert(SYMBOLP(symbol));
 
 #ifdef AE_LOG_ENV
-    LOG(symbol, "[looking up]");
-    INDENT;
+  LOG(symbol, "[looking up]");
+  INDENT;
 #endif
 
+  if (found_ptr)
+    *found_ptr = false;
+
+  // Check for keywords that are automatically resolved:
+  if (KEYWORDP(symbol)) {
+#ifdef AE_LOG_ENV
+    LOG(NIL, "Keyword found automatically.");
+#endif
     if (found_ptr)
-        *found_ptr = false;
+      *found_ptr = true;
 
-    // Check for keywords that are automatically resolved:
-    if (KEYWORDP(symbol)) {
 #ifdef AE_LOG_ENV
-        LOG(NIL, "Keyword found automatically.");
+    OUTDENT;
+    LOG(symbol, "[looked up]");
 #endif
+    return (ae_obj_t *)symbol;
+  }
+
+  if (NILP(symbol)) {
+#ifdef AE_LOG_ENV
+    LOG(NIL, "found NIL automatically.");
+#endif
+    if (found_ptr)
+      *found_ptr = true;
+
+#ifdef AE_LOG_ENV
+    OUTDENT;
+    LOG(NIL, "[looked up]");
+#endif
+    return NIL;
+  }
+
+  if (TRUEP(symbol)) {
+#ifdef AE_LOG_ENV
+    LOG(TRUE, "found TRUE automatically");
+#endif
+    if (found_ptr)
+      *found_ptr = true;
+
+#ifdef AE_LOG_ENV
+    OUTDENT;
+    LOG(TRUE, "[looked up]");
+#endif
+    return TRUE;
+  }
+
+  ae_obj_t *ret = NULL;  // Initialize the return value
+  const ae_obj_t *pos = env;
+
+  // If GLOBAL, dive right to the top:
+  if (mode == GLOBAL)
+    while (!NILP(ENV_PARENT(pos)))
+      pos = ENV_PARENT(pos);
+
+  for (; ENVP(pos); pos = ENV_PARENT(pos)) {
+#ifdef AE_LOG_ENV
+    LOG(pos, "in env");
+#endif
+
+    ae_obj_t *symbols = ENV_SYMS(pos);
+    ae_obj_t *values = ENV_VALS(pos);
+    ae_obj_t *prev_symbols = NIL;
+    ae_obj_t *prev_values = NIL;
+
+#ifdef AE_LOG_ENV
+    LOG(symbols, "containing syms");
+#endif
+
+    for (; CONSP(symbols); prev_symbols = symbols, prev_values = values, symbols = CDR(symbols), values = CDR(values)) {
+      if (symbol == CAR(symbols)) {
+
+#ifdef AE_LOG_ENV
+        LOG(CAR(values), "found it ->");
+#endif
+
+        ret = CAR(values);
+
         if (found_ptr)
-            *found_ptr = true;
-
-#ifdef AE_LOG_ENV
-        OUTDENT;
-        LOG(symbol, "[looked up]");
-#endif
-        return (ae_obj_t *)symbol;
-    }
-
-    if (NILP(symbol)) {
-#ifdef AE_LOG_ENV
-        LOG(NIL, "found NIL automatically.");
-#endif
-        if (found_ptr)
-            *found_ptr = true;
-
-#ifdef AE_LOG_ENV
-        OUTDENT;
-        LOG(NIL, "[looked up]");
-#endif
-        return NIL;
-    }
-
-    if (TRUEP(symbol)) {
-#ifdef AE_LOG_ENV
-        LOG(TRUE, "found TRUE automatically");
-#endif
-        if (found_ptr)
-            *found_ptr = true;
-
-#ifdef AE_LOG_ENV
-        OUTDENT;
-        LOG(TRUE, "[looked up]");
-#endif
-        return TRUE;
-    }
-
-    ae_obj_t *ret = NULL;  // Initialize the return value
-    const ae_obj_t *pos = env;
-
-    // If GLOBAL, dive right to the top:
-    if (mode == GLOBAL)
-        while (!NILP(ENV_PARENT(pos)))
-            pos = ENV_PARENT(pos);
-
-    for (; ENVP(pos); pos = ENV_PARENT(pos)) {
-#ifdef AE_LOG_ENV
-        LOG(pos, "in env");
-#endif
-
-        ae_obj_t *symbols = ENV_SYMS(pos);
-        ae_obj_t *values = ENV_VALS(pos);
-        ae_obj_t *prev_symbols = NIL;
-        ae_obj_t *prev_values = NIL;
-
-#ifdef AE_LOG_ENV
-        LOG(symbols, "containing syms");
-#endif
-
-        for (; CONSP(symbols); prev_symbols = symbols, prev_values = values, symbols = CDR(symbols), values = CDR(values)) {
-            if (symbol == CAR(symbols)) {
-
-#ifdef AE_LOG_ENV
-                LOG(CAR(values), "found it ->");
-#endif
-
-                ret = CAR(values);
-
-                if (found_ptr)
-                    *found_ptr = true;
+          *found_ptr = true;
 
 #ifdef AE_ENV_BUBBLING
-                // Swap symbols
-                if (prev_symbols) {
-                    ae_obj_t *temp = CDR(prev_symbols);
-                    CDR(prev_symbols) = symbols;
-                    CDR(symbols) = temp;
+    // If the symbol was found and it's not already at the front:
+    if (prev_symbols) {
+        ae_obj_t *next_symbols = CDR(symbols);
+        ae_obj_t *next_values = CDR(values);
 
-                    // Swap values in the parallel list
-                    temp = CDR(prev_values);
-                    CDR(prev_values) = values;
-                    CDR(values) = temp;
-                }
+        // Detach the symbol-value pair from their respective lists:
+        CDR(prev_symbols) = next_symbols;
+        CDR(prev_values) = next_values;
+
+        // Prepend the detached symbol-value pair to the beginning of the lists:
+        CDR(symbols) = ENV_SYMS(pos);
+        CDR(values) = ENV_VALS(pos);
+        
+        // Adjust the env's symbols and values pointers directly:
+        env->symbols = symbols;
+        env->values = values;
+        
+        LOG(ENV_SYMS(pos), "env syms after");
+        LOG(ENV_VALS(pos), "env vals after");
+    }
 #endif
 
-                goto end;
-            }
-        }
-
-        // Special case for symbols being one symbol:
-        if (symbol == symbols) {
-            ret = values;
-            goto end;
-        }
-
-        if (mode == LOCAL)
-            break;
+        goto end;
+      }
     }
 
+    // Special case for symbols being one symbol:
+    if (symbol == symbols) {
+      ret = values;
+      goto end;
+    }
+
+    if (mode == LOCAL)
+      break;
+  }
+
 #ifdef AE_LOG_ENV
-    SLOG("didn't find it!");
+  SLOG("didn't find it!");
 #endif
 
 end:
 #ifdef AE_LOG_ENV
-    OUTDENT;
-    LOG(ret, "[looked up]");
+  OUTDENT;
+  LOG(ret, "[looked up]");
 #endif
 
-    return ret;
+  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -322,7 +331,7 @@ ae_obj_t * ae_env_new_root(void) {
   
 #define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1)
 #define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, N, ...) N
-#define load_fun(c_name, special, min_args, max_args, ...) \
+#define load_fun(c_name, special, min_args, max_args, ...)                                                                  \
   load_fun_helper(env, #c_name, &ae_core_##c_name, special, min_args, max_args, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
 #define add_core_op(name, sym, ...) ENV_SET(env, SYM(#sym), NEW_CORE(#name, &ae_core_##name, false, 1, 15));
 
