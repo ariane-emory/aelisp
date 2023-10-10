@@ -251,27 +251,53 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   return clone;
 }
 
+/* #define METADATA_TYPE                        typeof(((ae_obj_t *)NULL)->metadata) */
+/* #define METADATA_SIZE                        sizeof(((ae_obj_t *)NULL)->metadata) */
+/* #define METADATA_CAST(x)                     ((METADATA_TYPE)(x)) */
+
+/* #define MASK(size, shift)                    (METADATA_CAST(((1 << (size)) - 1) << (shift))) */
+/* #define FROM_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift))) */
+/* #define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST((value) << (shift))) */
+
+/* #define AE_TYPE_BITS    6 */
+/* #define AE_FOO_BITS     8 */
+/* #define AE_DELOC_BITS   1 */
+
+/* #define AE_TYPE_SHIFT   0  // far right */
+/* #define AE_FOO_SHIFT    AE_TYPE_BITS */
+/* // a big gap */
+/* #define AE_DELOC_SHIFT  (METADATA_SIZE * 8 - AE_DELOC_BITS) */
+
+/* #define AE_TYPE_MASK    (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT)) */
+/* #define AE_FOO_MASK     (MASK(AE_FOO_BITS,    AE_FOO_SHIFT)) */
+/* #define AE_DELOC_MASK   (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT)) */
+
+// gpt's take
+
+// Metadata definitions
 #define METADATA_TYPE                        typeof(((ae_obj_t *)NULL)->metadata)
 #define METADATA_SIZE                        sizeof(((ae_obj_t *)NULL)->metadata)
 #define METADATA_CAST(x)                     ((METADATA_TYPE)(x))
 
-#define MASK(size, shift)                    (METADATA_CAST(((1 << (size)) - 1) << (shift)))
+// Mask, shifting and extraction helpers
+#define MASK(size, shift)                    (METADATA_CAST((METADATA_CAST(1) << (size)) - METADATA_CAST(1)) << (shift))
 #define FROM_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift)))
-#define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST((value) << (shift)))
+#define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST(METADATA_CAST(value) << (shift)))
 
-
+// Bit definitions
 #define AE_TYPE_BITS    6
 #define AE_FOO_BITS     8
 #define AE_DELOC_BITS   1
 
 #define AE_TYPE_SHIFT   0  // far right
 #define AE_FOO_SHIFT    AE_TYPE_BITS
-// a big gap
 #define AE_DELOC_SHIFT  (METADATA_SIZE * 8 - AE_DELOC_BITS)
 
+// Masks for each field
 #define AE_TYPE_MASK    (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT))
 #define AE_FOO_MASK     (MASK(AE_FOO_BITS,    AE_FOO_SHIFT))
 #define AE_DELOC_MASK   (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_deloc method
