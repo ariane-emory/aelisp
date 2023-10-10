@@ -100,10 +100,13 @@
    ((<= n 2) 1)
    (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq fun naive-fib)
-(setq num 30)
-(setq reps 100)
-(prefetch (body fun))
+(setq fun          memo-fib)
+(setq num          10)
+(setq reps         100)
+(setq prefetch-fun nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when prefetch-fun
+ (prefetch (body fun)))
 (print (body fun))
 (benchmark reps (list 'print (list fun num)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
