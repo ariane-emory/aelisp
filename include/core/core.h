@@ -51,7 +51,7 @@
   /*================================================================================================================*/ \
   DO(exit,     false,          0,          1,                                 FUNDEF_END )                             \
   DO(sleep,    false,          1,          1,                                 FUNDEF_END )                             \
-  DO(dobj,     false,          1,          1, "debug-object",                 FUNDEF_END ) /* debug data accessor   */ \
+  DO(dobj,     false,          1,          1, "dobj", "debug-object",         FUNDEF_END ) /* debug data accessor   */ \
   DO(error,    false,          1,          2,                                 FUNDEF_END )                             \
   DO(errmsg,   false,          1,          1, "errmsg", "error-message",      FUNDEF_END ) /* error accessor        */ \
   DO(errobj,   false,          1,          1, "errobj", "error-object",       FUNDEF_END ) /* error accessor        */ \
