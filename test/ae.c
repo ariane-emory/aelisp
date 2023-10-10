@@ -752,10 +752,10 @@ void core_cons_car_cdr(void) {
   obj args = make_args_containing_one_list();
   T(ae_core_car(env, args, LENGTH(args)) == SYM("a"));
 
+  T(shitty_princ_based_equality_predicate(ae_core_cdr (env, args, LENGTH(args)), "(b c)"));
+
   args = NEW_CONS(ae_core_cdr(env, args, LENGTH(args)), NIL);
   T(ae_core_car(env, args, LENGTH(args)) == SYM("b"));
-
-  T(shitty_princ_based_equality_predicate(ae_core_cdr (env, args, LENGTH(args)), "(b c)"));
 
   args = CONS(SYM("a"), NEW_CONS(NIL, NIL));
   T(shitty_princ_based_equality_predicate(ae_core_cons(env, args, LENGTH(args)), "(a)")); // cons 'a onto nil and get (a).
