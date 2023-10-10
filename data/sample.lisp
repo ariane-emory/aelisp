@@ -101,8 +101,9 @@
    (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq fun naive-fib)
-(setq repetitions 100)
+(setq num 30)
+(setq reps 100)
 (prefetch (body fun))
 (print (body fun))
-(benchmark repetitions (list 'print (list fun 10)))
+(benchmark reps (list 'print (list fun num)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
