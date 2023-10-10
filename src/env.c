@@ -281,6 +281,8 @@ static void load_fun_helper(
   va_start(args, count);
 
   bool set_alt_name = false;
+
+  ae_obj_t * new_core = NEW_CORE(c_name, fun, special, min_args, max_args);
   
   for (int ix = 0; ix < count; ix++) {
     char * alt_name = va_arg(args, char *);
@@ -289,14 +291,14 @@ static void load_fun_helper(
       break;
 
     // SLOGF("alt name: %s", alt_name); FF;
-    ENV_SET(env, SYM(alt_name), NEW_CORE(c_name, fun, special, min_args, max_args));
+    ENV_SET(env, SYM(alt_name), new_core);
 
     set_alt_name = true;
   }
 
   if (! set_alt_name) {
     // SLOGF("c name: %s", c_name); FF;
-    ENV_SET(env, SYM(c_name), NEW_CORE(c_name, fun, special, min_args, max_args));
+    ENV_SET(env, SYM(c_name), new_core);
   }
   
   va_end(args);
