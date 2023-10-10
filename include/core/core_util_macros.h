@@ -31,8 +31,8 @@
                                                                                                    \
     ae_obj_t * err_data = NIL;                                                                     \
                                                                                                    \
-    ASET(err_data, KW("args"), args);                                                              \
-    ASET(err_data, KW("env"),  env);                                                               \
+    KSET(err_data, KW("args"), args);                                                              \
+    KSET(err_data, KW("env"),  env);                                                               \
                                                                                                    \
     return NEW_ERROR(msg, err_data);                                                               \
   }

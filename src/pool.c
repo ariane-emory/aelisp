@@ -163,7 +163,7 @@ void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * cons
 
 #ifdef AE_SHARED_PRIMORDIAL_TAIL
   static ae_obj_t * common_tail = NIL;
-  ASET(common_tail, key, value); 
+  KSET(common_tail, key, value); 
 #endif
   
   int ix = AE_OBJ_POOL_SIZE;
@@ -172,7 +172,7 @@ void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * cons
 #ifdef AE_SHARED_PRIMORDIAL_TAIL
     DOBJ(&pool[ix]) = common_tail;
 #else
-    ASET(DOBJ(&pool[ix]), key, value);
+    KSET(DOBJ(&pool[ix]), key, value);
 #endif        
   }
 #endif
