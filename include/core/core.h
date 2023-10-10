@@ -28,11 +28,11 @@
   DO(and,      true,   UNLIMITED,  UNLIMITED, "and", "∧",                     FUNDEF_END ) /* reduceable            */ \
   DO(or,       true,   UNLIMITED,  UNLIMITED, "or", "∨",                      FUNDEF_END ) /* reduceable            */ \
   DO(let_str,  true,           2,  UNLIMITED, "let*",                         FUNDEF_END )                             \
+  DO(let,      true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(cdr,      false,          1,          1,                                 FUNDEF_END )                             \
   DO(car,      false,          1,          1,                                 FUNDEF_END )                             \
-  DO(let,      true,           2,          2,                                 FUNDEF_END )                             \
   DO(time,     false,          0,          0,                                 FUNDEF_END )                             \
-  DO(repeat,   true,           1,          1,                                 FUNDEF_END )                             \
+  DO(repeat,   true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@
   DO(print,    false,          1,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(write,    false,          1,  UNLIMITED,                                 FUNDEF_END )                             \
   /*================================================================================================================*/ \
-  DO(eval,     false,          2,          2,                                 FUNDEF_END )                             \
+  DO(eval,     false,          1,          1,                                 FUNDEF_END )                             \
   DO(macro,    true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(setf,     false,          2,          2,                                 FUNDEF_END )                             \
   DO(length,   false,          1,          1,                                 FUNDEF_END ) /* reduceable            */ \
