@@ -2,15 +2,15 @@
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
- (lambda (nth) 
-  (let ((*memo* '((2 . 1) (1 . 1)))
-        (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-        (fib     (lambda (𝑥)
-                  (let ((memoized (aget *memo*  𝑥)))
-                   (or memoized
-                    (memoize  𝑥 (+ (fib (- 𝑥 1))
-                                 (fib (- 𝑥 2)))))))))
-   (fib nth))))
+ (let ((*memo* '((2 . 1) (1 . 1)))
+       (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+  (lambda (nth) 
+   (let ((fib (lambda (𝑥)
+               (let ((memoized (aget *memo*  𝑥)))
+                (or memoized
+                 (memoize  𝑥 (+ (fib (- 𝑥 1))
+                              (fib (- 𝑥 2)))))))))
+   (fib nth)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib-2
  (lambda (nth) 
