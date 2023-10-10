@@ -1,16 +1,14 @@
+(exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq memo-fib
- (let ((*memo* '((2 . 1) (1 . 1)))
-       (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+(setq memo-fib 
+ (let ((*memo*   '((2 . 1) (1 . 1))))
   (lambda (nth) 
-   (let ((fib (lambda (𝑥)
-               (let ((memoized (aget *memo*  𝑥)))
-                (or memoized
-                 (memoize  𝑥 (+ (fib (- 𝑥 1))
-                              (fib (- 𝑥 2)))))))))
-   (fib nth)))))
+   (let* ((memoize   (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+          (memoized  (aget *memo*  𝑥))
+          (fib (lambda (𝑥) (or memoized (memoize 𝑥 (+ (fib (- 𝑥 1)) (fib (- 𝑥 2))))))))
+    (fib nth)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib-2
  (lambda (nth) 
@@ -20,7 +18,7 @@
                   (let ((memoized (aget *memo*  𝑥)))
                    (or memoized
                     (memoize  𝑥 (+ (fib (- 𝑥 1))
-                                    (fib (- 𝑥 2)))))))))
+                                 (fib (- 𝑥 2)))))))))
    (fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib
@@ -61,8 +59,8 @@
 (setq prefetch
  (lambda (expr)
   (transform! expr
-    (lambda (x) (and (symbol? x) (bound? x)))
-    (lambda (x) (eval x)))))
+   (lambda (x) (and (symbol? x) (bound? x)))
+   (lambda (x) (eval x)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq l '(2 (4 8)))
 ;; (transform! l integer? double)
@@ -93,13 +91,13 @@
     (let ((before (time)))
      (eval qexpr)
      (setq total (+ total (elapsed before))))
-     (when (== 0 (% ctr 5))
-      (nl)
-      (princ "Iteration #")
-      (princ ctr)
-      (princ ", ")
-      (princ (/ total 1000))
-      (princ " ms so far.")))
+    (when (== 0 (% ctr 5))
+     (nl)
+     (princ "Iteration #")
+     (princ ctr)
+     (princ ", ")
+     (princ (/ total 1000))
+     (princ " ms so far.")))
    (nl)
    (princ "total ums: ")
    (princ total) (nl)
@@ -110,7 +108,7 @@
    (princ "each ms: ")
    (princ (/ total repetitions 1000)) (nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq fun          memo-fib-2)
+(setq fun          memo-fib)
 (setq num          30)
 (setq reps         100)
 (setq prefetch-fun nil)
