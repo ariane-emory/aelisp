@@ -41,7 +41,10 @@ static char mem[free_list_size] = { 0 };
 
 #define PR(...)                   (fprintf(stdout, __VA_ARGS__))
 #define COUNT_LIST_LENGTH(l)      ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
-#define CORE_SETQ(env, sym, val)  (ae_core_setq(env, CONS(SYM(sym), CONS(val, NIL))))
+#define CORE_SETQ(env, sym, val)  ({                                                                                   \
+  obj args = CONS(SYM(sym), CONS(val, NIL));                                                                           \
+  (ae_core_setq(env, args, LENGTH(args)));                                                                             \
+})
 
 #define SETUP_TEST                                                                                                     \
   obj    this    = NULL;                                                                                               \
