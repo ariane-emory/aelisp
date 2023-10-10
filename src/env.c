@@ -46,15 +46,13 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, const ae_obj_t * const env, con
     const ae_obj_t * pos = env;
 
     // If GLOBAL, dive right to the top:
-    if (mode == GLOBAL) {
-        while (! NILP(ENV_PARENT(pos))) {
+    if (mode == GLOBAL)
+        while (! NILP(ENV_PARENT(pos)))
             pos = ENV_PARENT(pos);
-        }
-    }
 
     for (; ENVP(pos); pos = ENV_PARENT(pos)) {
         ae_obj_t *symbols = ENV_SYMS(pos);
-        ae_obj_t *values = ENV_VALS(pos);
+        ae_obj_t *values  = ENV_VALS(pos);
 
         for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
             if (symbol == CAR(symbols)) {
