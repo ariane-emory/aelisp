@@ -1,4 +1,5 @@
 To Do:
+- [ ] user funs probably need better arg count validation.
 _ [ ] core 'and' and 'or' shold  be able to handle 3+ args.
 - [ ] bestline REPL.
 - [ ] #include equivalent.

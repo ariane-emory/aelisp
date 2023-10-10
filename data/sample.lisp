@@ -99,7 +99,7 @@
   (princ "each ms: ")
   (princ (/ elapsed repetitions 1000)) (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq bench
+(setq benchmark
  (lambda (repetitions qexpr)
   (nl)
   (let ((ctr 0 )
@@ -124,15 +124,15 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (describe-elapsed (- after before) repetitions)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq elapsed (bench repetitions '(memo-fib 30)))
+;; (setq elapsed (benchmark repetitions '(memo-fib 30)))
 ;; ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (describe-elapsed elapsed repetitions)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq elapsed (bench repetitions '(progn (setq *memo* '((2 . 1) (1 . 1))) (print (prefetch-fib 30)))))
+;; (setq elapsed (benchmark repetitions '(progn (setq *memo* '((2 . 1) (1 . 1))) (print (prefetch-fib 30)))))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (describe-elapsed elapsed repetitions)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq elapsed (bench repetitions '(sleep 1000)))
+;; (setq elapsed (benchmark repetitions '(sleep 1000)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (describe-elapsed elapsed repetitions)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -148,7 +148,7 @@
               ((<= n 2) 1)
               (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (bench repetitions '(print (naive-fib 10)))
+;; (benchmark repetitions '(print (naive-fib 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq pl-fib (lambda (n)
               (if (<= n 2)
@@ -156,13 +156,10 @@
                (+ (pl-fib (- n 1)) (pl-fib (- n 2))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(bench repetitions '(naive-fib 20))
+;;(benchmark repetitions '(naive-fib 20))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (print (body pl-fib))
 (prefetch (body pl-fib))
-;; (transform! (body pl-fib)
-;;  (lambda (x) (and (symbol? x) (bound? x)))
-;;  (lambda (x) (eval x)))
 (print (body pl-fib))
-(bench repetitions '(print (pl-fib 10)))
+(benchmark repetitions '(print (pl-fib 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
