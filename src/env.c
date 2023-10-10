@@ -49,9 +49,47 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
   if (found_ptr)
     *found_ptr = false;
 
-  // ... [omitted for brevity, no changes here]
+  // Check for keywords that are automatically resolved:
+  if (KEYWORDP(symbol)) {
+#ifdef AE_LOG_ENV
+    LOG(NIL, "Keyword found automatically.");
+#endif
+    if (found_ptr)
+      *found_ptr = true;
+#ifdef AE_LOG_ENV
+    OUTDENT;
+    LOG(symbol, "[looked up]");
+#endif
+    return (ae_obj_t *)symbol;
+  }
 
-  ae_obj_t *ret = NIL;  
+  if (NILP(symbol)) {
+#ifdef AE_LOG_ENV
+    LOG(NIL, "found NIL automatically.");
+#endif
+    if (found_ptr)
+      *found_ptr = true;
+#ifdef AE_LOG_ENV
+    OUTDENT;
+    LOG(NIL, "[looked up]");
+#endif
+    return NIL;
+  }
+
+  if (TRUEP(symbol)) {
+#ifdef AE_LOG_ENV
+    LOG(TRUE, "found TRUE automatically");
+#endif
+    if (found_ptr)
+      *found_ptr = true;
+#ifdef AE_LOG_ENV
+    OUTDENT;
+    LOG(TRUE, "[looked up]");
+#endif
+    return TRUE;
+  }
+
+  ae_obj_t *ret = NIL;  // Initialize the return value
   ae_obj_t *pos = env;
 
   // If GLOBAL, dive right to the top:
@@ -88,7 +126,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 
 #ifdef AE_ENV_BUBBLING
         if (! NILP(prev_symbols)) {
-          /* int old_count = LENGTH(ENV_SYMS(pos)); */
+          int old_count = LENGTH(ENV_SYMS(pos));
 
           ae_obj_t *next_symbols = CDR(symbols);
           ae_obj_t *next_values = CDR(values);
@@ -109,8 +147,8 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
           LOG(symbols, "new syms");
           LOG(values,  "new vals");
 #endif
-          /* int new_count = LENGTH(ENV_SYMS(pos)); */
-          /* assert(old_count == new_count); */
+          int new_count = LENGTH(ENV_SYMS(pos));
+          assert(old_count == new_count);
           (void)ENV_BOUNDP(pos, SYM("kkk"));
         }
 #endif
@@ -119,7 +157,14 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
       }
     }
 
-    // ... [omitted for brevity, no changes here]
+    // Special case for symbols being one symbol:
+    if (symbol == symbols) {
+      ret = values;
+      goto end;
+    }
+
+    if (mode == LOCAL)
+      break;
   }
 
 #ifdef AE_LOG_ENV
@@ -187,6 +232,7 @@ void ae_env_set(
         CAR(vals) = value;
 
 #ifdef AE_LOG_ENV
+        LOG(syms, "syms after");
         LOG(vals, "values after");
 #endif
 
