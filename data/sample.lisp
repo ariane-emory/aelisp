@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
  (let* ((*memo* '((2 . 1) (1 . 1)))
-       (memoize (lambda (k vvv) (cdr (car (setq *memo* (aset *memo* k vvv)))))))
+       (memoize (lambda (kkk vvv) (cdr (car (setq *memo* (aset *memo* kkk vvv)))))))
   (lambda (nth) 
    (let* ((fib (lambda (xxx)
                 (let ((memoized (aget *memo*  xxx)))

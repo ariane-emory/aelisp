@@ -37,7 +37,7 @@
       ae_obj_t * tmp = EVAL(env, elem);                                                                                \
       PUSH(evaled_args, tmp);                                                                                          \
       OUTDENT;                                                                                                         \
-      LOG(elem, "evaled arg  #%d", tmp);                                                                               \
+      LOG(tmp, "evaled arg  #%d", ctr);                                                                                \
     }                                                                                                                  \
     args = evaled_args;                                                                                                \
     OUTDENT;                                                                                                           \

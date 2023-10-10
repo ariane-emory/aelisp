@@ -129,6 +129,8 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 #ifdef AE_ENV_BUBBLING
         // If the symbol was found and it's not already at the front:
         if (! NILP(prev_symbols)) {
+          int old_count = LENGTH(ENV_SYMS(pos));
+            
           ae_obj_t *next_symbols = CDR(symbols);
           ae_obj_t *next_values = CDR(values);
 
@@ -148,6 +150,9 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
           LOG(symbols, "new syms");
           LOG(values,  "new vals");
 #endif
+          int new_count = LENGTH(ENV_SYMS(pos));
+          assert(old_count == new_count);
+          assert ((((! ENV_BOUNDP(pos, SYM("kkk")) && (! ENV_BOUNDP(pos, SYM("kkk")))) || (((ENV_BOUNDP(pos, SYM("kkk")) && (ENV_BOUNDP(pos, SYM("kkk")))))))));
         }
 #endif
 
