@@ -42,7 +42,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
   assert(SYMBOLP(symbol));
 
 #ifdef AE_LOG_ENV
-  LOG(symbol, "[looking up]");
+  LOG(symbol, "[looking up '%s']", SYM_VAL(symbol));
   INDENT;
 #endif
 
@@ -92,8 +92,8 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
     return TRUE;
   }
 
-  ae_obj_t *ret = NULL;  // Initialize the return value
-  const ae_obj_t *pos = env;
+  ae_obj_t *ret = NIL;  // Initialize the return value
+   ae_obj_t *pos = env;
 
   // If GLOBAL, dive right to the top:
   if (mode == GLOBAL)
@@ -141,10 +141,13 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
           CDR(values) = ENV_VALS(pos);
         
           // Adjust the environment's main symbol and value pointers:
-          ((ae_obj_t *)pos)->symbols = symbols;  // This directly modifies the environment's symbols pointer to the new front
-          ((ae_obj_t *)pos)->values = values;   // This directly modifies the environment's values pointer to the new front
+          ENV_SYMS(pos) = symbols;  // This directly modifies the environment's symbols pointer to the new front
+          ENV_VALS(pos) = values;   // This directly modifies the environment's values pointer to the new front
+
+#ifdef AE_LOG_ENV
           LOG(symbols, "new syms");
-          LOG(values, "new vals");
+          LOG(values,  "new vals");
+#endif
         }
 #endif
 

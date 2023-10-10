@@ -3,20 +3,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
  (let* ((*memo* '((2 . 1) (1 . 1)))
-       (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v)))))))
+       (memoize (lambda (k vvv) (cdr (car (setq *memo* (aset *memo* k vvv)))))))
   (lambda (nth) 
-   (let* ((fib (lambda (𝑥)
-                (let ((memoized (aget *memo*  𝑥)))
-                 (or memoized (memoize  𝑥 (+ (fib (- 𝑥 1)) (fib (- 𝑥 2)))))))))
+   (let* ((fib (lambda (xxx)
+                (let ((memoized (aget *memo*  xxx)))
+                 (or memoized (memoize  xxx (+ (fib (- xxx 1)) (fib (- xxx 2)))))))))
    (fib nth)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib-2
   (lambda (nth) 
    (let* ((*memo* '((2 . 1) (1 . 1)))
-          (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-          (fib     (lambda (𝑥)
-                    (let ((memoized (aget *memo*  𝑥)))
-                     (or memoized (memoize  𝑥 (+ (fib (- 𝑥 1)) (fib (- 𝑥 2)))))))))
+          (memoize (lambda (k vvv) (cdr (car (setq *memo* (aset *memo* k vvv))))))
+          (fib     (lambda (xxx)
+                    (let ((memoized (aget *memo*  xxx)))
+                     (let (result (or memoized (memoize  xxx (+ (fib (- xxx 1)) (fib (- xxx 2)))))))
+                     (when (not result) (stop))
+                     result
+                     ))))
    (fib nth))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq naive-fib
