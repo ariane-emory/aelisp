@@ -138,28 +138,29 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq repetitions 100)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq naive-fib (lambda (n)
+(setq naive-fib
+ (lambda (n)
   (if (<= n 2)
-    1
-    (+ (naive-fib (- n 1)) (naive-fib (- n 2))))))
+   1
+   (+ (naive-fib (- n 1)) (naive-fib (- n 2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq cond-fib (lambda (n)
-            (cond
-              ((<= n 2) 1)
-              (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
+(setq cond-fib
+ (lambda (n)
+  (cond
+   ((<= n 2) 1)
+   (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (benchmark repetitions '(print (naive-fib 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq pl-fib (lambda (n)
-              (if (<= n 2)
-               1
-               (+ (pl-fib (- n 1)) (pl-fib (- n 2))))))
-
+(setq pl-fib
+ (lambda (n)
+  (if (<= n 2)
+   1
+   (+ (pl-fib (- n 1)) (pl-fib (- n 2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(benchmark repetitions '(naive-fib 20))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(print (body pl-fib))
-(prefetch (body pl-fib))
-(print (body pl-fib))
-(benchmark repetitions '(print (pl-fib 10)))
+(prefetch (body naive-fib))
+(print (body naive-fib))
+(benchmark repetitions '(print (naive-fib 10)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
