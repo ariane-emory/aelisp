@@ -251,53 +251,85 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   return clone;
 }
 
-/* #define METADATA_TYPE                        typeof(((ae_obj_t *)NULL)->metadata) */
-/* #define METADATA_SIZE                        sizeof(((ae_obj_t *)NULL)->metadata) */
-/* #define METADATA_CAST(x)                     ((METADATA_TYPE)(x)) */
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _tailp
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/* #define MASK(size, shift)                    (METADATA_CAST(((1 << (size)) - 1) << (shift))) */
-/* #define FROM_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift))) */
-/* #define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST((value) << (shift))) */
+bool ae_obj_tailp(const ae_obj_t * const this) {
+ assert(this);
 
-/* #define AE_TYPE_BITS    6 */
-/* #define AE_FOO_BITS     8 */
-/* #define AE_DELOC_BITS   1 */
+ if (NIL == this)
+   return true;
 
-/* #define AE_TYPE_SHIFT   0  // far right */
-/* #define AE_FOO_SHIFT    AE_TYPE_BITS */
-/* // a big gap */
-/* #define AE_DELOC_SHIFT  (METADATA_SIZE * 8 - AE_DELOC_BITS) */
+ if (ATOMP(this))
+   return false;
 
-/* #define AE_TYPE_MASK    (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT)) */
-/* #define AE_FOO_MASK     (MASK(AE_FOO_BITS,    AE_FOO_SHIFT)) */
-/* #define AE_DELOC_MASK   (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT)) */
+ assert(CAR(this));
 
-// gpt's take
+ return true;
+}
 
-// Metadata definitions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _specialp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_obj_specialp(const ae_obj_t * const this) {
+ assert(this);
+
+ return MACROP(this) || (COREP(this) && this->special);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _keywordp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool ae_obj_keywordp(const ae_obj_t * const this) {
+ assert(this);
+
+ return SYMBOLP(this) && SYM_VAL(this)[0] == ':';
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Metadata and its sub-fields
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+     63   63 62    22 21      18 17      14 13    6 5     0  <-- Bit index
+    +-------+--------+---------------------+-------+-------+
+    | DELOC |  ...   | MAX_ARGS | MIN_ARGS | FOO   | TYPE  |
+    +-------+--------+---------------------+-------+-------+
+    |<--1-->|<--41-->|<----4--->|<----4--->|<--8-->|<--6-->|
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #define METADATA_TYPE                        typeof(((ae_obj_t *)NULL)->metadata)
 #define METADATA_SIZE                        sizeof(((ae_obj_t *)NULL)->metadata)
 #define METADATA_CAST(x)                     ((METADATA_TYPE)(x))
 
-// Mask, shifting and extraction helpers
+// Mask, shifting, and extraction helpers
 #define MASK(size, shift)                    (METADATA_CAST((METADATA_CAST(1) << (size)) - METADATA_CAST(1)) << (shift))
 #define FROM_MASKED(type, from, mask, shift) (METADATA_CAST(((from) & (mask)) >> (shift)))
 #define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST(METADATA_CAST(value) << (shift)))
 
-// Bit definitions
-#define AE_TYPE_BITS    6
-#define AE_FOO_BITS     8
-#define AE_DELOC_BITS   1
+// Sub-field sizes
+#define AE_TYPE_BITS          6
+#define AE_FOO_BITS           8
+#define AE_DELOC_BITS         1
+#define AE_CORE_MIN_ARGS_BITS 4
+#define AE_CORE_MAX_ARGS_BITS 4
 
-#define AE_TYPE_SHIFT   0  // far right
-#define AE_FOO_SHIFT    AE_TYPE_BITS
-#define AE_DELOC_SHIFT  (METADATA_SIZE * 8 - AE_DELOC_BITS)
+// Sub-field shifts
+#define AE_TYPE_SHIFT              0  // far right
+#define AE_FOO_SHIFT               AE_TYPE_BITS
+#define AE_CORE_MIN_ARGS_SHIFT     (AE_FOO_SHIFT + AE_FOO_BITS)
+#define AE_CORE_MAX_ARGS_SHIFT     (AE_CORE_MIN_ARGS_SHIFT + AE_CORE_MIN_ARGS_BITS)
+#define AE_DELOC_SHIFT             (METADATA_SIZE * 8 - AE_DELOC_BITS)  // highest bit
 
-// Masks for each field
-#define AE_TYPE_MASK    (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT))
-#define AE_FOO_MASK     (MASK(AE_FOO_BITS,    AE_FOO_SHIFT))
-#define AE_DELOC_MASK   (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
-
+// Sub-field masks
+#define AE_TYPE_MASK               (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT))
+#define AE_FOO_MASK                (MASK(AE_FOO_BITS,    AE_FOO_SHIFT))
+#define AE_CORE_MIN_ARGS_MASK      (MASK(AE_CORE_MIN_ARGS_BITS, AE_CORE_MIN_ARGS_SHIFT))
+#define AE_CORE_MAX_ARGS_MASK      (MASK(AE_CORE_MAX_ARGS_BITS, AE_CORE_MAX_ARGS_SHIFT))
+#define AE_DELOC_MASK              (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_deloc method
@@ -413,42 +445,4 @@ bool ae_obj_delocalizedp(const ae_obj_t * const this) {
 #endif
 
   return deloc;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _tailp
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool ae_obj_tailp(const ae_obj_t * const this) {
- assert(this);
-
- if (NIL == this)
-   return true;
-
- if (ATOMP(this))
-   return false;
-
- assert(CAR(this));
-
- return true;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _specialp
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool ae_obj_specialp(const ae_obj_t * const this) {
- assert(this);
-
- return MACROP(this) || (COREP(this) && this->special);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _keywordp
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool ae_obj_keywordp(const ae_obj_t * const this) {
- assert(this);
-
- return SYMBOLP(this) && SYM_VAL(this)[0] == ':';
 }
