@@ -1,6 +1,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq memo-fib
+ (lambda (nth) 
+  (let* ((*memo* '((2 . 1) (1 . 1)))
+         (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
+         (fib     (lambda (𝑥)
+                   (let ((memoized (aget *memo*  𝑥)))
+                    (or memoized
+                     (memoize  𝑥 (+ (fib (- 𝑥 1))
+                                    (fib (- 𝑥 2)))))))))
+   (fib nth))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq naive-fib
+ (lambda (n)
+  (if (<= n 2)
+   1
+   (+ (naive-fib (- n 1)) (naive-fib (- n 2))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq cond-fib
+ (lambda (n)
+  (cond
+   ((<= n 2) 1)
+   (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq cons?    (lambda (x) (eq :CONS    (type x))))
 (setq integer? (lambda (x) (eq :INTEGER (type x))))
 (setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
@@ -75,33 +98,9 @@
    (princ (/ total 1000000)) (nl)
    (princ "each ms: ")
    (princ (/ total repetitions 1000)) (nl))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq memo-fib
- (lambda (n) 
-  (let* ((nth 30)
-         (*memo* '((2 . 1) (1 . 1)))
-         (memoize (lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))
-         (memo-fib       (lambda (𝑥)
-                          (let ((memoized (aget *memo*  𝑥)))
-                           (or memoized
-                              (memoize  𝑥 (+ (memo-fib (- 𝑥 1))
-                                             (memo-fib (- 𝑥 2)))))))))
-   (memo-fib nth))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq naive-fib
- (lambda (n)
-  (if (<= n 2)
-   1
-   (+ (naive-fib (- n 1)) (naive-fib (- n 2))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq cond-fib
- (lambda (n)
-  (cond
-   ((<= n 2) 1)
-   (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq fun          memo-fib)
-(setq num          10)
+(setq num          30)
 (setq reps         100)
 (setq prefetch-fun nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
