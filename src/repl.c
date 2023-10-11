@@ -181,22 +181,8 @@ int main(int argc, char **argv) {
    * The typed string is returned aks a malloc() allocated string by
    * bestline, so the user needs to free() it. */
     
-  char filename[256];
-  
   while((line = bestline("Æ> ")) != NULL) {
-    if (! strncmp(line, "(load", 5)) {
-      char filename[256];
-      bool failed_to_open = false;
-      
-      if (sscanf(line, "(load \"%255[^\"]\")", filename) == 1)
-        load_file(root_env, filename, &failed_to_open);
-      else
-        printf("Error: Malformed load command.\n");
-
-      if (failed_to_open)
-        fprintf(stderr, "Failed to open file '%s'.\n", filename);
-    } 
-    else if (!strncmp(line, ";l ", 3)) {
+    if (!strncmp(line, ";l ", 3)) {
       char filename[256];
       bool failed_to_open = false;
             
@@ -208,6 +194,18 @@ int main(int argc, char **argv) {
       if (failed_to_open)
         fprintf(stderr, "Failed to open file '%s'.\n", filename);
     }
+    else if (! strncmp(line, "(load", 5)) {
+      char filename[256];
+      bool failed_to_open = false;
+      
+      if (sscanf(line, "(load \"%255[^\"]\")", filename) == 1)
+        load_file(root_env, filename, &failed_to_open);
+      else
+        printf("Error: Malformed load command.\n");
+
+      if (failed_to_open)
+        fprintf(stderr, "Failed to open file '%s'.\n", filename);
+    } 
     else if (line[0] != '\0' && line[0] != ';') {
       program = NIL;
 
