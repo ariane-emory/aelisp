@@ -111,7 +111,7 @@ char *hints(const char * buf, const char ** ansi1, const char ** ansi2) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * load_file(ae_obj_t * env, const char * filename) {
+ae_obj_t * load_file(ae_obj_t * env, const char * filename, bool * const failed_to_open) {
   FILE * original_yyin = yyin;
   yyin = fopen(filename, "r");
 
@@ -119,15 +119,21 @@ ae_obj_t * load_file(ae_obj_t * env, const char * filename) {
 
   if (!yyin) {
     PR("Failed to open file '%s'.\n", filename);
-        
+
+    if (failed_to_open != NULL)
+      *failed_to_open = true;
+    
     return NIL; // maybe return an ERROR instead.
   }
-
+  else if (failed_to_open != NULL) {
+    *failed_to_open = false;
+  }
+  
   yyrestart(yyin);
   yyparse();
 
   ae_obj_t * ret = EVAL(env, program);
-
+  
   fclose(yyin);
 
   yyin = original_yyin;
@@ -178,11 +184,15 @@ int main(int argc, char **argv) {
   while((line = bestline("Æ> ")) != NULL) {
     if (! strncmp(line, "(load", 5)) {
       char filename[256];
+      bool failed_to_open = false;
       
       if (sscanf(line, "(load \"%255[^\"]\")", filename) == 1)
-        load_file(root_env, filename);
+        load_file(root_env, filename, &failed_to_open);
       else
         printf("Error: Malformed load command.\n");
+
+      if (failed_to_open)
+        fprintf(stderr, "Failed to open file '%s'.\n", filename);
     } 
     else if (line[0] != '\0' && line[0] != ';') {
       program = NIL;
@@ -200,11 +210,15 @@ int main(int argc, char **argv) {
     }
     else if (!strncmp(line, ";l ", 3)) {
       char filename[256];
-      
+      bool failed_to_open = false;
+            
       if (sscanf(line, ";l %255s", filename) == 1)
-        load_file(root_env, filename);
+        load_file(root_env, filename, &failed_to_open);
       else
         printf("Error: Malformed load command.\n");
+
+      if (failed_to_open)
+        fprintf(stderr, "Failed to open file '%s'.\n", filename);
     }
     else if (! strncmp(line, ";p", 2)) {
       pool_print();
