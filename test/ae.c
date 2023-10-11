@@ -1320,71 +1320,71 @@ void tailp(void) {
   // T(! TAILP(TRUE)); // This would generate a -Werror=address error.
 }
 
-obj lookup_and_bubble(obj symbols, obj values, obj target) {
-  obj symbols_prior = NIL;
-  obj values_prior  = NIL;
-  obj before_symbols_prior = NIL;
-  obj before_values_prior = NIL;
+/* obj lookup_and_bubble(obj symbols, obj values, obj target) { */
+/*   obj symbols_prior = NIL; */
+/*   obj values_prior  = NIL; */
+/*   obj before_symbols_prior = NIL; */
+/*   obj before_values_prior = NIL; */
 
-    while (CONSP(symbols) && CONSP(values)) {
-        if (CAR(symbols) == target) {
-            // Swap in the symbols list
-            if (! NILP(before_symbols_prior)) {
-                CDR(before_symbols_prior) = symbols;
-            } else {
-                // If the target is the first symbol, adjust the head of the list
-                symbols = symbols_prior;
-            }
-            CDR(symbols_prior) = CDR(symbols);
-            CDR(symbols) = symbols_prior;
+/*     while (CONSP(symbols) && CONSP(values)) { */
+/*         if (CAR(symbols) == target) { */
+/*             // Swap in the symbols list */
+/*             if (! NILP(before_symbols_prior)) { */
+/*                 CDR(before_symbols_prior) = symbols; */
+/*             } else { */
+/*                 // If the target is the first symbol, adjust the head of the list */
+/*                 symbols = symbols_prior; */
+/*             } */
+/*             CDR(symbols_prior) = CDR(symbols); */
+/*             CDR(symbols) = symbols_prior; */
 
-            // Swap in the values list
-            if (! NILP(before_values_prior)) {
-                CDR(before_values_prior) = values;
-            } else {
-                // If the target corresponds to the first value, adjust the head of the list
-                values = values_prior;
-            }
-            CDR(values_prior) = CDR(values);
-            CDR(values) = values_prior;
+/*             // Swap in the values list */
+/*             if (! NILP(before_values_prior)) { */
+/*                 CDR(before_values_prior) = values; */
+/*             } else { */
+/*                 // If the target corresponds to the first value, adjust the head of the list */
+/*                 values = values_prior; */
+/*             } */
+/*             CDR(values_prior) = CDR(values); */
+/*             CDR(values) = values_prior; */
 
-            // Return the value corresponding to the target symbol after the swap
-            return CAR(values);
-        }
+/*             // Return the value corresponding to the target symbol after the swap */
+/*             return CAR(values); */
+/*         } */
 
-        before_symbols_prior = symbols_prior;
-        symbols_prior = symbols;
-        symbols = CDR(symbols);
+/*         before_symbols_prior = symbols_prior; */
+/*         symbols_prior = symbols; */
+/*         symbols = CDR(symbols); */
 
-        before_values_prior = values_prior;
-        values_prior = values;
-        values = CDR(values);
-    }
+/*         before_values_prior = values_prior; */
+/*         values_prior = values; */
+/*         values = CDR(values); */
+/*     } */
 
-    // Target symbol not found
-    return NIL;
-}
+/*     // Target symbol not found */
+/*     return NIL; */
+/* } */
 
-void bubble_list(void) {
-  SETUP_TEST;
+/* void bubble_list(void) { */
+/*   SETUP_TEST; */
 
-  ae_obj_t * symbols = CONS(SYM("foo"),
-                  CONS(SYM("bar"),
-                       CONS(SYM("baz"),
-                            CONS(SYM("quux"),
-                                 CONS(SYM("corge"), NIL)))));
-  ae_obj_t * values = CONS(NEW_INT(1),
-                 CONS(NEW_INT(2),
-                      CONS(NEW_INT(3),
-                           CONS(NEW_INT(4),
-                                CONS(NEW_INT(5), NIL)))));
+/*   ae_obj_t * symbols = CONS(SYM("foo"), */
+/*                   CONS(SYM("bar"), */
+/*                        CONS(SYM("baz"), */
+/*                             CONS(SYM("quux"), */
+/*                                  CONS(SYM("corge"), NIL))))); */
+/*   ae_obj_t * values = CONS(NEW_INT(1), */
+/*                  CONS(NEW_INT(2), */
+/*                       CONS(NEW_INT(3), */
+/*                            CONS(NEW_INT(4), */
+/*                                 CONS(NEW_INT(5), NIL))))); */
 
-  ae_obj_t * ret = lookup_and_bubble(symbols, values, SYM("baz"));
+/*   ae_obj_t * ret = lookup_and_bubble(symbols, values, SYM("baz")); */
 
-  LOG(ret, "got;");
-  LOG(symbols , "symbols:");
-  LOG(values, "values:");
-  }
+/*   LOG(ret, "got;"); */
+/*   LOG(symbols , "symbols:"); */
+/*   LOG(values, "values:"); */
+/*   } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
@@ -1426,8 +1426,8 @@ void bubble_list(void) {
   DO(kvp_list)                                                                                                         \
   DO(root_env_and_eval)                                                                                                \
   DO(fun_specialness)                                                                                                  \
-  DO(bubble_list) 
 
+// DO(bubble_list) 
 
 #define pair(fun) { #fun, fun },
 
