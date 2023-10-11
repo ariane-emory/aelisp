@@ -44,8 +44,8 @@
 (setq nth
  (lambda (nth lst)
   (cond (((nil? lst) nil)
-         ((== 0 nth) (car lst))
-         (t          (nth (- nth 1) (cdr lst)))))))
+         t t))))
+         
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
