@@ -11,6 +11,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#define HISTORY "repl_history.txt"
+
+////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * root_env = NIL;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +138,13 @@ bool load_file_cmd(const char * const line,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void add_to_history(const char * const line) {
+  bestlineHistoryAdd(line);
+  bestlineHistorySave(HISTORY);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char **argv) {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +172,7 @@ int main(int argc, char **argv) {
             
   /* Load history from file. The history file is just a plain text file
    * where entries are separated by newlines. */
-  bestlineHistoryLoad("repl_history.txt"); /* Load the history at startup */
+  bestlineHistoryLoad(HISTORY); /* Load the history at startup */
 
   /* Now this is the main loop of the typical bestline-based application.
    * The call to bestline() will block as long as the user types something
@@ -172,16 +183,16 @@ int main(int argc, char **argv) {
     
   while((line = bestline("Æ> ")) != NULL) {
     if (!strncmp(line, ";l ", 3)) {
+      add_to_history(line);
       load_file_cmd(line, ";l %255s", 255);
-      bestlineHistoryAdd(line);
-      bestlineHistorySave("repl_history.txt");
     }
     else if (! strncmp(line, "(load", 5)) {
+      add_to_history(line);
       load_file_cmd(line, "(load \"%255[^\"]\")", 255);
-      bestlineHistoryAdd(line);
-      bestlineHistorySave("repl_history.txt");
     }
     else if (line[0] != '\0' && line[0] != ';') {
+      add_to_history(line);
+
       program = NIL;
 
       parse_line(line);
@@ -192,8 +203,6 @@ int main(int argc, char **argv) {
       WRITE(ret);
       NL;
       
-      bestlineHistoryAdd(line); 
-      bestlineHistorySave("repl_history.txt");
     }
     else if (! strncmp(line, ";p", 2)) {
       pool_print();
