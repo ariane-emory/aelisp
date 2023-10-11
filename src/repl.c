@@ -40,51 +40,62 @@ char *snip(const char * const buf) {
   return result;
 }
 
-void completion(const char * buf, bestlineCompletions * lc) {
+void maybe_complete(const char * buf,
+                    const char * snipped,
+                    const int snipped_len,
+                    const ae_obj_t * const sym,
+                    bestlineCompletions * lc) {
+
+#ifdef AE_LOG_REPL
+  PR("checking '%s' against '%s'\n", snipped, SYM_VAL(sym));
+#endif
+      
+  if (! strncmp(snipped, SYM_VAL(sym), strlen(snipped))) {
+
+#ifdef AE_LOG_REPL
+    PR("\nsnipped_len %d\n", snipped_len);
+    PR("buf     '%s'\nMatched '%s'.\n", buf, SYM_VAL(sym));
+#endif
+        
+    char * const match      = SYM_VAL(sym);
+    int          match_len  = strlen(match);
+    int          prefix_len = strlen(buf) - strlen(snipped);
+    int          needed_len = prefix_len + match_len + 2;
+
+#ifdef AE_LOG_REPL
+    PR("match_len  %d\n", match_len);
+    PR("prefix_len %d\n", prefix_len);
+    PR("needed_len %d\n", needed_len);
+#endif
+    char * const completed    = malloc(needed_len);
+
+    // memset(completed, 0, needed_len);
+      
+    strncpy(completed,              buf,   prefix_len);
+    strncpy(completed + prefix_len, match, match_len);
+    completed[needed_len - 2] = ' ';
+    completed[needed_len - 1] = '\0';
+
+#ifdef AE_LOG_REPL
+    PR("Completed\n%s\n",  completed);
+#endif
+        
+    bestlineAddCompletion(lc, completed);
+  }
+}
+
+void completion(const char * buf,
+                bestlineCompletions * lc) {
   const char * snipped     = snip(buf);
   int          snipped_len = strlen(snipped);
 
-  if (snipped_len != 0) 
-//    FOR_EACH(sym, ENV_SYMS(root_env))
-    FOR_EACH(sym, symbols_list) {
-
-#ifdef AE_LOG_REPL
-      PR("checking '%s' against '%s'\n", snipped, SYM_VAL(sym));
-#endif
-      
-      if (! strncmp(snipped, SYM_VAL(sym), strlen(snipped))) {
-
-#ifdef AE_LOG_REPL
-        PR("\nsnipped_len %d\n", snipped_len);
-        PR("buf     '%s'\nMatched '%s'.\n", buf, SYM_VAL(sym));
-#endif
-        
-        char * const match      = SYM_VAL(sym);
-        int          match_len  = strlen(match);
-        int          prefix_len = strlen(buf) - strlen(snipped);
-        int          needed_len = prefix_len + match_len + 2;
-
-#ifdef AE_LOG_REPL
-        PR("match_len  %d\n", match_len);
-        PR("prefix_len %d\n", prefix_len);
-        PR("needed_len %d\n", needed_len);
-#endif
-        char * const completed    = malloc(needed_len);
-
-        // memset(completed, 0, needed_len);
-      
-        strncpy(completed,              buf,   prefix_len);
-        strncpy(completed + prefix_len, match, match_len);
-        completed[needed_len - 2] = ' ';
-        completed[needed_len - 1] = '\0';
-
-#ifdef AE_LOG_REPL
-        PR("Completed\n%s\n",  completed);
-#endif
-        
-        bestlineAddCompletion(lc, completed);
-      }
-    }
+  if (snipped_len != 0) {
+    FOR_EACH(sym, symbols_list)
+      if (KEYWORDP(sym))
+        maybe_complete(buf, snipped, snipped_len, sym, lc);
+    FOR_EACH(sym, ENV_SYMS(root_env))
+      maybe_complete(buf, snipped, snipped_len, sym, lc);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
