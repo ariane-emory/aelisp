@@ -1,5 +1,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq cons?    (lambda (x) (eq :CONS    (type x))))
-(setq integer? (lambda (x) (eq :INTEGER (type x))))
-(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
+(setq char?     (lambda (x) (eq :CHAR     (type x))))
+(setq cons?     (lambda (x) (eq :CONS     (type x))))
+(setq core?     (lambda (x) (eq :CORE     (type x))))
+(setq env?      (lambda (x) (eq :ENV      (type x))))
+(setq error?    (lambda (x) (eq :ERROR    (type x))))
+(setq float?    (lambda (x) (eq :FLOAT    (type x))))
+(setq integer?  (lambda (x) (eq :INTEGER  (type x))))
+(setq invalid?  (lambda (x) (eq :INVALID  (type x))))
+(setq lambda?   (lambda (x) (eq :LAMBDA   (type x))))
+(setq macro?    (lambda (x) (eq :MACRO    (type x))))
+(setq rational? (lambda (x) (eq :RATIONAL (type x))))
+(setq string?   (lambda (x) (eq :STRING   (type x))))
+(setq symbol?   (lambda (x) (eq :SYMBOL   (type x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
