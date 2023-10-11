@@ -3,3 +3,4 @@ obj/*
 tmp/*
 .DS_Store
 out
+*history.txt
