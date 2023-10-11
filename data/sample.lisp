@@ -34,28 +34,7 @@
    ((<= n 2) 1)
    (t (+ (cond-fib (- n 1)) (cond-fib (- n 2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq cons?    (lambda (x) (eq :CONS    (type x))))
-(setq integer? (lambda (x) (eq :INTEGER (type x))))
-(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
 (setq double   (lambda (x) (* 2 x)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq transform!
- (lambda (expr pred fun)
-  (if (not (eq :CONS (type expr)))
-   (error "expr must be a list")
-   (cond
-    ((pred expr) (setf expr (fun expr)))
-    ((eq :CONS (type expr))
-     (let ((head (car expr))
-           (tail (cdr expr)))
-      (cond
-       ((pred head) (rplaca expr (fun head)))
-       ((eq :CONS (type head))  (transform! head pred fun)))
-      (cond
-       ((pred tail) (rplacd expr (fun tail)))
-       ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
-    (t expr))
-   expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq prefetch
  (lambda (expr)
@@ -82,33 +61,6 @@
 ;;         (lambda (x) (and (proper? x) (eql (length (car x)) 2)))
 ;;         (lambda (x) :REPLACED))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq benchmark
- (lambda (repetitions print-interval qexpr)
-  (nl)
-  (let ((ctr 0 )
-        (total 0))
-   (repeat repetitions
-    (setq ctr (+ 1 ctr))
-    (let ((before (time)))
-     (eval qexpr)
-     (setq total (+ total (elapsed before))))
-    (when (== 0 (% ctr print-interval))
-     (nl)
-     (princ "Iteration #")
-     (princ ctr)
-     (princ ", ")
-     (princ (/ total 1000))
-     (princ " ms so far.")))
-   (nl)
-   (princ "total ums: ")
-   (princ total) (nl)
-   (princ "total ms: ")
-   (princ (/ total 1000)) (nl)
-   (princ "total s: ")
-   (princ (/ total 1000000)) (nl)
-   (princ "each ms: ")
-   (princ (/ total repetitions 1000)) (nl))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq fun          memo-fib)
 (setq num          30)
 (setq reps         5000)
