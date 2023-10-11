@@ -4,7 +4,7 @@ SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" -a -not -nam
 TEST_SRCS    = $(shell find test -name "*.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
-INCLUDE_DIRS = $(foreach dir, $(shell find include -type d) 3p/bestline, -I$(dir)) 
+INCLUDE_DIRS = $(foreach dir, $(shell find include -type d) 3p/bestline, -I$(dir) -Itmp) 
 POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
 
 COMMON_CFLAGS = \
@@ -17,11 +17,11 @@ COMMON_CFLAGS = \
 	-DAE_ENV_BUBBLING \
 	-DAE_LOG_CORE \
 	-DAE_LOG_EVAL \
+
+UNUSED_CFLAGS = \
 	-DAE_LOG_ENV \
 	-DAE_LOG_SYM \
 	-DAE_LOG_FREE_LIST \
-
-UNUSED_CFLAGS = \
 	-DAE_DEBUG_OBJ \
 	-DAE_PREFACE \
 	-DAE_DUMP_SYMS \

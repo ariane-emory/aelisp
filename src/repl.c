@@ -39,7 +39,6 @@ int main(int argc, char **argv) {
   preface();  
   ae_obj_t * root_env = setup_root_env();
   
-
 ////////////////////////////////////////////////////////////////////////////////
 // setup bestline stuff
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,20 +67,21 @@ int main(int argc, char **argv) {
   while((line = bestline("Æ> ")) != NULL) {
     /* Do something with the string. */
     if (line[0] != '\0' && line[0] != '/') {
-      fputs("echo: '", stdout);
-      fputs(line, stdout);
-      fputs("'\n", stdout);
+      YY_BUFFER_STATE buffer = yy_scan_string(line);
+
+      // When yyparse is called, the parse actions on the rules in the Bison file will build the AST in the ae_obj_t * program,
+      // which was declared in the "common.inc" #included near the start of this file.
+      yyparse();
+
+      yy_delete_buffer(buffer);
+
+      WRITE(EVAL(root_env, program));
+      
       bestlineHistoryAdd(line); /* Add to the history. */
       bestlineHistorySave("repl_history.txt"); /* Save the history on disk. */
-    /* } else if (!strncmp(line, "/mask", 5)) { */
-    /*   bestlineMaskModeEnable(); */
-    /* } else if (!strncmp(line, "/unmask", 7)) { */
-    /*   bestlineMaskModeDisable(); */
-    /* } else if (!strncmp(line, "/balance", 8)) { */
-    /*   bestlineBalanceMode(1); */
-    /* } else if (!strncmp(line, "/unbalance", 10)) { */
-    /*   bestlineBalanceMode(0); */
-    } else if (line[0] == '/') {
+    } else if (line[0] == ':' && line[1] == 'q') {
+      exit(0);
+    } else if (line[0] == ':') {
       fputs("Unreconized command: ", stdout);
       fputs(line, stdout);
       fputs("\n", stdout);
