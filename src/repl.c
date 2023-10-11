@@ -147,11 +147,13 @@ ae_obj_t * load_file(ae_obj_t * env, const char * filename, bool * const failed_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool load_file_cmd(const char * const line) {
-  char filename[256];
+bool load_file_cmd(const char * const line,
+                   const char * const scanpat,
+                   const int len) {
+  char filename[len + 1];
   bool failed_to_open = false;
   
-  if (sscanf(line, ";l %255s", filename) == 1)
+  if (sscanf(line, scanpat, filename) == 1)
     load_file(root_env, filename, &failed_to_open);
   else
     printf("Error: Malformed load command.\n");
@@ -204,7 +206,7 @@ int main(int argc, char **argv) {
     
   while((line = bestline("Æ> ")) != NULL) {
     if (!strncmp(line, ";l ", 3)) {
-      load_file_cmd(line);
+      load_file_cmd(line, ";l %255s", 255);
       bestlineHistoryAdd(line);
     }
     else if (! strncmp(line, "(load", 5)) {
