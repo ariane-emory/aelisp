@@ -33,7 +33,7 @@ char *hints(const char *buf, const char **ansi1, const char **ansi2) {
 int main(int argc, char **argv) {
   preface();
   
-  ae_obj_t * root_env = ENV_NEW_ROOT();
+  ae_obj_t * root_env = setup_root_env();
     
   char *line;
 
