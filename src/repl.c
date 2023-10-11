@@ -182,7 +182,7 @@ int main(int argc, char **argv) {
    * bestline, so the user needs to free() it. */
     
   while((line = bestline("Æ> ")) != NULL) {
-    if (!strncmp(line, ";l ", 3)) {
+    if (! strncmp(line, ";l ", 3)) {
       add_to_history(line);
       load_file_cmd(line, ";l %255s", 255);
     }
@@ -192,17 +192,12 @@ int main(int argc, char **argv) {
     }
     else if (line[0] != '\0' && line[0] != ';') {
       add_to_history(line);
-
       program = NIL;
-
       parse_line(line);
-
       ae_obj_t * ret = EVAL(root_env, program);
-      
       printf(" ⇒ ");
       WRITE(ret);
-      NL;
-      
+      NL;      
     }
     else if (! strncmp(line, ";p", 2)) {
       pool_print();
