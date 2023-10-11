@@ -174,10 +174,12 @@ int main(int argc, char **argv) {
     if (!strncmp(line, ";l ", 3)) {
       load_file_cmd(line, ";l %255s", 255);
       bestlineHistoryAdd(line);
+      bestlineHistorySave("repl_history.txt");
     }
     else if (! strncmp(line, "(load", 5)) {
       load_file_cmd(line, "(load \"%255[^\"]\")", 255);
       bestlineHistoryAdd(line);
+      bestlineHistorySave("repl_history.txt");
     }
     else if (line[0] != '\0' && line[0] != ';') {
       program = NIL;
