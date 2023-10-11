@@ -149,7 +149,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 #endif
           int new_count = LENGTH(ENV_SYMS(pos));
           assert(old_count == new_count);
-          (void)ENV_BOUNDP(pos, SYM("kkk"));
+//          (void)ENV_BOUNDP(pos, SYM("kkk"));
         }
 #endif
 

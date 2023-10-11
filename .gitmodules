@@ -1,3 +1,6 @@
 [submodule "3p/acutest"]
 	path = 3p/acutest
 	url = git@github.com:ariane-emory/acutest.git
+[submodule "3p/bestline"]
+	path = 3p/bestline
+	url = git@github.com:jart/bestline.git
