@@ -6,12 +6,52 @@
 #include "obj.h"
 #include "env.h"
 #include "write.h"
+#include "eval.h"
+#include "util.h"
+
+////////////////////////////////////////////////////////////////////////////////
 
 #define YYSTYPE ae_obj_t *
 
 #include "ae.tab.h"
 
-#define TOKENIZE(yy_tok_type, ae_type) return tokenize(#yy_tok_type, yy_tok_type, ae_type);
+////////////////////////////////////////////////////////////////////////////////
+
+extern ae_obj_t * program;
+
+////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * load_file(ae_obj_t * env, const char * filename, bool * const failed_to_open) {
+  FILE * original_yyin = yyin;
+  yyin = fopen(filename, "r");
+
+  program = NIL;
+
+  if (!yyin) {
+    PR("Failed to open file '%s'.\n", filename);
+
+    if (failed_to_open != NULL)
+      *failed_to_open = true;
+    
+    return NIL; // maybe return an ERROR instead.
+  }
+  else if (failed_to_open != NULL) {
+    *failed_to_open = false;
+  }
+  
+  yyrestart(yyin);
+  yyparse();
+
+  ae_obj_t * ret = EVAL(env, program);
+  
+  fclose(yyin);
+
+  yyin = original_yyin;
+
+  return ret; 
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 void parse_line(const char * const line) {
       YY_BUFFER_STATE buffer = yy_scan_string(line);
@@ -23,6 +63,11 @@ void parse_line(const char * const line) {
       yy_delete_buffer(buffer);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+#define TOKENIZE(yy_tok_type, ae_type) return tokenize(#yy_tok_type, yy_tok_type, ae_type);
+
+////////////////////////////////////////////////////////////////////////////////
 
   enum yytokentype tokenize(
     const char * const name,
@@ -140,6 +185,9 @@ void parse_line(const char * const line) {
 
     return yy_tok_type;
   }
+
+////////////////////////////////////////////////////////////////////////////////
+
 %}
 
 %option never-interactive

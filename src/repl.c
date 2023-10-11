@@ -115,38 +115,6 @@ char *hints(const char * buf, const char ** ansi1, const char ** ansi2) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * load_file(ae_obj_t * env, const char * filename, bool * const failed_to_open) {
-  FILE * original_yyin = yyin;
-  yyin = fopen(filename, "r");
-
-  program = NIL;
-
-  if (!yyin) {
-    PR("Failed to open file '%s'.\n", filename);
-
-    if (failed_to_open != NULL)
-      *failed_to_open = true;
-    
-    return NIL; // maybe return an ERROR instead.
-  }
-  else if (failed_to_open != NULL) {
-    *failed_to_open = false;
-  }
-  
-  yyrestart(yyin);
-  yyparse();
-
-  ae_obj_t * ret = EVAL(env, program);
-  
-  fclose(yyin);
-
-  yyin = original_yyin;
-
-  return ret; 
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 bool load_file_cmd(const char * const line,
                    const char * const scanpat,
                    const int len) {
