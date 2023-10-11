@@ -41,6 +41,8 @@ char *snip(const char * const buf) {
   return result;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void maybe_complete(const char * buf,
                     const char * snipped,
                     const int snipped_len,
@@ -83,6 +85,8 @@ void maybe_complete(const char * buf,
     bestlineAddCompletion(lc, completed);
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void completion(const char * buf,
                 bestlineCompletions * lc) {
@@ -143,6 +147,23 @@ ae_obj_t * load_file(ae_obj_t * env, const char * filename, bool * const failed_
 
 ////////////////////////////////////////////////////////////////////////////////
 
+bool load_file_cmd(const char * const line) {
+  char filename[256];
+  bool failed_to_open = false;
+  
+  if (sscanf(line, ";l %255s", filename) == 1)
+    load_file(root_env, filename, &failed_to_open);
+  else
+    printf("Error: Malformed load command.\n");
+  
+  if (failed_to_open)
+    fprintf(stderr, "Failed to open file '%s'.\n", filename);
+  
+  return !!failed_to_open;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 extern void parse_line();
 
 int main(int argc, char **argv) {
@@ -183,16 +204,7 @@ int main(int argc, char **argv) {
     
   while((line = bestline("Æ> ")) != NULL) {
     if (!strncmp(line, ";l ", 3)) {
-      char filename[256];
-      bool failed_to_open = false;
-            
-      if (sscanf(line, ";l %255s", filename) == 1)
-        load_file(root_env, filename, &failed_to_open);
-      else
-        printf("Error: Malformed load command.\n");
-
-      if (failed_to_open)
-        fprintf(stderr, "Failed to open file '%s'.\n", filename);
+      load_file_cmd(line);
     }
     else if (! strncmp(line, "(load", 5)) {
       char filename[256];
