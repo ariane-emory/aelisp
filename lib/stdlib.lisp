@@ -37,11 +37,11 @@
 (setq cddar     (lambda (x)   (cdr (cdr (car x))))                             )
 (setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))                             )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar (lambda (fun lst)                                                ;)
-  (if (nil? lst)                                                              ;)
-    nil                                                                       ;)
-    (cons (fun (car lst)) (mapcar fun (cdr lst))))))                          ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq mapcar (lambda (fun lst)
+  (if (nil? lst)
+    nil
+    (cons (fun (car lst)) (mapcar fun (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
   (if (not (eq :CONS (type expr)))
@@ -59,7 +59,7 @@
        ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
     (t expr))
    expr)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq benchmark
  (lambda (repetitions print-interval qexpr)
   (nl)
@@ -86,4 +86,4 @@
    (princ (/ total 1000000)) (nl)
    (princ "each ms: ")
    (princ (/ total repetitions 1000)) (nl))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
