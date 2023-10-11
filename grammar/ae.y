@@ -9,7 +9,7 @@
 #define YYSTYPE ae_obj_t *
 
 extern ae_obj_t * program;
-extern int main(void);
+extern int main(int argc, char ** argv);
   
 void yyerror(const char *str) { ERR("Error: %s\n", str); }
 int  yywrap() { return 1; }    

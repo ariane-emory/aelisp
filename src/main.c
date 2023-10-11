@@ -101,7 +101,7 @@ void preface(void) {
 // main
 //////////////////////////////////////////////////////////////////////////////
 
-int main(void) {
+int main(int argc, char **argv) {
 #ifdef AE_PREFACE
   preface();
 #endif

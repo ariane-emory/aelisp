@@ -10,7 +10,7 @@
 // should be ~50kb statically linked
 // will save history to ~/.foo_history
 // cc -fno-jump-tables -Os -o foo foo.c bestline.c
-int main() {
+int main(void) {
     char *line;
     while ((line = bestlineWithHistory("IN> ", "foo"))) {
         fputs("OUT> ", stdout);

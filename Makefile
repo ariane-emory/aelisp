@@ -107,7 +107,7 @@ bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
-bin/repl: src/repl.c $(OBJS) obj/bestline.o
+bin/repl: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/repl.c obj/bestline.o
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
