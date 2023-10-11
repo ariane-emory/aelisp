@@ -13,6 +13,17 @@
 
 #define TOKENIZE(yy_tok_type, ae_type) return tokenize(#yy_tok_type, yy_tok_type, ae_type);
 
+void parse_line(const char * const line) {
+      YY_BUFFER_STATE buffer = yy_scan_string(line);
+
+      // When yyparse is called, the parse actions on the rules in the Bison file will build the AST in the ae_obj_t * program,
+      // which was declared in the "common.inc" #included near the start of this file.
+      yyparse();
+
+      yy_delete_buffer(buffer);
+}
+
+
   enum yytokentype tokenize(
     const char * const name,
     enum yytokentype yy_tok_type,

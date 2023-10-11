@@ -30,6 +30,8 @@ char *hints(const char *buf, const char **ansi1, const char **ansi2) {
   return NULL;
 }
 
+extern void parse_line();
+
 int main(int argc, char **argv) {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,16 +69,7 @@ int main(int argc, char **argv) {
   while((line = bestline("Æ> ")) != NULL) {
     /* Do something with the string. */
     if (line[0] != '\0' && line[0] != '/') {
-      YY_BUFFER_STATE buffer = yy_scan_string(line);
-
-      // When yyparse is called, the parse actions on the rules in the Bison file will build the AST in the ae_obj_t * program,
-      // which was declared in the "common.inc" #included near the start of this file.
-      yyparse();
-
-      yy_delete_buffer(buffer);
-
-      WRITE(EVAL(root_env, program));
-      
+      parse_line();      
       bestlineHistoryAdd(line); /* Add to the history. */
       bestlineHistorySave("repl_history.txt"); /* Save the history on disk. */
     } else if (line[0] == ':' && line[1] == 'q') {
