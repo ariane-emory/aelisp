@@ -69,7 +69,9 @@ int main(int argc, char **argv) {
   while((line = bestline("Æ> ")) != NULL) {
     /* Do something with the string. */
     if (line[0] != '\0' && line[0] != '/') {
-      parse_line();      
+      program = NIL;
+      parse_line(line);
+      WRITE(EVAL(root_env, program));
       bestlineHistoryAdd(line); /* Add to the history. */
       bestlineHistorySave("repl_history.txt"); /* Save the history on disk. */
     } else if (line[0] == ':' && line[1] == 'q') {

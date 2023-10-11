@@ -462,6 +462,8 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
+  assert(env);
+  assert(obj);
   assert(ENVP(env));
 
   eval_dispatch_row_t dispatch = {0};
