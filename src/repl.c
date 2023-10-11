@@ -205,6 +205,7 @@ int main(int argc, char **argv) {
   while((line = bestline("Æ> ")) != NULL) {
     if (!strncmp(line, ";l ", 3)) {
       load_file_cmd(line);
+      bestlineHistoryAdd(line);
     }
     else if (! strncmp(line, "(load", 5)) {
       char filename[256];
@@ -217,6 +218,8 @@ int main(int argc, char **argv) {
 
       if (failed_to_open)
         fprintf(stderr, "Failed to open file '%s'.\n", filename);
+
+      bestlineHistoryAdd(line);
     } 
     else if (line[0] != '\0' && line[0] != ';') {
       program = NIL;
