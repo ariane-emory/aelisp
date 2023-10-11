@@ -131,6 +131,8 @@
   }
 %}
 
+%option never-interactive
+                        
 %%
 
 nil                                                                        |
