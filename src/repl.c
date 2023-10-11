@@ -45,12 +45,18 @@ void completion(const char * buf, bestlineCompletions * lc) {
   int          snipped_len = strlen(snipped);
 
   if (snipped_len != 0) 
-    FOR_EACH(sym, ENV_SYMS(root_env))
+//    FOR_EACH(sym, ENV_SYMS(root_env))
+    FOR_EACH(sym, symbols_list) {
+
+#ifdef AE_LOG_REPL
+      PR("checking '%s' against '%s'\n", snipped, SYM_VAL(sym));
+#endif
+      
       if (! strncmp(snipped, SYM_VAL(sym), strlen(snipped))) {
 
 #ifdef AE_LOG_REPL
         PR("\nsnipped_len %d\n", snipped_len);
-        PR("Buf     '%s'\nMatched '%s'.\n", buf, SYM_VAL(sym));
+        PR("buf     '%s'\nMatched '%s'.\n", buf, SYM_VAL(sym));
 #endif
         
         char * const match      = SYM_VAL(sym);
@@ -78,6 +84,7 @@ void completion(const char * buf, bestlineCompletions * lc) {
         
         bestlineAddCompletion(lc, completed);
       }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
