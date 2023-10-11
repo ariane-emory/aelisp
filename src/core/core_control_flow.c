@@ -48,7 +48,10 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
   ae_obj_t * ret = NIL;
   
   FOR_EACH(cond_item, args) {
-    LOG(cond_item, "cond item");
+
+#ifdef AE_LOG_CORE
+    LOG(cond_item, "cond_item");
+#endif
     
     REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be proper lists with at least two elements");
 
