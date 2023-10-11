@@ -205,25 +205,7 @@ int main(int argc, char **argv) {
    * bestline, so the user needs to free() it. */
     
   while((line = bestline("Æ> ")) != NULL) {
-    if (!strncmp(line, ";l ", 3)) {
-      load_file_cmd(line, ";l %255s", 255);
-      bestlineHistoryAdd(line);
-    }
-    else if (! strncmp(line, "(load", 5)) {
-      char filename[256];
-      bool failed_to_open = false;
-      
-      if (sscanf(line, "(load \"%255[^\"]\")", filename) == 1)
-        load_file(root_env, filename, &failed_to_open);
-      else
-        printf("Error: Malformed load command.\n");
-
-      if (failed_to_open)
-        fprintf(stderr, "Failed to open file '%s'.\n", filename);
-
-      bestlineHistoryAdd(line);
-    } 
-    else if (line[0] != '\0' && line[0] != ';') {
+    if (line[0] != '\0' && line[0] != ';') {
       program = NIL;
 
       parse_line(line);
@@ -237,6 +219,14 @@ int main(int argc, char **argv) {
       bestlineHistoryAdd(line); 
       bestlineHistorySave("repl_history.txt");
     }
+    else if (!strncmp(line, ";l ", 3)) {
+      load_file_cmd(line, ";l %255s", 255);
+      bestlineHistoryAdd(line);
+    }
+    else if (! strncmp(line, "(load", 5)) {
+      load_file_cmd(line, "(load \"%255[^\"]\")", 255);
+      bestlineHistoryAdd(line);
+    } 
     else if (! strncmp(line, ";p", 2)) {
       pool_print();
       NL;
