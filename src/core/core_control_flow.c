@@ -55,16 +55,16 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
     
     REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be proper lists with at least two elements");
 
-    ae_obj_t * const item_car = CAR(cond_item);
-    ae_obj_t * const item_cdr = CDR(cond_item);
+    ae_obj_t * const item_car  = CAR(cond_item);
+    ae_obj_t * const item_cadr = CADR(cond_item);
   
 #ifdef AE_LOG_CORE
     LOG(item_car, "cond case's car");
-    LOG(item_cdr, "cond case's cdr");
+    LOG(item_cadr, "cond case's cadr");
 #endif
 
     if (! NILP(EVAL(env, item_car))) {
-      ret = ae_core_progn(env, item_cdr, LENGTH(item_cdr));
+      ret = ae_core_progn(env, item_cadr, LENGTH(item_cadr));
       
       break;
     }

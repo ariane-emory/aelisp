@@ -42,10 +42,14 @@
     (cons (fun (car lst)) (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq nth
- (lambda (nth lst)
+ (lambda (n lst)
   (cond
-   ((nil? lst) nil)
-   (t t))))
+    ((nil? lst)   nil) 
+    ((eql? n 0)   (car lst))
+    (t            (nth (- n 1) (cdr lst))))))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
