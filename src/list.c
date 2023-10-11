@@ -223,7 +223,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 ae_obj_t * new_sym;                                                                                \
 {                                                                                                  \
   char * _str = free_list_malloc(strlen(string) + 1);                                              \
-  assert(((void)"Failed alloc!", 0));                                                              \
+  assert(((void)"Failed alloc!", _str));                                                           \
+  assert(((void)"Null string!", string));                                                          \
   strcpy(_str, string);                                                                            \
   new_sym = NEW_SYMBOL(_str);                                                                      \
 }
