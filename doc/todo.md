@@ -2,7 +2,6 @@ To Do:
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs probably need better arg count validation.
 _ [ ] core 'and' and 'or' shold  be able to handle 3+ args.
-- [ ] bestline REPL.
 - [ ] #include equivalent.
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [ ] Refactor FOR_EACH_CORE_FUN_GROUP_1 and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
@@ -28,6 +27,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] bestline REPL.
 _ [x] prefetch function.
 - [x] Test to confirm that core setq returns an error if asked to set the value of nil, t or keywords.
 - [x] Make some tests for LOCALIZE/LOCALIZED.

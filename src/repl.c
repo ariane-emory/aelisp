@@ -5,13 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "obj.h"
-#include "env.h"
-#include "eval.h"
-#include "free_list.h"
-#include "write.h"
-#include "util.h"
-
 #include "common.inc"
 
 void completion(const char *buf, bestlineCompletions *lc) {
@@ -38,7 +31,8 @@ int main(int argc, char **argv) {
 // setup AE stuff  
 ////////////////////////////////////////////////////////////////////////////////
   
-  preface();  
+  preface();
+  NL;
   ae_obj_t * root_env = setup_root_env();
   
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,15 +62,17 @@ int main(int argc, char **argv) {
     
   while((line = bestline("Æ> ")) != NULL) {
     /* Do something with the string. */
-    if (line[0] != '\0' && line[0] != '/') {
+    if (line[0] != '\0' && line[0] != ';') {
       program = NIL;
       parse_line(line);
-      WRITE(EVAL(root_env, program));
+      ae_obj_t * ret = EVAL(root_env, program);
+      printf("\n⇒ "), WRITE(ret);
+      NL;
       bestlineHistoryAdd(line); /* Add to the history. */
       bestlineHistorySave("repl_history.txt"); /* Save the history on disk. */
-    } else if (line[0] == ':' && line[1] == 'q') {
+    } else if (line[0] == ';' && line[1] == 'q') {
       exit(0);
-    } else if (line[0] == ':') {
+    } else if (line[0] == ';') {
       fputs("Unreconized command: ", stdout);
       fputs(line, stdout);
       fputs("\n", stdout);
