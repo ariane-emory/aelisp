@@ -33,10 +33,19 @@
 (setq cddar     (lambda (x)   (cdr (cdr (car x))))                             )
 (setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))                             )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar (lambda (fun lst)
+(setq 1+        (lambda (x)        (+ 1 x)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq mapcar
+ (lambda (fun lst)
   (if (nil? lst)
     nil
     (cons (fun (car lst)) (mapcar fun (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq nth
+ (lambda (nth lst)
+  (cond (((nil? lst) nil)
+         ((== 0 nth) (car lst))
+         (t          (nth (- nth 1) (cdr lst)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
