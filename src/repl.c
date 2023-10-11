@@ -1,25 +1,16 @@
 #include "bestline.h"
 
-#ifndef __COSMOPOLITAN__
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#endif
 
-#if 0
-// should be ~50kb statically linked
-// will save history to ~/.foo_history
-// cc -fno-jump-tables -Os -o foo foo.c bestline.c
-int main(void) {
-    char *line;
-    while ((line = bestlineWithHistory("IN> ", "foo"))) {
-        fputs("OUT> ", stdout);
-        fputs(line, stdout);
-        fputs("\n", stdout);
-        free(line);
-    }
-}
-#endif
+#include "obj.h"
+#include "env.h"
+#include "eval.h"
+#include "free_list.h"
+#include "write.h"
+#include "util.h"
 
 void completion(const char *buf, bestlineCompletions *lc) {
     if (buf[0] == 'h') {
