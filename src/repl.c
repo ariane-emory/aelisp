@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
 
 #include "common.inc"
@@ -50,7 +51,7 @@ void maybe_complete(const char * buf,
   PR("checking '%s' against '%s'\n", snipped, SYM_VAL(sym));
 #endif
       
-  if (! strncmp(snipped, SYM_VAL(sym), strlen(snipped))) {
+  if (! strncasecmp(snipped, SYM_VAL(sym), strlen(snipped))) {
 
 #ifdef AE_LOG_REPL
     PR("\nsnipped_len %d\n", snipped_len);
