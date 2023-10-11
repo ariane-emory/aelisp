@@ -87,7 +87,7 @@ endif
 # Targets
 ################################################################################
 
-all: bin/ae $(TEST_BINS) bin/repl
+all: bin/ae bin/repl $(TEST_BINS) bin/repl
 
 obj/bestline.o:
 	$(CC) -o $@ 3p/bestline/bestline.c $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
