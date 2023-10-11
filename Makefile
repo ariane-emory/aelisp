@@ -1,10 +1,10 @@
 SHELL        = bash
 UNAME_S      = $(shell uname -s)
-SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" )
+SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" -a -not -name "repl.c")
 TEST_SRCS    = $(shell find test -name "*.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
 TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
-INCLUDE_DIRS = $(foreach dir, $(shell find include -type d), -I$(dir))
+INCLUDE_DIRS = $(foreach dir, $(shell find include -type d) 3p/bestline, -I$(dir)) 
 POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
 
 COMMON_CFLAGS = \
