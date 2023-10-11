@@ -87,7 +87,10 @@ endif
 # Targets
 ################################################################################
 
-all: bin/ae $(TEST_BINS)
+all: bin/ae $(TEST_BINS) bin/repl
+
+obj/bestline.o:
+	$(CC) -o $@ 3p/bestline/bestline.c $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
 
 obj/%.o: src/%.c obj obj/core obj/test
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
@@ -96,11 +99,15 @@ obj/%.o: src/%.c obj obj/core obj/test
 # Executables
 ################################################################################
 
-bin/%-test: 
+bin/%-test:
+	mkdir -p bin
 	$(CC) -o $@ $(patsubst bin/%-test, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
-bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c 
-	mkdir -p ./bin
+bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c
+	mkdir -p bin
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
+
+bin/repl: bestline.o $(OBJS) src/repl.c
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
 
 ################################################################################
