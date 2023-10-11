@@ -68,9 +68,8 @@ void maybe_complete(const char * buf,
     PR("prefix_len %d\n", prefix_len);
     PR("needed_len %d\n", needed_len);
 #endif
-    char * const completed    = malloc(needed_len);
 
-    // memset(completed, 0, needed_len);
+    char * const completed    = malloc(needed_len);
       
     strncpy(completed,              buf,   prefix_len);
     strncpy(completed + prefix_len, match, match_len);
