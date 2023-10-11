@@ -7,14 +7,18 @@
 
 #include "common.inc"
 
-void completion(const char *buf, bestlineCompletions *lc) {
+////////////////////////////////////////////////////////////////////////////////
+
+void completion(const char * buf, bestlineCompletions * lc) {
   /* if (buf[0] == 'h') { */
   /*     bestlineAddCompletion(lc,"hello"); */
   /*     bestlineAddCompletion(lc,"hello there"); */
   /* } */
 }
 
-char *hints(const char *buf, const char **ansi1, const char **ansi2) {
+////////////////////////////////////////////////////////////////////////////////
+
+char *hints(const char * buf, const char ** ansi1, const char ** ansi2) {
   /* if (!strcmp(buf,"hello")) { */
   /*     *ansi1 = "\033[35m"; /\* magenta foreground *\/ */
   /*     *ansi2 = "\033[39m"; /\* reset foreground *\/ */
@@ -22,6 +26,32 @@ char *hints(const char *buf, const char **ansi1, const char **ansi2) {
   /* } */
   return NULL;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * load_and_evaluate_file(const char * filename, ae_obj_t * env) {
+    FILE * original_yyin = yyin;
+    yyin = fopen(filename, "r");
+
+    if (!yyin) {
+        PR("Failed to open file '%s'.\n", filename);
+        
+        return NIL; // maybe return an ERROR instead.
+    }
+
+    yyrestart(yyin);
+    yyparse();
+
+    ae_obj_t * ret = EVAL(env, program);
+
+    fclose(yyin);
+
+    yyin = original_yyin;
+
+    return ret; 
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 extern void parse_line();
 
