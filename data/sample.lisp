@@ -82,19 +82,7 @@
     lst)
    (cdr dummy-head))))
 
-(setq! mapcan!
- (lambda (fun lst)
-  (let ((dummy-head (cons 'dummy lst))
-        (prev dummy-head))
-    (while (cdr prev)
-      (let ((result (fun (car (cdr prev)))))
-        (if result
-            (begin
-              (rplacd! prev result)
-              (while (cdr prev)
-                (setq! prev (cdr prev))))
-            (rplacd! prev (cdr (cdr prev))))))
-    (cdr dummy-head))))
+
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
 (write (mapcan! replicate-or-ignore mylist)) (nl)
