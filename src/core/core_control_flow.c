@@ -218,9 +218,45 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   }
 
 #ifdef AE_LOG_CORE
-    SLOG("this and");
+  SLOG("this and");
 #endif
 
-    CORE_RETURN("and", ae_eval(env, and_that_branch));
+  CORE_RETURN("and", ae_eval(env, and_that_branch));
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _when
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("while");
+
+  ae_obj_t * const while_cond = CAR(args);
+  ae_obj_t * const do_branch  = CDR(args);
+  
+#ifdef AE_LOG_CORE
+  LOG(while_cond, "while");
+  LOG(do_branch,  "do");
+#endif
+  
+  ae_obj_t * cond_result = NIL;
+  
+  while (!NILP(cond_result = EVAL(env, while_cond))) {
+  
+#ifdef AE_LOG_CORE
+    LOG(cond_result ? TRUE : NIL, "cond_result: ");
+#endif
+
+#ifdef AE_LOG_CORE
+    LOG(do_branch, "do while");
+#endif
+
+    ae_core_progn(env, do_branch, LENGTH(do_branch));
+  }
+
+#ifdef AE_LOG_CORE
+  SLOG("left while");
+#endif
+  
+  CORE_RETURN("while", NIL);
+}

@@ -151,32 +151,44 @@
   (cond
    ((nil? lst1) lst2)
    (t (rplacd! (last lst1) lst2) lst1))))
+(setq! nconc!
+  (lambda lists
+    (cond
+      ((nil? lists) nil)
+      ((nil? (car lists)) (nconc! (cdr lists)))
+      (t (rplacd! (last (car lists)) (nconc! (cdr lists)))
+         (car lists)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! last
-  (lambda (lst)
+ (lambda (lst)
+  "Get last item in a list."
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
     (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push-back!
  (lambda (lst elem)
+  "Destructively push elem onto the end of lst."
   (rplacd! (last lst) (cons elem nil))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push!
  (lambda (elem lst)
-   (let ((old-car (car lst)))
+  "Destructively push elem onto the front of lst."
+  (let ((old-car (car lst)))
      (rplaca! lst elem)
      (rplacd! lst (cons old-car (cdr lst)))
      lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push-back
   (lambda (lst elem)
+   "Non-destructively push elem onto the end of lst."
    (append lst (cons elem nil))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push
   (lambda (elem lst)
-    (cons elem lst)))
+   "Non-destructively push elem onto the front of lst."
+   (cons elem lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! even?
  (lambda (n) 
