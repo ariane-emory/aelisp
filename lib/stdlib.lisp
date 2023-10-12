@@ -51,11 +51,11 @@
      (let ((head (car expr))
            (tail (cdr expr)))
       (cond
-       ((pred head) (rplaca! expr (fun head)))
-       ((eq? :CONS (type head))  (transform! head pred fun)))
+       ((pred head)  (rplaca! expr (fun head)))
+       ((cons? head) (transform! head pred fun)))
       (cond
-       ((pred tail) (rplacd! expr (fun tail)))
-       ((eq? :CONS (type tail))  (rplacd! expr (transform! tail pred fun))))))
+       ((pred tail)  (rplacd! expr (fun tail)))
+       ((cons? tail) (rplacd! expr (transform! tail pred fun))))))
     (t expr))
    expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
