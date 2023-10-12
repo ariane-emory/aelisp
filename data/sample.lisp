@@ -21,7 +21,7 @@
 (setq! lst2 '(3 4))
 (setq! lst3 '(5 6))
 
-(write (nconc! lst lst2 lst3))
+(write (nconc! lst lst2 lst3)) (nl)
 
 (write lst) (nl)
 
