@@ -47,15 +47,15 @@
    (error "expr must be a list")
    (cond
     ((pred expr) (set! expr (fun expr)))
-    ((eq :CONS (type expr))
+    ((eq? :CONS (type expr))
      (let ((head (car expr))
            (tail (cdr expr)))
       (cond
        ((pred head) (rplaca! expr (fun head)))
-       ((eq :CONS (type head))  (transform! head pred fun)))
+       ((eq? :CONS (type head))  (transform! head pred fun)))
       (cond
        ((pred tail) (rplacd! expr (fun tail)))
-       ((eq :CONS (type tail))  (rplacd! expr (transform! tail pred fun))))))
+       ((eq? :CONS (type tail))  (rplacd! expr (transform! tail pred fun))))))
     (t expr))
    expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -220,4 +220,8 @@
        (and (equal? (car o1) (car o2))
             (equal? (cdr o1) (cdr o2))))
       (t nil))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! double
+ (lambda (x)
+  (* 2 x)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
