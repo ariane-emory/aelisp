@@ -146,19 +146,40 @@
         lst2
         (cons (car lst1) (append (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! nconc!
+(setq! nconc2!
  (lambda (lst1 lst2)
+  "Destructively join two lists."
   (cond
    ((nil? lst1) lst2)
    (t (rplacd! (last lst1) lst2)
     lst1))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! last
+(setq! nconc!
+  (lambda lists
+   "Destructively join many lists."
+   (let ((result (car lists))
+          (remaining (cdr lists)))
+      (while (not (nil? remaining))
+        (let ((tail (last result)))
+          (rplacd! tail (car remaining))
+          (setq! result tail))
+        (setq! remaining (cdr remaining)))
+      (car lists))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! last-old
  (lambda (lst)
-  "Get last item in a list."
+  "Get last item in a list old version."
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
     (last (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! last
+  (lambda (lst)
+   "Get last item in a list."
+   (cond
+      ((nil? lst) nil)
+      ((nil? (cdr lst)) lst)
+      (t (last (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push-back!
  (lambda (lst elem)

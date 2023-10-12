@@ -18,29 +18,12 @@ o;; (filter odd? '(1 2 3 4 5 6 7 8 9 10))   ; Expected result: (1 3 5 7 9)
 
 ;; ;; I'm trying this nconc!:
 
-(setq! last
-  (lambda (lst)
-    (cond
-      ((nil? lst) nil)
-      ((nil? (cdr lst)) lst)
-      (t (last (cdr lst))))))
-
-(setq! nconc!
-  (lambda lists
-    (let ((result (car lists))
-          (remaining (cdr lists)))
-      (while (not (nil? remaining))
-        (let ((tail (last result)))
-          (rplacd! tail (car remaining))
-          (setq! result tail))
-        (setq! remaining (cdr remaining)))
-      (car lists))))
 
 (setq! lst '(1 2))
 (setq! lst2 '(3 4))
 (setq! lst3 '(5 6))
 
-(nconc! lst lst2 lst3)
+(write (nconc! lst lst2 lst3))
 
 (write lst) (nl)
 
