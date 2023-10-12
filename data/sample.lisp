@@ -6,12 +6,14 @@
 
 (write (filter odd? '(1 2 3 4 5 6 7 8 9 10))) (nl)
 
-(write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d)))
+(write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d))) (nl)
 
-(setq lst '(1 2 3 4))
+(setq! lst  '(1 2 3 4))
+(setq! lst2 '(6 7 8 9))
+
 (princ "one:   ") (write (push-back! lst 5))    (nl)
-;; (princ "two:   ") (write (push!      0   lst))  (nl)
-;; (princ "three: ") (write (nconc!     lst lst2)) (nl)
+(princ "two:   ") (write (push!      0   lst))  (nl)
+(princ "three: ") (write (nconc!     lst lst2)) (nl)
 
 
 
