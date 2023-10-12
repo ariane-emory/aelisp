@@ -1,0 +1,15 @@
+#include "core_includes.h"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _concat
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("concat");
+
+  FOR_EACH(item, args) {
+    REQUIRE(env, args, STRINGP(item));
+  }
+  
+  CORE_RETURN("concat", NIL);
+}
