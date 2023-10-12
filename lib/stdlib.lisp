@@ -116,18 +116,26 @@
     (fun (car lst))
     (mapc fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq mapconcat
- (lambda (fun lst delimiter)
-  (if (nil? lst)
-   ""
-   (reduce 
-    (lambda (acc item) 
-     (concat acc delimiter item)) 
-    (fun (car lst)) 
-    (mapcar fun (cdr lst))))))
+ (setq mapconcat
+  (lambda (fun lst delimiter)
+   (if (nil? lst)
+    ""
+    (reduce 
+     (lambda (acc item) 
+      (concat acc delimiter item)) 
+     (fun (car lst)) 
+     (mapcar fun (cdr lst))))))
+
+ (setq mapcan
+  (lambda (fun lst)
+   (if (nil? lst)
+    nil
+    (append (fun (car lst)) (mapcan fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq mapcan
- (lambda (fun lst)
-  (if (nil? lst)
-   nil
-   (append (fun (car lst)) (mapcan fun (cdr lst))))))
+(setq filter
+ (lambda (pred lst)
+  (cond
+    ((nil? lst) nil)
+    ((pred (car lst))
+     (cons (car lst) (filter pred (cdr lst))))
+    (t (filter pred (cdr lst))))))
