@@ -126,7 +126,7 @@
      (fun (car lst)) 
      (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq mapcan
+(setq mapcan!
   (lambda (fun lst)
     (if (nil? lst)
         nil
@@ -146,7 +146,7 @@
         lst2
         (cons (car lst1) (append (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq nconc
+(setq nconc!
  (let ((x 1))
   (lambda (lst1 lst2)
     (cond
