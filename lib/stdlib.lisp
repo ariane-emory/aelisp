@@ -147,10 +147,11 @@
         (cons (car lst1) (append (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq nconc
+ (let ((x 1))
   (lambda (lst1 lst2)
     (cond
       ((nil? lst1) lst2)
-      (t (rplacd (last lst1) lst2) lst1))))
+      (t (rplacd (last lst1) lst2) lst1)))))
 (setq last
   (lambda (lst)
     (if (or (nil? lst) (nil? (cdr lst)))
