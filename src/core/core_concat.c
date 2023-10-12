@@ -14,6 +14,22 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   }
 
   SLOGF("Expect %d.\n", total_length);
+
+  char * const string = free_list_malloc(total_length);
+  memset(string, 0, total_length);
   
-  CORE_RETURN("concat", NIL);
+  int pos = 0;
+  
+  FOR_EACH(elem, args) {
+    // printf("'%s'\n", string);
+    
+    int len = strlen(STR_VAL(elem));
+    
+    strcpy(string + pos, STR_VAL(elem));
+    pos += len;
+  }
+
+  string[total_length - 1] = '\0';
+  
+  CORE_RETURN("concat", NEW_STRING(string));
 }
