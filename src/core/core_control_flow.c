@@ -256,3 +256,45 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   CORE_RETURN("while", NIL);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _apply
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("apply");
+
+  ae_obj_t * const apply_cond     = CAR(args);
+  ae_obj_t * const then_branch = CADR(args);
+  ae_obj_t * const else_branch = CDDR(args);
+      
+#ifdef AE_LOG_CORE
+  LOG(apply_cond,  "apply");
+  LOG(then_branch, "then");
+  LOG(else_branch, "else");
+#endif
+
+  bool cond_result = ! NILP(EVAL(env, apply_cond));
+
+#ifdef AE_LOG_CORE
+  LOG(cond_result ? TRUE : NIL, "cond_result: ");
+#endif
+
+  if (cond_result) {
+
+#ifdef AE_LOG_CORE
+    LOG(then_branch, "chose then");
+#endif
+
+    CORE_RETURN("apply", ae_eval(env, then_branch));
+  }
+  else {
+
+#ifdef AE_LOG_CORE
+    LOG(else_branch, "chose else");
+#endif
+
+    CORE_RETURN("apply", ae_core_progn(env, else_branch, LENGTH(else_branch)));
+  }
+}
+

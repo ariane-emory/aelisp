@@ -1,6 +1,6 @@
 To Do:
 - [ ] core apply.
-- [ ] core while.
+- [x] core while.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs probably need better arg count validation.
 - [ ] core 'and' and 'or' shold  be able to handle 3+ args.
