@@ -43,21 +43,6 @@ o;; (filter odd? '(1 2 3 4 5 6 7 8 9 10))   ; Expected result: (1 3 5 7 9)
 
 
 
-(setq! transform
- (lambda (obj pred fun)
-  (cond
-    ((atom? obj)
-     (if (pred obj)
-         (fun obj)
-         obj))
-    ((cons? obj)
-     (cons
-      (transform (car obj) pred fun)
-      (transform (cdr obj) pred fun)))
-    (t obj))))
-
-(setq! double (lambda (x) (* 2 x)))
-
 (setq! l '(1 2 (3 4)))
 (setq! new-l (transform l integer? double))
 (write l) (nl)     ;; (1 2 (3 4)) remains unchanged
