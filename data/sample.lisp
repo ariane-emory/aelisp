@@ -27,3 +27,5 @@ o;; (filter odd? '(1 2 3 4 5 6 7 8 9 10))   ; Expected result: (1 3 5 7 9)
 
 (write lst) (nl)
 
+(write (mapconcat (lambda (x) x) '("a" "b" "c") " ")) (nl)
+
