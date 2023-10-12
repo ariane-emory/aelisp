@@ -159,7 +159,13 @@
         lst
         (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq push-back
+(setq push-back!
  (lambda (lst elem)
   (rplacd (last lst) (cons elem nil))
   lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq push!
+ (lambda (elem lst)
+   (let ((new-cons (cons elem nil)))
+     (rplacd new-cons lst)
+     new-cons)))

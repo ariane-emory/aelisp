@@ -1,1 +1,1 @@
-(print (push-back '(1 2 3) 4))
+(print (push! 0 '(1 2 3)))
