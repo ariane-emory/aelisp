@@ -61,15 +61,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! transform
  (lambda (obj pred fun)
-  (cond
-    ((atom? obj)
-     (if (pred obj)
-      (fun obj)
-      obj))
-    (t
-     (cons
-      (transform (car obj) pred fun)
-      (transform (cdr obj) pred fun))))))
+  (if (atom? obj)
+   (if (pred obj)
+    (fun obj)
+    obj)
+   (cons
+    (transform (car obj) pred fun)
+    (transform (cdr obj) pred fun)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! benchmark
  (lambda (repetitions print-interval qexpr)
@@ -127,35 +125,35 @@
     (fun (car lst))
     (mapc fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! mapconcat
-  (lambda (fun lst delimiter)
-   (if (nil? lst)
-    ""
-    (reduce 
-     (lambda (acc item) 
-      (concat acc delimiter item)) 
-     (fun (car lst)) 
-     (mapcar fun (cdr lst))))))
+(setq! mapconcat
+ (lambda (fun lst delimiter)
+  (if (nil? lst)
+   ""
+   (reduce 
+    (lambda (acc item) 
+     (concat acc delimiter item)) 
+    (fun (car lst)) 
+    (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! mapcan!
-  (lambda (fun lst)
-    (if (nil? lst)
-        nil
-        (nconc (fun (car lst)) (mapcan fun (cdr lst))))))
+ (lambda (fun lst)
+  (if (nil? lst)
+   nil
+   (nconc (fun (car lst)) (mapcan fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! filter
  (lambda (pred lst)
   (cond
-    ((nil? lst) nil)
-    ((pred (car lst))
-     (cons (car lst) (filter pred (cdr lst))))
-    (t (filter pred (cdr lst))))))
+   ((nil? lst) nil)
+   ((pred (car lst))
+    (cons (car lst) (filter pred (cdr lst))))
+   (t (filter pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! append
-  (lambda (lst1 lst2)
-    (if (nil? lst1)
-        lst2
-        (cons (car lst1) (append (cdr lst1) lst2)))))
+ (lambda (lst1 lst2)
+  (if (nil? lst1)
+   lst2
+   (cons (car lst1) (append (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! nconc2!
  (lambda (lst1 lst2)
@@ -166,31 +164,31 @@
     lst1))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! nconc!
-  (lambda lists
-   "Destructively join many lists."
-   (let ((result (car lists))
-          (remaining (cdr lists)))
-      (while (not (nil? remaining))
-        (let ((tail (last result)))
-          (rplacd! tail (car remaining))
-          (setq! result tail))
-        (setq! remaining (cdr remaining)))
-      (car lists))))
+ (lambda lists
+  "Destructively join many lists."
+  (let ((result (car lists))
+        (remaining (cdr lists)))
+   (while (not (nil? remaining))
+    (let ((tail (last result)))
+     (rplacd! tail (car remaining))
+     (setq! result tail))
+    (setq! remaining (cdr remaining)))
+   (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! last-old
  (lambda (lst)
   "Get last item in a list old version."
-   (if (or (nil? lst) (nil? (cdr lst)))
-    lst
-    (last (cdr lst)))))
+  (if (or (nil? lst) (nil? (cdr lst)))
+   lst
+   (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! last
-  (lambda (lst)
-   "Get last item in a list."
-   (cond
-      ((nil? lst) nil)
-      ((nil? (cdr lst)) lst)
-      (t (last (cdr lst))))))
+ (lambda (lst)
+  "Get last item in a list."
+  (cond
+   ((nil? lst) nil)
+   ((nil? (cdr lst)) lst)
+   (t (last (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push-back!
  (lambda (lst elem)
@@ -202,19 +200,19 @@
  (lambda (elem lst)
   "Destructively push elem onto the front of lst."
   (let ((old-car (car lst)))
-     (rplaca! lst elem)
-     (rplacd! lst (cons old-car (cdr lst)))
-     lst)))
+   (rplaca! lst elem)
+   (rplacd! lst (cons old-car (cdr lst)))
+   lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push-back
-  (lambda (lst elem)
-   "Non-destructively push elem onto the end of lst."
-   (append lst (cons elem nil))))
+ (lambda (lst elem)
+  "Non-destructively push elem onto the end of lst."
+  (append lst (cons elem nil))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push
-  (lambda (elem lst)
-   "Non-destructively push elem onto the front of lst. Yeah, this is just cons really."
-   (cons elem lst)))
+ (lambda (elem lst)
+  "Non-destructively push elem onto the front of lst. Yeah, this is just cons really."
+  (cons elem lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! even?
  (lambda (n) 
@@ -225,13 +223,13 @@
   (not (even? n))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! equal?
-  (lambda (o1 o2)
-    (cond
-      ((and (atom? o1) (atom? o2)) (eql? o1 o2))
-      ((and (cons? o1) (cons? o2))
-       (and (equal? (car o1) (car o2))
-            (equal? (cdr o1) (cdr o2))))
-      (t nil))))
+ (lambda (o1 o2)
+  (cond
+   ((and (atom? o1) (atom? o2)) (eql? o1 o2))
+   ((and (cons? o1) (cons? o2))
+    (and (equal? (car o1) (car o2))
+     (equal? (cdr o1) (cdr o2))))
+   (t nil))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! double
  (lambda (x)
