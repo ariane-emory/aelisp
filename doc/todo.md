@@ -1,8 +1,9 @@
 To Do:
+- [ ] make core_concat for AE_STRINGS.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs probably need better arg count validation.
 _ [ ] core 'and' and 'or' shold  be able to handle 3+ args.
-- [ ] #include equivalent.
+- [ ] #include equivalent (exists in REPL-speak but not in core, currently).
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [ ] Refactor FOR_EACH_CORE_FUN_GROUP_1 and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] Fix macro expansion from eval.

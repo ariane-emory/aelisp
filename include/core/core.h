@@ -50,6 +50,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
+  DO(concat,   false,          0,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(exit,     false,          0,          1,                                 FUNDEF_END )                             \
   DO(sleep,    false,          1,          1,                                 FUNDEF_END )                             \
   DO(dobj,     false,          1,          1, "dobj", "debug-object",         FUNDEF_END ) /* debug data accessor   */ \
