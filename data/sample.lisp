@@ -12,7 +12,7 @@
 
 (princ "one:   ") (write (push-back! lst 5))    (nl)
 (princ "two:   ") (write (push!      0   lst))  (nl)
-(princ "three: ") (write (nconc!     lst lst2)) (nl)
+;; (princ "three: ") (write (nconc!     lst lst2)) (nl)
 
 (setq! ct 8)
 
@@ -43,3 +43,5 @@
 ;; (write lst)
 
 (write (apply + '(1 2 3)))
+
+(nconc! lst lst2 lst3)
