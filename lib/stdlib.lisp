@@ -102,6 +102,10 @@
    (princ (/ total 1000)) (nl)
    (princ "total s: ")
    (princ (/ total 1000000)) (nl)
-   (princ "each ms: ")
-   (princ (/ total repetitions 1000)) (nl))))
+   (let ((each-ms (/ total repetitions 1000)))
+    (princ "each ms: ")
+    (princ (/ total repetitions 1000))
+    (nl)
+    each-ms
+   ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
