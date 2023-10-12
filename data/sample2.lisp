@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; -*- lisp-indent-function: (put 'setq 'lisp-indent-function 1); -*-
+;; -*- lisp-indent-function: (put 'setq! 'lisp-indent-function 1); -*-
 w;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (when nil
@@ -15,12 +15,12 @@ w;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;                                            (fib (- 𝑥 2)))))))))
 ;;     (fib 𝑛)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq integer? (lambda (x) (eq :INTEGER (type x))))
-(setq symbol?  (lambda (x) (eq :SYMBOL  (type x))))
-(setq cons?    (lambda (x) (eq :CONS    (type x))))
-(setq stop     (lambda ()  (exit 0)))
+(setq! integer? (lambda (x) (eq :INTEGER (type x))))
+(setq! symbol?  (lambda (x) (eq :SYMBOL  (type x))))
+(setq! cons?    (lambda (x) (eq :CONS    (type x))))
+(setq! stop     (lambda ()  (exit 0)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq transform!
+(setq! transform!
  (lambda (expr pred fun)
   (if (not (eq :CONS (type expr)))
    (error "expr must be a list")
@@ -38,17 +38,17 @@ w;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
     (t expr))
    expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq prefetch
+(setq! prefetch
  (lambda (expr) 
   (transform! expr
    (lambda (x) (and (symbol? x) (bound? x)))
    (lambda (x) (eval x)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq memoize (eval (prefetch '(lambda (k v) (cdr (car (setq *memo* (aset *memo* k v))))))))
+(setq! memoize (eval (prefetch '(lambda (k v) (cdr (car (setq! *memo* (aset *memo* k v))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq *memo* '((2 . 1) (1 . 1)))
+(setq! *memo* '((2 . 1) (1 . 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq fib (prefetch
+(setq! fib (prefetch
   '(lambda (nth)
     (let  ((memoized (aget *memo* nth)))
      (or memoized

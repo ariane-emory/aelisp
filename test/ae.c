@@ -943,11 +943,11 @@ void core_sleep(void) {
   
   obj expr   = NIL;
   obj add    = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  obj incr2  = CONS(SYM("setq"),   CONS(SYM("xx"), add));
+  obj incr2  = CONS(SYM("setq!"),   CONS(SYM("xx"), add));
   obj print  = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
   obj sleep = CONS(SYM("sleep"),  CONS(NEW_INT(100), NIL));
 
-  EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
+  EVAL(env, CONS(SYM("setq!"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
 
   for (int ix = 0; ix < 6; ix++) {
     expr            = CONS(incr2, expr);
@@ -993,8 +993,8 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))))));
 
-  EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), NEW_CONS(NEW_INT(9), NIL))));
-  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))));
+  EVAL(env, CONS(SYM("setq!"), CONS(SYM("bar"), NEW_CONS(NEW_INT(9), NIL))));
+  EVAL(env, CONS(SYM("setq!"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))));
 
   T(EQL(NEW_INT(9),   EVAL(env, SYM("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, SYM("baz"))));
@@ -1142,8 +1142,8 @@ void macro_expand(void) {
   obj env = ENV_NEW_ROOT();
   PR("\nDone populating root env.\n");
 
-  GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list (quote setq) name (list (quote macro) params . body))))");
-  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq) name (list (quote lambda) params . body)))");
+  GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list (quote setq!) name (list (quote macro) params . body))))");
+  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq!) name (list (quote lambda) params . body)))");
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
 
@@ -1156,7 +1156,7 @@ void macro_expand(void) {
   PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
 
-  obj setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
+  obj setq_for_macro_def   = CONS(SYM("setq!"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   obj rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
   NL;
   OLOG(setq_for_macro_def);

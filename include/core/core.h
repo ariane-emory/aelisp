@@ -18,7 +18,7 @@
   DO(eq,       false,  UNLIMITED,  UNLIMITED, "eq",  "eq?",                   FUNDEF_END )                             \
   DO(cond,     true,           1,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(progn,    true,   UNLIMITED,  UNLIMITED,                                 FUNDEF_END )                             \
-  DO(setq,     true,           2,          2, "setq", "≔",                    FUNDEF_END )                             \
+  DO(setq,     true,           2,          2, "setq!",                        FUNDEF_END )                             \
   DO(list,     false,  UNLIMITED,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(quote,    true,           1,          1,                                 FUNDEF_END )                             \
   DO(cons,     false,          2,          2,                                 FUNDEF_END )                             \

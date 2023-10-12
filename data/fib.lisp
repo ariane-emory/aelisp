@@ -1,6 +1,6 @@
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 
-;; (setq naive-fib (lambda (n)
+;; (setq! naive-fib (lambda (n)
 ;;   (if (<= n 2)
 ;;     1
 ;;     (+ (fib (- n 1)) (fib (- n 2))))))

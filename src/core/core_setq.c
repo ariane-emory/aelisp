@@ -3,13 +3,13 @@
 #include "env.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _setq
+// _setq!
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
 #ifdef AE_LOG_CORE
   // No CORE_BEGIN!
-  LOG(args, "[core_setq]");
+  LOG(args, "[core_setq!]");
   INDENT;
 #endif
 
@@ -43,7 +43,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     DSET(val, "last-bound-to", sym);
 
 #  ifdef AE_LOG_CORE
-    LOG(DOBJ(val), "core setq val's new debug data");
+    LOG(DOBJ(val), "core setq! val's new debug data");
 #  endif
 
   }
@@ -51,6 +51,6 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   ENV_SET(env, sym, val);
 
-  CORE_RETURN("setq", val);
+  CORE_RETURN("setq!", val);
 }
 

@@ -30,12 +30,12 @@ Under Consideration:
 Completed:
 - [x] bestline REPL.
 _ [x] prefetch function.
-- [x] Test to confirm that core setq returns an error if asked to set the value of nil, t or keywords.
+- [x] Test to confirm that core setq! returns an error if asked to set the value of nil, t or keywords.
 - [x] Make some tests for LOCALIZE/LOCALIZED.
 - [x] Make a fun to de-localized / move the pointers in the pool.
 - [x] DEF_MATH_OP could make fewer new AE_INTEGERs.
 - [x] core left and right shift.
-- [x] core setq should return an error if asked to set the value of nil, t or keywords.
+- [x] core setq! should return an error if asked to set the value of nil, t or keywords.
 - [x] Get rid of debug_obj, the #ifdef is better.
 - [x] core_cond is noisy, tidy/quiet it and improve it's logging.
 - [x] core rplaca/rplacd
