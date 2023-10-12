@@ -34,24 +34,6 @@
 (setq cdddr     (lambda (x)   (cdr (cdr (cdr x))))                             )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq 1+        (lambda (x)        (+ 1 x)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar
- (lambda (fun lst)
-  (if (nil? lst)
-   nil
-   (cons (fun (car lst)) (mapcar fun (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq reduce
- (lambda (fun acc lst)
-  (if (nil? lst)
-   acc
-   (reduce fun (fun acc (car lst)) (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq rreduce
- (lambda (fun acc lst)
-  (if (nil? lst)
-   acc
-   (fun (car lst) (rreduce fun acc (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq nth
  (lambda (n lst)
@@ -107,6 +89,24 @@
     (princ (/ total repetitions 1000))
     (nl)
     each-ms))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq mapcar
+ (lambda (fun lst)
+  (if (nil? lst)
+   nil
+   (cons (fun (car lst)) (mapcar fun (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq reduce
+ (lambda (fun acc lst)
+  (if (nil? lst)
+   acc
+   (reduce fun (fun acc (car lst)) (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq rreduce
+ (lambda (fun acc lst)
+  (if (nil? lst)
+   acc
+   (fun (car lst) (rreduce fun acc (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq mapc
  (lambda (fun lst)
@@ -125,12 +125,12 @@
       (concat acc delimiter item)) 
      (fun (car lst)) 
      (mapcar fun (cdr lst))))))
-
- (setq mapcan
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq mapcan
   (lambda (fun lst)
-   (if (nil? lst)
-    nil
-    (append (fun (car lst)) (mapcan fun (cdr lst))))))
+    (if (nil? lst)
+        nil
+        (nconc (fun (car lst)) (mapcan fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq filter
  (lambda (pred lst)
@@ -139,3 +139,21 @@
     ((pred (car lst))
      (cons (car lst) (filter pred (cdr lst))))
     (t (filter pred (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq append
+  (lambda (lst1 lst2)
+    (if (nil? lst1)
+        lst2
+        (cons (car lst1) (append (cdr lst1) lst2)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq nconc
+  (lambda (lst1 lst2)
+    (cond
+      ((nil? lst1) lst2)
+      (t (rplacd (nconc-last lst1) lst2) lst1))))
+
+(setq nconc-last
+  (lambda (lst)
+    (if (or (nil? lst) (nil? (cdr lst)))
+        lst
+        (nconc-last (cdr lst)))))
