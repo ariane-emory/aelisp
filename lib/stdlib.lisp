@@ -151,13 +151,6 @@
   (cond
    ((nil? lst1) lst2)
    (t (rplacd! (last lst1) lst2) lst1))))
-(setq! nconc!
-  (lambda lists
-    (cond
-      ((nil? lists) nil)
-      ((nil? (car lists)) (nconc! (cdr lists)))
-      (t (rplacd! (last (car lists)) (nconc! (cdr lists)))
-         (car lists)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! last
  (lambda (lst)
