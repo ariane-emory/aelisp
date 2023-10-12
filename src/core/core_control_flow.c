@@ -244,10 +244,6 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
   while (!NILP(cond_result = EVAL(env, while_cond))) {
   
 #ifdef AE_LOG_CORE
-    LOG(cond_result ? TRUE : NIL, "cond_result: ");
-#endif
-
-#ifdef AE_LOG_CORE
     LOG(do_branch, "do while");
 #endif
 
