@@ -80,8 +80,8 @@
   DO(macro,    true,           2,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(setf,     false,          2,          2,                                 FUNDEF_END )                             \
   DO(length,   false,          1,          1,                                 FUNDEF_END ) /* reduceable            */ \
-  DO(rplacd,   false,          2,          2,                                 FUNDEF_END )                             \
-  DO(rplaca,   false,          2,          2,                                 FUNDEF_END )                             \
+  DO(rplacd,   false,          2,          2, "rplacd!",                      FUNDEF_END )                             \
+  DO(rplaca,   false,          2,          2, "rplaca!",                      FUNDEF_END )                             \
   DO(lambda,   true,           2,  UNLIMITED, "lambda", "λ",                  FUNDEF_END )                             \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

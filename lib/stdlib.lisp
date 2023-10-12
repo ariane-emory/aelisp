@@ -52,11 +52,11 @@
      (let ((head (car expr))
            (tail (cdr expr)))
       (cond
-       ((pred head) (rplaca expr (fun head)))
+       ((pred head) (rplaca! expr (fun head)))
        ((eq :CONS (type head))  (transform! head pred fun)))
       (cond
-       ((pred tail) (rplacd expr (fun tail)))
-       ((eq :CONS (type tail))  (rplacd expr (transform! tail pred fun))))))
+       ((pred tail) (rplacd! expr (fun tail)))
+       ((eq :CONS (type tail))  (rplacd! expr (transform! tail pred fun))))))
     (t expr))
    expr)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -151,7 +151,7 @@
   (lambda (lst1 lst2)
     (cond
       ((nil? lst1) lst2)
-      (t (rplacd (last lst1) lst2) lst1)))))
+      (t (rplacd! (last lst1) lst2) lst1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! last
   (lambda (lst)
@@ -161,11 +161,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push-back!
  (lambda (lst elem)
-  (rplacd (last lst) (cons elem nil))
+  (rplacd! (last lst) (cons elem nil))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push!
  (lambda (elem lst)
    (let ((new-cons (cons elem nil)))
-     (rplacd new-cons lst)
+     (rplacd! new-cons lst)
      new-cons)))
