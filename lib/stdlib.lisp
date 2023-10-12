@@ -135,11 +135,15 @@
     (fun (car lst)) 
     (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! mapcan!
+(setq! mapcan
  (lambda (fun lst)
   (if (nil? lst)
    nil
-   (nconc! (fun (car lst)) (mapcan! fun (cdr lst))))))
+   (let ((result (fun (car lst)))
+         (rest   (mapcan fun (cdr lst))))
+     (if (nil? result)
+         rest
+      (nconc! result rest)))))) :: nconc!?
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! filter
  (lambda (pred lst)
