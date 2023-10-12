@@ -14,8 +14,11 @@
 (princ "two:   ") (write (push!      0   lst))       (nl)
 (princ "three: ") (write (nconc!     lst lst2)) (nl)
 
-(while t
+(setq! ct 8)
+
+(while (not (== 0 ct))
  (print "hello")
  (nl)
- (sleep 1000))
+ (sleep 1000)
+ (setq! ct (- ct 1))))
 
