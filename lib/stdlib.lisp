@@ -169,3 +169,11 @@
      (rplaca! lst elem)
      (rplacd! lst (cons old-car (cdr lst)))
      lst)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! push-back
+  (lambda (lst elem)
+   (append lst (cons elem nil))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! push
+  (lambda (elem lst)
+    (cons elem lst)))
