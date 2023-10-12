@@ -135,16 +135,6 @@
     (fun (car lst)) 
     (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! mapcan
- (lambda (fun lst)
-  (if (nil? lst)
-   nil
-   (let ((result (fun (car lst)))
-         (rest   (mapcan fun (cdr lst))))
-     (if (nil? result)
-         rest
-      (nconc! result rest)))))) ;; nconc!?
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! filter
  (lambda (pred lst)
   (cond
@@ -238,4 +228,27 @@
 (setq! double
  (lambda (x)
   (* 2 x)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! mapcan-old
+ (lambda (fun lst)
+  (if (nil? lst)
+   nil
+   (let ((result (fun (car lst)))
+         (rest   (mapcan-old fun (cdr lst))))
+     (if (nil? result)
+         rest
+      (nconc! result rest)))))) ;; nconc!?
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! mapcan
+ (lambda (fun lst)
+  (let* ((dummy-head (cons 'dummy nil))
+         (last-cell dummy-head))
+   (mapc (lambda (item)
+          (let ((result (fun item)))
+           (when result
+            (rplacd! last-cell result)
+            (while (cdr last-cell)
+             (setq! last-cell (cdr last-cell))))))
+    lst)
+   (cdr dummy-head))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

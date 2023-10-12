@@ -45,45 +45,8 @@
       (list x x)
       nil)))
 
-(setq! mapcan!
-  (lambda (fun lst)
-    (let* ((loop (lambda (prev current)
-                   (if (nil? current)
-                       lst
-                       (let ((result (fun (car current))))
-                         (cond
-                          ((nil? result) ; Skip this element
-                           (progn
-                             (if prev 
-                                 (rplacd! prev (cdr current))
-                                 (setq! lst (cdr lst)))
-                             (loop prev (cdr current))))
-                          (t ; Merge in the result list
-                           (progn
-                             (rplaca! current (car result))
-                             (rplacd! current (cdr result))
-                             (while (cdr result) ; Traverse the result list
-                               (setq! prev result)
-                               (setq! result (cdr result)))
-                             (loop prev (cdr current))))))))))
-
-      (loop nil lst))))
-
-(setq! mapcan!
- (lambda (fun lst)
-  (let* ((dummy-head (cons 'dummy nil))
-         (last-cell dummy-head))
-   (mapc (lambda (item)
-          (let ((result (fun item)))
-           (when result
-            (rplacd! last-cell result)
-            (while (cdr last-cell)
-             (setq! last-cell (cdr last-cell))))))
-    lst)
-   (cdr dummy-head))))
-
 
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
-(write (mapcan! replicate-or-ignore mylist)) (nl)
+(write (mapcan replicate-or-ignore mylist)) (nl)
 (write mylist) (nl)
