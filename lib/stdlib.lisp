@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 'standard library', such as it is:                                           
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! improper? (lambda (o)   (and (tail? o)  (not (proper?  o              )))))
+(setq! improper? (lambda (o)     (and (tail? o) (not (proper?  o             )))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! type?     (lambda (typ o) (eq?  typ     (type          o               ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -64,13 +64,12 @@
   (cond
     ((atom? obj)
      (if (pred obj)
-         (fun obj)
-         obj))
-    ((cons? obj)
+      (fun obj)
+      obj))
+    (t
      (cons
       (transform (car obj) pred fun)
-      (transform (cdr obj) pred fun)))
-    (t obj))))
+      (transform (cdr obj) pred fun))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! benchmark
  (lambda (repetitions print-interval qexpr)
