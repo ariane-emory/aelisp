@@ -212,3 +212,13 @@
  (lambda (n) 
   (not (even? n))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! equal?
+  (lambda (o1 o2)
+    (cond
+      ;; ((eq? o1 o2) t)
+      ((and (atom? o1) (atom? o2)) (eql? o1 o2))
+      ((and (cons? o1) (cons? o2))
+       (and (equal? (car o1) (car o2))
+            (equal? (cdr o1) (cdr o2))))
+      (t nil)
+    )))

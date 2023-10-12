@@ -31,15 +31,10 @@ o;; (filter odd? '(1 2 3 4 5 6 7 8 9 10))   ; Expected result: (1 3 5 7 9)
 (write (apply mapconcat '((lambda (x) x) '("a" "b" "c") " "))) (nl)
 
 
-(setq! equal?
-  (lambda (o1 o2)
-    (cond
-      ((eq? o1 o2) t)                             ; Same pointer
-      ((and (atom? o1) (atom? o2)) (eql? o1 o2))  ; Atoms that aren't the same pointer
-      ((and (cons? o1) (cons? o2))                ; Both are cons cells
-       (and (equal? (car o1) (car o2))
-            (equal? (cdr o1) (cdr o2)))
-      (t nil))))) 
 
- (write (equal? '(a (1 2)) '(a (1 2)))) (nl)
- 
+
+;; (write (equal? '(a (1 2)) '(a (1 2)))) (nl)
+
+;;(write ) (nl)
+
+(equal? '(1) '(1))
