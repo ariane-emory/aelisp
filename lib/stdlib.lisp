@@ -87,7 +87,7 @@
      (princ (/ total 1000))
      (princ " ms so far.")))
    (nl)
-   (princ "total ums: ")
+   (princ "total ums: ")u
    (princ total) (nl)
    (princ "total ms: ")
    (princ (/ total 1000)) (nl)
@@ -139,7 +139,7 @@
  (lambda (fun lst)
   (if (nil? lst)
    nil
-   (nconc (fun (car lst)) (mapcan fun (cdr lst))))))
+   (nconc! (fun (car lst)) (mapcan! fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! filter
  (lambda (pred lst)

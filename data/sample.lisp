@@ -38,3 +38,13 @@
 (setq! new-l (transform l integer? double))
 (write l) (nl)     ;; (1 2 (3 4)) remains unchanged
 (write new-l) (nl) ;; (2 4 (6 8)) the transformed list
+
+(setq! replicate-or-ignore
+ (lambda (x)
+  (if (integer? x)
+      (list x x)
+      nil)))
+
+;; Now let's use mapcan! with this function on a sample list
+(setq! mylist '(1 "a" 2 3 "b" 4))
+(mapcan! replicate-or-ignore mylist)
