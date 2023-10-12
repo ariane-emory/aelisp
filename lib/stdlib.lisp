@@ -159,3 +159,7 @@
         lst
         (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq push
+ (lambda (lst elem)
+  (rplacd (last lst) (cons elem nil))
+  lst))

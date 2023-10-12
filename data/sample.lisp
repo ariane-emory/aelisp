@@ -15,4 +15,12 @@
 ; For mapcan - flattens the nested lists
 (print (mapcan (lambda (x) (list x x)) '(1 2 3 4)))
 ; Expected Output: (1 1 2 2 3 3 4 4)
-(exit)
+
+(print (last '(1 2 3)))
+
+(setq push
+ (lambda (lst elem)
+  (rplacd (last lst) (cons elem nil))
+  lst))
+
+(print (push '(1 2 3) 4))
