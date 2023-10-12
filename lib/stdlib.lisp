@@ -47,7 +47,7 @@
    (error "expr must be a list")
    (cond
     ((pred expr) (set! expr (fun expr)))
-    ((eq? :CONS (type expr))
+    ((cons? expr)
      (let ((head (car expr))
            (tail (cdr expr)))
       (cond
