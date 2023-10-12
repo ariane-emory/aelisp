@@ -22,7 +22,8 @@
   DO(list,     false,  UNLIMITED,  UNLIMITED,                                 FUNDEF_END )                             \
   DO(quote,    true,           1,          1,                                 FUNDEF_END )                             \
   DO(cons,     false,          2,          2,                                 FUNDEF_END )                             \
-  DO(not,      false,          1,  UNLIMITED, "not", "¬", "nil?",             FUNDEF_END ) /* reduceable            */ \
+  DO(not,      false,          1,  UNLIMITED, "not", "¬",                     FUNDEF_END ) /* reduceable            */ \
+  DO(nilp,     false,          1,          1, "nil?",                         FUNDEF_END )                             \
   DO(apply,    false,          1,          2,                                 FUNDEF_END ) /* reduceable            */ \
   DO(if,       true,           2,  UNLIMITED,                                 FUNDEF_END ) /* reduceable            */ \
   DO(when,     true,           2,  UNLIMITED,                                 FUNDEF_END ) /* reduceable            */ \
