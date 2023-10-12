@@ -31,33 +31,34 @@ o;; (filter odd? '(1 2 3 4 5 6 7 8 9 10))   ; Expected result: (1 3 5 7 9)
 (write (apply mapconcat '((lambda (x) x) '("a" "b" "c") " "))) (nl)
 
 
-
-
 ;; (write (equal? '(a (1 2)) '(a (1 2)))) (nl)
 
-;;(write ) (nl)
+;;( write ) (nl)
 
 (equal? '(1) '(1))
-
-
-(setq! transform!
- (lambda (obj pred fun)
-  (if (atom? obj)
-   (error "obj must be a list")
-   (cond
-    ((pred obj) (set! obj (fun obj)))
-    ((cons? obj)
-     (let ((head (car obj))
-           (tail (cdr obj)))
-      (cond
-       ((pred head)  (rplaca! obj (fun head)))
-       ((cons? head) (transform! head pred fun)))
-      (cond
-       ((pred tail)  (rplacd! obj (fun tail)))
-       ((cons? tail) (rplacd! obj (transform! tail pred fun))))))
-    (t obj))
-   obj)))
 
 (setq! l '(1 2 (3 4)))
 (transform! l integer? double)
 (write l) (nl) ;; (2 4 (6 8))
+
+
+
+(setq! transform
+ (lambda (obj pred fun)
+  (cond
+    ((atom? obj)
+     (if (pred obj)
+         (fun obj)
+         obj))
+    ((cons? obj)
+     (cons
+      (transform (car obj) pred fun)
+      (transform (cdr obj) pred fun)))
+    (t obj))))
+
+(setq! double (lambda (x) (* 2 x)))
+
+(setq! l '(1 2 (3 4)))
+(setq! new-l (transform l integer? double))
+(write l) (nl)     ;; (1 2 (3 4)) remains unchanged
+(write new-l) (nl) ;; (2 4 (6 8)) the transformed list

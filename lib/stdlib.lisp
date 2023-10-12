@@ -59,6 +59,19 @@
     (t obj))
    obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! transform
+ (lambda (obj pred fun)
+  (cond
+    ((atom? obj)
+     (if (pred obj)
+         (fun obj)
+         obj))
+    ((cons? obj)
+     (cons
+      (transform (car obj) pred fun)
+      (transform (cdr obj) pred fun)))
+    (t obj))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! benchmark
  (lambda (repetitions print-interval qexpr)
   (nl)
