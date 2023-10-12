@@ -166,6 +166,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! push!
  (lambda (elem lst)
-   (let ((new-cons (cons elem nil)))
-     (rplacd! new-cons lst)
-     new-cons)))
+   (let ((old-car (car lst)))
+     (rplaca! lst elem)
+     (rplacd! lst (cons old-car (cdr lst)))
+     lst)))
