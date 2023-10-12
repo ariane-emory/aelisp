@@ -150,10 +150,10 @@
   (lambda (lst1 lst2)
     (cond
       ((nil? lst1) lst2)
-      (t (rplacd (nconc-last lst1) lst2) lst1))))
-
-(setq nconc-last
+      (t (rplacd (last lst1) lst2) lst1))))
+(setq last
   (lambda (lst)
     (if (or (nil? lst) (nil? (cdr lst)))
         lst
-        (nconc-last (cdr lst)))))
+        (last (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
