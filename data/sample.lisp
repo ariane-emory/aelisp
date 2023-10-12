@@ -16,5 +16,5 @@
 (reduce + 0 '(1 2 3 4 5)) ; => 15
 (rreduce - 0 '(1 2 3)) 
 
-(concat "hello" "world")
+(concat "hello" "world" "bang")
 (concat "hello" 1)
