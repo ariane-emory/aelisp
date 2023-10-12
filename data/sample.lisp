@@ -41,3 +41,5 @@
 
 ;; (write (nconc! lst lst2 lst3))
 ;; (write lst)
+
+(write (apply + '(1 2 3)))

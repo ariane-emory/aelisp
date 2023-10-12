@@ -269,9 +269,9 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   REQUIRE(env, args, PROPERP(func_args), "apply requires a proper list as its second argument");
 
-  ae_obj_t * const progn = CONS(func, func_args);
+  ae_obj_t * const call_expr = CONS(func, func_args);
 
-  CORE_RETURN("apply", progn);
+  CORE_RETURN("apply", EVAL(env, call_expr));
 }
 
 
