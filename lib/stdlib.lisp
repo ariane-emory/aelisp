@@ -38,18 +38,27 @@
 (setq mapcar
  (lambda (fun lst)
   (if (nil? lst)
-    nil
-    (cons (fun (car lst)) (mapcar fun (cdr lst))))))
+   nil
+   (cons (fun (car lst)) (mapcar fun (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq reduce
+ (lambda (fun acc lst)
+  (if (nil? lst)
+   acc
+   (reduce fun (fun acc (car lst)) (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq rreduce
+ (lambda (fun acc lst)
+  (if (nil? lst)
+   acc
+   (fun (car lst) (rreduce fun acc (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq nth
  (lambda (n lst)
   (cond
-    ((nil? lst)   nil) 
-    ((eql? n 0)   (car lst))
-    (t            (nth (- n 1) (cdr lst))))))
-
-
-
+   ((nil? lst)  nil) 
+   ((eql? n 0)  (car lst))
+   (t           (nth (- n 1) (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq transform!
  (lambda (expr pred fun)
