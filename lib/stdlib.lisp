@@ -43,7 +43,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! transform!
  (lambda (expr pred fun)
-  (if (not (eq :CONS (type expr)))
+  (if (not (cons? expr))
    (error "expr must be a list")
    (cond
     ((pred expr) (set! expr (fun expr)))
