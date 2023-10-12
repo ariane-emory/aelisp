@@ -6,14 +6,14 @@
 
 (write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d)))   ; Expected result: (a b c d)
 
-
-
-
 (setq! lst '(1 2 3 4))
+(setq! lst2 '(6 7 8 9))
 
 (push! 0 lst)
 (push-back! lst 5)
+(nconc! lst lst2)
 
-(write lst) ;; should be (0 1 2 3 4), but is (1 2 3 4)
-
+(write lst)
+(nl)
+(write lst2)
 (nl)
