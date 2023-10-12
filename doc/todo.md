@@ -1,6 +1,5 @@
 To Do:
 - [ ] core apply.
-- [x] core while.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs probably need better arg count validation.
 - [ ] core 'and' and 'or' shold  be able to handle 3+ args.
@@ -29,6 +28,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] core while.
 - [x] make core_concat for AE_STRINGS.
 - [x] bestline REPL.
 - [x] prefetch function.
