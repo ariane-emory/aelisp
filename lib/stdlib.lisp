@@ -42,22 +42,22 @@
    (t           (nth (- n 1) (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! transform!
- (lambda (expr pred fun)
-  (if (atom? expr)
-   (error "expr must be a list")
+ (lambda (obj pred fun)
+  (if (atom? obj)
+   (error "obj must be a list")
    (cond
-    ((pred expr) (set! expr (fun expr)))
-    ((cons? expr)
-     (let ((head (car expr))
-           (tail (cdr expr)))
+    ((pred obj) (set! obj (fun obj)))
+    ((cons? obj)
+     (let ((head (car obj))
+           (tail (cdr obj)))
       (cond
-       ((pred head)  (rplaca! expr (fun head)))
+       ((pred head)  (rplaca! obj (fun head)))
        ((cons? head) (transform! head pred fun)))
       (cond
-       ((pred tail)  (rplacd! expr (fun tail)))
-       ((cons? tail) (rplacd! expr (transform! tail pred fun))))))
-    (t expr))
-   expr)))
+       ((pred tail)  (rplacd! obj (fun tail)))
+       ((cons? tail) (rplacd! obj (transform! tail pred fun))))))
+    (t obj))
+   obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! benchmark
  (lambda (repetitions print-interval qexpr)
