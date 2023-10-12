@@ -89,12 +89,6 @@
     (princ (/ total repetitions 1000))
     (nl)
     each-ms))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq mapcar
- (lambda (fun lst)
-  (if (nil? lst)
-   nil
-   (cons (fun (car lst)) (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq reduce
  (lambda (fun acc lst)
@@ -107,6 +101,12 @@
   (if (nil? lst)
    acc
    (fun (car lst) (rreduce fun acc (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq mapcar
+ (lambda (fun lst)
+  (if (nil? lst)
+   nil
+   (cons (fun (car lst)) (mapcar fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq mapc
  (lambda (fun lst)
@@ -152,6 +152,7 @@
     (cond
       ((nil? lst1) lst2)
       (t (rplacd (last lst1) lst2) lst1)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq last
   (lambda (lst)
     (if (or (nil? lst) (nil? (cdr lst)))
