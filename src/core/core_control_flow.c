@@ -53,10 +53,10 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
     ae_obj_t * const item_car = CAR(cond_item);
     ae_obj_t * const item_cdr = CDR(cond_item);
   
-#ifdef AE_LOG_CORE
-    LOG(item_car, "cond item's car");
-    LOG(item_cdr, "cond item's cdr"); 
-#endif
+    if (log_core) {
+      LOG(item_car, "cond item's car");
+      LOG(item_cdr, "cond item's cdr");
+    }
 
     if (! NILP(EVAL(env, item_car))) {
       ret = ae_core_progn(env, item_cdr, LENGTH(item_cdr));
@@ -79,31 +79,28 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ae_obj_t * const then_branch = CADR(args);
   ae_obj_t * const else_branch = CDDR(args);
       
-#ifdef AE_LOG_CORE
-  LOG(if_cond,     "if");
-  LOG(then_branch, "then");
-  LOG(else_branch, "else");
-#endif
+  if (log_core) {
+    LOG(if_cond,     "if");
+    LOG(then_branch, "then");
+    LOG(else_branch, "else");
+  }
 
   bool cond_result = ! NILP(EVAL(env, if_cond));
 
-#ifdef AE_LOG_CORE
-  LOG(cond_result ? TRUE : NIL, "cond_result: ");
-#endif
+  if (log_core) 
+    LOG(cond_result ? TRUE : NIL, "cond_result: ");
 
   if (cond_result) {
 
-#ifdef AE_LOG_CORE
-    LOG(then_branch, "chose then");
-#endif
+    if (log_core)
+      LOG(then_branch, "chose then");
 
     CORE_RETURN("if", ae_eval(env, then_branch));
   }
   else {
 
-#ifdef AE_LOG_CORE
-    LOG(else_branch, "chose else");
-#endif
+    if (log_core)
+      LOG(else_branch, "chose else");
 
     CORE_RETURN("if", ae_core_progn(env, else_branch, LENGTH(else_branch)));
   }
@@ -119,29 +116,26 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
   ae_obj_t * const when_cond   = CAR(args);
   ae_obj_t * const then_branch = CDR(args);
   
-#ifdef AE_LOG_CORE
-  LOG(when_cond,   "when");
-  LOG(then_branch, "then");
-#endif
+  if (log_core) {
+    LOG(when_cond,   "when");
+    LOG(then_branch, "then");
+  }
 
   bool cond_result = ! NILP(EVAL(env, when_cond));
 
-#ifdef AE_LOG_CORE
-  LOG(cond_result ? TRUE : NIL, "cond_result: ");
-#endif
+  if (log_core)
+    LOG(cond_result ? TRUE : NIL, "cond_result: ");
 
   if (cond_result) {
+    if (log_core)
+      LOG(then_branch, "chose then");
 
-#ifdef AE_LOG_CORE
-    LOG(then_branch, "chose then");
-#endif
 
     CORE_RETURN("when", ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 
-#ifdef AE_LOG_CORE
-  SLOG("chose nil");
-#endif
+  if (log_core)
+    SLOG("chose nil");
   
   CORE_RETURN("when", NIL);
 }
@@ -156,30 +150,26 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ae_obj_t * const either_branch = CAR(args);
   ae_obj_t * const or_branch     = CADR(args);
   
-#ifdef AE_LOG_CORE
-  LOG(either_branch, "either");
-  LOG(or_branch,     "or");
-#endif
+  if (log_core) {
+    LOG(either_branch, "either");
+    LOG(or_branch,     "or");
+  }
 
   ae_obj_t * either_result = EVAL(env, either_branch);
 
-#ifdef AE_LOG_CORE
-  LOG(either_result, "either_result: ");
-#endif
+  if (log_core)
+    LOG(either_result, "either_result: ");
 
   if (! NILP(either_result)) {
 
-#ifdef AE_LOG_CORE
-    LOG(either_branch, "chose either");
-#endif
+    if (log_core)
+      LOG(either_branch, "chose either");
 
     CORE_RETURN("or", either_result);
   }
   else {
-
-#ifdef AE_LOG_CORE
-    LOG(or_branch, "chose or");
-#endif
+    if (log_core)
+      LOG(or_branch, "chose or");
 
     CORE_RETURN("or", ae_eval(env, or_branch));
   }
@@ -195,31 +185,28 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   ae_obj_t * const this_branch     = CAR(args);
   ae_obj_t * const and_that_branch = CADR(args);
   
-#ifdef AE_LOG_CORE
-  LOG(this_branch,     "this");
-  LOG(and_that_branch, "and_that");
-#endif
+  if (log_core) {
+    LOG(this_branch,     "this");
+    LOG(and_that_branch, "and_that");
+  }
 
   REQUIRE(env, args, LENGTH(args) == 2, "and requires 2 args");
  
   ae_obj_t * this_result = EVAL(env, this_branch);
   
-#ifdef AE_LOG_CORE
-  LOG(this_result, "this_result: ");
-#endif
+  if (log_core)
+    LOG(this_result, "this_result: ");
   
   if (NILP(this_result)) {
 
-#ifdef AE_LOG_CORE
-    SLOG("not this");
-#endif
+    if (log_core)
+      SLOG("not this");
 
     CORE_RETURN("and", NIL);
   }
 
-#ifdef AE_LOG_CORE
-  SLOG("this and");
-#endif
+  if (log_core)
+    SLOG("this and");
 
   CORE_RETURN("and", ae_eval(env, and_that_branch));
 }
@@ -234,25 +221,23 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
   ae_obj_t * const while_cond = CAR(args);
   ae_obj_t * const do_branch  = CDR(args);
   
-#ifdef AE_LOG_CORE
-  LOG(while_cond, "while");
-  LOG(do_branch,  "do");
-#endif
+  if (log_core) {
+    LOG(while_cond, "while");
+    LOG(do_branch,  "do");
+  }
   
   ae_obj_t * cond_result = NIL;
   
   while (!NILP(cond_result = EVAL(env, while_cond))) {
   
-#ifdef AE_LOG_CORE
-    LOG(do_branch, "do while");
-#endif
+    if (log_core)
+      LOG(do_branch, "do while");
 
     ae_core_progn(env, do_branch, LENGTH(do_branch));
   }
 
-#ifdef AE_LOG_CORE
-  SLOG("left while");
-#endif
+  if (log_core)
+    SLOG("left while");
   
   CORE_RETURN("while", NIL);
 }
