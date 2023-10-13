@@ -14,9 +14,8 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
     total_length += strlen(STR_VAL(elem));
   }
 
-#ifdef AE_LOG_CORE
-  SLOGF("Expect length  %d.\n", total_length);
-#endif
+  if (log_core)
+    SLOGF("Expect length  %d.\n", total_length);
   
   // Allocate it.
   char * const string = free_list_malloc(total_length);
