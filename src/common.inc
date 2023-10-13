@@ -123,9 +123,9 @@ inline static ae_obj_t * setup_root_env(void) {
     
     free_list_free(tmp);
 
-    printf("Loading stdlib from %s...\n", path);
+    PR("Loading stdlib from %s... ", path);
   } else {
-    fprintf(stderr, "Buffer too small, need %d bytes!\n", size);
+    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
     exit(1);
   }
 
@@ -135,6 +135,8 @@ inline static ae_obj_t * setup_root_env(void) {
 
   if (failed_to_load)
     FPR(stderr, "WARNING: Failed to load stdlib!\n");
+  else
+    PR("loaded.\n");
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
