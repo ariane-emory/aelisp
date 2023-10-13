@@ -117,7 +117,10 @@ inline static ae_obj_t * setup_root_env(void) {
   
   if ((status = _NSGetExecutablePath(path, &size)) == 0) {
     printf("Full path: %s\n", path);
-    printf("Directory: %s\n", dirname(path));
+    printf("Directory: %d\n", strlen(dirname(path)));
+    char * const tmp = free_list_malloc(strlen(dirname(path))+1);
+    strcpy(tmp, dirname(path));
+    printf("Directory: %s\n", tmp);
   } else {
     fprintf(stderr, "Buffer too small, %d / %d!\n", status, size);
   }
