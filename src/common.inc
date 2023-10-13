@@ -218,9 +218,9 @@ bool setopts(int argc, char *argv[]) {
         }
     }
 
-    // For demonstration purposes
-    printf("log_core: %s\n", log_core ? "true" : "false");
-    printf("log_eval: %s\n", log_eval ? "true" : "false");
+    // // For demonstration purposes
+    // printf("log_core: %s\n", log_core ? "true" : "false");
+    // printf("log_eval: %s\n", log_eval ? "true" : "false");
 
     return true;
 }
