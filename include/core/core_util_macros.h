@@ -39,30 +39,26 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef AE_LOG_CORE
-#  define CORE_BEGIN(name)                                                                         \
+#define CORE_BEGIN(name)                                                                           \
 ({                                                                                                 \
   char * tmp = SWRITE(env);                                                                        \
-  LOG(env,  "[applying 'core_"  name "' in env]", tmp);                                            \
-  INDENT;                                                                                          \
+  if (log_core) {                                                                                  \
+    LOG(env,  "[applying 'core_"  name "' in env]", tmp);                                          \
+    INDENT;                                                                                        \
+  }                                                                                                \
   free(tmp);                                                                                       \
 })
-#else
-#  define CORE_BEGIN(name) ((void)name)
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef AE_LOG_CORE
-#  define CORE_RETURN(name, val)                                                                   \
+#define CORE_RETURN(name, val)                                                                     \
 ({                                                                                                 \
-  OUTDENT;                                                                                         \
+  if (log_core)                                                                                    \
+    OUTDENT;                                                                                       \
   CAPTURE((val));                                                                                  \
-  LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                    \
+  if (log_core)                                                                                    \
+    LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                  \
   return CAPTURED;                                                                                 \
 })
-#else
-#  define CORE_RETURN(name, val) return ((val))
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
