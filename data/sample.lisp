@@ -55,10 +55,10 @@
     (setq! remaining (cdr remaining)))
    (car lists))))
 
-(setq! lst '(1 2))
+(setq! lst1'(1 2))
 (setq! lst2 '(3 4))
 (setq! lst3 '(5 6))
 
-(write (nconc! lst lst2 lst3)) (nl)
+(write (nconc! lst1 lst2 lst3)) (nl)
 
-(write lst) (nl)
+(write lst1) (nl)
