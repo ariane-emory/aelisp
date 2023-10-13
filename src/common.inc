@@ -1,3 +1,5 @@
+#include <string.h>
+#include <getopt.h>
 #include <mach-o/dyld.h>
 #include <libgen.h>
 #include <sys/syslimits.h>
@@ -191,26 +193,29 @@ inline static void paint_parsed(void) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool setopts(int argc, char *argv[]) {
-    int opt;
+  int opt;
 
-    while ((opt = getopt(argc, argv, "lc:le:")) != -1) {
-        switch (opt) {
-            case 'l':
-                if(optarg && strcmp(optarg, "c") == 0) {
-                    log_core = true;
-                } else if(optarg && strcmp(optarg, "e") == 0) {
-                    log_eval = true;
-                }
-                break;
-            default:
-                FPR(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
-                return false;
-        }
+  while ((opt = getopt(argc, argv, "l:")) != -1) {
+    switch (opt) {
+    case 'l':
+      if (optarg && strcmp(optarg, "c") == 0)
+        log_core = true;
+      else if (optarg && strcmp(optarg, "e") == 0)
+        log_eval = true;
+      else {
+        fprintf(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
+        return false;
+      }
+      break;
+    default:
+      fprintf(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
+      return false;
     }
+  }
 
-    // For demonstration purposes
-    PR("log_core: %s\n", log_core ? "true" : "false");
-    PR("log_eval: %s\n", log_eval ? "true" : "false");
+  // For demonstration purposes
+  printf("log_core: %s\n", log_core ? "true" : "false");
+  printf("log_eval: %s\n", log_eval ? "true" : "false");
 
-    return true;
+  return true;
 }
