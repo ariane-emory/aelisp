@@ -192,6 +192,9 @@ inline static void paint_parsed(void) {
 // setopts
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+extern bool log_core;
+extern bool log_eval;
+
 bool setopts(int argc, char *argv[]) {
     int opt;
 
