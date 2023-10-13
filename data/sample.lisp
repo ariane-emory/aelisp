@@ -37,25 +37,12 @@
       (list x x)
       nil)))
 
-;; (setq! mylist '(1 "a" 2 3 "b" 4)) 
-;; (write (mapcan replicate-or-ignore mylist)) (nl)
-;; (write (mapcan replicate-or-ignore mylist)) (nl)
-;; (write mylist) (nl)
+(setq! mylist '(1 "a" 2 3 "b" 4)) 
+(write (mapcan replicate-or-ignore mylist)) (nl)
+(write (mapcan replicate-or-ignore mylist)) (nl)
+(write mylist) (nl)
 
-
-(setq! nconc!
- (lambda lists
-  "Destructively join many lists."
-  (let ((result (car lists))
-        (remaining (cdr lists)))
-   (while (not (nil? remaining))
-    (let ((tail (last result)))
-     (rplacd! tail (car remaining))
-     (setq! result tail))
-    (setq! remaining (cdr remaining)))
-   (car lists))))
-
-(setq! lst1'(1 2))
+(setq! lst1 '(1 2))
 (setq! lst2 '(3 4))
 (setq! lst3 '(5 6))
 
