@@ -22,41 +22,35 @@
       break;                                                                                                           \
     }
 
-#ifdef AE_LOG_EVAL
-#  define MAYBE_EVAL(special, args)                                                                                    \
+#define MAYBE_EVAL(special, args)                                                                                      \
   if (! special && CAR(args)) {                                                                                        \
     ae_obj_t * evaled_args = NIL;                                                                                      \
-    LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                   \
-    INDENT;                                                                                                            \
+    if (log_eval) {                                                                                                    \
+      LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                 \
+      INDENT;                                                                                                          \
+    }                                                                                                                  \
     int ctr = 0;                                                                                                       \
     FOR_EACH(elem, args)                                                                                               \
     {                                                                                                                  \
       ctr++;                                                                                                           \
-      LOG(elem, "eval arg  #%d", ctr);                                                                                 \
-      INDENT;                                                                                                          \
+      if (log_eval) {                                                                                                  \
+        LOG(elem, "eval arg  #%d", ctr);                                                                               \
+        INDENT;                                                                                                        \
+      }                                                                                                                \
       ae_obj_t * tmp = EVAL(env, elem);                                                                                \
       PUSH(evaled_args, tmp);                                                                                          \
+      if (log_eval) {                                                                                                  \
+        OUTDENT;                                                                                                       \
+        LOG(tmp, "evaled arg  #%d", ctr);                                                                              \
+      }                                                                                                                \
+    }                                                                                                                  \
+    args = evaled_args;                                                                                                \
+    if (log_eval) {                                                                                                    \
       OUTDENT;                                                                                                         \
-      LOG(tmp, "evaled arg  #%d", ctr);                                                                                \
+      LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                  \
     }                                                                                                                  \
-    args = evaled_args;                                                                                                \
-    OUTDENT;                                                                                                           \
-    LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                    \
   }                                                                                                
-#else
-#  define MAYBE_EVAL(special, args)                                                                                    \
-  if (! special && CAR(args)) {                                                                                        \
-    ae_obj_t * evaled_args = NIL;                                                                                      \
-    INDENT;                                                                                                            \
-    FOR_EACH(elem, args)                                                                                               \
-    {                                                                                                                  \
-      ae_obj_t * tmp = EVAL(env, elem);                                                                                \
-      PUSH(evaled_args, tmp);                                                                                          \
-    }                                                                                                                  \
-    args = evaled_args;                                                                                                \
-    OUTDENT;                                                                                                           \
-  }                                                                                                
-#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
