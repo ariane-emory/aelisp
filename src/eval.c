@@ -183,15 +183,15 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       LOG(env, "new env for user fun:");
   }
 
-#ifdef AE_LOG_EVAL
-  char * tmp = SWRITE(fun);
-  LOG(args,            "applying user fun %s to %d arg%s", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
-  free(tmp);
-  INDENT;
-  // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
-  LOG(FUN_PARAMS(fun), "with param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
-  LOG(body,            "with body");
-#endif
+  if (log_eval) {
+    char * tmp = SWRITE(fun);
+    LOG(args,            "applying user fun %s to %d arg%s", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    free(tmp);
+    INDENT;
+    // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
+    LOG(FUN_PARAMS(fun), "with param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
+    LOG(body,            "with body");
+  }
 
 #ifdef AE_DEBUG_OBJ
   DSET(env, "fun", fun);
@@ -201,10 +201,10 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   log_column = log_column_default;
   
-#ifdef AE_LOG_EVAL
-  OUTDENT;
-  LOG(result, "applying user fun returned %s :%s", a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
-#endif
+  if (log_eval) {
+    OUTDENT;
+    LOG(result, "applying user fun returned %s :%s", a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+  }
 
   return result;
 }
@@ -238,12 +238,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   assert(TAILP(args));
 
-#ifdef AE_LOG_EVAL
-  char * tmp = SWRITE(fun);
-  LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
-  free (tmp);
-  LOG(env,  "in env");
-#endif
+  if (log_eval) {
+    char * tmp = SWRITE(fun);
+    LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    free (tmp);
+    LOG(env,  "in env");
+  }
 
   ae_obj_t * head = fun;
   fun = EVAL(env, fun);
@@ -257,7 +257,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
     assert(0);
   }
-
 
   apply_dispatch_row_t dispatch = {0};
 
@@ -273,17 +272,15 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
-#  ifdef AE_LOG_EVAL
-    LOG(ret, "birthed");
-#  endif
+    if (log_eval)
+      LOG(ret, "birthed");
   }
 
-  if (! DHAS(ret, "origin")) {
+  if (! DHAS(ret, "origin"))
     DSET(ret, "origin", fun);
-  }
 #endif
 
-  if ( ERRORP(ret)) {
+  if (ERRORP(ret)) {
     FPRINT(fun, stderr);
     FPR(stderr, " returned an error: ");
     FWRITE(ret, stderr);
@@ -299,9 +296,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   log_column = log_column_default;
   
-#ifdef AE_LOG_EVAL
-  LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
-#endif
+  if (log_eval)
+    LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
   log_column = log_column_default;
 
@@ -318,10 +314,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
   if (! DHAS(obj, "birth-place")) {
     DSET(obj, "birth-place", env);
-
-#  ifdef AE_LOG_EVAL
-    LOG(obj, "birthed");
-#  endif
+    if (log_eval)
+      LOG(obj, "birthed");
   }
 
   if (! DHAS(obj, "origin")) {
@@ -329,9 +323,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   }
 #endif
 
-#ifdef AE_LOG_EVAL
-  LOG(obj, "self-evaluated %s :%s", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
-#endif
+  if (log_eval)
+    LOG(obj, "self-evaluated %s :%s", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 
   return obj;
 }
@@ -345,9 +338,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   if (! DHAS(ret, "birth-place")) {
     DSET(ret, "birth-place", env);
 
-#  ifdef AE_LOG_EVAL
-    LOG(ret, "birthed");
-#  endif
+    if (log_eval)
+      LOG(ret, "birthed");
   }
 
   if (! DHAS(ret, "origin")) {
@@ -355,9 +347,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   }
 #endif
 
-#ifdef AE_LOG_EVAL
-  LOG(ret, "looked up '%s' and found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
-#endif
+  if (log_eval)
+    LOG(ret, "looked up '%s' and found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
   return ret;
 }
