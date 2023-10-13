@@ -237,7 +237,7 @@
          (rest   (mapcan-old fun (cdr lst))))
      (if (nil? result)
          rest
-      (nconc! result rest)))))) ;; nconc!?
+      (nconc! result rest)))))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! mapcan
  (lambda (fun lst)

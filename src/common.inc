@@ -1,3 +1,7 @@
+#include <mach-o/dyld.h>
+#include <libgen.h>
+#include <sys/syslimits.h>
+
 #include "obj.h"
 #include "env.h"
 #include "eval.h"
@@ -105,6 +109,18 @@ inline static ae_obj_t * setup_root_env(void) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifndef AE_NO_STDLIB
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  char * const path = free_list_malloc(PATH_MAX);
+  uint32_t size = PATH_MAX;
+  
+  int status;
+  
+  if ((status = _NSGetExecutablePath(path, &size)) == 0) {
+    printf("Full path: %s\n", path);
+    printf("Directory: %s\n", dirname(path));
+  } else {
+    fprintf(stderr, "Buffer too small, %d / %d!\n", status, size);
+  }
 
   bool failed_to_load = false;
   
