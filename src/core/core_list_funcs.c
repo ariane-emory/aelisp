@@ -7,7 +7,10 @@
 ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("car");
 
-  REQUIRE(env, args, TAILP(CAR(args)));
+  if (! TAILP(CAR(args))) { 
+    LOG(CAR(args), "not TAILP:");
+    REQUIRE(env, args, TAILP(CAR(args)));
+  }
 
   CORE_RETURN("car", NILP(CAR(args))
               ? NIL // car of nil is nil.
@@ -22,7 +25,10 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("cdr");
 
-  REQUIRE(env, args, TAILP(CAR(args)));
+  if (! TAILP(CAR(args))) {
+    LOG(CAR(args), "not TAILP:");
+    REQUIRE(env, args, TAILP(CAR(args)));
+  }
 
   CORE_RETURN("cdr", NILP(CAR(args))
               ? NIL // cdr of nil is nil.
