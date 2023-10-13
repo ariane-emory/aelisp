@@ -233,6 +233,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
     free (tmp);
     LOG(env,  "in env");
+    INDENT;
   }
 
   ae_obj_t * head = fun;
@@ -286,8 +287,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   log_column = log_column_default;
   
-  if (log_eval)
+  if (log_eval) {
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+    OUTDENT;
+  }
 
   log_column = log_column_default;
 
