@@ -266,7 +266,7 @@
 (setq! benchmark                                                              ;)
  (lambda (repetitions print-interval qexpr)                                   ;)
   (nl)                                                                        ;)
-  (let ((ctr 0 )                                                              ;)
+  (let ((ctr   0)                                                             ;)
         (total 0))                                                            ;)
    (repeat repetitions                                                        ;)
     (setq! ctr (+ 1 ctr))                                                     ;)
