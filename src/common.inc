@@ -126,6 +126,7 @@ inline static ae_obj_t * setup_root_env(void) {
     PR("Loading stdlib from %s... ", path);
   } else {
     FPR(stderr, "Buffer too small, need %d bytes!\n", size);
+    
     exit(1);
   }
 
@@ -138,6 +139,8 @@ inline static ae_obj_t * setup_root_env(void) {
   else
     PR("loaded.\n");
 
+  free_list_free(path);
+  
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
 //////////////////////////////////////////////////////////////////////////////////////////////////
