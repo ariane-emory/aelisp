@@ -49,5 +49,5 @@
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
 (write (mapcan replicate-or-ignore mylist)) (nl)
-(write (mapcan-old replicate-or-ignore mylist)) (nl)
+(write (mapcan replicate-or-ignore mylist)) (nl)
 (write mylist) (nl)

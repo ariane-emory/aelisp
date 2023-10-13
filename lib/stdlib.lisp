@@ -229,17 +229,17 @@
  (lambda (x)
   (* 2 x)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! mapcan-old
+(setq! mapcan
  (lambda (fun lst)
   (if (nil? lst)
    nil
    (let ((result (fun (car lst)))
-         (rest   (mapcan-old fun (cdr lst))))
+         (rest   (mapcan fun (cdr lst))))
      (if (nil? result)
          rest
       (nconc! result rest)))))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! mapcan
+(setq! mapcan-ugly
  (lambda (fun lst)
   (let* ((dummy-head (cons 'dummy nil))
          (last-cell dummy-head))
