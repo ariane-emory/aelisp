@@ -80,8 +80,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 #ifndef AE_NO_ARG_COUNT_CHECK
   bool invalid_args_length = false;
-
-  int args_length = LENGTH(args);
+  int args_length          = LENGTH(args);
   
   if      (CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun))
     invalid_args_length = true;
@@ -93,7 +92,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     LOG(args, "invalid arg count:");
     
-    // if CORE_MIN_ARGSS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
+    // if CORE_MIN_ARGS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
     if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
       sprintf(msg_tmp, "%s:%d: core '%s' requires at most %d args, but got %d",
               __FILE__,
@@ -140,20 +139,19 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
   MAYBE_EVAL(SPECIALP(fun), args);
   
-#ifdef AE_LOG_EVAL
-  if (! SPECIALP(fun))
-    LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
-  else
-    LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
-#endif
+  if (log_eval) {
+    if (! SPECIALP(fun))
+      LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    else
+      LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+  }
 
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
 
   log_column = log_column_default;
   
-#ifdef AE_LOG_EVAL
-  LOG(ret, "applying core fun '%s' returned %s :%s", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
-#endif
+  if (log_eval)
+    LOG(ret, "applying core fun '%s' returned %s :%s", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
   return ret;
 }
@@ -173,18 +171,16 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   ) {
     env = NEW_ENV(FUN_ENV(fun), CONS(FUN_PARAMS(fun), NIL), CONS(args, NIL));
 
-#  ifdef AE_LOG_EVAL
-    LOG(env, "new env for user fun:");
-#  endif
+    if (log_eval)
+      LOG(env, "new env for user fun:");
   }
   else
 #endif
   {
     env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
-#  ifdef AE_LOG_EVAL
-    LOG(env, "new env for user fun:");
-#  endif
+    if (log_eval)
+      LOG(env, "new env for user fun:");
   }
 
 #ifdef AE_LOG_EVAL
