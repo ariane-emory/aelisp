@@ -285,7 +285,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     return ret;
   }
 
-  log_column = log_column_default; // end of apply, superfluous?
+  // log_column = log_column_default; // end of apply, superfluous?
   
   if (log_eval) {
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
