@@ -1048,7 +1048,7 @@ void root_env_and_eval(void) {
               NEW_CONS(NEW_INT(31), NIL));
 
 
-  PR("\nShould Print 12 on the next line:\n");
+  PR("\nShould Print 31 on the next line:\n");
   rtrn = EVAL(env, expr);
   NL;
 

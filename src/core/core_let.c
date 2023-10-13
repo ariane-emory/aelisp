@@ -27,9 +27,8 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
   FOR_EACH(varlist_item, varlist) {
-#ifdef AE_LOG_CORE
-    OLOG(varlist_item);
-#endif
+    if (log_core) 
+      OLOG(varlist_item);
     
     ENV_SET_L(new_env,
               CAR(varlist_item), 
@@ -38,10 +37,10 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
               : EVAL(env, CADR(varlist_item)));
   }
 
-#ifdef AE_LOG_CORE
-  LOG(ENV_SYMS(new_env), "new_env syms");
-  LOG(ENV_VALS(new_env), "new_env vals");
-#endif
+  if (log_core) {
+    LOG(ENV_SYMS(new_env), "new_env syms");
+    LOG(ENV_VALS(new_env), "new_env vals");
+  }
 
   ae_obj_t * ret           = ae_core_progn(new_env, body, LENGTH(body));
   
@@ -73,9 +72,8 @@ ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attrib
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
   FOR_EACH(varlist_item, varlist) {
-#ifdef AE_LOG_CORE
-    OLOG(varlist_item);
-#endif
+    if (log_core)
+      OLOG(varlist_item);
     
     ENV_SET_L(new_env,
               CAR(varlist_item), 
@@ -84,10 +82,10 @@ ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attrib
               : EVAL(new_env, CADR(varlist_item)));
   }
 
-#ifdef AE_LOG_CORE
-  LOG(ENV_SYMS(new_env), "new_env syms");
-  LOG(ENV_VALS(new_env), "new_env vals");
-#endif
+  if (log_core) {
+    LOG(ENV_SYMS(new_env), "new_env syms");
+    LOG(ENV_VALS(new_env), "new_env vals");
+  }
 
   ae_obj_t * ret           = ae_core_progn(new_env, body, LENGTH(body));
   

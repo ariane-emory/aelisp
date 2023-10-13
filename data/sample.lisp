@@ -103,6 +103,6 @@
    lst2
    (cons (car lst1) (append (cons (cdr lst1) lst2)))))))
 
-(princ "six:      ") (write (append '(1 2) '(3 4))) (nl)
-;;(princ "seven:    ") (write (append '(1 2) '(3 4) '(5 6) '(7 8))) (nl)
+;; (princ "six:      ") (write (append '(1 2) '(3 4))) (nl)
+;; (princ "seven:    ") (write (append '(1 2) '(3 4) '(5 6) '(7 8))) (nl)
 

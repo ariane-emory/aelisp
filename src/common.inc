@@ -1,13 +1,16 @@
+#include <string.h>
+#include <getopt.h>
 #include <mach-o/dyld.h>
 #include <libgen.h>
 #include <sys/syslimits.h>
 
-#include "obj.h"
+#include "core.h"
 #include "env.h"
 #include "eval.h"
 #include "free_list.h"
-#include "write.h"
+#include "obj.h"
 #include "util.h"
+#include "write.h"
 
 #include "ae.tab.h"
 
@@ -183,4 +186,41 @@ inline static void paint_parsed(void) {
 #endif
 //////////////////////////////////////////////////////////////////////////////////////////////////
   
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// setopts
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool setopts(int argc, char *argv[]) {
+    int opt;
+
+    while ((opt = getopt(argc, argv, "l:")) != -1) {
+        switch (opt) {
+        case 'l':
+            for (int i = 0; optarg && optarg[i]; i++) {
+                switch (optarg[i]) {
+                case 'c':
+                    log_core = true;
+                    break;
+                case 'e':
+                    log_eval = true;
+                    break;
+                default:
+                    fprintf(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
+                    return false;
+                }
+            }
+            break;
+        default:
+            fprintf(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
+            return false;
+        }
+    }
+
+    // // For demonstration purposes
+    // printf("log_core: %s\n", log_core ? "true" : "false");
+    // printf("log_eval: %s\n", log_eval ? "true" : "false");
+
+    return true;
 }
