@@ -110,27 +110,31 @@ inline static ae_obj_t * setup_root_env(void) {
 #ifndef AE_NO_STDLIB
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  char * const path = free_list_malloc(PATH_MAX);
-  uint32_t size = PATH_MAX;
+  const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
+  char * const       path            = free_list_malloc(PATH_MAX);
+  uint32_t           size            = PATH_MAX;
   
-  int status;
-  
-  if ((status = _NSGetExecutablePath(path, &size)) == 0) {
-    printf("Full path: %s\n", path);
-    printf("Directory: %d\n", strlen(dirname(path)));
+  if (_NSGetExecutablePath(path, &size) == 0) {
     char * const tmp = free_list_malloc(strlen(dirname(path))+1);
+
     strcpy(tmp, dirname(path));
-    printf("Directory: %s\n", tmp);
+    strcpy(path, tmp);
+    strcat(path, stdlib_rel_path);
+    
+    free_list_free(tmp);
+
+    printf("Loading stdlib from %s...\n", path);
   } else {
-    fprintf(stderr, "Buffer too small, %d / %d!\n", status, size);
+    fprintf(stderr, "Buffer too small, need %d bytes!\n", size);
+    exit(1);
   }
 
   bool failed_to_load = false;
   
-  load_file(root_env, "lib/stdlib.lisp", failed_to_load);
+  load_file(root_env, path, failed_to_load);
 
   if (failed_to_load)
-    FPR(stderr, "WARNING: Failed to load stdlib.lisp!\n");
+    FPR(stderr, "WARNING: Failed to load stdlib!\n");
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
