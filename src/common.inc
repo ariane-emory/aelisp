@@ -2,12 +2,13 @@
 #include <libgen.h>
 #include <sys/syslimits.h>
 
-#include "obj.h"
+#include "core.h"
 #include "env.h"
 #include "eval.h"
 #include "free_list.h"
-#include "write.h"
+#include "obj.h"
 #include "util.h"
+#include "write.h"
 
 #include "ae.tab.h"
 
@@ -183,4 +184,33 @@ inline static void paint_parsed(void) {
 #endif
 //////////////////////////////////////////////////////////////////////////////////////////////////
   
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// setopts
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool setopts(int argc, char *argv[]) {
+    int opt;
+
+    while ((opt = getopt(argc, argv, "lc:le:")) != -1) {
+        switch (opt) {
+            case 'l':
+                if(optarg && strcmp(optarg, "c") == 0) {
+                    log_core = true;
+                } else if(optarg && strcmp(optarg, "e") == 0) {
+                    log_eval = true;
+                }
+                break;
+            default:
+                FPR(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
+                return false;
+        }
+    }
+
+    // For demonstration purposes
+    PR("log_core: %s\n", log_core ? "true" : "false");
+    PR("log_eval: %s\n", log_eval ? "true" : "false");
+
+    return true;
 }

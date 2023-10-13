@@ -65,11 +65,10 @@ void do_write(ae_obj_t * this) {
 
 int main(int argc, char **argv) {
 
-
-
-
-
-
+  if (! setopts(argc, argv)) {
+    FPR(stderr, "ERROR: Bad opts!\n");
+    exit(1);
+  }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // setup root env
