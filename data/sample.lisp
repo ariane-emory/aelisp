@@ -49,3 +49,8 @@
 (write (nconc! lst1 lst2 lst3)) (nl)
 
 (write lst1) (nl)
+
+(mapc
+ (lambda (x)
+  (princ "item: ") (princ x) (nl))
+ lst1)
