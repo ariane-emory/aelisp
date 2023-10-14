@@ -110,7 +110,7 @@
     (log-eval old-val)
     result))))
 
-(with-eval-logging "asd")
+(with-eval-logging 1)
 
 ;; (log-eval nil)
 ;; (log-core t)
