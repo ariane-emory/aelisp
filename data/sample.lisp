@@ -100,7 +100,7 @@
               (let ((toggled-fun-state (toggled-fun t))
                     (result            (fun-or-expr))
                     (toggled-fun-state (toggled-fun toggled-fun-state)))
-               (nl)
+               (nl) (nl)
                result)
               (let ((toggled-fun-state (toggled-fun t))
                     (result            (eval fun-or-expr))
@@ -118,11 +118,12 @@
 
 
 (write (with-log-eval
-        1 '(nl)
-        2 '(nl)
-        3 '(nl)
-        '(* 2 7) '(nl)
-        (lambda () 44) '(nl)))
+        1 ;'(nl)
+        2 ;'(nl)
+        3 ;'(nl)
+        '(* 2 7) ;'(nl)
+        (lambda () 44) ;'(nl)
+        ))
 
 ;; (princ "Begin, no logging here.") (nl)
 
