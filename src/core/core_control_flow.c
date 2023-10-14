@@ -1,24 +1,4 @@
 #include "core_includes.h"
-#include "eval.h"
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _repeat
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("repeat");
-
-  ae_obj_t * first_arg = EVAL(env, CAR(args));
-
-  REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
-
-  long long int times = INT_VAL(first_arg);
-
-  for (long long int ix = 0; ix < times; ix++)
-    ae_core_progn(env, CDR(args), LENGTH(CDR(args)));
-
-  CORE_RETURN("repeat", NIL);
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _progn
@@ -227,7 +207,7 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _when
+// _while
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
@@ -258,20 +238,21 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _apply
+// _repeat
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("apply");
+ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("repeat");
 
-  ae_obj_t * const func = CAR(args);
-  ae_obj_t * const func_args = CADR(args);
+  ae_obj_t * first_arg = EVAL(env, CAR(args));
 
-  REQUIRE(env, args, PROPERP(func_args), "apply requires a proper list as its second argument");
+  REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
 
-  ae_obj_t * const call_expr = CONS(func, func_args);
+  long long int times = INT_VAL(first_arg);
 
-  CORE_RETURN("apply", EVAL(env, call_expr));
+  for (long long int ix = 0; ix < times; ix++)
+    ae_core_progn(env, CDR(args), LENGTH(CDR(args)));
+
+  CORE_RETURN("repeat", NIL);
 }
-
 
