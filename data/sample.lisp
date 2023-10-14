@@ -126,5 +126,7 @@
 (princ "Begin, no logging here.") (nl)
 (with-eval-logging 1)
 (princ "No logging here.") (nl)
-(with-toggled-fun log-eval 1)
+(with-toggled-fun log-eval 2)
+(princ "No logging here.") (nl)
+(with-toggled-fun log-eval (lambda () 3))
 (princ "Done, no logging here.") (nl)
