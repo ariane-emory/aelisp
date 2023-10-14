@@ -110,19 +110,20 @@
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
-;; (setq! with-log-all (with-log-eval (lambda args (with-log-core args))))
+(setq! with-log-all  (lambda args (with-toggled-eval (lambda () (with-log-core args)))))
 
-;; (setq! qqq (with-toggled-fun1 log-eval))
+;; (log-eval t)
+;; (log-core t)
 
-(with-log-core 1)
+;; (write with-log-all) (nl)
+
+;; (with-log-all 1)
 
 (exit)
-
-(nl)
-(nl)
 
 (setq! qq
  (with-log-eval
