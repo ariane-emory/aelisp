@@ -196,6 +196,7 @@ _;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! mapconcat
  (lambda (fun lst delimiter)
   (if (nil? lst)
+   ""
    (reduce
     (lambda (acc item)
      (concat acc delimiter item))
