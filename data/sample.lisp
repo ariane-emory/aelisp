@@ -92,72 +92,17 @@
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! with-toggled-fun1
- (lambda (toggled-fun)
-  (lambda (fun-or-expr)
-   (if (lambda? fun-or-expr)
-    (let* ((old    (toggled-fun t))
-           (result (fun-or-expr))
-           (new    (toggled-fun old)))
-     result)
-    (let* ((old    (toggled-fun t))
-           (result (eval fun-or-expr))
-           (new    (toggled-fun old)))
-     result)))))
+(log-core t)
 
-(setq! with-toggled-fun
- (lambda (toggled-fun)
-  (lambda funs-or-exprs
-   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
+(setq! qq
+ (with-log-all
+  3 
+  '(* 2 7) 
+  (lambda () 44)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl)
+(princ "state eval: ") (write (log-eval)) (nl)
+(princ "state core: ") (write (log-core)) (nl)
+(princ "this: ") (princ qq) (nl)
+(princ "I'm not sure if debug is still on here?") (nl)
 
-(setq! with-log-eval (with-toggled-fun log-eval))
-(setq! with-log-core (with-toggled-fun log-core))
-(setq! with-log-all  (with-toggled-fun log-all))
-
-(with-log-all 1)
-(exit)
-
-;; (log-eval t)
-;; (log-core t)
-
-;; (write with-log-all) (nl)
-
-; (with-log-core '(with-log-eval 1))
-
-;; (with-log-core (lambda () (with-log-eval 1)))
-
-;; (with-log-all '(* 2 7))
-(with-log-all (lambda () (* 2 8)))
-
-
-
-
-
-
-
-
-;; (setq! qq
-;;  (with-log-eval
-;;   3 
-;;   '(* 2 7) 
-;;   (lambda () 44)))
-
-;; (princ "state: ")(princ (log-eval)) (nl)
-;; (princ "this: ") (princ qq) (nl)
-;; (princ "I'm not sure if debug is still on here?") (nl)
-
-;; (princ "Begin, no logging here.") (nl)
-
-;; (with-log-eval 111)
-
-;; (princ "After 111, no logging here.") (nl)
-
-;; ((with-toggled-fun log-eval) '(* 111 2))
-
-;; (princ "After 222, no logging here.") (nl)
-
-;; ((with-toggled-fun log-eval) (lambda () 333))
-
-;; (princ "Done after 333, no logging here.") (nl)

@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+:;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; 'standard library', such as it is:                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
@@ -107,7 +107,7 @@
   (cond
    ((nil? lst1) lst2)
    (t (rplacd! (last lst1) lst2)
-    lst1)))) 
+    lst1))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! nconc!
  (lambda lists
@@ -280,3 +280,30 @@ _;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (nl)
     each-ms))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; log toggle helpers, these should be replaced with macros:                  ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! with-toggled-fun1
+ (lambda (toggled-fun)
+  (lambda (fun-or-expr)
+   (if (lambda? fun-or-expr)
+    (let* ((old    (toggled-fun t))
+           (result (fun-or-expr))
+           (new    (toggled-fun old)))
+     result)
+    (let* ((old    (toggled-fun t))
+           (result (eval fun-or-expr))
+           (new    (toggled-fun old)))
+     result)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! with-toggled-fun
+ (lambda (toggled-fun)
+  (lambda funs-or-exprs
+   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! with-log-eval (with-toggled-fun log-eval))
+(setq! with-log-core (with-toggled-fun log-core))
+(setq! with-log-all  (with-toggled-fun log-all))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
