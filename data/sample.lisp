@@ -92,7 +92,6 @@
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (write (apply + 1 2)) (nl)
 
 (setq! append
  (lambda lists
@@ -103,9 +102,22 @@
    lst2
    (cons (car lst1) (append (cons (cdr lst1) lst2)))))))
 
-;; (princ "six:      ") (write (append '(1 2) '(3 4))) (nl)
-;; (princ "seven:    ") (write (append '(1 2) '(3 4) '(5 6) '(7 8))) (nl)
+(setq! with-eval-logging
+ (lambda (expr)
+  (let ((old-val (log-eval)))
+   (log-eval t)
+   (let ((result (eval expr)))
+    (log-eval old-val)
+    result))))
 
-(write (concat "asd" "qwe")) (nl)    
+(with-eval-logging "asd")
 
-(log-eval t)
+;; (log-eval nil)
+;; (log-core t)
+
+;;(write (concat (with-eval-logging "asd") "qwe")) (nl)    
+
+;; (log-eval nil)
+;; (log-core nil)
+
+;;(write (apply + '(1 2))) (nl)
