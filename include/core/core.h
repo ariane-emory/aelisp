@@ -50,12 +50,13 @@
   DO(add,   +, 0)                                                                                                      \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  /* DO(acc_log_eval, false,          0,          1, "log-eval",                 FUNDEF_END )                             \ */
+  /* DO(acc_log_core, false,          0,          1, "log-core",                 FUNDEF_END )                             \ */
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
   DO(exit,         false,          0,          1,                             FUNDEF_END )                             \
-  DO(acc_log_eval, false,          0,          1, "log-eval",                 FUNDEF_END )                             \
-  DO(acc_log_core, false,          0,          1, "log-core",                 FUNDEF_END )                             \
   DO(sleep,        false,          1,          1,                             FUNDEF_END )                             \
   DO(dobj,         false,          1,          1, "dobj", "debug-object",     FUNDEF_END ) /* debug data accessor   */ \
   DO(error,        false,          1,          2,                             FUNDEF_END )                             \
