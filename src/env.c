@@ -318,12 +318,15 @@ static void load_fun_helper(
     // SLOGF("alt name: %s", alt_name); FF;
     ENV_SET(env, SYM(alt_name), new_core);
 
+    // PR("Loaded alt_name %s.\n", alt_name);
+
     set_alt_name = true;
   }
 
   if (! set_alt_name) {
     // SLOGF("c name: %s", c_name); FF;
     ENV_SET(env, SYM(c_name), new_core);
+    // PR("Loaded c_name %s.\n", c_name);
   }
   
   va_end(args);
