@@ -118,7 +118,7 @@
 
  (princ "After 111, no logging here.") (nl)
 
- ((with-toggled-fun log-eval) 222)
+ ((with-toggled-fun log-eval) '(* 111 2))
 
  (princ "After 222, no logging here.") (nl)
 
