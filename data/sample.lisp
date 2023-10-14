@@ -92,7 +92,6 @@
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (setq! with-toggled-fun1
  (lambda (toggled-fun)
   (lambda (fun-or-expr)
@@ -113,7 +112,6 @@
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
 
-
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
 
@@ -121,10 +119,14 @@
 
 (nl)
 (nl)
-(setq! qq (with-log-eval
-        3 
-        '(* 2 7) 
-        (lambda () 44)))
+
+(setq! qq
+ (with-log-eval
+  3 
+  '(* 2 7) 
+  (lambda () 44)))
+
+(exit)
 
 (princ "state: ")(princ (log-eval)) (nl)
 (princ "this: ") (princ qq) (nl)
