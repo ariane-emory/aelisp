@@ -93,40 +93,34 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
-
-(setq! with-eval-logging
- (lambda (expr)
-   (if (lambda? expr)
-    (let ((log-eval-state (log-eval t))
-          (result         (expr))
-          (log-eval-state (log-eval log-eval-state)))
-     (nl)
-     result)
-    (let ((log-eval-state (log-eval t))
-          (result         (eval expr))
-          (log-eval-state (log-eval log-eval-state)))
-     (nl)
-     result))))
-
 (setq! with-toggled-fun
- (lambda (toggled-fun expr)
-   (if (lambda? expr)
+ (lambda (toggled-fun)
+  (lambda (fun-or-expr)
+   (if (lambda? fun-or-expr)
     (let ((toggled-fun-state (toggled-fun t))
-          (result         (expr))
+          (result            (fun-or-expr))
           (toggled-fun-state (toggled-fun toggled-fun-state)))
      (nl)
      result)
     (let ((toggled-fun-state (toggled-fun t))
-          (result         (eval expr))
+          (result            (eval fun-or-expr))
           (toggled-fun-state (toggled-fun toggled-fun-state)))
      (nl)
-     result))))
+     result)))))
+
+(setq! with-eval-logging (with-toggled-fun log-eval))
+(setq! with-core-logging (with-toggled-fun log-evacore))
 
 (princ "Begin, no logging here.") (nl)
-(with-eval-logging 1)
-(princ "No logging here.") (nl)
-(with-toggled-fun log-eval 2)
-(princ "No logging here.") (nl)
-(with-toggled-fun log-eval (lambda () 3))
-(princ "Done, no logging here.") (nl)
+
+(with-eval-logging 111)
+
+(princ "After 111, no logging here.") (nl)
+
+((with-toggled-fun log-eval) 222)
+
+(princ "After 222, no logging here.") (nl)
+
+((with-toggled-fun log-eval) (lambda () 333))
+
+(princ "Done after 333, no logging here.") (nl)
