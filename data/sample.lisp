@@ -107,3 +107,5 @@
 ;; (princ "seven:    ") (write (append '(1 2) '(3 4) '(5 6) '(7 8))) (nl)
 
 (write (concat "asd" "qwe")) (nl)    
+
+(log-eval t)
