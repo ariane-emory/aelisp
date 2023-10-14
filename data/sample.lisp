@@ -118,11 +118,11 @@
 
 
 (write (with-log-eval
-        1 
-        2 
-        3 
-        '(* 2 7) 
-        (lambda () 44)))
+        1 '(nl)
+        2 '(nl)
+        3 '(nl)
+        '(* 2 7) '(nl)
+        (lambda () 44) '(nl)))
 
 ;; (princ "Begin, no logging here.") (nl)
 
