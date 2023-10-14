@@ -93,7 +93,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(setq! with-toggled-fun
+(setq! with-toggled-fun1
  (lambda (toggled-fun)
   (lambda (fun-or-expr)
    (if (lambda? fun-or-expr)
@@ -111,34 +111,22 @@
 (setq! with-toggled-fun
  (lambda (toggled-fun)
   (lambda funs-or-exprs
-   (let ((𝑓 (lambda (fun-or-expr)
-             (if (lambda? fun-or-expr)
-              (let ((toggled-fun-state (toggled-fun t))
-                    (result            (fun-or-expr))
-                    (toggled-fun-state (toggled-fun toggled-fun-state)))
-               (nl) (nl)
-               result)
-              (let ((toggled-fun-state (toggled-fun t))
-                    (result            (eval fun-or-expr))
-                    (toggled-fun-state (toggled-fun toggled-fun-state)))
-               (nl)
-               result)))))
-    (eval (cons 'progn (mapcar (lambda (x) (list 𝑓 x)) funs-or-exprs)))))))
-
+   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
 
 
 (setq! with-log-eval (with-toggled-fun log-eval))
-(setq! with-log-core (with-toggled-fun log-evacore))
+(setq! with-log-core (with-toggled-fun log-core))
 
-;; (log-eval t)
+(log-eval t)
 
-(write (with-log-eval
-;;        1 ;'(nl)
-;;        2 ;'(nl)
-        3 ;'(nl)
-        '(* 2 7) ;'(nl)
-        (lambda () 44) ;'(nl)
-        ))
+(nl)
+(setq! qq (with-log-eval
+        3 
+        '(* 2 7) 
+        (lambda () 44)))
+
+(princ "state: ")(princ (log-eval)) (nl)
+(princ "this: ") (princ qq) (nl)
 
 ;; (princ "Begin, no logging here.") (nl)
 
