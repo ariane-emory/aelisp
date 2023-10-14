@@ -111,3 +111,10 @@
 (write (apply + 1 2 '(3 4))) (nl)
 (write (apply + 1 2 '(* 3 4) '(5 6))) (nl)
 
+(log-core nil)
+(log-eval nil)
+
+(nl)
+(write (apply + '(1 2))) (nl)
+(write (apply + 1 2 '(3 4))) (nl)
+(write (apply + 1 2 '(* 3 4) '(5 6))) (nl)
