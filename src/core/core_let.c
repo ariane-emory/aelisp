@@ -26,15 +26,36 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
+  int ctr = 0;
+  
   FOR_EACH(varlist_item, varlist) {
-    if (log_core) 
-      OLOG(varlist_item);
+    ctr++;
     
+    if (log_core) 
+      LOG(varlist_item, "let varlist item #%d/%d", ctr, LENGTH(varlist));
+    
+    INDENT;
+    
+    ae_obj_t * val =
+      SYMBOLP(varlist_item)
+      ? NIL
+      : EVAL(env, CADR(varlist_item));
+
+
+    if (log_core) {
+      if (SYMBOLP(varlist_item))
+        LOG(varlist_item, "binding symbol");
+      else 
+        LOG(CAR(varlist_item), "binding symbol");
+   
+      LOG(val,               "to value");   
+    }
+
     ENV_SET_L(new_env,
               CAR(varlist_item), 
-              SYMBOLP(varlist_item)
-              ? NIL
-              : EVAL(env, CADR(varlist_item)));
+              val);
+
+    OUTDENT;
   }
 
   if (log_core) {
@@ -71,15 +92,38 @@ ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attrib
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
+  int ctr = 0;
+  
   FOR_EACH(varlist_item, varlist) {
+    ctr++;
+
+    if (log_core)
+      LOG(varlist_item, "let* varlist item #%d/%d", ctr, LENGTH(varlist));
+
+    INDENT;
+    
     if (log_core)
       OLOG(varlist_item);
+
+    ae_obj_t * val =
+      SYMBOLP(varlist_item)
+      ? NIL
+      : EVAL(new_env, CADR(varlist_item));
+
+    if (log_core) {
+      if (SYMBOLP(varlist_item))
+        LOG(varlist_item, "binding symbol");
+      else 
+        LOG(CAR(varlist_item), "binding symbol");
+   
+      LOG(val,               "to value");   
+    }
     
     ENV_SET_L(new_env,
               CAR(varlist_item), 
-              SYMBOLP(varlist_item)
-              ? NIL
-              : EVAL(new_env, CADR(varlist_item)));
+              val);
+
+    OUTDENT;
   }
 
   if (log_core) {

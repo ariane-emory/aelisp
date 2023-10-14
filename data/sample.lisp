@@ -1,8 +1,8 @@
 (setq! ct 8)
 
 (while (> ct 0)
-  (write ct) (nl)
-  (setq! ct (- ct 1)))
+ (write ct) (nl)
+ (setq! ct (- ct 1)))
 
 (write (filter odd? '(1 2 3 4 5 6 7 8 9 10))) (nl)
 
@@ -34,8 +34,8 @@
 (setq! replicate-or-ignore
  (lambda (x)
   (if (integer? x)
-      (list x x)
-      nil)))
+   (list x x)
+   nil)))
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
 (write (mapcan replicate-or-ignore mylist)) (nl)
@@ -57,7 +57,7 @@
    ((nil? lists) '())                 ; Return an empty list if no lists are provided.
    ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
    (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-              (apply append-multiple (cdr lists)))))))
+       (apply append-multiple (cdr lists)))))))
 
 (setq! append-multiple
  (lambda (lists)
@@ -66,17 +66,17 @@
    ((nil? lists) '())                 ; Return an empty list if no lists are provided.
    ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
    (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-              (append-multiple (cdr lists)))))))
+       (append-multiple (cdr lists)))))))
 
 ;; I had to adjust some syntax to fit my language:
 (setq! append-multiple
-  (lambda lists
-    "Append multiple lists."
-    (cond
-     ((nil? lists) '())                 ; Return an empty list if no lists are provided.
-     ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
-     (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-                (append-multiple (cdr lists)))))))
+ (lambda lists
+  "Append multiple lists."
+  (cond
+   ((nil? lists) '())                 ; Return an empty list if no lists are provided.
+   ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
+   (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
+       (append-multiple (cdr lists)))))))
 
 (setq! append-multiple
  (lambda lists
@@ -85,25 +85,24 @@
    ((nil? lists) '())                 ; Return an empty list if no lists are provided.
    ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
    (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-              (apply append-multiple (cdr lists)))))))
+       (apply append-multiple (cdr lists)))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (write (apply + 1 2)) (nl)
+(log-core t)
 
-(setq! append
- (lambda lists
-  "Append two lists."
-  (let ((lst1 (car lst))
-        (lst2 (cadr lst)))
-  (if (nil? lst1)
-   lst2
-   (cons (car lst1) (append (cons (cdr lst1) lst2)))))))
+(setq! qq
+ (with-log-all
+  3 
+  '(* 2 7) 
+  (lambda () 44)))
 
-;; (princ "six:      ") (write (append '(1 2) '(3 4))) (nl)
-;; (princ "seven:    ") (write (append '(1 2) '(3 4) '(5 6) '(7 8))) (nl)
+(nl)
+(princ "state eval: ") (write (log-eval)) (nl)
+(princ "state core: ") (write (log-core)) (nl)
+(princ "this: ") (princ qq) (nl)
+(princ "I'm not sure if debug is still on here?") (nl)
 
-(write (concat "asd" "qwe")) (nl)   

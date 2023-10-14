@@ -19,36 +19,45 @@
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                                    \
     if (table[ix].type == GET_TYPE(obj)) {                                                                             \
       row = table[ix];                                                                                                 \
+                                                                                                                       \
       break;                                                                                                           \
     }
 
 #define MAYBE_EVAL(special, args)                                                                                      \
   if (! special && CAR(args)) {                                                                                        \
     ae_obj_t * evaled_args = NIL;                                                                                      \
-    if (log_eval) {                                                                                                    \
+                                                                                                                       \
+    if (log_eval)                                                                                                      \
       LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                 \
-      INDENT;                                                                                                          \
-    }                                                                                                                  \
+                                                                                                                       \
+    INDENT;                                                                                                            \
+                                                                                                                       \
     int ctr = 0;                                                                                                       \
+                                                                                                                       \
     FOR_EACH(elem, args)                                                                                               \
     {                                                                                                                  \
       ctr++;                                                                                                           \
-      if (log_eval) {                                                                                                  \
+                                                                                                                       \
+      if (log_eval)                                                                                                    \
         LOG(elem, "eval arg  #%d", ctr);                                                                               \
-        INDENT;                                                                                                        \
-      }                                                                                                                \
+      INDENT;                                                                                                          \
+                                                                                                                       \
       ae_obj_t * tmp = EVAL(env, elem);                                                                                \
+                                                                                                                       \
       PUSH(evaled_args, tmp);                                                                                          \
-      if (log_eval) {                                                                                                  \
-        OUTDENT;                                                                                                       \
-        LOG(tmp, "evaled arg  #%d", ctr);                                                                              \
-      }                                                                                                                \
-    }                                                                                                                  \
-    args = evaled_args;                                                                                                \
-    if (log_eval) {                                                                                                    \
+                                                                                                                       \
       OUTDENT;                                                                                                         \
-      LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                  \
+                                                                                                                       \
+      if (log_eval)                                                                                                    \
+        LOG(tmp, "evaled arg  #%d", ctr);                                                                              \
     }                                                                                                                  \
+                                                                                                                       \
+    args = evaled_args;                                                                                                \
+                                                                                                                       \
+    OUTDENT;                                                                                                           \
+                                                                                                                       \
+    if (log_eval)                                                                                                      \
+      LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                  \
   }                                                                                                
 
 
@@ -177,7 +186,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     char * tmp = SWRITE(fun);
     LOG(args,            "applying user fun %s to %d arg%s", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
     free(tmp);
-    INDENT;
+  }
+  
+  INDENT;
+  
+  if (log_eval) {
     // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
     LOG(FUN_PARAMS(fun), "with param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
     LOG(body,            "with body");
@@ -191,10 +204,10 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   log_column = log_column_default; // end of apply user
   
-  if (log_eval) {
-    OUTDENT;
+  OUTDENT;
+
+  if (log_eval)
     LOG(result, "applying user fun returned %s :%s", a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
-  }
 
   return result;
 }
@@ -231,12 +244,17 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (log_eval) {
     char * tmp = SWRITE(fun);
     LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+
     free (tmp);
-    LOG(env,  "in env");
-    INDENT;
   }
 
+  INDENT;
+
+  if (log_eval)
+    LOG(env,  "in env");
+
   ae_obj_t * head = fun;
+
   fun = EVAL(env, fun);
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
@@ -275,7 +293,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     FPRINT(fun, stderr);
     FPR(stderr, " returned an error: ");
     FWRITE(ret, stderr);
-    exit(1);
+    
+    exit(1); /* STOP! */
     
     if (EHAS(ret, "fun"))
       ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
@@ -287,10 +306,11 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   // log_column = log_column_default; // end of apply, superfluous?
   
-  if (log_eval) {
+  OUTDENT;
+
+  if (log_eval)
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
-    OUTDENT;
-  }
+  
 
   log_column = log_column_default; // end of apply
 
@@ -307,13 +327,13 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
   if (! DHAS(obj, "birth-place")) {
     DSET(obj, "birth-place", env);
+
     if (log_eval)
       LOG(obj, "birthed");
   }
 
-  if (! DHAS(obj, "origin")) {
+  if (! DHAS(obj, "origin"))
     DSET(obj, "origin", KW("self-evaluated"));
-  }
 #endif
 
   if (log_eval)
@@ -335,9 +355,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
       LOG(ret, "birthed");
   }
 
-  if (! DHAS(ret, "origin")) {
+  if (! DHAS(ret, "origin"))
     DSET(ret, "origin", KW("lookup"));
-  }
 #endif
 
   if (log_eval)
