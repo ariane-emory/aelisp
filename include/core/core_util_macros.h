@@ -44,10 +44,9 @@ extern bool log_core;
 #define CORE_BEGIN(name)                                                                           \
 ({                                                                                                 \
   char * tmp = SWRITE(env);                                                                        \
-  if (log_core) {                                                                                  \
+  if (log_core)                                                                                    \
     LOG(env,  "[applying 'core_"  name "' in env]", tmp);                                          \
-    INDENT;                                                                                        \
-  }                                                                                                \
+  INDENT;                                                                                          \
   free(tmp);                                                                                       \
 })
 
@@ -55,8 +54,7 @@ extern bool log_core;
 
 #define CORE_RETURN(name, val)                                                                     \
 ({                                                                                                 \
-  if (log_core)                                                                                    \
-    OUTDENT;                                                                                       \
+  OUTDENT;                                                                                         \
   CAPTURE((val));                                                                                  \
   if (log_core)                                                                                    \
     LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                  \
