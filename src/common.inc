@@ -59,14 +59,8 @@ inline static ae_obj_t * setup_root_env(void) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
   
   free_list_add_block(&mem[0], free_list_size);
-  
-  /* PR("\nPopulating root env..."); */
-  /* INDENT; */
-  ae_obj_t * root_env = ENV_NEW_ROOT();
-  /* OUTDENT; */
-  /* LOG(root_env, "Done populating"); */
 
-  /* PR("\n\nroot_env is at:    %08p.\n", root_env); */
+  ae_obj_t * root_env = ENV_NEW_ROOT();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS

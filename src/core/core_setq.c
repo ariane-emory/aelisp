@@ -25,15 +25,16 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     LOG(sym, "setting symbol");
     LOG(val, "to value"); 
     LOG(val, "evaluating 'value' argument");
-    INDENT;
   }
+
+  INDENT;
 
   val = EVAL(env, val);
 
-  if (log_core) {
-    OUTDENT;
+  OUTDENT;
+
+  if (log_core)
     LOG(val, "evaluated 'value' argument is");
-  }
 
 #ifdef AE_DEBUG_OBJ
   if (LAMBDAP(val) || MACROP(val)) {
