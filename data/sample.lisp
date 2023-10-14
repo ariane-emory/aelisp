@@ -112,19 +112,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(log-all '(t nil))
-11
-(log-all '(nil t))
-22
-
-(exit)
-
-
-
-
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
-(setq! with-log-all  (lambda args (with-log-eval (cons with-log-core args))))
+(setq! with-log-all  (with-toggled-fun log-all))
+
+(with-log-all 1)
+(exit)
 
 ;; (log-eval t)
 ;; (log-core t)
