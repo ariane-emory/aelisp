@@ -112,6 +112,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(log-all '(t nil))
+11
+(log-all '(nil t))
+22
+
+(exit)
+
+
+
+
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
 (setq! with-log-all  (lambda args (with-log-eval (cons with-log-core args))))
@@ -128,7 +138,6 @@
 ;; (with-log-all '(* 2 7))
 (with-log-all (lambda () (* 2 8)))
 
-(exit)
 
 
 
@@ -136,17 +145,15 @@
 
 
 
-(setq! qq
- (with-log-eval
-  3 
-  '(* 2 7) 
-  (lambda () 44)))
+;; (setq! qq
+;;  (with-log-eval
+;;   3 
+;;   '(* 2 7) 
+;;   (lambda () 44)))
 
-(princ "state: ")(princ (log-eval)) (nl)
-(princ "this: ") (princ qq) (nl)
-(princ "I'm not sure if debug is still on here?") (nl)
-
-
+;; (princ "state: ")(princ (log-eval)) (nl)
+;; (princ "this: ") (princ qq) (nl)
+;; (princ "I'm not sure if debug is still on here?") (nl)
 
 ;; (princ "Begin, no logging here.") (nl)
 

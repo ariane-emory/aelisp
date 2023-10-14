@@ -1,6 +1,7 @@
 #include <stdbool.h>
 
 #include "core_includes.h"
+#include "list.h"
 
 extern bool log_eval;
 extern bool log_core;
@@ -61,31 +62,48 @@ ae_obj_t * ae_core_l_core(ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_l_all(ae_obj_t * const env,
-                          ae_obj_t * const args,
-                          int args_length) {
+                         ae_obj_t * const args,
+                         int args_length) {
   CORE_BEGIN("l_all");
 
   bool old_log_eval_value = log_eval;
   bool old_log_core_value = log_core;
 
   if (args_length == 1) {
-    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
+    REQUIRE(env, args, (SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))))
+    || (PROPERP(CAR(args)) &&
+        (LENGTH(CAR(args)) == 2) &&
+        (NILP(CAAR(args)) || TRUEP(CAAR(args))) &&
+        (NILP(CADAR(args)) || TRUEP(CADAR(args)))));
 
-    bool set_val = TRUEP(CAR(args));
+    if (SYMBOLP(CAR(args))) {
+      SLOG("CASE 1");
 
-    log_eval = set_val;
-    log_core = set_val;
+      bool set_val = TRUEP(CAR(args));
+      
+      log_eval = set_val;
+      log_core = set_val;
+    }
+    else {
+      SLOG("CASE 2");
+      OLOG(args);
+      OLOG(CAAR(args));
+      OLOG(CADAR(args));
+      
+      log_eval = TRUEP(CAAR(args));
+      log_core = TRUEP(CADAR(args));
+    }
 
-    if      (NILP(CAR(args)) && old_log_eval_value)
+    if      ((! log_eval) && (  old_log_eval_value))
       SLOG("TURNING 'eval' LOGGING OFF!");
-    else if (TRUEP(CAR(args)) && !old_log_eval_value)
+    else if ((  log_eval) && (! old_log_eval_value))
       SLOG("TURNING 'eval' LOGGING ON!");
 
-    if      (NILP(CAR(args)) && old_log_eval_value)
-      SLOG("TURNING 'eval' LOGGING OFF!");
-    else if (TRUEP(CAR(args)) && !old_log_eval_value)
-      SLOG("TURNING 'eval' LOGGING ON!");
-}
+    if      ((! log_core) && (  old_log_core_value))
+      SLOG("TURNING 'core' LOGGING OFF!");
+    else if ((  log_core) && (! old_log_core_value))
+      SLOG("TURNING 'core' LOGGING ON!");
+  }
 
   CORE_RETURN("l_all", CONS(old_log_eval_value ? TRUE : NIL,
                             CONS(old_log_core_value ? TRUE : NIL,
