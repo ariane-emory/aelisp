@@ -22,9 +22,9 @@ ae_obj_t * ae_core_l_eval(ae_obj_t * const env,
     log_eval = TRUEP(CAR(args));
 
     if      (NILP(CAR(args)) && old_value)
-      PR("\n\nTURNING LOGGING OFF!\n\n");
+      SLOG("TURNING LOGGING OFF!");
     else if (TRUEP(CAR(args)) && !old_value)
-      PR("\n\nTURNING LOGGING ON!\n\n");
+      SLOG("TURNING LOGGING ON!");
   }
 
   CORE_RETURN("l_eval", old_value ? TRUE : NIL);

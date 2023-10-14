@@ -98,12 +98,12 @@
    (if (lambda? fun-or-expr)
     (let ((toggled-fun-state (toggled-fun t))
           (result            (fun-or-expr))
-          (toggled-fun-state (toggled-fun toggled-fun-state)))
+          (toggled-fun-state toggled-fun-state))
      ;; (nl)
      result)
     (let ((toggled-fun-state (toggled-fun t))
           (result            (eval fun-or-expr))
-          (toggled-fun-state (toggled-fun toggled-fun-state)))
+          (toggled-fun-state toggled-fun-state))
      ;; (nl)
      result)))))
 
@@ -115,7 +115,7 @@
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
 
-(log-eval t)
+(log-eval nil)
 
 (nl)
 (nl)
@@ -125,8 +125,6 @@
   3 
   '(* 2 7) 
   (lambda () 44)))
-
-(exit)
 
 (princ "state: ")(princ (log-eval)) (nl)
 (princ "this: ") (princ qq) (nl)
