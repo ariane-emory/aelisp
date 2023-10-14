@@ -112,7 +112,7 @@
 
 (setq! qqq (with-toggled-fun1 log-eval))
 (log-core t)
-(log-eval t)
+;;(log-eval t)
 (qqq 1)
 
 (exit)
