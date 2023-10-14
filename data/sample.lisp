@@ -92,7 +92,6 @@
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (setq! with-toggled-fun
  (lambda (toggled-fun)
   (lambda (fun-or-expr)
