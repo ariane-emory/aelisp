@@ -93,14 +93,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(setq! append
- (lambda lists
-  "Append two lists."
-  (let ((lst1 (car lst))
-        (lst2 (cadr lst)))
-  (if (nil? lst1)
-   lst2
-   (cons (car lst1) (append (cons (cdr lst1) lst2)))))))
+
 
 (setq! with-eval-logging
  (lambda (expr)
@@ -118,7 +111,7 @@
 
 (with-eval-logging 1)
 (princ "No logging here.") (nl)
-(with-eval-logging (* 3 4))
+(with-eval-logging '(* 3 4))
 
 ;; (log-eval nil)
 ;; (log-core t)
@@ -129,3 +122,4 @@
 ;; (log-core nil)
 
 ;;(write (apply + '(1 2))) (nl)
+(write (append '(3 4) '(5 6)))
