@@ -1,8 +1,8 @@
 (setq! ct 8)
 
 (while (> ct 0)
-  (write ct) (nl)
-  (setq! ct (- ct 1)))
+ (write ct) (nl)
+ (setq! ct (- ct 1)))
 
 (write (filter odd? '(1 2 3 4 5 6 7 8 9 10))) (nl)
 
@@ -34,8 +34,8 @@
 (setq! replicate-or-ignore
  (lambda (x)
   (if (integer? x)
-      (list x x)
-      nil)))
+   (list x x)
+   nil)))
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
 (write (mapcan replicate-or-ignore mylist)) (nl)
@@ -57,7 +57,7 @@
    ((nil? lists) '())                 ; Return an empty list if no lists are provided.
    ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
    (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-              (apply append-multiple (cdr lists)))))))
+       (apply append-multiple (cdr lists)))))))
 
 (setq! append-multiple
  (lambda (lists)
@@ -66,17 +66,17 @@
    ((nil? lists) '())                 ; Return an empty list if no lists are provided.
    ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
    (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-              (append-multiple (cdr lists)))))))
+       (append-multiple (cdr lists)))))))
 
 ;; I had to adjust some syntax to fit my language:
 (setq! append-multiple
-  (lambda lists
-    "Append multiple lists."
-    (cond
-     ((nil? lists) '())                 ; Return an empty list if no lists are provided.
-     ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
-     (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-                (append-multiple (cdr lists)))))))
+ (lambda lists
+  "Append multiple lists."
+  (cond
+   ((nil? lists) '())                 ; Return an empty list if no lists are provided.
+   ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
+   (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
+       (append-multiple (cdr lists)))))))
 
 (setq! append-multiple
  (lambda lists
@@ -85,7 +85,7 @@
    ((nil? lists) '())                 ; Return an empty list if no lists are provided.
    ((nil? (cdr lists)) (car lists))   ; If there's only one list left, return it.
    (t (append (car lists)             ; Otherwise, append the first list with the result of appending the rest.
-              (apply append-multiple (cdr lists)))))))
+       (apply append-multiple (cdr lists)))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -95,31 +95,33 @@
 (setq! with-toggled-fun
  (lambda (toggled-fun)
   (lambda (fun-or-expr)
-   (if (lambda? fun-or-expr)
-    (let ((toggled-fun-state (toggled-fun t))
-          (result            (fun-or-expr))
-          (toggled-fun-state (toggled-fun toggled-fun-state)))
-     (nl)
-     result)
-    (let ((toggled-fun-state (toggled-fun t))
-          (result            (eval fun-or-expr))
-          (toggled-fun-state (toggled-fun toggled-fun-state)))
-     (nl)
-     result)))))
+   (let ((𝑓 (lambda (fun-or-expr)
+             (if (lambda? fun-or-expr)
+              (let ((toggled-fun-state (toggled-fun t))
+                    (result            (fun-or-expr))
+                    (toggled-fun-state (toggled-fun toggled-fun-state)))
+               (nl)
+               result)
+              (let ((toggled-fun-state (toggled-fun t))
+                    (result            (eval fun-or-expr))
+                    (toggled-fun-state (toggled-fun toggled-fun-state)))
+               (nl)
+               result)))))
+         (𝑓 fun-or-expr)))))
 
-(setq! with-eval-logging (with-toggled-fun log-eval))
-(setq! with-core-logging (with-toggled-fun log-evacore))
+ (setq! with-eval-logging (with-toggled-fun log-eval))
+ (setq! with-core-logging (with-toggled-fun log-evacore))
 
-(princ "Begin, no logging here.") (nl)
+ (princ "Begin, no logging here.") (nl)
 
-(with-eval-logging 111)
+ (with-eval-logging 111)
 
-(princ "After 111, no logging here.") (nl)
+ (princ "After 111, no logging here.") (nl)
 
-((with-toggled-fun log-eval) 222)
+ ((with-toggled-fun log-eval) 222)
 
-(princ "After 222, no logging here.") (nl)
+ (princ "After 222, no logging here.") (nl)
 
-((with-toggled-fun log-eval) (lambda () 333))
+ ((with-toggled-fun log-eval) (lambda () 333))
 
-(princ "Done after 333, no logging here.") (nl)
+ (princ "Done after 333, no logging here.") (nl)
