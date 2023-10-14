@@ -20,14 +20,18 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
 
 #ifdef AE_LOG_ENV
   LOG(symbol,  "[adding]");
-
+#endif
+  
   INDENT;
 
+#ifdef AE_LOG_ENG
   LOG(value,   "with value");
   LOG(env,     "to env");
-
+#endif
+  
   OUTDENT;
 
+#ifdef AE_LOG_ENG
   LOG(symbol,  "[done adding]");
 #endif
 }
@@ -43,49 +47,65 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 
 #ifdef AE_LOG_ENV
   LOG(symbol, "[looking up '%s']", SYM_VAL(symbol));
-  INDENT;
 #endif
+
+  INDENT;
 
   if (found_ptr)
     *found_ptr = false;
 
   // Check for keywords that are automatically resolved:
   if (KEYWORDP(symbol)) {
+
 #ifdef AE_LOG_ENV
     LOG(NIL, "Keyword found automatically.");
 #endif
+
     if (found_ptr)
       *found_ptr = true;
-#ifdef AE_LOG_ENV
+
     OUTDENT;
+    
+#ifdef AE_LOG_ENV
     LOG(symbol, "[looked up]");
 #endif
+    
     return (ae_obj_t *)symbol;
   }
 
   if (NILP(symbol)) {
+    
 #ifdef AE_LOG_ENV
     LOG(NIL, "found NIL automatically.");
 #endif
+    
     if (found_ptr)
       *found_ptr = true;
-#ifdef AE_LOG_ENV
+    
     OUTDENT;
+    
+#ifdef AE_LOG_ENV
     LOG(NIL, "[looked up]");
 #endif
+    
     return NIL;
   }
 
   if (TRUEP(symbol)) {
+    
 #ifdef AE_LOG_ENV
     LOG(TRUE, "found TRUE automatically");
 #endif
+    
     if (found_ptr)
       *found_ptr = true;
-#ifdef AE_LOG_ENV
+    
     OUTDENT;
+    
+#ifdef AE_LOG_ENV
     LOG(TRUE, "[looked up]");
 #endif
+
     return TRUE;
   }
 
@@ -172,8 +192,9 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 #endif
 
 end:
-#ifdef AE_LOG_ENV
   OUTDENT;
+  
+#ifdef AE_LOG_ENV
   LOG(ret, "[looked up]");
 #endif
 
