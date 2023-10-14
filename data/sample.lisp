@@ -115,7 +115,7 @@
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
 
-(log-eval nil)
+;;(log-eval nil)
 
 (nl)
 (nl)
