@@ -114,14 +114,14 @@
 
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
-(setq! with-log-all  (lambda args (with-toggled-eval (lambda () (with-log-core args)))))
+(setq! with-log-all  (lambda args (with-toggled-fun (lambda () (with-log-core args)))))
 
 ;; (log-eval t)
 ;; (log-core t)
 
 ;; (write with-log-all) (nl)
 
-;; (with-log-all 1)
+(with-log-eval 1)
 
 (exit)
 
