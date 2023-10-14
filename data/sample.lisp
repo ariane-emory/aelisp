@@ -100,12 +100,12 @@
     (let ((toggled-fun-state (toggled-fun t))
           (result            (fun-or-expr))
           (toggled-fun-state (toggled-fun toggled-fun-state)))
-     (nl)
+     ;; (nl)
      result)
     (let ((toggled-fun-state (toggled-fun t))
           (result            (eval fun-or-expr))
           (toggled-fun-state (toggled-fun toggled-fun-state)))
-     (nl)
+     ;; (nl)
      result)))))
 
 (setq! with-toggled-fun
@@ -128,6 +128,7 @@
 
 (princ "state: ")(princ (log-eval)) (nl)
 (princ "this: ") (princ qq) (nl)
+(princ "I'm not sure if debug is still on here?") (nl)
 
 ;; (princ "Begin, no logging here.") (nl)
 
