@@ -22,9 +22,9 @@ ae_obj_t * ae_core_l_eval(ae_obj_t * const env,
     log_eval = TRUEP(CAR(args));
 
     if      (NILP(CAR(args)) && old_value)
-      SLOG("TURNING LOGGING OFF!");
+      SLOG("TURNING 'eval' LOGGING OFF!");
     else if (TRUEP(CAR(args)) && !old_value)
-      SLOG("TURNING LOGGING ON!");
+      SLOG("TURNING 'eval' LOGGING ON!");
   }
 
   CORE_RETURN("l_eval", old_value ? TRUE : NIL);
@@ -46,6 +46,11 @@ ae_obj_t * ae_core_l_core(ae_obj_t * const env,
     REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
 
     log_core = TRUEP(CAR(args));
+
+    if      (NILP(CAR(args)) && old_value)
+      SLOG("TURNING 'core' LOGGING OFF!");
+    else if (TRUEP(CAR(args)) && !old_value)
+      SLOG("TURNING 'core' LOGGING ON!");
   }
 
   CORE_RETURN("l_core", old_value ? TRUE : NIL);
