@@ -1,5 +1,6 @@
 To Do:
-- [ ] improve core apply.
+- [ ] unbound symbol'a should error.
+- [ ] better storage for core names.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
 - [ ] improve core 'and' and 'or' to be able to handle 3+ args.
@@ -28,6 +29,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] improve core apply.
 - [x] core apply.
 - [x] core while.
 - [x] make core_concat for AE_STRINGS.
