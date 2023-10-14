@@ -29,10 +29,25 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   ae_obj_t * ret = NIL;
 
+  int ctr = 0;
+  
   FOR_EACH(elem, args) {
+    ctr++;
+
+    if (log_eval)
+      LOG(elem, "eval progn arg  #%d/%d", ctr, args_length);
+
+    INDENT;
+
     ret = EVAL(env, elem);
+    
     if (ERRORP(ret))
       break;
+
+    OUTDENT;
+    
+    if (log_eval)
+      LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);
   }
 
   CORE_RETURN("progn", ret);

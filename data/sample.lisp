@@ -92,6 +92,22 @@
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(setq! with-toggled-fun
+ (lambda (toggled-fun)
+  (lambda (fun-or-expr)
+   (if (lambda? fun-or-expr)
+    (let ((toggled-fun-state (toggled-fun t))
+          (result            (fun-or-expr))
+          (toggled-fun-state (toggled-fun toggled-fun-state)))
+     (nl)
+     result)
+    (let ((toggled-fun-state (toggled-fun t))
+          (result            (eval fun-or-expr))
+          (toggled-fun-state (toggled-fun toggled-fun-state)))
+     (nl)
+     result)))))
+
 (setq! with-toggled-fun
  (lambda (toggled-fun)
   (lambda funs-or-exprs
@@ -107,19 +123,18 @@
                     (toggled-fun-state (toggled-fun toggled-fun-state)))
                (nl)
                result)))))
-    (eval     (cons 'progn (mapcar (lambda (x) (list '𝑓 x)) funs-or-exprs)))
-    ))))
-;; (𝑓 fun-or-expr)
+    (eval (cons 'progn (mapcar (lambda (x) (list 𝑓 x)) funs-or-exprs)))))))
 
-                                        ;(write ) (nl)
+
 
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-evacore))
 
+;; (log-eval t)
 
 (write (with-log-eval
-        1 ;'(nl)
-        2 ;'(nl)
+;;        1 ;'(nl)
+;;        2 ;'(nl)
         3 ;'(nl)
         '(* 2 7) ;'(nl)
         (lambda () 44) ;'(nl)
