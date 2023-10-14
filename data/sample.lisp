@@ -104,11 +104,16 @@
 
 (setq! with-eval-logging
  (lambda (expr)
-  (let ((old-val (log-eval)))
-   (log-eval t)
-   (let ((result (eval expr)))
-    (log-eval old-val)
-    result))))
+   (if (lambda? expr)
+    (progn (let ((log-eval-state (log-eval t))
+                 (result         (eval expr))
+                 (log-eval-state (log-eval log-eval-state)))
+            result)
+     retullt)
+    (let ((log-eval-state (log-eval t))
+          (result         (eval expr))
+          (log-eval-state (log-eval log-eval-state)))
+      result))))
 
 (with-eval-logging 1)
 
