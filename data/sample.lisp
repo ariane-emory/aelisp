@@ -111,6 +111,7 @@
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
 
 (setq! qqq (with-toggled-fun1 log-eval))
+(log-core t)
 (log-eval t)
 (qqq 1)
 

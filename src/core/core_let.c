@@ -30,11 +30,27 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     if (log_core) 
       OLOG(varlist_item);
     
+    INDENT;
+    
+    ae_obj_t * val =
+      SYMBOLP(varlist_item)
+      ? NIL
+      : EVAL(env, CADR(varlist_item));
+
+    OUTDENT;
+
+    if (log_core) {
+      if (SYMBOLP(varlist_item))
+        LOG(varlist_item, "binding symbol");
+      else 
+        LOG(CAR(varlist_item), "binding symbol");
+   
+      LOG(val,               "to value");   
+    }
+
     ENV_SET_L(new_env,
               CAR(varlist_item), 
-              SYMBOLP(varlist_item)
-              ? NIL
-              : EVAL(env, CADR(varlist_item)));
+              val);
   }
 
   if (log_core) {
@@ -74,12 +90,28 @@ ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attrib
   FOR_EACH(varlist_item, varlist) {
     if (log_core)
       OLOG(varlist_item);
+
+    INDENT;
+    
+    ae_obj_t * val =
+      SYMBOLP(varlist_item)
+      ? NIL
+      : EVAL(new_env, CADR(varlist_item));
+
+    OUTDENT;
+    
+    if (log_core) {
+      if (SYMBOLP(varlist_item))
+        LOG(varlist_item, "binding symbol");
+      else 
+        LOG(CAR(varlist_item), "binding symbol");
+   
+      LOG(val,               "to value");   
+    }
     
     ENV_SET_L(new_env,
               CAR(varlist_item), 
-              SYMBOLP(varlist_item)
-              ? NIL
-              : EVAL(new_env, CADR(varlist_item)));
+              val);
   }
 
   if (log_core) {
