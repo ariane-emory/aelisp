@@ -123,7 +123,7 @@
      (nl)
      result))))
 
-(with-eval-logging log-eval 1)
+(with-eval-logging 1)
 ;;(princ "No logging here.") (nl)
 ;;(with-eval-logging '(* 3 4))
 
