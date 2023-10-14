@@ -8,10 +8,11 @@
 
 #define YYSTYPE ae_obj_t *
 
+extern int yylineno;
 extern ae_obj_t * program;
 extern int main(int argc, char ** argv);
   
-void yyerror(const char *str) { ERR("Error: %s\n", str); }
+void yyerror(const char *str) { ERR("Error on line %d: %s\n", yylineno, str); }
 int  yywrap() { return 1; }    
 
 %}

@@ -17,6 +17,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+extern int yylineno;
 extern ae_obj_t * program;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +192,8 @@ void parse_line(const char * const line) {
 %}
 
 %option never-interactive
-                        
+%option yylineno
+
 %%
 
 nil                                                                        |
@@ -223,5 +225,6 @@ nil                                                                        |
 [-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
+. { fprintf(stderr, "Unrecognized input at line %d: '%s'\n", yylineno, yytext); exit(2); }
 
 %%
