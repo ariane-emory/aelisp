@@ -120,6 +120,7 @@
 (log-eval t)
 
 (nl)
+(nl)
 (setq! qq (with-log-eval
         3 
         '(* 2 7) 
