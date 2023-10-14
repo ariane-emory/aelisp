@@ -121,7 +121,7 @@
 
 ;; (write with-log-all) (nl)
 
-(with-log-eval '(with-log-core 1))
+(with-log-core '(with-log-eval 1))
 
 (exit)
 
