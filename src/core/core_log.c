@@ -18,17 +18,13 @@ ae_obj_t * ae_core_l_eval(ae_obj_t * const env,
   (void)env;
   (void)args_length;
   
-  bool old_value = false; // log_eval;
+  bool old_value =  log_eval;
 
-  /* (void)args;   */
+  if (args_length == 1) {
+    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
 
-  /* if (args_length == 1) { */
-  /* /\*   REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args)))); *\/ */
-
-  /* /\*   CORE_RETURN("log_eval", ENVP(CAR(args)) *\/ */
-  /* /\*               ? ENV_PARENT(CAR(args)) *\/ */
-  /* /\*               : FUN_ENV(CAR(args))); *\/ */
-  /* } */
+    log_eval =TRUEP(CAR(args));
+  }
 
   CORE_RETURN("l_eval", old_value ? TRUE : NIL);
 }
@@ -47,17 +43,13 @@ ae_obj_t * ae_core_l_core(ae_obj_t * const env,
   (void)env;
   (void)args_length;
   
-  bool old_value = false; // log_core;
+  bool old_value =  log_core;
 
-  /* (void)args;   */
+  if (args_length == 1) {
+    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
 
-  /* if (args_length == 1) { */
-  /* /\*   REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args)))); *\/ */
-
-  /* /\*   CORE_RETURN("log_core", ENVP(CAR(args)) *\/ */
-  /* /\*               ? ENV_PARENT(CAR(args)) *\/ */
-  /* /\*               : FUN_ENV(CAR(args))); *\/ */
-  /* } */
+    log_core =TRUEP(CAR(args));
+  }
 
   CORE_RETURN("l_core", old_value ? TRUE : NIL);
 }
