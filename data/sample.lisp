@@ -109,17 +109,21 @@
      (nl)
      result))))
 
-(with-eval-logging 1)
-(princ "No logging here.") (nl)
-(with-eval-logging '(* 3 4))
+(setq! with-toggle
+ (lambda (toggled-fun expr)
+   (if (lambda? expr)
+    (let ((toggled-fun-state (toggled-fun t))
+          (result         (expr))
+          (toggled-fun-state (toggled-fun toggled-fun-state)))
+     (nl)
+     result)
+    (let ((toggled-fun-state (toggled-fun t))
+          (result         (eval expr))
+          (toggled-fun-state (toggled-fun toggled-fun-state)))
+     (nl)
+     result))))
 
-;; (log-eval nil)
-;; (log-core t)
+(with-eval-logging log-eval 1)
+;;(princ "No logging here.") (nl)
+;;(with-eval-logging '(* 3 4))
 
-;;(write (concat (with-eval-logging "asd") "qwe")) (nl)    
-
-;; (log-eval nil)
-;; (log-core nil)
-
-;;(write (apply + '(1 2))) (nl)
-(write (append '(3 4) '(5 6)))
