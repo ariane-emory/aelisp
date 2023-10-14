@@ -56,3 +56,39 @@ ae_obj_t * ae_core_l_core(ae_obj_t * const env,
   CORE_RETURN("l_core", old_value ? TRUE : NIL);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _l_all
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_l_all(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          int args_length) {
+  CORE_BEGIN("l_all");
+
+  bool old_log_eval_value = log_eval;
+  bool old_log_core_value = log_core;
+
+  if (args_length == 1) {
+    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
+
+    bool set_val = TRUEP(CAR(args));
+
+    log_eval = set_val;
+    log_core = set_val;
+
+    if      (NILP(CAR(args)) && old_log_eval_value)
+      SLOG("TURNING 'eval' LOGGING OFF!");
+    else if (TRUEP(CAR(args)) && !old_log_eval_value)
+      SLOG("TURNING 'eval' LOGGING ON!");
+
+    if      (NILP(CAR(args)) && old_log_eval_value)
+      SLOG("TURNING 'eval' LOGGING OFF!");
+    else if (TRUEP(CAR(args)) && !old_log_eval_value)
+      SLOG("TURNING 'eval' LOGGING ON!");
+}
+
+  CORE_RETURN("l_all", CONS(old_log_eval_value ? TRUE : NIL,
+                            CONS(old_log_core_value ? TRUE : NIL,
+                                 NIL)));
+}
+
