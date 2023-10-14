@@ -94,7 +94,7 @@
 
 (setq! with-toggled-fun
  (lambda (toggled-fun)
-  (lambda (fun-or-expr)
+  (lambda (funs-or-exprs)
    (let ((𝑓 (lambda (fun-or-expr)
              (if (lambda? fun-or-expr)
               (let ((toggled-fun-state (toggled-fun t))
@@ -107,21 +107,25 @@
                     (toggled-fun-state (toggled-fun toggled-fun-state)))
                (nl)
                result)))))
-         (𝑓 fun-or-expr)))))
+    (cons 'progn (mapcar (lambda (x) (list '𝑓 x)) '(1 2 3)))
+    ))))
+         ;; (𝑓 fun-or-expr)
+
+;(write ) (nl)
 
  (setq! with-eval-logging (with-toggled-fun log-eval))
  (setq! with-core-logging (with-toggled-fun log-evacore))
 
- (princ "Begin, no logging here.") (nl)
+ ;; (princ "Begin, no logging here.") (nl)
 
- (with-eval-logging 111)
+ ;; (with-eval-logging 111)
 
- (princ "After 111, no logging here.") (nl)
+ ;; (princ "After 111, no logging here.") (nl)
 
- ((with-toggled-fun log-eval) '(* 111 2))
+ ;; ((with-toggled-fun log-eval) '(* 111 2))
 
- (princ "After 222, no logging here.") (nl)
+ ;; (princ "After 222, no logging here.") (nl)
 
- ((with-toggled-fun log-eval) (lambda () 333))
+ ;; ((with-toggled-fun log-eval) (lambda () 333))
 
- (princ "Done after 333, no logging here.") (nl)
+ ;; (princ "Done after 333, no logging here.") (nl)
