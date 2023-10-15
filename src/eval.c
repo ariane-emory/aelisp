@@ -404,22 +404,21 @@ end:
 typedef struct {
   ae_type_t type;
   ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *);
-  bool replaces; // probably remove.
 } eval_dispatch_row_t;
 
 static const eval_dispatch_row_t eval_dispatch_table[] = {
-  { AE_CONS,     &apply,  false },
-  { AE_SYMBOL,   &lookup, false },
-  { AE_CORE,     &self,   false },
-  { AE_LAMBDA,   &self,   false },
-  { AE_MACRO,    &self,   true  },
-  { AE_STRING,   &self,   false },
-  { AE_INTEGER,  &self,   false },
-  { AE_ENV,      &self,   false },
-  { AE_ERROR,    &self,   false },
-  { AE_CHAR,     &self,   false },
-  { AE_FLOAT,    &self,   false },
-  { AE_RATIONAL, &self,   false },
+  { AE_CONS,     &apply,  },
+  { AE_SYMBOL,   &lookup, },
+  { AE_CORE,     &self,   },
+  { AE_LAMBDA,   &self,   },
+  { AE_MACRO,    &self,   },
+  { AE_STRING,   &self,   },
+  { AE_INTEGER,  &self,   },
+  { AE_ENV,      &self,   },
+  { AE_ERROR,    &self,   },
+  { AE_CHAR,     &self,   },
+  { AE_FLOAT,    &self,   },
+  { AE_RATIONAL, &self,   },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
