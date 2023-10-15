@@ -154,15 +154,16 @@
 
 (write (zip2 '(1 2 3) '(a b c d))) (nl)
 
-(setq! flatten-one-level
- (lambda (lst)
-  (cond
-   ((nil? lst) nil)
-   ((tail? (car lst))
-    (append (car lst) (flatten-one-level (cdr lst)))) 
-   (t (cons (car lst) (flatten-one-level (cdr lst)))))))
 
-(write (flatten-one-level '(a (b c)))) (nl)
- 
+(write (flatten1 '(a (b c)))) (nl)
+
+
+(setq! zip3
+ (lambda (l1 l2 l3)
+  (mapcar flatten1 (reduce zip2 l1 (list l2 l3)))))
+
 (setq! lsts '((a b) (2 3) (4 5)))
-(write (reduce zip2 (car lsts) (cdr lsts)))
+(nl)
+(write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
+(write (zip3 '(a b) '(2 3) '(4 5))) (nl)
+
