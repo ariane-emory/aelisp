@@ -32,6 +32,11 @@
 (setq! putns     (lambda args (nl) (apply put   (intercalate " " args))       ))
 (setq! writens   (lambda args (nl) (apply write (intercalate " " args))       ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! princni   (lambda args (nl) (apply princ (intercalate (car args) (cdr args)))))
+(setq! printni   (lambda args (nl) (apply print (intercalate (car args) (cdr args)))))
+(setq! putni     (lambda args (nl) (apply put   (intercalate (car args) (cdr args)))))
+(setq! writeni   (lambda args (nl) (apply write (intercalate (car args) (cdr args)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; even?/odd? predicates:                                                     ;)

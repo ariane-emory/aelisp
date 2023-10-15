@@ -14,3 +14,6 @@
 (princn (or?  nil nil 3 8))
 (princn (and? 3 8 nil))
 (princn (and? 3 7 8))
+
+
+(princni ", " 1 2 3)
