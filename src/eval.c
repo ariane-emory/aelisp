@@ -34,9 +34,9 @@
                                                                                                                        \
     int ctr = 0;                                                                                                       \
                                                                                                                        \
-    for (ae_obj_t                                                                                                      \
-           * position = args,                                                                                          \
-           * elem     = CAR(position);                                                                                 \
+    ae_obj_t * position = args;                                                                                        \
+                                                                                                                       \
+    for (ae_obj_t * elem     = CAR(position);                                                                          \
          CONSP(position);                                                                                              \
          elem = CAR(position = CDR(position)))                                                                         \
     {                                                                                                                  \
