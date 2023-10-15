@@ -339,10 +339,10 @@
  (lambda preds
   (lambda (val)
    (let* ((fun
-           (lambda (val preds)
+           (lambda (preds)
             (cond
              ((nil? (car preds)) t)
              ((nil? ((car preds) val)) nil)
-             (t (fun val (cdr preds)))))))
-    (fun val preds)))))
+             (t (fun (cdr preds)))))))
+    (fun preds)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
