@@ -64,7 +64,7 @@
  (macro (name params . body)
   (list (quote setq) name (list (quote macro) params . body))))
   
-(set! defun
+(setq! defun
  (macro (name params . body)
   (list (quote setq) name (list (quote lambda) params . body))))
   
