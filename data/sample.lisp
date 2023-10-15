@@ -157,9 +157,9 @@
 (write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
 (write (zip3 '(a b) '(2 3) '(4 5))) (nl)
 
-(princ "Odd numbers: ") (write (filter (matches-preds integer? odd?) '(1 2 3 4 5 6 7 8 9 10))) (nl)
-(write (any? (matches-preds integer? even?) '(1 3 a 5))) (nl)
-(write (any? (matches-preds integer? even?) '(1 3 a 4 5))) (nl)
+(princ "Odd numbers: ") (write (filter (compose-preds integer? odd?) '(1 2 3 4 5 6 7 8 9 10))) (nl)
+(write (any? (compose-preds integer? even?) '(1 3 a 5))) (nl)
+(write (any? (compose-preds integer? even?) '(1 3 a 4 5))) (nl)
 
 (write ((compose-preds integer? odd?)  7)) (nl)
 (write ((compose-preds integer? odd?)  8)) (nl)

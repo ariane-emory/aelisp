@@ -344,5 +344,5 @@
              ((nil? (car preds)) t)
              ((nil? ((car preds) val)) nil)
              (t (fun val (cdr preds)))))))
-    (fun val preds t)))))
+    (fun val preds)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
