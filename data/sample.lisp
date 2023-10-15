@@ -56,3 +56,20 @@
   (list foo bar)))
 
 (write (test 12 34))
+
+(nl)
+(nl)
+
+(setq! defmacro
+ (macro (name params . body)
+  (list (quote setq) name (list (quote macro) params . body))))
+  
+(set! defun
+ (macro (name params . body)
+  (list (quote setq) name (list (quote lambda) params . body))))
+  
+(defun null (x) (eq x nil))
+  
+
+
+
