@@ -173,18 +173,21 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       LOG(env, "new env for user fun:");
   }
   else if (! PROPERP(FUN_PARAMS(fun))) {
-    LOG(FUN_PARAMS(fun), "improper params list");
-    LOG(args, "improper args list");
+    if (log_eval) {
+      LOG(FUN_PARAMS(fun), "improper params list");
+      LOG(args, "improper args list");
+    }
       
     ae_obj_t * new_env_syms = NIL;
     ae_obj_t * new_env_vals = NIL;
-
-    ae_obj_t * params_pos = FUN_PARAMS(fun);
-    ae_obj_t * args_pos   = args;
+    ae_obj_t * params_pos   = FUN_PARAMS(fun);
+    ae_obj_t * args_pos     = args;
 
     for (; CONSP(params_pos); params_pos = CDR(params_pos), args_pos = CDR(args_pos)) {
-      LOG(params_pos, "params_pos");
-      LOG(args_pos,   "args_pos");
+      if (log_eval) {
+        LOG(params_pos, "params_pos");
+        LOG(args_pos,   "args_pos");
+      }
         
       new_env_syms = CONS(CAR(params_pos), new_env_syms);
       new_env_vals = CONS(CAR(args_pos), new_env_vals);
@@ -192,11 +195,13 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     new_env_syms = CONS(params_pos, new_env_syms);
     new_env_vals = CONS(args_pos, new_env_vals);
-      
-    env = NEW_ENV(FUN_ENV(fun), new_env_syms, new_env_vals);
 
-    LOG(new_env_syms, "improper syms");
-    LOG(new_env_vals, "improper vals");
+    if (log_eval) {
+      LOG(new_env_syms, "improper syms");
+      LOG(new_env_vals, "improper vals");
+    }
+    
+    env = NEW_ENV(FUN_ENV(fun), new_env_syms, new_env_vals);
   }
   else {
     env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);

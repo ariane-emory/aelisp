@@ -72,7 +72,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 // _let_star
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let_str(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let_star");
 
   ae_obj_t * const varlist = CAR(args);
