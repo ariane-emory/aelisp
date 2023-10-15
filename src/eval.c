@@ -23,50 +23,52 @@
       break;                                                                                                           \
     }
 
-#define MAYBE_EVAL(args)                                                                                               \
-  if (CAR(args)) {                                                                                                     \
-    ae_obj_t * evaled_args = NIL;                                                                                      \
-                                                                                                                       \
-    if (log_eval)                                                                                                      \
-      LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                 \
-                                                                                                                       \
-    INDENT;                                                                                                            \
-                                                                                                                       \
-    int ctr = 0;                                                                                                       \
-                                                                                                                       \
-    ae_obj_t * position = args;                                                                                        \
-                                                                                                                       \
-    for (ae_obj_t * elem     = CAR(position);                                                                          \
-         CONSP(position);                                                                                              \
-         elem = CAR(position = CDR(position)))                                                                         \
-    {                                                                                                                  \
-      ctr++;                                                                                                           \
-                                                                                                                       \
-      if (log_eval)                                                                                                    \
-        LOG(elem, "eval arg  #%d", ctr);                                                                               \
-      INDENT;                                                                                                          \
-                                                                                                                       \
-      ae_obj_t * tmp = EVAL(env, elem);                                                                                \
-                                                                                                                       \
-      PUSH(evaled_args, tmp);                                                                                          \
-                                                                                                                       \
-      OUTDENT;                                                                                                         \
-                                                                                                                       \
-      if (log_eval)                                                                                                    \
-        LOG(tmp, "evaled arg  #%d", ctr);                                                                              \
-    }                                                                                                                  \
-                                                                                                                       \
-    if (! NILP(position))                                                                                              \
-      LOG(position, "final position");                                                                                 \
-                                                                                                                       \
-    args = evaled_args;                                                                                                \
-                                                                                                                       \
-    OUTDENT;                                                                                                           \
-                                                                                                                       \
-    if (log_eval)                                                                                                      \
-      LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));                                  \
+static ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
+  ae_obj_t * evaled_args = NIL;
+
+  if (CAR(args)) {
+
+    if (log_eval)
+      LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+
+    INDENT;
+
+    int ctr = 0;
+
+    ae_obj_t * position = args;
+
+    for (ae_obj_t * elem     = CAR(position);
+         CONSP(position);
+         elem = CAR(position = CDR(position)))
+    {
+      ctr++;
+
+      if (log_eval)
+        LOG(elem, "eval arg  #%d", ctr);
+      INDENT;
+
+      ae_obj_t * tmp = EVAL(env, elem);
+
+      PUSH(evaled_args, tmp);
+
+      OUTDENT;
+
+      if (log_eval)
+        LOG(tmp, "evaled arg  #%d", ctr);
+    }
+
+    if (! NILP(position))
+      LOG(position, "final position");
+
+    OUTDENT;
+
+    if (log_eval)
+      LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+
   }                                                                                                
 
+  return evaled_args;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
@@ -144,7 +146,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
   if (! SPECIALP(fun))
-    MAYBE_EVAL(args);
+    args = eval_args(env, args);
   
   if (log_eval) {
     if (! SPECIALP(fun))
@@ -273,7 +275,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   GET_DISPATCH(dispatch, apply_dispatch_table, fun);
 
   if (! dispatch.special)
-    MAYBE_EVAL(args);
+    args = eval_args(env, args);
   
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(env, fun, args)
