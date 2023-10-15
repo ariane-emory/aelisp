@@ -209,9 +209,9 @@
    nil
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
-     (if (nil? result)
-         rest
-      (nconc! result rest))))))
+    (if (nil? result)
+     rest
+     (nconc! result rest))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -315,17 +315,18 @@
   (cond
    ((or (nil? lst1) (nil? lst2)) nil)
    (t (cons (list (car lst1) (car lst2))
-     (zip2 (cdr lst1) (cdr lst2)))))))
+       (zip2 (cdr lst1) (cdr lst2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! zip3
  (lambda (l1 l2 l3)
   (mapcar flatten1 (reduce zip2 l1 (list l2 l3)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! any?
-  (lambda (pred lst)
-    (if (nil? lst)
-     nil
-     (or (pred (car lst)) (any? pred (cdr lst))))))
+ (lambda (pred lst)
+  (if (nil? lst)
+   nil
+   (or (pred (car lst))
+    (any? pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! flatten1
  (lambda (lst)
