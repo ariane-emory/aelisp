@@ -1,3 +1,5 @@
+// -*- c-backslash-column: 134; -*-
+
 #pragma once
 
 #include <stdbool.h>
@@ -8,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // _env_set mode                                                                                                                     //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                                                                     //
+//
 typedef enum {                                                                                                                       //
   GLOBAL,                                                                                                                            //
   LOCAL,                                                                                                                             //
@@ -19,13 +21,13 @@ typedef enum {                                                                  
 // convenience macros                                                                                                                //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_ENV(parent_, symbols_, values_)                                                                                           \
-({                                                                                                                                    \
-ae_obj_t * _obj = NEW(AE_ENV);                                                                                                        \
-_obj->parent    = (parent_);                                                                                                          \
-_obj->symbols   = (symbols_);                                                                                                         \
-_obj->values    = (values_);                                                                                                          \
-_obj;                                                                                                                                 \
-})
+  ({                                                                                                                                  \
+    ae_obj_t * _obj = NEW(AE_ENV);                                                                                                    \
+    _obj->parent    = (parent_);                                                                                                      \
+    _obj->symbols   = (symbols_);                                                                                                     \
+    _obj->values    = (values_);                                                                                                      \
+    _obj;                                                                                                                             \
+  })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_PARENT(env)          ((env)->parent)                                                                                  //
 #define    ENV_SYMS(env)            ((env)->symbols)                                                                                 //
@@ -43,9 +45,9 @@ _obj;                                                                           
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_BOUND_IN(mode, env, sym)                                                                                               \
   ({                                                                                                                                  \
-  bool found = false;                                                                                                                 \
-  ((void)ae_env_lookup(mode, (env), (sym), &found));                                                                                  \
-  found;                                                                                                                              \
+    bool found = false;                                                                                                               \
+    ((void)ae_env_lookup(mode, (env), (sym), &found));                                                                                \
+    found;                                                                                                                            \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_BOUNDP(env, sym)     (ENV_BOUND_IN(NEAREST, env, sym))                                                                //

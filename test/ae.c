@@ -1386,6 +1386,19 @@ void tailp(void) {
 /*   LOG(values, "values:"); */
 /*   } */
 
+
+void env_with_a_dot(void) {
+  SETUP_TEST;
+
+  obj syms   = CONS(SYM("first"), NEW_CONS(SYM("second"), SYM("third")));
+  obj values = CONS(NEW_INT(1),
+                    CONS(NEW_INT(2),
+                         CONS(NEW_INT(3),
+                              CONS(NEW_INT(4),
+                                   CONS(NEW_INT(5), NIL)))));
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1426,6 +1439,7 @@ void tailp(void) {
   DO(kvp_list)                                                                                                         \
   DO(root_env_and_eval)                                                                                                \
   DO(fun_specialness)                                                                                                  \
+  DO(env_with_a_dot)                                                                                                  
 
 // DO(bubble_list) 
 
