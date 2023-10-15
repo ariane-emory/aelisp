@@ -1403,7 +1403,7 @@ void env_with_a_dot(void) {
     OLOG(env);
     LOG(ENV_SYMS(env), "with syms");
     LOG(ENV_VALS(env), "and  vals");
-    NL;
+    
   
     obj found = ENV_FIND(env, SYM("third"));
 
@@ -1413,53 +1413,53 @@ void env_with_a_dot(void) {
     
     T(LENGTH(found) == 3);
 
-    OLOG(CAR(found)); NL;
+    OLOG(CAR(found)); 
     T(EQL(CAR(found), NEW_INT(3)));
 
-    OLOG(CADR(found)); NL;
+    OLOG(CADR(found)); 
     T(EQL(CADR(found), NEW_INT(4)));
 
-    OLOG(CADDR(found)); NL;
+    OLOG(CADDR(found)); 
     T(EQL(CADDR(found), NEW_INT(5)));
 
-    OLOG(CDDDR(found)); NL;
+    OLOG(CDDDR(found)); 
     T(NILP(CDDDR(found)));
   
-    NL;
+    
   }
-  SETUP_TEST;
+  {
+    SETUP_TEST;
   
-  obj root   = ENV_NEW_ROOT();
-  obj syms   = SYM("args");
-  obj values = CONS(NEW_INT(3),
-                    CONS(NEW_INT(4),
-                         CONS(NEW_INT(5), NIL)));
+    obj root   = ENV_NEW_ROOT();
+    obj syms   = SYM("args");
+    obj values = CONS(NEW_INT(3),
+                      CONS(NEW_INT(4),
+                           CONS(NEW_INT(5), NIL)));
 
-  obj env    = NEW_ENV(root, syms, values );
+    obj env    = NEW_ENV(root, syms, values );
 
-  OLOG(env);
-  LOG(ENV_SYMS(env), "with syms");
-  LOG(ENV_VALS(env), "and  vals");
-  NL;
+    OLOG(env);
+    LOG(ENV_SYMS(env), "with syms");
+    LOG(ENV_VALS(env), "and  vals");
   
-  obj found = ENV_FIND(env, SYM("args"));
+    obj found = ENV_FIND(env, SYM("args"));
 
-  OLOG(found);
+    OLOG(found);
 
-  T(LENGTH(found) == 3);
+    T(LENGTH(found) == 3);
 
-  OLOG(CAR(found)); NL;
-  T(EQL(CAR(found), NEW_INT(3)));
+    OLOG(CAR(found)); 
+    T(EQL(CAR(found), NEW_INT(3)));
 
-  OLOG(CADR(found)); NL;
-  T(EQL(CADR(found), NEW_INT(4)));
+    OLOG(CADR(found)); 
+    T(EQL(CADR(found), NEW_INT(4)));
 
-  OLOG(CADDR(found)); NL;
-  T(EQL(CADDR(found), NEW_INT(5)));
+    OLOG(CADDR(found)); 
+    T(EQL(CADDR(found), NEW_INT(5)));
 
-  OLOG(CDDDR(found)); NL;
-  T(NILP(CDDDR(found)));
-  
+    OLOG(CDDDR(found)); 
+    T(NILP(CDDDR(found)));
+  }
   NL;
 }
 
