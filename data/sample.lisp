@@ -4,7 +4,6 @@
  (write ct) (nl)
  (setq! ct (- ct 1)))
 
-(write (filter odd? '(1 2 3 4 5 6 7 8 9 10))) (nl)
 
 (write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d))) (nl)
 
@@ -147,9 +146,6 @@
 
 ;; Expected output: ((1 a) (2 b) (3 c))
 
-(write (any? even? '(1 3 a 5))) (nl)
-(write (any? even? '(1 3 a 4 5))) (nl)
-
 ;; (log-all t)
 
 (write (zip2 '(1 2 3) '(a b c d))) (nl)
@@ -161,10 +157,6 @@
 (write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
 (write (zip3 '(a b) '(2 3) '(4 5))) (nl)
 
-
-(setq! even? (lambda (n) (== 0 (% n 2))))
-(setq! odd?  (lambda (n) (== 1 (% n 2))))
-
 (setq! matches-preds
  (lambda preds
   (lambda (val)
@@ -175,6 +167,10 @@
              ((nil? ((car preds) val)) nil)
              (t (fun val (cdr preds) acc))))))
     (fun val preds t)))))
+
+(write (filter  (matches-preds integer? odd?) '(1 2 3 4 5 6 7 8 9 10))) (nl)
+(write (any? (matches-preds integer? even?) '(1 3 a 5))) (nl)
+(write (any? (matches-preds integer? even?) '(1 3 a 4 5))) (nl)
 
 
 ;; (if (nil? ((car preds) val))
