@@ -27,20 +27,23 @@
 
 ;; (princn '(1 . 2))
 
+;; (setq! test
+;;  (lambda (head . tail)
+;;   tail))
+
+;; (princn "got here")
+
+;; (test 1 2 3)
+
+;; (exit)
+
 (setq! test
- (lambda (head . tail)
-  tail))
+ (lambda (head head2 . tail)
+  (nl) (princ "head "  head)
+  (nl) (princ "head2 " head2)
+  (nl) (princ "tail "  tail)))
 
-(test 1 2 3)
-
-(exit)
-
-(setq! test
- (lambda (head . tail)
-  (nl) (princ "head " head)
-  (nl) (princ "tail " tail)))
+(test 1 2 3 4 5)
 
 (log-eval t)
-
-(test 1 2 3)
 
