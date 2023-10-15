@@ -1,3 +1,5 @@
+// -*- c-backslash-column: 99; -*-
+
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -15,12 +17,12 @@
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define GET_DISPATCH(row, table, obj)                                                                                  \
-  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                                    \
-    if (table[ix].type == GET_TYPE(obj)) {                                                                             \
-      row = table[ix];                                                                                                 \
-                                                                                                                       \
-      break;                                                                                                           \
+#define GET_DISPATCH(row, table, obj)                                                              \
+  for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
+    if (table[ix].type == GET_TYPE(obj)) {                                                         \
+      row = table[ix];                                                                             \
+                                                                                                   \
+      break;                                                                                       \
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +157,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
   else if (log_eval) {
-      LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
        
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
