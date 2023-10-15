@@ -62,18 +62,21 @@
 
 (setq! defmacro
  (macro (name params . body)
-  (list (quote setq) name (list (quote macro) params . body))))
+  (list (quote setq!) name (list (quote macro) params . body))))
   
 (setq! defun
  (macro (name params . body)
-  (list (quote setq) name (list (quote lambda) params . body))))
-  
+  (list (quote setq!) name (list (quote lambda) params . body))))
 
 (setq! test
- (macro (name params . body) (list name params body)))
+ (macro (name params . body) (list setq! name params body)))
 
 (write test) (nl)
 (write (test one two three four)) (nl)
 
 
 
+
+
+(write '(list 1 2 . 3)) (nl)
+(write '(1 2 . 3)) (nl)
