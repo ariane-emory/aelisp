@@ -166,7 +166,7 @@
 (setq! odd?  (lambda (n) (== 1 (% n 2))))
 
 (setq! preds-match
- (lambda (val preds)
+ (lambda (val . preds)
   (let* ((fun
          (lambda (val preds acc)
           (cond
@@ -182,6 +182,6 @@
   ;;   t
   ;;   (preds-match val (cdr preds))))))
 
-(write (preds-match 7  (list integer? odd?))) (nl)
-(write (preds-match 8  (list integer? odd?))) (nl)
-(write (preds-match 'a (list integer? odd?))) (nl)
+(write (preds-match 7  integer? odd?)) (nl)
+(write (preds-match 8  integer? odd?)) (nl)
+(write (preds-match 'a integer? odd?)) (nl)
