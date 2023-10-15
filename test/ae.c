@@ -1400,32 +1400,29 @@ void env_with_a_dot(void) {
                                      CONS(NEW_INT(5), NIL)))));
     obj env    = NEW_ENV(root, syms, values );
 
-    OLOG(env);
-    LOG(ENV_SYMS(env), "with syms");
-    LOG(ENV_VALS(env), "and  vals");
+    // OLOG(env);
+    /* LOG(ENV_SYMS(env), "with syms"); */
+    /* LOG(ENV_VALS(env), "and  vals"); */
     
-  
     obj found = ENV_FIND(env, SYM("third"));
 
-    OLOG(found);
+    // OLOG(found);
 
     T(ENV_BOUNDP(env, SYM("third")));
     
     T(LENGTH(found) == 3);
 
-    OLOG(CAR(found)); 
+    // OLOG(CAR(found)); 
     T(EQL(CAR(found), NEW_INT(3)));
 
-    OLOG(CADR(found)); 
+    // OLOG(CADR(found)); 
     T(EQL(CADR(found), NEW_INT(4)));
 
-    OLOG(CADDR(found)); 
+    // OLOG(CADDR(found)); 
     T(EQL(CADDR(found), NEW_INT(5)));
 
-    OLOG(CDDDR(found)); 
-    T(NILP(CDDDR(found)));
-  
-    
+    // OLOG(CDDDR(found)); 
+    T(NILP(CDDDR(found)));  
   }
   {
     SETUP_TEST;
@@ -1438,29 +1435,29 @@ void env_with_a_dot(void) {
 
     obj env    = NEW_ENV(root, syms, values );
 
-    OLOG(env);
-    LOG(ENV_SYMS(env), "with syms");
-    LOG(ENV_VALS(env), "and  vals");
+    // OLOG(env);
+    // LOG(ENV_SYMS(env), "with syms");
+    // LOG(ENV_VALS(env), "and  vals");
   
     obj found = ENV_FIND(env, SYM("args"));
 
-    OLOG(found);
+    // OLOG(found);
 
     T(LENGTH(found) == 3);
 
-    OLOG(CAR(found)); 
+    // OLOG(CAR(found)); 
     T(EQL(CAR(found), NEW_INT(3)));
 
-    OLOG(CADR(found)); 
+    // OLOG(CADR(found)); 
     T(EQL(CADR(found), NEW_INT(4)));
 
-    OLOG(CADDR(found)); 
+    // OLOG(CADDR(found)); 
     T(EQL(CADDR(found), NEW_INT(5)));
 
-    OLOG(CDDDR(found)); 
+    // OLOG(CDDDR(found)); 
     T(NILP(CDDDR(found)));
   }
-  NL;
+  // NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
