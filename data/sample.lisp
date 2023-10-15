@@ -25,11 +25,13 @@
 
 ;; (test 1 2 3)
 
-(princn '(1 . 2))
+;; (princn '(1 . 2))
 
-;; (setq! test
-;;  (lambda (head . tail)
-;;   (nl) (princ "head " head)
-;;   (nl) (princ "tail " tail)))
+(setq! test
+ (lambda (head . tail)
+  (nl) (princ "head " head)
+  (nl) (princ "tail " tail)))
 
-;; (test 1 2 3)
+(log-eval t)
+
+(test 1 2 3)

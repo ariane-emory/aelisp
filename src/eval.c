@@ -175,12 +175,16 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
   else
 #endif
-  {
-    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+    if (! PROPERP(FUN_PARAMS(fun))) {
+      LOG(FUN_PARAMS(fun), "improper params list");
+      while(1);
+    }
+    else {
+      env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
-    if (log_eval)
-      LOG(env, "new env for user fun:");
-  }
+      if (log_eval)
+        LOG(env, "new env for user fun:");
+    }
 
   if (log_eval) {
     char * tmp = SWRITE(fun);
