@@ -24,3 +24,12 @@
   (nl) (princ "tail " (cdr args))))
 
 (test 1 2 3)
+
+(princn '(1 . 2))
+
+(setq! test
+ (lambda (head . tail)
+  (nl) (princ "head " head)
+  (nl) (princ "tail " tail)))
+
+(test 1 2 3)
