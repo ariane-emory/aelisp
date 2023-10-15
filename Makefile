@@ -1,7 +1,7 @@
 SHELL        = bash
 UNAME_S      = $(shell uname -s)
 SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" -a -not -name "repl.c" -a -not -name "test.c")
-OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
+OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS)) obj/ae.tab.o obj/ae.l.o
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d) 3p/bestline, -I$(dir) -Itmp) 
 POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
 # TEST_SRCS    = $(shell find test -name "*.c")
@@ -96,15 +96,15 @@ obj/%.o: src/%.c obj obj/core obj/test
 # Executables
 ################################################################################
 
-bin/test: $(OBJS) test.c
+bin/test: test.c $(OBJS) 
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(STRICTER_CFLAGS)
 
-bin/ae:   $(OBJS) tmp/ae.l.c tmp/ae.tab.c ae.c
+bin/ae: ae.c $(OBJS)
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
-bin/repl: $(OBJS) tmp/ae.l.c tmp/ae.tab.c obj/bestline.o repl.c
+bin/repl: repl.c $(OBJS) obj/bestline.o 
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
