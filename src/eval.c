@@ -23,8 +23,8 @@
       break;                                                                                                           \
     }
 
-#define MAYBE_EVAL(special, args)                                                                                      \
-  if (! special && CAR(args)) {                                                                                        \
+#define MAYBE_EVAL(args)                                                                                               \
+  if (CAR(args)) {                                                                                                     \
     ae_obj_t * evaled_args = NIL;                                                                                      \
                                                                                                                        \
     if (log_eval)                                                                                                      \
@@ -142,8 +142,9 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     return NEW_ERROR(msg, err_data);
   }
 #endif
-  
-  MAYBE_EVAL(SPECIALP(fun), args);
+
+  if (! SPECIALP(fun))
+    MAYBE_EVAL(args);
   
   if (log_eval) {
     if (! SPECIALP(fun))
@@ -271,7 +272,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   GET_DISPATCH(dispatch, apply_dispatch_table, fun);
 
-  MAYBE_EVAL(dispatch.special, args);
+  if (! dispatch.special)
+    MAYBE_EVAL(args);
   
   ae_obj_t * ret = dispatch.special
     ? (*dispatch.handler)(env, fun, args)
