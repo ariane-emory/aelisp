@@ -7,10 +7,10 @@ extern bool log_eval;
 extern bool log_core;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _l_eval
+// _log_eval
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_l_eval(ae_obj_t * const env,
+ae_obj_t * ae_core_log_eval(ae_obj_t * const env,
                           ae_obj_t * const args,
                           int args_length) {
   CORE_BEGIN("l_eval");
@@ -33,10 +33,10 @@ ae_obj_t * ae_core_l_eval(ae_obj_t * const env,
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _l_core
+// _log_core
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_l_core(ae_obj_t * const env,
+ae_obj_t * ae_core_log_core(ae_obj_t * const env,
                           ae_obj_t * const args,
                           int args_length) {
   CORE_BEGIN("l_core");
@@ -58,10 +58,10 @@ ae_obj_t * ae_core_l_core(ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _l_all
+// _log_all
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_l_all(ae_obj_t * const env,
+ae_obj_t * ae_core_log_all(ae_obj_t * const env,
                          ae_obj_t * const args,
                          int args_length) {
   CORE_BEGIN("l_all");

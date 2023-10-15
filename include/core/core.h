@@ -56,9 +56,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                  \
   /*================================================================================================================*/ \
-  DO(l_eval,       false,          0,          1, "log-eval",                 FUNDEF_END )                             \
-  DO(l_core,       false,          0,          1, "log-core",                 FUNDEF_END )                             \
-  DO(l_all,        false,          0,          1, "log-all",                  FUNDEF_END )                             \
+  DO(log_eval,     false,          0,          1, "log-eval",                 FUNDEF_END )                             \
+  DO(log_core,     false,          0,          1, "log-core",                 FUNDEF_END )                             \
+  DO(log_all,      false,          0,          1, "log-all",                  FUNDEF_END )                             \
   DO(exit,         false,          0,          1,                             FUNDEF_END )                             \
   DO(sleep,        false,          1,          1,                             FUNDEF_END )                             \
   DO(dobj,         false,          1,          1, "dobj", "debug-object",     FUNDEF_END ) /* debug data accessor   */ \
