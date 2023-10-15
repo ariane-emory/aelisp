@@ -1,4 +1,4 @@
-(exit)
+;; (exit)
 
 (setq! ct 8)
 

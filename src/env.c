@@ -329,7 +329,7 @@ static void load_fun_helper(
   /* PR("new core min args: %d\n", min_args); */
   /* PR("new core max args: %d\n", max_args); */
 
-  ae_obj_t * new_core = NEW_CORE(c_name, fun, special, min_args, max_args);
+  ae_obj_t * const new_core = NEW_CORE(c_name, fun, special, min_args, max_args);
   
   for (int ix = 0; ix < count; ix++) {
     char * alt_name = va_arg(args, char *);
