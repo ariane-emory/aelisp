@@ -15,15 +15,15 @@
   DO(aset,         false,          3,          3,                             FUNDEF_END )                             \
   DO(aget,         false,          2,          2,                             FUNDEF_END )                             \
   DO(ahas,         false,          2,          2,                             FUNDEF_END )                             \
-  DO(eql,          false,  UNLIMITED,  UNLIMITED, "eql", "eql?",              FUNDEF_END ) /* reduceable            */ \
-  DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq",  "eq?",               FUNDEF_END )                             \
+  DO(eql,          false,  UNLIMITED,  UNLIMITED, "eql?",                     FUNDEF_END ) /* reduceable            */ \
+  DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq?",                      FUNDEF_END )                             \
   DO(cond,         true,           1,  UNLIMITED,                             FUNDEF_END )                             \
   DO(progn,        true,   UNLIMITED,  UNLIMITED,                             FUNDEF_END )                             \
   DO(setq,         true,           2,          2, "setq!",                    FUNDEF_END )                             \
   DO(list,         false,  UNLIMITED,  UNLIMITED,                             FUNDEF_END )                             \
   DO(quote,        true,           1,          1,                             FUNDEF_END )                             \
   DO(cons,         false,          2,          2,                             FUNDEF_END )                             \
-  DO(not,          false,          1,  UNLIMITED, "not", "¬",                 FUNDEF_END ) /* reduceable            */ \
+  DO(not,          false,          1,  UNLIMITED, "not?", "¬",                FUNDEF_END ) /* reduceable            */ \
   DO(nilp,         false,          1,          1, "nil?",                     FUNDEF_END )                             \
   DO(apply,        false,          2,  UNLIMITED,                             FUNDEF_END )                             \
   DO(if,           true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
