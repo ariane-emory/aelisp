@@ -40,11 +40,11 @@
 
 (test 1 2 3 4 5)
 
-(princn "got here")
-(princn ''(1 . 2))
+;; (princn "got here")
+;; (princn ''(1 . 2))
 
-(log-eval t)
+;; (log-eval t)
 
-(princn '(1   2))
+;; (princn '(1   2))
 
 
