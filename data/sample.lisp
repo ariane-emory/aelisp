@@ -145,7 +145,6 @@
           (cons (heads lsts) (zip (tails lsts)))
           nil))))
 
-;; (log-all t)
 
 (write (zip2 '(1 2 3) '(a b c d))) (nl)
 
@@ -153,3 +152,7 @@
 
 (write (any? even? '(1 3 a 5))) (nl)
 (write (any? even? '(1 3 a 4 5))) (nl)
+
+(log-all t)
+
+(write (reduce zip2 nil '((a b) (2 3) (4 5)))) 
