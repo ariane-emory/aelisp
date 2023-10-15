@@ -296,7 +296,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     FPR(stderr, " returned an error: ");
     FWRITE(ret, stderr);
     
-    exit(1); /* STOP! */
+    // exit(1); /* STOP! */
     
     if (EHAS(ret, "fun"))
       ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));

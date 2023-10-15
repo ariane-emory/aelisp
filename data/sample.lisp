@@ -164,3 +164,5 @@
 (write ((compose-preds integer? odd?)  7)) (nl)
 (write ((compose-preds integer? odd?)  8)) (nl)
 (write ((compose-preds integer? odd?) 'a)) (nl)
+
+(princ "Reached the end.") (nl)
