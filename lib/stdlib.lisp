@@ -331,7 +331,8 @@
  (lambda (pred lst)
   (if (nil? lst)
    nil
-   (or (pred (car lst))
+   (or
+    (pred (car lst))
     (any? pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! flatten1
