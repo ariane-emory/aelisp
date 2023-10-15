@@ -156,4 +156,4 @@
 (log-all t)
 
 ;;(write (reduce zip2 nil '((a b) (2 3))))
-(write (reduce zip2 nil '((a b) (2 3) (4 5))))
+(write (rreduce zip2 nil '((a b) (2 3) (4 5))))
