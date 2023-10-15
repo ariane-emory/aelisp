@@ -155,4 +155,4 @@
 (write (zip2 '(1 2 3) '(a b c d))) (nl)
 
 (setq! lsts '((a b) (2 3) (4 5)))
-(write (rreduce zip2 (car lsts) (cdr lsts)))
+(write (reduce zip2 (car lsts) (cdr lsts)))
