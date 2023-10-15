@@ -1,4 +1,5 @@
 To Do:
+- [ ] maybe take inspiration from TL's envLookup for dotted args?
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
