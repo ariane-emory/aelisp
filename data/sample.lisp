@@ -57,9 +57,6 @@
 
 (write (test 12 34))
 
-(nl)
-(nl)
-
 (setq! defmacro
  (macro (name params . body)
   (list (quote setq!) name (list (quote macro) params . body))))
@@ -74,9 +71,6 @@
 (write test) (nl)
 (write (test one two three four)) (nl)
 
-
-
-
+(nl) (nl)
 
 (write '(list 1 2 . 3)) (nl)
-(write '(1 2 . 3)) (nl)
