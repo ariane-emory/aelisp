@@ -142,32 +142,14 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("or");
 
-  ae_obj_t * const either_branch = CAR(args);
-  ae_obj_t * const or_branch     = CADR(args);
-  
-  if (log_core) {
-    LOG(either_branch, "either");
-    LOG(or_branch,     "or");
+  FOR_EACH(option, args) {
+    ae_obj_t * option_result = EVAL(env, option);
+    if (! NILP(option_result)) {
+      CORE_RETURN("or", option_result);
+    }
   }
 
-  ae_obj_t * either_result = EVAL(env, either_branch);
-
-  if (log_core)
-    LOG(either_result, "either_result: ");
-
-  if (! NILP(either_result)) {
-
-    if (log_core)
-      LOG(either_branch, "chose either");
-
-    CORE_RETURN("or", either_result);
-  }
-  else {
-    if (log_core)
-      LOG(or_branch, "chose or");
-
-    CORE_RETURN("or", ae_eval(env, or_branch));
-  }
+  CORE_RETURN("or", NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
