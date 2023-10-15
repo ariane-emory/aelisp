@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
-  ae_obj_t * evaled_args = NIL;
+  ae_obj_t * ret = NIL;
 
   if (CAR(args)) {
 
@@ -53,7 +53,7 @@ static ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
 
       ae_obj_t * tmp = EVAL(env, elem);
 
-      PUSH(evaled_args, tmp);
+      PUSH(ret, tmp);
 
       OUTDENT;
 
@@ -71,7 +71,7 @@ static ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
 
   }                                                                                                
 
-  return evaled_args;
+  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
