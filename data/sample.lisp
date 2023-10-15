@@ -39,7 +39,7 @@
   (nl) (princ "head2 " head2)
   (nl) (princ "tail "  tail)))
 
-(log-all t)
+;(log-all t)
 (test 1 2 3 4 5)
 
 ;; (princn "got here")
