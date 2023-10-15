@@ -1,3 +1,5 @@
+// -*- c-backslash-column: 119; -*-
+
 #pragma once
 
 #include <stdbool.h>

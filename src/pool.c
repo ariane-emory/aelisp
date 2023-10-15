@@ -182,6 +182,6 @@ void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * cons
 // _get_object
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct ae_obj_t * pool_get_object     (int const index) {
+struct ae_obj_t * pool_get_object(int const index) {
   return &pool[index];
 }

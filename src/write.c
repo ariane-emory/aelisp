@@ -161,7 +161,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   {
     COUNTED_FPUTC('\'', fwrite_stream);
     int old_fwrite_counter = fwrite_counter;
-    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the add.
     COUNTED_FPUTC('\'', fwrite_stream);
     break;
   }
@@ -169,14 +169,14 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   {
     COUNTED_FPUTC('\"', fwrite_stream);
     int old_fwrite_counter = fwrite_counter;
-    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the add.
     COUNTED_FPUTC('\"', fwrite_stream);
     break;
   }
   default:
   {
     int old_fwrite_counter = fwrite_counter;
-    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the addition.
+    fwrite_counter = old_fwrite_counter + FPRINC (this, stream); // this will reset, hence the add.
   }
   }
 
@@ -207,15 +207,12 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   switch (GET_TYPE(this)) {
   case AE_ERROR:
     COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), EMSG(this));
-    // COUNTED_FPRINTF(fwrite_stream, "%s< %08p, %08p, %s", GET_TYPE_STR(this), this, EOBJ(this), EMSG(this));
     break;
   case AE_CORE:
     if (SPECIALP(this))
       COUNTED_FPRINTF(fwrite_stream, "%s<%s*>", GET_TYPE_STR(this), CORE_NAME(this));
-    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s*", GET_TYPE_STR(this), this, CORE_NAME(this));
     else
       COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), CORE_NAME(this));
-    // COUNTED_FPRINTF(fwrite_stream, "%s<%08p, %s", GET_TYPE_STR(this), this, CORE_NAME(this));
     break;
   case AE_ENV:
     // All ENVs begin with this:
@@ -271,7 +268,8 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_MACRO:
 #ifdef AE_DEBUG_OBJ
     if (DHAS(this, "last-bound-to")) {
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, ", GET_TYPE_STR(this), SYM_VAL(DGET(this, "last-bound-to")));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s, ", GET_TYPE_STR(this),
+                      SYM_VAL(DGET(this, "last-bound-to")));
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");
     }

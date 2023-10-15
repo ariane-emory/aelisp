@@ -213,10 +213,10 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
 #ifdef NO_AE_FREE_LIST
 #  define DUP_C_STR(field) clone->field = strdup(this->field)
 #else
-#  define DUP_C_STR(field)                                                                                             \
-  {                                                                                                                    \
-    clone->field = free_list_malloc(strlen(this->field) + 1);                                                          \
-    strcpy(clone->field, this->field);                                                                                 \
+#  define DUP_C_STR(field)                                                                         \
+  {                                                                                                \
+    clone->field = free_list_malloc(strlen(this->field) + 1);                                      \
+    strcpy(clone->field, this->field);                                                             \
   }
 #endif
   
@@ -301,9 +301,9 @@ bool ae_obj_keywordp(const ae_obj_t * const this) {
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define METADATA_TYPE                        typeof(((ae_obj_t *)NULL)->metadata)
-#define METADATA_SIZE                        sizeof(((ae_obj_t *)NULL)->metadata)
-#define METADATA_CAST(x)                     ((METADATA_TYPE)(x))
+#define METADATA_TYPE          typeof(((ae_obj_t *)NULL)->metadata)
+#define METADATA_SIZE          sizeof(((ae_obj_t *)NULL)->metadata)
+#define METADATA_CAST(x)       ((METADATA_TYPE)(x))
 
 // Mask, shifting, and extraction helpers
 #define MASK(size, shift)                    (METADATA_CAST((METADATA_CAST(1) << (size)) - METADATA_CAST(1)) << (shift))
@@ -311,25 +311,25 @@ bool ae_obj_keywordp(const ae_obj_t * const this) {
 #define TO_MASKED(value, mask, shift)        (this->metadata & ~(mask)) | (METADATA_CAST(METADATA_CAST(value) << (shift)))
 
 // Sub-field sizes
-#define AE_TYPE_BITS          6
-#define AE_FOO_BITS           8
-#define AE_DELOC_BITS         1
-#define AE_CORE_MIN_ARGS_BITS 4
-#define AE_CORE_MAX_ARGS_BITS 4
+#define AE_TYPE_BITS           6
+#define AE_FOO_BITS            8
+#define AE_DELOC_BITS          1
+#define AE_CORE_MIN_ARGS_BITS  4
+#define AE_CORE_MAX_ARGS_BITS  4
 
 // Sub-field shifts
-#define AE_TYPE_SHIFT              0  // far right
-#define AE_FOO_SHIFT               AE_TYPE_BITS
-#define AE_CORE_MIN_ARGS_SHIFT     (AE_FOO_SHIFT + AE_FOO_BITS)
-#define AE_CORE_MAX_ARGS_SHIFT     (AE_CORE_MIN_ARGS_SHIFT + AE_CORE_MIN_ARGS_BITS)
-#define AE_DELOC_SHIFT             (METADATA_SIZE * 8 - AE_DELOC_BITS)  // highest bit
+#define AE_TYPE_SHIFT          0  // far right
+#define AE_FOO_SHIFT           AE_TYPE_BITS
+#define AE_CORE_MIN_ARGS_SHIFT (AE_FOO_SHIFT + AE_FOO_BITS)
+#define AE_CORE_MAX_ARGS_SHIFT (AE_CORE_MIN_ARGS_SHIFT + AE_CORE_MIN_ARGS_BITS)
+#define AE_DELOC_SHIFT         (METADATA_SIZE * 8 - AE_DELOC_BITS)  // highest bit
 
 // Sub-field masks
-#define AE_TYPE_MASK               (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT))
-#define AE_FOO_MASK                (MASK(AE_FOO_BITS,    AE_FOO_SHIFT))
-#define AE_CORE_MIN_ARGS_MASK      (MASK(AE_CORE_MIN_ARGS_BITS, AE_CORE_MIN_ARGS_SHIFT))
-#define AE_CORE_MAX_ARGS_MASK      (MASK(AE_CORE_MAX_ARGS_BITS, AE_CORE_MAX_ARGS_SHIFT))
-#define AE_DELOC_MASK              (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
+#define AE_TYPE_MASK           (MASK(AE_TYPE_BITS,   AE_TYPE_SHIFT))
+#define AE_FOO_MASK            (MASK(AE_FOO_BITS,    AE_FOO_SHIFT))
+#define AE_CORE_MIN_ARGS_MASK  (MASK(AE_CORE_MIN_ARGS_BITS, AE_CORE_MIN_ARGS_SHIFT))
+#define AE_CORE_MAX_ARGS_MASK  (MASK(AE_CORE_MAX_ARGS_BITS, AE_CORE_MAX_ARGS_SHIFT))
+#define AE_DELOC_MASK          (MASK(AE_DELOC_BITS,  AE_DELOC_SHIFT))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _get_type method
@@ -342,15 +342,6 @@ ae_type_t ae_obj_get_type(const ae_obj_t * const this) {
     return AE_INVALID;
   
   ae_type_t type = FROM_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
-
-#ifdef AE_LOG_METADATA
-  // PR("While getting type, metadata was 0x%08X, type is %d.\n", this->metadata, type);
-#endif
-  
-  // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
-  // It should probably be removed/replaced soon.
-  
-  // assert(this->metadata == type);
 
   return type;
 }
@@ -365,11 +356,6 @@ void ae_obj_set_type(ae_obj_t * const this, const ae_type_t type) {
   ae_type_t old_type = FROM_MASKED(ae_type_t, this->metadata, AE_TYPE_MASK, AE_TYPE_SHIFT);
   this->metadata     = TO_MASKED (type, AE_TYPE_MASK, AE_TYPE_SHIFT);
 
-#ifdef AE_LOG_METADATA
-  // PR("While setting type to %d, type was %d. Metadata is now 0x%08X.\n", type, old_type, this->metadata); 
-#endif
-
-  // This assertion should pass so long as ae_obj_set_foo hasn't been called yet.
   assert(this->metadata == type);
 }
 
@@ -402,7 +388,8 @@ void ae_obj_set_foo(ae_obj_t * const this, const char foo) {
   this->metadata = TO_MASKED (      foo,            AE_FOO_MASK, AE_FOO_SHIFT);
 
 #ifdef AE_LOG_METADATA 
-  PR("While setting foo to '0x%016X' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n", foo, foo, old_foo, old_foo, this->metadata);
+  PR("While setting foo to '0x%016X' (%d), foo was '%c' (%d). Metadata is now 0x%08X.\n",
+     foo, foo, old_foo, old_foo, this->metadata);
 #endif
 }
 
@@ -439,8 +426,8 @@ void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
   this->metadata   = TO_MASKED (      deloc ? 1 : 0,  AE_DELOC_MASK, AE_DELOC_SHIFT);
   
 #ifdef AE_LOG_METADATA
-  printf("While setting deloc of %016p to (0x%08X), deloc was 0x%08X. Metadata is now 0x%08X.\n", deloc, deloc, old_deloc, this->metadata);
-
+  printf("While setting deloc of %016p to (0x%08X), deloc was 0x%08X. Metadata is now 0x%08X.\n",
+         deloc, deloc, old_deloc, this->metadata);
   printf("After:  0x%08X\n", this->metadata);
 #endif
 }
@@ -452,14 +439,8 @@ void ae_obj_set_delocalized(ae_obj_t * const this, const bool deloc) {
 unsigned int ae_obj_get_max_args(const ae_obj_t * const this) {
   assert(this);
     
-  unsigned int max_args = FROM_MASKED(unsigned int, this->metadata, AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
-
-#ifdef AE_LOG_METADATA
-  // PR("While getting max_args, metadata was 0x%08X, max_args is %u.\n", this->metadata, max_args);
-#endif
-
-  /* PR("got max args of core fun '%s' = %u.\n", CORE_NAME(this), max_args); */
-    
+  unsigned int max_args = FROM_MASKED(unsigned int, this->metadata,
+                                      AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
   return max_args;
 }
 
@@ -470,15 +451,7 @@ unsigned int ae_obj_get_max_args(const ae_obj_t * const this) {
 void ae_obj_set_max_args(ae_obj_t * const this, const unsigned int max_args) {
   assert(this);
 
-  /* PR("setting core fun '%s' max args to %u.\n", CORE_NAME(this), max_args);     */
-  
-  /* assert(max_args <= 15);  // Ensuring valid 4-bit value */
-    
   this->metadata = TO_MASKED(max_args, AE_CORE_MAX_ARGS_MASK, AE_CORE_MAX_ARGS_SHIFT);
-
-#ifdef AE_LOG_METADATA
-  // PR("While setting max_args to %u, metadata is now 0x%08X.\n", max_args, this->metadata); 
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -488,14 +461,8 @@ void ae_obj_set_max_args(ae_obj_t * const this, const unsigned int max_args) {
 unsigned int ae_obj_get_min_args(const ae_obj_t * const this) {
   assert(this);
     
-  unsigned int min_args = FROM_MASKED(unsigned int, this->metadata, AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
-
-#ifdef AE_LOG_METADATA
-  // PR("While getting min_args, metadata was 0x%08X, min_args is %u.\n", this->metadata, min_args);
-#endif
-
-  /* PR("got min args of core fun '%s' = %u.\n", CORE_NAME(this), min_args); */
-    
+  unsigned int min_args = FROM_MASKED(unsigned int, this->metadata,
+                                      AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
   return min_args;
 }
 
@@ -505,15 +472,7 @@ unsigned int ae_obj_get_min_args(const ae_obj_t * const this) {
 
 void ae_obj_set_min_args(ae_obj_t * const this, const unsigned int min_args) {
   assert(this);
-
-  /* PR("setting core fun '%s' min args to %u.\n", CORE_NAME(this), min_args);     */
-
-  /* assert(min_args <= 15);  // Ensuring valid 4-bit value */
     
   this->metadata = TO_MASKED(min_args, AE_CORE_MIN_ARGS_MASK, AE_CORE_MIN_ARGS_SHIFT);
-
-#ifdef AE_LOG_METADATA
-  // PR("While setting min_args to %u, metadata is now 0x%08X.\n", min_args, this->metadata); 
-#endif
 }
 

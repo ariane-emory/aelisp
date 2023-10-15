@@ -1,5 +1,3 @@
-// -*- c-backslash-column: 99; -*-
-
 #include <stdbool.h>
 #include <stdio.h>
 

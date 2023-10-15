@@ -167,13 +167,13 @@ ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef AE_LOG_PUSH
-#  define AFTER_PUSH_MESSAGE(tailtip)                                                              \
-  fputs("Pushed           ", stdout);                                                              \
-  PUT(member);                                                                                     \
-  fputs(" into ", stdout);                                                                         \
-  PUT(list);                                                                                       \
-  fputs("'s new tailtip ", stdout);                                                                \
-  PUT(tailtip);                                                                                    \
+#  define AFTER_PUSH_MESSAGE(tailtip)                                                                                  \
+  fputs("Pushed           ", stdout);                                                                                  \
+  PUT(member);                                                                                                         \
+  fputs(" into ", stdout);                                                                                             \
+  PUT(list);                                                                                                           \
+  fputs("'s new tailtip ", stdout);                                                                                    \
+  PUT(tailtip);                                                                                                        \
   putchar('\n');
 #else
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
@@ -219,15 +219,15 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define NEW_SYM                                                                                    \
-ae_obj_t * new_sym;                                                                                \
-{                                                                                                  \
-  char * _str = free_list_malloc(strlen(string) + 1);                                              \
-  assert(((void)"Failed alloc!", _str));                                                           \
-  assert(((void)"Null string!", string));                                                          \
-  strcpy(_str, string);                                                                            \
-  new_sym = NEW_SYMBOL(_str);                                                                      \
-}
+#define NEW_SYM                                                                                                        \
+  ae_obj_t * new_sym;                                                                                                  \
+  {                                                                                                                    \
+    char * _str = free_list_malloc(strlen(string) + 1);                                                                \
+    assert(((void)"Failed alloc!", _str));                                                                             \
+    assert(((void)"Null string!", string));                                                                            \
+    strcpy(_str, string);                                                                                              \
+    new_sym = NEW_SYMBOL(_str);                                                                                        \
+  }
 
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const string) {
   assert((! *plist) || TAILP(*plist));
@@ -255,7 +255,8 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const str
   
   FOR_EACH(elem, *plist) {
     if (! SYMBOLP(elem)) {
-      fprintf(stderr, "\nCan't intern \"%s\" in a list containing a %s!\n", string, GET_TYPE_STR(elem));
+      fprintf(stderr, "\nCan't intern \"%s\" in a list containing a %s!\n",
+              string, GET_TYPE_STR(elem));
       fprintf(stderr, "symbols list: ");
       FWRITE(*plist, stderr);
       fputc('\n', stderr);
