@@ -119,24 +119,12 @@
 ;; (log-core t)
 ;; (log-eval t)
 
-(setq! zip
-  (lambda (lists)
-    (if (any? (lambda (lst) (nil? lst)) lists)
-        nil
-        (cons (mapcar car lists) (apply zip (mapcar cdr lists))))))
-
 (setq! any?
   (lambda (pred lst)
     (if (nil? lst)
         nil
         (or (pred (car lst)) (any? pred (cdr lst))))))
 
-(setq! zip2
-  (lambda (lst1 lst2)
-    (if (or (nil? lst1) (nil? lst2))
-        nil
-        (cons (list (car lst1) (car lst2))
-              (zip2 (cdr lst1) (cdr lst2))))))
 
 (setq! all-not-nil?
   (lambda (lsts)
@@ -163,8 +151,11 @@
           (cons (heads lsts) (zip (tails lsts)))
           nil))))
 
-(log-all t)
+;; (log-all t)
 
-(write (zip '(1 2) '(a b)))
+(write (zip2 '(1 2 3) '(a b c d))) (nl)
 
 ;; Expected output: ((1 a) (2 b) (3 c))
+
+(write (any? even? '(1 3 a 5))) (nl)
+(write (any? even? '(1 3 a 4 5))) (nl)
