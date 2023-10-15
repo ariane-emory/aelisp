@@ -315,19 +315,11 @@ static void load_fun_helper(
   unsigned int        max_args,
   int                 count,
   ...) {
-
-  /* printf("\n"); */
-
-  /* printf("count: %d\n", count); */
-  
   va_list args;
 
   va_start(args, count);
 
   bool set_alt_name = false;
-
-  /* PR("new core min args: %d\n", min_args); */
-  /* PR("new core max args: %d\n", max_args); */
 
   ae_obj_t * const new_core = NEW_CORE(c_name, fun, special, min_args, max_args);
   
@@ -337,19 +329,13 @@ static void load_fun_helper(
     if (alt_name == FUNDEF_END) 
       break;
 
-    // SLOGF("alt name: %s", alt_name); FF;
     ENV_SET(env, SYM(alt_name), new_core);
-
-    // PR("Loaded alt_name %s.\n", alt_name);
 
     set_alt_name = true;
   }
 
-  if (! set_alt_name) {
-    // SLOGF("c name: %s", c_name); FF;
+  if (! set_alt_name)
     ENV_SET(env, SYM(c_name), new_core);
-    // PR("Loaded c_name %s.\n", c_name);
-  }
   
   va_end(args);
 }
@@ -366,11 +352,11 @@ ae_obj_t * ae_env_new_root(void) {
 #define add_core_op(name, sym, ...) ENV_SET(env, SYM(#sym), NEW_CORE(#name, &ae_core_##name, false, 1, 15));
 
   /* ENV_SET(env, SYM("⊤"), ENV_FIND(env, SYM("t"))); */
-  /* FOR_EACH_CORE_CMP_OP(add_core_op); */
+  FOR_EACH_CORE_CMP_OP(add_core_op);
   /* ENV_SET(env, SYM("≤"), ENV_FIND(env, SYM("<="))); */
   /* ENV_SET(env, SYM("≥"), ENV_FIND(env, SYM(">="))); */
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
-  /* FOR_EACH_CORE_MATH_OP(add_core_op); */
+  FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
   
   return env;
