@@ -355,9 +355,15 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 }
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
-  ae_obj_t * ret = KEYWORDP(sym)
-    ? sym
-    : ENV_FIND(env, sym);
+  bool bound = ENV_BOUNDP(env, sym);
+
+  ae_obj_t * ret = NIL;
+
+  if (bound) {
+    ret = KEYWORDP(sym)
+      ? sym
+      : ENV_FIND(env, sym);
+  }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
   if (! DHAS(ret, "birth-place")) {
