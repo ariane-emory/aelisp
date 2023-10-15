@@ -9,4 +9,4 @@
 (princn  "this" "is" "a" "test")
 (princns "this" "is" "a" "test")
 
-(write (intercalate " " '(1 2 3 4 5 6 7 8 9))) (nl)
+(writens 1 2 3 4 5 6 7 8 9)
