@@ -335,3 +335,14 @@
     (append (car lst) (flatten1 (cdr lst)))) 
    (t (cons (car lst) (flatten1 (cdr lst)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! compose-preds
+ (lambda preds
+  (lambda (val)
+   (let* ((fun
+           (lambda (val preds)
+            (cond
+             ((nil? (car preds)) t)
+             ((nil? ((car preds) val)) nil)
+             (t (fun val (cdr preds)))))))
+    (fun val preds t)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

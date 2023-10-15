@@ -157,28 +157,10 @@
 (write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
 (write (zip3 '(a b) '(2 3) '(4 5))) (nl)
 
-(setq! matches-preds
- (lambda preds
-  (lambda (val)
-   (let* ((fun
-           (lambda (val preds acc)
-            (cond
-             ((nil? (car preds)) acc)
-             ((nil? ((car preds) val)) nil)
-             (t (fun val (cdr preds) acc))))))
-    (fun val preds t)))))
-
-(write (filter  (matches-preds integer? odd?) '(1 2 3 4 5 6 7 8 9 10))) (nl)
+(princ "Odd numbers: ") (write (filter (matches-preds integer? odd?) '(1 2 3 4 5 6 7 8 9 10))) (nl)
 (write (any? (matches-preds integer? even?) '(1 3 a 5))) (nl)
 (write (any? (matches-preds integer? even?) '(1 3 a 4 5))) (nl)
 
-
-;; (if (nil? ((car preds) val))
-;;  nil
-;;  (if (nil? (cdr preds))
-;;   t
-;;   (preds-match val (cdr preds))))))
-
-(write ((matches-preds integer? odd?)  7)) (nl)
-(write ((matches-preds integer? odd?)  8)) (nl)
-(write ((matches-preds integer? odd?) 'a)) (nl)
+(write ((compose-preds integer? odd?)  7)) (nl)
+(write ((compose-preds integer? odd?)  8)) (nl)
+(write ((compose-preds integer? odd?) 'a)) (nl)
