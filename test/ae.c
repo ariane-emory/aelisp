@@ -1388,15 +1388,51 @@ void tailp(void) {
 
 
 void env_with_a_dot(void) {
+  {
+    SETUP_TEST;
+  
+    obj root   = ENV_NEW_ROOT();
+    obj syms   = CONS(SYM("first"), NEW_CONS(SYM("second"), SYM("third")));
+    obj values = CONS(NEW_INT(1),
+                      CONS(NEW_INT(2),
+                           CONS(NEW_INT(3),
+                                CONS(NEW_INT(4),
+                                     CONS(NEW_INT(5), NIL)))));
+    obj env    = NEW_ENV(root, syms, values );
+
+    OLOG(env);
+    LOG(ENV_SYMS(env), "with syms");
+    LOG(ENV_VALS(env), "and  vals");
+    NL;
+  
+    obj found = ENV_FIND(env, SYM("third"));
+
+    OLOG(found);
+
+    T(LENGTH(found) == 3);
+
+    OLOG(CAR(found)); NL;
+    T(EQL(CAR(found), NEW_INT(3)));
+
+    OLOG(CADR(found)); NL;
+    T(EQL(CADR(found), NEW_INT(4)));
+
+    OLOG(CADDR(found)); NL;
+    T(EQL(CADDR(found), NEW_INT(5)));
+
+    OLOG(CDDDR(found)); NL;
+    T(NILP(CDDDR(found)));
+  
+    NL;
+  }
   SETUP_TEST;
   
   obj root   = ENV_NEW_ROOT();
-  obj syms   = CONS(SYM("first"), NEW_CONS(SYM("second"), SYM("third")));
-  obj values = CONS(NEW_INT(1),
-                    CONS(NEW_INT(2),
-                         CONS(NEW_INT(3),
-                              CONS(NEW_INT(4),
-                                   CONS(NEW_INT(5), NIL)))));
+  obj syms   = SYM("args");
+  obj values = CONS(NEW_INT(3),
+                    CONS(NEW_INT(4),
+                         CONS(NEW_INT(5), NIL)));
+
   obj env    = NEW_ENV(root, syms, values );
 
   OLOG(env);
@@ -1404,7 +1440,7 @@ void env_with_a_dot(void) {
   LOG(ENV_VALS(env), "and  vals");
   NL;
   
-  obj found = ENV_FIND(env, SYM("third"));
+  obj found = ENV_FIND(env, SYM("args"));
 
   OLOG(found);
 
