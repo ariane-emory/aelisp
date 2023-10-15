@@ -15,7 +15,7 @@
 (princn (and? 3 8 nil))
 (princn (and? 3 7 8))
 
-(princni ", " 1 2 3) (nl)
+(princni ", " 1 2 3)
 
 (setq! test
  (lambda args
