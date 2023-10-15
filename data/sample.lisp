@@ -1,3 +1,5 @@
+(exit)
+
 (setq! ct 8)
 
 (while (> ct 0)
