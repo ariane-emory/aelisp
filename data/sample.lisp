@@ -166,10 +166,11 @@
 (setq! odd?  (lambda (n) (== 1 (% n 2))))
 
 (setq! preds-match
- (lambda (val . preds)
-  (if ((car preds) val)
-   (preds-match val (cdr preds))
-   nil)))
+ (lambda (val preds acc)
+  (cond
+   ((nil? (car preds)) acc)
+   ((nil? ((car preds) val)) nil)
+   (t (preds-match val (cdr preds) acc)))))
   
   ;; (if (nil? ((car preds) val))
   ;;  nil
@@ -177,4 +178,6 @@
   ;;   t
   ;;   (preds-match val (cdr preds))))))
 
-(write (preds-match 7 integer? odd?)) (nl)
+(write (preds-match 7  (list integer? odd?) t)) (nl)
+(write (preds-match 8  (list integer? odd?) t)) (nl)
+(write (preds-match 'a (list integer? odd?) t)) (nl)
