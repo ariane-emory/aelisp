@@ -9,4 +9,4 @@
 (princn  "this" "is" "a" "test")
 (princns "this" "is" "a" "test")
 
-(writens 1 2 3 4 5 6 7 8 9)
+(princns 1 2 3 4 5 6 7 8 9)
