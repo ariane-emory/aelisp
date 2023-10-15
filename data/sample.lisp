@@ -73,6 +73,7 @@
  (macro (name params . body) (list name params body)))
 
 (write test) (nl)
+(write (test one two three four)) (nl)
 
 
 
