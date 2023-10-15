@@ -17,3 +17,10 @@
 
 
 (princni ", " 1 2 3)
+
+(setq! test
+ (lambda args
+  (nl) (princ "head " (car args))
+  (nl) (princ "tail " (cdr args))))
+
+(test 1 2 3)
