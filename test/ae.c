@@ -1407,10 +1407,10 @@ void env_with_a_dot(void) {
   
     obj found = ENV_FIND(env, SYM("third"));
 
-    T(ENV_BOUNDP(env, SYM("third")));
-    
     OLOG(found);
 
+    T(ENV_BOUNDP(env, SYM("third")));
+    
     T(LENGTH(found) == 3);
 
     OLOG(CAR(found)); NL;
