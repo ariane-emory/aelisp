@@ -1410,16 +1410,16 @@ void env_with_a_dot(void) {
 
   T(LENGTH(found) == 3);
 
-  OLOG(CAR(found));
-  T(CAR(found)   == NEW_INT(3));
+  OLOG(CAR(found)); NL;
+  T(EQL(CAR(found), NEW_INT(3)));
 
-  OLOG(CADR(found));
-  T(CADR(found)  == NEW_INT(4));
+  OLOG(CADR(found)); NL;
+  T(EQL(CADR(found), NEW_INT(4)));
 
-  OLOG(CADDR(found));
-  T(CADDR(found) == NEW_INT(5));
+  OLOG(CADDR(found)); NL;
+  T(EQL(CADDR(found), NEW_INT(5)));
 
-  OLOG(CADDDR(found));
+  OLOG(CDDDR(found)); NL;
   T(NILP(CDDDR(found)));
   
   NL;
