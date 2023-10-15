@@ -74,5 +74,5 @@
 (nl) (nl)
 
 (log-all t)
-(+ 1 2 3)
+(list 1 2 . 3)
 ; (write (list 1 2 . 3)) (nl)
