@@ -9,11 +9,11 @@
 (princn "this" "is" "a" "test")
 
 (setq! intercalate
- (lambda (intercalated lst)
-  (if (or? (nil? lst) (nil? (cdr lst))) ; Check if the list is empty or has only one element.
-   lst
-   (cons (car lst) 
+ (lambda (intercalated items)
+  (if (or? (nil? items) (nil? (cdr items))) ; Check if the list is empty or has only one element.
+   items
+   (cons (car items) 
     (cons intercalated
-     (intercalate intercalated (cdr lst)))))))
+     (intercalate intercalated (cdr items)))))))
 
 (write (intercalate " " '(1 2 3 4 5 6 7 8 9))) (nl)
