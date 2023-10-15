@@ -90,15 +90,15 @@ obj/%.o: src/%.c obj obj/core obj/test
 # Executables
 ################################################################################
 
-bin/test: $(OBJS) src/test.c
+bin/test: $(OBJS) test.c
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS)
 
-bin/ae:   $(OBJS) tmp/ae.l.c tmp/ae.tab.c src/main.c
+bin/ae:   $(OBJS) tmp/ae.l.c tmp/ae.tab.c ae.c
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
-bin/repl: $(OBJS) tmp/ae.l.c tmp/ae.tab.c src/repl.c obj/bestline.o
+bin/repl: $(OBJS) tmp/ae.l.c tmp/ae.tab.c obj/bestline.o repl.c
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
