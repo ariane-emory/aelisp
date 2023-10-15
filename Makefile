@@ -92,7 +92,7 @@ obj/%.o: src/%.c obj obj/core obj/test
 
 bin/test: $(OBJS) test.c
 	mkdir -p bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(STRICTER_CFLAGS)
 
 bin/ae:   $(OBJS) tmp/ae.l.c tmp/ae.tab.c ae.c
 	mkdir -p bin
