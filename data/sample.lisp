@@ -166,11 +166,15 @@
 (setq! odd?  (lambda (n) (== 1 (% n 2))))
 
 (setq! preds-match
- (lambda (val preds acc)
-  (cond
-   ((nil? (car preds)) acc)
-   ((nil? ((car preds) val)) nil)
-   (t (preds-match val (cdr preds) acc)))))
+ (lambda (val preds)
+  (let* ((fun
+         (lambda (val preds acc)
+          (cond
+           ((nil? (car preds)) acc)
+           ((nil? ((car preds) val)) nil)
+           (t (fun val (cdr preds) acc))))))
+   (fun val preds t))))
+
   
   ;; (if (nil? ((car preds) val))
   ;;  nil
