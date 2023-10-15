@@ -68,11 +68,11 @@
  (macro (name params . body)
   (list (quote setq) name (list (quote lambda) params . body))))
   
-(write (defun null (x) (eq x nil))) (nl)
 
-(write (defun null (x) 1 2 3 4)) (nl)
+(setq! test
+ (macro (name params . body) (list name params body)))
 
-(write (macro (name params . body) (list name params body))) (nl)
+(write test) (nl)
 
 
 
