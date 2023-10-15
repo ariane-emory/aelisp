@@ -226,14 +226,12 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 typedef struct {
   ae_type_t type;
   ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
-  bool special;
-  bool replaces;
 } apply_dispatch_row_t;
 
 static const apply_dispatch_row_t apply_dispatch_table[] = {
-  { AE_CORE,   &apply_core, true,  false  }, // 3rd field may be ignored internally by apply_core.
-  { AE_LAMBDA, &apply_user, false, false },
-  { AE_MACRO,  &apply_user, true,  true  },
+  { AE_CORE,   &apply_core, }, // 3rd field may be ignored internally by apply_core.
+  { AE_LAMBDA, &apply_user, },
+  { AE_MACRO,  &apply_user, },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
