@@ -165,7 +165,7 @@
 (setq! even? (lambda (n) (== 0 (% n 2))))
 (setq! odd?  (lambda (n) (== 1 (% n 2))))
 
-(setq! match-preds
+(setq! matches-preds
  (lambda preds
   (lambda (val)
    (let* ((fun
@@ -183,6 +183,6 @@
 ;;   t
 ;;   (preds-match val (cdr preds))))))
 
-(write ((match-preds integer? odd?)  7)) (nl)
-(write ((match-preds integer? odd?)  8)) (nl)
-(write ((match-preds integer? odd?) 'a)) (nl)
+(write ((matches-preds integer? odd?)  7)) (nl)
+(write ((matches-preds integer? odd?)  8)) (nl)
+(write ((matches-preds integer? odd?) 'a)) (nl)
