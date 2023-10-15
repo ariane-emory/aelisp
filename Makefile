@@ -83,10 +83,10 @@ all: bin/ae bin/repl bin/test
 obj/bestline.o:
 	$(CC) -o $@ 3p/bestline/bestline.c $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
 
-obj/ae.l.o: obj tmp/ae.l.c
+obj/ae.l.o: tmp/ae.l.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) -c
 
-obj/ae.tab.o: obj tmp/ae.tab.c
+obj/ae.tab.o: tmp/ae.tab.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) -c
 
 obj/%.o: src/%.c obj obj/core obj/test
@@ -111,9 +111,6 @@ bin/repl: $(OBJS) tmp/ae.l.c tmp/ae.tab.c obj/bestline.o repl.c
 ################################################################################
 # Lexer/parser
 ################################################################################
-
-tmp/%.lex.c: grammar/%.l tmp/%.tab.c tmp
-	$(LEX) -o $@ $<
 
 tmp/%.l.c: grammar/%.l tmp
 	$(LEX) -o $@ $<
