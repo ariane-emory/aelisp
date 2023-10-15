@@ -119,12 +119,6 @@
 ;; (log-core t)
 ;; (log-eval t)
 
-(setq! any?
-  (lambda (pred lst)
-    (if (nil? lst)
-        nil
-        (or (pred (car lst)) (any? pred (cdr lst))))))
-
 
 (setq! all-not-nil?
   (lambda (lsts)
