@@ -335,6 +335,26 @@
     (pred (car lst))
     (any? pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! all?
+ (lambda (pred lst)
+  (if (nil? lst)
+   t 
+   (and
+    (pred (car lst))
+    (all? pred (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! heads
+ (lambda (lsts)
+  (if (nil? lsts)
+   nil
+   (cons (car (car lsts)) (heads (cdr lsts))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! tails
+ (lambda (lsts)
+  (if (nil? lsts)
+   nil
+   (cons (cdr (car lsts)) (tails (cdr lsts))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! flatten1
  (lambda (lst)
   (cond
