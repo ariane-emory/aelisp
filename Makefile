@@ -97,7 +97,7 @@ obj/%.o: src/%.c obj obj/core obj/test
 
 bin/%-test: $(OBJS)
 	mkdir -p bin
-	$(CC) -o $@ $(patsubst bin/%-test, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS) $(patsubst bin/%-test, test/%.c, $@) 
 
 bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c
 	mkdir -p bin
