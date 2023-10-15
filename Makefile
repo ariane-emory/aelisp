@@ -83,14 +83,27 @@ all: bin/ae bin/repl bin/test
 obj/bestline.o:
 	$(CC) -o $@ 3p/bestline/bestline.c $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
 
-obj/ae.l.o: tmp/ae.l.c obj
+obj/ae.l.o: tmp/ae.tab.h tmp/ae.l.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) -c
 
-obj/ae.tab.o: tmp/ae.tab.c obj
+obj/ae.tab.o: tmp/ae.tab.h tmp/ae.tab.c obj
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) -c
 
 obj/%.o: src/%.c obj obj/core obj/test
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
+
+################################################################################
+# Lexer/parser
+################################################################################
+
+tmp/%.l.c: grammar/%.l tmp
+	$(LEX) -o $@ $<
+
+tmp/%.tab.c: grammar/%.y tmp
+	$(YACC) -d $< -o $@
+
+tmp/%.tab.h: grammar/%.y tmp
+	$(YACC) -d $< -o tmp/ae.tab.c
 
 ################################################################################
 # Executables
@@ -107,19 +120,6 @@ bin/ae:   $(OBJS) tmp/ae.l.c tmp/ae.tab.c ae.c
 bin/repl: $(OBJS) tmp/ae.l.c tmp/ae.tab.c obj/bestline.o repl.c
 	mkdir -p bin
 	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
-
-################################################################################
-# Lexer/parser
-################################################################################
-
-tmp/%.l.c: grammar/%.l tmp
-	$(LEX) -o $@ $<
-
-tmp/%.tab.c: grammar/%.y tmp
-	$(YACC) -d $< -o $@
-
-tmp/%.tab.h: grammar/%.y tmp
-	$(YACC) -d $< -o $@
 
 ################################################################################
 # Directories
