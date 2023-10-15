@@ -327,7 +327,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                   \
     ae_obj_t * _obj = NEW(AE_LAMBDA);                                                                                  \
     _obj->params    = params_;                                                                                         \
-    _obj->body      = body_;                                                                                           \
+    _obj->body      = CONS(SYM("progn"),  body_);                                                                      \
     _obj->env       = env_;                                                                                            \
     _obj;                                                                                                              \
   })
@@ -336,7 +336,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                   \
     ae_obj_t * _obj = NEW(AE_MACRO);                                                                                   \
     _obj->params    = params_;                                                                                         \
-    _obj->body      = body_;                                                                                           \
+    _obj->body      = CONS(SYM("progn"),  body_);                                                                      \
     _obj->env       = env_;                                                                                            \
     _obj;                                                                                                              \
   })
