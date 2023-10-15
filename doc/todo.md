@@ -1,6 +1,5 @@
 To Do:
 - [ ] in-language unit tests.
-- [ ] better storage for core names.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
 - [ ] improve core 'and' and 'or' to be able to handle 3+ args.
@@ -29,6 +28,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] move core names to string pool.
 - [x] unbound symbols should error.
 - [x] improve core apply.
 - [x] core apply.
