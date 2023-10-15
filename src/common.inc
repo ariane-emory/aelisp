@@ -50,6 +50,7 @@ inline static void preface(void) {
 }
 
 inline static ae_obj_t * setup_root_env(void) {
+
 #ifdef AE_PREFACE
   preface();
 #endif
