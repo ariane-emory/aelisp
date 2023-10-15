@@ -22,7 +22,11 @@
 (setq! symbol?   (lambda (o)           (type?   :SYMBOL         o            )))
 (setq! improper? (lambda (o)     (and? (tail? o) (not? (proper? o          )))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
+(setq! princn    (lambda args (apply princ args) (nl)))
+(setq! printn    (lambda args (apply print args) (nl)))
+(setq! writen    (lambda args (apply write args) (nl)))
+(setq! putn      (lambda args (apply put args)   (nl)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; even?/odd? predicates:                                                     ;)
