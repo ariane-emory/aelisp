@@ -1,5 +1,4 @@
 To Do:
-- [ ] unbound symbols should error.
 - [ ] in-language unit tests.
 - [ ] better storage for core names.
 - [ ] try incremental bubble sorting env syms/vals?
@@ -30,6 +29,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] unbound symbols should error.
 - [x] improve core apply.
 - [x] core apply.
 - [x] core while.
