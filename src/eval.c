@@ -56,6 +56,9 @@
         LOG(tmp, "evaled arg  #%d", ctr);                                                                              \
     }                                                                                                                  \
                                                                                                                        \
+    if (! NILP(position))                                                                                              \
+      LOG(position, "final position");                                                                                 \
+                                                                                                                       \
     args = evaled_args;                                                                                                \
                                                                                                                        \
     OUTDENT;                                                                                                           \

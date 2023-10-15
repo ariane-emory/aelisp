@@ -73,6 +73,6 @@
 
 (nl) (nl)
 
-;; (log-all t)
-
-(write (list 1 2 . 3)) (nl)
+(log-all t)
+(+ 1 2 3)
+; (write (list 1 2 . 3)) (nl)
