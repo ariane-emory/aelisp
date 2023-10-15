@@ -182,6 +182,6 @@
   ;;   t
   ;;   (preds-match val (cdr preds))))))
 
-(write (preds-match 7  (list integer? odd?) t)) (nl)
-(write (preds-match 8  (list integer? odd?) t)) (nl)
-(write (preds-match 'a (list integer? odd?) t)) (nl)
+(write (preds-match 7  (list integer? odd?))) (nl)
+(write (preds-match 8  (list integer? odd?))) (nl)
+(write (preds-match 'a (list integer? odd?))) (nl)
