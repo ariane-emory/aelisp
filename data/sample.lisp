@@ -30,9 +30,9 @@
 
 (setq! test
  (lambda (head head2 . tail)
-  (princ "head "  head)
-  (princ "head2 " head2)
-  (princ "tail "  tail)))
+  (princn "head "  head)
+  (princn "head2 " head2)
+  (princn "tail "  tail)))
 
 (test 1 2 3 4 5)
 
