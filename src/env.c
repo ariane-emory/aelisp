@@ -351,10 +351,10 @@ ae_obj_t * ae_env_new_root(void) {
   load_fun_helper(env, #c_name, &ae_core_##c_name, special, min_args, max_args, COUNT_ARGUMENTS(__VA_ARGS__), __VA_ARGS__);
 #define add_core_op(name, sym, ...) ENV_SET(env, SYM(#sym), NEW_CORE(#name, &ae_core_##name, false, 1, 15));
 
-  /* ENV_SET(env, SYM("⊤"), ENV_FIND(env, SYM("t"))); */
+  ENV_SET(env, SYM("⊤"), ENV_FIND(env, SYM("t")));
   FOR_EACH_CORE_CMP_OP(add_core_op);
-  /* ENV_SET(env, SYM("≤"), ENV_FIND(env, SYM("<="))); */
-  /* ENV_SET(env, SYM("≥"), ENV_FIND(env, SYM(">="))); */
+  ENV_SET(env, SYM("≤"), ENV_FIND(env, SYM("<=")));
+  ENV_SET(env, SYM("≥"), ENV_FIND(env, SYM(">=")));
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
