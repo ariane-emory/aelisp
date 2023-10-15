@@ -313,7 +313,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   static int ctr = 0;
 
   if (log_column > log_column_default) {
-    if (++ctr > 4) {
+    if (++ctr > 8) {
       ctr = 0;
       log_column = log_column_default; // end of apply
     }
