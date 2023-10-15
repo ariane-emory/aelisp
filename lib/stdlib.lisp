@@ -20,7 +20,7 @@
 (setq! rational? (lambda (o)           (type?   :RATIONAL       o            )))
 (setq! string?   (lambda (o)           (type?   :STRING         o            )))
 (setq! symbol?   (lambda (o)           (type?   :SYMBOL         o            )))
-(setq! improper? (lambda (o)     (and (tail? o) (not? (proper? o          )))))
+(setq! improper? (lambda (o)     (and? (tail? o) (not? (proper? o          )))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -38,9 +38,9 @@
 (setq! equal?
  (lambda (o1 o2)
   (cond
-   ((and (atom? o1) (atom? o2)) (eql? o1 o2))
-   ((and (cons? o1) (cons? o2))
-    (and (equal? (car o1) (car o2))
+   ((and? (atom? o1) (atom? o2)) (eql? o1 o2))
+   ((and? (cons? o1) (cons? o2))
+    (and? (equal? (car o1) (car o2))
      (equal? (cdr o1) (cdr o2))))
    (t nil))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -85,7 +85,7 @@
 (setq! last-old
  (lambda (lst)
   "Get last item in a list, old version."
-  (if (or (nil? lst) (nil? (cdr lst)))
+  (if (or? (nil? lst) (nil? (cdr lst)))
    lst
    (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -253,7 +253,7 @@
 (setq! prefetch
  (lambda (expr)
   (transform! expr
-   (lambda (x) (and (symbol? x) (bound? x)))
+   (lambda (x) (and? (symbol? x) (bound? x)))
    (lambda (x) (eval x)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! benchmark
@@ -319,7 +319,7 @@
 (setq! zip2
  (lambda (lst1 lst2)
   (cond
-   ((or (nil? lst1) (nil? lst2)) nil)
+   ((or? (nil? lst1) (nil? lst2)) nil)
    (t (cons (list (car lst1) (car lst2))
        (zip2 (cdr lst1) (cdr lst2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -331,7 +331,7 @@
  (lambda (pred lst)
   (if (nil? lst)
    nil
-   (or
+   (or?
     (pred (car lst))
     (any? pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -339,7 +339,7 @@
  (lambda (pred lst)
   (if (nil? lst)
    t 
-   (and
+   (and?
     (pred (car lst))
     (all? pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

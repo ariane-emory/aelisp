@@ -29,8 +29,8 @@
   DO(if,           true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
   DO(when,         true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
   DO(while,        true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
-  DO(and,          true,           2,          2, "and", "∧",                 FUNDEF_END ) /* reduceable            */ \
-  DO(or,           true,           2,          2, "or", "∨",                  FUNDEF_END ) /* reduceable            */ \
+  DO(and,          true,           2,          2, "and?", "∧",                FUNDEF_END ) /* reduceable            */ \
+  DO(or,           true,           2,          2, "or?", "∨",                 FUNDEF_END ) /* reduceable            */ \
   DO(let_str,      true,           2,  UNLIMITED, "let*",                     FUNDEF_END )                             \
   DO(let,          true,           2,  UNLIMITED,                             FUNDEF_END )                             \
   DO(cdr,          false,          1,          1,                             FUNDEF_END )                             \
