@@ -121,29 +121,29 @@
 
 
 (setq! all-not-nil?
-  (lambda (lsts)
-    (if (nil? lsts)
-        t
-        (and (not (nil? (car lsts))) (all-not-nil? (cdr lsts))))))
+ (lambda (lsts)
+  (if (nil? lsts)
+   t
+   (and (not (nil? (car lsts))) (all-not-nil? (cdr lsts))))))
 
 (setq! heads
-  (lambda (lsts)
-    (if (nil? lsts)
-        nil
-        (cons (car (car lsts)) (heads (cdr lsts))))))
+ (lambda (lsts)
+  (if (nil? lsts)
+   nil
+   (cons (car (car lsts)) (heads (cdr lsts))))))
 
 (setq! tails
-  (lambda (lsts)
-    (if (nil? lsts)
-        nil
-        (cons (cdr (car lsts)) (tails (cdr lsts))))))
+ (lambda (lsts)
+  (if (nil? lsts)
+   nil
+   (cons (cdr (car lsts)) (tails (cdr lsts))))))
 
 (setq! zip
-  (lambda args
-    (let ((lsts args))
-      (if (all-not-nil? lsts)
-          (cons (heads lsts) (zip (tails lsts)))
-          nil))))
+ (lambda args
+  (let ((lsts args))
+   (if (all-not-nil? lsts)
+    (cons (heads lsts) (zip (tails lsts)))
+    nil))))
 
 ;; Expected output: ((1 a) (2 b) (3 c))
 
@@ -166,22 +166,23 @@
 (setq! odd?  (lambda (n) (== 1 (% n 2))))
 
 (setq! match-preds
- (lambda (val . preds)
-  (let* ((fun
-         (lambda (val preds acc)
-          (cond
-           ((nil? (car preds)) acc)
-           ((nil? ((car preds) val)) nil)
-           (t (fun val (cdr preds) acc))))))
-   (fun val preds t))))
+ (lambda preds
+  (lambda (val)
+   (let* ((fun
+           (lambda (val preds acc)
+            (cond
+             ((nil? (car preds)) acc)
+             ((nil? ((car preds) val)) nil)
+             (t (fun val (cdr preds) acc))))))
+    (fun val preds t)))))
 
-  
-  ;; (if (nil? ((car preds) val))
-  ;;  nil
-  ;;  (if (nil? (cdr preds))
-  ;;   t
-  ;;   (preds-match val (cdr preds))))))
 
-(write (match-preds 7  integer? odd?)) (nl)
-(write (match-preds 8  integer? odd?)) (nl)
-(write (match-preds 'a integer? odd?)) (nl)
+;; (if (nil? ((car preds) val))
+;;  nil
+;;  (if (nil? (cdr preds))
+;;   t
+;;   (preds-match val (cdr preds))))))
+
+(write ((match-preds integer? odd?)  7)) (nl)
+(write ((match-preds integer? odd?)  8)) (nl)
+(write ((match-preds integer? odd?) 'a)) (nl)
