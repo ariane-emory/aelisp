@@ -5,7 +5,6 @@ To Do:
 - [ ] improve core 'and' and 'or' to be able to handle 3+ args.
 - [ ] #include equivalent (exists in REPL-speak but not in core, currently).
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
-- [ ] Refactor FOR_EACH_CORE_FUN_GROUP_1 and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
 - [ ] Fix macro expansion from eval.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
@@ -15,14 +14,11 @@ To Do:
 
 Under Consideration:
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
-- [ ] Maybe core apply? Not sure, apply could probably be a macro.
 - [ ] Maybe parse-time math on integers?
 - [ ] Maybe put line/column of source in metadata of relevant objects?
 - [ ] Maybe slice up root_env_and_eval test? It's pretty big.
-- [ ] Maybe core 'let'? Could be a macro, though...
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
-- [ ] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it.
 - [ ] Maybe also a vector type of some sort?
 - [ ] Maybe add macro version of map? May not need it.
 - [ ] ... advices?!
@@ -37,6 +33,9 @@ Completed:
 - [x] bestline REPL.
 - [x] prefetch function.
 - [x] Test to confirm that core setq! returns an error if asked to set the value of nil, t or keywords.
+- [x] Refactor FOR_EACH_CORE_FUN_GROUP_1 and FOR_EACH_SPECIAL core fun into a single list with more columns for more control over the order of symbols in root env.
+- [x] Maybe core apply? Not sure, apply could probably be a macro.
+- [x] Maybe core 'let'? Could be a macro, though...
 - [x] Make some tests for LOCALIZE/LOCALIZED.
 - [x] Make a fun to de-localized / move the pointers in the pool.
 - [x] DEF_MATH_OP could make fewer new AE_INTEGERs.
@@ -97,4 +96,5 @@ Completed:
 - [x] Add ae_list_remove_member.
 
 Cancelled / Abandoned:
+- [x] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it. (Not really needed.)
 - [x] certain funcs should NOT return early when given ERRORS arguments. (Early return abandoned for now.)

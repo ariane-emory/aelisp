@@ -115,8 +115,8 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       env;
     }; // when metadata is marked with type AE_LAMBDA / AE_MACRO
     struct {
-      //char                    name[8]; // this name is just for printing purposes.
-      ae_string_t              name;
+      //char                  name[8]; // this name is just for printing purposes.
+      ae_string_t             name;
       bool                    special;
       ae_core_fun             fun_val;
     }; // when metadata is marked with type AE_CORE
