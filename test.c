@@ -23,6 +23,8 @@
 
 #include "acutest.h"
 
+ae_obj_t * program = NIL;
+
 #define free_list_size (1 << 16)
 
 static char mem[free_list_size] = { 0 };
