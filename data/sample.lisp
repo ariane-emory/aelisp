@@ -154,13 +154,7 @@
 
 (write (zip2 '(1 2 3) '(a b c d))) (nl)
 
-
 (write (flatten1 '(a (b c)))) (nl)
-
-
-(setq! zip3
- (lambda (l1 l2 l3)
-  (mapcar flatten1 (reduce zip2 l1 (list l2 l3)))))
 
 (setq! lsts '((a b) (2 3) (4 5)))
 (nl)
