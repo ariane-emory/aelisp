@@ -315,8 +315,7 @@
 (setq! zip2
  (lambda (lst1 lst2)
   (cond
-   ((nil? lst1) lst2)
-   ((nil? lst2) lst1)
+   ((or (nil? lst1) (nil? lst2)) nil)
    (t (cons (list (car lst1) (car lst2))
      (zip2 (cdr lst1) (cdr lst2)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

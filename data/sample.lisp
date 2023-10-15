@@ -145,15 +145,14 @@
           (cons (heads lsts) (zip (tails lsts)))
           nil))))
 
-
-(write (zip2 '(1 2 3) '(a b c d))) (nl)
-
 ;; Expected output: ((1 a) (2 b) (3 c))
 
 (write (any? even? '(1 3 a 5))) (nl)
 (write (any? even? '(1 3 a 4 5))) (nl)
 
-(log-all t)
+;; (log-all t)
 
-;;(write (reduce zip2 nil '((a b) (2 3))))
-(write (rreduce zip2 nil '((a b) (2 3) (4 5))))
+(write (zip2 '(1 2 3) '(a b c d))) (nl)
+
+(setq! lsts '((a b) (2 3) (4 5)))
+(write (reduce zip2 (car lsts) (cdr lsts)))
