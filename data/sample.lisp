@@ -88,18 +88,11 @@
        (apply append-multiple (cdr lists)))))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; construction zone
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(log-core t)
-(log-eval t)
-
-(setq! qq
- (with-log-all
-  3 
-  '(* 2 7) 
-  (lambda () 44)))
+;; (setq! qq
+;;  (with-log-all
+;;   3 
+;;   '(* 2 7) 
+;;   (lambda () 44)))
 
 (nl)
 (princ "state eval: ") (write (log-eval)) (nl)
@@ -118,3 +111,28 @@
 (write (apply + '(1 2))) (nl)
 (write (apply + 1 2 '(3 4))) (nl)
 (write (apply + 1 2 '(* 3 4) '(5 6))) (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; construction zone
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (log-core t)
+;; (log-eval t)
+
+(setq! zip
+ (lambda lists
+  (if (any? nil? lists)
+   nil
+   (cons (mapcar car lists) (apply zip (mapcar cdr lists))))))
+
+(setq! any?
+ (lambda (pred lst)
+  (if (nil? lst)
+   nil
+   (or (pred (car lst)) (any? pred (cdr lst))))))
+
+;; (log-all t)
+
+;; (write (zip '(1 2 3) '(a b c)))
+
+;; Expected output: ((1 a) (2 b) (3 c))

@@ -1,5 +1,6 @@
 To Do:
-- [ ] unbound symbol'a should error.
+- [ ] unbound symbols should error.
+- [ ] in-language unit tests.
 - [ ] better storage for core names.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
