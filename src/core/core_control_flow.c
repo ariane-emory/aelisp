@@ -159,33 +159,16 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
-  ae_obj_t * const this_branch     = CAR(args);
-  ae_obj_t * const and_that_branch = CADR(args);
+  ae_obj_t * option_result = NIL;
   
-  if (log_core) {
-    LOG(this_branch,     "this");
-    LOG(and_that_branch, "and_that");
+  FOR_EACH(option, args) {
+    option_result = EVAL(env, option);
+    if (NILP(option_result)) {
+      CORE_RETURN("and", NIL);
+    }
   }
 
-  REQUIRE(env, args, LENGTH(args) == 2, "and requires 2 args");
- 
-  ae_obj_t * this_result = EVAL(env, this_branch);
-  
-  if (log_core)
-    LOG(this_result, "this_result: ");
-  
-  if (NILP(this_result)) {
-
-    if (log_core)
-      SLOG("not this");
-
-    CORE_RETURN("and", NIL);
-  }
-
-  if (log_core)
-    SLOG("this and");
-
-  CORE_RETURN("and", ae_eval(env, and_that_branch));
+  CORE_RETURN("and", option_result);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

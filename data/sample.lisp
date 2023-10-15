@@ -11,4 +11,6 @@
 
 (princns 1 2 3 4 5 6 7 8 9)
 
-(princn (or? nil nil 3 8))
+(princn (or?  nil nil 3 8))
+(princn (and? 3 8 nil))
+(princn (and? 3 7 8))
