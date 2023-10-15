@@ -313,9 +313,11 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   static int ctr = 0;
 
   if (log_column > log_column_default) {
-    if (++ctr > 8) {
+    if (++ctr > 3) {
       ctr = 0;
-      log_column = log_column_default; // end of apply
+      log_column -= log_tab_width;
+      if (log_column < log_column_default)
+        log_column = log_column_default; // end of apply
     }
   }
   else {
