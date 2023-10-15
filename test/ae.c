@@ -1309,7 +1309,7 @@ void kvp_list(void) {
 
 void tailp(void) {
   SETUP_TEST;
-
+  
   T(TAILP(SYM("nil")));
   T(TAILP(CONS(SYM("foo"), NIL)));
   T(TAILP(CONS(NEW_INT(12), CONS(SYM("bar"), NIL))));
@@ -1402,10 +1402,25 @@ void env_with_a_dot(void) {
   OLOG(env);
   LOG(ENV_SYMS(env), "with syms");
   LOG(ENV_VALS(env), "and  vals");
-
+  NL;
+  
   obj found = ENV_FIND(env, SYM("third"));
 
   OLOG(found);
+
+  T(LENGTH(found) == 3);
+
+  OLOG(CAR(found));
+  T(CAR(found)   == NEW_INT(3));
+
+  OLOG(CADR(found));
+  T(CADR(found)  == NEW_INT(4));
+
+  OLOG(CADDR(found));
+  T(CADDR(found) == NEW_INT(5));
+
+  OLOG(CADDDR(found));
+  T(NILP(CDDDR(found)));
   
   NL;
 }

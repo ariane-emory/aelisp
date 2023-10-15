@@ -23,6 +23,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define CDDR(list)                    (CDR(CDR(list)))
 #define CADAR(list)                   (CAR(CDR(CAR(list))))
 #define CADDR(list)                   (CAR(CDR(CDR(list))))
+#define CDDDR(list)                   (CDR(CDR(CDR(list))))
 #define CONS(head, tail)              (ae_list_cons((head), (tail)))
 //      ^ this only conses onto tails that are TAILP. To create improper lists, use NEW_CONS instead.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
