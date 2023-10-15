@@ -1389,14 +1389,21 @@ void tailp(void) {
 
 void env_with_a_dot(void) {
   SETUP_TEST;
-
+  
+  obj root   = ENV_NEW_ROOT();
   obj syms   = CONS(SYM("first"), NEW_CONS(SYM("second"), SYM("third")));
   obj values = CONS(NEW_INT(1),
                     CONS(NEW_INT(2),
                          CONS(NEW_INT(3),
                               CONS(NEW_INT(4),
                                    CONS(NEW_INT(5), NIL)))));
+  obj env    = NEW_ENV(root, syms, values );
+
+  OLOG(env);
+  LOG(ENV_SYMS(env), "with syms");
+  LOG(ENV_VALS(env), "and  vals");
   
+  NL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

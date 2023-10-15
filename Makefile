@@ -95,7 +95,7 @@ obj/%.o: src/%.c obj obj/core obj/test
 # Executables
 ################################################################################
 
-bin/%-test:
+bin/%-test: $(OBJS)
 	mkdir -p bin
 	$(CC) -o $@ $(patsubst bin/%-test, test/%.c, $@) $(OBJS) $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS)
 
