@@ -1402,6 +1402,10 @@ void env_with_a_dot(void) {
   OLOG(env);
   LOG(ENV_SYMS(env), "with syms");
   LOG(ENV_VALS(env), "and  vals");
+
+  obj found = ENV_FIND(env, SYM("third"));
+
+  OLOG(found);
   
   NL;
 }
