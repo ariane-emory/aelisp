@@ -220,21 +220,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _apply dispatch table
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct {
-  ae_type_t type;
-  ae_obj_t * (*handler)(ae_obj_t *, ae_obj_t *, ae_obj_t *);
-} apply_dispatch_row_t;
-
-static const apply_dispatch_row_t apply_dispatch_table[] = {
-  { AE_CORE,   &apply_core, }, // 3rd field may be ignored internally by apply_core.
-  { AE_LAMBDA, &apply_user, },
-  { AE_MACRO,  &apply_user, },
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -274,11 +259,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     assert(0);
   }
 
-  apply_dispatch_row_t dispatch = {0};
-
-  GET_DISPATCH(dispatch, apply_dispatch_table, fun);
-  
-  ae_obj_t * ret = (*dispatch.handler)(env, fun, args);
+  ae_obj_t * ret = COREP(fun)
+    ? apply_core(env, fun, args)
+    : apply_user(env, fun, args);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
   if (! DHAS(ret, "birth-place")) {
@@ -430,7 +413,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(obj);
   assert(ENVP(env));
 
-  eval_dispatch_row_t dispatch = {0};
+  eval_dispatch_row_t dispatch = { 0 };
 
   GET_DISPATCH(dispatch, eval_dispatch_table, obj);
 
