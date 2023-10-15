@@ -36,7 +36,7 @@
 
 (test 1 2 3 4 5)
 
-(nl) (princn "got here")
+(princn "got here")
 (princn ''(1 . 2))
 
 (princn ''(1 2))
