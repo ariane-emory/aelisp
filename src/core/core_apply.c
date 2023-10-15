@@ -32,6 +32,9 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
     LOG(new_expr, "prefinal new_expr");
   }
 
+  if (! PROPERP(last))
+    LOG(last, "not proper");
+  
   REQUIRE(env, args, PROPERP(last), "apply requires a proper list as its final argument");
   
   if (CONSP(last))
