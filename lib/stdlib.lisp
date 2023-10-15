@@ -379,3 +379,11 @@
               (fun (cdr preds)))))))
     (fun preds)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! intercalate
+ (lambda (intercalated items)
+  (if (or? (nil? items) (nil? (cdr items)))
+   items
+   (cons (car items) 
+    (cons intercalated
+     (intercalate intercalated (cdr items)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
