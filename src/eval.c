@@ -386,7 +386,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 }
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
-  bool bound = true; // ENV_BOUNDP(env, sym);
+  bool bound = ENV_BOUNDP(env, sym);
 
   ae_obj_t * ret = NIL;
 
