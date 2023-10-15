@@ -57,3 +57,8 @@
 ;; (princn* '(3 4))
 ;(log-eval t)
 
+(setq! test
+ (macro (foo bar)
+  (list foo bar)))
+
+(write (test 12 34))
