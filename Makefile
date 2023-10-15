@@ -1,11 +1,11 @@
 SHELL        = bash
 UNAME_S      = $(shell uname -s)
-SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" -a -not -name "repl.c")
-TEST_SRCS    = $(shell find test -name "*.c")
+SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" -a -not -name "repl.c" -a -not -name "test.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS))
-TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d) 3p/bestline, -I$(dir) -Itmp) 
 POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
+# TEST_SRCS    = $(shell find test -name "*.c")
+# TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
 
 COMMON_CFLAGS = \
 	$(INCLUDE_DIRS) \
@@ -38,11 +38,6 @@ UNUSED_CFLAGS = \
 	-DAE_PREFACE \
 	-DAE_PREFER_ALIST \
 	-DAE_TRACK_ORIGINS_DURING_EVAL \
-
-TEST_CFLAGS = \
-	-Wno-unused-value
-
-BIN_CFLAGS = \
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
@@ -83,7 +78,7 @@ endif
 # Targets
 ################################################################################
 
-all: bin/ae bin/repl $(TEST_BINS) bin/repl
+all: bin/ae bin/repl bin/test
 
 obj/bestline.o:
 	$(CC) -o $@ 3p/bestline/bestline.c $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
@@ -95,17 +90,17 @@ obj/%.o: src/%.c obj obj/core obj/test
 # Executables
 ################################################################################
 
-bin/%-test: $(OBJS)
+bin/test: $(OBJS) src/test.c
 	mkdir -p bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) $(TEST_CFLAGS) $(patsubst bin/%-test, test/%.c, $@) 
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS)
 
-bin/ae: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/main.c
+bin/ae:   $(OBJS) tmp/ae.l.c tmp/ae.tab.c src/main.c
 	mkdir -p bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
-bin/repl: tmp/ae.l.c tmp/ae.tab.c $(OBJS) src/repl.c obj/bestline.o
+bin/repl: $(OBJS) tmp/ae.l.c tmp/ae.tab.c src/repl.c obj/bestline.o
 	mkdir -p bin
-	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) $(BIN_CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS)
 
 ################################################################################
 # Lexer/parser
@@ -139,15 +134,11 @@ obj/test:
 bin:
 	mkdir -p $@
 
-#bin/test:
-#	mkdir -p $@
-
 ################################################################################
 # Utility targets
 ################################################################################
 
 tests: clean all
-#	$(foreach bin, $(TEST_BINS), $(bin))
 	./bin/ae
 
 debug: clean all
