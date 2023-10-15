@@ -165,6 +165,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   ae_obj_t * body    = CONS(SYM("progn"), FUN_BODY(fun));
 
   env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+  // env = NEW_ENV(env, FUN_PARAMS(fun), args);
 
   if (log_eval) {
     LOG(env, "new env for user fun:");

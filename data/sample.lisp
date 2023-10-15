@@ -53,5 +53,7 @@
 
 (princn '(test 1 2 3 4 5))
 
-;;(log-eval t)
+;; (setq! princn* (lambda args (nl) (apply* princ args)))
+;; (princn* '(3 4))
+;(log-eval t)
 

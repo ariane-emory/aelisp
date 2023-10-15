@@ -1,5 +1,4 @@
 To Do:
-- [ ] maybe take inspiration from TL's envLookup for dotted args?
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
@@ -13,6 +12,7 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 
 Under Consideration:
+- [x] maybe take inspiration from TL's envLookup for dotted args?
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
 - [ ] Maybe parse-time math on integers?
 - [ ] Maybe put line/column of source in metadata of relevant objects?
