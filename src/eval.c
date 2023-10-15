@@ -129,8 +129,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     
     ae_obj_t * err_data = NIL;
 
-    KSET(err_data, KW("args"), args);
     KSET(err_data, KW("env"),  env);
+    KSET(err_data, KW("args"), args);
 
     return NEW_ERROR(msg, err_data);
   }
@@ -359,11 +359,24 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   ae_obj_t * ret = NIL;
 
-  if (bound) {
-    ret = KEYWORDP(sym)
-      ? sym
-      : ENV_FIND(env, sym);
+  if (! bound) {
+    ae_obj_t * err_data = NIL;
+    KSET(err_data, KW("env"), env);
+    KSET(err_data, KW("unbound-symbol"), sym);
+
+    char * tmp = free_list_malloc(256);
+    sprintf(tmp, "%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
+    char * msg = free_list_malloc(strlen(tmp) + 1);
+    strcpy(msg, tmp);
+    
+    ret = NEW_ERROR(msg, err_data);
+
+    goto end;
   }
+
+  ret = KEYWORDP(sym)
+    ? sym
+    : ENV_FIND(env, sym);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
   if (! DHAS(ret, "birth-place")) {
@@ -380,6 +393,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   if (log_eval)
     LOG(ret, "looked up '%s' and found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
+end:
   return ret;
 }
 
