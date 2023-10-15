@@ -310,8 +310,18 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
   
 
-  log_column = log_column_default; // end of apply
+  static int ctr = 0;
 
+  if (log_column > log_column_default) {
+    if (++ctr > 4) {
+      ctr = 0;
+      log_column = log_column_default; // end of apply
+    }
+  }
+  else {
+    ctr = 0;
+  }
+    
   return ret;
 }
 
