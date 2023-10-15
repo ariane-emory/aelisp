@@ -138,8 +138,33 @@
         (cons (list (car lst1) (car lst2))
               (zip2 (cdr lst1) (cdr lst2))))))
 
-;; (log-all t)
+(setq! all-not-nil?
+  (lambda (lsts)
+    (if (nil? lsts)
+        t
+        (and (not (nil? (car lsts))) (all-not-nil? (cdr lsts))))))
 
-(write (zip2 '(1 2) '(a b)))
+(setq! heads
+  (lambda (lsts)
+    (if (nil? lsts)
+        nil
+        (cons (car (car lsts)) (heads (cdr lsts))))))
+
+(setq! tails
+  (lambda (lsts)
+    (if (nil? lsts)
+        nil
+        (cons (cdr (car lsts)) (tails (cdr lsts))))))
+
+(setq! zip
+  (lambda args
+    (let ((lsts args))
+      (if (all-not-nil? lsts)
+          (cons (heads lsts) (zip (tails lsts)))
+          nil))))
+
+(log-all t)
+
+(write (zip '(1 2) '(a b)))
 
 ;; Expected output: ((1 a) (2 b) (3 c))
