@@ -1013,13 +1013,13 @@ void root_env_and_eval(void) {
   expr = CONS(SYM("quote"), NEW_CONS(SYM("a"), NIL));
   T(shitty_princ_based_equality_predicate(EVAL(env, expr), "a"));
 
-  expr = CONS(SYM("if"), CONS(SYM("t"), CONS(NEW_INT(11), CONS(SYM("ignored"), NEW_CONS(NEW_INT(22), NIL)))));
+  expr = CONS(SYM("if"), CONS(SYM("t"), CONS(NEW_INT(11), CONS(KW("ignored"), NEW_CONS(NEW_INT(22), NIL)))));
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
   expr = CONS(SYM("if"), CONS(SYM("t"), NEW_CONS(NEW_INT(11), NIL)));
   T(EQL(NEW_INT(11), EVAL(env, expr)));
 
-  expr = CONS(SYM("if"), CONS(SYM("nil"), CONS(NEW_INT(11), CONS(SYM("ignored"), NEW_CONS(NEW_INT(22), NIL)))));
+  expr = CONS(SYM("if"), CONS(SYM("nil"), CONS(NEW_INT(11), CONS(KW("ignored"), NEW_CONS(NEW_INT(22), NIL)))));
   T(EQL(NEW_INT(22), EVAL(env, expr)));
 
   expr = CONS(SYM("if"), CONS(SYM("nil"), NEW_CONS(NEW_INT(11), NIL)));
