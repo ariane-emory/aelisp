@@ -326,6 +326,6 @@
 (setq! any?
   (lambda (pred lst)
     (if (nil? lst)
-        nil
+     nil
      (or (pred (car lst)) (any? pred (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
