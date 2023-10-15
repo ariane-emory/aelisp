@@ -97,7 +97,6 @@
 (princ "state eval: ") (write (log-eval)) (nl)
 (princ "state core: ") (write (log-core)) (nl)
 (princ "this: ") (princ qq) (nl)
-(princ "I'm not sure if debug is still on here?") (nl)
 
 (write (apply + '(1 2))) (nl)
 (write (apply + 1 2 '(3 4))) (nl)
