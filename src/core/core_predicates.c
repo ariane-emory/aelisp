@@ -42,7 +42,7 @@ ae_obj_t * ae_core_tailp(ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("tailp");
-  REQUIRE(env, args, TAILP(CAR(args)));
+  // REQUIRE(env, args, TAILP(CAR(args)));
   CORE_RETURN("tailp", TAILP(CAR(args)) ? TRUE : NIL);
 }
 

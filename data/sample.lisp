@@ -154,5 +154,15 @@
 
 (write (zip2 '(1 2 3) '(a b c d))) (nl)
 
+(setq! flatten-one-level
+ (lambda (lst)
+  (cond
+   ((nil? lst) nil)
+   ((tail? (car lst))
+    (append (car lst) (flatten-one-level (cdr lst)))) 
+   (t (cons (car lst) (flatten-one-level (cdr lst)))))))
+
+(write (flatten-one-level '(a (b c)))) (nl)
+ 
 (setq! lsts '((a b) (2 3) (4 5)))
 (write (reduce zip2 (car lsts) (cdr lsts)))
