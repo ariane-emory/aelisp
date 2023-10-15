@@ -31,7 +31,6 @@ static ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
 
   if (CAR(args)) {
-
     if (log_eval)
       LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
 
@@ -317,7 +316,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (log_eval)
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
   
-
   static int ctr = 0;
 
   if (log_column > log_column_default) {
