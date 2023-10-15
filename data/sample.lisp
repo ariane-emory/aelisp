@@ -29,9 +29,18 @@
 
 (setq! test
  (lambda (head . tail)
+  tail))
+
+(test 1 2 3)
+
+(exit)
+
+(setq! test
+ (lambda (head . tail)
   (nl) (princ "head " head)
   (nl) (princ "tail " tail)))
 
 (log-eval t)
 
 (test 1 2 3)
+
