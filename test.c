@@ -25,8 +25,6 @@
 
 #define free_list_size (1 << 16)
 
-#define obj ae_obj_t *
-
 static char mem[free_list_size] = { 0 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1223,19 +1221,19 @@ void deloc(void) {
   
   {
     ae_obj_t * left  = LOCALIZED((ae_obj_t *)0x0, pool_first);
-    ae_obj_t * right = (obj)pool_first;
+    ae_obj_t * right = (ae_obj_t *)pool_first;
     T(left == right);
     TM("%016p != %016p", left, right);
   }  
   {
     ae_obj_t * left  = DELOCALIZED(LOCALIZED((ae_obj_t *)0x0, pool_first));
-    ae_obj_t * right = (obj)0;
+    ae_obj_t * right = (ae_obj_t *)0;
     T(left == right);
     TM("%016p != %016p", left, right);
   }
   {
     ae_obj_t * left  = LOCALIZED(DELOCALIZED((ae_obj_t *)pool_first), pool_first);
-    ae_obj_t * right = (obj)pool_first;
+    ae_obj_t * right = (ae_obj_t *)pool_first;
     T(left == right);
     TM("%016p != %016p", left, right);
   }  
