@@ -1072,7 +1072,7 @@ void root_env_and_eval(void) {
   obj    expr1 = CONS(CONS(SYM("=="), CONS(SYM("a"), NEW_CONS(NEW_INT(1), NIL))), NEW_CONS(NEW_INT(10), NIL));
   obj    expr2 = CONS(CONS(SYM("=="), CONS(SYM("a"), NEW_CONS(NEW_INT(2), NIL))), NEW_CONS(NEW_INT(20), NIL));
   obj    expr3 = CONS(TRUE, NEW_CONS(NEW_INT(30), NIL));
-  expr                = CONS(SYM("cond"), CONS(expr1, CONS(expr2, NEW_CONS(expr3, NIL))));
+  /*   */ expr = CONS(SYM("cond"), CONS(expr1, CONS(expr2, NEW_CONS(expr3, NIL))));
 
   NL;
   PR("Evaluating this cond: ");
