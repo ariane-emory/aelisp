@@ -173,8 +173,11 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 //==================================================================================================
 
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
-  (void)env;
-
+  assert(LAMBDAP(fun) || MACROP(fun));
+  
+  if (LAMBDAP(fun))
+    args = eval_args(env, args);
+  
   ae_obj_t * body    = FUN_BODY(fun);
 
   env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
@@ -276,13 +279,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   apply_dispatch_row_t dispatch = {0};
 
   GET_DISPATCH(dispatch, apply_dispatch_table, fun);
-
-  if (! dispatch.special)
-    args = eval_args(env, args);
   
-  ae_obj_t * ret = dispatch.special
-    ? (*dispatch.handler)(env, fun, args)
-    : (*dispatch.handler)(env, fun, args);
+  ae_obj_t * ret = (*dispatch.handler)(env, fun, args);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
   if (! DHAS(ret, "birth-place")) {
