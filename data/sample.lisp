@@ -45,8 +45,6 @@
 (princn "got here")
 (princn ''(1 . 2))
 
-(log-eval t)
-
 (princn ''(1 2))
 
 (setq! test
@@ -54,3 +52,8 @@
   (cdr args)))
 
 (princn '(test 1 2 3 4 5))
+
+(setq! princn* (lambda args (nl) (apply* princ args)))
+;(princn* '(1 2))
+
+;(log-eval t)

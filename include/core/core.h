@@ -26,6 +26,7 @@
   DO(not,          false,          1,  UNLIMITED, "not?", "¬",                FUNDEF_END ) /* reduceable            */ \
   DO(nilp,         false,          1,          1, "nil?",                     FUNDEF_END )                             \
   DO(apply,        false,          2,  UNLIMITED,                             FUNDEF_END )                             \
+  DO(apply,        true,           2,  UNLIMITED, "apply*",                   FUNDEF_END )                             \
   DO(if,           true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
   DO(when,         true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
   DO(while,        true,           2,  UNLIMITED,                             FUNDEF_END ) /* reduceable            */ \
