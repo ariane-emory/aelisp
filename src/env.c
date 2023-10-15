@@ -181,6 +181,10 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
     // Special case for symbols being one symbol:
     if (symbol == symbols) {
       ret = values;
+
+      if (found_ptr)
+        *found_ptr = true;
+
       goto end;
     }
 
