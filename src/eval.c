@@ -175,7 +175,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
   
-  if (LAMBDAP(fun))
+  if (! SPECIALP(fun))
     args = eval_args(env, args);
   
   ae_obj_t * body    = FUN_BODY(fun);
