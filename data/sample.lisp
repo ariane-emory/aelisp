@@ -28,7 +28,7 @@
  (lambda (head . tail)
   tail))
 
-;; (test 1 2 3)
+;; i(test 1 2 3)
 
 ;; (exit)
 
@@ -39,7 +39,8 @@
   (nl) (princ "head2 " head2)
   (nl) (princ "tail "  tail)))
 
-;; (test 1 2 3 4 5)
+(log-all t)
+(test 1 2 3 4 5)
 
 ;; (princn "got here")
 ;; (princn ''(1 . 2))

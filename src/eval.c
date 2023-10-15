@@ -207,9 +207,12 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
   }
 
-  if (log_eval)
+  if (log_eval) {
     LOG(env, "new env for user fun:");
-
+    LOG(ENV_SYMS(env), "new env's syms:");
+    LOG(ENV_VALS(env), "new env's vals:");
+  }
+  
   if (log_eval) {
     char * tmp = SWRITE(fun);
     LOG(args,            "applying user fun %s to %d arg%s", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
