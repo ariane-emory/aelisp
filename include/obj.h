@@ -292,7 +292,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                   \
     ae_obj_t * _obj  = NEW(AE_CORE);                                                                                   \
     CORE_FUN  (_obj) = (val);                                                                                          \
-    char * new_name = free_list_malloc(strlen(name) + 1);                                                              \
+    char * const new_name = free_list_malloc(strlen(name) + 1);                                                        \
     strcpy(new_name, name);                                                                                            \
     CORE_NAME(_obj) = new_name;                                                                                        \
     _obj->special = _special;                                                                                          \
