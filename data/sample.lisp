@@ -161,3 +161,20 @@
 (write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
 (write (zip3 '(a b) '(2 3) '(4 5))) (nl)
 
+
+(setq! even? (lambda (n) (== 0 (% n 2))))
+(setq! odd?  (lambda (n) (== 1 (% n 2))))
+
+(setq! preds-match
+ (lambda (val . preds)
+  (if ((car preds) val)
+   (preds-match val (cdr preds))
+   nil)))
+  
+  ;; (if (nil? ((car preds) val))
+  ;;  nil
+  ;;  (if (nil? (cdr preds))
+  ;;   t
+  ;;   (preds-match val (cdr preds))))))
+
+(write (preds-match 7 integer? odd?)) (nl)

@@ -261,6 +261,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     NL;
     LOG(head, "Result of evaluating head: ");
     LOG(fun,  "is inapplicable object: ");
+    SLOGF("with type: %s", GET_TYPE_STR(fun));
+    NL;
 
     /* This assert should be replaced by returning an ERROR obj: */
 
