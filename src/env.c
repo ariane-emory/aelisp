@@ -124,16 +124,13 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 #endif
 
     ae_obj_t *symbols = ENV_SYMS(pos);
-    ae_obj_t *original_syms_start = symbols; // Save the original start of symbols list
-    ae_obj_t *values = ENV_VALS(pos);
-    ae_obj_t *prev_symbols = NIL;
-    ae_obj_t *prev_values = NIL;
+    ae_obj_t *values  = ENV_VALS(pos);
 
 #ifdef AE_LOG_ENV
     LOG(symbols, "containing syms");
 #endif
 
-    for (; CONSP(symbols); prev_symbols = symbols, prev_values = values, symbols = CDR(symbols), values = CDR(values)) {
+    for (; CONSP(symbols); symbols = CDR(symbols), values = CDR(values)) {
       if (symbol == CAR(symbols)) {
 
 #ifdef AE_LOG_ENV
@@ -144,35 +141,6 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode, ae_obj_t * const env, const ae_
 
         if (found_ptr)
           *found_ptr = true;
-
-/* #ifdef AE_ENV_BUBBLING */
-/*         if (! NILP(prev_symbols)) { */
-/*           int old_count = LENGTH(ENV_SYMS(pos)); */
-
-/*           ae_obj_t *next_symbols = CDR(symbols); */
-/*           ae_obj_t *next_values = CDR(values); */
-
-/*           // Detach the symbol-value pair from their respective lists: */
-/*           CDR(prev_symbols) = next_symbols; */
-/*           CDR(prev_values) = next_values; */
-
-/*           // Prepend the detached symbol-value pair to the beginning of the lists: */
-/*           CDR(symbols) = original_syms_start; // Point to the original start */
-/*           CDR(values) = ENV_VALS(pos); */
-
-/*           // Adjust the environment's main symbol and value pointers: */
-/*           ENV_SYMS(pos) = symbols; */
-/*           ENV_VALS(pos) = values; */
-            
-/* #ifdef AE_LOG_ENV */
-/*           LOG(symbols, "new syms"); */
-/*           LOG(values,  "new vals"); */
-/* #endif */
-/*           int new_count = LENGTH(ENV_SYMS(pos)); */
-/*           assert(old_count == new_count); */
-/* //          (void)ENV_BOUNDP(pos, SYM("kkk")); */
-/*         } */
-/* #endif */
 
         goto end;
       }

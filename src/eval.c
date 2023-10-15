@@ -34,7 +34,11 @@
                                                                                                                        \
     int ctr = 0;                                                                                                       \
                                                                                                                        \
-    FOR_EACH(elem, args)                                                                                               \
+    for (ae_obj_t                                                                                                      \
+           * position = args,                                                                                          \
+           * elem     = CAR(position);                                                                                 \
+         CONSP(position);                                                                                              \
+         elem = CAR(position = CDR(position)))                                                                         \
     {                                                                                                                  \
       ctr++;                                                                                                           \
                                                                                                                        \
