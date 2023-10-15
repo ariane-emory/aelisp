@@ -2,7 +2,6 @@ To Do:
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
-- [ ] improve core 'and' and 'or' to be able to handle 3+ args.
 - [ ] #include equivalent (exists in REPL-speak but not in core, currently).
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [ ] Fix macro expansion from eval.
@@ -24,6 +23,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] improve core 'and' and 'or' to be able to handle 3+ args.
 - [x] move core names to string pool.
 - [x] unbound symbols should error.
 - [x] improve core apply.
