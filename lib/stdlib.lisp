@@ -249,6 +249,12 @@
    (cons
     (transform (car obj) pred fun)
     (transform (cdr obj) pred fun)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! prefetch
+ (lambda (expr)
+  (transform! expr
+   (lambda (x) (and (symbol? x) (bound? x)))
+   (lambda (x) (eval x)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! benchmark
  (lambda (repetitions print-interval qexpr)
