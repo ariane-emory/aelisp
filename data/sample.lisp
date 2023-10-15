@@ -17,21 +17,20 @@
 
 (princni ", " 1 2 3)
 
-;; (setq! test
-;;  (lambda args
-;;   (nl) (princ "head " (car args))
-;;   (nl) (princ "tail " (cdr args))))
+(setq! test
+ (lambda args
+  (nl) (princ "car-ed head " (car args))
+  (nl) (princ "cdr-ed tail " (cdr args))))
 
-;; (test 1 2 3)
-
-;; (princn '(1 . 2))
-
-;; (setq! test
-;;  (lambda (head . tail)
-;;   tail))
+(test 1 2 3)
 
 
-;; (test 1 2 3)
+(setq! test
+ (lambda (head . tail)
+  tail))
+
+
+(test 1 2 3)
 
 ;; (exit)
 
@@ -44,5 +43,9 @@
 (test 1 2 3 4 5)
 
 (princn "got here")
+
+
+(princn '(1 . 2))
+
 
 
