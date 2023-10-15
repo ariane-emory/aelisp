@@ -33,36 +33,36 @@ struct ae_obj_t; // forward decl.
 // Escaped chars helper macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_ESCAPED_CHARACTER(do)                                                             \
-  do('a',  '\a')                                                                                   \
-  do('b',  '\b')                                                                                   \
-  do('f',  '\f')                                                                                   \
-  do('n',  '\n')                                                                                   \
-  do('r',  '\r')                                                                                   \
-  do('t',  '\t')                                                                                   \
-  do('v',  '\v')                                                                                   \
-  do('\\', '\\')                                                                                   \
-  do('\'', '\'')                                                                                   \
-  do('\"', '\"')
+#define FOR_EACH_ESCAPED_CHARACTER(do)                                                                                 \
+  do('a',  '\a')                                                                                                       \
+      do('b',  '\b')                                                                                                   \
+          do('f',  '\f')                                                                                               \
+              do('n',  '\n')                                                                                           \
+                  do('r',  '\r')                                                                                       \
+                      do('t',  '\t')                                                                                   \
+                          do('v',  '\v')                                                                               \
+                              do('\\', '\\')                                                                           \
+                                  do('\'', '\'')                                                                       \
+                                      do('\"', '\"')
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Types enum
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_LEXED_TYPE(do)                                                                    \
-  do(AE_CHAR)                                                                                      \
-  do(AE_CONS)                                                                                      \
-  do(AE_CORE)                                                                                      \
-  do(AE_ENV)                                                                                       \
-  do(AE_ERROR)                                                                                     \
-  do(AE_FLOAT)                                                                                     \
-  do(AE_INTEGER)                                                                                   \
-  do(AE_INVALID)                                                                                   \
-  do(AE_LAMBDA)                                                                                    \
-  do(AE_MACRO)                                                                                     \
-  do(AE_RATIONAL)                                                                                  \
-  do(AE_STRING)                                                                                    \
-  do(AE_SYMBOL)                                                                                    \
+#define FOR_EACH_LEXED_TYPE(do)                                                                                        \
+  do(AE_CHAR)                                                                                                          \
+      do(AE_CONS)                                                                                                      \
+          do(AE_CORE)                                                                                                  \
+              do(AE_ENV)                                                                                               \
+                  do(AE_ERROR)                                                                                         \
+                      do(AE_FLOAT)                                                                                     \
+                          do(AE_INTEGER)                                                                               \
+                              do(AE_INVALID)                                                                           \
+                                  do(AE_LAMBDA)                                                                        \
+                                      do(AE_MACRO)                                                                     \
+                                          do(AE_RATIONAL)                                                              \
+                                              do(AE_STRING)                                                            \
+                                                  do(AE_SYMBOL)                                                        \
 
 #define enum_entry(x) x,
 
@@ -101,7 +101,7 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       tail;
     }; // when metadata is marked with type AE_CONS
     struct {
-             ae_string_t      message;
+      ae_string_t      message;
       struct ae_obj_t *       object;
     }; // when metadata is marked with type AE_ERROR
     struct {
@@ -115,7 +115,8 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       env;
     }; // when metadata is marked with type AE_LAMBDA / AE_MACRO
     struct {
-      char                    name[8]; // this name is just for printing purposes.
+      //char                    name[8]; // this name is just for printing purposes.
+      ae_string_t              name;
       bool                    special;
       ae_core_fun             fun_val;
     }; // when metadata is marked with type AE_CORE
@@ -273,92 +274,92 @@ extern ae_obj_t * symbols_list;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CHAR(val)                                                                                                  \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_CHAR);                                                                                       \
-CHAR_VAL  (_obj) = (val);                                                                                              \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_CHAR);                                                                                   \
+    CHAR_VAL  (_obj) = (val);                                                                                          \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CONS(head, tail)                                                                                           \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_CONS);                                                                                       \
-CAR       (_obj) = (head);                                                                                             \
-CDR       (_obj) = (tail);                                                                                             \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_CONS);                                                                                   \
+    CAR       (_obj) = (head);                                                                                         \
+    CDR       (_obj) = (tail);                                                                                         \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CORE(name, val, _special, min_args, max_args)                                                              \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_CORE);                                                                                       \
-CORE_FUN  (_obj) = (val);                                                                                              \
-strcpy(CORE_NAME(_obj), name);                                                                                         \
-_obj->special = _special;                                                                                              \
-/* PR("Calling ae_obj_set_min_args(_obj, %d)\n", min_args);  */                                                        \
-ae_obj_set_min_args(_obj, min_args);                                                                                   \
-/* PR("Calling ae_obj_set_max_args(_obj, %d)\n", max_args);  */                                                        \
-ae_obj_set_max_args(_obj, max_args);                                                                                   \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_CORE);                                                                                   \
+    CORE_FUN  (_obj) = (val);                                                                                          \
+    char * new_name = free_list_malloc(strlen(name) + 1);                                                              \
+    strcpy(new_name, name);                                                                                            \
+    CORE_NAME(_obj) = new_name;                                                                                        \
+    _obj->special = _special;                                                                                          \
+    ae_obj_set_min_args(_obj, min_args);                                                                               \
+    ae_obj_set_max_args(_obj, max_args);                                                                               \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_ERROR(msg, obj)                                                                                            \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_ERROR);                                                                                      \
-EMSG   (_obj) = (msg);                                                                                                 \
-EOBJ   (_obj) = (obj);                                                                                                 \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_ERROR);                                                                                  \
+    EMSG   (_obj) = (msg);                                                                                             \
+    EOBJ   (_obj) = (obj);                                                                                             \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_FLOAT(val)                                                                                                 \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_FLOAT);                                                                                      \
-FLOAT_VAL (_obj) = (val);                                                                                              \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_FLOAT);                                                                                  \
+    FLOAT_VAL (_obj) = (val);                                                                                          \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_INT(val)                                                                                                   \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_INTEGER);                                                                                    \
-INT_VAL   (_obj) = (val);                                                                                              \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_INTEGER);                                                                                \
+    INT_VAL   (_obj) = (val);                                                                                          \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_LAMBDA(params_, body_, env_)                                                                               \
-({                                                                                                                     \
-ae_obj_t * _obj = NEW(AE_LAMBDA);                                                                                      \
-_obj->params    = params_;                                                                                             \
-_obj->body      = body_;                                                                                               \
-_obj->env       = env_;                                                                                                \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj = NEW(AE_LAMBDA);                                                                                  \
+    _obj->params    = params_;                                                                                         \
+    _obj->body      = body_;                                                                                           \
+    _obj->env       = env_;                                                                                            \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_MACRO(params_, body_, env_)                                                                                \
-({                                                                                                                     \
-ae_obj_t * _obj = NEW(AE_MACRO);                                                                                       \
-_obj->params    = params_;                                                                                             \
-_obj->body      = body_;                                                                                               \
-_obj->env       = env_;                                                                                                \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj = NEW(AE_MACRO);                                                                                   \
+    _obj->params    = params_;                                                                                         \
+    _obj->body      = body_;                                                                                           \
+    _obj->env       = env_;                                                                                            \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_RATIONAL(numer, denom)                                                                                     \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_RATIONAL);                                                                                   \
-NUMER_VAL (_obj) = (numer);                                                                                            \
-DENOM_VAL (_obj) = (denom);                                                                                            \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_RATIONAL);                                                                               \
+    NUMER_VAL (_obj) = (numer);                                                                                        \
+    DENOM_VAL (_obj) = (denom);                                                                                        \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_STRING(val)                                                                                                \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_STRING);                                                                                     \
-STR_VAL   (_obj) = (val);                                                                                              \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_STRING);                                                                                 \
+    STR_VAL   (_obj) = (val);                                                                                          \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_SYMBOL(val)                                                                                                \
-({                                                                                                                     \
-ae_obj_t * _obj  = NEW(AE_SYMBOL);                                                                                     \
-SYM_VAL   (_obj) = (val);                                                                                              \
-_obj;                                                                                                                  \
-})
+  ({                                                                                                                   \
+    ae_obj_t * _obj  = NEW(AE_SYMBOL);                                                                                 \
+    SYM_VAL   (_obj) = (val);                                                                                          \
+    _obj;                                                                                                              \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
