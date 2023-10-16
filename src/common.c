@@ -199,7 +199,7 @@ bool setopts(int argc, char *argv[]) {
           log_eval = true;
           break;
         case 'm':
-          log_macros = true;
+          log_macro = true;
           break;
         default:
           fprintf(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
