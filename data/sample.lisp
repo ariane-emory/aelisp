@@ -21,10 +21,6 @@
   (t (cons (list (car lst1) (car lst2))
       (zip2 (cdr lst1) (cdr lst2))))))
 
-(defun reduced (fun)
- "Return a function that is a reduction of the binary function fun."
- (lambda args
-  (reduce fun (car args) (cdr args))))
 (setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
 (princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
  
