@@ -53,13 +53,12 @@
 
 (princ "test: ") (write (test 12 34)) (nl)
 
-;; (setq! defmacro
-;;  (macro (name params . body)
-;;  (list (quote setq!) name (list (quote macro) params . body))))
-
-(setq! defun
+(setq! defmacro
  (macro (name params . body)
-  (list (quote setq!) name (list (quote lambda) params . body))))
+ (list (quote setq!) name (list (quote macro) params . body))))
+
+(defmacro defun (name params . body)
+  (list (quote setq!) name (list (quote lambda) params . body)))
 
 (defun 2* (x) (* 2 x)) (nl)
 
