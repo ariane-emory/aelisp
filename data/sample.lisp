@@ -55,7 +55,7 @@
 
 (setq! defmacro
  (macro (name params . body)
- (list (quote setq!) name (list (quote macro) params . body))))
+ (list 'setq! name (list 'macro params . body))))
 
 (defmacro defun (name params . body)
   (list (quote setq!) name (list (quote lambda) params . body)))
