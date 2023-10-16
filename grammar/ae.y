@@ -35,6 +35,6 @@ quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),  
 quasiquoted_sexp: BACKTICK sexp                 { $$      = CONS(SYM("quasiquote"), CONS($2, NIL)); };
 unquoted_sexp:    COMMA    sexp                 { $$      = CONS(SYM("unquote"),    CONS($2, NIL)); };
 spliced_sexp:     COMMA_AT sexp                 { $$      = CONS(SYM("splice"),     CONS($2, NIL)); };
-lit_list_sexp:    AT       sexp                 { $$      = CONS(SYM("list"),       $2);            };
+lit_list_sexp:    POUND    sexp                 { $$      = CONS(SYM("list"),       $2);            };
 
 %%
