@@ -15,43 +15,43 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; type predicates:                                                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! type?     (lambda (typ o) (eq?  typ     (type            o           ))))
-(setq! atom?     (lambda (o)     (not? (type?   :CONS           o           ))))
-(setq! char?     (lambda (o)           (type?   :CHAR           o            )))
-(setq! cons?     (lambda (o)           (type?   :CONS           o            )))
-(setq! core?     (lambda (o)           (type?   :CORE           o            )))
-(setq! env?      (lambda (o)           (type?   :ENV            o            )))
-(setq! error?    (lambda (o)           (type?   :ERROR          o            )))
-(setq! float?    (lambda (o)           (type?   :FLOAT          o            )))
-(setq! integer?  (lambda (o)           (type?   :INTEGER        o            )))
-(setq! lambda?   (lambda (o)           (type?   :LAMBDA         o            )))
-(setq! macro?    (lambda (o)           (type?   :MACRO          o            )))
-(setq! rational? (lambda (o)           (type?   :RATIONAL       o            )))
-(setq! string?   (lambda (o)           (type?   :STRING         o            )))
-(setq! symbol?   (lambda (o)           (type?   :SYMBOL         o            )))
-(setq! improper? (lambda (o)     (and? (tail? o) (not? (proper? o          )))))
+(defun type?     (typ o) (eq?  typ     (type            o           )))
+(defun atom?     (o)     (not? (type?   :CONS           o           )))
+(defun char?     (o)           (type?   :CHAR           o            ))
+(defun cons?     (o)           (type?   :CONS           o            ))
+(defun core?     (o)           (type?   :CORE           o            ))
+(defun env?      (o)           (type?   :ENV            o            ))
+(defun error?    (o)           (type?   :ERROR          o            ))
+(defun float?    (o)           (type?   :FLOAT          o            ))
+(defun integer?  (o)           (type?   :INTEGER        o            ))
+(defun lambda?   (o)           (type?   :LAMBDA         o            ))
+(defun macro?    (o)           (type?   :MACRO          o            ))
+(defun rational? (o)           (type?   :RATIONAL       o            ))
+(defun string?   (o)           (type?   :STRING         o            ))
+(defun symbol?   (o)           (type?   :SYMBOL         o            ))
+(defun improper? (o)     (and? (tail? o) (not? (proper? o          ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! princn    (lambda args (apply princ args)                          (nl)))
-(setq! printn    (lambda args (apply print args)                          (nl)))
-(setq! putn      (lambda args (apply put   args)                          (nl)))
-(setq! writen    (lambda args (apply write args)                          (nl)))
+(defun princn    args (apply princ args)                          (nl))
+(defun printn    args (apply print args)                          (nl))
+(defun putn      args (apply put   args)                          (nl))
+(defun writen    args (apply write args)                          (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! princns   (lambda args (apply princ (intercalate " " args))        (nl)))
-(setq! printns   (lambda args (apply print (intercalate " " args))        (nl)))
-(setq! putns     (lambda args (apply put   (intercalate " " args))        (nl)))
-(setq! writens   (lambda args (apply write (intercalate " " args))        (nl)))
+(defun princns   args (apply princ (intercalate " " args))        (nl))
+(defun printns   args (apply print (intercalate " " args))        (nl))
+(defun putns     args (apply put   (intercalate " " args))        (nl))
+(defun writens   args (apply write (intercalate " " args))        (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! princni   (lambda (i . args) (apply princ (intercalate i args))    (nl)))
-(setq! printni   (lambda (i . args) (apply print (intercalate i args))    (nl)))
-(setq! putni     (lambda (i . args) (apply put   (intercalate i args))    (nl)))
-(setq! writeni   (lambda (i . args) (apply write (intercalate i args))    (nl)))
+(defun princni   (i . args) (apply princ (intercalate i args))    (nl))
+(defun printni   (i . args) (apply print (intercalate i args))    (nl))
+(defun putni     (i . args) (apply put   (intercalate i args))    (nl))
+(defun writeni   (i . args) (apply write (intercalate i args))    (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; even?/odd? predicates:                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! even?     (lambda (n)               (== 0 (% n 2))))
-(setq! odd?      (lambda (n)               (== 1 (% n 2))))
+(defun even?     (n)               (== 0 (% n 2)))
+(defun odd?      (n)               (== 1 (% n 2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -72,68 +72,68 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; compound car/cdrs:                                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! cadr      (lambda (x)          (car (cdr x)))                           )
-(setq! cdar      (lambda (x)          (cdr (car x)))                           )
-(setq! cddr      (lambda (x)          (cdr (cdr x)))                           )
-(setq! caar      (lambda (x)          (car (car x)))                           )
-(setq! caaar     (lambda (x)     (car (car (car x))))                          )
-(setq! caadr     (lambda (x)     (car (car (cdr x))))                          )
-(setq! cadar     (lambda (x)     (car (cdr (car x))))                          )
-(setq! caddr     (lambda (x)     (car (cdr (cdr x))))                          )
-(setq! cdaar     (lambda (x)     (cdr (car (car x))))                          )
-(setq! cdadr     (lambda (x)     (cdr (car (cdr x))))                          )
-(setq! cddar     (lambda (x)     (cdr (cdr (car x))))                          )
-(setq! cdddr     (lambda (x)     (cdr (cdr (cdr x))))                          )
+(defun cadr      (x)          (car (cdr x)))                           
+(defun cdar      (x)          (cdr (car x)))                           
+(defun cddr      (x)          (cdr (cdr x)))                           
+(defun caar      (x)          (car (car x)))                           
+(defun caaar     (x)     (car (car (car x))))                          
+(defun caadr     (x)     (car (car (cdr x))))                          
+(defun cadar     (x)     (car (cdr (car x))))                          
+(defun caddr     (x)     (car (cdr (cdr x))))                          
+(defun cdaar     (x)     (cdr (car (car x))))                          
+(defun cdadr     (x)     (cdr (car (cdr x))))                          
+(defun cddar     (x)     (cdr (cdr (car x))))                          
+(defun cdddr     (x)     (cdr (cdr (cdr x))))                          
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs:                                                                 ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! nth
- (lambda (n lst)
+(defun nth
+  (n lst)
   (cond
    ((nil? lst)  nil)
    ((eql? n 0)  (car lst))
-   (t           (nth (- n 1) (cdr lst))))))
+   (t           (nth (- n 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! last
- (lambda (lst)
+(defun last
+  (lst)
   "Get last item in a list."
   (cond
    ((nil? lst) nil)
    ((nil? (cdr lst)) lst)
-   (t (last (cdr lst))))))
+   (t (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! last-old
- (lambda (lst)
+(defun last-old
+  (lst)
   "Get last item in a list, old version."
   (if (or? (nil? lst) (nil? (cdr lst)))
    lst
-   (last (cdr lst)))))
+   (last (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; appenc/nconc!:                                                             ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! append
- (lambda (lst1 lst2)
+(defun append
+  (lst1 lst2)
   "Append two lists."
   (if (nil? lst1)
    lst2
-   (cons (car lst1) (append (cdr lst1) lst2)))))
+   (cons (car lst1) (append (cdr lst1) lst2))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! nconc2!
- (lambda (lst1 lst2)
+(defun nconc2!
+  (lst1 lst2)
   "Destructively join two lists."
   (cond
    ((nil? lst1) lst2)
    (t (rplacd! (last lst1) lst2)
-    lst1))))
+    lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! nconc!
- (lambda lists
+(defun nconc!
+  lists
   "Destructively join many lists."
   (let ((result (car lists))
         (remaining (cdr lists)))
@@ -142,111 +142,111 @@
      (rplacd! tail (car remaining))
      (setq! result tail))
     (setq! remaining (cdr remaining)))
-   (car lists))))
+   (car lists)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (push/push-back):                                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! push-back!
- (lambda (lst elem)
+(defun push-back!
+  (lst elem)
   "Destructively push elem onto the end of lst."
   (rplacd! (last lst) (cons elem nil))
-  lst))
+  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! push!
- (lambda (elem lst)
+(defun push!
+  (elem lst)
   "Destructively push elem onto the front of lst."
   (let ((old-car (car lst)))
    (rplaca! lst elem)
    (rplacd! lst (cons old-car (cdr lst)))
-   lst)))
+   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! push-back
- (lambda (lst elem)
+(defun push-back
+  (lst elem)
   "Non-destructively push elem onto the end of lst."
-  (append lst (cons elem nil))))
+  (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! push
- (lambda (elem lst)
+(defun push
+  (elem lst)
   "Non-destructively push elem onto the front of lst, aka cons."
-  (cons elem lst)))
+  (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (reduce/rreduce/filter):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! reduce
- (lambda (fun acc lst)
+(defun reduce
+  (fun acc lst)
   (if (nil? lst)
    acc
-   (reduce fun (fun acc (car lst)) (cdr lst)))))
+   (reduce fun (fun acc (car lst)) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! rreduce
- (lambda (fun acc lst)
+(defun rreduce
+  (fun acc lst)
   (if (nil? lst)
    acc
-   (fun (car lst) (rreduce fun acc (cdr lst))))))
+   (fun (car lst) (rreduce fun acc (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! filter
- (lambda (pred lst)
+(defun filter
+  (pred lst)
   (cond
    ((nil? lst) nil)
    ((pred (car lst))
     (cons (car lst) (filter pred (cdr lst))))
-   (t (filter pred (cdr lst))))))
+   (t (filter pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (map variants):                                                  ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! mapcar
- (lambda (fun lst)
+(defun mapcar
+  (fun lst)
   (if (nil? lst)
    nil
-   (cons (fun (car lst)) (mapcar fun (cdr lst))))))
+   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! mapc
- (lambda (fun lst)
+(defun mapc
+  (fun lst)
   (if (nil? lst)
    nil
    (fun (car lst))
-   (mapc fun (cdr lst)))))
+   (mapc fun (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! mapconcat
- (lambda (fun lst delimiter)
+(defun mapconcat
+  (fun lst delimiter)
   (if (nil? lst)
    ""
    (reduce
     (lambda (acc item)
      (concat acc delimiter item))
     (fun (car lst))
-    (mapcar fun (cdr lst))))))
+    (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! mapcan
- (lambda (fun lst)
+(defun mapcan
+  (fun lst)
   (if (nil? lst)
    nil
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
     (if (nil? result)
      rest
-     (nconc! result rest))))))
+     (nconc! result rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; misc:                                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! 1+     (lambda (n) (+ 1 n)))                                           ;)
+(defun 1+      (n) (+ 1 n))                                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! double (lambda (n) (* 2 n)))                                           ;)
+(defun double  (n) (* 2 n))                                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! transform!
- (lambda (obj pred fun)
+(defun transform!
+  (obj pred fun)
   (if (atom? obj)
    (error "obj must be a list")
    (cond
@@ -261,26 +261,26 @@
        ((pred tail)  (rplacd! obj (fun tail)))
        ((cons? tail) (rplacd! obj (transform! tail pred fun))))))
     (t obj))
-   obj)))
+   obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! transform
- (lambda (obj pred fun)
+(defun transform
+  (obj pred fun)
   (if (atom? obj)
    (if (pred obj)
     (fun obj)
     obj)
    (cons
     (transform (car obj) pred fun)
-    (transform (cdr obj) pred fun)))))
+    (transform (cdr obj) pred fun))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! prefetch
- (lambda (expr)
+(defun prefetch
+  (expr)
   (transform! expr
    (lambda (x) (and? (symbol? x) (bound? x)))
-   (lambda (x) (eval x)))))
+   (lambda (x) (eval x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! benchmark
- (lambda (repetitions print-interval qexpr)
+(defun benchmark
+  (repetitions print-interval qexpr)
   (nl)
   (let ((ctr   0)
         (total 0))
@@ -307,15 +307,15 @@
     (princ "each ms: ")
     (princ (/ total repetitions 1000))
     (nl)
-    each-ms))))
+    each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; log toggle helpers, these should be replaced with macros:                  ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! with-toggled-fun1
- (lambda (toggled-fun)
+(defun with-toggled-fun1
+  (toggled-fun)
   (lambda (fun-or-expr)
    (if (lambda? fun-or-expr)
     (let* ((old    (toggled-fun t))
@@ -325,12 +325,12 @@
     (let* ((old    (toggled-fun t))
            (result (eval fun-or-expr))
            (new    (toggled-fun old)))
-     result)))))
+     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! with-toggled-fun
- (lambda (toggled-fun)
+(defun with-toggled-fun
+  (toggled-fun)
   (lambda funs-or-exprs
-   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs)))))
+   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
@@ -339,55 +339,47 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! zip2
- (lambda (lst1 lst2)
+(defun zip2 (lst1 lst2)
   (cond
    ((or? (nil? lst1) (nil? lst2)) nil)
    (t (cons (list (car lst1) (car lst2))
-       (zip2 (cdr lst1) (cdr lst2)))))))
+       (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! zip3
- (lambda (l1 l2 l3)
-  (mapcar flatten1 (reduce zip2 l1 (list l2 l3)))))
+(defun zip3 (l1 l2 l3)
+  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! any?
- (lambda (pred lst)
+(defun any? (pred lst)
   (if (nil? lst)
    nil
    (or?
     (pred (car lst))
-    (any? pred (cdr lst))))))
+    (any? pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! all?
- (lambda (pred lst)
+(defun all? (pred lst)
   (if (nil? lst)
    t 
    (and?
     (pred (car lst))
-    (all? pred (cdr lst))))))
+    (all? pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! heads
- (lambda (lsts)
+(defun heads (lsts)
   (if (nil? lsts)
    nil
-   (cons (car (car lsts)) (heads (cdr lsts))))))
+   (cons (car (car lsts)) (heads (cdr lsts)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! tails
- (lambda (lsts)
+(defun tails (lsts)
   (if (nil? lsts)
    nil
-   (cons (cdr (car lsts)) (tails (cdr lsts))))))
+   (cons (cdr (car lsts)) (tails (cdr lsts)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! flatten1
- (lambda (lst)
+(defun flatten1 (lst)
   (cond
    ((nil? lst) nil)
    ((tail? (car lst))
     (append (car lst) (flatten1 (cdr lst)))) 
-   (t (cons (car lst) (flatten1 (cdr lst)))))))
+   (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! compose-preds
- (lambda preds
+(defun compose-preds preds
   (lambda (val)
    (let* ((fun
            (lambda (preds)
@@ -396,13 +388,12 @@
              ((nil? ((car preds) val)) nil)
              (t
               (fun (cdr preds)))))))
-    (fun preds)))))
+    (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! intercalate
- (lambda (intercalated items)
+(defun intercalate (intercalated items)
   (if (or? (nil? items) (nil? (cdr items)))
    items
    (cons (car items) 
     (cons intercalated
-     (intercalate intercalated (cdr items)))))))
+     (intercalate intercalated (cdr items))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
