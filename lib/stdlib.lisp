@@ -15,10 +15,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! defmacro
  (macro (name params . body)
-  (list 'setq! name (list 'macro params . body))))
+  #(setq! name #(macro params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)
- (list 'setq! name (list 'lambda params . body)))
+ #(setq! name #(lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -255,8 +255,8 @@
 (defun flatten-left (lst)
  "Flatten left-nested list structures."
  (if (cons? (car lst))
-  (append (flatten-left (car lst)) (list (cadr lst)))
-  lst))
+  (append (flatten-left (car lst)) #(cadr lst)))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten (lst)
  (when (not? (nil? lst))
@@ -272,12 +272,12 @@
  "Zip two lists."
  (cond
   ((or? (nil? lst1) (nil? lst2)) nil)
-  (t (cons (list (car lst1) (car lst2))
-      (zip2 (cdr lst1) (cdr lst2))))))
+  (t (cons #((car lst1) (car lst2))
+      (zip2  (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip3 (l1 l2 l3)
  "Zip three lists."
- (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
+ (mapcar flatten1 (reduce zip2 l1 #(l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! left-nested-zip (reduced zip2))
 (defmacro zip lists
