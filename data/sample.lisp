@@ -61,9 +61,9 @@
  (macro (name params . body)
   (list (quote setq!) name (list (quote lambda) params . body))))
 
-(defun doub (x) (* 2 x)) (nl)
+(defun 2* (x) (* 2 x)) (nl)
 
-(princ "this: " ) (write (doub 3)) (nl) ;; successfuly prints 6.
+(princ "this: " ) (write (2* 3)) (nl) ;; successfuly prints 6.
 
 ;; (setq! test
 ;;  (macro (name params . body) (list setq! name params body)))
