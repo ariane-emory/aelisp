@@ -215,16 +215,19 @@
 ;; list funs (reduce/rreduce/filter):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun reduce (fun acc lst)
+ "Left reduce ('fold') list by applying fun to successive pairs."
  (if (nil? lst)
   acc
   (reduce fun (fun acc (car lst)) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun rreduce (fun acc lst)
+ "Right reduce ('foldr') list by applying fun to successive pairs."
  (if (nil? lst)
   acc
   (fun (car lst) (rreduce fun acc (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun filter (pred lst)
+ "Return a list containing those members of lst satisfying pred."
  (cond
   ((nil? lst) nil)
   ((pred (car lst))
