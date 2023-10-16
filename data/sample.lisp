@@ -13,14 +13,7 @@
 
 ;; What you just gave me seems to recurse forever without returning.
 
-(defun zip2 (lst1 lst2)
- "Zip two lists."
- (cond
-  ((or? (nil? lst1) (nil? lst2)) nil)
-  (t (cons (list (car lst1) (car lst2))
-      (zip2 (cdr lst1) (cdr lst2))))))
 
-(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
  
 
 (defun flatten (lst)

@@ -256,7 +256,7 @@
   (append (flatten-left (car lst)) (list (cadr lst)))
   lst))
 ;;;;;;;;;\;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! zip (reduced (lambda (x y) (flatten-left (zip2 x y))) arg))
+(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
