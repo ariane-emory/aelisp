@@ -27,3 +27,5 @@
 (write (sum 1 2 3 4 5 6)) (nl)
 
 (princni ", " 1 2 3)
+
+(write (zip2 '(1 2 3) '(a b c)))
