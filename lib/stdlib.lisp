@@ -8,17 +8,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! defmacro-old
  (macro (name params . body)
-  (list 'setq! name (list 'macro params . body))))
+  (list 'setq! name (list 'macro  params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro-old defun (name params . body)
- (list 'setq! name (list 'lambda params . body)))
+ (list 'setq!  name (list 'lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! defmacro
  (macro (name params . body)
-  #(setq! name #(macro params . body))))
+  #(setq! name #(macro  params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)
- #(setq! name #(lambda params . body)))
+ #(setq!  name #(lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
