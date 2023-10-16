@@ -433,3 +433,13 @@
   (max 1 (+ (list-depth (car lst)) (list-depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+
+
+
+
+
+(defun flatten (lst)
+  (when (not? (nil? lst))
+   (if (cons? (car lst))
+    (append (flatten (car lst)) (flatten (cdr lst)))
+    (cons (car lst) (flatten (cdr lst))))))
