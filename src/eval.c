@@ -33,9 +33,8 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     int args_count = LENGTH(args);
   
     if (log_eval)
-        LOG(args, "evaluating fun's %d arg%s:",
-            LENGTH(args), s_or_blank(args_count));
-
+        LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
+ 
     INDENT;
 
     ae_obj_t*  current_arg     = args;
