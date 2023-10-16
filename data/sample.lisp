@@ -20,6 +20,6 @@
     (cons (car lst) (flatten (cdr lst))))))
 
 
-(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
+(setq! left-nested-zip (reduced (lambda (x y) (zip2 x y)) arg))
 
-(princ "flat: ") (write (mapcar flatten (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
+(princ "flat: ") (write (mapcar flatten (left-nested-zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
