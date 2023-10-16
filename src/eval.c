@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-ae_obj_t * eval_args(ae_obj_t * const env, ae_obj_t * const args) {
+ae_obj_t * eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
   if (ATOMP(args)) {
     return EVAL(env, args );
   }

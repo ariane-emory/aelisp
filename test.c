@@ -1472,7 +1472,7 @@ void eval_args_test(void) {
 
   OLOG(args);
 
-  ae_obj_t * evaled_args = eval_args(env, args);
+  ae_obj_t * evaled_args = eval_args(env, args, 0);
 
   OLOG(evaled_args);
   
