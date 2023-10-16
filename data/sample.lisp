@@ -15,6 +15,10 @@
 
 (write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
 
+(setq! nconc! (reduced nconc2!))
+
+(write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
+
 
 (defun add (x y) (+ x y))
 
