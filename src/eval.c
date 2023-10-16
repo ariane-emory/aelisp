@@ -27,23 +27,23 @@
 // eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*
- ae_obj_t * eval_args(ae_obj_t * const args, ae_obj_t * const env) {
-  if (CONSP(args))
-    return eval_expr(env, args );
+
+ae_obj_t * eval_args(ae_obj_t * const env, ae_obj_t * const args) {
+  if (ATOMP(args)) {
+    return EVAL(env, args );
+  }
   else {
     ae_obj_t * head = CAR(args);
     ae_obj_t * tail = CDR(args);
 
-    *head = EVAL(env, head);
-    *tail = EVAL(env, tail);
+    head = EVAL(env, head);
+    tail = eval_args(env, tail);
 
     return NEW_CONS(head, tail);
   }
 }
-*/
 
-/* static */ ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
+/* static */ ae_obj_t * eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
 
   if (CAR(args)) {
