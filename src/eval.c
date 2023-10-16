@@ -293,10 +293,26 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     : apply_user(env, fun, args);
 
   if (MACROP(fun)) {
-    /* do some replacey stuff here */
-    /* ret should replace obj?     */
+    /* do some replacey stuff here.  */
+    /* this is new and might be kind of suss. */
 
-    UNSAFE_MOVE(obj, EVAL(env, ret));
+//    if (log_eval)
+      LOG(ret, "expansion");
+
+    if (CONSP(ret)) {
+      CAR(obj) = CAR(ret);
+      CDR(obj) = CDR(ret);
+    }
+    else {
+      CAR(obj) = SYM("progn");
+      CDR(obj) = CONS(ret, NIL);
+    }
+
+//    if (log_eval)
+      LOG(ret, "polished expansion");
+
+    ret = EVAL(env, obj);
+//    UNSAFE_MOVE(obj, ret);
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply

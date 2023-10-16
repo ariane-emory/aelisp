@@ -49,17 +49,21 @@
 
 (setq! test
  (macro (foo bar)
-  (list foo bar)))
+  (list quote (list foo bar))))
 
-(write (test 12 34)) (nl)
+(princ "test: ") (write (test 12 34)) (nl)
 
 ;; (setq! defmacro
 ;;  (macro (name params . body)
-;;   (list (quote setq!) name (list (quote macro) params . body))))
-  
-;; (setq! defun
-;;  (macro (name params . body)
-;;   (list (quote setq!) name (list (quote lambda) params . body))))
+;;  (list (quote setq!) name (list (quote macro) params . body))))
+
+(setq! defun
+ (macro (name params . body)
+  (list (quote setq!) name (list (quote lambda) params . body))))
+
+(defun doub (x) (* 2 x)) (nl)
+
+(princ "this: " ) (write (doub 3)) (nl) ;; successfuly prints 6.
 
 ;; (setq! test
 ;;  (macro (name params . body) (list setq! name params body)))
