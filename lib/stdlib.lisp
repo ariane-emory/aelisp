@@ -346,6 +346,9 @@
  "Zip three lists."
  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; This does not flatten its result properly yet:
+(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun any? (pred lst)
  "True when any lst members are pred."
  (if (nil? lst)
