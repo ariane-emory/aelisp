@@ -175,8 +175,15 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
   
-  if (! SPECIALP(fun))
+  if (! SPECIALP(fun)) {
     args = eval_args(env, args);
+    
+    if (log_eval)
+      LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+  }
+  else if (log_eval) {
+    LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+  }
   
   ae_obj_t * body    = FUN_BODY(fun);
 
