@@ -14,11 +14,10 @@
  
 
 (defun flatten (lst)
-  (if (nil? lst)
-      nil
-      (if (cons? (car lst))
-          (append (flatten (car lst)) (flatten (cdr lst)))
-          (cons (car lst) (flatten (cdr lst))))))
+  (when (not? (nil? lst))
+   (if (cons? (car lst))
+    (append (flatten (car lst)) (flatten (cdr lst)))
+    (cons (car lst) (flatten (cdr lst))))))
 
 
 (setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
