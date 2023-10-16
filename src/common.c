@@ -219,6 +219,8 @@ bool setopts(int argc, char *argv[]) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void yyrestart(FILE * input_file);
+
 ae_obj_t * load_file(ae_obj_t * const env, const char * filename, bool * const failed_to_open) {
   FILE * original_yyin = yyin;
   yyin = fopen(filename, "r");
