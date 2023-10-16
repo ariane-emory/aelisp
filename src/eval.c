@@ -27,10 +27,7 @@
 // ae_eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env, ae_obj_t * const args, int acc) {
-  if (NILP(args))
-    return NIL;
-
+static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env, ae_obj_t * const args, int acc, int arg_count) {
   if (ATOMP(args)) {
     return EVAL(env, args);
   }
@@ -42,10 +39,14 @@ static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env, ae_obj_t * const a
 }
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-  return ae_eval_args_internal(env, args, 0);
+    if (log_eval)
+      LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+
+    return ae_eval_args_internal(env, args, 0);
 }
-  
-/* static */ ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
+
+__attribute__ ((unused))
+static ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
 
   if (CAR(args)) {
@@ -417,11 +418,11 @@ typedef struct {
 static const eval_dispatch_row_t eval_dispatch_table[] = {
   { AE_CONS,     &apply,  },
   { AE_SYMBOL,   &lookup, },
+  { AE_INTEGER,  &self,   },
   { AE_CORE,     &self,   },
   { AE_LAMBDA,   &self,   },
   { AE_MACRO,    &self,   },
   { AE_STRING,   &self,   },
-  { AE_INTEGER,  &self,   },
   { AE_ENV,      &self,   },
   { AE_ERROR,    &self,   },
   { AE_CHAR,     &self,   },
@@ -434,6 +435,9 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
+  if (NILP(obj))
+    return NIL;
+  
   assert(env);
   assert(obj);
   assert(ENVP(env));
