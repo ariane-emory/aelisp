@@ -18,7 +18,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; type predicates:                                                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun type?     (typ o) (eq?  typ     (type            o                    )))
+(defun type?     (typ o) (eq?   typ    (type            o                    )))
 (defun atom?     (o)     (not? (type?   :CONS           o                    )))
 (defun char?     (o)           (type?   :CHAR           o                     ))
 (defun cons?     (o)           (type?   :CONS           o                     ))
