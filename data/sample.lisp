@@ -23,7 +23,8 @@
 ;; (log-all t)
 (log-macro t)
 
-(zip '(1 2 3) '(a b c))
-(zip '(1 2 3) '(a b c) '(7 8 9))
-(zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))
 (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))
+(zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))
+(zip '(1 2 3) '(a b c) '(7 8 9))
+(zip '(1 2 3) '(a b c))
+(zip '(1 2 3))
