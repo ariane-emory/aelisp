@@ -54,6 +54,15 @@
 (write (apply + 1 2 '(3 4))) (nl)
 (write (apply + 1 2 '(* 3 4) '(5 6))) (nl)
 
+
+(write (zip2 '(1 2 3) '(a b c d))) (nl)
+
+(write (flatten1 '(a (b c)))) (nl)
+
+(setq! lsts '((a b) (2 3) (4 5))) (nl)
+(write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
+(write (zip3 '(a b) '(2 3) '(4 5))) (nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (log-macro t)
