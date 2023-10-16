@@ -4,33 +4,6 @@
 (princ "this should print 6: " ) (write (2* 3)) (nl) ;; successfuly prints 6.
 (princ "this should print 6: " ) (write (2* 3)) (nl) ;; does not re-expand.
 
-(write (append '(1 2) '(3 4) '(5 6))) (nl)
-
-;; (log-all t)
-(write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
-
-
-;; (defun nconc! lists
-;;  (reduce nconc2! (car lists) (cdr lists)))
-
-(write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
-
-(setq! nconc! (reduced nconc2!))
-(write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
-
-
-(defun add (x y) (+ x y))
-
-(setq! sum (reduced add))
-
-(write (sum 1 2 3 4 5 6)) (nl)
-
-(princni ", " 1 2 3)
-
-(princ "zip2: ") (write (zip2 '(1 2 3) '(a b c))) (nl)
-
-(princ "zip3: ") (write (zip3 '(1 2 3) '(a b c) '(10 20 30))) (nl)
-
 
 (defun flatten (lst)
  (cond
