@@ -13,7 +13,6 @@
 
 ;; What you just gave me seems to recurse forever without returning.
 
-;; This verstion of zip:
 (defun zip2 (lst1 lst2)
  "Zip two lists."
  (cond
@@ -22,7 +21,6 @@
       (zip2 (cdr lst1) (cdr lst2))))))
 
 (setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
-(princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
  
 
 (defun flatten (lst)
