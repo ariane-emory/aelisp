@@ -55,7 +55,7 @@
  (macro (foo bar)
   (list foo bar)))
 
-(write (test 12 34))
+(write (test 12 34)) (nl)
 
 (setq! defmacro
  (macro (name params . body)

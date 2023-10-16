@@ -27,117 +27,65 @@
 // ae_eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env,
-                                        ae_obj_t * const args,
-                                        int ctr,
-                                        int args_count) {
-  NIL_IF_NILP(args);
-
-  ae_obj_t* current_arg = args;
-  ae_obj_t* result_head = NULL;
-  ae_obj_t** result_tail_ptr = &result_head;
-
-  while (! ATOMP(current_arg)) {
-    ++ctr;
-
-    if (log_eval)
-      LOG(CAR(current_arg), "eval   arg #%d/%d", ctr, args_count);
-
-    INDENT;
-
-    ae_obj_t* eval_result = EVAL(env, CAR(current_arg));
-
-    OUTDENT;
-
-    if (log_eval)
-      LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
-
-    *result_tail_ptr = NEW_CONS(eval_result, NIL);
-    result_tail_ptr = &CDR(*result_tail_ptr);
-
-    current_arg = CDR(current_arg);
-  }
-
-  if (ATOMP(current_arg)) {
-    if (log_eval)
-      LOG(current_arg, "eval   tail arg");
-
-    INDENT;
-
-    ae_obj_t* eval_result = EVAL(env, current_arg);
-
-    OUTDENT;
-
-    if (log_eval)
-      LOG(eval_result, "evaled tail arg");
-
-    *result_tail_ptr = eval_result;
-  }
-
-  return result_head;
-}
-
-__attribute__((unused))
-static ae_obj_t * ae_eval_args_internal_old(ae_obj_t * const env,
-                                            ae_obj_t * const args,
-                                            int ctr,
-                                            int args_count) {
-  NIL_IF_NILP(args);
-  
-  if (ATOMP(args)) {
-    if (log_eval)
-      LOG(args, "eval   tail arg");
-
-    INDENT;
-    
-    ae_obj_t * ret = EVAL(env, args);
-
-    OUTDENT;
-
-    if (log_eval)
-      LOG(ret, "evaled tail arg");
-
-    return ret;
-  }
-
-  ++ctr;
-
-  if (log_eval)
-    LOG(CAR(args), "eval   arg #%d/%d", ctr, args_count);
-  
-  INDENT;
-      
-  ae_obj_t * head = EVAL(env, CAR(args));
-
-  OUTDENT;
-  
-  if (log_eval)
-    LOG(head, "eval   arg #%d/%d", ctr, args_count);
-
-  ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ctr, args_count);
-
-  return NEW_CONS(head, tail);
-}
-
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-  NIL_IF_NILP(args);
+    NIL_IF_NILP(args);
 
-  int args_count = LENGTH(args);
+    int args_count = LENGTH(args);
   
-  if (log_eval)
-    LOG(args, "evaluating fun's %d arg%s:",
-        LENGTH(args), s_or_blank(args_count));
+    if (log_eval)
+        LOG(args, "evaluating fun's %d arg%s:",
+            LENGTH(args), s_or_blank(args_count));
 
-  INDENT;
-    
-  ae_obj_t * ret = ae_eval_args_internal(env, args, 0, args_count);
+    INDENT;
 
-  OUTDENT;
+    ae_obj_t*  current_arg     = args;
+    ae_obj_t*  result_head     = NIL;
+    ae_obj_t** result_tail_ptr = &result_head;
+    int        ctr             = 0;
   
-  if (log_eval)
-    LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+    while (! ATOMP(current_arg)) {
+        ++ctr;
 
-  return ret;
+        if (log_eval)
+            LOG(CAR(current_arg), "eval   arg #%d/%d", ctr, args_count);
+
+        INDENT;
+
+        ae_obj_t* eval_result = EVAL(env, CAR(current_arg));
+
+        OUTDENT;
+
+        if (log_eval)
+            LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
+
+        *result_tail_ptr = NEW_CONS(eval_result, NIL);
+        result_tail_ptr = &CDR(*result_tail_ptr);
+
+        current_arg = CDR(current_arg);
+    }
+
+    if (! NILP(current_arg)) {
+        if (log_eval)
+            LOG(current_arg, "eval   tail arg");
+
+        INDENT;
+
+        ae_obj_t* eval_result = EVAL(env, current_arg);
+
+        OUTDENT;
+
+        if (log_eval)
+            LOG(eval_result, "evaled tail arg");
+
+        *result_tail_ptr = eval_result;
+    }
+
+    OUTDENT;
+  
+    if (log_eval)
+        LOG(result_head, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+
+    return result_head;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
