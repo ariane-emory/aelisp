@@ -6,12 +6,12 @@
 ;; (write (mapcar flatten (left-nested-zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
 
 (log-macro t)
-(log-core  t)
-(log-eval  t)
+;; (log-core  t)
+;; (log-eval  t)
 
-;; (princ " ") (write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
-;; (princ " ") (write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
+(princ " ") (write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
+(princ " ") (write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
 (princ " ") (write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
-;; (princ " ") (write (zip '(1 2 3) '(a b c))) (nl)
-;; (princ " ") (write (zip '(1 2 3))) (nl)
+(princ " ") (write (zip '(1 2 3) '(a b c))) (nl)
+(princ " ") (write (zip '(1 2 3))) (nl)
 
