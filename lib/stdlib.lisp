@@ -59,18 +59,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; compound car/cdrs:                                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun cadr      (x)          (car (cdr x)))                           
-(defun cdar      (x)          (cdr (car x)))                           
-(defun cddr      (x)          (cdr (cdr x)))                           
-(defun caar      (x)          (car (car x)))                           
-(defun caaar     (x)        (car (car (car x))))                          
-(defun caadr     (x)        (car (car (cdr x))))                          
-(defun cadar     (x)        (car (cdr (car x))))                          
-(defun caddr     (x)        (car (cdr (cdr x))))                          
-(defun cdaar     (x)        (cdr (car (car x))))                          
-(defun cdadr     (x)        (cdr (car (cdr x))))                          
-(defun cddar     (x)        (cdr (cdr (car x))))                          
-(defun cdddr     (x)        (cdr (cdr (cdr x))))                          
+(defun cadr      (x)          (car (cdr x)))
+(defun cdar      (x)          (cdr (car x)))
+(defun cddr      (x)          (cdr (cdr x)))
+(defun caar      (x)          (car (car x)))
+(defun caaar     (x)        (car (car (car x))))
+(defun caadr     (x)        (car (car (cdr x))))
+(defun cadar     (x)        (car (cdr (car x))))
+(defun caddr     (x)        (car (cdr (cdr x))))
+(defun cdaar     (x)        (cdr (car (car x))))
+(defun cdadr     (x)        (cdr (car (cdr x))))
+(defun cddar     (x)        (cdr (cdr (car x))))
+(defun cdddr     (x)        (cdr (cdr (cdr x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -265,15 +265,16 @@
 (setq! with-log-all  (with-toggled-fun log-all))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; random stuff that's all one section for now:                               ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun 1+      (n) (+ 1 n))                                                   ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun double  (n) (* 2 n))                                                   ;)
+(setq! 2*      double)                                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun transform!
-  (obj pred fun)
+(defun transform! (obj pred fun)
   (if (atom? obj)
    (error "obj must be a list")
    (cond
@@ -290,8 +291,7 @@
     (t obj))
    obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun transform
-  (obj pred fun)
+(defun transform (obj pred fun)
   (if (atom? obj)
    (if (pred obj)
     (fun obj)
@@ -300,14 +300,12 @@
     (transform (car obj) pred fun)
     (transform (cdr obj) pred fun))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun prefetch
-  (expr)
+(defun prefetch (expr)
   (transform! expr
    (lambda (x) (and? (symbol? x) (bound? x)))
    (lambda (x) (eval x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun benchmark
-  (repetitions print-interval qexpr)
+(defun benchmark (repetitions print-interval qexpr)
   (nl)
   (let ((ctr   0)
         (total 0))
@@ -354,7 +352,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun all? (pred lst)
   (if (nil? lst)
-   t 
+   t
    (and?
     (pred (car lst))
     (all? pred (cdr lst)))))
@@ -373,7 +371,7 @@
   (cond
    ((nil? lst) nil)
    ((tail? (car lst))
-    (append (car lst) (flatten1 (cdr lst)))) 
+    (append (car lst) (flatten1 (cdr lst))))
    (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun compose-preds preds
@@ -390,7 +388,7 @@
 (defun intercalate (intercalated items)
   (if (or? (nil? items) (nil? (cdr items)))
    items
-   (cons (car items) 
+   (cons (car items)
     (cons intercalated
      (intercalate intercalated (cdr items))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
