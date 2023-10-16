@@ -14,7 +14,7 @@
 ;; (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
 
 
-(defmacro zipm lists
+(defmacro zip lists
  "Zip a list of lists."
  (list 'mapcar 'flatten (cons 'left-nested-zip lists)))
 ;; (mapcar flatten (apply left-nested-zip lists)))
@@ -22,4 +22,8 @@
 (princ "flat m: ")
 ;; (log-all t)
 (log-macro t)
-(zipm '(1 2 3) '(a b c) '(10 20 30) '(x y z)) (nl)
+
+(zip '(1 2 3) '(a b c))
+(zip '(1 2 3) '(a b c) '(7 8 9))
+(zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))
+(zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))
