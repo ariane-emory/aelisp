@@ -99,38 +99,38 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (map variants):                                                  ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapcar
-  (fun lst)
-  (if (nil? lst)
-   nil
-   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
+(defun mapcar (fun lst)
+ "Map fun over list, returning the resulting list."
+ (if (nil? lst)
+  nil
+  (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapc
-  (fun lst)
-  (if (nil? lst)
-   nil
+(defun mapc (fun lst)
+ "Map fun over list for side-effects only, ignoring the results and returning nil."
+ (if (nil? lst)
+  nil
+  (fun (car lst))
+  (mapc fun (cdr lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun mapconcat (fun lst delimiter)
+ "Map fun over list, returning the result of concatenating the resulting strings."
+ (if (nil? lst)
+  ""
+  (reduce
+   (lambda (acc item)
+    (concat acc delimiter item))
    (fun (car lst))
-   (mapc fun (cdr lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapconcat
-  (fun lst delimiter)
-  (if (nil? lst)
-   ""
-   (reduce
-    (lambda (acc item)
-     (concat acc delimiter item))
-    (fun (car lst))
-    (mapcar fun (cdr lst)))))
+   (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcan
-  (fun lst)
-  (if (nil? lst)
-   nil
-   (let ((result (fun (car lst)))
-         (rest   (mapcan fun (cdr lst))))
-    (if (nil? result)
-     rest
-     (nconc! result rest)))))
+ (fun lst)
+ (if (nil? lst)
+  nil
+  (let ((result (fun (car lst)))
+        (rest   (mapcan fun (cdr lst))))
+   (if (nil? result)
+    rest
+    (nconc! result rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -138,19 +138,19 @@
 ;; list funs (nth/last):                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nth
-  (n lst)
-  (cond
-   ((nil? lst)  nil)
-   ((eql? n 0)  (car lst))
-   (t           (nth (- n 1) (cdr lst)))))
+ (n lst)
+ (cond
+  ((nil? lst)  nil)
+  ((eql? n 0)  (car lst))
+  (t           (nth (- n 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun last
-  (lst)
-  "Get last item in a list."
-  (cond
-   ((nil? lst) nil)
-   ((nil? (cdr lst)) lst)
-   (t (last (cdr lst)))))
+ (lst)
+ "Get last item in a list."
+ (cond
+  ((nil? lst) nil)
+  ((nil? (cdr lst)) lst)
+  (t (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -167,21 +167,21 @@
 ;; list funs (append/nconc variants):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun append2
-  (lst1 lst2)
-  "Append two lists."
-  (if (nil? lst1)
-   lst2
-   (cons (car lst1) (append2 (cdr lst1) lst2))))
+ (lst1 lst2)
+ "Append two lists."
+ (if (nil? lst1)
+  lst2
+  (cons (car lst1) (append2 (cdr lst1) lst2))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! append (reduced append2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nconc2!
-  (lst1 lst2)
-  "Destructively join two lists."
-  (cond
-   ((nil? lst1) lst2)
-   (t (rplacd! (last lst1) lst2)
-    lst1)))
+ (lst1 lst2)
+ "Destructively join two lists."
+ (cond
+  ((nil? lst1) lst2)
+  (t (rplacd! (last lst1) lst2)
+   lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! nconc! (reduced nconc2!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -191,24 +191,24 @@
 ;; list funs (push/push-back):                                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun push-back! (lst elem)
-  "Destructively push elem onto the end of lst."
-  (rplacd! (last lst) (cons elem nil))
-  lst)
+ "Destructively push elem onto the end of lst."
+ (rplacd! (last lst) (cons elem nil))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun push! (elem lst)
-  "Destructively push elem onto the front of lst."
-  (let ((old-car (car lst)))
-   (rplaca! lst elem)
-   (rplacd! lst (cons old-car (cdr lst)))
-   lst))
+ "Destructively push elem onto the front of lst."
+ (let ((old-car (car lst)))
+  (rplaca! lst elem)
+  (rplacd! lst (cons old-car (cdr lst)))
+  lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun push-back (lst elem)
-  "Non-destructively push elem onto the end of lst."
-  (append lst (cons elem nil)))
+ "Non-destructively push elem onto the end of lst."
+ (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun push (elem lst)
-  "Non-destructively push elem onto the front of lst, aka cons."
-  (cons elem lst))
+ "Non-destructively push elem onto the front of lst, aka cons."
+ (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -216,21 +216,21 @@
 ;; list funs (reduce/rreduce/filter):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun reduce (fun acc lst)
-  (if (nil? lst)
-   acc
-   (reduce fun (fun acc (car lst)) (cdr lst))))
+ (if (nil? lst)
+  acc
+  (reduce fun (fun acc (car lst)) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun rreduce (fun acc lst)
-  (if (nil? lst)
-   acc
-   (fun (car lst) (rreduce fun acc (cdr lst)))))
+ (if (nil? lst)
+  acc
+  (fun (car lst) (rreduce fun acc (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun filter (pred lst)
-  (cond
-   ((nil? lst) nil)
-   ((pred (car lst))
-    (cons (car lst) (filter pred (cdr lst))))
-   (t (filter pred (cdr lst)))))
+ (cond
+  ((nil? lst) nil)
+  ((pred (car lst))
+   (cons (car lst) (filter pred (cdr lst))))
+  (t (filter pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -238,20 +238,20 @@
 ;; log toggle helpers, these should be replaced with macros:                  ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun with-toggled-fun1 (toggled-fun)
-  (lambda (fun-or-expr)
-   (if (lambda? fun-or-expr)
-    (let* ((old    (toggled-fun t))
-           (result (fun-or-expr))
-           (new    (toggled-fun old)))
-     result)
-    (let* ((old    (toggled-fun t))
-           (result (eval fun-or-expr))
-           (new    (toggled-fun old)))
-     result))))
+ (lambda (fun-or-expr)
+  (if (lambda? fun-or-expr)
+   (let* ((old    (toggled-fun t))
+          (result (fun-or-expr))
+          (new    (toggled-fun old)))
+    result)
+   (let* ((old    (toggled-fun t))
+          (result (eval fun-or-expr))
+          (new    (toggled-fun old)))
+    result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun with-toggled-fun (toggled-fun)
-  (lambda funs-or-exprs
-   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
+ (lambda funs-or-exprs
+  (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! with-log-eval (with-toggled-fun log-eval))
 (setq! with-log-core (with-toggled-fun log-core))
@@ -268,120 +268,120 @@
 (setq! 2*      double)                                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform! (obj pred fun)
-  (if (atom? obj)
-   (error "obj must be a list")
-   (cond
-    ((pred obj) (set! obj (fun obj)))
-    ((cons? obj)
-     (let ((head (car obj))
-           (tail (cdr obj)))
-      (cond
-       ((pred head)  (rplaca! obj (fun head)))
-       ((cons? head) (transform! head pred fun)))
-      (cond
-       ((pred tail)  (rplacd! obj (fun tail)))
-       ((cons? tail) (rplacd! obj (transform! tail pred fun))))))
-    (t obj))
-   obj))
+ (if (atom? obj)
+  (error "obj must be a list")
+  (cond
+   ((pred obj) (set! obj (fun obj)))
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+     (cond
+      ((pred head)  (rplaca! obj (fun head)))
+      ((cons? head) (transform! head pred fun)))
+     (cond
+      ((pred tail)  (rplacd! obj (fun tail)))
+      ((cons? tail) (rplacd! obj (transform! tail pred fun))))))
+   (t obj))
+  obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform (obj pred fun)
-  (if (atom? obj)
-   (if (pred obj)
-    (fun obj)
-    obj)
-   (cons
-    (transform (car obj) pred fun)
-    (transform (cdr obj) pred fun))))
+ (if (atom? obj)
+  (if (pred obj)
+   (fun obj)
+   obj)
+  (cons
+   (transform (car obj) pred fun)
+   (transform (cdr obj) pred fun))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prefetch (expr)
-  (transform! expr
-   (lambda (x) (and? (symbol? x) (bound? x)))
-   (lambda (x) (eval x))))
+ (transform! expr
+  (lambda (x) (and? (symbol? x) (bound? x)))
+  (lambda (x) (eval x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun benchmark (repetitions print-interval qexpr)
-  (nl)
-  (let ((ctr   0)
-        (total 0))
-   (repeat repetitions
-    (setq! ctr (+ 1 ctr))
-    (let ((before (time)))
-     (eval qexpr)
-     (setq! total (+ total (elapsed before))))
-    (when (== 0 (% ctr print-interval))
-     (nl)
-     (princ "Iteration #")
-     (princ ctr)
-     (princ ", ")
-     (princ (/ total 1000))
-     (princ " ms so far.")))
-   (nl)
-   (princ "total ums: ")u
-   (princ total) (nl)
-   (princ "total ms: ")
-   (princ (/ total 1000)) (nl)
-   (princ "total s: ")
-   (princ (/ total 1000000)) (nl)
-   (let ((each-ms (/ total repetitions 1000)))
-    (princ "each ms: ")
-    (princ (/ total repetitions 1000))
+ (nl)
+ (let ((ctr   0)
+       (total 0))
+  (repeat repetitions
+   (setq! ctr (+ 1 ctr))
+   (let ((before (time)))
+    (eval qexpr)
+    (setq! total (+ total (elapsed before))))
+   (when (== 0 (% ctr print-interval))
     (nl)
-    each-ms)))
+    (princ "Iteration #")
+    (princ ctr)
+    (princ ", ")
+    (princ (/ total 1000))
+    (princ " ms so far.")))
+  (nl)
+  (princ "total ums: ")u
+  (princ total) (nl)
+  (princ "total ms: ")
+  (princ (/ total 1000)) (nl)
+  (princ "total s: ")
+  (princ (/ total 1000000)) (nl)
+  (let ((each-ms (/ total repetitions 1000)))
+   (princ "each ms: ")
+   (princ (/ total repetitions 1000))
+   (nl)
+   each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip2 (lst1 lst2)
-  (cond
-   ((or? (nil? lst1) (nil? lst2)) nil)
-   (t (cons (list (car lst1) (car lst2))
-       (zip2 (cdr lst1) (cdr lst2))))))
+ (cond
+  ((or? (nil? lst1) (nil? lst2)) nil)
+  (t (cons (list (car lst1) (car lst2))
+      (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip3 (l1 l2 l3)
-  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
+ (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun any? (pred lst)
-  (if (nil? lst)
-   nil
-   (or?
-    (pred (car lst))
-    (any? pred (cdr lst)))))
+ (if (nil? lst)
+  nil
+  (or?
+   (pred (car lst))
+   (any? pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun all? (pred lst)
-  (if (nil? lst)
-   t
-   (and?
-    (pred (car lst))
-    (all? pred (cdr lst)))))
+ (if (nil? lst)
+  t
+  (and?
+   (pred (car lst))
+   (all? pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun heads (lsts)
-  (if (nil? lsts)
-   nil
-   (cons (car (car lsts)) (heads (cdr lsts)))))
+ (if (nil? lsts)
+  nil
+  (cons (car (car lsts)) (heads (cdr lsts)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun tails (lsts)
-  (if (nil? lsts)
-   nil
-   (cons (cdr (car lsts)) (tails (cdr lsts)))))
+ (if (nil? lsts)
+  nil
+  (cons (cdr (car lsts)) (tails (cdr lsts)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten1 (lst)
-  (cond
-   ((nil? lst) nil)
-   ((tail? (car lst))
-    (append (car lst) (flatten1 (cdr lst))))
-   (t (cons (car lst) (flatten1 (cdr lst))))))
+ (cond
+  ((nil? lst) nil)
+  ((tail? (car lst))
+   (append (car lst) (flatten1 (cdr lst))))
+  (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun compose-preds preds
-  (lambda (val)
-   (let* ((fun
-           (lambda (preds)
-            (cond
-             ((nil? (car preds))       t)
-             ((nil? ((car preds) val)) nil)
-             (t
-              (fun (cdr preds)))))))
-    (fun preds))))
+ (lambda (val)
+  (let* ((fun
+          (lambda (preds)
+           (cond
+            ((nil? (car preds))       t)
+            ((nil? ((car preds) val)) nil)
+            (t
+             (fun (cdr preds)))))))
+   (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun intercalate (intercalated items)
-  (if (or? (nil? items) (nil? (cdr items)))
-   items
-   (cons (car items)
-    (cons intercalated
-     (intercalate intercalated (cdr items))))))
+ (if (or? (nil? items) (nil? (cdr items)))
+  items
+  (cons (car items)
+   (cons intercalated
+    (intercalate intercalated (cdr items))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
