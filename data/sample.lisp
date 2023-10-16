@@ -59,6 +59,27 @@
 
 
 
+(defun flatten-deep (lst)
+  "Flatten a deeply nested list."
+  (cond
+    ((not? (cons? lst)) (list lst)) ; If it's an atom, return it as a single-element list
+    ((not? (cons? (car lst))) ; If the car is atomic
+     (cons (car lst) (if (cons? (cdr lst)) (flatten-deep (cdr lst)) (list (cdr lst)))))
+    (t (append (flatten-deep (car lst)) (flatten-deep (cdr lst))))))
+
+(defun flatten-zipped-lists (zipped-lst)
+  "Flatten the zipped lists."
+  (mapcar flatten-deep zipped-lst))
+
+(princ "flat: ") (write (flatten-zipped-lists (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
+
+(princ "flat: ") (write (flatten-zipped-lists (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
+
+
+
+;; Test cases
+(write (flatten '(((2 b) 20) y))) (nl)
+(write (flatten '((((z 2) b) 20) y))) (nl)
  
 
 (defun flatten (lst)
