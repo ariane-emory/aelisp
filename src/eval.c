@@ -297,7 +297,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     /* this is new and might be kind of suss. */
 
 //    if (log_eval)
-      LOG(ret, "expansion");
+    LOG(ret, "expansion");
 
     if (CONSP(ret)) {
       CAR(obj) = CAR(ret);
@@ -309,10 +309,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
 
 //    if (log_eval)
-      LOG(ret, "polished expansion");
+    LOG(ret, "polished expansion");
 
-    ret = EVAL(env, obj);
-//    UNSAFE_MOVE(obj, ret);
+    obj = ret = EVAL(env, obj);
+
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
