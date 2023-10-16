@@ -14,3 +14,4 @@
 (princ " ") (write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
 (princ " ") (write (zip '(1 2 3) '(a b c))) (nl)
 (princ " ") (write (zip '(1 2 3))) (nl)
+

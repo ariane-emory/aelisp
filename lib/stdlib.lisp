@@ -250,11 +250,24 @@
  "Zip three lists."
  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun flatten1 (lst)
+ (cond
+  ((nil? lst) nil)
+  ((tail? (car lst))
+   (append (car lst) (flatten1 (cdr lst))))
+  (t (cons (car lst) (flatten1 (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten-left (lst)
  "Flatten left-nested list structures."
  (if (cons? (car lst))
   (append (flatten-left (car lst)) (list (cadr lst)))
   lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun flatten (lst)
+  (when (not? (nil? lst))
+   (if (cons? (car lst))
+    (append (flatten (car lst)) (flatten (cdr lst)))
+    (cons (car lst) (flatten (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro zip lists
  "Zip many lists."
@@ -332,13 +345,6 @@
  (if (nil? lsts)
   nil
   (cons (cdr (car lsts)) (tails (cdr lsts)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun flatten1 (lst)
- (cond
-  ((nil? lst) nil)
-  ((tail? (car lst))
-   (append (car lst) (flatten1 (cdr lst))))
-  (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun compose-preds preds
  "Does what it says on the tin and compose preds."
@@ -441,11 +447,3 @@
 
 
 
-
-
-
-(defun flatten (lst)
-  (when (not? (nil? lst))
-   (if (cons? (car lst))
-    (append (flatten (car lst)) (flatten (cdr lst)))
-    (cons (car lst) (flatten (cdr lst))))))
