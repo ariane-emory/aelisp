@@ -1,11 +1,8 @@
-;; (exit)
-
 (setq! ct 8)
 
 (while (> ct 0)
  (write ct) (nl)
  (setq! ct (- ct 1)))
-
 
 (write (filter (lambda (x) (not? (nil? x))) '(a nil b c nil d))) (nl)
 
