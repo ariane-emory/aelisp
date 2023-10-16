@@ -9,9 +9,9 @@
 (setq! defmacro
  (macro (name params . body)
   (list 'setq! name (list 'macro params . body))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)
- (list (quote setq!) name (list 'lambda params . body)))
+ (list 'setq! name (list 'lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
