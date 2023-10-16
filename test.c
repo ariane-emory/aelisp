@@ -1476,8 +1476,8 @@ void eval_args_test(void) {
   
   ae_obj_t * mul_expr = CONS(SYM("*"), CONS(NEW_INT(3), CONS(NEW_INT(4), NIL)));
 
-  log_eval = true;
-  log_core = true;
+  /* log_eval = true; */
+  /* log_core = true; */
   
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));

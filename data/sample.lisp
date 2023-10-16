@@ -15,3 +15,6 @@
 (princ " ") (write (zip '(1 2 3) '(a b c))) (nl)
 (princ " ") (write (zip '(1 2 3))) (nl)
 
+(setq! x 66)
+(write (list 22 44 x))
+(write @(22 44 x))
