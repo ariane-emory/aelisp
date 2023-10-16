@@ -163,12 +163,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (append/nconc variants):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun append
+(defun append2
   (lst1 lst2)
   "Append two lists."
   (if (nil? lst1)
    lst2
-   (cons (car lst1) (append (cdr lst1) lst2))))
+   (cons (car lst1) (append2 (cdr lst1) lst2))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun append lists
+ (reduce append2 (car lists) (cdr lists)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nconc2!
   (lst1 lst2)
