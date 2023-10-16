@@ -27,8 +27,7 @@
 // ae_eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
+static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env, ae_obj_t * const args, int acc) {
   if (NILP(args))
     return NIL;
 
@@ -37,11 +36,15 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
   }
 
   ae_obj_t * head = EVAL(env, CAR(args));
-  ae_obj_t * tail = ae_eval_args(env, CDR(args), ++acc);
+  ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ++acc);
 
   return NEW_CONS(head, tail);
 }
 
+ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
+  return ae_eval_args_internal(env, args, 0);
+}
+  
 /* static */ ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
 
