@@ -81,11 +81,10 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled tail arg");
 
-    if (NILP(result_head)) {
+    if (NILP(result_head))
       result_head = eval_result;
-    } else {
+    else
       CDR(result_tail) = eval_result;
-    }
   }
 
   OUTDENT;
@@ -292,6 +291,13 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   ae_obj_t * ret = COREP(fun)
     ? apply_core(env, fun, args)
     : apply_user(env, fun, args);
+
+  if (MACROP(fun)) {
+    /* do some replacey stuff here */
+    /* ret should replace obj?     */
+
+    UNSAFE_MOVE(obj, EVAL(env, ret));
+  }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
   if (! DHAS(ret, "birth-place")) {

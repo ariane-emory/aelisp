@@ -47,34 +47,30 @@
 
 (princn '(test 1 2 3 4 5))
 
-;; (setq! princn* (lambda args (nl) (apply* princ args)))
-;; (princn* '(3 4))
-;(log-eval t)
-
 (setq! test
  (macro (foo bar)
   (list foo bar)))
 
 (write (test 12 34)) (nl)
 
-(setq! defmacro
- (macro (name params . body)
-  (list (quote setq!) name (list (quote macro) params . body))))
+;; (setq! defmacro
+;;  (macro (name params . body)
+;;   (list (quote setq!) name (list (quote macro) params . body))))
   
-(setq! defun
- (macro (name params . body)
-  (list (quote setq!) name (list (quote lambda) params . body))))
+;; (setq! defun
+;;  (macro (name params . body)
+;;   (list (quote setq!) name (list (quote lambda) params . body))))
 
-(setq! test
- (macro (name params . body) (list setq! name params body)))
+;; (setq! test
+;;  (macro (name params . body) (list setq! name params body)))
 
-(write test) (nl)
-(write (test one two three four)) (nl)
-(write (defun somefun x (n) (* 2 n))) (nl)
+;; (write test) (nl)
+;; (write (test one two three four)) (nl)
+;; (write (defun somefun x (n) (* 2 n))) (nl)
 
-(nl) (nl)
+;; (nl) (nl)
 
-;;(log-all t)
-(list 1 2 . 3)
-(write (list 1 2 . 3)) (nl)
+;; ;;(log-all t)
+;; (list 1 2 . 3)
+;; (write (list 1 2 . 3)) (nl)
 
