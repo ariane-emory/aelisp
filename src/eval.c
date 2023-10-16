@@ -28,63 +28,72 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-    NIL_IF_NILP(args);
+  NIL_IF_NILP(args);
 
-    int args_count = LENGTH(args);
+  int args_count = LENGTH(args);
   
+  if (log_eval)
+    LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
+
+  INDENT;
+
+  ae_obj_t * current_arg = args;
+  ae_obj_t * result_head = NULL; // Initialized to NULL now
+  ae_obj_t * result_tail = NULL;
+  int ctr = 0;
+  
+  while (! ATOMP(current_arg)) {
+    ++ctr;
+
     if (log_eval)
-        LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
- 
+      LOG(CAR(current_arg), "eval   arg #%d/%d", ctr, args_count);
+
     INDENT;
 
-    ae_obj_t*  current_arg     = args;
-    ae_obj_t*  result_head     = NIL;
-    ae_obj_t** result_tail_ptr = &result_head;
-    int        ctr             = 0;
-  
-    while (! ATOMP(current_arg)) {
-        ++ctr;
-
-        if (log_eval)
-            LOG(CAR(current_arg), "eval   arg #%d/%d", ctr, args_count);
-
-        INDENT;
-
-        ae_obj_t* eval_result = EVAL(env, CAR(current_arg));
-
-        OUTDENT;
-
-        if (log_eval)
-            LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
-
-        *result_tail_ptr = NEW_CONS(eval_result, NIL);
-        result_tail_ptr = &CDR(*result_tail_ptr);
-
-        current_arg = CDR(current_arg);
-    }
-
-    if (! NILP(current_arg)) {
-        if (log_eval)
-            LOG(current_arg, "eval   tail arg");
-
-        INDENT;
-
-        ae_obj_t* eval_result = EVAL(env, current_arg);
-
-        OUTDENT;
-
-        if (log_eval)
-            LOG(eval_result, "evaled tail arg");
-
-        *result_tail_ptr = eval_result;
-    }
+    ae_obj_t* eval_result = EVAL(env, CAR(current_arg));
 
     OUTDENT;
-  
-    if (log_eval)
-        LOG(result_head, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
 
-    return result_head;
+    if (log_eval)
+      LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
+
+    if (!result_head) {
+      result_head = NEW_CONS(eval_result, NIL);
+      result_tail = result_head;
+    } else {
+      CDR(result_tail) = NEW_CONS(eval_result, NIL);
+      result_tail = CDR(result_tail);
+    }
+
+    current_arg = CDR(current_arg);
+  }
+
+  if (! NILP(current_arg)) {
+    if (log_eval)
+      LOG(current_arg, "eval   tail arg");
+
+    INDENT;
+
+    ae_obj_t* eval_result = EVAL(env, current_arg);
+
+    OUTDENT;
+
+    if (log_eval)
+      LOG(eval_result, "evaled tail arg");
+
+    if (!result_head) {
+      result_head = eval_result;
+    } else {
+      CDR(result_tail) = eval_result;
+    }
+  }
+
+  OUTDENT;
+  
+  if (log_eval)
+    LOG(result_head, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+
+  return result_head;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
