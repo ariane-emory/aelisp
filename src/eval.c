@@ -296,8 +296,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     /* do some replacey stuff here.  */
     /* this is new and might be kind of suss. */
 
-//    if (log_eval)
-    LOG(ret, "expansion");
+    if (log_eval)
+      LOG(ret, "expansion");
 
     if (CONSP(ret)) {
       CAR(obj) = CAR(ret);
@@ -308,11 +308,11 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       CDR(obj) = CONS(ret, NIL);
     }
 
-//    if (log_eval)
-    LOG(ret, "polished expansion");
+    if (log_eval)
+      LOG(ret, "polished expansion");
 
-    obj = ret = EVAL(env, obj);
-
+    ret = EVAL(env, obj);
+    *obj = *ret;
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
