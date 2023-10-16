@@ -252,10 +252,10 @@
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten (lst)
-  (when (not? (nil? lst))
-   (if (cons? (car lst))
-    (append (flatten (car lst)) (flatten (cdr lst)))
-    (cons (car lst) (flatten (cdr lst))))))
+ (when (not? (nil? lst))
+  (if (cons? (car lst))
+   (append (flatten (car lst)) (flatten (cdr lst)))
+   (cons (car lst) (flatten (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -268,9 +268,9 @@
   (t (cons (list (car lst1) (car lst2))
       (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defun zip3 (l1 l2 l3)
-;;  "Zip three lists."
-;;  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
+(defun zip3 (l1 l2 l3)
+ "Zip three lists."
+ (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! left-nested-zip (reduced zip2))
 (defmacro zip lists
