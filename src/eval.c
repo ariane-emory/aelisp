@@ -36,11 +36,8 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
     return EVAL(env, args);
   }
 
-  ae_obj_t * head = CAR(args);
-  ae_obj_t * tail = CDR(args);
-
-  head = EVAL(env, head);
-  tail = ae_eval_args(env, tail, ++acc);
+  ae_obj_t * head = EVAL(env, CAR(args));
+  ae_obj_t * tail = ae_eval_args(env, CDR(args), ++acc));
 
   return NEW_CONS(head, tail);
 }
