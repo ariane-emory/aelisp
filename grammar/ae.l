@@ -168,6 +168,7 @@ nil                                                                        |
 \`                                                                         TOKENIZE(BACKTICK,    AE_INVALID );
 \,\@                                                                       TOKENIZE(COMMA_AT,    AE_INVALID );
 \#                                                                         TOKENIZE(POUND,       AE_INVALID );
+\@                                                                         TOKENIZE(AT,          AE_INVALID );
 \,                                                                         TOKENIZE(COMMA,       AE_INVALID );
 \.                                                                         TOKENIZE(DOT,         AE_INVALID );
 \(                                                                         TOKENIZE(LPAREN,      AE_INVALID );
