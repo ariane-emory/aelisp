@@ -53,13 +53,19 @@
   (reduce fun (car args) (cdr args))))
 (setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
 (princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
+
 ;; Prints: zip: ((((1 a) 10) x) (((2 b) 20) y) (((3 c) 30) z))
 ;; If I could mapcar some fun over the results, I would have the desired result.
 
 (defun flatten-nested (lst)
-  (if (not (cons? lst))
-      lst
-      (append (flatten-nested (car lst)) 
-              (flatten-nested (cdr lst)))))
+  (cond
+    ((not? (cons? lst)) (list lst)) ; wrap atoms into a list
+    ((and? (not? (cons? (car lst))) (not? (cons? (cdr lst)))) 
+      (list (car lst) (cdr lst))) ; for cons cells where neither car nor cdr are cons
+    (t (append (flatten-nested (car lst)) 
+               (flatten-nested (cdr lst))))))
 
 
+(princ "flat: ") (write (mapcar flatten-nested (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) ) (nl)
+
+;; flat: ((1 a nil 10 nil x nil) (2 b nil 20 nil y nil) (3 c nil 30 nil z nil))
