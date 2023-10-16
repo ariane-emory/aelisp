@@ -70,8 +70,6 @@ void do_write(ae_obj_t * this) {
 // main
 ////////////////////////////////////////////////////////////////////////////////////////////////////  
 
-extern FILE * yyin;
-
 int main(int argc, char **argv) {
 
   if (! setopts(argc, argv)) {
