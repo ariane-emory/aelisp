@@ -29,18 +29,20 @@
 
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
+  if (NILP(args))
+    return NIL;
+
   if (ATOMP(args)) {
     return EVAL(env, args);
   }
-  else {
-    ae_obj_t * head = CAR(args);
-    ae_obj_t * tail = CDR(args);
 
-    head = EVAL(env, head);
-    tail = ae_eval_args(env, tail, ++acc);
+  ae_obj_t * head = CAR(args);
+  ae_obj_t * tail = CDR(args);
 
-    return NEW_CONS(head, tail);
-  }
+  head = EVAL(env, head);
+  tail = ae_eval_args(env, tail, ++acc);
+
+  return NEW_CONS(head, tail);
 }
 
 /* static */ ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
