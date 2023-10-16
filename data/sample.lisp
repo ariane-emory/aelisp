@@ -4,7 +4,13 @@
 (princ "this should print 6: " ) (write (2* 3)) (nl) ;; successfuly prints 6.
 (princ "this should print 6: " ) (write (2* 3)) (nl) ;; does not re-expand.
 
-
-
-(log-all t)
 (write (append '(1 2) '(3 4) '(5 6))) (nl)
+
+;; (log-all t)
+(write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
+
+
+(defun nconc! lists
+ (reduce nconc2! (car lists) (cdr lists)))
+
+(write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
