@@ -32,17 +32,19 @@
 (princ "zip3: ") (write (zip3 '(1 2 3) '(a b c) '(10 20 30))) (nl)
 
 (setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
-(princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
 
-(defun flatten-fully (lst)
+(defun flatten (lst)
   (cond
     ((atom? lst) (list lst))
-    (t (append (flatten-fully (car lst)) (flatten-fully (cdr lst))))))
+    (t (append (flatten (car lst)) (flatten (cdr lst))))))
+
+(princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
+
 (defun zip-many lists
   (if (nil? (car lists))
       nil
       (append
-       (list (flatten-fully (mapcar car lists)))
+       (list (flatten (mapcar car lists)))
        (zip-many (mapcar cdr lists)))))
 
 (princ "zip-many: ") (write (zip-many '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
