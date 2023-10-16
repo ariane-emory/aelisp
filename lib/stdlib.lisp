@@ -37,7 +37,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; fancy output funs:                                                         ;)
+;; fancy output funs which should be replaced with macros:                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun princn    args (apply princ args)                                   (nl))
 (defun printn    args (apply print args)                                   (nl))
