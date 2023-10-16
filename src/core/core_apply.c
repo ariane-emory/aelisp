@@ -43,7 +43,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
     CDR(new_expr_tail) = CONS(last, NIL);
 
   if (log_core)
-    LOG(new_expr, "final new_expr");
+    LOG(new_expr, "flattened apply's args:");
 
   ae_obj_t * const ret = EVAL(env, new_expr);
 
