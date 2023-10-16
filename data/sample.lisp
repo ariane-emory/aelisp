@@ -70,7 +70,8 @@
 
 (write test) (nl)
 (write (test one two three four)) (nl)
-
+(write (defun somefun x (n) (* 2 n))) (nl)
+(exit)
 (nl) (nl)
 
 (log-all t)
