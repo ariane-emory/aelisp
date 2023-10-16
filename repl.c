@@ -7,7 +7,14 @@
 #include <strings.h>
 #include <ctype.h>
 
-#include "common.inc"
+#include "common.h"
+#include "core.h"
+#include "env.h"
+#include "eval.h"
+#include "free_list.h"
+#include "obj.h"
+#include "util.h"
+#include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
