@@ -78,13 +78,13 @@
 ;; equal? predicate:                                                          ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun equal? (o1 o2)
-  "True when o1 and o2 are eql? or cons trees whose atomic members are equal?."
-  (cond
-   ((and? (atom? o1) (atom? o2)) (eql? o1 o2))
-   ((and? (cons? o1) (cons? o2))
-    (and? (equal? (car o1) (car o2))
-     (equal? (cdr o1) (cdr o2))))
-   (t nil)))
+ "True when o1 and o2 are eql? or cons trees whose atomic members are equal?."
+ (cond
+  ((and? (atom? o1) (atom? o2)) (eql? o1 o2))
+  ((and? (cons? o1) (cons? o2))
+   (and? (equal? (car o1) (car o2))
+    (equal? (cdr o1) (cdr o2))))
+  (t nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -255,7 +255,7 @@
  (if (cons? (car lst))
   (append (flatten-left (car lst)) (list (cadr lst)))
   lst))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;;;;;;;;;\;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! zip (reduced (lambda (x y) (flatten-left (zip2 x y))) arg))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
@@ -422,3 +422,15 @@
    (nl)
    each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun max (a b)
+ (if (> a b) a b))
+(defun max (a b)
+ (if (< a b) a b))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun list-depth (lst)
+ "This one is untested."
+ (if (atom? lst)
+  0
+  (max 1 (+ (list-depth (car lst)) (list-depth (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+

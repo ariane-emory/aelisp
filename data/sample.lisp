@@ -10,13 +10,12 @@
 (write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
 
 
-(defun nconc! lists
- (reduce nconc2! (car lists) (cdr lists)))
+;; (defun nconc! lists
+;;  (reduce nconc2! (car lists) (cdr lists)))
 
 (write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
 
 (setq! nconc! (reduced nconc2!))
-
 (write (nconc! '(1 2) '(3 4) '(5 6))) (nl)
 
 
@@ -28,20 +27,13 @@
 
 (princni ", " 1 2 3)
 
-(write (zip2 '(1 2 3) '(a b c))) (nl)
+(princ "zip2: ") (write (zip2 '(1 2 3) '(a b c))) (nl)
 
-(write (zip3 '(1 2 3) '(a b c) '(10 20 30))) (nl)
+(princ "zip3: ") (write (zip3 '(1 2 3) '(a b c) '(10 20 30))) (nl)
 
+(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
+(princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
 
-
-(defun max (a b)
- (if (> a b) a b))
-(defun max (a b)
- (if (< a b) a b))
-(defun list-depth (lst)
-  (if (atom? lst)
-      0
-      (max 1 (+ (list-depth (car lst)) (list-depth (cdr lst))))))
 (defun flatten-fully (lst)
   (cond
     ((atom? lst) (list lst))
@@ -50,10 +42,10 @@
   (if (nil? (car lists))
       nil
       (append
-       (list (flatten-fully (mapcar 'car lists)))
-       (zip-many (mapcar 'cdr lists)))))
- 
-(write (zip-many '((1 2 3) (a b c) (10 20 30) (x y z)))) ; should be ((1 a 10 x) (2 b 20 y) (3 c 30 z))
+       (list (flatten-fully (mapcar car lists)))
+       (zip-many (mapcar cdr lists)))))
+
+(princ "zip-many: ") (write (zip-many '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
 
  
 ;; (setq! zip (reduced (lambda (x y) (flatten-left (zip2 x y))) arg))
