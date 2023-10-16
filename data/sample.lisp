@@ -31,30 +31,35 @@
 
 (princ "zip3: ") (write (zip3 '(1 2 3) '(a b c) '(10 20 30))) (nl)
 
-(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
 
 (defun flatten (lst)
-  (cond
-    ((atom? lst) (list lst))
-    (t (append (flatten (car lst)) (flatten (cdr lst))))))
+ (cond
+  ((atom? lst) (list lst))
+  (t (append (flatten (car lst)) (flatten (cdr lst))))))
 
+
+;; What you just gave me seems to recurse forever without returning.
+
+;; This verstion of zip:
+(defun zip2 (lst1 lst2)
+ "Zip two lists."
+ (cond
+  ((or? (nil? lst1) (nil? lst2)) nil)
+  (t (cons (list (car lst1) (car lst2))
+      (zip2 (cdr lst1) (cdr lst2))))))
+(defun reduced (fun)
+ "Return a function that is a reduction of the binary function fun."
+ (lambda args
+  (reduce fun (car args) (cdr args))))
+(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
 (princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
+;; Prints: zip: ((((1 a) 10) x) (((2 b) 20) y) (((3 c) 30) z))
+;; If I could mapcar some fun over the results, I would have the desired result.
 
-(defun zip-many lists
-  (if (nil? (car lists))
-      nil
-      (append
-       (list (flatten (mapcar car lists)))
-       (zip-many (mapcar cdr lists)))))
+(defun flatten-nested (lst)
+  (if (not (cons? lst))
+      lst
+      (append (flatten-nested (car lst)) 
+              (flatten-nested (cdr lst)))))
 
-(princ "zip-many: ") (write (zip-many '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
 
- 
-;; (setq! zip (reduced (lambda (x y) (flatten-left (zip2 x y))) arg))
-
-;; (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
-
-;; For some reason, the result printed is:
-;; (1 x (10 y))
-;; instead of:
-;; ((1 a 10 x) (2 b 20 y) (3 c 30 z))
