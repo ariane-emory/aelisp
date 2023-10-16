@@ -20,24 +20,13 @@
   ((or? (nil? lst1) (nil? lst2)) nil)
   (t (cons (list (car lst1) (car lst2))
       (zip2 (cdr lst1) (cdr lst2))))))
+
 (defun reduced (fun)
  "Return a function that is a reduction of the binary function fun."
  (lambda args
   (reduce fun (car args) (cdr args))))
 (setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
 (princ "zip: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
-
-;; Prints: zip: ((((1 a) 10) x) (((2 b) 20) y) (((3 c) 30) z))
-;; If I could mapcar some fun over the results, I would have the desired result.
-
-
-
-
-
-
-
-;; Test cases
-
  
 
 (defun flatten (lst)
