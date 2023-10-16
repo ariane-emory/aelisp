@@ -29,26 +29,64 @@
 
 static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env,
                                         ae_obj_t * const args,
-                                        int acc,
+                                        int ctr,
                                         int args_count) {
+  NIL_IF_NILP(args);
+  
   if (ATOMP(args)) {
-    return EVAL(env, args);
+    if (log_eval)
+      LOG(args, "eval   tail arg");
+
+    INDENT;
+    
+    ae_obj_t * ret = EVAL(env, args);
+
+    OUTDENT;
+
+    if (log_eval)
+      LOG(ret, "evaled tail arg");
+
+    return ret;
   }
 
+  ++ctr;
+
+  if (log_eval)
+    LOG(CAR(args), "eval   arg #%d", ctr);
+
+  INDENT;
+      
   ae_obj_t * head = EVAL(env, CAR(args));
-  ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ++acc, args_count);
+
+  OUTDENT;
+  
+  if (log_eval)
+    LOG(head, "evaled arg #%d", ctr);
+
+  ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ctr, args_count);
 
   return NEW_CONS(head, tail);
 }
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
+  NIL_IF_NILP(args);
+
   int args_count = LENGTH(args);
   
   if (log_eval)
     LOG(args, "evaluating fun's %d arg%s:",
         LENGTH(args), s_or_blank(args_count));
+
+  INDENT;
+    
+  ae_obj_t * ret = ae_eval_args_internal(env, args, 0, args_count);
+
+  OUTDENT;
   
-  return ae_eval_args_internal(env, args, 0, args_count);
+  if (log_eval)
+    LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+
+  return ret;
 }
 
 __attribute__ ((unused))
@@ -92,7 +130,6 @@ static ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args)
 
     if (log_eval)
       LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-
   }                                                                                                
 
   return ret;
@@ -441,8 +478,7 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
-  if (NILP(obj))
-    return NIL;
+  NIL_IF_NILP(obj);
   
   assert(env);
   assert(obj);
