@@ -309,7 +309,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       CDR(obj) = CONS(ret, NIL);
     }
 
-    if (log_eval || log_macro)
+    if (!CONSP(ret) && (log_eval || log_macro))
       LOG(obj, "polished expansion");
 
     ret  = EVAL(env, obj);
