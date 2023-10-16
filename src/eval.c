@@ -100,6 +100,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool log_eval = false;
+bool log_macros = false;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply dispatch handlers
@@ -296,7 +297,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     /* do some replacey stuff here.  */
     /* this is new and might be kind of suss. */
 
-    if (log_eval)
+    if (log_eval || log_macros)
       LOG(ret, "expansion");
 
     if (CONSP(ret)) {
@@ -308,7 +309,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       CDR(obj) = CONS(ret, NIL);
     }
 
-    if (log_eval)
+    if (log_eval || log_macros)
       LOG(obj, "polished expansion");
 
     ret  = EVAL(env, obj);

@@ -13,3 +13,6 @@ extern bool log_eval;
 ae_obj_t * ae_eval (ae_obj_t * env, ae_obj_t * obj);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_eval_args(ae_obj_t  * const env, ae_obj_t * const args);
+
+extern bool log_eval;
+extern bool log_macros;

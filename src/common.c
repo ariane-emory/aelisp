@@ -198,6 +198,9 @@ bool setopts(int argc, char *argv[]) {
         case 'e':
           log_eval = true;
           break;
+        case 'm':
+          log_macros = true;
+          break;
         default:
           fprintf(stderr, "Usage: %s [-lc] [-le]\n", argv[0]);
           return false;
