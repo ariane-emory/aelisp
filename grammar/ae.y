@@ -17,7 +17,7 @@ int  yywrap() { return 1; }
 
 %}
 
-%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT BACKTICK COMMA COMMA_AT AT
+%token LPAREN RPAREN STRING INTEGER FLOAT RATIONAL SYMBOL QUOTE CHAR INF NILTOK DOT BACKTICK COMMA COMMA_AT POUND
 
 %start program
 
@@ -35,6 +35,6 @@ quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),  
 quasiquoted_sexp: BACKTICK sexp                 { $$      = CONS(SYM("quasiquote"), CONS($2, NIL)); };
 unquoted_sexp:    COMMA    sexp                 { $$      = CONS(SYM("unquote"),    CONS($2, NIL)); };
 spliced_sexp:     COMMA_AT sexp                 { $$      = CONS(SYM("splice"),     CONS($2, NIL)); };
-short_list_sexp:  AT       sexp                 { $$      = CONS(SYM("list"),       CONS($2, NIL)); };
+short_list_sexp:  POUND    sexp                 { $$      = CONS(SYM("list"),       CONS($2, NIL)); };
 
 %%

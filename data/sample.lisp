@@ -17,4 +17,4 @@
 
 (setq! x 66)
 (write (list 22 44 x))
-(write @(22 44 x))
+(write #(22 44 x))
