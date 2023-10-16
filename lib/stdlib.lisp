@@ -238,18 +238,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (flattening):                                                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defun flatten1 (lst)
-;;  (cond
-;;   ((nil? lst) nil)
-;;   ((tail? (car lst))
-;;    (append (car lst) (flatten1 (cdr lst))))
-;;   (t (cons (car lst) (flatten1 (cdr lst))))))
+(defun flatten1 (lst)
+ (cond
+  ((nil? lst) nil)
+  ((tail? (car lst))
+   (append (car lst) (flatten1 (cdr lst))))
+  (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defun flatten-left (lst)
-;;  "Flatten left-nested list structures."
-;;  (if (cons? (car lst))
-;;   (append (flatten-left (car lst)) (list (cadr lst)))
-;;   lst))
+(defun flatten-left (lst)
+ "Flatten left-nested list structures."
+ (if (cons? (car lst))
+  (append (flatten-left (car lst)) (list (cadr lst)))
+  lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten (lst)
   (when (not? (nil? lst))
@@ -275,15 +275,9 @@
 (setq! left-nested-zip (reduced zip2))
 (defmacro zip lists
  "Zip many lists."
- (let* ((flatten
-         (lambda (lst)
-          (when (not? (nil? lst))
-           (if (cons? (car lst))
-            (append (flatten (car lst)) (flatten (cdr lst)))
-            (cons (car lst) (flatten (cdr lst))))))))
-  (if (cdr lists)
-   (list 'mapcar 'flatten (cons 'left-nested-zip lists))
-   (list 'mapcar 'list (car lists)))))
+   (if (cdr lists)
+   (list mapcar flatten (cons left-nested-zip lists))
+   (list mapcar list    (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
