@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "core.h"
 #include "obj.h"
 #include "list.h"
 #include "alist.h"
@@ -90,6 +91,12 @@ void before_acutest() {
   printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
   NL;
   NL;
+
+  // This would be nice:
+  /* if (! setopts(argc, argv)) { */
+  /*   FPR(stderr, "ERROR: Bad opts!\n"); */
+  /*   exit(1); */
+  /* } */
 }
 
 char * princ_to_new_string(const ae_obj_t * const this) {
@@ -1469,6 +1476,9 @@ void eval_args_test(void) {
   
   ae_obj_t * mul_expr = CONS(SYM("*"), CONS(NEW_INT(3), CONS(NEW_INT(4), NIL)));
 
+  log_eval = true;
+  log_core = true;
+  
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
     OLOG(args);

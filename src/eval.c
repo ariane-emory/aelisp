@@ -27,22 +27,28 @@
 // ae_eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env, ae_obj_t * const args, int acc, int arg_count) {
+static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env,
+                                        ae_obj_t * const args,
+                                        int acc,
+                                        int args_count) {
   if (ATOMP(args)) {
     return EVAL(env, args);
   }
 
   ae_obj_t * head = EVAL(env, CAR(args));
-  ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ++acc);
+  ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ++acc, args_count);
 
   return NEW_CONS(head, tail);
 }
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-    if (log_eval)
-      LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-
-    return ae_eval_args_internal(env, args, 0);
+  int args_count = LENGTH(args);
+  
+  if (log_eval)
+    LOG(args, "evaluating fun's %d arg%s:",
+        LENGTH(args), s_or_blank(args_count));
+  
+  return ae_eval_args_internal(env, args, 0, args_count);
 }
 
 __attribute__ ((unused))

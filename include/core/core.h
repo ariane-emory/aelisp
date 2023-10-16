@@ -5,6 +5,7 @@
 #define FUNDEF_END NULL
 #define UNLIMITED  15
 
+extern bool log_core;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_1(DO)                                                                                  \
