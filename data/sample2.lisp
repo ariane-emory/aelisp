@@ -7,7 +7,7 @@
  (setq! ct (- ct 1)))
 
 
-(write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d))) (nl)
+(write (filter (lambda (x) (not? (nil? x))) '(a nil b c nil d))) (nl)
 
 (setq! lst  '(1 2 3 4))
 (setq! lst2 '(6 7 8 9))
@@ -124,7 +124,7 @@
  (lambda (lsts)
   (if (nil? lsts)
    t
-   (and (not (nil? (car lsts))) (all-not-nil? (cdr lsts))))))
+   (and? (not? (nil? (car lsts))) (all-not-nil? (cdr lsts))))))
 
 (setq! heads
  (lambda (lsts)
