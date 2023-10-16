@@ -16,9 +16,9 @@
 
 (defmacro zip lists
  "Zip a list of lists."
- (if (not? (cdr lists))
-  (car lists)
-  (list 'mapcar 'flatten (cons 'left-nested-zip lists))))
+ (if (cdr lists)
+  (list 'mapcar 'flatten (cons 'left-nested-zip lists))
+  (car lists)))
 
 ;; (log-macro t)
 ;; (log-core  t)
