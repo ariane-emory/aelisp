@@ -255,7 +255,13 @@
  (if (cons? (car lst))
   (append (flatten-left (car lst)) (list (cadr lst)))
   lst))
-;;;;;;;;;\;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defmacro zip lists
+ "Zip many lists."
+ (if (cdr lists)
+  (list 'mapcar 'flatten (cons 'left-nested-zip lists))
+  (list 'mapcar 'list (car lists))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 
