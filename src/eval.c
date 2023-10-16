@@ -311,8 +311,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     if (log_eval)
       LOG(obj, "polished expansion");
 
-    ret = EVAL(env, obj);
-    *obj = *ret;
+    *obj = *(ret = EVAL(env, obj));
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
