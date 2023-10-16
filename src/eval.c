@@ -27,7 +27,21 @@
 // eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
+// Object *evalArgs(Object **args, Object **env, GC_PARAM) {
+//   if ((*args)->type != TYPE_CONS)
+//     return evalExpr(args, env, GC_ROOTS);
+//   else {
+//     GC_TRACE(gcHead, (*args)->car);
+//     GC_TRACE(gcTail, (*args)->cdr);
+// 
+//     *gcHead = evalExpr(gcHead, env, GC_ROOTS);
+//     *gcTail = evalArgs(gcTail, env, GC_ROOTS);
+// 
+//     return newCons(gcHead, gcTail, GC_ROOTS);
+//   }
+// }
+
+/* static */ ae_obj_t * eval_args(ae_obj_t  * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
 
   if (CAR(args)) {

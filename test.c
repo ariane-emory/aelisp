@@ -1458,6 +1458,27 @@ void env_with_a_dot(void) {
   // NL;
 }
 
+void eval_args_test(void) {
+  SETUP_TEST;
+
+  ae_obj_t * env = ENV_NEW_ROOT();
+
+  ENV_SET(env, SYM("foo"), NEW_INT(10));
+  ENV_SET(env, SYM("bar"), NEW_INT(20));
+  
+  ae_obj_t * mul_expr = CONS(SYM("*"), CONS(NEW_INT(3), CONS(NEW_INT(4), NIL)));
+
+  ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
+
+  OLOG(args);
+
+  ae_obj_t * evaled_args = eval_args(env, args);
+
+  OLOG(evaled_args);
+  
+  NL;
+}
+  
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1498,8 +1519,8 @@ void env_with_a_dot(void) {
   DO(kvp_list)                                                                                     \
   DO(root_env_and_eval)                                                                            \
   DO(fun_specialness)                                                                              \
-  DO(env_with_a_dot)                                                                                                  
-
+  DO(env_with_a_dot)                                                                               \
+  DO(eval_args_test)
 // DO(bubble_list) 
 
 #define pair(fun) { #fun, fun },
