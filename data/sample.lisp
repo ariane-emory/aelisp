@@ -16,16 +16,16 @@
 
 (defmacro zip lists
  "Zip a list of lists."
- (list 'mapcar 'flatten (cons 'left-nested-zip lists)))
-;; (mapcar flatten (apply left-nested-zip lists)))
+ (if (not? (cdr lists))
+  (car lists)
+  (list 'mapcar 'flatten (cons 'left-nested-zip lists))))
 
-(log-macro t)
-(log-core  t)
-(log-eval  t)
+;; (log-macro t)
+;; (log-core  t)
+;; (log-eval  t)
 
-;; (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))
-;; (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))
-;; (zip '(1 2 3) '(a b c) '(7 8 9))
-;; (zip '(1 2 3) '(a b c))
-(zip '(1 2 3))
-(print (left-nested-zip (quote (1 2 3))))
+(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
+(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
+(write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
+(write (zip '(1 2 3) '(a b c))) (nl)
+(write (zip '(1 2 3))) (nl)
