@@ -272,11 +272,18 @@
 ;;  "Zip three lists."
 ;;  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! left-nested-zip (reduced zip2))
 (defmacro zip lists
  "Zip many lists."
- (if (cdr lists)
-  (list 'mapcar 'flatten (cons 'left-nested-zip lists))
-  (list 'mapcar 'list (car lists))))
+ (let* ((flatten
+         (lambda (lst)
+          (when (not? (nil? lst))
+           (if (cons? (car lst))
+            (append (flatten (car lst)) (flatten (cdr lst)))
+            (cons (car lst) (flatten (cdr lst))))))))
+  (if (cdr lists)
+   (list 'mapcar 'flatten (cons 'left-nested-zip lists))
+   (list 'mapcar 'list (car lists)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
