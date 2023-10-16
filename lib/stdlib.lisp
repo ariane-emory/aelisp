@@ -336,6 +336,7 @@
   (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun compose-preds preds
+ "Does what it says on the tin and compose preds."
  (lambda (val)
   (let* ((fun
           (lambda (preds)
@@ -347,6 +348,7 @@
    (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun intercalate (intercalated items)
+ "Intercalate intercalated between items."
  (if (or? (nil? items) (nil? (cdr items)))
   items
   (cons (car items)
