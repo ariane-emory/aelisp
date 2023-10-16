@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; crucial macros, without which nothing else will work:                      ;)
+;; crucial macros, without which nothing else in stdlib will even work:       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! defmacro
  (macro (name params . body)
@@ -56,14 +56,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; even?/odd? predicates:                                                     ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun even?     (n)        (== 0 (% n 2 )))
-(defun odd?      (n)        (== 1 (% n 2 )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; compound car/cdrs:                                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun cadr      (x)          (car (cdr x)))                           
@@ -96,7 +88,53 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; list funs:                                                                 ;)
+;; even?/odd? predicates:                                                     ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun even?     (n)        (== 0 (% n 2 )))
+(defun odd?      (n)        (== 1 (% n 2 )))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; list funs (map variants):                                                  ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun mapcar
+  (fun lst)
+  (if (nil? lst)
+   nil
+   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun mapc
+  (fun lst)
+  (if (nil? lst)
+   nil
+   (fun (car lst))
+   (mapc fun (cdr lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun mapconcat
+  (fun lst delimiter)
+  (if (nil? lst)
+   ""
+   (reduce
+    (lambda (acc item)
+     (concat acc delimiter item))
+    (fun (car lst))
+    (mapcar fun (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun mapcan
+  (fun lst)
+  (if (nil? lst)
+   nil
+   (let ((result (fun (car lst)))
+         (rest   (mapcan fun (cdr lst))))
+    (if (nil? result)
+     rest
+     (nconc! result rest)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; list funs (nth/last):                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nth
   (n lst)
@@ -123,7 +161,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; appenc/nconc!:                                                             ;)
+;; list funs (append/nconc variants):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun append
   (lst1 lst2)
@@ -209,49 +247,37 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; list funs (map variants):                                                  ;)
+;; log toggle helpers, these should be replaced with macros:                  ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapcar
-  (fun lst)
-  (if (nil? lst)
-   nil
-   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
+(defun with-toggled-fun1
+  (toggled-fun)
+  (lambda (fun-or-expr)
+   (if (lambda? fun-or-expr)
+    (let* ((old    (toggled-fun t))
+           (result (fun-or-expr))
+           (new    (toggled-fun old)))
+     result)
+    (let* ((old    (toggled-fun t))
+           (result (eval fun-or-expr))
+           (new    (toggled-fun old)))
+     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapc
-  (fun lst)
-  (if (nil? lst)
-   nil
-   (fun (car lst))
-   (mapc fun (cdr lst))))
+(defun with-toggled-fun
+  (toggled-fun)
+  (lambda funs-or-exprs
+   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapconcat
-  (fun lst delimiter)
-  (if (nil? lst)
-   ""
-   (reduce
-    (lambda (acc item)
-     (concat acc delimiter item))
-    (fun (car lst))
-    (mapcar fun (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapcan
-  (fun lst)
-  (if (nil? lst)
-   nil
-   (let ((result (fun (car lst)))
-         (rest   (mapcan fun (cdr lst))))
-    (if (nil? result)
-     rest
-     (nconc! result rest)))))
+(setq! with-log-eval (with-toggled-fun log-eval))
+(setq! with-log-core (with-toggled-fun log-core))
+(setq! with-log-all  (with-toggled-fun log-all))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; misc:                                                                      ;)
+;; random stuff that's all one section for now:                               ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun 1+      (n) (+ 1 n))                                           ;)
+(defun 1+      (n) (+ 1 n))                                                   ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun double  (n) (* 2 n))                                           ;)
+(defun double  (n) (* 2 n))                                                   ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform!
   (obj pred fun)
@@ -316,37 +342,6 @@
     (princ (/ total repetitions 1000))
     (nl)
     each-ms)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; log toggle helpers, these should be replaced with macros:                  ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun with-toggled-fun1
-  (toggled-fun)
-  (lambda (fun-or-expr)
-   (if (lambda? fun-or-expr)
-    (let* ((old    (toggled-fun t))
-           (result (fun-or-expr))
-           (new    (toggled-fun old)))
-     result)
-    (let* ((old    (toggled-fun t))
-           (result (eval fun-or-expr))
-           (new    (toggled-fun old)))
-     result))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun with-toggled-fun
-  (toggled-fun)
-  (lambda funs-or-exprs
-   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! with-log-eval (with-toggled-fun log-eval))
-(setq! with-log-core (with-toggled-fun log-core))
-(setq! with-log-all  (with-toggled-fun log-all))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; random stuff that's all one section for now:                               ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip2 (lst1 lst2)
   (cond
