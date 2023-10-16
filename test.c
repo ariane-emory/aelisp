@@ -1465,16 +1465,22 @@ void eval_args_test(void) {
 
   ENV_SET(env, SYM("foo"), NEW_INT(10));
   ENV_SET(env, SYM("bar"), NEW_INT(20));
+  ENV_SET(env, SYM("baz"), NEW_INT(30));
   
   ae_obj_t * mul_expr = CONS(SYM("*"), CONS(NEW_INT(3), CONS(NEW_INT(4), NIL)));
 
-  ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
-
-  OLOG(args);
-
-  ae_obj_t * evaled_args = eval_args(env, args, 0);
-
-  OLOG(evaled_args);
+  {
+    ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
+    OLOG(args);
+    ae_obj_t * evaled_args = EVAL_ARGS(env, args);
+    OLOG(evaled_args);
+  }
+  {
+    ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), NEW_CONS(SYM("bar"), SYM("baz")))));
+    OLOG(args);
+    ae_obj_t * evaled_args = EVAL_ARGS(env, args);
+    OLOG(evaled_args);
+  }
   
   NL;
 }

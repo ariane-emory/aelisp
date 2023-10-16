@@ -24,26 +24,26 @@
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// eval_args, refactoring in progress
+// ae_eval_args, refactoring in progress
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-ae_obj_t * eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
+ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args, int acc) {
   if (ATOMP(args)) {
-    return EVAL(env, args );
+    return EVAL(env, args);
   }
   else {
     ae_obj_t * head = CAR(args);
     ae_obj_t * tail = CDR(args);
 
     head = EVAL(env, head);
-    tail = eval_args(env, tail);
+    tail = ae_eval_args(env, tail, ++acc);
 
     return NEW_CONS(head, tail);
   }
 }
 
-/* static */ ae_obj_t * eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
+/* static */ ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
   ae_obj_t * ret = NIL;
 
   if (CAR(args)) {
@@ -165,7 +165,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 #endif
 
   if (! SPECIALP(fun)) {
-    args = eval_args(env, args);
+    args = EVAL_ARGS(env, args);
     
     if (log_eval)
       LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
@@ -192,7 +192,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
   
   if (! SPECIALP(fun)) {
-    args = eval_args(env, args);
+    args = EVAL_ARGS(env, args);
     
     if (log_eval)
       LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
