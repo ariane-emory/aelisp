@@ -122,8 +122,8 @@
    (fun (car lst))
    (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapcan
- (fun lst)
+(defun mapcan (fun lst)
+ "Map fun over list, returning the result of appending the resulting lists."
  (if (nil? lst)
   nil
   (let ((result (fun (car lst)))
@@ -137,8 +137,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (nth/last):                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun nth
- (n lst)
+(defun nth (n lst)
+ "Get nth item in a list."
  (cond
   ((nil? lst)  nil)
   ((eql? n 0)  (car lst))
@@ -158,6 +158,7 @@
 ;; reduced:                                                                   ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun reduced (fun)
+ "Return a function that is a reduction of the binary function fun."
  (lambda args
   (reduce fun (car args) (cdr args))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -166,8 +167,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (append/nconc variants):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun append2
- (lst1 lst2)
+(defun append2 (lst1 lst2)
  "Append two lists."
  (if (nil? lst1)
   lst2
@@ -175,8 +175,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! append (reduced append2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun nconc2!
- (lst1 lst2)
+(defun nconc2! (lst1 lst2)
  "Destructively join two lists."
  (cond
   ((nil? lst1) lst2)
