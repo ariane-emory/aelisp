@@ -5,10 +5,7 @@
 (princ "this should print 6: " ) (write (2* 3)) (nl) ;; does not re-expand.
 
 
-(defun flatten (lst)
- (cond
-  ((atom? lst) (list lst))
-  (t (append (flatten (car lst)) (flatten (cdr lst))))))
+
 
 
 ;; What you just gave me seems to recurse forever without returning.
