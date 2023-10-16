@@ -83,8 +83,8 @@
           (cons (car lst) (flatten-list (cdr lst))))))
 
 ;; Test cases
-(write (flatten-list '(((2 b) 20) y)))
-(write (flatten-list '((((z 2) b) 20) y)))
+(write (flatten-list '(((2 b) 20) y))) (nl)
+(write (flatten-list '((((z 2) b) 20) y))) (nl)
 
 
 
