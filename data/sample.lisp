@@ -57,15 +57,34 @@
 ;; Prints: zip: ((((1 a) 10) x) (((2 b) 20) y) (((3 c) 30) z))
 ;; If I could mapcar some fun over the results, I would have the desired result.
 
-(defun flatten-nested (lst)
+
+
+(defun flatten-deep (lst)
+  "Flatten a deeply nested list."
   (cond
-    ((not? (cons? lst)) (list lst)) ; wrap atoms into a list
-    ((and? (not? (cons? (car lst))) (not? (cons? (cdr lst)))) 
-      (list (car lst) (cdr lst))) ; for cons cells where neither car nor cdr are cons
-    (t (append (flatten-nested (car lst)) 
-               (flatten-nested (cdr lst))))))
+    ((not? (cons? lst)) (list lst)) ; If it's an atom, return it as a single-element list
+    ((not? (cons? (car lst))) ; If the car is atomic
+     (cons (car lst) (if (cons? (cdr lst)) (flatten-deep (cdr lst)) (list (cdr lst)))))
+    (t (append (flatten-deep (car lst)) (flatten-deep (cdr lst))))))
+
+(defun flatten-zipped-lists (zipped-lst)
+  "Flatten the zipped lists."
+  (mapcar flatten-deep zipped-lst))
+
+(princ "flat: ") (write (flatten-zipped-lists (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
+
+(princ "flat: ") (write (flatten-zipped-lists (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
+
+(defun flatten-list (lst)
+  (if (nil? lst)
+      nil
+      (if (cons? (car lst))
+          (append (flatten-list (car lst)) (flatten-list (cdr lst)))
+          (cons (car lst) (flatten-list (cdr lst))))))
+
+;; Test cases
+(write (flatten-list '(((2 b) 20) y)))
+(write (flatten-list '((((z 2) b) 20) y)))
 
 
-(princ "flat: ") (write (mapcar flatten-nested (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) ) (nl)
 
-;; flat: ((1 a nil 10 nil x nil) (2 b nil 20 nil y nil) (3 c nil 30 nil z nil))
