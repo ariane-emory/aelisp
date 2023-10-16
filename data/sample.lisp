@@ -75,4 +75,4 @@
 
 (log-all t)
 (list 1 2 . 3)
-; (write (list 1 2 . 3)) (nl)
+(write (list 1 2 . 3)) (nl)
