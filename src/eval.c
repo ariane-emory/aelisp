@@ -38,8 +38,8 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   INDENT;
 
   ae_obj_t * current_arg = args;
-  ae_obj_t * result_head = NULL; // Initialized to NULL now
-  ae_obj_t * result_tail = NULL;
+  ae_obj_t * result_head = NIL; // Initialized to NULL now
+  ae_obj_t * result_tail = NIL;
   int ctr = 0;
   
   while (! ATOMP(current_arg)) {
@@ -57,7 +57,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
 
-    if (!result_head) {
+    if (NILP(result_head)) {
       result_head = NEW_CONS(eval_result, NIL);
       result_tail = result_head;
     } else {
@@ -81,7 +81,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled tail arg");
 
-    if (!result_head) {
+    if (NILP(result_head)) {
       result_head = eval_result;
     } else {
       CDR(result_tail) = eval_result;
