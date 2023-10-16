@@ -6,12 +6,16 @@
     (cons (car lst) (flatten (cdr lst))))))
 
 
-(setq! left-nested-zip (reduced (lambda (x y) (zip2 x y)) arg))
+(setq! left-nested-zip (reduced (lambda (x y) (zip2 x y))))
 
 (defun zip lists
  "Zip a list of lists."
- (mapcar flatten (left-nested-zip lists)))
+ (mapcar flatten (apply left-nested-zip lists)))
 
+;; (log-all t)
+(princ "flat 1: ")
+(write (mapcar flatten (left-nested-zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
 
-(princ "flat: ") (write (mapcar flatten (left-nested-zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
-(princ "flat: ") (write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
+;; (log-all t)
+(princ "flat 2: ")
+(write (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z))) (nl)
