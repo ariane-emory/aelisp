@@ -1,4 +1,5 @@
 To Do:
+- [ ] re-implement std nconc! as a reduce of std nconc2!.
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
