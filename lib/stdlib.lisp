@@ -189,21 +189,7 @@
    (t (rplacd! (last lst1) lst2)
     lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun nconc! lists
- "Destructively join many lists."
- (reduce nconc2! (car lists) (cdr lists)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defun nconc!-old
-;;   lists
-;;   "Destructively join many lists."
-;;   (let ((result (car lists))
-;;         (remaining (cdr lists)))
-;;    (while (not? (nil? remaining))
-;;     (let ((tail (last result)))
-;;      (rplacd! tail (car remaining))
-;;      (setq! result tail))
-;;     (setq! remaining (cdr remaining)))
-;;    (car lists)))
+(setq! nconc! (reduced nconc2!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
