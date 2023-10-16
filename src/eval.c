@@ -32,6 +32,57 @@ static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env,
                                         int ctr,
                                         int args_count) {
   NIL_IF_NILP(args);
+
+  ae_obj_t* current_arg = args;
+  ae_obj_t* result_head = NULL;
+  ae_obj_t** result_tail_ptr = &result_head;
+
+  while (! ATOMP(current_arg)) {
+    ++ctr;
+
+    if (log_eval)
+      LOG(CAR(current_arg), "eval   arg #%d/%d", ctr, args_count);
+
+    INDENT;
+
+    ae_obj_t* eval_result = EVAL(env, CAR(current_arg));
+
+    OUTDENT;
+
+    if (log_eval)
+      LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
+
+    *result_tail_ptr = NEW_CONS(eval_result, NIL);
+    result_tail_ptr = &CDR(*result_tail_ptr);
+
+    current_arg = CDR(current_arg);
+  }
+
+  if (ATOMP(current_arg)) {
+    if (log_eval)
+      LOG(current_arg, "eval   tail arg");
+
+    INDENT;
+
+    ae_obj_t* eval_result = EVAL(env, current_arg);
+
+    OUTDENT;
+
+    if (log_eval)
+      LOG(eval_result, "evaled tail arg");
+
+    *result_tail_ptr = eval_result;
+  }
+
+  return result_head;
+}
+
+__attribute__((unused))
+static ae_obj_t * ae_eval_args_internal_old(ae_obj_t * const env,
+                                            ae_obj_t * const args,
+                                            int ctr,
+                                            int args_count) {
+  NIL_IF_NILP(args);
   
   if (ATOMP(args)) {
     if (log_eval)
@@ -52,8 +103,8 @@ static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env,
   ++ctr;
 
   if (log_eval)
-    LOG(CAR(args), "eval   arg #%d", ctr);
-
+    LOG(CAR(args), "eval   arg #%d/%d", ctr, args_count);
+  
   INDENT;
       
   ae_obj_t * head = EVAL(env, CAR(args));
@@ -61,7 +112,7 @@ static ae_obj_t * ae_eval_args_internal(ae_obj_t * const env,
   OUTDENT;
   
   if (log_eval)
-    LOG(head, "evaled arg #%d", ctr);
+    LOG(head, "eval   arg #%d/%d", ctr, args_count);
 
   ae_obj_t * tail = ae_eval_args_internal(env, CDR(args), ctr, args_count);
 
@@ -85,52 +136,6 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   
   if (log_eval)
     LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-
-  return ret;
-}
-
-__attribute__ ((unused))
-static ae_obj_t * ae_eval_args_old(ae_obj_t  * const env, ae_obj_t * const args) {
-  ae_obj_t * ret = NIL;
-
-  if (CAR(args)) {
-    if (log_eval)
-      LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-
-    INDENT;
-
-    int ctr = 0;
-
-    ae_obj_t * position = args;
-
-    for (ae_obj_t * elem     = CAR(position);
-         CONSP(position);
-         elem = CAR(position = CDR(position)))
-    {
-      ctr++;
-
-      if (log_eval)
-        LOG(elem, "eval arg  #%d", ctr);
-      INDENT;
-
-      ae_obj_t * tmp = EVAL(env, elem);
-
-      PUSH(ret, tmp);
-
-      OUTDENT;
-
-      if (log_eval)
-        LOG(tmp, "evaled arg  #%d", ctr);
-    }
-
-    if (! NILP(position))
-      LOG(position, "final position");
-
-    OUTDENT;
-
-    if (log_eval)
-      LOG(args, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-  }                                                                                                
 
   return ret;
 }
