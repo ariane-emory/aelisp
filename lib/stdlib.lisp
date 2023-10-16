@@ -343,9 +343,11 @@
       (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip3 (l1 l2 l3)
+ "Zip three lists."
  (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun any? (pred lst)
+ "True when any lst members are pred."
  (if (nil? lst)
   nil
   (or?
@@ -353,6 +355,7 @@
    (any? pred (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun all? (pred lst)
+ "True when all lst members are pred."
  (if (nil? lst)
   t
   (and?
