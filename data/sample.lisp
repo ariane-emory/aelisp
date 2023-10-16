@@ -28,4 +28,6 @@
 
 (princni ", " 1 2 3)
 
-(write (zip2 '(1 2 3) '(a b c)))
+(write (zip2 '(1 2 3) '(a b c))) (nl)
+
+(write (zip3 '(1 2 3) '(a b c) '(10 20 3))) (nl)
