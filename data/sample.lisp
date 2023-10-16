@@ -25,3 +25,5 @@
 (setq! sum (reduced add))
 
 (write (sum 1 2 3 4 5 6)) (nl)
+
+(princni ", " 1 2 3)
