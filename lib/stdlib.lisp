@@ -275,9 +275,9 @@
 (setq! left-nested-zip (reduced zip2))
 (defmacro zip lists
  "Zip many lists."
-   (if (cdr lists)
-   (list mapcar flatten (cons left-nested-zip lists))
-   (list mapcar list    (car lists))))
+ (if (cdr lists)
+  #(mapcar flatten (cons left-nested-zip lists))
+  #(mapcar list    (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
