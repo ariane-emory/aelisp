@@ -75,17 +75,17 @@
 
 (princ "flat: ") (write (flatten-zipped-lists (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
 
-(defun flatten-list (lst)
+(defun flatten (lst)
   (if (nil? lst)
       nil
       (if (cons? (car lst))
-          (append (flatten-list (car lst)) (flatten-list (cdr lst)))
-          (cons (car lst) (flatten-list (cdr lst))))))
+          (append (flatten (car lst)) (flatten (cdr lst)))
+          (cons (car lst) (flatten (cdr lst))))))
 
 ;; Test cases
-(write (flatten-list '(((2 b) 20) y))) (nl)
-(write (flatten-list '((((z 2) b) 20) y))) (nl)
+(write (flatten '(((2 b) 20) y))) (nl)
+(write (flatten '((((z 2) b) 20) y))) (nl)
  
 
 
-(princ "flat: ") (write (mapcar flatten-list (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
+(princ "flat: ") (write (mapcar flatten (zip '(1 2 3) '(a b c) '(10 20 30) '(x y z)))) (nl)
