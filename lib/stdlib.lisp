@@ -11,7 +11,7 @@
   (list 'setq! name (list 'macro params . body))))
 
 (defmacro defun (name params . body)
- (list (quote setq!) name (list (quote lambda) params . body)))
+ (list (quote setq!) name (list 'lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
