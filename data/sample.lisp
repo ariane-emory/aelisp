@@ -6,7 +6,7 @@
     (cons (car lst) (flatten (cdr lst))))))
 
 
-(setq! left-nested-zip (reduced (lambda (x y) (zip2 x y))))
+(setq! left-nested-zip (reduced zip2))
 
 (defun zip lists
  "Zip a list of lists."
