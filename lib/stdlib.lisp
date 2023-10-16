@@ -77,14 +77,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; equal? predicate:                                                          ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! equal?
- (lambda (o1 o2)
+(defun equal? (o1 o2)
+  "True when o1 and o2 are eql? or cons trees whose atomic members are equal?."
   (cond
    ((and? (atom? o1) (atom? o2)) (eql? o1 o2))
    ((and? (cons? o1) (cons? o2))
     (and? (equal? (car o1) (car o2))
      (equal? (cdr o1) (cdr o2))))
-   (t nil))))
+   (t nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -237,40 +237,29 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; log toggle helpers, these should be replaced with macros:                  ;)
+;; list funs (zipping):                                                       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun with-toggled-fun1 (toggled-fun)
- "Get a function that enables toggled-fun, evaluates fun-or-expr and sets toggled-fun back to it's prior state."
- (lambda (fun-or-expr)
-  (if (lambda? fun-or-expr)
-   (let* ((old    (toggled-fun t))
-          (result (fun-or-expr))
-          (new    (toggled-fun old)))
-    result)
-   (let* ((old    (toggled-fun t))
-          (result (eval fun-or-expr))
-          (new    (toggled-fun old)))
-    result))))
+(defun zip2 (lst1 lst2)
+ "Zip two lists."
+ (cond
+  ((or? (nil? lst1) (nil? lst2)) nil)
+  (t (cons (list (car lst1) (car lst2))
+      (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun with-toggled-fun (toggled-fun)
- "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets toggled-fun back to it's prior state."
- (lambda funs-or-exprs
-  (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
+(defun zip3 (l1 l2 l3)
+ "Zip three lists."
+ (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! with-log-eval (with-toggled-fun log-eval))
-(setq! with-log-core (with-toggled-fun log-core))
-(setq! with-log-all  (with-toggled-fun log-all))
+(defun flatten-left (lst)
+ "Flatten left-nested list structures."
+ (if (cons? (car lst))
+  (append (flatten-left (car lst)) (list (cadr lst)))
+  lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! zip (reduced (lambda (x y) (flatten-left (zip2 x y))) arg))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; random stuff that's all one section for now:                               ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun 1+      (n) (+ 1 n))                                                   ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun double  (n) (* 2 n))                                                   ;)
-(setq! 2*      double)                                                        ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform! (obj pred fun)
  "Destructively transform the cons tree obj by replacing members matching pred with the result of applying fun to them."
  (if (atom? obj)
@@ -334,20 +323,10 @@
    (princ (/ total repetitions 1000))
    (nl)
    each-ms)))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun zip2 (lst1 lst2)
- "Zip two lists."
- (cond
-  ((or? (nil? lst1) (nil? lst2)) nil)
-  (t (cons (list (car lst1) (car lst2))
-      (zip2 (cdr lst1) (cdr lst2))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun zip3 (l1 l2 l3)
- "Zip three lists."
- (mapcar flatten1 (reduce zip2 l1 (list l2 l3))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; This does not flatten its result properly yet:
-(setq! zip (reduced (lambda (x y) (zip2 x y)) arg))
+;; list funs (unsorted):                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun any? (pred lst)
  "True when any lst members are pred."
@@ -399,4 +378,41 @@
   (cons (car items)
    (cons intercalated
     (intercalate intercalated (cdr items))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; log toggle helpers, these should be replaced with macros:                  ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun with-toggled-fun1 (toggled-fun)
+ "Get a function that enables toggled-fun, evaluates fun-or-expr and sets toggled-fun back to it's prior state."
+ (lambda (fun-or-expr)
+  (if (lambda? fun-or-expr)
+   (let* ((old    (toggled-fun t))
+          (result (fun-or-expr))
+          (new    (toggled-fun old)))
+    result)
+   (let* ((old    (toggled-fun t))
+          (result (eval fun-or-expr))
+          (new    (toggled-fun old)))
+    result))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun with-toggled-fun (toggled-fun)
+ "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets toggled-fun back to it's prior state."
+ (lambda funs-or-exprs
+  (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! with-log-eval (with-toggled-fun log-eval))
+(setq! with-log-core (with-toggled-fun log-core))
+(setq! with-log-all  (with-toggled-fun log-all))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; random stuff that's all one section for now:                               ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun 1+      (n) (+ 1 n))                                                   ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun double  (n) (* 2 n))                                                   ;)
+(setq! 2*      double)                                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
