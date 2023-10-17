@@ -4,6 +4,10 @@
  (write ct) (nl)
  (setq! ct (- ct 1)))
 
+(until (> ct 20)
+ (write ct) (nl)
+ (setq! ct (1+ ct)))
+
 (write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d))) (nl)
 
 (setq! lst  '(1 2 3 4))
@@ -29,9 +33,8 @@
 
 (setq! replicate-or-ignore
  (lambda (x)
-  (if (integer? x)
-   (list x x)
-   nil)))
+  (when (integer? x)
+   $(x x))))
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
 (write (mapcan replicate-or-ignore mylist)) (nl)
@@ -92,4 +95,38 @@
 
 (princn ''(1 . 2))
 (princn ''(1 2))
+
+(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
+(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
+(write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
+(write (zip '(1 2 3) '(a b c))) (nl)
+(write (zip '(1 2 3))) (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; construction zone
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(log-macro t)
+(log-core  t)
+(log-eval  t)
+
+(princn "This is a test")
+(princn "this" "is" "a" "test")
+(printn "This is a test")
+(printn "this" "is" "a" "test")
+(putn   "This is a test")
+(putn   "this" "is" "a" "test")
+(writen "This is a test")
+(writen "this" "is" "a" "test")
+
+(nl)
+(princ "Reached the end.") (nl)
+
+(princ "begin") (nl)
+(princni " " "these" "are" "words")
+(princns     "these" "are" "words")
+(princ "end") (nl)
+
+(princn (length $(1 2 3   4)))
+(princn (length $(1 2 3 . 4)))
 

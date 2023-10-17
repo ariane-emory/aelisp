@@ -154,8 +154,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro unquote (expr) expr) 
-
 (defun transform (expr pred?)
   (cond
     ;; Handle atoms
