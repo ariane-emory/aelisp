@@ -108,14 +108,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcar (fun lst)
  "Map fun over list, returning the resulting list."
- (when (not? (nil? lst))
-  (cons (fun (car lst)) (mapcar fun (cdr lst)))
-  ))
+ (when lst
+  (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapc (fun lst)
  "Map fun over list for side-effects only, ignoring the results and returning nil."
- (if (nil? lst)
-  nil
+ (when lst
   (fun (car lst))
   (mapc fun (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -131,13 +129,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcan (fun lst)
  "Map fun over list, returning the result of appending the resulting lists."
- (if (nil? lst)
-  nil
+ (when lst
   (let ((result (fun (car lst)))
         (rest   (mapcan fun (cdr lst))))
-   (if (nil? result)
-    rest
-    (nconc! result rest)))))
+   (if result
+    (nconc! result rest)
+    rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -176,9 +173,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun append2 (lst1 lst2)
  "Append two lists."
- (if (nil? lst1)
-  lst2
-  (cons (car lst1) (append2 (cdr lst1) lst2))))
+ (if lst1
+  (cons (car lst1) (append2 (cdr lst1) lst2))
+  lst2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! append (reduced append2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -186,8 +183,7 @@
  "Destructively join two lists."
  (cond
   ((nil? lst1) lst2)
-  (t (rplacd! (last lst1) lst2)
-   lst1)))
+  (t (rplacd! (last lst1) lst2) lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! nconc! (reduced nconc2!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
