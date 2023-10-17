@@ -337,20 +337,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun all? (pred lst)
  "True when all lst members are pred."
- (if (nil? lst)
-  t
+ (if lst
   (and?
    (pred (car lst))
-   (all? pred (cdr lst)))))
+   (all? pred (cdr lst)))
+  t))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun heads (lsts)
- (if (nil? lsts)
-  nil
+ (when lsts
   (cons (car (car lsts)) (heads (cdr lsts)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun tails (lsts)
- (if (nil? lsts)
-  nil
+ (when lsts
   (cons (cdr (car lsts)) (tails (cdr lsts)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun compose-preds preds
@@ -446,7 +444,7 @@
  (if (< a b) a b))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun list-depth (lst)
- "This one is untested."
+ "Get the depth of a nested list structure. This one is untested."
  (if (atom? lst)
   0
   (max 1 (+ (list-depth (car lst)) (list-depth (cdr lst))))))
