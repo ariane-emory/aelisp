@@ -6,44 +6,35 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro xform (obj pred? if-fun else-fun)
+(defmacro xform-old (obj pred? if-fun else-fun)
  (cond
   ((nil?  obj)  nil)
   ((pred? obj) $(if-fun   obj))
   ((atom? obj) $(else-fun obj))
   (t (cons
-      $(xform (car obj) pred? if-fun else-fun)
-      $(xform (cdr obj) pred? if-fun else-fun)))))
+      $(xform-old (car obj) pred? if-fun else-fun)
+      $(xform-old (cdr obj) pred? if-fun else-fun)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defmacro xform1 (obj)
- (cond
-  ((nil?     obj)  nil)
-  ((integer? obj)  obj)
-  ((atom?    obj)  obj)
-  ;; (t (cons
-  ;;     (xform1 (car obj) pred? if-fun)
-  ;;     (xform1 (cdr obj) pred? if-fun)))
-  ))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (write (xform lst integer? 2* id))
-;; (nl)
 
 (defmacro quotify (x) $('quote x))
 
-;;(log-eval t)
+(defmacro xform (obj)
+ (let ((head (car (eval obj)))
+       (tail (cdr (eval obj))))
+  (cons head (xform tail))))
 
+(defmacro xform (obj)
+ (when obj
+   $('xform (cdr obj))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;(log-eval t)
 (log-macro t)
 
-;; (nl) (princ "Before.")
-;; (quotify yyy)
-;; (nl) (princ "After.")
-
 (nl) (princ "Before.")
-(xform1 lst)
+(xform (1 2 3 4))
 (nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
