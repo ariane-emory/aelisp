@@ -14,9 +14,9 @@
 (write (xform lst integer? 2* id))
 (nl)
 
-(defun swap (x) 'xxx)
+(defun quotify (x) 'xxx)
 
-(write (xform lst integer? 2* swap))
+(write (xform lst integer? 2* quotify))
 (nl)
 
 (princ "Done.")
