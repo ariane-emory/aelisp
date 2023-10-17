@@ -248,16 +248,23 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
   
   if (log_eval) {
-    char * tmp = SWRITE(fun);
-    LOG(ENV_VALS(env),            "applying user fun %s to %d arg%s", tmp, LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
-    free(tmp);
+    if (DHAS(fun, "last-bound-to")) {
+      LOG(ENV_VALS(env), "applying user fun '%s' to %d arg%s",
+          SYM_VAL(DGET(fun, "last-bound-to")), LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
+    }
+    else {
+      char * tmp = SWRITE(fun);
+      LOG(ENV_VALS(env), "applying user fun %s to %d arg%s",
+          tmp, LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
+      free(tmp);
+    }
   }
   
   INDENT;
   
   if (log_eval) {
     // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
-    LOG(FUN_PARAMS(fun), "with param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
+    LOG(FUN_PARAMS(fun), "as param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
     LOG(body,            "with body");
   }
 
@@ -271,8 +278,16 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
   OUTDENT;
 
-  if (log_eval)
-    LOG(result, "applying user fun returned %s :%s", a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+  if (log_eval) {
+    if (DHAS(fun, "last-bound-to")) {
+      LOG(result, "applying user fun '%s' returned %s :%s", SYM_VAL(DGET(fun, "last-bound-to")), a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+    }
+    else {
+      char * tmp = SWRITE(fun);
+      LOG(result, "applying user fun %s returned %s :%s", tmp, a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+      free(tmp);
+    }
+  }
 
   return result;
 }

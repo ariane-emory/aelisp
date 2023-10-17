@@ -142,5 +142,12 @@
 
 (defmacro unquote (expr) expr) 
 
-;; (log-eval t)
-(write `(list 'a 'b 'c ,(+ 4 5))) (nl)
+(setq! x 10)
+
+(log-eval t)
+
+(write `,x) (nl)
+
+;;(write (is-unquote-expr? '(unquote 1))) (nl)
+
+;;(write `(list 'a ,(+ 4 5))) (nl)
