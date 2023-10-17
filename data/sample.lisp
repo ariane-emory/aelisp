@@ -3,26 +3,6 @@
 (setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; simple  version
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun transform (obj pred? fun)
-  (if (pred? obj)
-   (fun obj)
-   (if (atom? obj)
-    obj
-    (cons (transform (car obj) pred? fun)
-     (transform (cdr obj) pred? fun)))))
-
-(defun is-unquote-expr? (obj)
-  (and (cons? obj) (eq? (car obj) 'unquote)))
-
-(defmacro quasiquote (expr)
-  (transform expr
-   is-unquote-expr?
-   second))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; complex version
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -54,7 +34,31 @@
 
 (defmacro quasiquote (expr)
   (transform expr
-            (lambda (x) (and (cons? x) (eq? (car x) 'unquote)))))
+   (lambda (x) (and
+     (cons? x)
+     (eq? (car x) 'unquote)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; simple version
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun transform (obj pred? fun)
+  (if (pred? obj)
+   (fun obj)
+   (if (atom? obj)
+    obj
+    (cons (transform (car obj) pred? fun)
+     (transform (cdr obj) pred? fun)))))
+
+(defun is-unquote-expr? (obj)
+  (and (cons? obj) (eq? (car obj) 'unquote)))
+
+(defmacro quasiquote (expr)
+  (transform expr
+   is-unquote-expr?
+   second))
+
+(defmacro unquote (expr) expr)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
