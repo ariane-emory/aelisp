@@ -116,10 +116,6 @@
 
 ;(log-macro t)
 
-(defmacro princn args #(progn (cons princ args) (nl)))
-(defmacro printn args #(progn (cons print args) (nl)))
-(defmacro putn   args #(progn (cons put args)   (nl)))
-(defmacro writen args #(progn (cons write args) (nl)))
 
 (princn "This is a test")
 (princn "this" "is" "a" "test")
@@ -130,6 +126,7 @@
 (writen "This is a test")
 (writen "this" "is" "a" "test")
 
-
 (nl)
 (princ "Reached the end.") (nl)
+
+(princns "these" "are" "words")
