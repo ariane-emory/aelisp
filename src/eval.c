@@ -202,7 +202,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     char * fun_desc = SWRITE(fun);
     
     sprintf(msg_tmp,
-            "%s:%d: user fun '%s' requires %s %d arg%s, but got %d.",
+            "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
             __FILE__,
             __LINE__,
             fun_desc,
