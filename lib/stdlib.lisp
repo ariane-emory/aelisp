@@ -56,10 +56,10 @@
 (defun putni     (i . args) (apply put   (intercalate i args))             (nl))
 (defun writeni   (i . args) (apply write (intercalate i args))             (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun princns   args (apply princ (intercalate " " args))                 (nl))
-(defun printns   args (apply print (intercalate " " args))                 (nl))
-(defun putns     args (apply put   (intercalate " " args))                 (nl))
-(defun writens   args (apply write (intercalate " " args))                 (nl))
+(defun princns   args (apply princni (cons " " args))                      (nl))
+(defun printns   args (apply printni (cons " " args))                      (nl))
+(defun putns     args (apply putni   (cons " " args))                      (nl))
+(defun writens   args (apply writeni (cons " " args))                      (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
