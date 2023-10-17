@@ -27,7 +27,8 @@ bool read_error = false;
 
 void parse_line(const char * const line) {
       YY_BUFFER_STATE buffer = yy_scan_string(line);
-
+      yylineno = 0;
+  
       yyparse();
 
       yy_delete_buffer(buffer);
