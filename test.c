@@ -689,7 +689,7 @@ void improper_list(void) {
 
   this = CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NEW_INT(4))));
   // OLOG(this); NL;
-  T(LENGTH(this)        == -1);
+  T(LENGTH(this)        == 3);
   TM("Expected length 3, got %d.", LENGTH(this));
 
   COUNT_LIST_LENGTH(this);
