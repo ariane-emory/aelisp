@@ -125,7 +125,6 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
     if (log_core)
       LOG(then_branch, "chose then");
 
-
     CORE_RETURN("when", ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 

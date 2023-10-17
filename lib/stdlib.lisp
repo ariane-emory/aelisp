@@ -108,9 +108,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcar (fun lst)
  "Map fun over list, returning the resulting list."
- (if (nil? lst)
-  nil
-  (cons (fun (car lst)) (mapcar fun (cdr lst)))))
+ (when (not? (nil? lst))
+  (cons (fun (car lst)) (mapcar fun (cdr lst)))
+  ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapc (fun lst)
  "Map fun over list for side-effects only, ignoring the results and returning nil."
@@ -265,6 +265,7 @@
    (cons (car lst) (flatten (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (zipping):                                                       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -280,13 +281,13 @@
  (mapcar flatten1 (reduce zip2 l1 #(l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! left-nested-zip (reduced zip2))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro zip lists
  "Zip many lists."
  (if (cdr lists)
   #(mapcar flatten (cons left-nested-zip lists))
   #(mapcar list    (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -360,13 +361,13 @@
 (defun compose-preds preds
  "Does what it says on the tin and compose preds."
  (lambda (val)
-  (let* ((fun
-          (lambda (preds)
-           (cond
-            ((nil? (car preds))       t)
-            ((nil? ((car preds) val)) nil)
-            (t
-             (fun (cdr preds)))))))
+  (let*
+   ((fun
+     (lambda (preds)
+      (cond
+       ((nil? (car preds))       t)
+       ((nil? ((car preds) val)) nil)
+       (t     (fun (cdr preds)))))))
    (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun intercalate (intercalated items)
