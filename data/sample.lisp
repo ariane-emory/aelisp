@@ -96,6 +96,12 @@
 ;; (princn ''(1 . 2))
 ;; (princn ''(1 2))
 
+;; (write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
+;; (write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
+;; (write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
+;; (write (zip '(1 2 3) '(a b c))) (nl)
+;; (write (zip '(1 2 3))) (nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; construction zone
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -104,30 +110,16 @@
 ;; (log-core  t)
 ;; (log-eval  t)
 
-(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
-(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
-(write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
-(write (zip '(1 2 3) '(a b c))) (nl)
-(write (zip '(1 2 3))) (nl)
+;; (princn "This is a test")
+;; (princn "this" "is" "a" "test")
+;; (printn "This is a test")
+;; (printn "this" "is" "a" "test")
+;; (putn   "This is a test")
+;; (putn   "this" "is" "a" "test")
+;; (writen "This is a test")
+;; (writen "this" "is" "a" "test")
 
-(setq! x 66)
-(write (list 22 44 x)) (nl)
-(write #(22 44 x)) (nl)
-
-;(log-macro t)
-
-
-(princn "This is a test")
-(princn "this" "is" "a" "test")
-(printn "This is a test")
-(printn "this" "is" "a" "test")
-(putn   "This is a test")
-(putn   "this" "is" "a" "test")
-(writen "This is a test")
-(writen "this" "is" "a" "test")
-
-(nl)
-(princ "Reached the end.") (nl)
-
+;; (nl)
+;; (princ "Reached the end.") (nl)
 (princni " " "these" "are" "words")
 (princns     "these" "are" "words")
