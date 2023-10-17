@@ -15,10 +15,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! defmacro
  (macro (name params . body)
-  #(setq! name #(macro  params . body))))
+  $(setq! name $(macro  params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)
- #(setq!  name #(lambda params . body)))
+ $(setq!  name $(lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -46,10 +46,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; fancy output funs:                                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defmacro princn args       #(progn (cons princ args)                 #(nl)))
-;; (defmacro printn args       #(progn (cons print args)                 #(nl)))
-;; (defmacro putn   args       #(progn (cons put   args)                 #(nl)))
-;; (defmacro writen args       #(progn (cons write args)                 #(nl)))
+;; (defmacro princn args       $(progn (cons princ args)                 $(nl)))
+;; (defmacro printn args       $(progn (cons print args)                 $(nl)))
+;; (defmacro putn   args       $(progn (cons put   args)                 $(nl)))
+;; (defmacro writen args       $(progn (cons write args)                 $(nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun princn  args       (apply princ   args) (nl))
 (defun printn  args       (apply print   args) (nl))
@@ -258,7 +258,7 @@
 (defun flatten-left (lst)
  "Flatten left-nested list structures."
  (if (cons? (car lst))
-  (append (flatten-left (car lst)) #(cadr lst))
+  (append (flatten-left (car lst)) $(cadr lst))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten (lst)
@@ -276,12 +276,12 @@
  "Zip two lists."
  (cond
   ((or (nil? lst1) (nil? lst2)) nil)
-  (t (cons #((car lst1) (car lst2))
+  (t (cons $((car lst1) (car lst2))
       (zip2  (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip3 (l1 l2 l3)
  "Zip three lists."
- (mapcar flatten1 (reduce zip2 l1 #(l2 l3))))
+ (mapcar flatten1 (reduce zip2 l1 $(l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! left-nested-zip (reduced zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -289,8 +289,8 @@
  "Zip many lists. This might not flatten properly if the zipped elements are"
  "themselves lists."
  (if (cdr lists)
-  #(mapcar flatten (cons left-nested-zip lists))
-  #(mapcar list    (car lists))))
+  $(mapcar flatten (cons left-nested-zip lists))
+  $(mapcar list    (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 

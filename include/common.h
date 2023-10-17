@@ -14,6 +14,8 @@ extern FILE *     yyin;
 // preface
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+extern const char * last_loaded_file;
+
 void       preface(void); 
 ae_obj_t * setup_root_env(void);
 void       paint_parsed(void);

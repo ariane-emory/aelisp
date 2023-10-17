@@ -20,6 +20,8 @@
 #define free_list_size (1 << 16)
 char mem[free_list_size] = { 0 };
 
+const char * last_loaded_file = NULL;
+
 ae_obj_t * program = NIL;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,6 +249,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     *failed_to_open = false;
   }
 
+  last_loaded_file = filename;
+  
   yylineno = 0;
   yyrestart(yyin);
   yyparse();

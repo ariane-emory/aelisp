@@ -34,7 +34,7 @@
 ;; (setq! replicate-or-ignore
 ;;  (lambda (x)
 ;;   (when (integer? x)
-;;    #(x x))))
+;;    $(x x))))
 
 ;; (setq! mylist '(1 "a" 2 3 "b" 4)) 
 ;; (write (mapcan replicate-or-ignore mylist)) (nl)
@@ -127,9 +127,9 @@
 (princns     "these" "are" "words")
 (princ "end") (nl)
 
-(princn (length #(1 2 3   4)))
-(princn (length #(1 2 3 . 4)))
+(princn (length $(1 2 3   4)))
+(princn (length $(1 2 3 . 4)))
 
 (defun test (x y z) z)
-{test 1 2 3s
+
 (test 1 2)
