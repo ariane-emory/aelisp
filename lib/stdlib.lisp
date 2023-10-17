@@ -251,11 +251,11 @@
 (defun flatten-left (lst)
  "Flatten left-nested list structures."
  (if (cons? (car lst))
-  (append (flatten-left (car lst)) #(cadr lst)))
- lst)
+  (append (flatten-left (car lst)) #(cadr lst))
+  lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten (lst)
- (when (not? (nil? lst))
+ (when lst
   (if (cons? (car lst))
    (append (flatten (car lst)) (flatten (cdr lst)))
    (cons (car lst) (flatten (cdr lst))))))
