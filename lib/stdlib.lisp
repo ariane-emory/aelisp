@@ -112,13 +112,15 @@
   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapc (fun lst)
- "Map fun over list for side-effects only, ignoring the results and returning nil."
+ "Map fun over list for side-effects only, ignoring the results and returning"
+ "nil."
  (when lst
   (fun (car lst))
   (mapc fun (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapconcat (fun lst delimiter)
- "Map fun over list, returning the result of concatenating the resulting strings."
+ "Map fun over list, returning the result of concatenating the resulting"
+ "strings."
  (if lst
   (reduce
    (lambda (acc item)
@@ -279,8 +281,8 @@
 (setq! left-nested-zip (reduced zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro zip lists
- "Zip many lists. This might not flatten properly if the zipped elements are
-  themselves lists."
+ "Zip many lists. This might not flatten properly if the zipped elements are"
+ "themselves lists."
  (if (cdr lists)
   #(mapcar flatten (cons left-nested-zip lists))
   #(mapcar list    (car lists))))
@@ -291,7 +293,8 @@
 ;; list funs (transform);                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform! (obj pred? fun)
- "Destructively transform the cons tree obj by replacing members matching pred? with the result of applying fun to them."
+ "Destructively transform the cons tree obj by replacing members matching pred?"
+ "with the result of applying fun to them."
  (if (atom? obj)
   (error "obj must be a list")
   (cond
@@ -309,7 +312,8 @@
   obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform (obj pred? fun)
- "Transform obj by replacing members matching pred? with the result of applying fun to them or applying fun to obj if it is not a cons tree."
+ "Transform obj by replacing members matching pred? with the result of applying"
+ "fun to them or applying fun to obj if it is not a cons tree."
  (if (atom? obj)
   (if (pred? obj)
    (fun obj)
@@ -319,7 +323,8 @@
    (transform (cdr obj) pred? fun))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prefetch (expr)
- "Try to optimize expr by replacing it's symbol? members with the result of looking them up. This is, mysteriously, not a very effective optimization."
+ "Try to optimize expr by replacing it's symbol? members with the result of"
+ "looking them up. This is, mysteriously, not a very effective optimization."
  (transform! expr
   (lambda (x) (and (symbol? x) (bound? x)))
   (lambda (x) (eval x))))
@@ -378,7 +383,8 @@
 ;; log toggle helpers, these should be replaced with macros:                  ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun with-toggled-fun1 (toggled-fun)
- "Get a function that enables toggled-fun, evaluates fun-or-expr and sets toggled-fun back to it's prior state."
+ "Get a function that enables toggled-fun, evaluates fun-or-expr and sets"
+ "toggled-fun back to it's prior state."
  (lambda (fun-or-expr)
   (if (lambda? fun-or-expr)
    (let* ((old    (toggled-fun t))
@@ -391,7 +397,8 @@
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun with-toggled-fun (toggled-fun)
- "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets toggled-fun back to it's prior state."
+ "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets"
+ "toggled-fun back to it's prior state."
  (lambda funs-or-exprs
   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -410,7 +417,8 @@
 (setq! 2*      double)                                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun benchmark (repetitions print-interval qexpr)
- "Benchmark expr by running it repetitions time and returning the total/average time in ms, printing updates ever print-interval iterations."
+ "Benchmark expr by running it repetitions time and returning the total/average"
+ "time in ms, printing updates ever print-interval iterations."
  (nl)
  (let ((ctr   0)
        (total 0))
