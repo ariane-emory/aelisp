@@ -18,19 +18,21 @@
 ;; (write (xform lst integer? 2* id))
 ;; (nl)
 
-(defmacro quotify (x) $(quote ''x))
+(defmacro quotify (x) $('quote x))
 
 ;;(log-eval t)
 
-(princ "Before.")    (nl)
-(write (quotify x))  (nl)
-(princ "Last.")      (nl)
+(log-macro t)
+
+(nl) (princ "Before.")
+(nl) (quotify yyy)
+(nl) (princ "Last.")
 
 ;(write (xform lst integer? 2* quotify))
 ;(nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(princ "Done.")
 (nl)
+(princ "Done.")
 (exit)
