@@ -130,5 +130,3 @@
 (princn (length $(1 2 3   4)))
 (princn (length $(1 2 3 . 4)))
 
-(write $('("foo" . 33) '("bar" . 45)))
-
