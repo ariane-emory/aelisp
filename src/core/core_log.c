@@ -44,14 +44,14 @@ ae_obj_t * ae_core_log_all(ae_obj_t * const env,
     }
 
     if      ((! log_eval) && (  old_log_eval_value))
-      SLOG("TURNING 'eval' LOGGING OFF!");
+      SLOG("TURNING 'eval' LOGGING OFF!\n");
     else if ((  log_eval) && (! old_log_eval_value))
-      SLOG("TURNING 'eval' LOGGING ON!");
+      SLOG("TURNING 'eval' LOGGING ON!\n");
 
     if      ((! log_core) && (  old_log_core_value))
-      SLOG("TURNING 'core' LOGGING OFF!");
+      SLOG("TURNING 'core' LOGGING OFF!\n");
     else if ((  log_core) && (! old_log_core_value))
-      SLOG("TURNING 'core' LOGGING ON!");
+      SLOG("TURNING 'core' LOGGING ON!\n");
   }
 
   CORE_RETURN("l_all", CONS(old_log_eval_value ? TRUE : NIL,
@@ -76,9 +76,9 @@ ae_obj_t * ae_core_log_eval(ae_obj_t * const env,
     log_eval = TRUEP(CAR(args));
 
     if      (NILP(CAR(args)) && old_value)
-      SLOG("TURNING 'eval' LOGGING OFF!");
+      SLOG("TURNING 'eval' LOGGING OFF!\n");
     else if (TRUEP(CAR(args)) && !old_value)
-      SLOG("TURNING 'eval' LOGGING ON!");
+      SLOG("TURNING 'eval' LOGGING ON!\n");
   }
 
   CORE_RETURN("l_eval", old_value ? TRUE : NIL);
@@ -101,9 +101,9 @@ ae_obj_t * ae_core_log_core(ae_obj_t * const env,
     log_core = TRUEP(CAR(args));
 
     if      (NILP(CAR(args)) && old_value)
-      SLOG("TURNING 'core' LOGGING OFF!");
+      SLOG("TURNING 'core' LOGGING OFF!\n");
     else if (TRUEP(CAR(args)) && !old_value)
-      SLOG("TURNING 'core' LOGGING ON!");
+      SLOG("TURNING 'core' LOGGING ON!\n");
   }
 
   CORE_RETURN("l_core", old_value ? TRUE : NIL);
@@ -126,9 +126,9 @@ ae_obj_t * ae_core_log_macro(ae_obj_t * const env,
     log_macro = TRUEP(CAR(args));
 
     if      (NILP(CAR(args)) && old_value)
-      SLOG("TURNING 'macro' LOGGING OFF!");
+      SLOG("TURNING 'macro' LOGGING OFF!\n");
     else if (TRUEP(CAR(args)) && !old_value)
-      SLOG("TURNING 'macro' LOGGING ON!");
+      SLOG("TURNING 'macro' LOGGING ON!\n");
   }
 
   CORE_RETURN("l_macro", old_value ? TRUE : NIL);
