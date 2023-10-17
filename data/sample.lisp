@@ -47,7 +47,8 @@
    (fun obj)
    (if (atom? obj)
     obj
-    (cons (transform (car obj) pred? fun)
+    (cons
+     (transform (car obj) pred? fun)
      (transform (cdr obj) pred? fun)))))
 
 (defun is-unquote-expr? (obj)
