@@ -101,19 +101,19 @@ ae_obj_t * setup_root_env(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
-  char * const       path            = free_list_malloc(PATH_MAX);
+  char * const       stdlib_path     = free_list_malloc(PATH_MAX);
   uint32_t           size            = PATH_MAX;
   
-  if (_NSGetExecutablePath(path, &size) == 0) {
-    char * const tmp = free_list_malloc(strlen(dirname(path))+1);
+  if (_NSGetExecutablePath(stdlib_path, &size) == 0) {
+    char * const tmp = free_list_malloc(strlen(dirname(stdlib_path))+1);
 
-    strcpy(tmp, dirname(path));
-    strcpy(path, tmp);
-    strcat(path, stdlib_rel_path);
+    strcpy(tmp, dirname(stdlib_path));
+    strcpy(stdlib_path, tmp);
+    strcat(stdlib_path, stdlib_rel_path);
     
     free_list_free(tmp);
 
-    PR("Loading stdlib from %s... ", path);
+    PR("Loading stdlib from %s... ", stdlib_path);
   } else {
     FPR(stderr, "Buffer too small, need %d bytes!\n", size);
     
@@ -122,14 +122,19 @@ ae_obj_t * setup_root_env(void) {
 
   bool failed_to_load = false;
   
-  load_file(root_env, path, &failed_to_load);
+  ae_obj_t * program = load_file(stdlib_path, &failed_to_load);
+
+  free_list_free(stdlib_path);
 
   if (failed_to_load)
     FPR(stderr, "WARNING: Failed to load stdlib!\n");
   else
     PR("loaded.\n");
 
-  free_list_free(path);
+  ae_obj_t * ret     = EVAL(root_env, program);
+
+  if (ERRORP(ret)) 
+    FPR(stderr, "WARNING: Error evaluating stdlib!\n");  
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
@@ -224,8 +229,8 @@ int yyparse (void);
 void yyrestart(FILE * input_file);
 extern int yylineno;
 
-ae_obj_t * load_file(ae_obj_t * const env, const char * filename, bool * const failed_to_open) {
-  FILE * original_yyin = yyin;
+ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
+  FILE * const original_yyin = yyin;
   yyin = fopen(filename, "r");
 
   program = NIL;
@@ -246,12 +251,12 @@ ae_obj_t * load_file(ae_obj_t * const env, const char * filename, bool * const f
   yyrestart(yyin);
   yyparse();
 
-  ae_obj_t * ret = EVAL(env, program);
+  // ae_obj_t * ret = EVAL(env, program);
   
   fclose(yyin);
 
   yyin = original_yyin;
 
-  return ret; 
+  return program; 
 }
 

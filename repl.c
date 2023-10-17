@@ -132,10 +132,20 @@ bool load_file_cmd(const char * const line,
   char filename[len + 1];
   bool failed_to_open = false;
   
-  if (sscanf(line, scanpat, filename) == 1)
-    load_file(root_env, filename, &failed_to_open);
-  else
+  if (sscanf(line, scanpat, filename) == 1) {
+    ae_obj_t * program = load_file(filename, &failed_to_open);
+    ae_obj_t * ret = EVAL(root_env, program);
+
+    if (ERRORP(ret)) {
+      NL;
+      fprintf(stderr, "Error evaluating '%s': ", filename);
+      WRITE(ret);
+      NL;
+    }
+  }
+  else {
     printf("Error: Malformed load command.\n");
+  }
   
   if (failed_to_open)
     fprintf(stderr, "Failed to open file '%s'.\n", filename);
