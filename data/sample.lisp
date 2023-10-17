@@ -17,8 +17,6 @@
 (defun is-unquote-expr? (obj)
   (and (cons? obj) (eq? (car obj) 'unquote)))
 
-(defun second (lst) (cadr lst))
-
 (defmacro quasiquote (expr)
   (transform expr
    is-unquote-expr?
