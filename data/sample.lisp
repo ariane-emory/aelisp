@@ -152,10 +152,9 @@
     (cons (transform (car obj) pred? fun)
      (transform (cdr obj) pred? fun)))))
 
+(log-eval t)
 
-;(log-eval t)
-
-(write `(list 'a ,x)) (nl)
+(write `(list ,x)) (nl)
 
 ;;(write (is-unquote-expr? '(unquote 1))) (nl)
 

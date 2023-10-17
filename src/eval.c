@@ -306,7 +306,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   if (log_eval) {
     char * tmp = SWRITE(fun);
-    LOG(obj,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(args,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
 
     free (tmp);
   }
