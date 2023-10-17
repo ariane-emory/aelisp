@@ -457,5 +457,15 @@
   (max 1 (+ (list-depth (car lst)) (list-depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+(setq! first   car)
+(setq! second  cadr)
+(setq! third   caddr)
+(defun fourth  (lst) (car   (cdddr lst)))
+(defun fifth   (lst) (cadr  (cdddr lst)))
+(defun sixth   (lst) (caddr (cdddr lst)))
+;; (defun seventh (lst) (car  (cdddr (cdddr lst)))
+;; (defun eighth  (lst) (cadr (cddr  (cdddr lst))))
+;; (defun ninth   (lst) (caddr (cdddr lst)))
+;; (defun tenth   (lst) (car (cdddr (cdddr lst))))
 
 
