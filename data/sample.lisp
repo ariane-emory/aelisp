@@ -1,5 +1,7 @@
 (setq! lst-base '(1 a 2 b 3 4 5 6 ((7 8 (unquote 9) 10 11 12 13))))
 (setq! lst-base '(1 a 2 b 3 ((4 (unquote 5) 6))))
+(setq! lst-base '(1 a 2))
+(setq! lst-base '(1 a (unquote 2)))
 (setq! lst lst-base)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -15,14 +17,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro xform1 (obj pred? if-fun)
+(defmacro xform1 (obj)
  (cond
-  ((nil?  obj)  nil)
-  ((pred? obj) (if-fun obj))
-  ((atom? obj)  obj)
-  (t (cons
-      (xform1 (car obj) pred? if-fun)
-      (xform1 (cdr obj) pred? if-fun)))))
+  ((nil?     obj)  nil)
+  ((integer? obj)  obj)
+  ((atom?    obj)  obj)
+  ;; (t (cons
+  ;;     (xform1 (car obj) pred? if-fun)
+  ;;     (xform1 (cdr obj) pred? if-fun)))
+  ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -40,7 +43,7 @@
 ;; (nl) (princ "After.")
 
 (nl) (princ "Before.")
-(xform lst integer? 2* quotify)
+(xform1 lst)
 (nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
