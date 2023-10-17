@@ -60,11 +60,22 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;(write (is-unquote-expr? '(unquote 1))) (nl)
+
+;;(write `(list 'a ,(+ 4 5))) (nl)
+
 ;; (write `(list 1 a ,x)) (nl)
 
 ;; (log-eval t)
 
+(write (first   lst)) (nl)
+(write (second  lst)) (nl)
+(write (third   lst)) (nl)
+(write (fourth  lst)) (nl)
+(write (fifth   lst)) (nl)
+(write (sixth   lst)) (nl)
+(write (seventh lst)) (nl)
+(write (eighth  lst)) (nl)
+(write (ninth   lst)) (nl)
+(write (tenth   lst)) (nl)
 
-;;(write (is-unquote-expr? '(unquote 1))) (nl)
-
-;;(write `(list 'a ,(+ 4 5))) (nl)

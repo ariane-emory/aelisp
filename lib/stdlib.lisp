@@ -463,9 +463,9 @@
 (defun fourth  (lst) (car   (cdddr lst)))
 (defun fifth   (lst) (cadr  (cdddr lst)))
 (defun sixth   (lst) (caddr (cdddr lst)))
-;; (defun seventh (lst) (car  (cdddr (cdddr lst)))
-;; (defun eighth  (lst) (cadr (cddr  (cdddr lst))))
-;; (defun ninth   (lst) (caddr (cdddr lst)))
-;; (defun tenth   (lst) (car (cdddr (cdddr lst))))
+(defun seventh (lst) (car   (cdddr (cdddr lst))))
+(defun eighth  (lst) (cadr  (cdddr (cdddr lst))))
+(defun ninth   (lst) (caddr (cdddr (cdddr lst))))
+(defun tenth   (lst) (car (cdddr (cdddr (cdddr lst)))))
 
 
