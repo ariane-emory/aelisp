@@ -132,11 +132,6 @@
 
 (setq! x 10)
 
-(defun is-unquote-expr? (obj)
-  (and (cons? obj) (eq? (car obj) 'unquote)))
-
-(defun second (lst) (cadr lst))
-
 (defmacro quasiquote (expr)
   (transform expr
    is-unquote-expr?
@@ -152,9 +147,43 @@
     (cons (transform (car obj) pred? fun)
      (transform (cdr obj) pred? fun)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun is-unquote-expr? (obj)
+  (and (cons? obj) (eq? (car obj) 'unquote)))
+
+(defun second (lst) (cadr lst))
+
+(defmacro quasiquote (expr)
+  (transform expr
+   is-unquote-expr?
+   second))
+
+(defmacro unquote (expr) expr) 
+
+(defun transform (expr pred?)
+  (cond
+    ((atom? expr)
+     (if (pred? expr)
+         (cdr expr) ; If the expression matches pred?, unwrap it
+         (if (symbol? expr) ; Check if the expression is a symbol
+             (list 'quote expr) ; Quote the symbol
+             expr))) ; Return the expression unchanged
+    (else
+     (cons 
+      (if (and (cons? (car expr)) (not (pred? (car expr))))
+          (list 'quote (transform (car expr) pred?))
+          (transform (car expr) pred?))
+      (transform (cdr expr) pred?)))))
+
+(defmacro quasiquote (expr)
+ (transform expr
+  (lambda (x) (and (cons? x) (eq? (car x) 'unquote)))))
+
+
 (log-eval t)
 
-(write `(list ,x)) (nl)
+(write `(list 1 2 a ,x)) (nl)
 
 ;;(write (is-unquote-expr? '(unquote 1))) (nl)
 
