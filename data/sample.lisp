@@ -28,7 +28,7 @@
  (cond
   ((nil? obj) nil)
   ((and (cons? obj) (cdr obj)) $('cons $('quote (car obj)) $('xform (cdr obj))))
-  ((cons? obj)                 $('list $('quote (car obj))))
+  ((cons? obj)                 $('$('quote (car obj))))
   (obj $('cons $('quote (car obj)) $('xform (cdr obj))))
   ))
 
