@@ -135,6 +135,39 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _unless
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("unless");
+
+  ae_obj_t * const unless_cond   = CAR(args);
+  ae_obj_t * const then_branch = CDR(args);
+  
+  if (log_core) {
+    LOG(unless_cond, "unless");
+    LOG(then_branch, "then");
+  }
+
+  bool cond_result = NILP(EVAL(env, unless_cond));
+
+  if (log_core)
+    LOG(cond_result ? TRUE : NIL, "cond_result: ");
+
+  if (cond_result) {
+    if (log_core)
+      LOG(then_branch, "chose then");
+
+    CORE_RETURN("unless", ae_core_progn(env, then_branch, LENGTH(then_branch)));
+  }
+
+  if (log_core)
+    SLOG("chose nil");
+  
+  CORE_RETURN("unless", NIL);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _or
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
