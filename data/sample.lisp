@@ -18,6 +18,8 @@
 
 (defmacro quotify (x) (quote x))
 
+(log-eval t)
+
 (write (xform lst integer? 2* quotify))
 (nl)
 
