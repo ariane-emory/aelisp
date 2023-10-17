@@ -4,14 +4,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun xform (obj pred? if-fun else-fun)
+(defmacro xform (obj pred? if-fun else-fun)
  (cond
   ((nil?  obj)  nil)
-  ((pred? obj) (if-fun   obj))
-  ((atom? obj) (else-fun obj))
+  ((pred? obj) $(if-fun   obj))
+  ((atom? obj) $(else-fun obj))
   (t (cons
-      (xform (car obj) pred? if-fun else-fun)
-      (xform (cdr obj) pred? if-fun else-fun)))))
+      $(xform (car obj) pred? if-fun else-fun)
+      $(xform (cdr obj) pred? if-fun else-fun)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -25,11 +25,11 @@
 (log-macro t)
 
 (nl) (princ "Before.")
-(nl) (quotify yyy)
+(quotify yyy)
 (nl) (princ "After.")
 
 (nl) (princ "Before.")
-(nl) (xform lst integer? 2* quotify)
+(xform lst integer? 2* quotify)
 (nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
