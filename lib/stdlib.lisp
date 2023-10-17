@@ -141,7 +141,7 @@
   ""))                                                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcan (fun lst)                                                       ;)
- "Map fun over list, returning the result of appending the resulting lists."  ;)
+ "Map fun over list and concatenate the results by altering them."            ;)
  (when lst                                                                    ;)
   (let ((result (fun (car lst)))                                              ;)
         (rest   (mapcan fun (cdr lst))))                                      ;)
