@@ -311,7 +311,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun transform (obj pred? fun)
  "Transform obj by replacing members matching pred? with the result of applying"
- "fun to them or applying fun to obj if it is not a cons tree."
+ "fun to them or, if obj is not a cons tree, by applying fun to obj."
  (if (atom? obj)
   (if (pred? obj)
    (fun obj)

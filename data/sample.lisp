@@ -130,13 +130,17 @@
 (princn (length $(1 2 3   4)))
 (princn (length $(1 2 3 . 4)))
 
-;; (defmacro quasiquote (expr)
-;;   (transform expr
-;;     (lambda (x)
-;;       (and (cons? x) (eq? (car x) 'unquote)))
-;;     (lambda (x) 
-;;       (cadr x))))
+(defun is-unquote-expr? (obj)
+  (and (cons? obj) (eq? (car obj) 'unquote)))
 
-;; (defmacro unquote (expr) expr) 
+(defun second (lst) (cadr lst))
 
-(write '`(list a b c ,(+ 4 5))) (nl)
+(defmacro quasiquote (expr)
+  (transform expr
+   is-unquote-expr?
+   second))
+
+(defmacro unquote (expr) expr) 
+
+;; (log-eval t)
+(write `(list 'a 'b 'c ,(+ 4 5))) (nl)
