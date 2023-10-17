@@ -130,6 +130,5 @@
 (princn (length $(1 2 3   4)))
 (princn (length $(1 2 3 . 4)))
 
-(defun test (x y z) z)
+(write $('("foo" . 33) '("bar" . 45)))
 
-(test 1 2)
