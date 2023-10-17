@@ -139,4 +139,4 @@
 
 ;; (defmacro unquote (expr) expr) 
 
-(write $( `(list 1 2 3 ,(+ 4 5)))) (nl)
+(write '`(list a b c ,(+ 4 5))) (nl)
