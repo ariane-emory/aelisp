@@ -41,8 +41,6 @@ void preface(void) {
   NL;
 }
 
-ae_obj_t * load_file(ae_obj_t * const env, const char * filename, bool * const failed_to_open);
-
 ae_obj_t * setup_root_env(void) {
 
 #ifdef AE_PREFACE
@@ -224,6 +222,7 @@ bool setopts(int argc, char *argv[]) {
 
 int yyparse (void);
 void yyrestart(FILE * input_file);
+extern int yylineno;
 
 ae_obj_t * load_file(ae_obj_t * const env, const char * filename, bool * const failed_to_open) {
   FILE * original_yyin = yyin;
@@ -242,7 +241,8 @@ ae_obj_t * load_file(ae_obj_t * const env, const char * filename, bool * const f
   else if (failed_to_open != NULL) {
     *failed_to_open = false;
   }
-  
+
+  yylineno = 0;
   yyrestart(yyin);
   yyparse();
 
