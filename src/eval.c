@@ -111,8 +111,8 @@ bool log_macro = false;
 //==================================================================================================
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
-
-#ifndef AE_NO_ARG_COUNT_CHECK
+  assert(COREP(fun));
+  
   bool invalid_args_length = false;
   int args_length          = LENGTH(args);
   
@@ -170,7 +170,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     return NEW_ERROR(msg, err_data);
   }
-#endif
 
   if (! SPECIALP(fun)) {
     args = EVAL_ARGS(env, args);
@@ -198,21 +197,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
-
-  /* if (log_eval && CONSP(FUN_PARAMS(fun))) { */
-  /*   SLOGF("fun args #:   %d", LENGTH(args)); */
-  /*   SLOGF("fun param #s: %d", LENGTH(FUN_PARAMS(fun))); */
-  /* } */
-    
-  if (! SPECIALP(fun)) {
-    args = EVAL_ARGS(env, args);
-    
-    if (log_eval)
-      LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-  }
-  else if (log_eval) {
-    LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-  }
 
   if (CONSP(FUN_PARAMS(fun)) &&
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
@@ -244,6 +228,16 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("fun"),  fun);
 
     return NEW_ERROR(msg, err_data);
+  }
+    
+  if (! SPECIALP(fun)) {
+    args = EVAL_ARGS(env, args);
+    
+    if (log_eval)
+      LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+  }
+  else if (log_eval) {
+    LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
   }
   
   ae_obj_t * body    = FUN_BODY(fun);
