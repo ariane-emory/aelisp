@@ -129,4 +129,5 @@
 (nl)
 (princ "Reached the end.") (nl)
 
-(princns "these" "are" "words")
+(princni " " "these" "are" "words")
+(princns     "these" "are" "words")
