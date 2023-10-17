@@ -119,10 +119,10 @@
 
 (princn "this" "is" "a" "test")
 
-(log-macro t)
+;(log-macro t)
 
 (defmacro princn args
- #((cons princ args) #(nl)))
+ #(progn (cons princ args) #(nl)))
 
 (princn "this" "is" "a" "test")
 
