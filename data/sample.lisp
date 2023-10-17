@@ -19,14 +19,9 @@
 
 (defmacro quotify (x) $('quote x))
 
-(defmacro xform (obj)
- (let ((head (car (eval obj)))
-       (tail (cdr (eval obj))))
-  (cons head (xform tail))))
-
-(defmacro xform (obj)
+(defmacro xform-inner (obj)
  (when obj
-   $(cons (car obj) $('xform (cdr obj)))))
+   $(cons (car obj) $('xform-inner (cdr obj)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -34,7 +29,7 @@
 (log-macro t)
 
 (nl) (princ "Before.")
-(xform (1 2 3 4))
+(xform-inner (1 2 3 4))
 (nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
