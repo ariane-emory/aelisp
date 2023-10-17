@@ -4,6 +4,10 @@
  (write ct) (nl)
  (setq! ct (- ct 1)))
 
+(until (> ct 20)
+ (write ct) (nl)
+ (setq! ct (1+ ct)))
+
 (write (filter (lambda (x) (not? (nil? x))) '(a nil b c nil d))) (nl)
 
 (setq! lst  '(1 2 3 4))
