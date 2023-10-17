@@ -125,7 +125,7 @@
 (princ "begin") (nl)
 (princni " " "these" "are" "words")
 ;;(log-eval t)
-(log-macro t)
+;;(log-macro t)
 (princns     "these" "are" "words")
 (princns     "these" "are" "words")
 (princns     "these" "are" "words")
