@@ -13,16 +13,18 @@
       (xform (car obj) pred? if-fun else-fun)
       (xform (cdr obj) pred? if-fun else-fun)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; (write (xform lst integer? 2* id))
 ;; (nl)
 
-(defmacro quotify (x) $(quote x))
+(defmacro quotify (x) $(quote ''x))
 
 ;;(log-eval t)
 
-(write "Before.")    (nl)
-(write (quotify 'x)) (nl)
-(write "Last.")      (nl)
+(princ "Before.")    (nl)
+(write (quotify x))  (nl)
+(princ "Last.")      (nl)
 
 ;(write (xform lst integer? 2* quotify))
 ;(nl)
