@@ -21,8 +21,8 @@
 
 (defmacro xform (obj)
  (cond
-  (obj $('cons $('quote (car obj)) $('xform (cdr obj))))
-  (t nil)))
+  ((nil? obj) nil)
+  (obj $('cons $('quote (car obj)) $('xform (cdr obj))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
