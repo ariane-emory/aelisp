@@ -88,9 +88,15 @@ int main(int argc, char **argv) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   FILE * fp = fopen("data/sample.lisp", "r");
-  yyin = fp;
-  yyparse();
-  fclose(fp);  
+
+  bool failed_to_open = false;
+
+  load_file("data/sample.lisp", &failed_to_open);
+
+  if (failed_to_open) {
+    FPR(stderr, "ERROR: Failed to open file!\n");
+    exit(1);
+  }
 
   paint_parsed();
   
