@@ -16,9 +16,13 @@
 (write (xform lst integer? 2* id))
 (nl)
 
-(defmacro quotify (x) (quote x))
+(defmacro quotify (x) $(quote x))
 
-(log-eval t)
+;; (log-eval t)
+
+(write (quotify 'x))
+
+(exit)
 
 (write (xform lst integer? 2* quotify))
 (nl)
