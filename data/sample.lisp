@@ -26,7 +26,6 @@
 
 (defmacro xform (obj)
  (cond
-  ((nil? obj) nil)
   ((and (cons? obj) (cdr obj)) (list 'cons (list 'quote (car obj)) (list 'xform (cdr obj))))
   ((cons? obj)                 (list 'list (list 'quote (car obj))))
   (t                           obj)))
