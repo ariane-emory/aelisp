@@ -32,7 +32,7 @@
 (defun rational? (o)           (type?   :RATIONAL       o                     ))
 (defun string?   (o)           (type?   :STRING         o                     ))
 (defun symbol?   (o)           (type?   :SYMBOL         o                     ))
-(defun improper? (o)     (and  (tail? o) (not (proper? o                   ))))
+(defun improper? (o)     (and  (tail? o) (not (proper?  o                   ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -332,7 +332,7 @@
   (cons
    (transform (car obj) pred? fun)
    (transform (cdr obj) pred? fun))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun prefetch (expr)
  "Try to optimize expr by replacing it's symbol? members with the result of"
  "looking them up. This is, mysteriously, not a very effective optimization."
