@@ -124,12 +124,5 @@
 
 (princ "begin") (nl)
 (princni " " "these" "are" "words")
-;;(log-eval t)
-;;(log-macro t)
 (princns     "these" "are" "words")
-(princns     "these" "are" "words")
-(princns     "these" "are" "words")
-(log-macro nil)
-(log-eval nil)
-;; (princns     "these" "are" "words")
 (princ "end") (nl)
