@@ -11,7 +11,7 @@
   $(setq! name $(macro  params . body))))                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)                                          ;)
- $(setq!  name $(lambda params . body)))                                      ;)
+ $('setq!  name $('lambda params . body)))                                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 

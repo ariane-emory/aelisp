@@ -26,10 +26,11 @@
 
 (nl) (princ "Before.")
 (nl) (quotify yyy)
-(nl) (princ "Last.")
+(nl) (princ "After.")
 
-;(write (xform lst integer? 2* quotify))
-;(nl)
+(nl) (princ "Before.")
+(nl) (xform lst integer? 2* quotify)
+(nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
