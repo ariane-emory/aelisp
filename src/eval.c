@@ -199,7 +199,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
 
-  if (LENGTH(args) < LENGTH(FUN_PARAMS(fun))) {
+  if (CONSP(FUN_PARAMS(fun)) && LENGTH(args) < LENGTH(FUN_PARAMS(fun))) {
     char * msg_tmp = free_list_malloc(256);
     char * fun_desc = SWRITE(fun);
     
