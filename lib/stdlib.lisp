@@ -74,7 +74,7 @@
 (defun caddr    (lst) (car (cdr (cdr lst))))
 (defun cdaar    (lst) (cdr (car (car lst))))
 (defun cdadr    (lst) (cdr (car (cdr lst))))
-(defun cddar    (lst)s(cdr (cdr (car lst))))
+(defun cddar    (lst) (cdr (cdr (car lst))))
 (defun cdddr    (lst) (cdr (cdr (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun first    (lst)                      (car   lst))
