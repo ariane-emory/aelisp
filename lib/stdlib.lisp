@@ -119,13 +119,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapconcat (fun lst delimiter)
  "Map fun over list, returning the result of concatenating the resulting strings."
- (if (nil? lst)
-  ""
+ (if lst
   (reduce
    (lambda (acc item)
     (concat acc delimiter item))
    (fun (car lst))
-   (mapcar fun (cdr lst)))))
+   (mapcar fun (cdr lst)))
+  ""))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcan (fun lst)
  "Map fun over list, returning the result of appending the resulting lists."
