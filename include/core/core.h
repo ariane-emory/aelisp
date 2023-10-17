@@ -32,6 +32,7 @@ extern bool log_core;
   DO(when,         true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(unless,       true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(while,        true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
+  DO(until,        true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(and,          true,           2,  UNLIMITED, "and?", "∧",                 FUNDEF_END) /* reduceable            */    \
   DO(or,           true,           2,  UNLIMITED, "or?", "∨",                  FUNDEF_END) /* reduceable            */    \
   DO(let_star,     true,           2,  UNLIMITED, "let*",                      FUNDEF_END)                                \

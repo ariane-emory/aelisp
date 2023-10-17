@@ -235,6 +235,36 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _until
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("until");
+
+  ae_obj_t * const until_cond = CAR(args);
+  ae_obj_t * const do_branch  = CDR(args);
+  
+  if (log_core) {
+    LOG(until_cond, "until");
+    LOG(do_branch,  "do");
+  }
+  
+  ae_obj_t * cond_result = NIL;
+  
+  while  (NILP(cond_result = EVAL(env, until_cond))) {
+    if (log_core)
+      LOG(do_branch, "do until");
+
+     ae_core_progn(env, do_branch, LENGTH(do_branch));
+  }
+
+  if (log_core)
+    SLOG("left until");
+  
+  CORE_RETURN("until", NIL);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _repeat
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
