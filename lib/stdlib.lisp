@@ -369,7 +369,7 @@
   (cons (cdr (car lsts)) (tails (cdr lsts)))))                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun compose-preds preds                                                    ;)
- "Does what it says on the tin and compose preds."                            ;)
+ "Does what it says on the tin and composes preds."                           ;)
  (lambda (val)                                                                ;)
   (let*                                                                       ;)
    ((fun                                                                      ;)
