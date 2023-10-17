@@ -166,6 +166,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     KSET(err_data, KW("env"),  env);
     KSET(err_data, KW("args"), args);
+    KSET(err_data, KW("fun"),  fun);
 
     return NEW_ERROR(msg, err_data);
   }
@@ -197,6 +198,32 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
+
+  if (LENGTH(args) < LENGTH(FUN_PARAMS(fun))) {
+    char * msg_tmp = free_list_malloc(256);
+    char * fun_desc = SWRITE(fun);
+    
+    sprintf(msg_tmp, "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
+            __FILE__,
+            __LINE__,
+            fun_desc,
+            ! PROPERP(FUN_PARAMS(fun)) ? "at least" : "exactly",
+            LENGTH(FUN_PARAMS(fun)),
+            s_or_blank(LENGTH(FUN_PARAMS(fun))),
+            LENGTH(args));
+
+    free(fun_desc);
+    
+    char * msg = free_list_malloc(strlen(msg_tmp) + 1);
+    strcpy(msg, msg_tmp);
+    free_list_free(msg_tmp);
+
+    ae_obj_t * err_data = NIL;
+
+    KSET(err_data, KW("env"),  env);
+    KSET(err_data, KW("args"), args);
+    KSET(err_data, KW("fun"),  fun);
+  }
   
   if (! SPECIALP(fun)) {
     args = EVAL_ARGS(env, args);
