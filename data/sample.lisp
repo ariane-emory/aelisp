@@ -34,7 +34,7 @@
 (setq! replicate-or-ignore
  (lambda (x)
   (when (integer? x)
-   (list x x))))
+   #(x x))))
 
 (setq! mylist '(1 "a" 2 3 "b" 4)) 
 (write (mapcan replicate-or-ignore mylist)) (nl)
