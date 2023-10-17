@@ -27,18 +27,23 @@
 (defmacro xform (obj)
  (cond
   ((and (cons? obj) (cdr obj)) (list 'cons (list 'quote (car obj)) (list 'xform (cdr obj))))
-  ((cons? obj)                 (list 'list (list 'quote (car obj))))
+  ((cons? obj)                 (list 'cons (list 'quote (car obj)) nil))
   (t                           obj)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (log-macro t)
+
 (nl) (princ "Before.")
 (xform $(1 2 $(3 4)))
 (nl) (princ "After.")
 
 (nl) (princ "Before.")
 (xform 1)
+(nl) (princ "After.")
+
+(nl) (princ "Before.")
+(xform nil)
 (nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
