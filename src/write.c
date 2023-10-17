@@ -180,7 +180,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
   }
   }
 
-  COUNTED_FPRINTF(stream, "");
+  COUNTED_FPRINTF(stream, ">");
 
   return fwrite_counter;
 }

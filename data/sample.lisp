@@ -114,17 +114,22 @@
 (write (list 22 44 x)) (nl)
 (write #(22 44 x)) (nl)
 
-(defun princn args
- (apply princ args) (nl))
-
-(princn "this" "is" "a" "test")
-
 ;(log-macro t)
 
-(defmacro princn args
- #(progn (cons princ args) #(nl)))
+(defmacro princn args #(progn (cons princ args) (nl)))
+(defmacro printn args #(progn (cons print args) (nl)))
+(defmacro putn   args #(progn (cons put args)   (nl)))
+(defmacro writen args #(progn (cons write args) (nl)))
 
+(princn "This is a test")
 (princn "this" "is" "a" "test")
+(printn "This is a test")
+(printn "this" "is" "a" "test")
+(putn   "This is a test")
+(putn   "this" "is" "a" "test")
+(writen "This is a test")
+(writen "this" "is" "a" "test")
+
 
 (nl)
 (princ "Reached the end.") (nl)
