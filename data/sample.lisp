@@ -130,6 +130,8 @@
 (princn (length $(1 2 3   4)))
 (princn (length $(1 2 3 . 4)))
 
+(setq! x 10)
+
 (defun is-unquote-expr? (obj)
   (and (cons? obj) (eq? (car obj) 'unquote)))
 
@@ -142,11 +144,18 @@
 
 (defmacro unquote (expr) expr) 
 
-(setq! x 10)
+(defun transform (obj pred? fun)
+  (if (pred? obj)
+   (fun obj)
+   (if (atom? obj)
+    obj
+    (cons (transform (car obj) pred? fun)
+     (transform (cdr obj) pred? fun)))))
 
-(log-eval t)
 
-(write `,x) (nl)
+;(log-eval t)
+
+(write `(list 'a ,x)) (nl)
 
 ;;(write (is-unquote-expr? '(unquote 1))) (nl)
 
