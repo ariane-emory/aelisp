@@ -15,6 +15,11 @@
       $(xform-old (car obj) pred? if-fun else-fun)
       $(xform-old (cdr obj) pred? if-fun else-fun)))))
 
+(defmacro xform (obj)
+ (cond
+  ((nil? obj) nil)
+  (obj $('cons $('quote (car obj)) $('xform (cdr obj))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmacro quotify (x) $('quote x))
@@ -22,7 +27,10 @@
 (defmacro xform (obj)
  (cond
   ((nil? obj) nil)
-  (obj $('cons $('quote (car obj)) $('xform (cdr obj))))))
+  ((and (cons? obj) (cdr obj)) $('cons $('quote (car obj)) $('xform (cdr obj))))
+  ((cons? obj)                 $('list $('quote (car obj))))
+  (obj $('cons $('quote (car obj)) $('xform (cdr obj))))
+  ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -35,4 +43,4 @@
 
 (nl)
 (princ "Done.")
-(exit)
+(exit)shove
