@@ -6,26 +6,29 @@
 
 (defun xform (obj pred? if-fun else-fun)
  (cond
-  ((nil? obj)   nil)
+  ((nil?  obj)  nil)
   ((pred? obj) (if-fun   obj))
   ((atom? obj) (else-fun obj))
   (t (cons
       (xform (car obj) pred? if-fun else-fun)
       (xform (cdr obj) pred? if-fun else-fun)))))
 
-(write (xform lst integer? 2* id))
-(nl)
+;; (write (xform lst integer? 2* id))
+;; (nl)
 
 (defmacro quotify (x) $(quote x))
 
-;; (log-eval t)
+;;(log-eval t)
 
-(write (quotify 'x))
+(write "Before.")    (nl)
+(write (quotify 'x)) (nl)
+(write "Last.")      (nl)
 
-(exit)
+;(write (xform lst integer? 2* quotify))
+;(nl)
 
-(write (xform lst integer? 2* quotify))
-(nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (princ "Done.")
 (nl)
+(exit)
