@@ -26,7 +26,7 @@
 ;; type predicates:                                                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun type?     (typ o) (eq?   typ    (type            o                    )))
-(defun atom?     (o)     (not? (type?   :CONS           o                    )))
+(defun atom?     (o)     (not  (type?   :CONS           o                    )))
 (defun char?     (o)           (type?   :CHAR           o                     ))
 (defun cons?     (o)           (type?   :CONS           o                     ))
 (defun core?     (o)           (type?   :CORE           o                     ))
@@ -39,7 +39,7 @@
 (defun rational? (o)           (type?   :RATIONAL       o                     ))
 (defun string?   (o)           (type?   :STRING         o                     ))
 (defun symbol?   (o)           (type?   :SYMBOL         o                     ))
-(defun improper? (o)     (and? (tail? o) (not? (proper? o                   ))))
+(defun improper? (o)     (and  (tail? o) (not (proper? o                   ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -87,9 +87,9 @@
 (defun equal? (o1 o2)
  "True when o1 and o2 are eql? or cons trees whose atomic members are equal?."
  (cond
-  ((and? (atom? o1) (atom? o2)) (eql? o1 o2))
-  ((and? (cons? o1) (cons? o2))
-   (and? (equal? (car o1) (car o2))
+  ((and (atom? o1) (atom? o2)) (eql? o1 o2))
+  ((and (cons? o1) (cons? o2))
+   (and (equal? (car o1) (car o2))
     (equal? (cdr o1) (cdr o2))))
   (t nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -229,13 +229,13 @@
   acc
   (fun (car lst) (rreduce fun acc (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun filter (pred lst)
- "Return a list containing those members of lst satisfying pred."
+(defun filter (pred? lst)
+ "Return a list containing those members of lst satisfying pred?."
  (cond
   ((nil? lst) nil)
-  ((pred (car lst))
-   (cons (car lst) (filter pred (cdr lst))))
-  (t (filter pred (cdr lst)))))
+  ((pred? (car lst))
+   (cons (car lst) (filter pred? (cdr lst))))
+  (t (filter pred? (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -268,7 +268,7 @@
 (defun zip2 (lst1 lst2)
  "Zip two lists."
  (cond
-  ((or? (nil? lst1) (nil? lst2)) nil)
+  ((or (nil? lst1) (nil? lst2)) nil)
   (t (cons #((car lst1) (car lst2))
       (zip2  (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -289,38 +289,38 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (transform);                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun transform! (obj pred fun)
- "Destructively transform the cons tree obj by replacing members matching pred with the result of applying fun to them."
+(defun transform! (obj pred? fun)
+ "Destructively transform the cons tree obj by replacing members matching pred? with the result of applying fun to them."
  (if (atom? obj)
   (error "obj must be a list")
   (cond
-   ((pred obj) (set! obj (fun obj)))
+   ((pred? obj) (set! obj (fun obj)))
    ((cons? obj)
     (let ((head (car obj))
           (tail (cdr obj)))
      (cond
-      ((pred head)  (rplaca! obj (fun head)))
-      ((cons? head) (transform! head pred fun)))
+      ((pred? head)  (rplaca! obj (fun head)))
+      ((cons? head) (transform! head pred? fun)))
      (cond
-      ((pred tail)  (rplacd! obj (fun tail)))
-      ((cons? tail) (rplacd! obj (transform! tail pred fun))))))
+      ((pred? tail)  (rplacd! obj (fun tail)))
+      ((cons? tail) (rplacd! obj (transform! tail pred? fun))))))
    (t obj))
   obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun transform (obj pred fun)
- "Transform obj by replacing members matching pred with the result of applying fun to them or applying fun to obj if it is not a cons tree."
+(defun transform (obj pred? fun)
+ "Transform obj by replacing members matching pred? with the result of applying fun to them or applying fun to obj if it is not a cons tree."
  (if (atom? obj)
-  (if (pred obj)
+  (if (pred? obj)
    (fun obj)
    obj)
   (cons
-   (transform (car obj) pred fun)
-   (transform (cdr obj) pred fun))))
+   (transform (car obj) pred? fun)
+   (transform (cdr obj) pred? fun))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prefetch (expr)
  "Try to optimize expr by replacing it's symbol? members with the result of looking them up. This is, mysteriously, not a very effective optimization."
  (transform! expr
-  (lambda (x) (and? (symbol? x) (bound? x)))
+  (lambda (x) (and (symbol? x) (bound? x)))
   (lambda (x) (eval x))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
@@ -328,19 +328,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (unsorted):                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun any? (pred lst)
- "True when any lst members are pred."
+(defun any? (pred? lst)
+ "True when any lst members are pred?."
  (when lst
-  (or?
-   (pred (car lst))
-   (any? pred (cdr lst)))))
+  (or
+   (pred? (car lst))
+   (any? pred? (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun all? (pred lst)
- "True when all lst members are pred."
+(defun all? (pred? lst)
+ "True when all lst members are pred?."
  (if lst
-  (and?
-   (pred (car lst))
-   (all? pred (cdr lst)))
+  (and
+   (pred? (car lst))
+   (all? pred? (cdr lst)))
   t))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun heads (lsts)
@@ -365,7 +365,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun intercalate (intercalated items)
  "Intercalate intercalated between items."
- (if (or? (nil? items) (nil? (cdr items)))
+ (if (or (nil? items) (nil? (cdr items)))
   items
   (cons (car items)
    (cons intercalated

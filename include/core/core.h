@@ -24,7 +24,7 @@ extern bool log_core;
   DO(list,         false,  UNLIMITED,  UNLIMITED,                              FUNDEF_END)                                \
   DO(quote,        true,           1,          1,                              FUNDEF_END)                                \
   DO(cons,         false,          2,          2,                              FUNDEF_END)                                \
-  DO(not,          false,          1,  UNLIMITED, "not?", "¬",                 FUNDEF_END) /* reduceable            */    \
+  DO(not,          false,          1,  UNLIMITED, "not", "¬",                  FUNDEF_END) /* reduceable            */    \
   DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
   DO(apply,        false,          2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(apply,        true,           2,  UNLIMITED, "apply*",                    FUNDEF_END)                                \
@@ -33,8 +33,8 @@ extern bool log_core;
   DO(unless,       true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(while,        true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(until,        true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
-  DO(and,          true,           2,  UNLIMITED, "and?", "∧",                 FUNDEF_END) /* reduceable            */    \
-  DO(or,           true,           2,  UNLIMITED, "or?", "∨",                  FUNDEF_END) /* reduceable            */    \
+  DO(and,          true,           2,  UNLIMITED, "and", "∧",                  FUNDEF_END) /* reduceable            */    \
+  DO(or,           true,           2,  UNLIMITED, "or", "∨",                   FUNDEF_END) /* reduceable            */    \
   DO(let_star,     true,           2,  UNLIMITED, "let*",                      FUNDEF_END)                                \
   DO(let,          true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(cdr,          false,          1,          1,                              FUNDEF_END)                                \
