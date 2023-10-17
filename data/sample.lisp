@@ -183,6 +183,8 @@
 
 (log-eval t)
 
+(setq! x 10)
+
 (write `(list 1 2 a ,x)) (nl)
 
 ;;(write (is-unquote-expr? '(unquote 1))) (nl)
