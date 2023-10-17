@@ -66,16 +66,3 @@
 
 ;; (log-eval t)
 
-(write (first    lst)) (nl)
-(write (second   lst)) (nl)
-(write (third    lst)) (nl)
-(write (fourth   lst)) (nl)
-(write (fifth    lst)) (nl)
-(write (sixth    lst)) (nl)
-(write (seventh  lst)) (nl)
-(write (eighth   lst)) (nl)
-(write (ninth    lst)) (nl)
-(write (tenth    lst)) (nl)
-(write (eleventh lst)) (nl)
-(write (twelfth  lst)) (nl)
-
