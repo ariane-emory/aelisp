@@ -1,6 +1,4 @@
 To Do:
-- [ ] give improper lists a length.
-- [ ] re-implement std nconc! as a reduce of std nconc2!.
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] user funs need better arg count validation.
@@ -14,7 +12,6 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 
 Under Consideration:
-- [x] maybe take inspiration from TL's envLookup for dotted args?
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
 - [ ] Maybe parse-time math on integers?
 - [ ] Maybe put line/column of source in metadata of relevant objects?
@@ -26,6 +23,9 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] give improper lists a length.
+- [x] re-implement std nconc! as a reduce of std nconc2!.
+- [x] maybe take inspiration from TL's envLookup for dotted args?
 - [x] improve core 'and' and 'or' to be able to handle 3+ args.
 - [x] move core names to string pool.
 - [x] unbound symbols should error.
