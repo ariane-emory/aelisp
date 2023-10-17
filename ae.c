@@ -14,6 +14,8 @@
 #include "util.h"
 #include "write.h"
 
+extern bool read_error;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////  
 // describe
 ////////////////////////////////////////////////////////////////////////////////////////////////////  
@@ -87,8 +89,6 @@ int main(int argc, char **argv) {
 // read and parse file
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  FILE * fp = fopen("data/sample.lisp", "r");
-
   bool failed_to_open = false;
 
   load_file("data/sample.lisp", &failed_to_open);
@@ -96,6 +96,11 @@ int main(int argc, char **argv) {
   if (failed_to_open) {
     FPR(stderr, "ERROR: Failed to open file!\n");
     exit(1);
+  }
+
+  if (read_error) {
+    FPR(stderr, "ERROR: Read error!\n");
+    exit(2);
   }
 
   paint_parsed();
@@ -115,7 +120,9 @@ int main(int argc, char **argv) {
   /* NL; */
   
   /* SLOG("Evaluating program..."); */
+
   EVAL(root_env, program);
+
   /* SLOG("\nDone evaluating program.\n"); */
   
 #ifdef AE_DUMP_POOL_AFTER

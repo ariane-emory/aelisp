@@ -132,6 +132,7 @@
 
 (defun test (x y z)
  z)
-
+qljejlq
+[e;q!!o**(!*)u (iu( 
 ;;(log-eval t)
 (test 1 2)
