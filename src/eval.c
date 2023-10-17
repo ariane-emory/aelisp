@@ -199,11 +199,17 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(LAMBDAP(fun) || MACROP(fun));
 
+  /* if (log_eval && CONSP(FUN_PARAMS(fun))) { */
+  /*   SLOGF("fun args #:   %d", LENGTH(args)); */
+  /*   SLOGF("fun param #s: %d", LENGTH(FUN_PARAMS(fun))); */
+  /* } */
+  
   if (CONSP(FUN_PARAMS(fun)) && LENGTH(args) < LENGTH(FUN_PARAMS(fun))) {
     char * msg_tmp = free_list_malloc(256);
     char * fun_desc = SWRITE(fun);
     
-    sprintf(msg_tmp, "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
+    sprintf(msg_tmp,
+            "%s:%d: user fun '%s' requires %s %d arg%s, but only got %d.",
             __FILE__,
             __LINE__,
             fun_desc,
@@ -223,6 +229,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("env"),  env);
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
+
+    return NEW_ERROR(msg, err_data);
   }
   
   if (! SPECIALP(fun)) {

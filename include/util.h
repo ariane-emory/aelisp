@@ -42,12 +42,14 @@
     (fprintf(stdout, (s)));                                                                        \
   })
 
-#define SLOGF(s, ...)                                                                              \
+#define SLOGF(s, ...) FSLOGF(stdout, (s), __VA_ARGS__)
+
+#define FSLOGF(f, s, ...)                                                                          \
   ({                                                                                               \
     NL;                                                                                            \
     int written  = 0;                                                                              \
     while (written ++ < (log_indentation << 1)) SPC;                                               \
-    (fprintf(stdout, (s), __VA_ARGS__));                                                           \
+    (fprintf(f, (s), __VA_ARGS__));                                                                \
   })
 
 #define LOG_RETURN_WITH_TYPE(fun_name, val)                                                        \

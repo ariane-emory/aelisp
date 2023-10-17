@@ -129,3 +129,9 @@
 
 (princn (length #(1 2 3   4)))
 (princn (length #(1 2 3 . 4)))
+
+(defun test (x y z)
+ z)
+
+(log-eval t)
+(test 1)
