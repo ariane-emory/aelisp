@@ -289,6 +289,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     assert(0);
   }
 
+  if (MACROP(fun) && (log_eval || log_macro))
+    LOG(obj, "expanding");
+
   ae_obj_t * ret = COREP(fun)
     ? apply_core(env, fun, args)
     : apply_user(env, fun, args);

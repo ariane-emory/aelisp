@@ -114,4 +114,17 @@
 (write (list 22 44 x)) (nl)
 (write #(22 44 x)) (nl)
 
+(defun princn args
+ (apply princ args) (nl))
+
+(princn "this" "is" "a" "test")
+
+(log-macro t)
+
+(defmacro princn args
+ #((cons princ args) #(nl)))
+
+(princn "this" "is" "a" "test")
+
+(nl)
 (princ "Reached the end.") (nl)
