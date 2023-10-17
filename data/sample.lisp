@@ -121,5 +121,10 @@
 
 ;; (nl)
 ;; (princ "Reached the end.") (nl)
+
+(princ "begin") (nl)
+;;(log-eval t)
 (princni " " "these" "are" "words")
-(princns     "these" "are" "words")
+(log-eval nil)
+;; (princns     "these" "are" "words")
+(princ "end") (nl)
