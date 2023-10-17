@@ -126,3 +126,6 @@
 (princni " " "these" "are" "words")
 (princns     "these" "are" "words")
 (princ "end") (nl)
+
+(princn (length #(1 2 3   4)))
+(princn (length #(1 2 3 . 4)))

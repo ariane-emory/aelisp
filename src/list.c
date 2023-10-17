@@ -21,9 +21,9 @@ int ae_list_length(const ae_obj_t * const list) {
   size_t length = 0;
 
   FOR_EACH_CONST(elem, list) {
-    if (!(TAILP(CDR(position))))
-      return -1;
     length++;
+    if (!(TAILP(CDR(position))))
+      break;
   }
 
   return length;

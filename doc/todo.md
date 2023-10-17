@@ -1,5 +1,5 @@
 To Do:
-- [ ] give improper lists a negative length.
+- [ ] give improper lists a length.
 - [ ] re-implement std nconc! as a reduce of std nconc2!.
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
