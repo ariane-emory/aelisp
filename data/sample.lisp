@@ -130,9 +130,6 @@
 (princn (length #(1 2 3   4)))
 (princn (length #(1 2 3 . 4)))
 
-(defun test (x y z)
- z)
-qljejlq
-[e;q!!o**(!*)u (iu( 
-;;(log-eval t)
+(defun test (x y z) z)
+
 (test 1 2)
