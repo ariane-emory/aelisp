@@ -1,5 +1,6 @@
 #include "bestline.h"
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -162,6 +163,8 @@ void add_to_history(const char * const line) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+extern bool read_error;
+
 int main(int argc, char **argv) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,6 +214,12 @@ int main(int argc, char **argv) {
       add_to_history(line);
       program = NIL;
       parse_line(line);
+
+      if (read_error) {
+        FPR(stderr, "Unreadable line.\n");
+        read_error = false;
+      }
+      
       ae_obj_t * ret = EVAL(root_env, program);
       printf(" ⇒ ");
       WRITE(ret);

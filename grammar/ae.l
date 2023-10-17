@@ -1,5 +1,6 @@
 /* -*- mode: flex; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 %{
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -19,6 +20,8 @@
 
 extern int yylineno;
 extern ae_obj_t * program;
+
+bool read_error = false;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -193,6 +196,10 @@ nil                                                                        |
 [-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
-. { fprintf(stderr, "Unrecognized input at line %d: '%s'\n", yylineno, yytext); exit(2); }
+. { 
+    fprintf(stderr, "Unrecognized input at line %d: '%s'\n", yylineno, yytext); 
+    read_error = true; 
+    yyterminate(); 
+}
 
 %%
