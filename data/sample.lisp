@@ -16,7 +16,7 @@
 (write (xform lst integer? 2* id))
 (nl)
 
-(defun quotify (x) (quote x))
+(defmacro quotify (x) (quote x))
 
 (write (xform lst integer? 2* quotify))
 (nl)
