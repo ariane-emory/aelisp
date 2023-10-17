@@ -214,12 +214,15 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
   }
 
-  if (CONSP(FUN_PARAMS(fun)) && LENGTH(args) < LENGTH(FUN_PARAMS(fun))) {
+  if (CONSP(FUN_PARAMS(fun)) &&
+      ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
+       (PROPERP(FUN_PARAMS(fun)) && LENGTH(args) > LENGTH(FUN_PARAMS(fun))))
+  ) {
     char * msg_tmp = free_list_malloc(256);
     char * fun_desc = SWRITE(fun);
     
     sprintf(msg_tmp,
-            "%s:%d: user fun '%s' requires %s %d arg%s, but only got %d.",
+            "%s:%d: user fun '%s' requires %s %d arg%s, but got %d.",
             __FILE__,
             __LINE__,
             fun_desc,

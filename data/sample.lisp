@@ -133,5 +133,5 @@
 (defun test (x y z)
  z)
 
-(log-eval t)
-(test 1 2 3 4)
+;;(log-eval t)
+(test 1 2)
