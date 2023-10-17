@@ -19,17 +19,15 @@
 
 (defmacro quotify (x) $('quote x))
 
-(defmacro xform-inner (obj)
+(defmacro xform (obj)
  (when obj
-   $(cons (car obj) $('xform-inner (cdr obj)))))
+   $('cons $('quote (car obj)) $('xform (cdr obj)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(log-eval t)
 (log-macro t)
-
 (nl) (princ "Before.")
-(xform-inner (1 2 3 4))
+(xform $(1 2 3 4))
 (nl) (princ "After.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
