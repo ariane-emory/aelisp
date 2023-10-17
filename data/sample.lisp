@@ -26,7 +26,7 @@
 
 (defmacro xform (obj)
  (when obj
-   $('xform (cdr obj))))
+   $(cons (car obj) $('xform (cdr obj)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
