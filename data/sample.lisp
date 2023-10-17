@@ -134,4 +134,4 @@
  z)
 
 (log-eval t)
-(test 1)
+(test 1 2 3 4)

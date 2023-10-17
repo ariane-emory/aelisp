@@ -48,7 +48,7 @@
   ({                                                                                               \
     NL;                                                                                            \
     int written  = 0;                                                                              \
-    while (written ++ < (log_indentation << 1)) SPC;                                               \
+    while (written ++ < (log_indentation << 1)) fputc(' ', f);                                     \
     (fprintf(f, (s), __VA_ARGS__));                                                                \
   })
 

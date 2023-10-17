@@ -203,7 +203,17 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   /*   SLOGF("fun args #:   %d", LENGTH(args)); */
   /*   SLOGF("fun param #s: %d", LENGTH(FUN_PARAMS(fun))); */
   /* } */
-  
+    
+  if (! SPECIALP(fun)) {
+    args = EVAL_ARGS(env, args);
+    
+    if (log_eval)
+      LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+  }
+  else if (log_eval) {
+    LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+  }
+
   if (CONSP(FUN_PARAMS(fun)) && LENGTH(args) < LENGTH(FUN_PARAMS(fun))) {
     char * msg_tmp = free_list_malloc(256);
     char * fun_desc = SWRITE(fun);
@@ -231,16 +241,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("fun"),  fun);
 
     return NEW_ERROR(msg, err_data);
-  }
-  
-  if (! SPECIALP(fun)) {
-    args = EVAL_ARGS(env, args);
-    
-    if (log_eval)
-      LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
-  }
-  else if (log_eval) {
-    LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
   }
   
   ae_obj_t * body    = FUN_BODY(fun);
@@ -371,13 +371,15 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 #endif
 
   if (ERRORP(ret)) {
-    FPRINT(fun, stderr);
-    FPR(stderr, " returned an error: ");
-    FWRITE(ret, stderr);
+    char * fun_tmp = SWRITE(fun);
+    char * ret_tmp = SWRITE(ret);
+
+    FSLOGF(stderr, "%s returned an error: %s", fun_tmp, ret_tmp);
+
+    free(fun_tmp);
+    free(ret_tmp);
     
-    // exit(1); /* STOP! */
-    
-    if (EHAS(ret, "fun"))
+    if (EHAS(ret, "fun")) // this is probably going to double the first fun in the list but I can't be bothered fixing it yet.
       ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
     else
       ESET(ret, "fun", CONS(fun, NIL));
