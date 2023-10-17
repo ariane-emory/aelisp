@@ -130,3 +130,13 @@
 (princn (length $(1 2 3   4)))
 (princn (length $(1 2 3 . 4)))
 
+;; (defmacro quasiquote (expr)
+;;   (transform expr
+;;     (lambda (x)
+;;       (and (cons? x) (eq? (car x) 'unquote)))
+;;     (lambda (x) 
+;;       (cadr x))))
+
+;; (defmacro unquote (expr) expr) 
+
+(write `(list 1 2 3 ,(+ 4 5))) (nl)
