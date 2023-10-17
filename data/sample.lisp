@@ -20,8 +20,9 @@
 (defmacro quotify (x) $('quote x))
 
 (defmacro xform (obj)
- (when obj
-   $('cons $('quote (car obj)) $('xform (cdr obj)))))
+ (cond
+  (obj $('cons $('quote (car obj)) $('xform (cdr obj))))
+  (t nil)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
