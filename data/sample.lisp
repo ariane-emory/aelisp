@@ -15,6 +15,17 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defmacro xform1 (obj pred? if-fun)
+ (cond
+  ((nil?  obj)  nil)
+  ((pred? obj) (if-fun obj))
+  ((atom? obj)  obj)
+  (t (cons
+      (xform1 (car obj) pred? if-fun)
+      (xform1 (cdr obj) pred? if-fun)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; (write (xform lst integer? 2* id))
 ;; (nl)
 
@@ -24,9 +35,9 @@
 
 (log-macro t)
 
-(nl) (princ "Before.")
-(quotify yyy)
-(nl) (princ "After.")
+;; (nl) (princ "Before.")
+;; (quotify yyy)
+;; (nl) (princ "After.")
 
 (nl) (princ "Before.")
 (xform lst integer? 2* quotify)
