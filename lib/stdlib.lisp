@@ -330,8 +330,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun any? (pred lst)
  "True when any lst members are pred."
- (if (nil? lst)
-  nil
+ (when lst
   (or?
    (pred (car lst))
    (any? pred (cdr lst)))))
