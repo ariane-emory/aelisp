@@ -9,9 +9,8 @@
 (setq! expand-quasiquoted
  (macro (expr)
   (cond
-   ;; If it's not a cons and not being unquoted, then it's an atom we should
-   ;; quote.
-   ((not (cons? expr)) $('quote expr))
+   ;; If it's not a cons then it's an atom we should quote.
+   ((atom? expr) $('quote expr))
    ;; Directly replace (unquote X) with X.
    ((eq? (car expr) 'unquote) (cadr expr))
    ;; If the second element of the list is an unquote-splicing, we want to use
