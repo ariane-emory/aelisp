@@ -536,21 +536,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (setq! sort)
-(setq! memq)
-(setq! memql)
-
-(defun indexq (x lst)
- (if (eq? x (car lst))
-  0
-  (+ 1 (indexq x (cdr lst)))))
-
-(defun indexql (x lst)
- (cond
-  ((nil? lst) nil)
-  ((eq? x (car lst)) 0)
-  (t (let ((tail-result (indexql x (cdr lst))))
-      (when tail-result
-       (+ 1 tail-result))))))
 
 (defun removeq (x list)
  (cond
@@ -577,4 +562,17 @@
 	(t (cons (car list) (memql? x (cdr list))))))
 
 
+
+(defun indexq (x lst)
+ (if (eq? x (car lst))
+  0
+  (+ 1 (indexq x (cdr lst)))))
+
+(defun indexql (x lst)
+ (cond
+  ((nil? lst) nil)
+  ((eq? x (car lst)) 0)
+  (t (let ((tail-result (indexql x (cdr lst))))
+      (when tail-result
+       (+ 1 tail-result))))))
 
