@@ -313,8 +313,14 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   INDENT;
 
-  if (log_eval)
+  if (log_eval) {
     LOG(env,  "in env");
+
+    if (! ROOTP(ENV)) {
+      LOG(ENV_SYMS(ENV), "with syms");
+      LOG(ENV_VALS(ENV), "and  vals");
+    }
+  }
 
   ae_obj_t * head = fun;
 

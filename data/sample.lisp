@@ -27,9 +27,20 @@
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(log-macro t)
+(log-eval  t)
 (defun-mem-fun memql? eql?)
+(nl)
 (defun-mem-fun memq?  eq?)
+(log-eval  nil)
+(log-macro nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(exit)
+
+(write memql?)
+(nl)
+(write memq?)
+(nl)
 
 (log-macro nil)
 
