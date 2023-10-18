@@ -545,9 +545,12 @@
   (+ 1 (indexq x (cdr lst)))))
 
 (defun indexql (x lst)
- (if (eq? x (car lst))
-  0
-  (+ 1 (indexql x (cdr lst)))))
+ (cond
+  ((nil? lst) nil)
+  ((eq? x (car lst)) 0)
+  (t (let ((tail-result (indexql x (cdr lst))))
+      (when tail-result
+       (+ 1 tail-result))))))
 
 (defun removeq (x list)
  (cond
