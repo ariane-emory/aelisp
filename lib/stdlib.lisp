@@ -527,16 +527,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; to-do:                                                                     ;)
+;; to-do/wip, don't trust these yet:                                          ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (setq! sort)
+(setq! memq)
+(setq! memql)
 
 (defun position-of (x lst)
  (if (eq? x (car lst))
   0
   (+ 1 (position-of x (cdr lst)))))
 
-(defun map-append (proc . lists)
- (apply append (apply mapcar (cons proc lists))))
+(defun removeq (x list)
+ (cond
+  ((nil? list) nil)
+	((eq? (car list) x) (cdr list))
+	(t (cons (car list) (removeq x (cdr list))))))
+
+(defun removeql (x list)
+ (cond
+  ((nil? list) nil)
+	((eql? (car list) x) (cdr list))
+	(t (cons (car list) (removeql x (cdr list))))))
+
+
 

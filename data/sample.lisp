@@ -34,4 +34,6 @@
 (print (eleventh lst))
 (print (twelfth lst))
 
-
+(log-core t)
+(log-eval t)
+(print (removeql 5 lst))
