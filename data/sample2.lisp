@@ -81,3 +81,24 @@
 
 (princ "Done.")
 (nl)
+
+
+(setq! lists (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))
+
+;; (log-macro t)
+;; (log-macro nil)
+
+;; (nl)
+;; (write `,1)
+
+;; (nl)
+;; (eval `(mapcar princ ',lists))
+
+;; (nl)
+;; (write (zip '(a b c) '(1 2 3)))
+
+;; ;; (nl)
+;; ;; (old-zip '(a b c) '(1 2 3))
+
+;; (nl)
+;; (princ "Done.")
