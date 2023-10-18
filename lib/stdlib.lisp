@@ -20,11 +20,13 @@
    ((not (eq? :CONS (type expr)))
      $('quote expr))
    ;; Directly replace (unquote x) with x.
-   ((eq? (car expr) 'unquote) (car (cdr expr)))
+   ((eq? (car expr) 'unquote)
+    (car (cdr expr)))
    ;; If the second element of the list is an unquote-splicing, we want to use
    ;; append2.
    ((and
-     (cons? (cdr expr)) (cons? (car (cdr expr)))
+     (cons? (cdr expr))
+     (cons? (car (cdr expr)))
      (eq?   (car (car (cdr expr))) 'unquote-splicing))
     $('append2
       $('list $('expand-quasiquoted (car expr)))
