@@ -62,7 +62,12 @@
  (princ "88 is not in list."))
 (nl)
 
-(log-eval t)
+(princ "Removing 5 from list:  ") (write (removeq  5  lst)) (nl)
+(princ "Removing 88 from list: ") (write (removeq  88 lst)) (nl)
+(princ "Removing 5 from list:  ") (write (removeql 5  lst)) (nl)
+(princ "Removing 88 from list: ") (write (removeql 88 lst)) (nl)
+
+;; (log-eval t)
 ;; (memql? 5 lst)
 ;; (memql? 88 lst)
-(log-eval nil)
+;; (log-eval nil)
