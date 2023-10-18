@@ -575,15 +575,15 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun memq? (x lst)
- (cond
-	((eq? (car lst) x) t)
-  (lst (memq? x (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun memql? (x lst)
- (cond
-	((eql? (car lst) x) t)
-	(lst (memql? x (cdr lst)))))
+;; (defun memq? (x lst)
+;;  (cond
+;; 	((eq? (car lst) x) t)
+;;   (lst (memq? x (cdr lst)))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (defun memql? (x lst)
+;;  (cond
+;; 	((eql? (car lst) x) t)
+;;	(lst (memql? x (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -593,3 +593,5 @@
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 
+(make-mem? memq?  eq?)
+(make-mem? memql? eql?)
