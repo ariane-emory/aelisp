@@ -17,7 +17,8 @@
  (macro (expr)
   (cond
    ;; If it's not a cons then it's an atom that we should quote.
-   ((atom? expr) $('quote expr))
+   ((not (eq? :CONS (type expr)))
+     $('quote expr))
    ;; Directly replace (unquote x) with x.
    ((eq? (car expr) 'unquote) (car (cdr expr)))
    ;; If the second element of the list is an unquote-splicing, we want to use
