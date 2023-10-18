@@ -20,6 +20,8 @@
 `(mapcar flatten (cons left-nested-zip ,@lists))
 
 
+(write (eval `(mapcar writen $,lists))) (nl)
+
 
 (exit)
 
