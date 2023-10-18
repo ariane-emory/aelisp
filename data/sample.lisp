@@ -31,6 +31,7 @@
 ;(log-macro t)
 
 (defun-mem-fun memql? eql?)
+(defun-mem-fun memq?  eq?)
 
 (log-macro nil)
 
