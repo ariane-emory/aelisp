@@ -326,8 +326,13 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   if (log_eval) {
     char * tmp = SWRITE(head);
-    LOG(args,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    char * msg = free_list_malloc(256);
+
+    sprintf(msg, "applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(args, msg);
+    
     free(tmp);
+    free_list_free(msg);
   }
 
   INDENT;

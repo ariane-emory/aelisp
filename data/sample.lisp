@@ -1,5 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; (log-eval  t)
+;; (log-core  t)
+;; (log-macro t)
 (setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -16,19 +19,19 @@
 ;; 	   $(lst $(name 'x $('cdr 'lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-(log-macro t)
-;;(log-eval  t)
+;; (log-macro t)
+;; (log-eval  t)
 (defun-mem-fun memql? eql?)
-(log-eval  nil)
-(log-macro nil)
+;; (log-eval  nil)
+;; (log-macro nil)
 
-(nl) (nl) (nl)
+;;(nl) (nl) (nl)
 
-(log-macro t)
-;;(log-eval  t)
+;; (log-macro t)
+;; (log-eval  t)
 (defun-mem-fun memq?  eq?)
-(log-eval  nil)
-(log-macro nil)
+;; (log-eval  nil)
+;; (log-macro nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (exit)
