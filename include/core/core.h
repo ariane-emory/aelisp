@@ -20,7 +20,7 @@ extern bool log_core;
   DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq?",                       FUNDEF_END)                                \
   DO(cond,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(progn,        true,   UNLIMITED,  UNLIMITED,                              FUNDEF_END)                                \
-  DO(setq,         true,           2,          2, "setq!",                     FUNDEF_END)                                \
+  DO(setq,         true,           1,          2, "setq!",                     FUNDEF_END)                                \
   DO(list,         false,  UNLIMITED,  UNLIMITED,                              FUNDEF_END)                                \
   DO(quote,        true,           1,          1,                              FUNDEF_END)                                \
   DO(cons,         false,          2,          2,                              FUNDEF_END)                                \
@@ -91,7 +91,7 @@ extern bool log_core;
   /*================================================================================================================*/    \
   DO(eval,         false,          1,          1,                              FUNDEF_END)                                \
   DO(macro,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
-  DO(set,          false,          2,          2, "set!",                      FUNDEF_END)                                \
+  DO(set,          false,          1,          2, "set!",                      FUNDEF_END)                                \
   DO(concat,       false,          0,  UNLIMITED,                              FUNDEF_END)                                \
   DO(length,       false,          1,          1,                              FUNDEF_END) /* reduceable            */    \
   DO(rplacd,       false,          2,          2, "rplacd!", "setcdr!",        FUNDEF_END)                                \

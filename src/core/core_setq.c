@@ -14,7 +14,9 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   INDENT;
 
   ae_obj_t * sym = CAR(args);
-  ae_obj_t * val = CADR(args);
+  ae_obj_t * val = args_length == 1
+    ? NIL
+    : CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
   REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant");
