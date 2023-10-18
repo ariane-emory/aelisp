@@ -553,13 +553,13 @@
  (cond
   ((nil? list) nil)
 	((eq? (car list) x) t)
-	(t (cons (car list) (memq? x (cdr list))))))
+	(t (memq? x (cdr list)))))
 
 (defun memql? (x list)
  (cond
   ((nil? list) nil)
 	((eql? (car list) x) t)
-	(t (cons (car list) (memql? x (cdr list))))))
+	(t (memql? x (cdr list)))))
 
 (defun indexql (x lst)
  (cond
