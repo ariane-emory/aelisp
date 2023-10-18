@@ -27,7 +27,7 @@
    ((and
      (eq? :CONS (type (cdr expr)))
      (eq? :CONS (type (car (cdr expr))))
-     (eq?   (car (car (cdr expr))) 'unquote-splicing))
+     (eq? (car (car (cdr expr))) 'unquote-splicing))
     $('append2
       $('list $('expand-quasiquoted (car expr)))
       (car (cdr (car (cdr expr))))))
