@@ -6,12 +6,12 @@
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const int  log_column_default =   40;
+const int  log_column_default =   48;
 /* */ int  log_column         =   log_column_default;
 /* */ bool log_column_auto    =   true;
 /* */ char log_buffer[256]    = { 0 };
 /* */ int  log_indentation    =   0;
-/* */ int  log_tab_width      =   4;
+/* */ int  log_tab_width      =   8;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj_log
