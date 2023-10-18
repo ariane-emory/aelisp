@@ -24,7 +24,7 @@
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// ae_eval_args, refactoring in progress
+// ae_eval_args
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
@@ -293,22 +293,42 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// snap_indent
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static void snap_indent(void) {
+  static int ctr = 0;
+
+  if (log_column > log_column_default) {
+    if (++ctr > 4) {
+      ctr = 0;
+      log_column -= log_tab_width;
+      if (log_column < log_column_default)
+        log_column = log_column_default; // end of apply
+    }
+  }
+  else {
+    ctr = 0;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _apply
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(CONSP(obj)); // should return an ERROR instead?
 
-  ae_obj_t * fun  = CAR(obj);
+  ae_obj_t * head = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
   assert(TAILP(args));
 
   if (log_eval) {
-    char * tmp = SWRITE(fun);
+    char * tmp = SWRITE(hea);
     LOG(args,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
 
-    free (tmp);
+    free(tmp);
   }
 
   INDENT;
@@ -322,17 +342,14 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
   }
 
-  ae_obj_t * head = fun;
-
-  fun = EVAL(env, fun);
-
+  ae_obj_t * fun = EVAL(env, fun);
   ae_obj_t * ret = NIL;
   
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
     LOG(head, "Result of evaluating head: ");
     LOG(fun,  "is inapplicable object: ");
-    SLOGF("with type: %s", GET_TYPE_STR(fun));
+    SLOGF("of type: %s", GET_TYPE_STR(fun));
     NL;
 
     if (ERRORP(fun)) {
@@ -341,8 +358,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       goto end;
     }
 
-    /* This assert should be replaced by returning an ERROR obj: */
-
+    /* This assert should hopefully never be reached: */
     assert(0);
   }
 
@@ -357,23 +373,24 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     if (log_eval || log_macro)
       LOG(ret, "expansion");
 
-    if (! CONSP(ret)) {
-      ae_obj_t * new_cons = CONS(SYM("progn"), CONS(ret, NIL));
-      ret = new_cons;
+    if (ATOMP(ret)) {
+      ret = CONS(SYM("progn"), CONS(ret, NIL));
+
+      if (log_eval || log_macro)
+        LOG(ret, "decorated expansion");
     }
 
-    if (!CONSP(ret) && (log_eval || log_macro))
-      LOG(obj, "decorated expansion");
-
-    ret  = EVAL(env, ret);
+    ret = EVAL(env, ret);
 
     if (log_eval || log_macro)
       LOG(ret, "evaled  expansion");
 
     if (ERRORP(ret))
       goto end;
-    
-    *obj = *ret; // this line!
+
+    // this line would cause 'in-place expansion' and is disabled until a way
+    // to annotate which macros should be expanded in-place is implemented:
+    // *obj = *ret; 
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
@@ -412,20 +429,8 @@ end:
   if (log_eval)
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
   
-  static int ctr = 0;
-
-  if (log_column > log_column_default) {
-    if (++ctr > 3) {
-      ctr = 0;
-      log_column -= log_tab_width;
-      if (log_column < log_column_default)
-        log_column = log_column_default; // end of apply
-    }
-  }
-  else {
-    ctr = 0;
-  }
-
+  snap_indent();
+  
   return ret;
 }
 
