@@ -8,10 +8,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! defmacro                                                               ;)
  (macro (name params . body)                                                  ;)
-  $(setq! name $(macro params . body))))                                      ;)
+  $('setq! name $('macro params . body))))                                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)                                          ;)
- $(setq! name $(λ params . body)))                                            ;)
+ $('setq! name $('lambda params . body)))                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
