@@ -2,24 +2,6 @@
 
 (setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
 
-;; (log-core t)
-;; (log-core nil)
-;; (log-eval t)
-;; (log-eval nil)
-
-;; (princ "Found 5 in list at index ")
-;; (write (indexql 5 lst))
-;; (nl)
-;; (princ "Found 88 in list at index ")
-;; (write (indexql 88 lst))
-;; (nl)
-;; (princ "Found 5 in list at index ")
-;; (write (indexq 5 lst))
-;; (nl)
-;; (princ "Found 88 in list at index ")
-;; (write (indexq 88 lst))
-;; (nl)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun-mem-fun (name pred?)
  `(defun ,name (x lst)

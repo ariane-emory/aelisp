@@ -102,3 +102,21 @@
 
 ;; (nl)
 ;; (princ "Done.")
+
+;; (log-core t)
+;; (log-core nil)
+;; (log-eval t)
+;; (log-eval nil)
+
+;; (princ "Found 5 in list at index ")
+;; (write (indexql 5 lst))
+;; (nl)
+;; (princ "Found 88 in list at index ")
+;; (write (indexql 88 lst))
+;; (nl)
+;; (princ "Found 5 in list at index ")
+;; (write (indexq 5 lst))
+;; (nl)
+;; (princ "Found 88 in list at index ")
+;; (write (indexq 88 lst))
+;; (nl)
