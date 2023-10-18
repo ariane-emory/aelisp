@@ -22,8 +22,9 @@
   ((eq? (car expr) 'unquote) (cadr expr))
   ;; Error out for splicing outside of list context
   ((eq? (car expr) 'unquote-splicing) (error "unquote-splicing not at top level"))
+  ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote))
+   (list 'cons (list 'expand-quasiquoted (car expr)) (cadr (car (cdr expr)))))
   ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote-splicing))
-   ;; If the second element of the list is an unquote, we want to use append2
    (list 'append2 (list 'list (list 'expand-quasiquoted (car expr))) (cadr (car (cdr expr)))))
   (t
    (let* ((head (car expr))
