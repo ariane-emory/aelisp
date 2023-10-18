@@ -20,7 +20,7 @@
      (cons? (cdr expr)) (cons? (car (cdr expr)))
      (eq? (car (car (cdr expr))) 'unquote-splicing))
     $('append2
-     $('list (list 'expand-quasiquoted (car expr)))
+     $('list $('expand-quasiquoted (car expr)))
      (cadr (car (cdr expr)))))
    ;; If the second element of the list is an unquote, use cons but without
    ;; splicing.
@@ -336,8 +336,8 @@
  "Zip many lists. This might not flatten properly if the zipped elements are" ;)
  "themselves lists."                                                          ;)
  (if (cdr lists)                                                              ;)
-  (list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
-  (list 'mapcar 'list    (car lists))))                                       ;)
+  $('mapcar 'flatten (cons 'left-nested-zip lists))                           ;)
+  $('mapcar 'list    (car lists))))                                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
