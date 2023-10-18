@@ -27,7 +27,7 @@
      (eq?   (car (car (cdr expr))) 'unquote-splicing))
     $('append2
       $('list $('expand-quasiquoted (car expr)))
-      (cadr (car (cdr expr)))))
+      (car (cdr (car (cdr expr))))))
    ;; If the second element of the list is an unquote, use cons but without
    ;; splicing.
    ((and
