@@ -354,25 +354,18 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     : apply_user(env, fun, args);
 
   if (MACROP(fun)) {
-    /* do some replacey stuff here.  */
-    /* this is new and might be kind of suss. */
-
     if (log_eval || log_macro)
       LOG(ret, "expansion");
 
-    if (CONSP(ret)) {
-      CAR(obj) = CAR(ret);
-      CDR(obj) = CDR(ret);
-    }
-    else {
-      CAR(obj) = SYM("progn");
-      CDR(obj) = CONS(ret, NIL);
+    if (! CONSP(ret)) {
+      ae_obj_t * new_cons = CONS(SYM("progn"), CONS(ret, NIL));
+      ret = new_cons;
     }
 
     if (!CONSP(ret) && (log_eval || log_macro))
       LOG(obj, "decorated expansion");
 
-    ret  = EVAL(env, obj);
+    ret  = EVAL(env, ret);
 
     if (log_eval || log_macro)
       LOG(ret, "evaled  expansion");
@@ -380,7 +373,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     if (ERRORP(ret))
       goto end;
     
-    *obj = *ret;
+    *obj = *ret; // this line!
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
