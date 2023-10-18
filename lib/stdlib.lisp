@@ -40,27 +40,10 @@
     ;; Combine the head and tail appropriately
     (list 'cons expanded-head expanded-tail)))))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;; (defun expand-quasiquoted (expr)
-;;   (cond
-;;     ;; If it's an unquoted expression, just return the second item
-;;     ((and (cons? expr) (eq? 'unquote (car expr))) (cadr expr))
-;;     ;; If it's a list with a head and tail, and the tail has an unquote
-;;     ((and (cons? expr)
-;;           (cons? (cdr expr))
-;;           (eq? 'unquote (car (cdr expr))))
-;;      (list 'append2
-;;            (list 'list (expand-quasiquoted (car expr)))
-;;            (cadr (cdr expr))))
-;;     ;; If it's a list, recursively expand it
-;;     ((cons? expr) (list 'cons (expand-quasiquoted (car expr))
-;;                         (expand-quasiquoted (cdr expr))))
-;;     ;; If it's an atom, quote it
-;;     (t (list 'quote expr))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; type predicates:                                                           ;)
