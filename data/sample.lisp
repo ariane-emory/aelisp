@@ -21,19 +21,12 @@
 (princ "Done.")
 
 (setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
-(print (first lst))
-(print (second lst))
-(print (third lst))
-(print (fourth lst))
-(print (fifth lst))
-(print (sixth lst))
-(print (seventh lst))
-(print (eighth lst))
-(print (ninth lst))
-(print (tenth lst))
-(print (eleventh lst))
-(print (twelfth lst))
 
 (log-core t)
 (log-eval t)
-(print (removeql 5 lst))
+(log-core nil)
+(log-eval nil)
+
+(when memql? 5 lst
+ (print "Found 5 in list.")
+ (print (removeql 5 lst)))

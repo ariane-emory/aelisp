@@ -171,19 +171,24 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; compose predicates:                                                        ;)
+;; manipulate predicates:                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun compose-preds preds                                                    ;)
- "Does what it says on the tin and composes preds."                           ;)
+(defun compose-pred1 preds                                                    ;)
+ "Does what it says on the tin and composes unary predicatess."               ;)
  (lambda (val)                                                                ;)
-  (let*                                                                       ;)
+  (lets                                                                       ;)
    ((fun                                                                      ;)
-     (lambda (preds)                                                          ;)
+     (λ (preds)                                                               ;)
       (cond                                                                   ;)
        ((nil? (car preds))       t)                                           ;)
-       ((nil? ((car preds) val)) nil)                                         ;)
+       ((not  ((car preds) val)) nil)                                         ;)
        (t     (fun (cdr preds)))))))                                          ;)
    (fun preds))))                                                             ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun invert-pred1 pred?                                                     ;)
+ "Does what it says on the tin and inverts a unary predicate preds."          ;)
+ (lambda (val)                                                                ;)
+  (not (pred? val))))                                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -534,10 +539,15 @@
 (setq! memq)
 (setq! memql)
 
-(defun position-of (x lst)
+(defun indexq (x lst)
  (if (eq? x (car lst))
   0
-  (+ 1 (position-of x (cdr lst)))))
+  (+ 1 (indexq x (cdr lst)))))
+
+(defun indexql (x lst)
+ (if (eq? x (car lst))
+  0
+  (+ 1 (indexql x (cdr lst)))))
 
 (defun removeq (x list)
  (cond
@@ -554,13 +564,13 @@
 (defun memq? (x list)
  (cond
   ((nil? list) nil)
-	((eq? (car list) x) (car list))
+	((eq? (car list) x) t)
 	(t (cons (car list) (memq? x (cdr list))))))
 
 (defun memql? (x list)
  (cond
   ((nil? list) nil)
-	((eql? (car list) x) (car list))
+	((eql? (car list) x) t)
 	(t (cons (car list) (memql? x (cdr list))))))
 
 
