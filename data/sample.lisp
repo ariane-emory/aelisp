@@ -43,10 +43,11 @@
       (when tail-result
        (+ 1 tail-result))))))
 
-(log-eval nil)
-(log-core t)
-(log-eval t)
-(log-core nil)
+;; (log-core t)
+;; (log-core nil)
+;; (log-eval t)
+;; (log-eval nil)
 
-;(princ "Found 5 in list at index")  (indexq  5 lst)  (nl)
-(princ "Found 5 in list at index")  (indexql 5 lst)  (nl)
+(princ "Found 5 in list at index ")
+(write (indexql 5 lst))
+(nl)
