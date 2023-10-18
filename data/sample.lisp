@@ -36,7 +36,7 @@
 
 
 (defun list* args
- (let*
+ (let
   ((chase
 	  (lambda (args)
 		 (cond
