@@ -540,15 +540,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun removeq (x lst)
  (cond
-  ((nil? lst) nil)
 	((eq? (car lst) x) (cdr lst))
-	(t (cons (car lst) (removeq x (cdr lst))))))
+	(lst (cons (car lst) (removeq x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun removeql (x lst)
  (cond
-  ((nil? lst) nil)
 	((eql? (car lst) x) (cdr lst))
-	(t (cons (car lst) (removeql x (cdr lst))))))
+	(lst (cons (car lst) (removeql x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun memq? (x lst)
  (cond
