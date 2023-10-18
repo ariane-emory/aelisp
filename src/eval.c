@@ -325,9 +325,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(TAILP(args));
 
   if (log_eval) {
-    char * tmp = SWRITE(hea);
+    char * tmp = SWRITE(head);
     LOG(args,  "evaluate list by applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
-
     free(tmp);
   }
 
@@ -342,7 +341,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
   }
 
-  ae_obj_t * fun = EVAL(env, fun);
+  ae_obj_t * fun = EVAL(env, head);
   ae_obj_t * ret = NIL;
   
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
