@@ -30,14 +30,23 @@
       (when tail-result
        (+ 1 tail-result))))))
 
+(defun indexq (x lst)
+ (cond
+  ((nil? lst) nil)
+  ((eq? x (car lst)) 0)
+  (t (let ((tail-result (indexq x (cdr lst))))
+      (when tail-result
+       (+ 1 tail-result))))))
+
 (log-core t)
+(log-eval t)
 (log-core nil)
 (log-eval nil)
-(log-eval t)
 
 ;; (when memql? 5 lst
 ;;  (log-eval t)
 ;;  (log-eval nil)
 ;;  (print (removeql 5 lst)))
 
+(princ "Found 5 in list at index")  (indexq  5 lst)  (nl)
 (princ "Found 5 in list at index")  (indexql 5 lst)  (nl)
