@@ -71,3 +71,6 @@
 ;; (memql? 5 lst)
 ;; (memql? 88 lst)
 ;; (log-eval nil)
+
+(log-macro t)
+(mame-mem? memql? eql?)

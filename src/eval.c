@@ -320,12 +320,20 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   fun = EVAL(env, fun);
 
+  ae_obj_t * ret = NIL;
+  
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
     LOG(head, "Result of evaluating head: ");
     LOG(fun,  "is inapplicable object: ");
     SLOGF("with type: %s", GET_TYPE_STR(fun));
     NL;
+
+    if (ERRORP(fun)) {
+      ret = fun;
+
+      goto end;
+    }
 
     /* This assert should be replaced by returning an ERROR obj: */
 
@@ -335,7 +343,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   if (MACROP(fun) && (log_eval || log_macro))
     LOG(obj, "expanding");
 
-  ae_obj_t * ret = COREP(fun)
+  ret = COREP(fun)
     ? apply_core(env, fun, args)
     : apply_user(env, fun, args);
 
@@ -364,7 +372,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       LOG(ret, "evaled  expansion");
 
     if (ERRORP(ret))
-      return ret;
+      goto end;
     
     *obj = *ret;
   }
@@ -395,8 +403,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     else
       ESET(ret, "fun", CONS(fun, NIL));
 
-    return ret;
+    goto end;
   }
+
+end:
 
   OUTDENT;
 
@@ -416,7 +426,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   else {
     ctr = 0;
   }
-    
+
   return ret;
 }
 
