@@ -356,7 +356,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
 
     if (!CONSP(ret) && (log_eval || log_macro))
-      LOG(obj, "polished expansion");
+      LOG(obj, "decorated expansion");
 
     ret  = EVAL(env, obj);
 

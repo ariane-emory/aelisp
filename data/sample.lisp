@@ -37,57 +37,57 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (defmacro xform (obj)
-;;   (cond
-;;    ;; Handle end of list
-;;    ((nil? obj) nil)
+(defmacro xform (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
 
-;;    ;; Handle (unquote something)
-;;    ((and (cons? obj) (eq? 'unquote (car obj)))
-;;     (cadr obj))
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
 
-;;    ;; Handle list item
-;;    ((cons? obj) 
-;;     (list 'cons 
-;;           (if (and (cons? (car obj)) (eq? 'unquote (car (car obj))))
-;;               (cadr (car obj))
-;;               (list 'quote (car obj)))
-;;           (xform (cdr obj))))
+   ;; Handle list item
+   ((cons? obj) 
+    (list 'cons 
+          (if (and (cons? (car obj)) (eq? 'unquote (car (car obj))))
+              (cadr (car obj))
+              (list 'quote (car obj)))
+          (xform (cdr obj))))
 
-;;    ;; Handle single items
-;;    (t obj)))
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (defmacro xform (obj)
-;;   (cond
-;;    ;; Handle end of list
-;;    ((nil? obj) nil)
-   
-;;    ;; Handle (unquote something)
-;;    ((and (cons? obj) (eq? 'unquote (car obj)))
-;;     (cadr obj))
-   
-;;    ;; Handle list item where the tail is another cons cell
-;;    ((and (cons? obj) (cons? (cdr obj))) 
-;;     (list 'cons 
-;;           (if (and (cons? (car obj)) (eq? 'unquote (car (car obj))))
-;;               (cadr (car obj))
-;;               (xform (car obj)))
-;;           (xform (cdr obj))))
-   
-;;    ;; Handle list item where the tail is not another cons cell (improper list)
-;;    ((cons? obj)
-;;     (list 'cons
-;;           (if (and (cons? (car obj)) (eq? 'unquote (car (car obj))))
-;;               (cadr (car obj))
-;;               (xform (car obj)))
-;;           (list 'quote (cdr obj))))
-   
-;;    ;; Handle single items
-;;    (t (list 'quote obj))))
+   ;; Handle single items
+   (t obj)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmacro xform (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle list item where the tail is another cons cell
+   ((and (cons? obj) (cons? (cdr obj))) 
+    (list 'cons 
+          (if (and (cons? (car obj)) (eq? 'unquote (car (car obj))))
+              (cadr (car obj))
+              (xform (car obj)))
+          (xform (cdr obj))))
+
+   ;; Handle list item where the tail is not another cons cell (improper list)
+   ((cons? obj)
+    (list 'cons
+          (if (and (cons? (car obj)) (eq? 'unquote (car (car obj))))
+              (cadr (car obj))
+              (xform (car obj)))
+          (list 'quote (cdr obj))))
+
+   ;; Handle single items
+   (t (list 'quote obj))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmacro xform (obj)
   (cond
@@ -109,6 +109,29 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defmacro xform (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (list 'cons 
+            (if (cons? head) 
+                (list 'xform head)
+                (list 'quote head))
+            (list 'xform tail))))
+
+   ;; Handle everything else
+   (t (list 'quote obj))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (log-macro t)
 
