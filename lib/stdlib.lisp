@@ -9,15 +9,15 @@
 (setq! expand-quasiquoted
  (macro (expr)
   (cond
-   ;; If it's not a cons then it's an atom we should quote.
+   ;; If it's not a cons then it's an atom that we should quote.
    ((atom? expr) $('quote expr))
    ;; Directly replace (unquote X) with X.
    ((eq? (car expr) 'unquote) (cadr expr))
    ;; If the second element of the list is an unquote-splicing, we want to use
    ;; append2.
    ((and
-     (cons? (cdr expr)) (cons? (car (cdr expr)))
-     (eq? (car (car (cdr expr))) 'unquote-splicing))
+     (cons? (cdr expr)) (cons? (cadr expr))
+     (eq? (caadr expr) 'unquote-splicing))
     $('append2
      $('list $('expand-quasiquoted (car expr)))
      (cadr (car (cdr expr)))))
