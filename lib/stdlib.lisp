@@ -65,7 +65,6 @@
 (defun eleventh (lst) (cadr  (cdddr (cdddr (cdddr lst)))))                    ;)
 (defun twelfth  (lst) (caddr (cdddr (cdddr (cdddr lst)))))                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nth (n lst)                                                            ;)
  "Get nth item in a list."                                                    ;)
  (cond                                                                        ;)
@@ -172,7 +171,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; list funs (reduce/rreduce/filter):                                         ;)
+;; list funs (reduction):                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun reduce (fun acc lst)                                                   ;)
  "Left reduce ('fold') list by applying fun to successive pairs."             ;)
