@@ -27,21 +27,7 @@
 ;;  (log-eval nil)
 ;;  (print (removeql 5 lst)))
 
-(defun indexql (x lst)
- (cond
-  ((nil? lst) nil)
-  ((eql? x (car lst)) 0)
-  (t (let ((tail-result (indexql x (cdr lst))))
-      (when tail-result
-       (+ 1 tail-result))))))
 
-(defun indexq (x lst)
- (cond
-  ((nil? lst) nil)
-  ((eq? x (car lst)) 0)
-  (t (let ((tail-result (indexq x (cdr lst))))
-      (when tail-result
-       (+ 1 tail-result))))))
 
 ;; (log-core t)
 ;; (log-core nil)
@@ -59,4 +45,21 @@
 (nl)
 (princ "Found 88 in list at index ")
 (write (indexq 88 lst))
+(nl)
+
+(if (memql? 5 lst)
+ (write "5 is in list.")
+ (write "5 is not in list."))
+(nl)
+(if (memql? 88 lst)
+ (write "88 is in list.")
+ (write "88 is not in list."))
+(nl)
+(if (memq? 5 lst)
+ (write "5 is in list.")
+ (write "5 is not in list."))
+(nl)
+(if (memq? 88 lst)
+ (write "88 is in list.")
+ (write "88 is not in list."))
 (nl)
