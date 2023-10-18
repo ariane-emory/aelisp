@@ -109,7 +109,36 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro xform (obj)
+;; (log-macro t)
+
+;; (nl) (princ "Before.")
+;; (xform (list 1 2 (list 3 4)))
+;; (nl) (princ "After.")
+;; (nl)
+
+;; (nl) (princ "Before.")
+;; (xform 1)
+;; (nl) (princ "After.")
+;; (nl)
+
+;; (nl) (princ "Before.")
+;; (xform nil)
+;; (nl) (princ "After.")
+;; (nl)
+
+;; (nl) (princ "Before.")
+;; (xform (list 1 2 (unquote 3) (list 4 5)))
+;; (nl) (princ "After.")
+;; (nl)
+
+;; (nl) (princ "Before.")
+;; `(1 2 ,3 (4 5))
+;; (nl) (princ "After.")
+;; (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmacro expand-quasiquoted (obj)
   (cond
    ;; Handle end of list
    ((nil? obj) nil)
@@ -124,38 +153,18 @@
           (tail (cdr obj)))
       (list 'cons 
             (if (cons? head) 
-                (list 'xform head)
+                (list 'expand-quasiquoted head)
                 (list 'quote head))
-            (list 'xform tail))))
+            (list 'expand-quasiquoted tail))))
 
    ;; Handle everything else
    (t (list 'quote obj))))
 
-(setq! quasiquote xform)
+(setq! quasiquote expand-quasiquoted)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (log-macro t)
-
-(nl) (princ "Before.")
-(xform (list 1 2 (list 3 4)))
-(nl) (princ "After.")
-(nl)
-
-(nl) (princ "Before.")
-(xform 1)
-(nl) (princ "After.")
-(nl)
-
-(nl) (princ "Before.")
-(xform nil)
-(nl) (princ "After.")
-(nl)
-
-(nl) (princ "Before.")
-(xform (list 1 2 (unquote 3) (list 4 5)))
-(nl) (princ "After.")
-(nl)
 
 (nl) (princ "Before.")
 `(1 2 ,3 (4 5))
