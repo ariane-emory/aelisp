@@ -97,7 +97,7 @@
  (macro (expr)
   (cond
    ;; If it's not a cons then it's an atom that we should quote.
-   ((not (eq? :CONS (type expr)))
+   ((atom? expr)
      $('quote expr))
    ;; Directly replace (unquote x) with x.
    ((eq? (car expr) 'unquote)
@@ -105,8 +105,8 @@
    ;; If the second element of the list is an unquote-splicing, we want to use
    ;; append2.
    ((and
-     (eq? :CONS (type (cdr expr)))
-     (eq? :CONS (type (car (cdr expr))))
+     (cons? (cdr expr))
+     (cons? (car (cdr expr)))
      (eq? (car (car (cdr expr))) 'unquote-splicing))
     $('append2
       $('list $('expand-quasiquoted (car expr)))
@@ -114,7 +114,7 @@
    ;; If the second element of the list is an unquote, use cons but without
    ;; splicing.
    ((and
-     (eq? :CONS (type (cdr expr)))
+     (cons? (cdr expr))
      (eq? (car (cdr expr)) 'unquote))
     $('cons
       $('expand-quasiquoted (car expr))
@@ -128,31 +128,6 @@
         $('expand-quasiquoted (cdr expr)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; fancy output funs:                                                         ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defmacro princn args       $(progn (cons princ args)                 $(nl)))
-;; (defmacro printn args       $(progn (cons print args)                 $(nl)))
-;; (defmacro putn   args       $(progn (cons put   args)                 $(nl)))
-;; (defmacro writen args       $(progn (cons write args)                 $(nl)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun princn  args       (apply princ   args) (nl))                          ;)
-(defun printn  args       (apply print   args) (nl))                          ;)
-(defun putn    args       (apply put     args) (nl))                          ;)
-(defun writen  args       (apply write   args) (nl))                          ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun princni (i . args) (apply princn  (intercalate i args)))               ;)
-(defun printni (i . args) (apply printn  (intercalate i args)))               ;)
-(defun putni   (i . args) (apply putn    (intercalate i args)))               ;)
-(defun writeni (i . args) (apply writen  (intercalate i args)))               ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun princns args       (apply princni (cons " " args)))                    ;)
-(defun printns args       (apply printni (cons " " args)))                    ;)
-(defun putns   args       (apply putni   (cons " " args)))                    ;)
-(defun writens args       (apply writeni (cons " " args)))                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -179,6 +154,23 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; compose predicates:                                                        ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun compose-preds preds                                                    ;)
+ "Does what it says on the tin and composes preds."                           ;)
+ (lambda (val)                                                                ;)
+  (let*                                                                       ;)
+   ((fun                                                                      ;)
+     (lambda (preds)                                                          ;)
+      (cond                                                                   ;)
+       ((nil? (car preds))       t)                                           ;)
+       ((nil? ((car preds) val)) nil)                                         ;)
+       (t     (fun (cdr preds)))))))                                          ;)
+   (fun preds))))                                                             ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (reduce/rreduce/filter):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun reduce (fun acc lst)                                                   ;)
@@ -197,7 +189,7 @@
  (if (nil? lst)                                                               ;)
   acc                                                                         ;)
   (fun (car lst) (rreduce fun acc (cdr lst)))))                               ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -378,6 +370,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (unsorted):                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun filter (pred? lst)                                                     ;)
+ "Return a list containing those members of lst satisfying pred?."            ;)
+ (cond                                                                        ;)
+  ((nil? lst) nil)                                                            ;)
+  ((pred? (car lst))                                                          ;)
+   (cons (car lst) (filter pred? (cdr lst))))                                 ;)
+  (t (filter pred? (cdr lst)))))                                              ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun any? (pred? lst)                                                       ;)
  "True when any lst members are pred?."                                       ;)
  (when lst                                                                    ;)
@@ -400,18 +400,6 @@
 (defun tails (lsts)                                                           ;)
  (when lsts                                                                   ;)
   (cons (cdr (car lsts)) (tails (cdr lsts)))))                                ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun compose-preds preds                                                    ;)
- "Does what it says on the tin and composes preds."                           ;)
- (lambda (val)                                                                ;)
-  (let*                                                                       ;)
-   ((fun                                                                      ;)
-     (lambda (preds)                                                          ;)
-      (cond                                                                   ;)
-       ((nil? (car preds))       t)                                           ;)
-       ((nil? ((car preds) val)) nil)                                         ;)
-       (t     (fun (cdr preds)))))))                                          ;)
-   (fun preds))))                                                             ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun intercalate (intercalated items)                                       ;)
  "Intercalate intercalated between items."                                    ;)
@@ -453,7 +441,32 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; random stuff that's all one section for now:                               ;)
+;; fancy output funs:                                                         ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (defmacro princn args       $(progn (cons princ args)                 $(nl)))
+;; (defmacro printn args       $(progn (cons print args)                 $(nl)))
+;; (defmacro putn   args       $(progn (cons put   args)                 $(nl)))
+;; (defmacro writen args       $(progn (cons write args)                 $(nl)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun princn  args       (apply princ   args) (nl))                          ;)
+(defun printn  args       (apply print   args) (nl))                          ;)
+(defun putn    args       (apply put     args) (nl))                          ;)
+(defun writen  args       (apply write   args) (nl))                          ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun princni (i . args) (apply princn  (intercalate i args)))               ;)
+(defun printni (i . args) (apply printn  (intercalate i args)))               ;)
+(defun putni   (i . args) (apply putn    (intercalate i args)))               ;)
+(defun writeni (i . args) (apply writen  (intercalate i args)))               ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun princns args       (apply princni (cons " " args)))                    ;)
+(defun printns args       (apply printni (cons " " args)))                    ;)
+(defun putns   args       (apply putni   (cons " " args)))                    ;)
+(defun writens args       (apply writeni (cons " " args)))                    ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; random unsorted stuff:                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun id     (x)    x)                                                       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
