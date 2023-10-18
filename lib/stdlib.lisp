@@ -587,11 +587,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
-(defmacro make-mem? (name pred?)
+(defmacro defun-mem-fun (name pred?)
  `(defun ,name (x lst)
    (cond
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 
-(make-mem? memq?  eq?)
-(make-mem? memql? eql?)
+(defun-mem-fun memq?  eq?)
+(defun-mem-fun memql? eql?)
