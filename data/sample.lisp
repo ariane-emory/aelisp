@@ -1,64 +1,34 @@
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
+(setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defmacro defun-mem-fun (name pred?)
+ `(defun ,name (x lst)
+   (cond
+	  ((,pred? (car lst) x) t)
+	  (lst (,name x (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; (defmacro defun-mem-fun (name pred?)
-;;  `(defun ,name (x lst)
-;;    (cond
-;; 	  ((,pred? (car lst) x) t)
-;; 	  (lst (,name x (cdr lst))))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; ;; (defmacro defun-mem-fun (name pred?)
-;; ;;  $('defun name $('x 'lst)
-;; ;;    $('cond
-;; ;; 	   $($(pred? $('car lst) 'x) t)
-;; ;; 	   $(lst $(name 'x $('cdr 'lst))))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;; (log-macro t)
-;; ;;(log-eval  t)
-;; (defun-mem-fun memql? eql?)
-;; (log-eval  nil)
-;; (log-macro nil)
-
-;; (nl) (nl) (nl)
-
-;; (log-macro t)
-;; ;;(log-eval  t)
-;; (defun-mem-fun memq?  eq?)
-;; (log-eval  nil)
-;; (log-macro nil)
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (exit)
+;;  $('defun name $('x 'lst)
+;;    $('cond
+;; 	   $($(pred? $('car lst) 'x) t)
+;; 	   $(lst $(name 'x $('cdr 'lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (log-macro t)
+;;(log-eval  t)
+(defun-mem-fun memql? eql?)
+(log-eval  nil)
+(log-macro nil)
 
-(defmacro test (x y)
- `(+ ,x ,y))
+(nl) (nl) (nl)
 
-(nl)
-(princ "params: ") (write (params test)) (nl)
-(princ "body:   ") (write (body   test)) (nl)
+(log-macro t)
+;;(log-eval  t)
+(defun-mem-fun memq?  eq?)
+(log-eval  nil)
+(log-macro nil)
 
-(nl) (nl)
-
-(nl)
-(princ "params: ") (write (params test)) (nl)
-(princ "body:   ") (write (body   test)) (nl)
-
-(test 2 4)
-
-(nl)
-(princ "params: ") (write (params test)) (nl)
-(princ "body:   ") (write (body   test)) (nl)
-
-(nl) (nl)
-
-(test 3 5)
-
-(nl)
-(princ "params: ") (write (params test)) (nl)
-(princ "body:   ") (write (body   test)) (nl)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(exit)
