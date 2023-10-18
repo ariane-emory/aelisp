@@ -120,3 +120,16 @@
 ;; (princ "Found 88 in list at index ")
 ;; (write (indexq 88 lst))
 ;; (nl)
+
+;; (princ "Removing 5 from list:  ") (write (removeq  5  lst)) (nl)
+;; (princ "Removing 88 from list: ") (write (removeq  88 lst)) (nl)
+;; (princ "Removing 5 from list:  ") (write (removeql 5  lst)) (nl)
+;; (princ "Removing 88 from list: ") (write (removeql 88 lst)) (nl)
+
+;; (log-eval t)
+;; (memql? 5 lst)
+;; (memql? 88 lst)
+;; (log-eval nil)
+
+;;(log-macro t)
+;;(make-mem? memql? eql?)
