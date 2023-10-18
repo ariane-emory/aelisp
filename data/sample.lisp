@@ -18,18 +18,17 @@
 ;; `(mapcar flatten (cons left-nested-zip ,lists))
 ;; `(mapcar flatten (cons left-nested-zip ,@lists))
 
-;;(log-macro t)
+(log-macro t)
+(log-macro nil)
 
 (eval `(mapcar princ ',lists))
 
 
-(exit)
-
 (nl)
-(old-zip '(a b c) '(1 2 3))
+(write (zip '(a b c) '(1 2 3)))
 
-(nl)
-(zip '(a b c) '(1 2 3))
+;; (nl)
+;; (old-zip '(a b c) '(1 2 3))
 
 (nl)
 (princ "Done.")
