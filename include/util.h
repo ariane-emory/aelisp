@@ -32,7 +32,7 @@
   ({                                                                                               \
     NL;                                                                                            \
     int written  = 0;                                                                              \
-    while (written ++ < (log_indentation)) SPC;                                                    \
+    while (written ++ < (log_indentation)) putchar('_'); /* SPC; */                                \
     (fprintf(stdout, (s)));                                                                        \
   })
 
@@ -41,8 +41,8 @@
 #define FSLOGF(f, s, ...)                                                                          \
   ({                                                                                               \
     NL;                                                                                            \
-    int written  = 0;                                                                              \
-    while (written ++ < (log_indentation)) fputc(' ', f);                                          \
+    int written = 0;                                                                               \
+    while (written ++ < (log_indentation)) putchar('_'); /* fputc(' ', f); */                      \
     (fprintf(f, (s), __VA_ARGS__));                                                                \
   })
 
