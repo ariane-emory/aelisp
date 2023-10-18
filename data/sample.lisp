@@ -20,19 +20,6 @@
 ;; (write (indexq 88 lst))
 ;; (nl)
 
-(defmacro defun-mem-fun (name pred?)
- `(defun ,name (x lst)
-   (cond
-	  ((,pred? (car lst) x) t)
-	  (lst (,name x (cdr lst))))))
-
-;; (defun-mem-fun memq?  eq?)
-
-;(log-macro t)
-
-(defun-mem-fun memql? eql?)
-(defun-mem-fun memq?  eq?)
-
 (log-macro nil)
 
 (if (memql? 5 lst)
