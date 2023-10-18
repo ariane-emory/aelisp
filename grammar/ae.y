@@ -38,10 +38,10 @@ sexps:            sexp     sexps                { $$      = CONS($1, $2); } | { 
 list:             LPAREN   list_elements RPAREN { $$      = $2; };
 list_elements:    sexp     list_elements        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };
 
-quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),      CONS($2, NIL)); };
-quasiquoted_sexp: BACKTICK sexp                 { $$      = CONS(SYM("quasiquote"), CONS($2, NIL)); };
-unquoted_sexp:    COMMA    sexp                 { $$      = CONS(SYM("unquote"),    CONS($2, NIL)); };
-spliced_sexp:     COMMA_AT sexp                 { $$      = CONS(SYM("splice"),     CONS($2, NIL)); };
-lit_list_sexp:    DOLLAR   sexp                 { $$      = CONS(SYM("list"),       $2);            };
+quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),            CONS($2, NIL)); };
+quasiquoted_sexp: BACKTICK sexp                 { $$      = CONS(SYM("quasiquote"),       CONS($2, NIL)); };
+unquoted_sexp:    COMMA    sexp                 { $$      = CONS(SYM("unquote"),          CONS($2, NIL)); };
+spliced_sexp:     COMMA_AT sexp                 { $$      = CONS(SYM("unquote-splicing"), CONS($2, NIL)); };
+lit_list_sexp:    DOLLAR   sexp                 { $$      = CONS(SYM("list"),             $2);            };
 
 %%
