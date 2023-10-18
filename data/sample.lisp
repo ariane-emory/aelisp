@@ -27,13 +27,28 @@
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+;; (defmacro defun-mem-fun (name pred?)
+;;  $('defun name $('x 'lst)
+;;    $('cond
+;; 	   $($(pred? $('car lst) 'x) t)
+;; 	   $(lst $(name 'x $('cdr 'lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
 (log-macro t)
-(log-eval  t)
+;;(log-eval  t)
 (defun-mem-fun memql? eql?)
-(nl)
+(log-eval  nil)
+(log-macro nil)
+
+
+(nl) (nl) (nl)
+
+(log-macro t)
+;;(log-eval  t)
 (defun-mem-fun memq?  eq?)
 (log-eval  nil)
 (log-macro nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (exit)
 
