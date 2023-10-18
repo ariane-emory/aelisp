@@ -167,22 +167,36 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     return NEW_ERROR(msg, err_data);
   }
 
+  char * msg = NULL;
+
+  if (log_eval)
+    msg = free_list_malloc(256);
+  
   if (! SPECIALP(fun)) {
     args = EVAL_ARGS(env, args);
     
-    if (log_eval)
-      LOG(args, "applying core fun '%s' to %d evaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    if (log_eval) 
+      sprintf(msg, "'applying core fun '%s' to %d evaled arg%s:'",
+              CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
   else if (log_eval) {
-    LOG(args, "applying core fun '%s' to %d unevaled arg%s:", CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    sprintf(msg, "'applying core fun '%s' to %d unevaled arg%s:'",
+            CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
-       
-  ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
 
-//log_column = log_column_default; // end of apply core
-  
   if (log_eval)
-    LOG(ret, "applying core fun '%s' returned %s :%s", CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+    LOG(args, msg);    
+  
+  ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
+  
+  if (log_eval) {
+    sprintf(msg, "'applying core fun '%s' returned %s :%s'",
+            CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+
+    LOG(ret, msg);
+
+    free_list_free(msg);
+  }
 
   return ret;
 }
