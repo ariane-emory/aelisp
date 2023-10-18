@@ -28,5 +28,7 @@
 (log-eval nil)
 
 (when memql? 5 lst
- (print "Found 5 in list.")
+ (princ "Found 5 in list at index")
+ (indexql 5 lst)
+ (nl)
  (print (removeql 5 lst)))
