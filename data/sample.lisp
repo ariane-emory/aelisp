@@ -26,10 +26,13 @@
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 
-(defun-mem-fun memq?  eq?)
+;; (defun-mem-fun memq?  eq?)
+
+;(log-macro t)
+
 (defun-mem-fun memql? eql?)
 
-(exit)
+(log-macro nil)
 
 (if (memql? 5 lst)
  (princ "5 is in list.")
@@ -39,6 +42,8 @@
  (princ "88 is in list.")
  (princ "88 is not in list."))
 (nl)
+
+(exit)
 ;; (if (memq? 5 lst)
 ;;  (princ "5 is in list.")
 ;;  (princ "5 is not in list."))
