@@ -358,6 +358,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
 
     /* This assert should never be reached: */
+    
     assert(0);
   }
 
