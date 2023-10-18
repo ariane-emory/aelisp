@@ -721,6 +721,13 @@
 ;;  (list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
   (list 'mapcar 'list    (car lists))))                                       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defmacro old-zip lists                                                           ;)
+ "Zip many lists. This might not flatten properly if the zipped elements are" ;)
+ "themselves lists."                                                          ;)
+ (if (cdr lists)                                                              ;)
+  (list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
+  (list 'mapcar 'list    (car lists))))                                       ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
