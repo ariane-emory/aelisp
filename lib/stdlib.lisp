@@ -564,16 +564,18 @@
  (cond
   ((nil? lst) nil)
   ((eq? x (car lst)) 0)
-  (t (let ((tail-result (indexq x (cdr lst))))
-      (when tail-result
-       (+ 1 tail-result))))))
+  (t
+   (let ((tail-result (indexq x (cdr lst))))
+    (when tail-result
+     (+ 1 tail-result))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun indexql (x lst)
  (cond
   ((nil? lst) nil)
   ((eql? x (car lst)) 0)
-  (t (let ((tail-result (indexql x (cdr lst))))
-      (when tail-result
-       (+ 1 tail-result))))))
+  (t
+   (let ((tail-result (indexql x (cdr lst))))
+    (when tail-result
+     (+ 1 tail-result))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
