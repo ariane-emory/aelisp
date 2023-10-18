@@ -33,28 +33,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (exit)
 
-(write memql?)
-(nl)
-(write memq?)
-(nl)
-
-(log-macro nil)
-
-(if (memql? 5 lst)
- (princ "5 is in list.")
- (princ "5 is not in list."))
-(nl)
-(if (memql? 88 lst)
- (princ "88 is in list.")
- (princ "88 is not in list."))
-(nl)
-
-(if (memq? 5 lst)
- (princ "5 is in list.")
- (princ "5 is not in list."))
-(nl)
-(if (memq? 88 lst)
- (princ "88 is in list.")
- (princ "88 is not in list."))
-(nl)
-
