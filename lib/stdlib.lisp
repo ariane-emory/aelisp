@@ -10,30 +10,278 @@
  (macro (name params . body)                                                  ;)
   $(setq! name $(macro  params . body))))                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defmacro expand-quasiquoted (obj)                                            ;)
-  (cond                                                                       ;)
-   ;; Handle end of list                                                      ;)
-   ((nil? obj) nil)                                                           ;)
-   ;; Handle (unquote something)                                              ;)
-   ((and (cons? obj) (eq? 'unquote (car obj)))                                ;)
-    (cadr obj))                                                               ;)
-   ;; Handle cons cells                                                       ;)
-   ((cons? obj)                                                               ;)
-    (let ((head (car obj))                                                    ;)
-          (tail (cdr obj)))                                                   ;)
-      (list 'cons                                                             ;)
-            (if (cons? head)                                                  ;)
-                (list 'expand-quasiquoted head)                               ;)
-                (list 'quote head))                                           ;)
-            (list 'expand-quasiquoted tail))))                                ;)
-   ;; Handle everything else                                                  ;)
-   (t (list 'quote obj))))                                                    ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! quasiquote expand-quasiquoted)                                         ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun (name params . body)                                          ;)
  $('setq! name $('lambda params . body)))                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the cdr is an unquote form, we use append2
+       ((and (cons? tail) (eq? 'unquote (car tail)))
+        (list 'append2
+              (list 'list 
+                    (if (cons? head) 
+                        (list 'expand-quasiquoted head)
+                        (list 'quote head)))
+              (cadr tail)))
+       
+       ;; If the car is an unquote form, handle it and recursively expand the cdr
+       ((and (cons? head) (eq? 'unquote (car head)))
+        (list 'cons
+              (cadr head)
+              (list 'expand-quasiquoted tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t
+        (list 'cons 
+              (if (cons? head) 
+                  (list 'expand-quasiquoted head)
+                  (list 'quote head))
+              (list 'expand-quasiquoted tail))))))
+
+   ;; Handle everything else
+   (t (list 'quote obj))))
+
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the car is an unquote form, handle it and recursively expand the cdr
+       ((and (cons? head) (eq? 'unquote (car head)))
+        (list 'cons (cadr head) (list 'expand-quasiquoted tail)))
+
+       ;; If the cdr is an unquote form, we use append2
+       ((and (cons? tail) (eq? 'unquote (car tail)))
+        (list 'append2 (list 'list (list 'expand-quasiquoted head)) (cadr tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t (list 'cons 
+                (list 'expand-quasiquoted head) 
+                (list 'expand-quasiquoted tail))))))
+
+   ;; Handle everything else
+   (t (list 'quote obj))))
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the car is an unquote form, handle it and recursively expand the cdr
+       ((and (cons? head) (eq? 'unquote (car head)))
+        (list 'cons (cadr head) (list 'expand-quasiquoted tail)))
+
+       ;; If the cdr is an unquote form, we use append2
+       ((and (cons? tail) (eq? 'unquote (car tail)))
+        (list 'append2 (list 'list (list 'expand-quasiquoted head)) (cadr tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t (list 'cons 
+                (list 'expand-quasiquoted head) 
+                (list 'expand-quasiquoted tail))))))
+
+   ;; Handle everything else
+   (t (list 'quote obj))))
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the car is an unquote form, we should splice its content into the outer list.
+       ((and (cons? head) (eq? 'unquote (car head)))
+        `(append2 ,(cadr head) ,(expand-quasiquoted tail)))
+
+       ;; If the cdr is an unquote form, we use append2
+       ((and (cons? tail) (eq? 'unquote (car tail)))
+        `(append2 (list ,@(if (cons? head) 
+                              `(,(expand-quasiquoted head))
+                              `(',head)))
+                  ,(cadr tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t
+        `(cons ,(if (cons? head) 
+                   (expand-quasiquoted head)
+                   (list 'quote head))
+              ,(expand-quasiquoted tail))))))
+
+   ;; Handle everything else
+   (t (list 'quote obj))))
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle end of list
+   ((nil? obj) nil)
+
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the car is an unquote form, we should splice its content into the outer list.
+       ((and (cons? head) (eq? 'unquote (car head)))
+        (list 'append2 
+              (cadr head)
+              (list 'expand-quasiquoted tail)))
+
+       ;; If the cdr is an unquote form, we use append2
+       ((and (cons? tail) (eq? 'unquote (car tail)))
+        (list 'append2 
+              (list 'list ,(if (cons? head) 
+                               (list 'expand-quasiquoted head)
+                               head))
+              (cadr tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t
+        (list 'cons 
+              (if (cons? head) 
+                  (list 'expand-quasiquoted head)
+                  head)
+              (list 'expand-quasiquoted tail))))))
+
+   ;; Handle everything else
+   (t (list 'quote obj))))
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle (unquote-splicing something)
+   ((and (cons? obj) (eq? 'unquote-splicing (car obj)))
+    (error "unquote-splicing is not handled at top level"))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the car is an unquote-splicing form, error out
+       ((and (cons? head) (eq? 'unquote-splicing (car head)))
+        (error "unquote-splicing found in the car of a cons"))
+
+       ;; If the cdr is an unquote-splicing form, splice it in
+       ((and (cons? tail) (eq? 'unquote-splicing (car tail)))
+        (list 'append2 
+              (list 'list (list 'expand-quasiquoted head))
+              (cadr tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t
+        (list 'cons 
+              (list 'expand-quasiquoted head)
+              (list 'expand-quasiquoted tail))))))
+
+   ;; Handle everything else
+   (t obj)))
+
+(defmacro expand-quasiquoted (obj)
+  (cond
+   ;; Handle (unquote something)
+   ((and (cons? obj) (eq? 'unquote (car obj)))
+    (cadr obj))
+
+   ;; Handle (unquote-splicing something)
+   ((and (cons? obj) (eq? 'unquote-splicing (car obj)))
+    (error "unquote-splicing is not handled at top level"))
+
+   ;; Handle cons cells
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+      (cond
+       ;; If the car is an unquote-splicing form, error out
+       ((and (cons? head) (eq? 'unquote-splicing (car head)))
+        (error "unquote-splicing found in the car of a cons"))
+
+       ;; If the cdr is an unquote-splicing form, splice it in
+       ((and (cons? tail) (eq? 'unquote-splicing (car tail)))
+        (list 'append2 
+              (list 'list (list 'expand-quasiquoted head))
+              (cadr tail)))
+
+       ;; Otherwise, handle as a regular cons cell
+       (t
+        (list 'cons 
+              (list 'expand-quasiquoted head)
+              (list 'expand-quasiquoted tail))))))
+
+   ;; Handle symbols
+   ((symbol? obj) 
+    (list 'quote obj))
+
+   ;; Handle everything else
+   (t obj)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! quasiquote expand-quasiquoted)                                         ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+;; (defun expand-quasiquoted (expr)
+;;   (cond
+;;     ;; If it's an unquoted expression, just return the second item
+;;     ((and (cons? expr) (eq? 'unquote (car expr))) (cadr expr))
+;;     ;; If it's a list with a head and tail, and the tail has an unquote
+;;     ((and (cons? expr)
+;;           (cons? (cdr expr))
+;;           (eq? 'unquote (car (cdr expr))))
+;;      (list 'append2
+;;            (list 'list (expand-quasiquoted (car expr)))
+;;            (cadr (cdr expr))))
+;;     ;; If it's a list, recursively expand it
+;;     ((cons? expr) (list 'cons (expand-quasiquoted (car expr))
+;;                         (expand-quasiquoted (cdr expr))))
+;;     ;; If it's an atom, quote it
+;;     (t (list 'quote expr))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -201,7 +449,6 @@
   (reduce fun (car args) (cdr args))))                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (append/nconc variants):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -316,7 +563,8 @@
  "Zip many lists. This might not flatten properly if the zipped elements are" ;)
  "themselves lists."                                                          ;)
  (if (cdr lists)                                                              ;)
-  (list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
+  `(mapcar flatten (cons left-nested-zip ,lists))
+;;  (list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
   (list 'mapcar 'list    (car lists))))                                       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
