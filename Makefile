@@ -89,8 +89,10 @@ obj/ae.l.o:  tmp/ae.l.c tmp/ae.tab.h obj
 obj/ae.tab.o:  tmp/ae.tab.c tmp/ae.tab.h obj
 	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(YACC_LEX_CFLAGS) -c
 
+-include $(OBJS:.o=.d)
+
 obj/%.o: src/%.c obj obj/core obj/test
-	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c
+	$(CC) -o $@ $< $(LDFLAGS) $(COMMON_CFLAGS) $(STRICTER_CFLAGS) -c -MMD -MP 
 
 ################################################################################
 # Executables
