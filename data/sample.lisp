@@ -13,7 +13,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-`(cons left-nested-zip (unquote lists)) 
+`left-nested-zip
+(nl)
+`(cons left-nested-zip ,lists) 
 
 (exit)
 

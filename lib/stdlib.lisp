@@ -250,9 +250,13 @@
 
        ;; Otherwise, handle as a regular cons cell
        (t
-        (list 'cons 
-              (list 'expand-quasiquoted head)
-              (list 'expand-quasiquoted tail))))))
+        (let ((expanded-head (expand-quasiquoted head))
+              (expanded-tail (expand-quasiquoted tail)))
+         
+          ;; Check if the tail contains an unquote
+          (if (and (cons? expanded-tail) (eq? (car expanded-tail) 'unquote))
+              (list 'append2 (list 'list expanded-head) (cadr expanded-tail))
+              (list 'cons expanded-head expanded-tail)))))))
 
    ;; Handle symbols
    ((symbol? obj) 
@@ -261,7 +265,156 @@
    ;; Handle everything else
    (t obj)))
 
+(defun unquote? (expr)
+  (and (cons? expr) (eq? (car expr) 'unquote)))
 
+(defun unquote-splicing? (expr)
+  (and (cons? expr) (eq? (car expr) 'unquote-splicing)))
+
+(defmacro expand-quasiquoted (expr)
+  (cond
+    ((not (cons? expr)) expr) ; base case: atoms are unchanged
+    ((unquote? expr)
+     (cadr expr)) ; directly replace (unquote X) with X
+    ((unquote-splicing? expr)
+     (error "unquote-splicing not at top level"))
+    (t
+     (let* ((head (car expr))
+            (tail (cdr expr))
+            ;; Transform the head
+            (expanded-head (list 'expand-quasiquoted head))
+            ;; Transform the tail
+            (expanded-tail (if (unquote? tail)
+                               (cadr tail)
+                               (list 'expand-quasiquoted tail))))
+       ;; Combine the head and tail appropriately
+       (if (unquote-splicing? tail)
+           (list 'append2 (list 'list expanded-head) (cadr tail))
+           (list 'cons expanded-head expanded-tail))))))
+
+(defmacro expand-quasiquoted (expr)
+  (cond
+    ((not (cons? expr)) expr) ; base case: atoms are unchanged
+    ((unquote? expr)
+     (cadr expr)) ; directly replace (unquote X) with X
+    ((unquote-splicing? expr)
+     (error "unquote-splicing not at top level"))
+    (t
+     (let* ((head (car expr))
+            (tail (cdr expr))
+            ;; Transform the head
+            (expanded-head (if (unquote? head)
+                               (cadr head)
+                               (list 'expand-quasiquoted head)))
+            ;; Transform the tail
+            (expanded-tail (if (unquote? tail)
+                               (cadr tail)
+                               (list 'expand-quasiquoted tail))))
+       ;; Combine the head and tail appropriately
+       (if (unquote? tail)
+           (list 'append2 (list 'list expanded-head) expanded-tail)
+           (list 'cons expanded-head expanded-tail))))))
+
+(defmacro expand-quasiquoted (expr)
+  (cond
+    ((not (cons? expr)) expr) ; base case: atoms are unchanged
+    ((eq? (car expr) 'unquote)
+     (cadr expr)) ; directly replace (unquote X) with X
+    ((eq? (car expr) 'unquote-splicing)
+     (error "unquote-splicing not at top level"))
+    (t
+     (let* ((head (car expr))
+            (tail (cdr expr))
+            ;; Transform the head
+            (expanded-head (cond
+                             ((eq? (car head) 'unquote) (cadr head))
+                             (t (list 'expand-quasiquoted head))))
+            ;; Transform the tail
+            (expanded-tail (cond
+                             ((eq? (car tail) 'unquote) (cadr tail))
+                             (t (list 'expand-quasiquoted tail)))))
+       ;; Combine the head and tail appropriately
+       (cond
+        ((eq? (car tail) 'unquote)
+         (list 'append2 (list 'list expanded-head) expanded-tail))
+        (t
+         (list 'cons expanded-head expanded-tail)))))))
+
+(defmacro expand-quasiquoted (expr)
+  (cond
+    ((not (cons? expr)) expr) ; base case: atoms are unchanged
+    ((eq? (car expr) 'unquote)
+     (cadr expr)) ; directly replace (unquote X) with X
+    ((eq? (car expr) 'unquote-splicing)
+     (error "unquote-splicing not at top level"))
+    (t
+     (let* ((head (car expr))
+            (tail (cdr expr))
+            ;; Transform the head
+            (expanded-head (cond
+                             ((and (cons? head) (eq? (car head) 'unquote)) (cadr head))
+                             (t (list 'expand-quasiquoted head))))
+            ;; Transform the tail
+            (expanded-tail (cond
+                             ((and (cons? tail) (eq? (car tail) 'unquote)) (cadr tail))
+                             (t (list 'expand-quasiquoted tail)))))
+       ;; Combine the head and tail appropriately
+       (cond
+        ((and (cons? tail) (eq? (car tail) 'unquote))
+         (list 'append2 (list 'list expanded-head) expanded-tail))
+        (t
+         (list 'cons expanded-head expanded-tail)))))))
+
+(defmacro expand-quasiquoted (expr)
+  (cond
+    ;; If it's not a cons and not being unquoted, then it's an atom we should quote
+    ((not (cons? expr)) (list 'quote expr))
+    ;; Directly replace (unquote X) with X
+    ((eq? (car expr) 'unquote) (cadr expr))
+    ;; Error out for splicing outside of list context
+    ((eq? (car expr) 'unquote-splicing) (error "unquote-splicing not at top level"))
+    (t
+     (let* ((head (car expr))
+            (tail (cdr expr))
+            ;; Transform the head
+            (expanded-head (cond
+                             ((and (cons? head) (eq? (car head) 'unquote)) (cadr head))
+                             (t (list 'expand-quasiquoted head))))
+            ;; Transform the tail
+            (expanded-tail (cond
+                             ((and (cons? tail) (eq? (car tail) 'unquote)) (cadr tail))
+                             (t (list 'expand-quasiquoted tail)))))
+       ;; Combine the head and tail appropriately
+       (cond
+        ((and (cons? tail) (eq? (car tail) 'unquote))
+         (list 'append2 (list 'list expanded-head) expanded-tail))
+        (t
+         (list 'cons expanded-head expanded-tail)))))))
+
+(defmacro expand-quasiquoted (expr)
+  (cond
+    ;; If it's not a cons and not being unquoted, then it's an atom we should quote
+    ((not (cons? expr)) (list 'quote expr))
+    ;; Directly replace (unquote X) with X
+    ((eq? (car expr) 'unquote) (cadr expr))
+    ;; Error out for splicing outside of list context
+    ((eq? (car expr) 'unquote-splicing) (error "unquote-splicing not at top level"))
+    ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote))
+     ;; If the second element of the list is an unquote, we want to use append2
+     (list 'append2 (list 'list (list 'expand-quasiquoted (car expr))) (cadr (car (cdr expr)))))
+    (t
+     (let* ((head (car expr))
+            (tail (cdr expr))
+            ;; Transform the head
+            (expanded-head (cond
+                             ((and (cons? head) (eq? (car head) 'unquote)) (cadr head))
+                             (t (list 'expand-quasiquoted head))))
+            ;; Transform the tail
+            (expanded-tail (cond
+                             ((and (cons? tail) (eq? (car tail) 'unquote)) (cadr tail))
+                             (t (list 'expand-quasiquoted tail)))))
+       ;; Combine the head and tail appropriately
+       (list 'cons expanded-head expanded-tail)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
