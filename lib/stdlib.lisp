@@ -585,3 +585,11 @@
 	((eql? (car lst) x) t)
 	(lst (memql? x (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+
+
+(defmacro make-mem? (name pred?)
+ `(defun ,name (x lst)
+   (cond
+	  ((,pred? (car lst) x) t)
+	  (lst (,name x (cdr lst))))))
+
