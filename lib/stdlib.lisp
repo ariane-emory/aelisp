@@ -537,29 +537,27 @@
 
 (setq! sort)
 
-(defun removeq (x list)
+(defun removeq (x lst)
  (cond
-  ((nil? list) nil)
-	((eq? (car list) x) (cdr list))
-	(t (cons (car list) (removeq x (cdr list))))))
+  ((nil? lst) nil)
+	((eq? (car lst) x) (cdr lst))
+	(t (cons (car lst) (removeq x (cdr lst))))))
 
-(defun removeql (x list)
+(defun removeql (x lst)
  (cond
-  ((nil? list) nil)
-	((eql? (car list) x) (cdr list))
-	(t (cons (car list) (removeql x (cdr list))))))
+  ((nil? lst) nil)
+	((eql? (car lst) x) (cdr lst))
+	(t (cons (car lst) (removeql x (cdr lst))))))
 
-(defun memq? (x list)
+(defun memq? (x lst)
  (cond
-  ((nil? list) nil)
-	((eq? (car list) x) t)
-	(t (memq? x (cdr list)))))
+	((eq? (car lst) x) t)
+  (lst (memq? x (cdr lst)))))
 
-(defun memql? (x list)
+(defun memql? (x lst)
  (cond
-  ((nil? list) nil)
-	((eql? (car list) x) t)
-	(t (memql? x (cdr list)))))
+	((eql? (car lst) x) t)
+	(lst (memql? x (cdr lst)))))
 
 (defun indexql (x lst)
  (cond
