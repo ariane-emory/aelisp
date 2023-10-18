@@ -18,7 +18,7 @@
   (cond
    ;; If it's not a cons then it's an atom that we should quote.
    ((atom? expr) $('quote expr))
-   ;; Directly replace (unquote X) with X.
+   ;; Directly replace (unquote x) with x.
    ((eq? (car expr) 'unquote) (car (cdr expr)))
    ;; If the second element of the list is an unquote-splicing, we want to use
    ;; append2.
@@ -35,10 +35,10 @@
      (eq? (car (cdr expr)) 'unquote))
     $('cons
       $('expand-quasiquoted (car expr))
-      (cadr (cdr expr))))
+      (car (cdr (cdr expr)))))
    ;; Error out for splicing outside of list context
    ((eq? (car expr) 'unquote-splicing)
-    (error "unquote-splicing not at top level"))
+    (error "unquote-splicing can't occur at top level"))
    ;; If the list is regular, we just recurse on both its parts
    (t $('cons
         $('expand-quasiquoted (car expr))
