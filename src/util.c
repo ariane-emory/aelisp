@@ -24,7 +24,7 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 
   while (written++ < (log_indentation)) SPC;
   
-  written += PR("%s  ", desc);
+  written += PR("%s ", desc);
   
   if (written >= log_column && log_column_auto) {
     written++; SPC;
