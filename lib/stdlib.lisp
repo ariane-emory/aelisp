@@ -6,6 +6,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; crucial macros, without which nothing else in stdlib will even work:       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(setq! append2                                                                ;)
+ (lambda (lst1 lst2)                                                          ;)
+  "Append two lists."                                                         ;)
+  (if lst1                                                                    ;)
+   (cons (car lst1) (append2 (cdr lst1) lst2))                                ;)
+   lst2)))                                                                    ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! expand-quasiquoted
  (macro (expr)
   (cond
@@ -16,26 +23,26 @@
    ;; If the second element of the list is an unquote-splicing, we want to use
    ;; append2.
    ((and
-     (cons? (cdr expr)) (cons? (cadr expr))
-     (eq? (caadr expr) 'unquote-splicing))
+     (cons? (cdr expr))  (cons? (cadr expr))
+     (eq?   (caadr expr) 'unquote-splicing))
     $('append2
-     $('list $('expand-quasiquoted (car expr)))
-     (cadr (car (cdr expr)))))
+      $('list $('expand-quasiquoted (car expr)))
+      (cadr (car (cdr expr)))))
    ;; If the second element of the list is an unquote, use cons but without
    ;; splicing.
    ((and
      (cons? (cdr expr))
      (eq? (car (cdr expr)) 'unquote))
     $('cons
-     $('expand-quasiquoted (car expr))
-     (cadr (cdr expr))))
+      $('expand-quasiquoted (car expr))
+      (cadr (cdr expr))))
    ;; Error out for splicing outside of list context
    ((eq? (car expr) 'unquote-splicing)
     (error "unquote-splicing not at top level"))
    ;; If the list is regular, we just recurse on both its parts
    (t $('cons
-       $('expand-quasiquoted (car expr))
-       $('expand-quasiquoted (cdr expr)))))))
+        $('expand-quasiquoted (car expr))
+        $('expand-quasiquoted (cdr expr)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -215,12 +222,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; list funs (append/nconc variants):                                         ;)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun append2 (lst1 lst2)                                                    ;)
- "Append two lists."                                                          ;)
- (if lst1                                                                     ;)
-  (cons (car lst1) (append2 (cdr lst1) lst2))                                 ;i
-  lst2))                                                                      ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! append (reduced append2))                                              ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
