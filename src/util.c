@@ -22,7 +22,7 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 
   int written = 0;
 
-  while (written++ < (log_indentation << 1)) SPC;
+  while (written++ < (log_indentation)) SPC;
   
   written += PR("%s  ", desc);
   
