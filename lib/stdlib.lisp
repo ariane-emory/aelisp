@@ -424,6 +424,42 @@
    (cons intercalated                                                         ;)
     (intercalate intercalated (cdr items))))))                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun removeq (x lst)
+ (cond
+	((eq? (car lst) x) (cdr lst))
+	(lst (cons (car lst) (removeq x (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun removeql (x lst)
+ (cond
+	((eql? (car lst) x) (cdr lst))
+	(lst (cons (car lst) (removeql x (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun memq? (x lst)
+ (cond
+	((eq? (car lst) x) t)
+  (lst (memq? x (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun memql? (x lst)
+ (cond
+	((eql? (car lst) x) t)
+	(lst (memql? x (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun indexq (x lst)
+ (cond
+  ((eq? x (car lst)) 0)
+  (lst
+   (let ((tail-result (indexq x (cdr lst))))
+    (when tail-result
+     (+ 1 tail-result))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun indexql (x lst)
+ (cond
+  ((eql? x (car lst)) 0)
+  (lst
+   (let ((tail-result (indexql x (cdr lst))))
+    (when tail-result
+     (+ 1 tail-result))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -537,41 +573,4 @@
 
 (setq! sort)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun removeq (x lst)
- (cond
-	((eq? (car lst) x) (cdr lst))
-	(lst (cons (car lst) (removeq x (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun removeql (x lst)
- (cond
-	((eql? (car lst) x) (cdr lst))
-	(lst (cons (car lst) (removeql x (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun memq? (x lst)
- (cond
-	((eq? (car lst) x) t)
-  (lst (memq? x (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun memql? (x lst)
- (cond
-	((eql? (car lst) x) t)
-	(lst (memql? x (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun indexq (x lst)
- (cond
-  ((eq? x (car lst)) 0)
-  (lst
-   (let ((tail-result (indexq x (cdr lst))))
-    (when tail-result
-     (+ 1 tail-result))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun indexql (x lst)
- (cond
-  ((eql? x (car lst)) 0)
-  (lst
-   (let ((tail-result (indexql x (cdr lst))))
-    (when tail-result
-     (+ 1 tail-result))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
