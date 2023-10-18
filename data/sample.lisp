@@ -22,6 +22,11 @@
 
 (setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
 
+;; (when memql? 5 lst
+;;  (log-eval t)
+;;  (log-eval nil)
+;;  (print (removeql 5 lst)))
+
 (defun indexql (x lst)
  (cond
   ((nil? lst) nil)
@@ -38,15 +43,10 @@
       (when tail-result
        (+ 1 tail-result))))))
 
+(log-eval nil)
 (log-core t)
 (log-eval t)
 (log-core nil)
-(log-eval nil)
 
-;; (when memql? 5 lst
-;;  (log-eval t)
-;;  (log-eval nil)
-;;  (print (removeql 5 lst)))
-
-(princ "Found 5 in list at index")  (indexq  5 lst)  (nl)
+;(princ "Found 5 in list at index")  (indexq  5 lst)  (nl)
 (princ "Found 5 in list at index")  (indexql 5 lst)  (nl)
