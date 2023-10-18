@@ -25,8 +25,8 @@
    ;; If the second element of the list is an unquote-splicing, we want to use
    ;; append2.
    ((and
-     (cons? (cdr expr))
-     (cons? (car (cdr expr)))
+     (eq? :CONS (type (cdr expr)))
+     (eq? :CONS (type (car (cdr expr))))
      (eq?   (car (car (cdr expr))) 'unquote-splicing))
     $('append2
       $('list $('expand-quasiquoted (car expr)))
@@ -34,7 +34,7 @@
    ;; If the second element of the list is an unquote, use cons but without
    ;; splicing.
    ((and
-     (cons? (cdr expr))
+     (eq? :CONS (type (cdr expr)))
      (eq? (car (cdr expr)) 'unquote))
     $('cons
       $('expand-quasiquoted (car expr))
