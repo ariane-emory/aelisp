@@ -11,7 +11,7 @@
   (cond
    ;; If it's not a cons and not being unquoted, then it's an atom we should
    ;; quote.
-   ((not (cons? expr)) (list 'quote expr))
+   ((not (cons? expr)) $('quote expr))
    ;; Directly replace (unquote X) with X.
    ((eq? (car expr) 'unquote) (cadr expr))
    ;; If the second element of the list is an unquote-splicing, we want to use
@@ -19,24 +19,24 @@
    ((and
      (cons? (cdr expr)) (cons? (car (cdr expr)))
      (eq? (car (car (cdr expr))) 'unquote-splicing))
-    (list 'append2
-     (list 'list (list 'expand-quasiquoted (car expr)))
+    $('append2
+     $('list (list 'expand-quasiquoted (car expr)))
      (cadr (car (cdr expr)))))
    ;; If the second element of the list is an unquote, use cons but without
    ;; splicing.
    ((and
      (cons? (cdr expr))
      (eq? (car (cdr expr)) 'unquote))
-    (list 'cons
-     (list 'expand-quasiquoted (car expr))
+    $('cons
+     $('expand-quasiquoted (car expr))
      (cadr (cdr expr))))
    ;; Error out for splicing outside of list context
    ((eq? (car expr) 'unquote-splicing)
     (error "unquote-splicing not at top level"))
    ;; If the list is regular, we just recurse on both its parts
-   (t (list 'cons
-       (list 'expand-quasiquoted (car expr))
-       (list 'expand-quasiquoted (cdr expr)))))))
+   (t $('cons
+       $('expand-quasiquoted (car expr))
+       $('expand-quasiquoted (cdr expr)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -330,7 +330,7 @@
  "themselves lists."                                                          ;)
  (if (cdr lists)                                                              ;)
   `(mapcar flatten (left-nested-zip ,@lists))                                 ;)
-  (list 'mapcar 'list    (car lists))))                                       ;)
+  `(mapcar list    ,(car lists))))                                            ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro old-zip lists                                                       ;)
  "Zip many lists. This might not flatten properly if the zipped elements are" ;)
