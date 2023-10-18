@@ -41,20 +41,20 @@
     (list 'cons expanded-head expanded-tail)))))
 
 (defmacro expand-quasiquoted (expr)
-  (cond
-    ;; If it's not a cons and not being unquoted, then it's an atom we should quote
-    ((not (cons? expr)) (list 'quote expr))
-    ;; Directly replace (unquote X) with X
-    ((eq? (car expr) 'unquote) (cadr expr))
-    ;; If the second element of the list is an unquote-splicing, we want to use append2
-    ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote-splicing))
-     (list 'append2 (list 'list (list 'expand-quasiquoted (car expr))) (cadr (car (cdr expr)))))
-    ;; If the second element of the list is an unquote, use cons but without splicing
-    ((and (cons? (cdr expr)) (eq? (car (cdr expr)) 'unquote))
-     (list 'cons (list 'expand-quasiquoted (car expr)) (cadr (cdr expr))))
-    ;; If the list is regular, we just recurse on both its parts
-    (t
-     (list 'cons (list 'expand-quasiquoted (car expr)) (list 'expand-quasiquoted (cdr expr))))))
+ (cond
+  ;; If it's not a cons and not being unquoted, then it's an atom we should quote
+  ((not (cons? expr)) (list 'quote expr))
+  ;; Directly replace (unquote X) with X
+  ((eq? (car expr) 'unquote) (cadr expr))
+  ;; If the second element of the list is an unquote-splicing, we want to use append2
+  ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote-splicing))
+   (list 'append2 (list 'list (list 'expand-quasiquoted (car expr))) (cadr (car (cdr expr)))))
+  ;; If the second element of the list is an unquote, use cons but without splicing
+  ((and (cons? (cdr expr)) (eq? (car (cdr expr)) 'unquote))
+   (list 'cons (list 'expand-quasiquoted (car expr)) (cadr (cdr expr))))
+  ;; If the list is regular, we just recurse on both its parts
+  (t
+   (list 'cons (list 'expand-quasiquoted (car expr)) (list 'expand-quasiquoted (cdr expr))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
