@@ -38,10 +38,27 @@
 (defmacro test (x y)
  `(+ ,x ,y))
 
+(nl)
+(princ "params: ") (write (params test)) (nl)
+(princ "body:   ") (write (body   test)) (nl)
+
 (nl) (nl)
 
+(nl)
+(princ "params: ") (write (params test)) (nl)
+(princ "body:   ") (write (body   test)) (nl)
+
 (test 2 4)
+
+(nl)
+(princ "params: ") (write (params test)) (nl)
+(princ "body:   ") (write (body   test)) (nl)
 
 (nl) (nl)
 
 (test 3 5)
+
+(nl)
+(princ "params: ") (write (params test)) (nl)
+(princ "body:   ") (write (body   test)) (nl)
+
