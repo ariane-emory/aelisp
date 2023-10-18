@@ -9,9 +9,9 @@
 (setq! append2                                                                ;)
  (lambda (lst1 lst2)                                                          ;)
   "Append two lists."                                                         ;)
-  (if lst1                                                                    ;)
-   (cons (car lst1) (append2 (cdr lst1) lst2))                                ;)
-   lst2)))                                                                    ;)
+  (if (nil? lst1)                                                             ;)
+   lst2                                                                       ;)
+   (cons (car lst1) (append2 (cdr lst1) lst2)))))                             ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! expand-quasiquoted
  (macro (expr)
