@@ -20,6 +20,17 @@
 ;; (write (indexq 88 lst))
 ;; (nl)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defmacro defun-mem-fun (name pred?)
+ `(defun ,name (x lst)
+   (cond
+	  ((,pred? (car lst) x) t)
+	  (lst (,name x (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun-mem-fun memql? eql?)
+(defun-mem-fun memq?  eq?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (log-macro nil)
 
 (if (memql? 5 lst)
@@ -31,15 +42,14 @@
  (princ "88 is not in list."))
 (nl)
 
-(exit)
-;; (if (memq? 5 lst)
-;;  (princ "5 is in list.")
-;;  (princ "5 is not in list."))
-;; (nl)
-;; (if (memq? 88 lst)
-;;  (princ "88 is in list.")
-;;  (princ "88 is not in list."))
-;; (nl)
+(if (memq? 5 lst)
+ (princ "5 is in list.")
+ (princ "5 is not in list."))
+(nl)
+(if (memq? 88 lst)
+ (princ "88 is in list.")
+ (princ "88 is not in list."))
+(nl)
 
 ;; (princ "Removing 5 from list:  ") (write (removeq  5  lst)) (nl)
 ;; (princ "Removing 88 from list: ") (write (removeq  88 lst)) (nl)

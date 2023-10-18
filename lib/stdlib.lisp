@@ -434,15 +434,6 @@
 	((eql? (car lst) x) (cdr lst))
 	(lst (cons (car lst) (removeql x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defmacro defun-mem-fun (name pred?)
- `(defun ,name (x lst)
-   (cond
-	  ((,pred? (car lst) x) t)
-	  (lst (,name x (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun-mem-fun memql? eql?)
-(defun-mem-fun memq?  eq?)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun indexq (x lst)
  (cond
   ((eq? x (car lst)) 0)
