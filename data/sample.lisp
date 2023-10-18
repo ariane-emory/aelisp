@@ -29,6 +29,8 @@
 (defun-mem-fun memq?  eq?)
 (defun-mem-fun memql? eql?)
 
+(exit)
+
 (if (memql? 5 lst)
  (princ "5 is in list.")
  (princ "5 is not in list."))
