@@ -2,7 +2,6 @@
 
 (defmacro quotify (x) $('quote x))
 
-(log-macro t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -16,11 +15,12 @@
 (setq! lists (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))
 
 ;; `(cons left-nested-zip ,lists) 
-`(mapcar flatten (cons left-nested-zip ,lists))
-`(mapcar flatten (cons left-nested-zip ,@lists))
+;; `(mapcar flatten (cons left-nested-zip ,lists))
+;; `(mapcar flatten (cons left-nested-zip ,@lists))
 
+;;(log-macro t)
 
-(write (eval `(mapcar writen $,lists))) (nl)
+(eval `(mapcar princ ',lists))
 
 
 (exit)
