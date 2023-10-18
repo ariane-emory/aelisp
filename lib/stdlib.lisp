@@ -551,5 +551,17 @@
 	((eql? (car list) x) (cdr list))
 	(t (cons (car list) (removeql x (cdr list))))))
 
+(defun memq? (x list)
+ (cond
+  ((nil? list) nil)
+	((eq? (car list) x) (car list))
+	(t (cons (car list) (memq? x (cdr list))))))
+
+(defun memql? (x list)
+ (cond
+  ((nil? list) nil)
+	((eql? (car list) x) (car list))
+	(t (cons (car list) (memql? x (cdr list))))))
+
 
 
