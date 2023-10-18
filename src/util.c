@@ -34,7 +34,7 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
     while (log_column++ % log_tab_width);
   }
   else {
-    while (written++ < log_column) SPC;
+    while (written++ < log_column) putchar('_'); //SPC;
   }
 
   while (written++ < log_column) SPC;

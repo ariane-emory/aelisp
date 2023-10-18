@@ -13,14 +13,8 @@
 #define FF               (fflush(stdout))
 #define NL               (putchar('\n'))
 #define SPC              (putchar(' '))
-
-#ifdef AE_DEADLY_MARGINJ
-#  define INDENT         { PR("IN  AT %s:%d!", __FILE__,  __LINE__); (indent ()); }
-#  define OUTDENT        { PR("OUT AT %s:%d!", __FILE__,  __LINE__); (outdent()); }
-#else
-#  define INDENT         { (indent ()); }
-#  define OUTDENT        { (outdent()); }
-#endif
+#define INDENT           (indent ())
+#define OUTDENT          (outdent())
 
 #define PR(...)          (fprintf(stdout,   __VA_ARGS__))
 #define FPR(stream, ...) (fprintf((stream), __VA_ARGS__))
