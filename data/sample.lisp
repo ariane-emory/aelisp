@@ -150,6 +150,12 @@
 (nl) (princ "After.")
 (nl)
 
+(nl) (princ "Before.")
+(xform (list 1 2 (unquote 3) (list 4 5)))
+(nl) (princ "After.")
+(nl)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (nl)
