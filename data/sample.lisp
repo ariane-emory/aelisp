@@ -22,7 +22,6 @@
 (log-eval  nil)
 (log-macro nil)
 
-
 (nl) (nl) (nl)
 
 (log-macro t)
