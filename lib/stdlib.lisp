@@ -15,29 +15,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 (defmacro expand-quasiquoted (expr)
-  (cond
-    ;; If it's not a cons and not being unquoted, then it's an atom we should quote
-    ((not (cons? expr)) (list 'quote expr))
-    ;; Directly replace (unquote X) with X
-    ((eq? (car expr) 'unquote) (cadr expr))
-    ;; Error out for splicing outside of list context
-    ((eq? (car expr) 'unquote-splicing) (error "unquote-splicing not at top level"))
-    ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote))
-     ;; If the second element of the list is an unquote, we want to use append2
-     (list 'append2 (list 'list (list 'expand-quasiquoted (car expr))) (cadr (car (cdr expr)))))
-    (t
-     (let* ((head (car expr))
-            (tail (cdr expr))
-            ;; Transform the head
-            (expanded-head (cond
-                             ((and (cons? head) (eq? (car head) 'unquote)) (cadr head))
-                             (t (list 'expand-quasiquoted head))))
-            ;; Transform the tail
-            (expanded-tail (cond
-                             ((and (cons? tail) (eq? (car tail) 'unquote)) (cadr tail))
-                             (t (list 'expand-quasiquoted tail)))))
-       ;; Combine the head and tail appropriately
-       (list 'cons expanded-head expanded-tail)))))
+ (cond
+  ;; If it's not a cons and not being unquoted, then it's an atom we should quote
+  ((not (cons? expr)) (list 'quote expr))
+  ;; Directly replace (unquote X) with X
+  ((eq? (car expr) 'unquote) (cadr expr))
+  ;; Error out for splicing outside of list context
+  ((eq? (car expr) 'unquote-splicing) (error "unquote-splicing not at top level"))
+  ((and (cons? (cdr expr)) (cons? (car (cdr expr))) (eq? (car (car (cdr expr))) 'unquote-splicing))
+   ;; If the second element of the list is an unquote, we want to use append2
+   (list 'append2 (list 'list (list 'expand-quasiquoted (car expr))) (cadr (car (cdr expr)))))
+  (t
+   (let* ((head (car expr))
+          (tail (cdr expr))
+          ;; Transform the head
+          (expanded-head (cond
+                          ((and (cons? head) (eq? (car head) 'unquote)) (cadr head))
+                          (t (list 'expand-quasiquoted head))))
+          ;; Transform the tail
+          (expanded-tail (cond
+                          ((and (cons? tail) (eq? (car tail) 'unquote)) (cadr tail))
+                          (t (list 'expand-quasiquoted tail)))))
+    ;; Combine the head and tail appropriately
+    (list 'cons expanded-head expanded-tail)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (setq! quasiquote expand-quasiquoted)                                         ;)
@@ -340,8 +340,8 @@
  "Zip many lists. This might not flatten properly if the zipped elements are" ;)
  "themselves lists."                                                          ;)
  (if (cdr lists)                                                              ;)
-  `(mapcar flatten (left-nested-zip ,lists))
-;;(list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
+  `(mapcar flatten (left-nested-zip ,@lists))
+  ;;(list 'mapcar 'flatten (cons 'left-nested-zip lists))                       ;)
   (list 'mapcar 'list    (car lists))))                                       ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro old-zip lists                                                           ;)
