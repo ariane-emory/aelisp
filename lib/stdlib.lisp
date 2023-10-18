@@ -123,7 +123,7 @@
   ((and                                                                       ;)
     (cons? (cdr expr))                                                        ;)
     (cons? (cadr expr))                                                       ;)
-    (eq? (car (car (cdr expr))) 'unquote-splicing))                           ;)
+    (eq? (car (cadr expr)) 'unquote-splicing))                           ;)
    $('append2                                                                 ;)
      $('list $('expand-quasiquoted (car expr)))                               ;)
      (cadadr expr)))                                                          ;)
