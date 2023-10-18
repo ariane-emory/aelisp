@@ -167,7 +167,7 @@
 (log-macro t)
 
 (nl) (princ "Before.")
-`(1 2 ,3 (4 5))
+`(1 2 ,(- 5 2) (4 5))
 (nl) (princ "After.")
 (nl)
 
