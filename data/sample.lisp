@@ -42,6 +42,8 @@
   (t            (list-set! (cdr lst) (- index 1) val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list-ref (lst index)
+ "This is basically nth but with the parameter order revered and raising an"
+ "error if the index is out of range."
  (cond
   ((nil? lst)   (error "list-set! out of range"))
   ((== 0 index) (car lst))
@@ -70,3 +72,6 @@
 ;(log-eval t)
 
 ;(list-set! v 10 99)
+
+
+
