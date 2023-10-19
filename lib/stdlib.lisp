@@ -424,41 +424,38 @@
    (cons intercalated                                                         ;)
     (intercalate intercalated (cdr items))))))                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defmacro defun-mem-fun (name pred?)
- `(defun ,name (x lst)
-   (cond
-	  ((,pred? (car lst) x) t)
-	  (lst (,name x (cdr lst))))))
+(defmacro defun-mem-fun (name pred?)                                          ;)
+ `(defun ,name (x lst)                                                        ;)
+   (cond                                                                      ;)
+	  ((,pred? (car lst) x) t)                                                  ;)
+	  (lst (,name x (cdr lst))))))                                              ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun-mem-fun memql? eql?)
+(defun-mem-fun memql? eql?)                                                   ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun-mem-fun memq?  eq?)
+(defun-mem-fun memq?  eq?)                                                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun removeq (x lst)
- (cond
-	((eq? (car lst) x) (cdr lst))
-	(lst (cons (car lst) (removeq x (cdr lst))))))
+(defmacro defun-remove-fun (name pred?)                                       ;)
+  `(defun ,name (x lst)                                                       ;)
+     (cond                                                                    ;)
+      ((,pred? (car lst) x) (cdr lst))                                        ;)
+      (lst (cons (car lst) (,name x (cdr lst)))))))                           ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun removeql (x lst)
- (cond
-	((eql? (car lst) x) (cdr lst))
-	(lst (cons (car lst) (removeql x (cdr lst))))))
+(defun-remove-fun removeq eq?)                                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun indexq (x lst)
- (cond
-  ((eq? x (car lst)) 0)
-  (lst
-   (let ((tail-result (indexq x (cdr lst))))
-    (when tail-result
-     (+ 1 tail-result))))))
+(defun-remove-fun removeql eql?)                                              ;i
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;i
+(defmacro defun-index-fun (name pred?)                                        ;)
+  `(defun ,name (x lst)                                                       ;)
+     (cond                                                                    ;)
+      ((,pred? x (car lst)) 0)                                                ;)
+      (lst                                                                    ;)
+       (let ((tail-result (,name x (cdr lst))))                               ;)
+         (when tail-result                                                    ;)
+           (+ 1 tail-result)))))))                                            ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun indexql (x lst)
- (cond
-  ((eql? x (car lst)) 0)
-  (lst
-   (let ((tail-result (indexql x (cdr lst))))
-    (when tail-result
-     (+ 1 tail-result))))))
+(defun-index-fun indexq eq?)                                                  ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun-index-fun indexql eql?)                                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
