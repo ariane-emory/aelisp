@@ -14,12 +14,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos scheme compat
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! #t t)
-(setq! define setq!)
+(setq! #t          t)
+(setq! #t          nil)
+(setq! define      setq!)
 ;; ^ should be a macro to avoid redefinining what-scheme-implementation
-(defun gsort (lambda (predicate lst) (sort lst predicate)))
-(setq! null? nil?)
-(setq! set! setq!)
+(setq! null?       nil?)
+(setq! set!        setq!)
+(setq! ???         'unspecified-result)
+(defun gsort      (lambda (predicate lst) (sort lst predicate)))
+(defun vector-ref (lambda (lst n) (nth n lst)))
+(setq! letrec      let*)
+(setq! list*       list) ; might need support.scm's version
+;; vector-set! macro
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -28,12 +35,59 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define %allocate-instance
- (lambda (class nfields)
-  (%allocate-instance-internal
-   class
-   #t
-   (lambda args
-	  (error "An instance isn't a procedure -- can't apply it."))
-   nfields)))
+    (lambda (class nfields)
+      (%allocate-instance-internal
+       class
+       #t
+       (lambda args
+	 (error "An instance isn't a procedure -- can't apply it."))
+       nfields)))
 
-(write %allocate-instance)
+(define %allocate-entity
+    (lambda (class nfields)
+      (%allocate-instance-internal
+       class
+       #f
+       (lambda args
+	 (error "Tried to call an entity before its proc is set."))
+       nfields)))
+
+(define %allocate-instance-internal ???)
+(define %instance?                  ???)
+(define %instance-class             ???)
+(define %set-instance-class-to-self ???)   ;This is used only once
+                                           ;as part of bootstrapping
+                                           ;the braid.
+(define %set-instance-proc!  ???)
+(define %instance-ref        ???)
+(define %instance-set!       ???)
+
+(letrec ((instances '())
+	 (get-vector
+	  (lambda (closure)
+	    (let ((cell (assq closure instances)))
+	      (if cell (cdr cell) #f)))))
+
+  (set! %allocate-instance-internal
+	(lambda (class lock proc nfields)
+	  (letrec ((vector (make-vector (+ nfields 3) #f))
+		   (closure (lambda args
+			      (apply (vector-ref vector 0) args))))
+	    (vector-set! vector 0 proc)
+	    (vector-set! vector 1 lock)
+	    (vector-set! vector 2 class)
+	    (set! instances (cons (cons closure vector) instances))
+	    closure)))
+		   
+  (set! %instance?
+        (lambda (x) (not (null? (get-vector x)))))
+
+  (set! %instance-class
+	(lambda (closure)
+	  (let ((vector (get-vector closure)))
+	    (vector-ref vector 2))))
+
+  (set! %set-instance-class-to-self
+	(lambda (closure)
+	  (let ((vector (get-vector closure)))
+	    (vector-set! vector 2 closure))))
