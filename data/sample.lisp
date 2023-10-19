@@ -1,17 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun combined-comparator (x y)
- (cond 
-  ((and (even? x) (even? y)) (< x y))  ; both even, compare values
-  ((even? x) t)                        ; x is even, y is odd, x comes first
-  ((even? y) nil)                      ; y is even, x is odd, y comes first
-  (t (< x y))))                       ; both odd, compare values
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
-(write (syms (env))) (nl)
-(write (sort lst combined-comparator)) (nl)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos scheme compat
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -66,7 +52,7 @@
 
 ;; (log-eval t)
 
-(when nil
+(when t
  (setq! ix 0)
  (while  (< ix 10)
   (princ "setting ") (princ ix) (nl)

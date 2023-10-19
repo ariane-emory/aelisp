@@ -140,3 +140,17 @@ o;;(write (is-unquote-expr? '(unquote 1))) (nl)
 ;; (write (indexql 5 lst)) (nl)
 ;; (write (removeq 5 lst)) (nl)
 ;; (write (removeql 5 lst)) (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun combined-comparator (x y)
+ (cond 
+  ((and (even? x) (even? y)) (< x y))  ; both even, compare values
+  ((even? x) t)                        ; x is even, y is odd, x comes first
+  ((even? y) nil)                      ; y is even, x is odd, y comes first
+  (t (< x y))))                       ; both odd, compare values
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
+(write (syms (env))) (nl)
+(write (sort lst combined-comparator)) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
