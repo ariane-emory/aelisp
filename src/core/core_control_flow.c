@@ -1,14 +1,15 @@
 #include "core_includes.h"
 
 #define BAIL_IF_ERROR(obj)                                                                         \
-  {                                                                                                \
+  ({                                                                                               \
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (ERRORP(CAPTURED)) {                                                                        \
       ret = CAPTURED;                                                                              \
       goto end;                                                                                    \
     }                                                                                              \
-  }
+    NULL;                                                                                          \
+  })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _progn
