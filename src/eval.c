@@ -482,7 +482,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
     char * tmp = free_list_malloc(256);
     snprintf(tmp, 256,
-             "%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
+             "%s:%d: unbound symbol '%s'",
+             __FILE__, __LINE__, SYM_VAL(sym));
     char * msg = free_list_malloc(strlen(tmp) + 1);
     strcpy(msg, tmp);
     
