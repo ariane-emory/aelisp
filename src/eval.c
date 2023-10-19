@@ -334,7 +334,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     char * msg = free_list_malloc(256);
 
     snprintf(msg, 256,
-             "applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+             "applying '%s' to %d arg%s:",
+             tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    
     LOG(args, msg);
     
     free(tmp);
