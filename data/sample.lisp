@@ -49,11 +49,11 @@
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun list-set! (lst index val)
- (cond
-  ((nil? lst) (error "list-set! out of range"))
-  ((== 0 index) (rplaca! lst val))
-  (t            (list-set! (cdr lst) (- index 1) val))))
+;; (defun list-set! (lst index val)
+;;  (cond
+;;   ((nil? lst)   (error "list-set! out of range"))
+;;   ((== 0 index) (rplaca! lst val))
+;;   (t            (list-set! (cdr lst) (- index 1) val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! v (make-list 10 0))
@@ -62,24 +62,16 @@
 (write v)
 (nl)
 
-;;(log-eval t)
+(setq! ix 0)
 
-(write (list-set! v 5 10))
-(nl)
-(write v)
-(nl)
+;; (log-eval t)
 
-(write (list-set! v 9 18))
-(nl)
-(write v)
-(nl)
+(while  (< ix 20)
+ (princ "setting ") (princ ix) (nl)
+ ;; (write (list-set! v ix (* 2 ix)))
+ ;; (nl)
+ ;; (write v)
+ ;; (nl)
+ (setq! ix (1+ ix))
+ )
 
-(write (list-set! v 10 20))
-(nl)
-(write v)
-(nl)
-
-(write (list-set! v 11 22))
-(nl)
-(write v)
-(nl)
