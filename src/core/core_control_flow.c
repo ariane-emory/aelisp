@@ -8,7 +8,8 @@
       ret = CAPTURED;                                                                              \
       goto end;                                                                                    \
     }                                                                                              \
-    NULL;                                                                                          \
+                                                                                                   \
+    CAPTURED;                                                                                      \
   })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -229,7 +230,7 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   ae_obj_t * cond_result = NIL;
 
-  while (!NILP(cond_result = EVAL(env, while_cond))) {
+  while (!NILP(cond_result = BAIL_IF_ERROR(EVAL(env, while_cond)))) {
     if (log_core)
       LOG(do_branch, "do while");
 
@@ -262,7 +263,7 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   ae_obj_t * cond_result = NIL;
 
-  while  (NILP(cond_result = EVAL(env, until_cond))) {
+  while (NILP(cond_result = BAIL_IF_ERROR(EVAL(env, until_cond)))) {
     if (log_core)
       LOG(do_branch, "do until");
 
