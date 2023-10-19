@@ -114,17 +114,17 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(COREP(fun));
   
   bool invalid_args_length = false;
-  int args_length          = LENGTH(args);
+  int  args_length         = LENGTH(args);
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
-    char * msg_tmp = free_list_malloc(256);
+    char * const err_msg_tmp = free_list_malloc(256);
 
     LOG(args, "invalid arg count:");
     
     // if CORE_MIN_ARGS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
     if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires at most %d args, but got %d",
                __FILE__,
                __LINE__,
@@ -132,7 +132,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MAX_ARGS(fun),
                LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15)
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires at least %d args, but got %d",
                __FILE__,
                __LINE__,
@@ -140,7 +140,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MIN_ARGS(fun),
                LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun))
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires %d arg%s, but got %d",
                __FILE__,
                __LINE__,
@@ -149,7 +149,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                s_or_blank(CORE_MIN_ARGS(fun)),
                LENGTH(args));
     else
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires %d to %d args, but got %d",
                __FILE__,
                __LINE__,
@@ -158,45 +158,53 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MAX_ARGS(fun),
                LENGTH(args));
 
-    char * msg = free_list_malloc(strlen(msg_tmp) + 1);
-    strcpy(msg, msg_tmp);
-    free_list_free(msg_tmp);
+    char * const err_msg = free_list_malloc(strlen(err_msg_tmp) + 1);
+    strcpy(err_msg, err_msg_tmp);
+    free_list_free(err_msg_tmp);
     
-    ae_obj_t * err_data = NIL;
+    ae_obj_t * const err_data = NIL;
 
     KSET(err_data, KW("env"),  env);
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    return NEW_ERROR(msg, err_data);
+    return NEW_ERROR(err_msg, err_data); // early return!
   }
 
-  char * msg = NULL;
+  {
+    char * msg = NULL;
 
-  if (log_eval)
-    msg = free_list_malloc(256);
+    if (log_eval)
+      msg = free_list_malloc(256);
   
-  if (! SPECIALP(fun)) {
-    args = EVAL_ARGS(env, args);
+    if (! SPECIALP(fun)) {
+      args = EVAL_ARGS(env, args);
     
-    if (log_eval) 
+      if (log_eval) 
+        snprintf(msg, 256,
+                 "applying core fun '%s' to %d evaled arg%s:",
+                 CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    }
+    else if (log_eval) {
       snprintf(msg, 256,
-               "applying core fun '%s' to %d evaled arg%s:",
+               "applying core fun '%s' to %d unevaled arg%s:",
                CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
-  }
-  else if (log_eval) {
-    snprintf(msg, 256,
-             "applying core fun '%s' to %d unevaled arg%s:",
-             CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+    }
+
+    if (log_eval) {
+      LOG(args, msg);
+      
+      free_list_free(msg);
+    }
   }
 
-  if (log_eval)
-    LOG(args, msg);    
-  
-  ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
-  
+  // this call might change the value of log_eval:
+  ae_obj_t * const ret = (*CORE_FUN(fun))(env, args, args_length);
+
   if (log_eval) {
-    snprintf(msg, 256,
+    char * const msg = free_list_malloc(256);
+
+    snprintf(msg, 256, 
              "applying core fun '%s' returned %s :%s",
              CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
@@ -219,8 +227,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
        (PROPERP(FUN_PARAMS(fun)) && LENGTH(args) > LENGTH(FUN_PARAMS(fun))))
   ) {
-    char * msg_tmp = free_list_malloc(256);
-    char * fun_desc = SWRITE(fun);
+    char * const msg_tmp = free_list_malloc(256);
+    char * const fun_desc = SWRITE(fun);
     
     snprintf(msg_tmp,
              256,
@@ -320,9 +328,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 static void snap_indent(void) {
   static int ctr = 0;
-
   // return;
-
   if (log_column > log_column_default) {
     if (++ctr > 4) {
       ctr = 0;
@@ -355,6 +361,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     snprintf(msg, 256,
              "applying '%s' to %d arg%s:",
              tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    
     LOG(args, msg);
     
     free(tmp);
@@ -417,11 +424,11 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ret = EVAL(env, ret);
 
     if (log_eval || log_macro) {
-      LOG(ret, "evaled expansion");
-
       OUTDENT;
-    }
 
+      LOG(ret, "evaled expansion");
+    }
+    
     if (ERRORP(ret))
       goto end;
 
