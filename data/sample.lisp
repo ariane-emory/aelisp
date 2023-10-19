@@ -48,6 +48,6 @@
 (defun make-list (size init-val)
  (cond
   ((== 0 size)  nil)
-  (t            (cons init-val (make-list (- num 1) init-val)))))
+  (t            (cons init-val (make-list (- size 1) init-val)))))
 
 (write (make-list 5 8))
