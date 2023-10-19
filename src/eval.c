@@ -180,17 +180,22 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     if (! SPECIALP(fun)) {
       args = EVAL_ARGS(env, args);
     
-      if (log_eval)
-        LOG(args, "applying core fun '%s' to %d evaled arg%s:",
-            CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+      if (log_eval) 
+        snprintf(msg, 256,
+                 "applying core fun '%s' to %d evaled arg%s:",
+                 CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
     }
     else if (log_eval) {
-      LOG(args, "applying core fun '%s' to %d unevaled arg%s:",
-          CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+      snprintf(msg, 256,
+               "applying core fun '%s' to %d unevaled arg%s:",
+               CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
     }
 
-    if (log_eval)
+    if (log_eval) {
+      LOG(args, msg);
+      
       free_list_free(msg);
+    }
   }
 
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
