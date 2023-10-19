@@ -162,7 +162,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
     
-    ae_obj_t * err_data = NIL;
+    ae_obj_t * const err_data = NIL;
 
     KSET(err_data, KW("env"),  env);
     KSET(err_data, KW("args"), args);
@@ -227,8 +227,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
        (PROPERP(FUN_PARAMS(fun)) && LENGTH(args) > LENGTH(FUN_PARAMS(fun))))
   ) {
-    char * msg_tmp = free_list_malloc(256);
-    char * fun_desc = SWRITE(fun);
+    char * const msg_tmp = free_list_malloc(256);
+    char * const fun_desc = SWRITE(fun);
     
     snprintf(msg_tmp,
              256,
