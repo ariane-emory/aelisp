@@ -65,17 +65,21 @@
 ;;(log-eval t)
 
 (write (list-set! v 5 10))
-
-(nl)
-(write v)
-(nl)
-
-(write (list-set! v 11 22))
 (nl)
 (write v)
 (nl)
 
 (write (list-set! v 9 18))
+(nl)
+(write v)
+(nl)
+
+(write (list-set! v 10 20))
+(nl)
+(write v)
+(nl)
+
+(write (list-set! v 11 22))
 (nl)
 (write v)
 (nl)
