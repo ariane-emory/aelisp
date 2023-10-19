@@ -10,6 +10,7 @@
 (setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
 (write (syms (env))) (nl)
 (write (sort lst combined-comparator)) (nl)
+(exit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos scheme compat
