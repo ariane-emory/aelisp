@@ -171,10 +171,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     return NEW_ERROR(msg, err_data);
   }
 
-  char * msg = NULL;
-  
-  if (log_eval)
-    msg = free_list_malloc(256);
+  char * msg = free_list_malloc(256);
   
   if (! SPECIALP(fun)) {
     args = EVAL_ARGS(env, args);
@@ -190,14 +187,13 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
        
   ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
 
-//log_column = log_column_default; // end of apply core
-  
   if (log_eval) {
     LOG(ret, "applying core fun '%s' returned %s :%s",
         CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
-    free_list_free(msg);
   }
+
+  free_list_free(msg);
 
   return ret;
 }

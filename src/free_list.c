@@ -182,13 +182,13 @@ void free_list_free(void * ptr) {
   }
   
 #ifdef AE_LOG_FREE_LIST
-  printf("free          %p\n", ptr);
+  printf("free ptr      %p\n", ptr);
 #endif
 
   ae_alloc_node_t * node = (ae_alloc_node_t *)(uintptr(ptr) - ALLOC_HEADER_SIZE);
 
 #ifdef AE_LOG_FREE_LIST
-  printf("node          %p\n", node);
+  printf("with node     %p\n", node);
 #endif
   
   ae_alloc_node_t * free_node;
