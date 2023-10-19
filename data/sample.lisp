@@ -53,7 +53,8 @@
 
 (when t
  (setq! ix 0)
- (while  (< ix 15)
+ 
+ (until  (== ix 10)
   (princ "setting ") (princ ix) (nl)
   (list-set! v ix (* 2 ix))
   (write v)
