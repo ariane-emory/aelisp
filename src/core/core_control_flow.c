@@ -234,13 +234,7 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (log_core)
       LOG(do_branch, "do while");
 
-    ae_obj_t * const result = ae_core_progn(env, do_branch, LENGTH(do_branch));
-
-    if (ERRORP(result)) {
-      ret = result;
-      
-      goto end;
-    }
+    BAIL_IF_ERROR(ae_core_progn(env, do_branch, LENGTH(do_branch)));
   }
 
 end:
