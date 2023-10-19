@@ -126,37 +126,37 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
       snprintf(msg_tmp, 256,
                "%s:%d: core '%s' requires at most %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MAX_ARGS(fun),
-              LENGTH(args));
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MAX_ARGS(fun),
+               LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15)
       snprintf(msg_tmp, 256,
                "%s:%d: core '%s' requires at least %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              LENGTH(args));
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MIN_ARGS(fun),
+               LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun))
       snprintf(msg_tmp, 256,
                "%s:%d: core '%s' requires %d arg%s, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              s_or_blank(CORE_MIN_ARGS(fun)),
-              LENGTH(args));
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MIN_ARGS(fun),
+               s_or_blank(CORE_MIN_ARGS(fun)),
+               LENGTH(args));
     else
       snprintf(msg_tmp, 256,
                "%s:%d: core '%s' requires %d to %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              CORE_MAX_ARGS(fun),
-              LENGTH(args));
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MIN_ARGS(fun),
+               CORE_MAX_ARGS(fun),
+               LENGTH(args));
 
     char * msg = free_list_malloc(strlen(msg_tmp) + 1);
     strcpy(msg, msg_tmp);
@@ -181,13 +181,13 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     
     if (log_eval) 
       snprintf(msg, 256,
-               "'applying core fun '%s' to %d evaled arg%s:'",
-              CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+               "applying core fun '%s' to %d evaled arg%s:",
+               CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
   else if (log_eval) {
     snprintf(msg, 256,
-             "'applying core fun '%s' to %d unevaled arg%s:'",
-            CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
+             "applying core fun '%s' to %d unevaled arg%s:",
+             CORE_NAME(fun), LENGTH(args), s_or_blank(LENGTH(args)));
   }
 
   if (log_eval)
@@ -197,8 +197,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
   if (log_eval) {
     snprintf(msg, 256,
-             "'applying core fun '%s' returned %s :%s'",
-            CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+             "applying core fun '%s' returned %s :%s",
+             CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
     LOG(ret, msg);
 
@@ -225,13 +225,13 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     snprintf(msg_tmp,
              256,
              "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
-            __FILE__,
-            __LINE__,
-            fun_desc,
-            ! PROPERP(FUN_PARAMS(fun)) ? "at least" : "exactly",
-            LENGTH(FUN_PARAMS(fun)),
-            s_or_blank(LENGTH(FUN_PARAMS(fun))),
-            LENGTH(args));
+             __FILE__,
+             __LINE__,
+             fun_desc,
+             ! PROPERP(FUN_PARAMS(fun)) ? "at least" : "exactly",
+             LENGTH(FUN_PARAMS(fun)),
+             s_or_blank(LENGTH(FUN_PARAMS(fun))),
+             LENGTH(args));
 
     free(fun_desc);
     
@@ -320,7 +320,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 static void snap_indent(void) {
   static int ctr = 0;
-  // return;
+
+  return;
+
   if (log_column > log_column_default) {
     if (++ctr > 4) {
       ctr = 0;
