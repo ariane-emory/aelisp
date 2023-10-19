@@ -377,7 +377,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   if (MACROP(fun) && (log_eval || log_macro)) {
     LOG(obj, "expanding");
-    
+
+    INDENT;
   }
 
   ret = COREP(fun)
@@ -398,8 +399,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ret = EVAL(env, ret);
 
     if (log_eval || log_macro) {
-      LOG(ret, "evaled expansion");
+      OUTDENT;
 
+      LOG(ret, "evaled expansion");
     }
     
     if (ERRORP(ret))
