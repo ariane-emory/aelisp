@@ -1,11 +1,11 @@
 #include "core_includes.h"
 
-#define BAIL_IF_ERROR(obj) \
+#define BAIL_IF_ERROR(obj)                                                                         \
   {                                                                                                \
     CAPTURE(obj);                                                                                  \
                                                                                                    \
-    if (ERRORP(CAPTURED)) {                                                                             \
-      ret = CAPTURED;                                                                                   \
+    if (ERRORP(CAPTURED)) {                                                                        \
+      ret = CAPTURED;                                                                              \
       goto end;                                                                                    \
     }                                                                                              \
   }
@@ -228,8 +228,6 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   ae_obj_t * cond_result = NIL;
 
-  BAIL_IF_ERROR(cond_result);
-  
   while (!NILP(cond_result = EVAL(env, while_cond))) {
     if (log_core)
       LOG(do_branch, "do while");
@@ -263,23 +261,11 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   ae_obj_t * cond_result = NIL;
 
-  if (ERRORP(cond_result)) {
-    ret = cond_result;
-    
-    goto end;
-  }
-  
   while  (NILP(cond_result = EVAL(env, until_cond))) {
     if (log_core)
       LOG(do_branch, "do until");
 
-    ae_obj_t * const result = ae_core_progn(env, do_branch, LENGTH(do_branch));
-
-    if (ERRORP(result)) {
-      ret = result;
-      
-      goto end;
-    }
+    BAIL_IF_ERROR(ae_core_progn(env, do_branch, LENGTH(do_branch)));
   }
 
 end:
