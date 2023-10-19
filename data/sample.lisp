@@ -52,7 +52,12 @@
 
 (defun list-set! (lst index val)
  (cond
-  ((== 0 size)  (rplaca lst val))
+  ((== 0 size)  (rplaca! lst val))
   (t            (list-set! (cdr lst) (- index 1) val))))
 
-(write (make-list 5 8))
+(setq! v (make-list 10 8))
+(nl)
+(write v)
+(nl)
+(write (list-set! v 5 4))
+(nl)
