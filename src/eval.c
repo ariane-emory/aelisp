@@ -375,6 +375,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   if (MACROP(fun) && (log_eval || log_macro)) {
     LOG(obj, "expanding");
+    
   }
 
   ret = COREP(fun)
