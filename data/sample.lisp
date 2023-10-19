@@ -44,20 +44,38 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos support
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defun make-list (size init-val)
  (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list-set! (lst index val)
  (cond
-  ((== 0 size)  (rplaca! lst val))
+  ((nil? lst) (error "list-set! out of range"))
+  ((== 0 index) (rplaca! lst val))
   (t            (list-set! (cdr lst) (- index 1) val))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! v (make-list 10 8))
+(setq! v (make-list 10 0))
+
 (nl)
 (write v)
 (nl)
-(write (list-set! v 5 4))
+
+;;(log-eval t)
+
+(write (list-set! v 5 10))
+
+(nl)
+(write v)
+(nl)
+
+(write (list-set! v 11 22))
+(nl)
+(write v)
+(nl)
+
+(write (list-set! v 9 18))
+(nl)
+(write v)
 (nl)

@@ -57,7 +57,12 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
 
-    if (NILP(result_head)) {
+    if (ERRORP(eval_result)) {
+      result_head = eval_result;
+
+      goto end;
+    }
+    else if (NILP(result_head)) {
       result_head = NEW_CONS(eval_result, NIL);
       result_tail = result_head;
     } else {
@@ -76,6 +81,8 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     ae_obj_t* eval_result = EVAL(env, current_arg);
 
+    // tail arg needs error handling!
+
     OUTDENT;
 
     if (log_eval)
@@ -85,8 +92,11 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
       result_head = eval_result;
     else
       CDR(result_tail) = eval_result;
+
   }
 
+end:
+  
   OUTDENT;
   
   if (log_eval)
@@ -115,6 +125,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
   bool invalid_args_length = false;
   int  args_length         = LENGTH(args);
+  ae_obj_t * ret           = NIL;
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
@@ -179,7 +190,13 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
     if (! SPECIALP(fun)) {
       args = EVAL_ARGS(env, args);
-    
+
+      if (ERRORP(args)) {
+        ret = args;
+        
+        goto end;
+      }
+      
       if (log_eval) 
         snprintf(msg, 256,
                  "applying core fun '%s' to %d evaled arg%s:",
@@ -199,7 +216,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
 
   // this call might change the value of log_eval:
-  ae_obj_t * const ret = (*CORE_FUN(fun))(env, args, args_length);
+  ret = (*CORE_FUN(fun))(env, args, args_length);
 
   if (log_eval) {
     char * const msg = free_list_malloc(256);
@@ -213,6 +230,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     free_list_free(msg);
   }
 
+end:
+  
   return ret;
 }
 
