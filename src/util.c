@@ -2,16 +2,19 @@
 
 #include "util.h"
 
+// #define US (putchar('_'))
+#define US SPC
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const int  log_column_default =   56;
+const int  log_column_default =   48;
 /* */ int  log_column         =   log_column_default;
 /* */ bool log_column_auto    =   true;
 /* */ char log_buffer[256]    = { 0 };
 /* */ int  log_indentation    =   0;
-/* */ int  log_tab_width      =   16;
+/* */ int  log_tab_width      =   8;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // obj_log
@@ -22,22 +25,22 @@ int obj_log(const ae_obj_t * const obj, char * desc) {
 
   int written = 0;
 
-  while (written++ < (log_indentation)) SPC;
+  while (written++ < (log_indentation)) putchar(' ');
   
-  written += PR("%s ", desc);
+  written += PR("%s", desc);
   
   if (written >= log_column && log_column_auto) {
-    written++; SPC;
+    written++; US;
 
     log_column = written;
     
     while (log_column++ % log_tab_width);
   }
   else {
-    while (written++ < log_column) putchar('_'); //SPC;
+    while (written++ < log_column) US; //SPC;
   }
 
-  while (written++ < log_column) SPC;
+  while (written++ < log_column) US; //SPC;
 
   written += WRITE(obj);
 
