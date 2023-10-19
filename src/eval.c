@@ -202,9 +202,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   if (log_eval) {
     char * msg = free_list_malloc(256);
-  
-    LOG(ret, "applying core fun '%s' returned %s :%s",
-        CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+
+    snprintf(msg, 256, 
+             "applying core fun '%s' returned %s :%s",
+             CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+
+    LOG(ret, msg);
 
     free_list_free(msg);
   }
