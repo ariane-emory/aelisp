@@ -118,7 +118,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
-    char * err_msg_tmp = free_list_malloc(256);
+    char * const err_msg_tmp = free_list_malloc(256);
 
     LOG(args, "invalid arg count:");
     
@@ -158,7 +158,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MAX_ARGS(fun),
                LENGTH(args));
 
-    char * err_msg = free_list_malloc(strlen(err_msg_tmp) + 1);
+    char * const err_msg = free_list_malloc(strlen(err_msg_tmp) + 1);
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
     
@@ -198,10 +198,11 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     }
   }
 
-  ae_obj_t * ret = (*CORE_FUN(fun))(env, args, args_length);
+  // this call might change the value of log_eval:
+  ae_obj_t * const ret = (*CORE_FUN(fun))(env, args, args_length);
 
   if (log_eval) {
-    char * msg = free_list_malloc(256);
+    char * const msg = free_list_malloc(256);
 
     snprintf(msg, 256, 
              "applying core fun '%s' returned %s :%s",
