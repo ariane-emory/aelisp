@@ -41,6 +41,12 @@
   ((== 0 index) (rplaca! lst val))
   (t            (list-set! (cdr lst) (- index 1) val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun list-ref (lst index)
+ (cond
+  ((nil? lst)   (error "list-set! out of range"))
+  ((== 0 index) (car lst))
+  (t            (list-ref (cdr lst) (- index 1)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! v (make-list 10 0))
 
