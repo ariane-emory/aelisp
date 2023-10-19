@@ -12,28 +12,40 @@
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-;; (defmacro defun-mem-fun (name pred?)
-;;  $('defun name $('x 'lst)
-;;    $('cond
-;; 	   $($(pred? $('car lst) 'x) t)
-;; 	   $(lst $(name 'x $('cdr 'lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-;; (log-macro t)
-;; (log-eval  t)
 (defun-mem-fun memql? eql?)
-(write (memql? 5 lst))
-;; (log-eval  nil)
-;; (log-macro nil)
-
-(nl) (nl) (nl)
-
-;; (log-macro t)
-;; (log-eval  t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun-mem-fun memq?  eq?)
-(write (memq? 5 lst))
-;; (log-eval  nil)
-;; (log-macro nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defmacro defun-remove-fun (name pred?)
+  `(defun ,name (x lst)
+     (cond
+      ((,pred? (car lst) x) (cdr lst))
+      (lst (cons (car lst) (,name x (cdr lst)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun-remove-fun removeq eq?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun-remove-fun removeql eql?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro defun-index-fun (name pred?)
+  `(defun ,name (x lst)
+     (cond
+      ((,pred? x (car lst)) 0)
+      (lst
+       (let ((tail-result (,name x (cdr lst))))
+         (when tail-result
+           (+ 1 tail-result)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun-index-fun indexq eq?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun-index-fun indexql eql?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(write (memq? 5 lst)) (nl)
+(write (memql? 5 lst)) (nl)
+(write (indexq 5 lst)) (nl)
+(write (indexql 5 lst)) (nl)
+(write (removeq 5 lst)) (nl)
+(write (removeql 5 lst)) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (exit)

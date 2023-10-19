@@ -424,16 +424,6 @@
    (cons intercalated                                                         ;)
     (intercalate intercalated (cdr items))))))                                ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun removeq (x lst)
- (cond
-	((eq? (car lst) x) (cdr lst))
-	(lst (cons (car lst) (removeq x (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun removeql (x lst)
- (cond
-	((eql? (car lst) x) (cdr lst))
-	(lst (cons (car lst) (removeql x (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun-mem-fun (name pred?)
  `(defun ,name (x lst)
    (cond
@@ -443,6 +433,16 @@
 (defun-mem-fun memql? eql?)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun-mem-fun memq?  eq?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun removeq (x lst)
+ (cond
+	((eq? (car lst) x) (cdr lst))
+	(lst (cons (car lst) (removeq x (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun removeql (x lst)
+ (cond
+	((eql? (car lst) x) (cdr lst))
+	(lst (cons (car lst) (removeql x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun indexq (x lst)
  (cond
