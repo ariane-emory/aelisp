@@ -70,13 +70,12 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
       LOG(item_cdr, "cond item's cdr");
     }
 
-    if (! NILP(EVAL(env, item_car))) {
-      ret = ae_core_progn(env, item_cdr, LENGTH(item_cdr));
-
-      break;
-    }
+    if (! NILP(BAIL_IF_ERROR(EVAL(env, item_car))))
+      RETURN(BAIL_IF_ERROR(ae_core_progn(env, item_cdr, LENGTH(item_cdr))));
   }
 
+end:
+  
   CORE_RETURN("cond", ret);
 }
 
