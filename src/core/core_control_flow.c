@@ -285,15 +285,18 @@ end:
 ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("repeat");
 
-  ae_obj_t * first_arg = EVAL(env, CAR(args));
-
+  ae_obj_t * ret       = NIL;
+  ae_obj_t * first_arg = BAIL_IF_ERROR(EVAL(env, CAR(args)));
+ 
   REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
 
   long long int times = INT_VAL(first_arg);
 
   for (long long int ix = 0; ix < times; ix++)
-    ae_core_progn(env, CDR(args), LENGTH(CDR(args)));
+    BAIL_IF_ERROR(ae_core_progn(env, CDR(args), LENGTH(CDR(args))));
 
+end:
+  
   CORE_RETURN("repeat", NIL);
 }
 
