@@ -22,14 +22,16 @@
 ;; (log-macro t)
 ;; (log-eval  t)
 (defun-mem-fun memql? eql?)
+(write (memql? 5 lst))
 ;; (log-eval  nil)
 ;; (log-macro nil)
 
-;;(nl) (nl) (nl)
+(nl) (nl) (nl)
 
 ;; (log-macro t)
 ;; (log-eval  t)
 (defun-mem-fun memq?  eq?)
+(write (memq? 5 lst))
 ;; (log-eval  nil)
 ;; (log-macro nil)
 
