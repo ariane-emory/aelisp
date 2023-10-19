@@ -58,20 +58,21 @@
 
 (setq! v (make-list 10 0))
 
-(nl)
-(write v)
-(nl)
+;; (nl)
+;; (write v)
+;; (nl)
 
-(setq! ix 0)
+(nl)
 
 ;; (log-eval t)
 
-(while  (< ix 20)
+(setq! ix 0)
+(while  (< ix 5)
  (princ "setting ") (princ ix) (nl)
  ;; (write (list-set! v ix (* 2 ix)))
  ;; (nl)
- ;; (write v)
- ;; (nl)
+ (write v)
+ (nl)
  (setq! ix (1+ ix))
  )
 
