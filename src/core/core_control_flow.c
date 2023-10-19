@@ -90,32 +90,35 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ae_obj_t * const if_cond     = CAR(args);
   ae_obj_t * const then_branch = CADR(args);
   ae_obj_t * const else_branch = CDDR(args);
-      
+  ae_obj_t * ret               = NIL;
+  
   if (log_core) {
     LOG(if_cond,     "if");
     LOG(then_branch, "then");
     LOG(else_branch, "else");
   }
 
-  bool cond_result = ! NILP(EVAL(env, if_cond));
+  bool cond_result = ! NILP(BAIL_IF_ERROR(EVAL(env, if_cond)));
 
   if (log_core) 
     LOG(cond_result ? TRUE : NIL, "cond_result: ");
 
   if (cond_result) {
-
     if (log_core)
       LOG(then_branch, "chose then");
 
-    CORE_RETURN("if", ae_eval(env, then_branch));
-  }
+    RETURN(BAIL_IF_ERROR(EVAL(env, then_branch)));
+  } 
   else {
-
     if (log_core)
       LOG(else_branch, "chose else");
 
-    CORE_RETURN("if", ae_core_progn(env, else_branch, LENGTH(else_branch)));
+    RETURN(BAIL_IF_ERROR(ae_core_progn(env, else_branch, LENGTH(else_branch))));
   }
+
+end:
+  
+  CORE_RETURN("if", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
