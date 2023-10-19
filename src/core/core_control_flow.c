@@ -12,6 +12,14 @@
     CAPTURED;                                                                                      \
   })
 
+#define RETURN(obj)                                                                                \
+  ({                                                                                               \
+    CAPTURE(obj);                                                                                  \
+    ret = CAPTURED;                                                                                \
+    goto end;                                                                                      \
+    (void)CAPTURED;                                                                                \
+  })
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _progn
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,13 +191,17 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
 ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("or");
 
+  ae_obj_t * ret = NIL;
+  
   FOR_EACH(option, args) {
-    ae_obj_t * option_result = EVAL(env, option);
-    if (! NILP(option_result)) {
-      CORE_RETURN("or", option_result);
-    }
+    ret = BAIL_IF_ERROR(EVAL(env, option));
+    
+    if (! NILP(ret))
+      RETURN(ret);
   }
-
+      
+end:
+    
   CORE_RETURN("or", NIL);
 }
 
@@ -200,16 +212,18 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
-  ae_obj_t * option_result = NIL;
+  ae_obj_t * ret = NIL;
   
   FOR_EACH(option, args) {
-    option_result = EVAL(env, option);
-    if (NILP(option_result)) {
-      CORE_RETURN("and", NIL);
-    }
+    ret = BAIL_IF_ERROR(EVAL(env, option));
+    
+    if (NILP(ret))
+      RETURN(NIL);
   }
 
-  CORE_RETURN("and", option_result);
+end:
+  
+  CORE_RETURN("and", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
