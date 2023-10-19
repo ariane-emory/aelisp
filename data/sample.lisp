@@ -50,9 +50,8 @@
 
 (nl)
 
-;; (log-eval t)
 
-(when t
+(when nil
  (setq! ix 0)
  (while  (< ix 10)
   (princ "setting ") (princ ix) (nl)
@@ -61,3 +60,6 @@
   (nl)
   (setq! ix (1+ ix))))
 
+;(log-eval t)
+
+(list-set! v 10 99)

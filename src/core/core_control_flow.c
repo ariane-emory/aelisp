@@ -212,6 +212,7 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   ae_obj_t * const while_cond = CAR(args);
   ae_obj_t * const do_branch  = CDR(args);
+  ae_obj_t *       ret        = NIL;
   
   if (log_core) {
     LOG(while_cond, "while");
@@ -225,9 +226,17 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (log_core)
       LOG(do_branch, "do while");
 
-    ae_core_progn(env, do_branch, LENGTH(do_branch));
+    ae_obj_t * const result = ae_core_progn(env, do_branch, LENGTH(do_branch));
+
+    if (ERRORP(result)) {
+      ret = result;
+      
+      goto end;
+    }
   }
 
+end:
+  
   if (log_core)
     SLOG("left while");
   
