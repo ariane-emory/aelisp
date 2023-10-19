@@ -66,12 +66,12 @@
 
 ;; (log-eval t)
 
-(setq! ix 0)
-(while  (< ix 10)
- (princ "setting ") (princ ix) (nl)
- (list-set! v ix (* 2 ix))
+(when nil
+ (setq! ix 0)
+ (while  (< ix 10)
+  (princ "setting ") (princ ix) (nl)
+  (list-set! v ix (* 2 ix))
   (write v)
- (nl)
- (setq! ix (1+ ix))
- )
+  (nl)
+  (setq! ix (1+ ix))))
 
