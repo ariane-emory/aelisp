@@ -97,7 +97,7 @@ void free_list_reset(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void * free_list_malloc(size_t size) {
-  void      * ptr  = NULL;
+  void            * ptr  = NULL;
   ae_alloc_node_t * node = NULL;
 
   assert(size != 0);
@@ -137,6 +137,12 @@ void * free_list_malloc(size_t size) {
   printf("malloced      %p\n", ptr);
 #endif
 
+  if(ptr == NULL) {
+    fprintf(stderr, "\nfree_list_free: failed to malloc!\n");
+    
+    assert(0);
+  }
+
   return ptr;
 }
 
@@ -171,9 +177,8 @@ static void free_list_coalesce(void) {
 void free_list_free(void * ptr) {
   if(ptr == NULL) {
     fprintf(stderr, "\nfree_list_free: do not free NULL!\n");
-    exit(3);
-    
-    return;
+
+    assert(0);
   }
   
 #ifdef AE_LOG_FREE_LIST
