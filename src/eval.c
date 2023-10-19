@@ -396,6 +396,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
     if (log_eval || log_macro) {
       LOG(ret, "evaled expansion");
+
     }
     
     if (ERRORP(ret))
