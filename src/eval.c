@@ -321,7 +321,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 static void snap_indent(void) {
   static int ctr = 0;
 
-  return;
+  // return;
 
   if (log_column > log_column_default) {
     if (++ctr > 4) {
