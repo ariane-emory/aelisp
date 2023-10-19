@@ -53,10 +53,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(defun even-first-comparator (a b)
+  (cond
+    ;; If both are even or both are odd, just compare them
+    ((== (/ a 2) (/ b 2)) (< a b))
+    ;; If a is even and b is odd, a should come first
+    ((even? a) t)
+    ;; Otherwise, b should come first
+    (t nil)))
+
+
+(setq! combined-comparator 
+  (lambda (x y) 
+    (cond 
+      ((and (even? x) (even? y)) (< x y))  ; both even, compare values
+      ((even? x) t)                        ; x is even, y is odd, x comes first
+      ((even? y) nil)                      ; y is even, x is odd, y comes first
+      (t (< x y)))))                       ; both odd, compare values
+
+
 (setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
 
-(log-eval t)
-
-(write (sort lst (lambda (x y) (< x y)))) (nl)
+(write (sort lst combined-comparator)) (nl)
 
 (exit)
