@@ -171,7 +171,6 @@ nil                                                                        |
 \'                                                                         TOKENIZE(QUOTE,       AE_INVALID );
 \`                                                                         TOKENIZE(BACKTICK,    AE_INVALID );
 \,\@                                                                       TOKENIZE(COMMA_AT,    AE_INVALID );
-\#                                                                         TOKENIZE(POUND,       AE_INVALID );
 \$                                                                         TOKENIZE(DOLLAR,      AE_INVALID );
 \@                                                                         TOKENIZE(AT,          AE_INVALID );
 \,                                                                         TOKENIZE(COMMA,       AE_INVALID );
@@ -183,7 +182,7 @@ nil                                                                        |
 '\\.'                                                                      |
 \?\\\\.                                                                    |
 \?\\.                                                                      TOKENIZE(CHAR,        AE_CHAR    );
-\%([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]?                |
+[\%\#]([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!]?            |
 ([1-9][0-9]*)?[\+\-\/\*]                                                   |
 ¬|λ\??|∧|∨|⊤|⊥|≤|≥|×|÷|Ø|∈|∉|≠|!|∃|∄|∀|≔|\||&                              |
 𝑎|𝑏|𝑐|𝑑|𝑒|𝑓|𝑚|𝑛|𝑜|𝑝|𝑞|𝑟|𝑠|𝑡|𝑢|𝑣|𝑤|𝑥|𝑦|𝑧                                    |
