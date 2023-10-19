@@ -118,13 +118,13 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
-    char * msg_tmp = free_list_malloc(256);
+    char * err_msg_tmp = free_list_malloc(256);
 
     LOG(args, "invalid arg count:");
     
     // if CORE_MIN_ARGS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
     if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires at most %d args, but got %d",
                __FILE__,
                __LINE__,
@@ -132,7 +132,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MAX_ARGS(fun),
                LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15)
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires at least %d args, but got %d",
                __FILE__,
                __LINE__,
@@ -140,7 +140,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MIN_ARGS(fun),
                LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun))
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires %d arg%s, but got %d",
                __FILE__,
                __LINE__,
@@ -149,7 +149,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                s_or_blank(CORE_MIN_ARGS(fun)),
                LENGTH(args));
     else
-      snprintf(msg_tmp, 256,
+      snprintf(err_msg_tmp, 256,
                "%s:%d: core '%s' requires %d to %d args, but got %d",
                __FILE__,
                __LINE__,
@@ -158,9 +158,9 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MAX_ARGS(fun),
                LENGTH(args));
 
-    char * msg = free_list_malloc(strlen(msg_tmp) + 1);
-    strcpy(msg, msg_tmp);
-    free_list_free(msg_tmp);
+    char * msg = free_list_malloc(strlen(err_msg_tmp) + 1);
+    strcpy(msg, err_msg_tmp);
+    free_list_free(err_msg_tmp);
     
     ae_obj_t * err_data = NIL;
 
