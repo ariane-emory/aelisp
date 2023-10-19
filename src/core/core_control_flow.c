@@ -220,11 +220,7 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   ae_obj_t * cond_result = NIL;
 
-  if (ERRORP(cond_result)) {
-    ret = cond_result;
-    
-    goto end;
-  }
+  BAIL_IF_ERROR(cond_result);
   
   while (!NILP(cond_result = EVAL(env, while_cond))) {
     if (log_core)
