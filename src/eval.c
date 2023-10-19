@@ -124,35 +124,39 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     
     // if CORE_MIN_ARGS(fun) == 15, then it has no minimum number of args, generate an appropriate message:
     if (CORE_MIN_ARGS(fun) == 15 && CORE_MAX_ARGS(fun) != 15)
-      sprintf(msg_tmp, "%s:%d: core '%s' requires at most %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MAX_ARGS(fun),
-              LENGTH(args));
+      snprintf(msg_tmp, 256,
+               "%s:%d: core '%s' requires at most %d args, but got %d",
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MAX_ARGS(fun),
+               LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == 15 && CORE_MIN_ARGS(fun) != 15)
-      sprintf(msg_tmp, "%s:%d: core '%s' requires at least %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              LENGTH(args));
+      snprintf(msg_tmp, 256,
+               "%s:%d: core '%s' requires at least %d args, but got %d",
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MIN_ARGS(fun),
+               LENGTH(args));
     else if (CORE_MAX_ARGS(fun) == CORE_MIN_ARGS(fun))
-      sprintf(msg_tmp, "%s:%d: core '%s' requires %d arg%s, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              s_or_blank(CORE_MIN_ARGS(fun)),
-              LENGTH(args));
+      snprintf(msg_tmp, 256,
+               "%s:%d: core '%s' requires %d arg%s, but got %d",
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MIN_ARGS(fun),
+               s_or_blank(CORE_MIN_ARGS(fun)),
+               LENGTH(args));
     else
-      sprintf(msg_tmp, "%s:%d: core '%s' requires %d to %d args, but got %d",
-              __FILE__,
-              __LINE__,
-              CORE_NAME(fun),
-              CORE_MIN_ARGS(fun),
-              CORE_MAX_ARGS(fun),
-              LENGTH(args));
+      snprintf(msg_tmp, 256,
+               "%s:%d: core '%s' requires %d to %d args, but got %d",
+               __FILE__,
+               __LINE__,
+               CORE_NAME(fun),
+               CORE_MIN_ARGS(fun),
+               CORE_MAX_ARGS(fun),
+               LENGTH(args));
 
     char * msg = free_list_malloc(strlen(msg_tmp) + 1);
     strcpy(msg, msg_tmp);
@@ -201,15 +205,16 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     char * msg_tmp = free_list_malloc(256);
     char * fun_desc = SWRITE(fun);
     
-    sprintf(msg_tmp,
-            "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
-            __FILE__,
-            __LINE__,
-            fun_desc,
-            ! PROPERP(FUN_PARAMS(fun)) ? "at least" : "exactly",
-            LENGTH(FUN_PARAMS(fun)),
-            s_or_blank(LENGTH(FUN_PARAMS(fun))),
-            LENGTH(args));
+    snprintf(msg_tmp,
+             256,
+             "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
+             __FILE__,
+             __LINE__,
+             fun_desc,
+             ! PROPERP(FUN_PARAMS(fun)) ? "at least" : "exactly",
+             LENGTH(FUN_PARAMS(fun)),
+             s_or_blank(LENGTH(FUN_PARAMS(fun))),
+             LENGTH(args));
 
     free(fun_desc);
     
@@ -328,7 +333,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     char * tmp = SWRITE(head);
     char * msg = free_list_malloc(256);
 
-    sprintf(msg, "applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
+    snprintf(msg, 256,
+             "applying '%s' to %d arg%s:", tmp, LENGTH(args), s_or_blank(LENGTH(args)));
     LOG(args, msg);
     
     free(tmp);
@@ -475,7 +481,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     KSET(err_data, KW("unbound-symbol"), sym);
 
     char * tmp = free_list_malloc(256);
-    sprintf(tmp, "%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
+    snprintf(tmp, 256,
+             "%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
     char * msg = free_list_malloc(strlen(tmp) + 1);
     strcpy(msg, tmp);
     
