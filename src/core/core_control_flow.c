@@ -19,19 +19,16 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (log_core)
       LOG(elem, "eval progn arg  #%d/%d", ctr, args_length);
 
-    // INDENT;
-
     ret = EVAL(env, elem);
     
-    if (ERRORP(ret))
-      break;
-
-    // OUTDENT;
-    
+    BAIL_IF_ERROR(ret);
+        
     if (log_core)
       LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);
   }
 
+end:
+  
   CORE_RETURN("progn", ret);
 }
 
