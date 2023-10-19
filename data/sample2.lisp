@@ -1,4 +1,4 @@
-;;(write (is-unquote-expr? '(unquote 1))) (nl)
+o;;(write (is-unquote-expr? '(unquote 1))) (nl)
 
 ;;(write `(list 'a ,(+ 4 5))) (nl)
 
@@ -133,3 +133,10 @@
 
 ;;(log-macro t)
 ;;(make-mem? memql? eql?)
+
+;; (write (memq? 5 lst)) (nl)
+;; (write (memql? 5 lst)) (nl)
+;; (write (indexq 5 lst)) (nl)
+;; (write (indexql 5 lst)) (nl)
+;; (write (removeq 5 lst)) (nl)
+;; (write (removeql 5 lst)) (nl)
