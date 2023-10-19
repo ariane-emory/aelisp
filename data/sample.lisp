@@ -42,17 +42,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; tiny-clos suppor
+;; tiny-clos support
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define getl
-    (lambda (initargs name . not-found)
-      (letrec ((scan (lambda (tail)
-		       (cond ((null? tail)
-			      (if (pair? not-found)
-				  (car not-found)
-				  (error "GETL couldn't find" name)))
-			     ((eq? (car tail) name) (cadr tail))
-			     (else (scan (cddr tail)))))))
-	(scan initargs))))
+(defun make-list (size init-val)
+ (cond
+  ((== 0 size)  nil)
+  (t            (cons init-val (make-list (- num 1) init-val)))))
 
+(write (make-list 5 8))
