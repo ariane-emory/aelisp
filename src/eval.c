@@ -114,7 +114,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(COREP(fun));
   
   bool invalid_args_length = false;
-  int args_length          = LENGTH(args);
+  int  args_length         = LENGTH(args);
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
@@ -171,6 +171,11 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     return NEW_ERROR(msg, err_data);
   }
 
+  char * msg = NULL;
+  
+  if (log_eval)
+    msg = free_list_malloc(256);
+  
   if (! SPECIALP(fun)) {
     args = EVAL_ARGS(env, args);
     
@@ -187,9 +192,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
 //log_column = log_column_default; // end of apply core
   
-  if (log_eval)
+  if (log_eval) {
     LOG(ret, "applying core fun '%s' returned %s :%s",
         CORE_NAME(fun), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
+
+    free_list_free(msg);
+  }
 
   return ret;
 }
