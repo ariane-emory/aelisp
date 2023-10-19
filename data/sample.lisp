@@ -40,3 +40,5 @@
    (lambda args
 	  (error "An instance isn't a procedure -- can't apply it."))
    nfields)))
+
+(write %allocate-instance)
