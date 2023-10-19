@@ -28,10 +28,16 @@
 (write (syms (env))) (nl)
 (write (sort lst combined-comparator)) (nl)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; scheme compat
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! #t t)
 (setq! define setq!)
+(setq! gsort sort)
+(setq! null? nil?)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define %allocate-instance
  (lambda (class nfields)
   (%allocate-instance-internal
