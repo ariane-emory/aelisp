@@ -35,78 +35,78 @@
 ;; tiny-clos
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (define %allocate-instance
-;;  (lambda (class nfields)
-;;   (%allocate-instance-internal
-;;    class
-;;    #t
-;;    (lambda args
-;; 	  (error "An instance isn't a procedure -- can't apply it."))
-;;    nfields)))
+(define %allocate-instance
+ (lambda (class nfields)
+  (%allocate-instance-internal
+   class
+   #t
+   (lambda args
+	  (error "An instance isn't a procedure -- can't apply it."))
+   nfields)))
 
-;; (define %allocate-entity
-;;  (lambda (class nfields)
-;;   (%allocate-instance-internal
-;;    class
-;;    #f
-;;    (lambda args
-;; 	  (error "Tried to call an entity before its proc is set."))
-;;    nfields)))
+(define %allocate-entity
+ (lambda (class nfields)
+  (%allocate-instance-internal
+   class
+   #f
+   (lambda args
+	  (error "Tried to call an entity before its proc is set."))
+   nfields)))
 
-;; (define %allocate-instance-internal ???)
-;; (define %instance?                  ???)
-;; (define %instance-class             ???)
-;; (define %set-instance-class-to-self ???)   ;This is used only once
-;;                                         ;as part of bootstrapping
-;;                                         ;the braid.
-;; (define %set-instance-proc!  ???)
-;; (define %instance-ref        ???)
-;; (define %instance-set!       ???)
+(define %allocate-instance-internal ???)
+(define %instance?                  ???)
+(define %instance-class             ???)
+(define %set-instance-class-to-self ???)   ;This is used only once
+                                        ;as part of bootstrapping
+                                        ;the braid.
+(define %set-instance-proc!  ???)
+(define %instance-ref        ???)
+(define %instance-set!       ???)
 
-;; (letrec ((instances '())
-;; 	       (get-vector
-;; 	        (lambda (closure)
-;; 	         (let ((cell (assq closure instances)))
-;; 	          (if cell (cdr cell) #f)))))
+(letrec ((instances '())
+	       (get-vector
+	        (lambda (closure)
+	         (let ((cell (assq closure instances)))
+	          (if cell (cdr cell) #f)))))
 
-;;  (set! %allocate-instance-internal
-;; 	(lambda (class lock proc nfields)
-;; 	 (letrec ((vector (make-vector (+ nfields 3) #f))
-;; 		        (closure (lambda args
-;; 			                (apply (vector-ref vector 0) args))))
-;; 	  (vector-set! vector 0 proc)
-;; 	  (vector-set! vector 1 lock)
-;; 	  (vector-set! vector 2 class)
-;; 	  (set! instances (cons (cons closure vector) instances))
-;; 	  closure)))
- 
-;;  (set! %instance?
-;;   (lambda (x) (not (null? (get-vector x)))))
+ (set! %allocate-instance-internal
+	(lambda (class lock proc nfields)
+	 (letrec ((vector (make-vector (+ nfields 3) #f))
+		        (closure (lambda args
+			                (apply (vector-ref vector 0) args))))
+	  (vector-set! vector 0 proc)
+	  (vector-set! vector 1 lock)
+	  (vector-set! vector 2 class)
+	  (set! instances (cons (cons closure vector) instances))
+	  closure)))
 
-;;  (set! %instance-class
-;; 	(lambda (closure)
-;; 	 (let ((vector (get-vector closure)))
-;; 	  (vector-ref vector 2))))
+ (set! %instance?
+  (lambda (x) (not (null? (get-vector x)))))
 
-;;  (set! %set-instance-class-to-self
-;; 	(lambda (closure)
-;; 	 (let ((vector (get-vector closure)))
-;; 	  (vector-set! vector 2 closure))))
+ (set! %instance-class
+	(lambda (closure)
+	 (let ((vector (get-vector closure)))
+	  (vector-ref vector 2))))
 
-;;    (set! %set-instance-proc!
-;;         (lambda (closure proc)
-;; 	  (let ((vector (get-vector closure)))
-;; 	    (if (vector-ref vector 1)
-;; 		(error "Can't set procedure of instance.")
-;; 		(vector-set! vector 0 proc)))))
-	
-;;   (set! %instance-ref
-;;         (lambda (closure index)
-;; 	  (let ((vector (get-vector closure)))
-;; 	    (vector-ref vector (+ index 3)))))
-		  
-;;   (set! %instance-set!
-;;         (lambda (closure index new-value)
-;; 	  (let ((vector (get-vector closure)))
-;; 	    (vector-set! vector (+ index 3) new-value))))
-;;   )
+ (set! %set-instance-class-to-self
+	(lambda (closure)
+	 (let ((vector (get-vector closure)))
+	  (vector-set! vector 2 closure))))
+
+   (set! %set-instance-proc!
+        (lambda (closure proc)
+	  (let ((vector (get-vector closure)))
+	    (if (vector-ref vector 1)
+		(error "Can't set procedure of instance.")
+		(vector-set! vector 0 proc)))))
+
+  (set! %instance-ref
+        (lambda (closure index)
+	  (let ((vector (get-vector closure)))
+	    (vector-ref vector (+ index 3)))))
+   
+  (set! %instance-set!
+        (lambda (closure index new-value)
+	  (let ((vector (get-vector closure)))
+	    (vector-set! vector (+ index 3) new-value))))
+  )
