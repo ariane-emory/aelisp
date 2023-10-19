@@ -1,10 +1,8 @@
 To Do:
+- [ ] #include/load equivalent (exists in REPL-speak but not in core, currently).
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
-- [ ] user funs need better arg count validation.
-- [ ] #include equivalent (exists in REPL-speak but not in core, currently).
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
-- [ ] Fix macro expansion from eval.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
 - [ ] Implement math for non-integer types.
@@ -23,6 +21,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Fix macro expansion from eval.
+- [x] user funs need better arg count validation.
 - [x] give improper lists a length.
 - [x] re-implement std nconc! as a reduce of std nconc2!.
 - [x] maybe take inspiration from TL's envLookup for dotted args?
