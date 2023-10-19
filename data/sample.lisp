@@ -51,9 +51,9 @@
 (nl)
 
 
-(when nil
+(when t
  (setq! ix 0)
- (while  (< ix 10)
+ (while  (< ix 15)
   (princ "setting ") (princ ix) (nl)
   (list-set! v ix (* 2 ix))
   (write v)
@@ -62,4 +62,4 @@
 
 ;(log-eval t)
 
-(list-set! v 10 99)
+;(list-set! v 10 99)
