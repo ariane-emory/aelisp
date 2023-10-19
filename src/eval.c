@@ -123,9 +123,9 @@ bool log_macro = false;
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(COREP(fun));
   
-  bool invalid_args_length = false;
-  int  args_length         = LENGTH(args);
-  ae_obj_t * ret           = NIL;
+  bool       invalid_args_length = false;
+  int        args_length         = LENGTH(args);
+  ae_obj_t * ret                 = NIL;
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
