@@ -158,8 +158,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
                CORE_MAX_ARGS(fun),
                LENGTH(args));
 
-    char * msg = free_list_malloc(strlen(err_msg_tmp) + 1);
-    strcpy(msg, err_msg_tmp);
+    char * err_msg = free_list_malloc(strlen(err_msg_tmp) + 1);
+    strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
     
     ae_obj_t * err_data = NIL;
@@ -168,7 +168,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    return NEW_ERROR(msg, err_data);
+    return NEW_ERROR(err_msg, err_data);
   }
 
   char * msg = free_list_malloc(256);
