@@ -97,7 +97,7 @@ void free_list_reset(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void * free_list_malloc(size_t size) {
-  void      * ptr  = NULL;
+  void            * ptr  = NULL;
   ae_alloc_node_t * node = NULL;
 
   assert(size != 0);
@@ -109,8 +109,8 @@ void * free_list_malloc(size_t size) {
       ptr = &node->data;
             
 #ifdef AE_LOG_FREE_LIST
-      printf("Selected node %p.\n", node);
-      printf("With data at  %p.\n", &node->data);
+      printf("selected node %p\n", node);
+      printf("with data at  %p\n", &node->data);
 #endif
 
       break;
@@ -124,7 +124,7 @@ void * free_list_malloc(size_t size) {
       node->size           = size;
 
 #ifdef AE_LOG_FREE_LIST
-      printf("Split         %p.\n", new_node);
+      printf("split         %p\n", new_node);
 #endif
 
       ae_alloc_node_insert(node, new_node, node->next);
@@ -134,8 +134,14 @@ void * free_list_malloc(size_t size) {
   }
 
 #ifdef AE_LOG_FREE_LIST
-  printf("Returning     %p.\n", ptr);
+  printf("malloced      %p\n", ptr);
 #endif
+
+  if(ptr == NULL) {
+    fprintf(stderr, "\nfree_list_free: failed to malloc!\n");
+    
+    assert(0);
+  }
 
   return ptr;
 }
@@ -169,14 +175,20 @@ static void free_list_coalesce(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void free_list_free(void * ptr) {
+  if(ptr == NULL) {
+    fprintf(stderr, "\nfree_list_free: do not free NULL!\n");
+
+    assert(0);
+  }
+  
 #ifdef AE_LOG_FREE_LIST
-  printf("free          %p\n", ptr);
+  printf("free ptr      %p\n", ptr);
 #endif
 
   ae_alloc_node_t * node = (ae_alloc_node_t *)(uintptr(ptr) - ALLOC_HEADER_SIZE);
 
 #ifdef AE_LOG_FREE_LIST
-  printf("node          %p\n", node);
+  printf("with node     %p\n", node);
 #endif
   
   ae_alloc_node_t * free_node;
