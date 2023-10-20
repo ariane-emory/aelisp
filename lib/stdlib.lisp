@@ -16,6 +16,28 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; type predicates:                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun type?     (typ o) (eq? typ       (type           o)))
+(defun atom?     (o)     (not (type?    :CONS           o)))
+(defun char?     (o)          (type?    :CHAR           o))
+(defun cons?     (o)          (type?    :CONS           o))
+(defun core?     (o)          (type?    :CORE           o))
+(defun env?      (o)          (type?    :ENV            o))
+(defun error?    (o)          (type?    :ERROR          o))
+(defun float?    (o)          (type?    :FLOAT          o))
+(defun integer?  (o)          (type?    :INTEGER        o))
+(defun lambda?   (o)          (type?    :LAMBDA         o))
+(defun λ?        (o)          (type?    :LAMBDA         o))
+(defun macro?    (o)          (type?    :MACRO          o))
+(defun rational? (o)          (type?    :RATIONAL       o))
+(defun string?   (o)          (type?    :STRING         o))
+(defun symbol?   (o)          (type?    :SYMBOL         o))
+(defun improper? (o)     (and (tail? o) (not (proper?   o))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; compound car/cdrs:                                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun caar     (lst)               (car (car lst)))
@@ -97,30 +119,6 @@
 (setq! quasiquote expand-quasiquoted)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-(defmacro make-type-pred (type)
- `(lambda (o) (type? type o)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; type predicates:                                                           ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun type?     (typ o) (eq? typ       (type           o)))
-(defun atom?     (o)     (not (type?    :CONS           o)))
-(defun char?     (o)          (type?    :CHAR           o))
-(defun cons?     (o)          (type?    :CONS           o))
-(defun core?     (o)          (type?    :CORE           o))
-(defun env?      (o)          (type?    :ENV            o))
-(defun error?    (o)          (type?    :ERROR          o))
-(defun float?    (o)          (type?    :FLOAT          o))
-(defun integer?  (o)          (type?    :INTEGER        o))
-(defun lambda?   (o)          (type?    :LAMBDA         o))
-(defun λ?        (o)          (type?    :LAMBDA         o))
-(defun macro?    (o)          (type?    :MACRO          o))
-(defun rational? (o)          (type?    :RATIONAL       o))
-(defun string?   (o)          (type?    :STRING         o))
-(defun symbol?   (o)          (type?    :SYMBOL         o))
-(defun improper? (o)     (and (tail? o) (not (proper?   o))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (retrieving by position):                                        ;;
@@ -538,13 +536,13 @@
      (,name pred? (cdr lst)))
     ,base-case)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun-list-pred-fun any? or  nil)
+(defun-list-pred-fun all? and t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun-list-transform-fun (name transformer)
  `(defun ,name (lsts)
    (when lsts
     (cons (,transformer (car lsts)) (,name (cdr lsts))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-list-pred-fun any? or  nil)
-(defun-list-pred-fun all? and t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-list-transform-fun heads caar)
 (defun-list-transform-fun tails cdar)
