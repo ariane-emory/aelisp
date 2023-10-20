@@ -194,7 +194,7 @@
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-fun (pred? . cond-clauses)
- `(lambda (index lst . rest)
+ `(lambda (x lst . rest)
    (letrec
     ((chase
       (lambda (lst . rest)
@@ -204,18 +204,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
-   ((,pred? (car lst) index) (cdr lst))
+   ((,pred? (car lst) x) (cdr lst))
    (lst (cons (car lst) (chase (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun ,pred?
-   ((,pred? index (car lst)) t)
+   ((,pred? x (car lst)) t)
    (lst (chase (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
  `(make-chase-fun ,pred?
    ((nil? lst) nil)
-   ((,pred? index (car lst)) (car rest))
+   ((,pred? x (car lst)) (car rest))
    (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq   (make-index-fun   eq?))
