@@ -25,7 +25,7 @@ extern bool log_core;
   DO(quote,        true,           1,          1,                              FUNDEF_END)                                \
   DO(cons,         false,          2,          2,                              FUNDEF_END)                                \
   DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
-  DO(apply,        false,          2,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(apply,        true,           2,  UNLIMITED, "apply*",                    FUNDEF_END)                                \
   DO(if,           true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(when,         true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \

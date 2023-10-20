@@ -417,8 +417,14 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
 
     /* This assert should never be reached: */
-    
-    assert(0);
+
+    ae_obj_t * const err_data = NIL;
+
+    KSET(err_data, KW("env"),  env);
+    KSET(err_data, KW("args"), args);
+    KSET(err_data, KW("fun"),  fun);
+
+    return NEW_ERROR("inapplicable", err_data); // early return!
   }
 
   if (MACROP(fun) && (log_eval || log_macro)) {
@@ -432,7 +438,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     : apply_user(env, fun, args);
 
   if (MACROP(fun) && (log_eval || log_macro))
-      OUTDENT;
+    OUTDENT;
 
   if (MACROP(fun)) {
     if (log_eval || log_macro)

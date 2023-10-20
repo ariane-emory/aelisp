@@ -69,7 +69,7 @@
 			 (clean (cdr list) result))
 			(else
 			 (clean (cdr list) (cons (car list) result)))))))
-	(clean (apply append lists))))
+	(clean (apply append2 lists) nil)))
 
 (log-eval t)
 
