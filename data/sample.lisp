@@ -49,9 +49,7 @@
  (cond
   ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
    (error "one of the args must be the symbol 'lst"))
-  (t (error "should not happen"))))
+  (t (error "found lst"))))
 
-(log-eval t)
-
-(test-it (obj lst))
+(test-it (obj j))
 
