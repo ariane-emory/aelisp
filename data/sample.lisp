@@ -13,6 +13,7 @@
 (setq! map           mapcar)
 (setq! every         all?)
 (setq! remove        removeq)
+(setq! collect-if    filter)
 (setq! map-append    mapcan)
 (setq! position-of   indexq)
 (setq! make-vector   make-list)
@@ -23,6 +24,8 @@
  (sort lst predicate))
 (defun %allocate-instance-internal (head . tail)
  head) ;; FAKE PLACEHOLDER
+;; remove-duplicates
+;; union
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -53,3 +56,21 @@
 
 (write (list* 'a 'b '(c d)))
 (nl)
+
+
+
+
+(defun union lists
+ (let*
+  ((clean
+    (lambda (list result)
+		 (cond ((nil? list) result)
+			((memq? (car list) result)
+			 (clean (cdr list) result))
+			(else
+			 (clean (cdr list) (cons (car list) result)))))))
+	(clean (apply append lists))))
+
+(log-eval t)
+
+(union '(1 2 3) '(a b c))
