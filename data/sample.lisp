@@ -1,9 +1,9 @@
 (display (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (nl)
 
-(defun curry1 (fun arg)
- (lambda (x)
-  (apply fun (cons arg x))))
+(defun curry1 (fun arg1)
+ (lambda args
+  (apply fun arg1 args)))
 
 (setq! 2+ (curry1 + 2))
 
