@@ -166,7 +166,7 @@
   COND-CLAUSES: The conditions to process the list."
  (let* ((lst-first     (eq? 'lst (first params)))
         (user-param    (if lst-first (second params) (first params)))
-        (lambda-params (cons (first params) (cons (second params) 'rest)))) 
+        (lambda-params (cons (first params) (cons (second params) 'rest))))
 
   (princ "lst-first:   ")   (princ lst-first)     (nl)
   (princ "user-param:    ") (princ user-param)    (nl)
@@ -179,17 +179,17 @@
    ((not (or lst-first (eq? 'lst (second params))))
     (error "one of the params must be the symbol 'lst"))
    (t `(lambda ,lambda-params
-         (letrec
-          (
-           (chase-internal
-            (lambda (lst ,user-param . rest)
-             (cond
-              ,@cond-clauses)))
-           ;; (chase
-           ;;  (lambda (user . rest)
-           ;;   (chase-internal lst param . rest)))
-            )
-           (chase-internal lst ,user-param . rest)))))))
+        (letrec
+         (
+          (chase-internal
+           (lambda (lst ,user-param . rest)
+            (cond
+             ,@cond-clauses)))
+          ;; (chase
+          ;;  (lambda (user . rest)
+          ;;   (chase-internal lst param . rest)))
+          )
+         (chase-internal lst ,user-param . rest)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
