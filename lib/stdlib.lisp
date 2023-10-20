@@ -198,15 +198,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
   (make-chase-fun (lst index)
-   ((nil? lst) (error "list-set! out of range"))
    ((= index 0) (rplaca! lst (car rest)))
-   (lst (chase (cdr lst) (- index 1) (car rest)))))
+   (lst (chase (cdr lst) (- index 1) (car rest)))
+   (t (error "list-set! out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
   (make-chase-fun (lst index)
-   ((nil? lst) (error "list-ref out of range"))
    ((= index 0) (car lst))
-   (lst (chase (cdr lst) (- index 1)))))
+   (lst (chase (cdr lst) (- index 1)))
+   (t (error "list-ref out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
