@@ -88,7 +88,7 @@
   ((== 0 index) (car lst))
   (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun last                                                                   ;)
+(defun last
  (lst)
  "Get last item in a list."
  (cond
@@ -100,45 +100,45 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; quasiquotation                                                             ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(setq! append2                                                                ;)
+(setq! append2
  (lambda (lst1 lst2)
   "Append two lists."
   (if (nil? lst1)
-   lst2                                                                       ;)
+   lst2
    (cons (car lst1) (append2 (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro expand-quasiquoted (expr)
  "Expand a quasiquoted expression and resolve unquotes and"
  "unquote-splicings within."
  (cond
-  ;; If it's not a cons then it's an atom that we should quote.               ;)
+  ;; If it's not a cons then it's an atom that we should quote.
   ((atom? expr)
    $('quote expr))
-  ;; Directly replace (unquote x) with x.                                     ;)
+  ;; Directly replace (unquote x) with x.
   ((eq? (car expr) 'unquote)
    (car (cdr expr)))
-  ;; If the second element of the list is an unquote-splicing, we want to use ;)
-  ;; append2.                                                                 ;)
-  ((and                                                                       ;)
+  ;; If the second element of the list is an unquote-splicing, we want to use
+  ;; append2.
+  ((and
     (cons? (cdr expr))
     (cons? (cadr expr))
     (eq?   (caadr expr) 'unquote-splicing))
-   $('append2                                                                 ;)
+   $('append2
      $('list $('expand-quasiquoted (car expr)))
      (cadadr expr)))
-  ;; If the second element of the list is an unquote, use cons but without    ;)
-  ;; splicing.                                                                ;)
-  ((and                                                                       ;)
+  ;; If the second element of the list is an unquote, use cons but without
+  ;; splicing.
+  ((and
     (cons? (cdr expr))
     (eq?   (cadr expr) 'unquote))
-   $('cons                                                                    ;)
+   $('cons
      $('expand-quasiquoted (car expr))
      (caddr expr)))
-  ;; Error out for splicing outside of list context                           ;)
+  ;; Error out for splicing outside of list context
   ((eq? (car expr) 'unquote-splicing)
    (error "unquote-splicing can't occur at top level"))
-  ;; If the list is regular, we just recurse on both its parts                ;)
-  (t $('cons                                                                  ;)
+  ;; If the list is regular, we just recurse on both its parts
+  (t $('cons
        $('expand-quasiquoted (car expr))
        $('expand-quasiquoted (cdr expr))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -156,7 +156,7 @@
   ((and (cons? o1) (cons? o2))
    (and (equal? (car o1) (car o2))
     (equal? (cdr o1) (cdr o2))))
-  (t nil)))                                                                   ;)
+  (t nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
@@ -171,11 +171,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 ;; manipulate predicates:                                                     ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun compose-pred1 preds                                                    ;)
+(defun compose-pred1 preds
  "Does what it says on the tin and composes unary predicatess."
  (lambda (val)
-  (lets                                                                       ;)
-   ((fun                                                                      ;)
+  (lets
+   ((fun
      (lambda (preds)
       (cond
        ((nil? (car preds))       t)
@@ -183,7 +183,7 @@
        (t     (fun (cdr preds)))))))
    (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun invert-pred1 pred?                                                     ;)
+(defun invert-pred1 pred?
  "Does what it says on the tin and inverts a unary predicate preds."
  (lambda (val)
   (not (pred? val))))
@@ -196,18 +196,18 @@
 (defun reduce (fun acc lst)
  "Left reduce (fold) list by applying fun to successive pairs."
  (if (nil? lst)
-  acc                                                                         ;)
+  acc
   (reduce fun (fun acc (car lst)) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun reduced (fun)
  "Return a function that is a reduction of the binary function fun."
- (lambda args                                                                 ;)
+ (lambda args
   (reduce fun (car args) (cdr args))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun rreduce (fun acc lst)
  "Right reduce ('foldr') list by applying fun to successive pairs."
  (if (nil? lst)
-  acc                                                                         ;)
+  acc
   (fun (car lst) (rreduce fun acc (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
@@ -524,7 +524,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun-remove-fun removeq eq?)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun-remove-fun removeql eql?)                                              ;i
+(defun-remove-fun removeql eql?)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;i
 (defmacro defun-index-fun (name pred?)
  `(defun ,name (x lst)
