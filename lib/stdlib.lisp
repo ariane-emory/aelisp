@@ -164,18 +164,17 @@
   
   ARGS:         A list that specifies the argument order.
   COND-CLAUSES: The conditions to process the list."
- (if (!= 2 (length args))
-  (error "args needs length 2")
-  (let* ((chase-args (append2 args 'rest))
-         (lambda-args
-          (cons (first args) (cons (second args) 'rest))))
+ (cond
+  ((!= 2 (length args)) (error "args needs length 2"))
+  (t (let* ((chase-args  (append2 args 'rest))
+         (lambda-args (cons (first args) (cons (second args) 'rest))))
    `(lambda ,lambda-args
      (letrec
       ((chase-internal
         (lambda ,chase-args
          (cond
           ,@cond-clauses))))
-      (chase-internal ,@lambda-args))))))
+      (chase-internal ,@lambda-args)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
