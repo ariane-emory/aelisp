@@ -9,7 +9,7 @@
 (setq! null?         nil?)
 (setq! set!          setq!)
 (setq! ???           'unspecified-result)
-;; (setq! letrec        let*)
+(setq! getl          pget)
 (setq! map           mapcar)
 (setq! map-append    mapcan)
 (setq! position-of   indexq)
@@ -52,3 +52,14 @@
 (write (list* 'a 'b '(c d)))
 (nl)
 
+
+(defmacro letrec (bindings &rest body)
+  `(let ,(mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings) ; Step 1
+     ,@(mapcar (lambda (b) `(set! ,(car b) ,(cadr b))) bindings)      ; Step 2
+     ,@body))                                                         ; Step 3
+
+(letrec ((factorial (lambda (n)
+                     (if (<= n 1)
+                         1
+                         (* n (factorial (- n 1)))))))
+  (factorial 5))
