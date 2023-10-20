@@ -18,22 +18,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; type predicates:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun type?     (typ o) (eq? typ      (type           o)))
-(defun atom?     (o)     (not (type?   :CONS           o)))
-(defun char?     (o)          (type?   :CHAR           o))
-(defun cons?     (o)          (type?   :CONS           o))
-(defun core?     (o)          (type?   :CORE           o))
-(defun env?      (o)          (type?   :ENV            o))
-(defun error?    (o)          (type?   :ERROR          o))
-(defun float?    (o)          (type?   :FLOAT          o))
-(defun integer?  (o)          (type?   :INTEGER        o))
-(defun lambda?   (o)          (type?   :LAMBDA         o))
-(defun λ?        (o)          (type?   :LAMBDA         o))
-(defun macro?    (o)          (type?   :MACRO          o))
-(defun rational? (o)          (type?   :RATIONAL       o))
-(defun string?   (o)          (type?   :STRING         o))
-(defun symbol?   (o)          (type?   :SYMBOL         o))
-(defun improper? (o)    (and (tail? o) (not (proper?   o))))
+(defun type?     (typ o) (eq? typ       (type           o)))
+(defun atom?     (o)     (not (type?    :CONS           o)))
+(defun char?     (o)          (type?    :CHAR           o))
+(defun cons?     (o)          (type?    :CONS           o))
+(defun core?     (o)          (type?    :CORE           o))
+(defun env?      (o)          (type?    :ENV            o))
+(defun error?    (o)          (type?    :ERROR          o))
+(defun float?    (o)          (type?    :FLOAT          o))
+(defun integer?  (o)          (type?    :INTEGER        o))
+(defun lambda?   (o)          (type?    :LAMBDA         o))
+(defun λ?        (o)          (type?    :LAMBDA         o))
+(defun macro?    (o)          (type?    :MACRO          o))
+(defun rational? (o)          (type?    :RATIONAL       o))
+(defun string?   (o)          (type?    :STRING         o))
+(defun symbol?   (o)          (type?    :SYMBOL         o))
+(defun improper? (o)     (and (tail? o) (not (proper?   o))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
