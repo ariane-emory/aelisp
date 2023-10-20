@@ -166,13 +166,11 @@
   COND-CLAUSES: The conditions to process the list."
  (let* ((lst-first   (eq? 'lst (first args)))
         (user-arg    (if lst-first (second args) (first args)))
-        (chase-args  (append2 args 'rest))
         (alt-args    (cons 'lst (cons user-arg 'rest)))
         (lambda-args (cons (first args) (cons (second args) 'rest)))) 
 
   (princ "lst-first:   ") (princ lst-first)   (nl)
   (princ "user-arg:    ") (princ user-arg)    (nl)
-  (princ "chase-args:  ") (princ chase-args)  (nl)
   (princ "alt-args:    ") (princ alt-args)    (nl)
   (princ "lambda-args: ") (princ lambda-args) (nl)
   (nl)
@@ -185,7 +183,7 @@
    (t `(lambda ,lambda-args
          (letrec
           ((chase-internal
-            (lambda ,chase-args
+            (lambda (lst ,user-arg . rest)
              (cond
               ,@cond-clauses))))
           (chase-internal ,@lambda-args)))))))
