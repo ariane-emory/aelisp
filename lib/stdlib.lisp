@@ -168,9 +168,15 @@
         (user-arg    (if lst-first (second args) (first args)))
         (chase-args  (append2 args 'rest))
         (alt-args    (cons 'lst (cons user-arg 'rest)))
-        (lambda-args (cons (first args) (cons (second args) 'rest)))
-        ) 
-  (nl) (write chase-args) (nl) (write alt-args) (nl)
+        (lambda-args (cons (first args) (cons (second args) 'rest)))) 
+
+  (princ "lst-first:   ") (princ lst-first)   (nl)
+  (princ "user-arg:    ") (princ user-arg)    (nl)
+  (princ "chase-args:  ") (princ chase-args)  (nl)
+  (princ "alt-args:    ") (princ alt-args)    (nl)
+  (princ "lambda-args: ") (princ lambda-args) (nl)
+  (nl)
+  
   (cond
    ((!= 2 (length args))
     (error "args needs length 2"))
