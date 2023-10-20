@@ -510,24 +510,12 @@
   `(lambda (x lst)
      (letrec
          ((chase
-           (lambda (lst n)
+           (lambda (lst acc)
              (cond
               ((nil? lst) nil)  ; termination condition when end of list is reached
-              ((,pred? x (car lst)) n) ; found the item
-              (t (chase (cdr lst) (+ 1 n)))))))
+              ((,pred? x (car lst)) acc) ; found the item
+              (t (chase (cdr lst) (+ 1 acc)))))))
        (chase lst 0))))
-;; (defmacro make-index-fun (pred?)
-;;  `(lambda (x lst)
-;;    (letrec
-;;     ((chase
-;;       (lambda (x lst)
-;;        (cond
-;;         ((,pred? x (car lst)) 0)
-;;         (lst
-;;          (let ((tail-result (chase x (cdr lst))))
-;;           (when tail-result
-;;            (+ 1 tail-result))))))))
-;;     (chase x lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq  (make-index-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
