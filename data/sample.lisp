@@ -4,7 +4,6 @@
 (setq! else          t)
 (setq! #t            t)
 (setq! #f            nil)
-(setq! assq          aget)
 (setq! define        setq!)
 ;; ^ should be a macro that avoids re-definining what-scheme-implementation
 (setq! null?         nil?)
