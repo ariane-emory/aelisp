@@ -192,17 +192,17 @@
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? (car lst) obj) (cdr lst))
-   (lst (cons (car lst) (chase-internal obj (cdr lst))))))
+   (lst (cons (car lst) (chase-internal (cdr lst) obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) (car rest))
-   (lst (chase-internal obj (cdr lst) (if rest (1+ (car rest)) 1)))))
+   (lst (chase-internal (cdr lst) obj (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) t)
-   (lst (chase-internal obj (cdr lst)))))
+   (lst (chase-internal (cdr lst) obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
