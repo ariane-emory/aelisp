@@ -539,23 +539,12 @@
  `(make-chase-fun ,pred?
    ((,pred? x (car lst)) t)
    (lst (chase (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;jsnam;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro make-index-fun (pred?)
-  `(lambda (x lst)
-    (letrec
-     ((chase
-       (lambda (lst acc)
-        (cond
-         ((nil? lst) nil)  ; termination condition when end of list is reached
-         ((,pred? x (car lst)) acc) ; found the item
-         (t (chase (cdr lst) (+ 1 acc)))))))
-     (chase lst 0))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
   `(make-chase-fun ,pred?
-     ((nil? lst) nil)  ; termination condition when end of list is reached
-     ((,pred? x (car lst)) (car rest)) ; found the item, returning accumulator
-    (t (chase (cdr lst)
-(if rest (1+ (car rest)) 1))))) ; add 1 to accumulator and recurse
+     ((nil? lst) nil)
+     ((,pred? x (car lst)) (car rest))
+     (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! memq?    (make-member-pred eq?))
 (setq! removeq  (make-remove-fun  eq?))
