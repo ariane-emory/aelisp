@@ -1,4 +1,4 @@
-(when nil
+(when t
  (setq! lst (removeql 4 (union2 memql? '(1 2 3 4) '(4 5 2 2))))
  (write lst)
  (nl)
@@ -13,9 +13,10 @@
 
 (setq! lst (make-list 6 1))
 
-(log-eval t)
-(log-core t)
-(log-macro t)
+(when nil
+ (log-eval t)
+ (log-core t)
+(log-macro t))
 
 (list-set! lst 0 2)
 (list-set! lst 4 8)
