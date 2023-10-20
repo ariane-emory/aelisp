@@ -166,6 +166,8 @@
   COND-CLAUSES: The conditions to process the list."
  (cond
   ((!= 2 (length args))  (error "args needs length 2"))
+  ;; ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
+  ;;  (error "one of the args must be the symbol 'lst"))
   (t (let* ((chase-args  (append2 args 'rest))
             (lambda-args (cons (first args) (cons (second args) 'rest))))
       `(lambda ,lambda-args
@@ -175,6 +177,7 @@
             (cond
              ,@cond-clauses))))
          (chase-internal ,@lambda-args)))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
@@ -731,7 +734,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun butlast (lst)
-  "Returns a new list that contains all the elements of the input list except the last one."
-  (if (or (nil? lst) (nil? (cdr lst)))
-      nil
-      (cons (car lst) (butlast (cdr lst)))))
+ "Returns a new list that contains all the elements of the input list except the last one."
+ (if (or (nil? lst) (nil? (cdr lst)))
+  nil
+  (cons (car lst) (butlast (cdr lst)))))

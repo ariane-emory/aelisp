@@ -43,3 +43,13 @@
 ;; (write (2+ 3))
 ;; (nl)
 
+
+(defmacro test (args . cond-clauses)
+ `(cond
+  ((not (or (eq? 'lst (first ,args)) (eq? 'lst (second ,args))))
+   (error "one of the args must be the symbol 'lst"))
+  (t (error "should not happen"))))
+
+(log-macro t)
+(test (obj lst))
+(log-macro nil)
