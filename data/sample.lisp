@@ -16,7 +16,7 @@
 (setq! make-vector   make-list)
 (setq! vector-set!   list-set!)
 (setq! vector-ref    list-ref)
-(setq! vector-length length)
+(setq! vector-length list-length)
 (defun gsort (predicate lst)
  (sort lst predicate))
 (defun %allocate-instance-internal (head . tail)
@@ -49,18 +49,6 @@
   (nl)
   (setq! ix (1+ ix))))
 
-
-
-
- (setq! l '(1 2 a (3 b)))
-
- ;;(log-eval t)
-
- (write (transform integer? double l))
- (nl)
-
-
-
- (write (list* 'a 'b '(c d)))
- (nl)
+(write (list* 'a 'b '(c d)))
+(nl)
 
