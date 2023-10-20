@@ -60,17 +60,20 @@
   (nl)
   (setq! ix (1+ ix))))
 
+
+(defun transform (pred? fun obj)
+  "Transform obj by replacing members matching pred? with the result of
+   applying fun to them or, if obj is not a cons tree, by applying fun to obj."
+  (cond
+   ((and (atom? obj) (pred? obj)) (fun obj))
+   ((atom? obj) obj)
+   (t
+    (cons
+     (transform pred? fun (car obj))
+     (transform pred? fun (cdr obj))))))
+
+(setq! l '(1 2 a (3 b)))
+
 ;;(log-eval t)
 
-;;(list-set! v 10 99)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
-(setq! lst '(1 2 3))
-
-(log-eval t)
-
-(mapcar! double lst)
-
-(write lst)
+(write (transform integer? double l))
