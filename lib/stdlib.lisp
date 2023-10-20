@@ -163,7 +163,6 @@
   the argument order through the ARGS parameter.
   
   ARGS:         A list that specifies the argument order.
-  PRED?:        The predicate function used in conditions.
   COND-CLAUSES: The conditions to process the list."
   (let* ((chase-args (append2 args 'rest))
          (lambda-args (if (= (length args) 2) ; if args are of the form (obj lst)
@@ -185,30 +184,17 @@
 (defmacro make-index-fun (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) (car rest))
-   ((nil? lst) nil)
-   (t (chase obj (cdr lst) (if rest (1+ (car rest)) 1)))))
+   (lst (chase obj (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) t)
    (lst (chase obj (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! indexq   (make-index-fun   eq?))
-(setq! memq?    (make-member-pred eq?))
-(setq! removeq  (make-remove-fun  eq?))
-(setq! indexql  (make-index-fun   eql?))
-(setq! memql?   (make-member-pred eql?))
-(setq! removeql (make-remove-fun  eql?))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (vector-style list API):                                         ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun make-list (size init-val)
- (cond
-  ((zero? size)  nil)
-  (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
   (make-chase-fun (lst index)
@@ -223,6 +209,23 @@
    (t (chase (cdr lst) (- index 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; move these back to where they should be after refactoring:                 ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun make-list (size init-val)
+ (cond
+  ((zero? size)  nil)
+  (t            (cons init-val (make-list (- size 1) init-val)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! indexq   (make-index-fun   eq?))
+(setq! memq?    (make-member-pred eq?))
+(setq! removeq  (make-remove-fun  eq?))
+(setq! indexql  (make-index-fun   eql?))
+(setq! memql?   (make-member-pred eql?))
+(setq! removeql (make-remove-fun  eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
