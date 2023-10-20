@@ -515,7 +515,7 @@
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-fun (pred? . cond-clauses)
- `(lambda (x lst)
+ `(lambda (x lst . rest)
    (letrec
     ((chase
       (lambda (lst)
