@@ -22,6 +22,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
   if (log_core)
     LOG(args, "flattening apply's args:");
 
+  ae_obj_t *       ret           = NIL;
   ae_obj_t * const new_expr      = CONS(CAR(args), NIL);
   ae_obj_t *       new_expr_tail = new_expr;
   ae_obj_t *       pos           = CDR(args);
@@ -34,15 +35,15 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (IS_QUOTE_FORM(arg))
       arg = CADR(arg); // Get the actual content inside (quote ...)
 
-    evaluated_arg         = EVAL(env, CAR(pos));
+    evaluated_arg         = BAIL_IF_ERROR(EVAL(env, CAR(pos)));
     ae_obj_t * const elem = CONS(REQUOTE(evaluated_arg), NIL);
     CDR(new_expr_tail)    = elem;
     new_expr_tail         = elem;
     pos                   = CDR(pos);
   }
 
-  // Handle the last argument
   ae_obj_t * last = CAR(pos);
+
   REQUIRE(env, args, PROPERP(last), "apply requires a proper list as its final argument");
 
   // If the last argument is a quoted list, get its content
@@ -59,11 +60,13 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
   if (log_core)
     LOG(new_expr, "flattened apply's args:");
 
-  ae_obj_t * const ret = EVAL(env, new_expr);
+  ret = BAIL_IF_ERROR(EVAL(env, new_expr));
 
   if (log_core)
     OLOG(ret);
 
+end:
+  
   CORE_RETURN("apply", ret);
 }
 
