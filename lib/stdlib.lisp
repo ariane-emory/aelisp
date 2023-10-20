@@ -519,15 +519,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-index-fun indexql eql?)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-remove-fun (name pred?)
- `(defun ,name (x lst)
-   (cond
-    ((,pred? (car lst) x) (cdr lst))
-    (lst (cons (car lst) (,name x (cdr lst)))))))
+(defmacro make-remove-fun (pred?)
+ `(lambda (x lst)
+   (letrec
+    ((chase
+      (lambda (x lst)
+       (cond
+        ((,pred? (car lst) x) (cdr lst))
+        (lst (cons (car lst) (chase x (cdr lst))))))))
+    (chase x lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-remove-fun removeq eq?)
+(setq! removeq (make-remove-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-remove-fun removeql eql?)
+(setq! removeq (make-remove-fun eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(lambda (x lst)
