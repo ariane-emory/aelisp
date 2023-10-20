@@ -637,12 +637,12 @@
   (princ (÷ total 1000000)) (nl)                                              ;)
   (let ((each-ms (÷ total repetitions 1000)))                                 ;)
    (princ "each ms: ")                                                        ;)
-   (princ (÷ total repetitions 1000))                                         ;)
-   (nl)                                                                       ;)
-   each-ms)))                                                                 ;)
+   (princ (÷ total repetitions 1000))
+   (nl)
+   each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun apply* (proc . args)                                                   ;)
- (apply proc (apply list* args)))                                             ;)
+(defun apply* (proc . args)
+ (apply proc (apply list* args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
