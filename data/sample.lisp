@@ -1,6 +1,6 @@
 
-
-(write (removeql 4 (union2 memql? '(1 2 3 4) '(4 5 2 2))))
+(setq! lst (removeql 4 (union2 memql? '(1 2 3 4) '(4 5 2 2))))
+(write lst)
 (nl)
 
 
