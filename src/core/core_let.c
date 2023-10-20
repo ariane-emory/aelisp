@@ -64,7 +64,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ret           = ae_core_progn(new_env, body, LENGTH(body));
+  ret = BAIL_IF_ERROR(ae_core_progn(new_env, body, LENGTH(body)));
 
 end:
   
@@ -135,7 +135,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ret           = ae_core_progn(new_env, body, LENGTH(body));
+  ret = BAIL_IF_ERROR(ae_core_progn(new_env, body, LENGTH(body)));
 
 end:
   
@@ -204,7 +204,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ret = ae_core_progn(new_env, body, LENGTH(body));
+  ret = BAIL_IF_ERROR(ae_core_progn(new_env, body, LENGTH(body)));
 
 end:
   
