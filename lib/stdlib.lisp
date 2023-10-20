@@ -82,8 +82,8 @@
    (cons (car lst1) (append2 (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro expand-quasiquoted (expr)
- "Expand a quasiquoted expression and resolve unquotes and"
- "unquote-splicings within."
+ "Expand a quasiquoted expression and resolve unquotes and
+  unquote-splicings within."
  (cond
   ;; If it's not a cons then it's an atom that we should quote.
   ((atom? expr)
@@ -292,15 +292,15 @@
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
- "Map fun over list for side-effects only, ignoring the results and returning";)
- "nil."
+ "Map fun over list for side-effects only, ignoring the results and returning
+  nil."
  (when lst
   (fun (car lst))
   (mapc fun (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst delimiter)
- "Map fun over list, returning the result of concatenating the resulting"
- "strings."
+ "Map fun over list, returning the result of concatenating the resulting
+  strings."
  (if lst
   (reduce
    (lambda (acc item)
@@ -401,8 +401,8 @@
 (setq! left-nested-zip (reduced zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro zip lists
- "Zip many lists. This might not flatten properly if the zipped elements are"
- "themselves lists."
+ "Zip many lists. This might not flatten properly if the zipped elements are
+  themselves lists."
  (if (cdr lists)
   `(mapcar flatten (left-nested-zip ,@lists))
   `(mapcar list   ,(car lists))))
@@ -413,8 +413,8 @@
 ;; list funs (transform):                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform! (pred? fun obj)
- "Destructively transform the cons tree obj by replacing members matching"
- "pred? with the result of applying fun to them."
+ "Destructively transform the cons tree obj by replacing members matching
+  pred? with the result of applying fun to them."
  (if (atom? obj)
   (error "obj must be a list")
   (cond
@@ -432,9 +432,9 @@
   obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform (pred? fun obj)
- "Transform obj by replacing members matching pred? with the result of"
- "applying fun to them or, if obj is not a cons tree, by applying fun to"
- "obj."
+ "Transform obj by replacing members matching pred? with the result of
+  applying fun to them or, if obj is not a cons tree, by applying fun to
+  obj."
  (cond
   ((and (atom? obj) (pred? obj)) (fun obj))
   ((atom? obj) obj)
@@ -444,8 +444,8 @@
     (transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prefetch (expr)
- "Try to optimize expr by replacing it's symbol? members with the result of"
- "looking them up. This is, mysteriously, not a very effective optimization."
+ "Try to optimize expr by replacing it's symbol? members with the result of
+  looking them up. This is, mysteriously, not a very effective optimization."
  (transform!
   (lambda (x) (and (symbol? x) (bound? x)))
   (lambda (x) (eval x))
@@ -623,8 +623,8 @@
 ;; log toggle helpers, these should be replaced with macros:                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun with-toggled-fun1 (toggled-fun)
- "Get a function that enables toggled-fun, evaluates fun-or-expr and sets"
- "toggled-fun back to it's prior state."
+ "Get a function that enables toggled-fun, evaluates fun-or-expr and sets
+  toggled-fun back to it's prior state."
  (lambda (fun-or-expr)
   (if (lambda? fun-or-expr)
    (let* ((old    (toggled-fun t))
@@ -637,8 +637,8 @@
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun with-toggled-fun (toggled-fun)
- "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets"
- "toggled-fun back to it's prior state."
+ "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets
+  toggled-fun back to it's prior state."
  (lambda funs-or-exprs
   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -694,8 +694,8 @@
 (setq! 2*     double)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun benchmark (repetitions print-interval qexpr)
- "Benchmark expr by running it repetitions time and returning the"
- "total/average time in ms, printing updates ever print-interval iterations."
+ "Benchmark expr by running it repetitions time and returning the
+  total/average time in ms, printing updates ever print-interval iterations."
  (nl)
  (let ((ctr   0)
        (total 0))
