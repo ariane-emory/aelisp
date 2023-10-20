@@ -539,11 +539,11 @@
  `(lambda (x lst)
    (letrec
     ((chase?
-      (lambda (x lst)
+      (lambda (lst)
        (cond
         ((,pred? x (car lst)) t)
-        (lst (chase? x (cdr lst)))))))
-    (chase? x lst))))
+        (lst (chase? (cdr lst)))))))
+    (chase? lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! memql? (make-member-pred eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
