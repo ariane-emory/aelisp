@@ -61,16 +61,7 @@
 
 
 
-(defun union lists
- (let*
-  ((clean
-    (lambda (list result)
-		 (cond ((nil? list) result)
-			((memq? (car list) result)
-			 (clean (cdr list) result))
-			(else
-			 (clean (cdr list) (cons (car list) result)))))))
-	(clean (eval `(apply append2 ',(car lists) (list '( ,@(cadr lists))))) nil)))
+
 
 
 (defun union-helper (lst result)
@@ -83,12 +74,42 @@
    (union-helper (cdr lst) new-result))))
 
 (defun union (list1 list2)
-    (union-helper list2 (union-helper list1 '())))
+ (union-helper list2 (union-helper list1 '())))
+
+;; (define memq?
+;;   (lambda (item list)
+;;     (cond ((null? list) #f)
+;;           ((eq? item (car list)) #t)
+;;           (else (memq? item (cdr list))))))
+
+(defun union-helper (lst result)
+ (if (null? lst)
+  result
+  (let* ((current (car lst))
+         (new-result (if (memq? current result)
+                      result
+                      (cons current result))))
+   (union-helper (cdr lst) new-result))))
+
+(defun union (list1 list2)
+ (union-helper list2 (union-helper list1 '())))
+
+
+(defun memq? (item list)
+  (cond ((null? list) nil)
+        ((eq? item (car list)) t)
+        (t (memq? item (cdr list)))))
+
+(defun union (list1 list2)
+  (let* ((union1 (reduce (lambda (acc x) (if (memql? x acc) acc (cons x acc))) '() list1)))
+    (reduce (lambda (acc x) (if (memql? x acc) acc (cons x acc))) union1 list2)))
 
 (display (union '(1 2 3 4) '(4 5 2 2)))
 
 
 
-(log-eval t)
 
-(union '(1 2 3) '(a b c))
+
+;; (log-eval t)
+
+;; (union '(1 2 3) '(a b c))
