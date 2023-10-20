@@ -452,30 +452,6 @@
  (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
-(defmacro make-chase-fun (pred? . cond-clauses)
-  "Create a function to traverse a list based on a predicate.
-  
-  This macro generates a function that accepts two parameters:
-  - A value to search or operate on.
-  - A list to process.
-
-  The generated function uses an inner recursive function `chase`
-  to traverse the list and apply the conditions from `cond-clauses`.
-
-  Suitable for operations like searching, indexing, or removing items
-  from a list based on the provided predicate.
-
-  Use this when:
-  - You want to process a list based on a value (like searching for a value).
-  - The resulting function needs only the list and a target value.
-  - Additional accumulator or state variables aren't needed during recursion."
-  `(lambda (x lst)
-     (letrec
-         ((chase
-           (lambda (lst)
-            (cond
-             ,@cond-clauses))))
-       (chase lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-list-fun (pred? . cond-clauses)
   "Create a function to traverse and manipulate a list based on an index or condition.
@@ -503,19 +479,19 @@
              ,@cond-clauses))))
        (chase lst x . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun list-set! (lst index val)
- (cond
-  ((nil? lst)   (error "list-set! out of range"))
-  ((== 0 index) (rplaca! lst val))
-  (t            (list-set! (cdr lst) (- index 1) val))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun list-ref (lst index)
- "This is basically nth but with the parameter order revered and raising an"
- "error if the index is out of range."
- (cond
-  ((nil? lst)   (error "list-ref out of range"))
-  ((== 0 index) (car lst))
-  (t            (list-ref (cdr lst) (- index 1)))))
+;; (defun list-set! (lst index val)
+;;  (cond
+;;   ((nil? lst)   (error "list-set! out of range"))
+;;   ((== 0 index) (rplaca! lst val))
+;;   (t            (list-set! (cdr lst) (- index 1) val))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun list-ref (lst index)
+;;  "This is basically nth but with the parameter order revered and raising an"
+;;  "error if the index is out of range."
+;;  (cond
+;;   ((nil? lst)   (error "list-ref out of range"))
+;;   ((== 0 index) (car lst))
+;;   (t            (list-ref (cdr lst) (- index 1)))))
 
 (setq! list-set!
   (make-chase-list-fun ==
