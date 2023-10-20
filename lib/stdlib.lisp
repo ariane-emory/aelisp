@@ -33,7 +33,7 @@
 (defun rational? (o)          (type?   :RATIONAL       o))
 (defun string?   (o)          (type?   :STRING         o))
 (defun symbol?   (o)          (type?   :SYMBOL         o))
-(defun improper? (o)     (and (tail? o) (not (proper?   o))))
+(defun improper? (o)    (and (tail? o) (not (proper?   o))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
 
