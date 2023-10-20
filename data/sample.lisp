@@ -5,6 +5,7 @@
 (setq! #t            t)
 (setq! #f            nil)
 (setq! define        setq!)
+(setq! display       write)
 ;; ^ should be a macro that avoids re-definining what-scheme-implementation
 (setq! null?         nil?)
 (setq! set!          setq!)
@@ -69,7 +70,24 @@
 			 (clean (cdr list) result))
 			(else
 			 (clean (cdr list) (cons (car list) result)))))))
-	(clean (apply append2 lists) nil)))
+	(clean (eval `(apply append2 ',(car lists) (list '( ,@(cadr lists))))) nil)))
+
+
+(defun union-helper (lst result)
+ (if (null? lst)
+  result
+  (let* ((current (car lst))
+         (new-result (if (memq? current result)
+                      result
+                      (cons current result))))
+   (union-helper (cdr lst) new-result))))
+
+(defun union (list1 list2)
+    (union-helper list2 (union-helper list1 '())))
+
+(display (union '(1 2 3 4) '(4 5 2 2)))
+
+
 
 (log-eval t)
 
