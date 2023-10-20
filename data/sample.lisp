@@ -10,7 +10,7 @@
 (setq! null?         nil?)
 (setq! set!          setq!)
 (setq! ???           'unspecified-result)
-(setq! letrec        let*)
+;; (setq! letrec        let*)
 (setq! map           mapcar)
 (setq! position-of   indexq)
 (setq! make-vector   make-list)
@@ -33,27 +33,34 @@
 (setq! v (make-list 10 0))
 
 (when t
+
  (setq! ix 0)
- 
  (until  (== ix 10)
   (princ "setting ") (princ ix) (nl)
   (list-set! v ix (* 2 ix))
   (write v)
+  (nl)
+  (setq! ix (1+ ix)))
+
+ (setq! ix 0)
+ (until  (== ix 10)
+  (princ "getting ") (princ ix) (princ ": ")
+  (princ (list-ref v ix))
   (nl)
   (setq! ix (1+ ix))))
 
 
 
 
-(setq! l '(1 2 a (3 b)))
+ (setq! l '(1 2 a (3 b)))
 
-;;(log-eval t)
+ ;;(log-eval t)
 
-(write (transform integer? double l))
-(nl)
+ (write (transform integer? double l))
+ (nl)
 
 
 
-(write (list* 'a 'b '(c d)))
-(nl)
+ (write (list* 'a 'b '(c d)))
+ (nl)
 
