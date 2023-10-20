@@ -15,6 +15,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(defmacro make-type-pred (type)
+ `(lambda (o) (type? type o)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; type predicates:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -196,6 +199,56 @@
 (setq! indexql  (make-index-fun   eql?))
 (setq! memql?   (make-member-pred eql?))
 (setq! removeql (make-remove-fun  eql?))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; list funs (vector-style list API):                                         ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun make-list (size init-val)
+ (cond
+  ((== 0 size)  nil)
+  (t            (cons init-val (make-list (- size 1) init-val)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-chase-list-fun (pred? . cond-clauses)
+  "Create a function to traverse and manipulate a list based on an index or condition.
+  
+  This macro generates a function that accepts at least two parameters:
+  - A list to process.
+  - An index or condition to determine the operation.
+  - Optionally, other arguments for operations (e.g., a replacement value).
+
+  The generated function uses an inner recursive function `chase`
+  to traverse the list and apply the conditions from `cond-clauses`.
+
+  Suitable for operations that involve manipulating lists in a vector-style
+  (like setting a value at a specific index or retrieving a value).
+
+  Use this when:
+  - You want to process a list based on an index or another list-based condition.
+  - The resulting function may need more than two arguments.
+  - You need to maintain state (like an accumulator) across recursive calls."
+  `(lambda (lst x . rest)
+     (letrec
+         ((chase
+           (lambda (lst x . rest)
+            (cond
+             ,@cond-clauses))))
+       (chase lst x . rest))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! list-set!
+  (make-chase-list-fun ==
+   ((nil? lst) (error "list-set! out of range"))
+   ((== x 0) (rplaca! lst (car rest)))
+   (t (chase (cdr lst) (- x 1) (car rest)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! list-ref
+  (make-chase-list-fun ==
+   ((nil? lst) (error "list-ref out of range"))
+   ((== x 0) (car lst))
+   (t (chase (cdr lst) (- x 1)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -395,56 +448,6 @@
   (lambda (x) (and (symbol? x) (bound? x)))
   (lambda (x) (eval x))
   expr))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list funs (vector-style list API):                                         ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun make-list (size init-val)
- (cond
-  ((== 0 size)  nil)
-  (t            (cons init-val (make-list (- size 1) init-val)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-list-fun (pred? . cond-clauses)
-  "Create a function to traverse and manipulate a list based on an index or condition.
-  
-  This macro generates a function that accepts at least two parameters:
-  - A list to process.
-  - An index or condition to determine the operation.
-  - Optionally, other arguments for operations (e.g., a replacement value).
-
-  The generated function uses an inner recursive function `chase`
-  to traverse the list and apply the conditions from `cond-clauses`.
-
-  Suitable for operations that involve manipulating lists in a vector-style
-  (like setting a value at a specific index or retrieving a value).
-
-  Use this when:
-  - You want to process a list based on an index or another list-based condition.
-  - The resulting function may need more than two arguments.
-  - You need to maintain state (like an accumulator) across recursive calls."
-  `(lambda (lst x . rest)
-     (letrec
-         ((chase
-           (lambda (lst x . rest)
-            (cond
-             ,@cond-clauses))))
-       (chase lst x . rest))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! list-set!
-  (make-chase-list-fun ==
-   ((nil? lst) (error "list-set! out of range"))
-   ((== x 0) (rplaca! lst (car rest)))
-   (t (chase (cdr lst) (- x 1) (car rest)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! list-ref
-  (make-chase-list-fun ==
-   ((nil? lst) (error "list-ref out of range"))
-   ((== x 0) (car lst))
-   (t (chase (cdr lst) (- x 1)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
