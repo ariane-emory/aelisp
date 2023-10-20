@@ -175,26 +175,26 @@
  `(lambda (obj lst . rest)
      (letrec
          ((chase
-           (lambda (lst . rest)
+           (lambda (obj lst . rest)
             (cond
              ,@cond-clauses))))
-       (chase lst . rest))))
+       (chase obj lst . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
    ((,pred? (car lst) obj) (cdr lst))
-   (lst (cons (car lst) (chase (cdr lst))))))
+   (lst (cons (car lst) (chase obj (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun ,pred?
    ((,pred? obj (car lst)) t)
-   (lst (chase (cdr lst)))))
+   (lst (chase obj (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
  `(make-chase-fun ,pred?
    ((nil? lst) nil)
    ((,pred? obj (car lst)) (car rest))
-   (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
+   (t (chase obj (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq   (make-index-fun   eq?))
 (setq! memq?    (make-member-pred eq?))
