@@ -529,15 +529,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-remove-fun removeql eql?)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-member-fun (name pred?)
- `(defun ,name (x lst)
-   (cond
-	  ((,pred? x (car lst)) t)
-	  (lst (,name x (cdr lst))))))
+(defmacro make-member-pred (pred?)
+ `(lambda (x lst)
+  (letrec
+    ((chase?
+      (lambda (x lst)
+       (cond
+        ((,pred? x (car lst)) t)
+        (lst (chase? x (cdr lst)))))))
+    (chase? x lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-member-fun memql? eql?)
+(setq! memql? (make-member-pred eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-member-fun memq?  eq?)
+(setq! memq?  (make-member-pred eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;i
 (defun union2 (memp? list1 list2)
  "Return the union of two lists."

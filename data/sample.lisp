@@ -26,12 +26,12 @@
 (defmacro make-member-pred (pred?)
  `(lambda (x lst)
   (letrec
-    ((chase
+    ((chase?
       (lambda (x lst)
        (cond
         ((,pred? x (car lst)) t)
-        (lst (mmemql? x (cdr lst)))))))
-    (chase x lst))))
+        (lst (chase? x (cdr lst)))))))
+    (chase? x lst))))
 
 (setq! mmemql? (make-member-pred eql?))
 
