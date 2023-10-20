@@ -525,11 +525,11 @@
  `(lambda (x lst)
    (letrec
     ((chase
-      (lambda (x lst)
+      (lambda (lst)
        (cond
         ((,pred? (car lst) x) (cdr lst))
-        (lst (cons (car lst) (chase x (cdr lst))))))))
-    (chase x lst))))
+        (lst (cons (car lst) (chase (cdr lst))))))))
+    (chase lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! removeq (make-remove-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
