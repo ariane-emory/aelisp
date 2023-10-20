@@ -456,18 +456,17 @@
   ((== 0 index) (car lst))
   (t            (list-ref (cdr lst) (- index 1)))))
 
-;; (setq! list-set!
-;;   (make-chase-fun eql?
-;;    ((nil? lst) (error "list-set! out of range"))
-;;    ((== x 0) (rplaca! lst (car rest)))
-;;    (t (chase (cdr lst) (- x 1) (car rest)))))
+(setq! list-set!
+  (make-chase-list-fun ==
+   ((nil? lst) (error "list-set! out of range"))
+   ((== x 0) (rplaca! lst (car rest)))
+   (t (chase (cdr lst) (- x 1) (car rest)))))
 
-;; (setq! list-ref
-;;   (make-chase-fun eq?
-;;    ((nil? lst) (error "list-ref out of range"))
-;;    ((== x 0) (car lst))
-;;    (t (chase (cdr lst) (- x 1)))))
-
+(setq! list-ref
+  (make-chase-list-fun ==
+   ((nil? lst) (error "list-ref out of range"))
+   ((== x 0) (car lst))
+   (t (chase (cdr lst) (- x 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
