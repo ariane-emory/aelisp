@@ -154,7 +154,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
   static ae_obj_t * dummy   = NULL;
 
   if (!dummy)
-    dummy = KW("dummy");
+    dummy = KW("DUMMY");
   
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
   REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
