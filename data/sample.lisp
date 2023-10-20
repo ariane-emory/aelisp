@@ -2,7 +2,12 @@
 (nl)
 
 
+(setq! union2q
+ (lambda (lst1 lst2)
+  (union2 memql? lst1 lst2)))
 
+(setq! unionq
+ (reduced union2q))
 
 
 
