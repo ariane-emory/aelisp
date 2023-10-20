@@ -139,7 +139,7 @@
 (defun nth (index lst)
  "Get the nth item in a list."
  (cond
-  ((== 0 index) (car lst))
+  ((= 0 index) (car lst))
   (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun last
@@ -164,7 +164,7 @@
   PRED?:        The predicate function used in conditions.
   COND-CLAUSES: The conditions to process the list."
   (let* ((chase-args (append2 args 'rest))
-         (lambda-args (if (== (length args) 2) ; if args are of the form (obj lst)
+         (lambda-args (if (= (length args) 2) ; if args are of the form (obj lst)
                           (cons (first args) (cons (second args) 'rest))
                           (cons (first args) rest-arg))))
     `(lambda ,lambda-args
@@ -205,19 +205,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-list (size init-val)
  (cond
-  ((== 0 size)  nil)
+  ((= 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
   (make-chase-fun (lst index)
    ((nil? lst) (error "list-set! out of range"))
-   ((== index 0) (rplaca! lst (car rest)))
+   ((= index 0) (rplaca! lst (car rest)))
    (t (chase (cdr lst) (- index 1) (car rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
   (make-chase-fun (lst index)
    ((nil? lst) (error "list-ref out of range"))
-   ((== index 0) (car lst))
+   ((= index 0) (car lst))
    (t (chase (cdr lst) (- index 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
@@ -558,8 +558,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; even?/odd? predicates:                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun even?   (n) "t if n is even." (== 0 (% n 2 )))
-(defun odd?    (n) "t if n is odd."  (== 1 (% n 2 )))
+(defun even?   (n) "t if n is even." (= 0 (% n 2 )))
+(defun odd?    (n) "t if n is odd."  (= 1 (% n 2 )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; always?/never? predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -674,7 +674,7 @@
    (let ((before (time)))
     (eval qexpr)
     (setq! total (+ total (elapsed before))))
-   (when (== 0 (% ctr print-interval))
+   (when (= 0 (% ctr print-interval))
     (nl)
     (princ "Iteration #")
     (princ ctr)
