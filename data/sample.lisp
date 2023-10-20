@@ -3,6 +3,8 @@
 (write lst)
 (nl)
 
+(write (indexql 1 lst))
+(nl)
 
 ;; (write (indexql 2 (removeql 4 (union2 memql? '(1 2 3 4) '(4 5 2 2)))))
 ;; (nl)

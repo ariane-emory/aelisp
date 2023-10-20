@@ -551,8 +551,7 @@
          (t (chase (cdr lst) (+ 1 acc)))))))
      (chase lst 0))))
 (defmacro make-index-fun (pred?)
-  `(make-chase-fun 
-     ,pred?
+  `(make-chase-fun ,pred?
      ((nil? lst) nil)  ; termination condition when end of list is reached
      ((,pred? x (car lst)) (car rest)) ; found the item, returning accumulator
      (t (chase (cdr lst) (+ 1 (car rest)))))) ; add 1 to accumulator and recurse
