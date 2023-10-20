@@ -202,7 +202,7 @@
 (defun reduced (fun)                                                          ;)
  "Return a function that is a reduction of the binary function fun."          ;)
  (lambda args                                                                 ;)
-  (reduce fun (car args) (cdr args))))                                        ;)
+  (reduce fun (car args) (cadr args))))                                        ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun rreduce (fun acc lst)                                                  ;)
  "Right reduce ('foldr') list by applying fun to successive pairs."           ;)

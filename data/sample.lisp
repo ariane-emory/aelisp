@@ -122,9 +122,9 @@
     union1 list2)))
 
 (defun union (memp? list1 list2)
-  (let* ((combine (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
-         (union1 (reduce combine nil list1)))
-    (reduce combine union1 list2)))
+  (let* ((combine (reduced (lambda (acc x) (if (memp? x acc) acc (cons x acc)))))
+         (union1 (combine '() list1)))
+    (combine union1 list2)))
 
 (log-eval t)
 (display (union memql? '(1 2 3 4) '(4 5 2 2)))
