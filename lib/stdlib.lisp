@@ -157,26 +157,25 @@
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-fun (args . cond-clauses)
-  "Creates a function for recursive traversal and processing of lists.
+ "Creates a function for recursive traversal and processing of lists.
   
   This macro is a generalized version that allows customization of 
   the argument order through the ARGS parameter.
   
   ARGS:         A list that specifies the argument order.
   COND-CLAUSES: The conditions to process the list."
+ (if (!= 2 (length args))
+  (error "args needs length 2")
   (let* ((chase-args (append2 args 'rest))
-         (lambda-args (if (= (length args) 2) ; if args are of the form (obj lst)
-                          (cons (first args) (cons (second args) 'rest))
-                          (cons (first args) rest-arg))))
-    `(lambda ,lambda-args
-       (letrec
-           ((chase-internal
-             (lambda ,chase-args
-              (cond
-               ,@cond-clauses)))
-            (chase nil)
-            )
-        (chase-internal ,@lambda-args)))))
+         (lambda-args
+          (cons (first args) (cons (second args) 'rest))))
+   `(lambda ,lambda-args
+     (letrec
+      ((chase-internal
+        (lambda ,chase-args
+         (cond
+          ,@cond-clauses))))
+      (chase-internal ,@lambda-args))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
@@ -199,16 +198,16 @@
 ;; list funs (vector-style list API):                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
-  (make-chase-fun (lst index)
-   ((= index 0) (rplaca! lst (car rest)))
-   (lst (chase-internal (cdr lst) (- index 1) (car rest)))
-   (t (error "list-set! out of range"))))
+ (make-chase-fun (lst index)
+  ((= index 0) (rplaca! lst (car rest)))
+  (lst (chase-internal (cdr lst) (- index 1) (car rest)))
+  (t (error "list-set! out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
-  (make-chase-fun (lst index)
-   ((= index 0) (car lst))
-   (lst (chase-internal (cdr lst) (- index 1)))
-   (t (error "list-ref out of range"))))
+ (make-chase-fun (lst index)
+  ((= index 0) (car lst))
+  (lst (chase-internal (cdr lst) (- index 1)))
+  (t (error "list-ref out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -704,7 +703,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; tiny-clos scheme compat:
+;; tiny-clos scheme compat:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil?
  (setq! #f            nil)
