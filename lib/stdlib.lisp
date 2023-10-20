@@ -166,12 +166,10 @@
   COND-CLAUSES: The conditions to process the list."
  (let* ((lst-first   (eq? 'lst (first params)))
         (user-param    (if lst-first (second params) (first params)))
-        (alt-params    (cons 'lst (cons user-param 'rest)))
         (lambda-params (cons (first params) (cons (second params) 'rest)))) 
 
   (princ "lst-first:   ") (princ lst-first)   (nl)
   (princ "user-param:    ") (princ user-param)    (nl)
-  (princ "alt-params:    ") (princ alt-params)    (nl)
   (princ "lambda-params: ") (princ lambda-params) (nl)
   (nl)
   
