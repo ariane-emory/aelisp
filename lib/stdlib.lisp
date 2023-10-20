@@ -165,14 +165,14 @@
   ARGS:         A list that specifies the argument order.
   COND-CLAUSES: The conditions to process the list."
  (let* ((lst-first (eq? 'lst (first args)))
-        (user-arg  (if lst-first (second args) (first args))))
+        (user-arg  (if lst-first (second args) (first args)))
+        (chase-args  (append2 args 'rest)))
   (cond
    ((!= 2 (length args))
     (error "args needs length 2"))
    ((not (or lst-first (eq? 'lst (second args))))
     (error "one of the args must be the symbol 'lst"))
-   (t (let* ((chase-args  (append2 args 'rest))
-             (lambda-args (cons (first args) (cons (second args) 'rest))))
+   (t (let* ((lambda-args (cons (first args) (cons (second args) 'rest))))
        `(lambda ,lambda-args
          (letrec
           ((chase-internal
