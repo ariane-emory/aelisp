@@ -11,6 +11,7 @@
 (setq! ???           'unspecified-result)
 ;; (setq! letrec        let*)
 (setq! map           mapcar)
+(setq! map-append    mapcan)
 (setq! position-of   indexq)
 (setq! make-vector   make-list)
 (setq! vector-set!   list-set!)
