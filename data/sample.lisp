@@ -1,26 +1,23 @@
+(when nil
+ (setq! lst (removeql 4 (union2 memql? '(1 2 3 4) '(4 5 2 2))))
+ (write lst)
+ (nl)
 
-(setq! lst (removeql 4 (union2 memql? '(1 2 3 4) '(4 5 2 2))))
+ (write (indexql 1 lst))
+ (nl)
+
+ (write (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
+ (nl))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq! lst (make-list 6 5))
+
+(list-set! lst 4 8)
+(list-set! lst 5 10)
+
 (write lst)
 (nl)
-
-(write (indexql 1 lst))
-(nl)
-
-(write (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
-(nl)
-
-;; (write
-;;  (letrec
-;;   ((factorial
-;;     (lambda (n)
-;;      (if (< n 2)
-;;       1
-;;       (* n (factorial (- n 1)))))))
-;;   (factorial 5)))
-;; (nl)
-
-;; (write (memql? 4 '(1 2 3 4 5 6 7)))
-;; (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
