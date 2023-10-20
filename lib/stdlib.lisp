@@ -165,7 +165,7 @@
   ARGS:         A list that specifies the argument order.
   COND-CLAUSES: The conditions to process the list."
  (cond
-  ((!= 2 (length args)) (error "args needs length 2"))
+  ((!= 2 (length args))  (error "args needs length 2"))
   (t (let* ((chase-args  (append2 args 'rest))
          (lambda-args (cons (first args) (cons (second args) 'rest))))
    `(lambda ,lambda-args
