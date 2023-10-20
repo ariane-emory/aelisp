@@ -1,17 +1,9 @@
 (display (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (nl)
 
-(defun curry1 (fun arg1)
- (lambda args
-  (apply fun arg1 args)))
-
-(setq! 2+ (curry1 + 2))
-
-(write (2+ 3)) (nl)
-
-(setq! union2
+(setq! union2q
  (lambda (lst1 lst2)
-  (union2 memql? lst1 lst2)))
+  (union2 memq? lst1 lst2)))
 
 (setq! unionq
  (reduced union2q))
@@ -30,3 +22,12 @@
  (factorial 5)))
 
 (nl)
+
+(defun curry1 (fun arg1)
+ (lambda args
+  (apply fun arg1 args)))
+
+(setq! 2+ (curry1 + 2))
+
+(write (2+ 3)) (nl)
+
