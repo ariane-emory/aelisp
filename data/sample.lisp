@@ -94,19 +94,45 @@
 ;; (defun union (list1 list2)
 ;;  (union-helper list2 (union-helper list1 '())))
 
+(defun union (test? lst1 lst2)
+  (if (null? lst1)
+      lst2
+      (if (apply memq? lst1 lst2)
+          (union test? (cdr lst1) lst2)
+          (cons (car lst1) (union test? (cdr lst1) lst2)))))
+
+(defun mem? (test? elem lst)
+  (cond ((null? lst) nil)
+        ((test? elem (car lst)) t)
+        (t (memq? test? elem (cdr lst)))))
 
 
 
 (defun union (memp? list1 list2)
-  (let* ((union1 (reduce (lambda (acc x) (if (memp? x acc) acc (cons x acc))) '() list1)))
-    (reduce (lambda (acc x) (if (memp? x acc) acc (cons x acc))) union1 list2)))
+ (let* ((union1 (reduce
+                 (lambda (acc x) (if (memp? x acc)
+                                  acc
+                                  (cons x acc)))
+                 nil list1)))
+  (reduce
+   (lambda (acc x)
+            (if (memp? x acc)
+             acc
+             (cons x acc)))
+    union1 list2)))
 
+(defun union (memp? list1 list2)
+  (let* ((combine (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
+         (union1 (reduce combine nil list1)))
+    (reduce combine union1 list2)))
+
+(log-eval t)
 (display (union memql? '(1 2 3 4) '(4 5 2 2)))
 
 
+ 
 
 
 
-;; (log-eval t)
 
 ;; (union '(1 2 3) '(a b c))
