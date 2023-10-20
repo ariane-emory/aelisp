@@ -505,19 +505,23 @@
 (defun-list-transform-fun heads caar)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-list-transform-fun tails cdar)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;jsnam;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-index-fun (pred?)
+ (lambda (x lst)
+  (letrec
+   ((chase
+     (lambda (x lst)
+      (cond
+       ((,pred? x (car lst)) 0)
+       (lst
+        (let ((tail-result (chase x (cdr lst))))
+         (when tail-result
+          (+ 1 tail-result))))))))
+   (chase x lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-index-fun (name pred?)
- `(defun ,name (x lst)
-   (cond
-    ((,pred? x (car lst)) 0)
-    (lst
-     (let ((tail-result (,name x (cdr lst))))
-      (when tail-result
-       (+ 1 tail-result)))))))
+(setq! indexq  (make-index-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-index-fun indexq eq?)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-index-fun indexql eql?)
+(setq! indexql (make-index-fun eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(lambda (x lst)
