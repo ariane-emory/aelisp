@@ -400,6 +400,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * fun = EVAL(env, head);
   ae_obj_t * ret = NIL;
+
+  while (ERRORP(fun));
   
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
