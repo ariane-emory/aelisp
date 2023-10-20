@@ -84,14 +84,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nth (index lst)
  "Get the nth item in a list."
- (cond                                                                        ;)
+ (cond
   ((== 0 index) (car lst))
   (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun last                                                                   ;)
  (lst)
  "Get last item in a list."
- (cond                                                                        ;)
+ (cond
   ((nil? (cdr lst)) lst)
   (lst              (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -110,7 +110,7 @@
 (defmacro expand-quasiquoted (expr)
  "Expand a quasiquoted expression and resolve unquotes and"
  "unquote-splicings within."
- (cond                                                                        ;)
+ (cond
   ;; If it's not a cons then it's an atom that we should quote.               ;)
   ((atom? expr)
    $('quote expr))
@@ -151,7 +151,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun equal? (o1 o2)
  "True when o1 and o2 are eql? or cons trees whose atomic mebers are equal?."
- (cond                                                                        ;)
+ (cond
   ((and (atom? o1) (atom? o2)) (eql? o1 o2))
   ((and (cons? o1) (cons? o2))
    (and (equal? (car o1) (car o2))
@@ -177,7 +177,7 @@
   (lets                                                                       ;)
    ((fun                                                                      ;)
      (lambda (preds)
-      (cond                                                                   ;)
+      (cond
        ((nil? (car preds))       t)
        ((not  ((car preds) val)) nil)
        (t     (fun (cdr preds)))))))
@@ -263,7 +263,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun nconc2! (lst1 lst2)
  "Destructively join two lists."
- (cond                                                                        ;)
+ (cond
   ((nil? lst1) lst2)
   (t           (rplacd! (last lst1) lst2) lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -300,7 +300,7 @@
 ;; list funs (flattening):                                                    ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten1 (lst)
- (cond                                                                        ;)
+ (cond
   ((nil? lst) nil)
   ((tail? (car lst))
    (append (car lst) (flatten1 (cdr lst))))
@@ -325,7 +325,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun zip2 (lst1 lst2)
  "Zip two lists."
- (cond                                                                        ;)
+ (cond
   ((∨ (nil? lst1) (nil? lst2)) nil)
   (t  (cons  $((car lst1) (car lst2))
        (zip2   (cdr lst1) (cdr lst2))))))
@@ -353,15 +353,15 @@
  "pred? with the result of applying fun to them."
  (if (atom? obj)
   (error "obj must be a list")
-  (cond                                                                       ;)
+  (cond
    ((pred? obj) (set! obj (fun obj)))
    ((cons? obj)
     (let ((head (car obj))
           (tail (cdr obj)))
-     (cond                                                                    ;)
+     (cond
       ((pred? head) (rplaca! obj (fun head)))
       ((cons? head) (transform! pred? fun head)))
-     (cond                                                                    ;)
+     (cond
       ((pred? tail) (rplacd! obj (fun tail)))
       ((cons? tail) (rplacd! obj (transform! pred? fun tail))))))
    (t obj))
@@ -371,7 +371,7 @@
  "Transform obj by replacing members matching pred? with the result of"
  "applying fun to them or, if obj is not a cons tree, by applying fun to"
  "obj."
- (cond                                                                        ;)
+ (cond
   ((and (atom? obj) (pred? obj)) (fun obj))
   ((atom? obj) obj)
   (t                                                                          ;)
@@ -393,12 +393,12 @@
 ;; list funs (vector-style list API):                                         ;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun make-list (size init-val)
- (cond                                                                        ;)
+ (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun list-set! (lst index val)
- (cond                                                                        ;)
+ (cond
   ((nil? lst)   (error "list-set! out of range"))
   ((== 0 index) (rplaca! lst val))
   (t            (list-set! (cdr lst) (- index 1) val))))
@@ -406,7 +406,7 @@
 (defun list-ref (lst index)
  "This is basically nth but with the parameter order revered and raising an"
  "error if the index is out of range."
- (cond                                                                        ;)
+ (cond
   ((nil? lst)   (error "list-ref out of range"))
   ((== 0 index) (car lst))
   (t            (list-ref (cdr lst) (- index 1)))))
@@ -440,7 +440,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun merge (predicate lst1 lst2)
  "Merges two sorted lists based on predicate."
- (cond                                                                        ;)
+ (cond
   ((not lst1) lst2)
   ((not lst2) lst1)
   ((predicate (car lst1) (car lst2))
@@ -457,7 +457,7 @@
  (let*                                                                        ;)
   ((chase                                                                     ;)
 	  (lambda (args)
-		 (cond                                                                    ;)
+		 (cond
       ((nil? args)       nil)
 		  ((nil? (cdr args)) (car args))
 		  (t                 (cons (car args) (chase (cdr args))))))))
@@ -466,12 +466,12 @@
 (defun depth (lst)
  "Get the depth of a nested list structure. This one is untested."
  (if (atom? lst)
-  0                                                                           ;)
+  0
   (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun filter (pred? lst)
  "Return a list containing those members of lst satisfying pred?."
- (cond                                                                        ;)
+ (cond
   ((nil? lst) nil)
   ((pred? (car lst))
    (cons (car lst) (filter pred? (cdr lst))))
@@ -508,7 +508,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun-mem-fun (name pred?)
  `(defun ,name (x lst)
-   (cond                                                                      ;)
+   (cond
 	  ((,pred? (car lst) x) t)
 	  (lst (,name x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
@@ -518,7 +518,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun-remove-fun (name pred?)
  `(defun ,name (x lst)
-   (cond                                                                      ;)
+   (cond
     ((,pred? (car lst) x) (cdr lst))
     (lst (cons (car lst) (,name x (cdr lst)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
