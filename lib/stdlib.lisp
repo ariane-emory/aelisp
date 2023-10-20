@@ -453,9 +453,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (unsorted):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun list* args                                                             ;;
- (let*                                                                        ;;
-  ((chase                                                                     ;;
+(defun list* args
+ (let*
+  ((chase
 	  (lambda (args)
 		 (cond
       ((nil? args)       nil)
@@ -482,13 +482,13 @@
  (if (∨ (nil? lst) (nil? (cdr lst)))
   lst
   (cons (car lst)
-   (cons intercalated                                                         ;;
+   (cons intercalated
     (intercalate intercalated (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun-list-pred-fun (name combiner base-case)
  `(defun ,name (pred? lst)
    (if lst
-    (,combiner                                                                ;;
+    (,combiner
      (pred? (car lst))
      (,name pred? (cdr lst)))
     ,base-case)))
