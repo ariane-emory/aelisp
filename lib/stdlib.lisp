@@ -479,26 +479,12 @@
              ,@cond-clauses))))
        (chase lst x . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun list-set! (lst index val)
-;;  (cond
-;;   ((nil? lst)   (error "list-set! out of range"))
-;;   ((== 0 index) (rplaca! lst val))
-;;   (t            (list-set! (cdr lst) (- index 1) val))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun list-ref (lst index)
-;;  "This is basically nth but with the parameter order revered and raising an"
-;;  "error if the index is out of range."
-;;  (cond
-;;   ((nil? lst)   (error "list-ref out of range"))
-;;   ((== 0 index) (car lst))
-;;   (t            (list-ref (cdr lst) (- index 1)))))
-
 (setq! list-set!
   (make-chase-list-fun ==
    ((nil? lst) (error "list-set! out of range"))
    ((== x 0) (rplaca! lst (car rest)))
    (t (chase (cdr lst) (- x 1) (car rest)))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
   (make-chase-list-fun ==
    ((nil? lst) (error "list-ref out of range"))
@@ -735,32 +721,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; (when nil?
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  ;; tiny-clos scheme compat:
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (setq! #f            nil)
-;;  (setq! #t            t)
-;;  (setq! ???           'unspecified-result)
-;;  (setq! assoc         ahas) 
-;;  (setq! assq          aget) 
-;;  (setq! collect-if    filter)
-;;  (setq! define        setq!)
-;;  (setq! display       write) ;should should be a macro that avoids re-defining what-scheme-implementation
-;;  (setq! else          t)
-;;  (setq! every         all?)
-;;  (defun funcall args  (eval args))
-;;  (setq! getl          pget)
-;;  (setq! gsort         sort)
-;;  (setq! make-vector   make-list)
-;;  (setq! map           mapcar)
-;;  (setq! map-append    mapcan)
-;;  (setq! null?         nil?)
-;;  (setq! position-of   indexq)
-;;  (setq! remove        removeq)
-;;  (setq! set!          setq!)
-;;  (setq! vector-length list-length)
-;;  (setq! vector-ref    list-ref)
-;;  (setq! vector-set!   list-set!)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  )
+(when nil?
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; tiny-clos scheme compat:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! #f            nil)
+ (setq! #t            t)
+ (setq! ???           'unspecified-result)
+ (setq! assoc         ahas) 
+ (setq! assq          aget) 
+ (setq! collect-if    filter)
+ (setq! define        setq!)
+ (setq! display       write) ;should should be a macro that avoids re-defining what-scheme-implementation
+ (setq! else          t)
+ (setq! every         all?)
+ (defun funcall args  (eval args))
+ (setq! getl          pget)
+ (setq! gsort         sort)
+ (setq! make-vector   make-list)
+ (setq! map           mapcar)
+ (setq! map-append    mapcan)
+ (setq! null?         nil?)
+ (setq! position-of   indexq)
+ (setq! remove        removeq)
+ (setq! set!          setq!)
+ (setq! vector-length list-length)
+ (setq! vector-ref    list-ref)
+ (setq! vector-set!   list-set!)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
