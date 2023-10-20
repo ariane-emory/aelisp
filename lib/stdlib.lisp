@@ -154,40 +154,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun (pred? . cond-clauses)
-  "Create a function to traverse a list based on a predicate.
+
+(defmacro make-chase-fun-generalized (args pred? . cond-clauses)
+  "Creates a function for recursive traversal and processing of lists.
   
-  This macro generates a function that accepts at leas two parameters:
-  - A value to search or operate on.
-  - A list to process.
-  - Optionally, other arguments for operations.
+  This macro is a generalized version that allows customization of 
+  the argument order through the ARGS parameter.
+  
+  ARGS:         A list that specifies the argument order.
+  PRED?:        The predicate function used in conditions.
+  COND-CLAUSES: The conditions to process the list."
+  (let* ((chase-args (append2 args 'rest))
+         (lambda-args (if (== (length args) 2) ; if args are of the form (obj lst)
+                          (cons (first args) (cons (second args) 'rest))
+                          (cons (first args) rest-arg))))
+    `(lambda ,lambda-args
+       (letrec
+           ((chase
+             (lambda ,chase-args
+              (cond
+               ,@cond-clauses))))
+        (chase ,@lambda-args)))))
 
-  The generated function uses an inner recursive function `chase`
-  to traverse the list and apply the conditions from `cond-clauses`.
 
-  Suitable for operations like searching, indexing, or removing items
-  from a list based on the provided predicate.
 
-  Use this when:
-  - You want to process a list based on a value (like searching for a value).
-  - The resulting function needs only the list and a target value.
-  - Additional accumulator or state variables aren't needed during recursion."
- `(lambda (obj lst . rest)
-     (letrec
-         ((chase
-           (lambda (obj lst . rest)
-            (cond
-             ,@cond-clauses))))
-      (chase obj lst . rest))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun-2 (pred? . cond-clauses)
- `(lambda (obj lst . rest)
-     (letrec
-         ((chase
-           (lambda (obj lst . rest)
-            (cond
-             ,@cond-clauses))))
-       (chase obj lst . rest))))
+
+(defmacro make-chase-fun (pred? . cond-clauses)
+  `(make-chase-fun-generalized (obj lst) ,pred? ,@cond-clauses))
+
+(defmacro make-list-chase-fun (pred? . cond-clauses)
+  `(make-chase-fun-generalized (lst index) ,pred? ,@cond-clauses))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
@@ -223,24 +220,7 @@
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro make-list-chase-fun (pred? . cond-clauses)
-  "Create a function to process a list with additional list-based parameters.
-  
-  This macro generates a function that accepts multiple parameters:
-  - The primary value to search or operate on.
-  - A list to process.
-  - Any additional parameters needed for specific operations (e.g., index, accumulator).
-
-  The generated function uses an inner recursive function `chase`
-  to traverse the list and apply the conditions from `cond-clauses`.
-
-  Suitable for operations that require:
-  - Index-based operations where the position in the list matters.
-  - Recursive list-building based on certain criteria.
-  - Operations with accumulators or state across recursive calls.
-  - Handling of nested or complex list structures.
-
-  Use this macro when the task involves more intricate list processing
-  that goes beyond just searching or simple modifications."
+  "..."
   `(lambda (lst index . rest)
      (letrec
          ((chase
