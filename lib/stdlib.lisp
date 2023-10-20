@@ -554,7 +554,8 @@
   `(make-chase-fun ,pred?
      ((nil? lst) nil)  ; termination condition when end of list is reached
      ((,pred? x (car lst)) (car rest)) ; found the item, returning accumulator
-     (t (chase (cdr lst) (+ 1 (car rest)))))) ; add 1 to accumulator and recurse
+    (t (chase (cdr lst)
+(if rest (1+ (car rest)) 1))))) ; add 1 to accumulator and recurse
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! memq?    (make-member-pred eq?))
 (setq! removeq  (make-remove-fun  eq?))
