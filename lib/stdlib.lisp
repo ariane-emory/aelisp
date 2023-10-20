@@ -147,50 +147,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; equal? predicate:                                                          ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun equal? (o1 o2)
- "True when o1 and o2 are eql? or cons trees whose atomic mebers are equal?."
- (cond
-  ((and (atom? o1) (atom? o2)) (eql? o1 o2))
-  ((and (cons? o1) (cons? o2))
-   (and (equal? (car o1) (car o2))
-    (equal? (cdr o1) (cdr o2))))
-  (t nil)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; even?/odd? predicates:                                                     ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun even? (n) "t if n is even." (== 0 (% n 2 )))
-(defun odd?  (n) "t if n is odd."  (== 1 (% n 2 )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; manipulate predicates:                                                     ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun compose-pred1 preds
- "Does what it says on the tin and composes unary predicatess."
- (lambda (val)
-  (lets
-   ((fun
-     (lambda (preds)
-      (cond
-       ((nil? (car preds))       t)
-       ((not  ((car preds) val)) nil)
-       (t     (fun (cdr preds)))))))
-   (fun preds))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun invert-pred1 pred?
- "Does what it says on the tin and inverts a unary predicate preds."
- (lambda (val)
-  (not (pred? val))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-fun (pred? . cond-clauses)
@@ -664,6 +620,51 @@
 (defun printns args       (apply printni (cons " " args)))
 (defun putns   args       (apply putni   (cons " " args)))
 (defun writens args       (apply writeni (cons " " args)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; equal? predicate:                                                          ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun equal? (o1 o2)
+ "True when o1 and o2 are eql? or cons trees whose atomic mebers are equal?."
+ (cond
+  ((and (atom? o1) (atom? o2)) (eql? o1 o2))
+  ((and (cons? o1) (cons? o2))
+   (and (equal? (car o1) (car o2))
+    (equal? (cdr o1) (cdr o2))))
+  (t nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; even?/odd? predicates:                                                     ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun even? (n) "t if n is even." (== 0 (% n 2 )))
+(defun odd?  (n) "t if n is odd."  (== 1 (% n 2 )))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; manipulate predicates:                                                     ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun compose-pred1 preds
+ "Does what it says on the tin and composes unary predicatess."
+ (lambda (val)
+  (lets
+   ((fun
+     (lambda (preds)
+      (cond
+       ((nil? (car preds))       t)
+       ((not  ((car preds) val)) nil)
+       (t     (fun (cdr preds)))))))
+   (fun preds))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun invert-pred1 pred?
+ "Does what it says on the tin and inverts a unary predicate preds."
+ (lambda (val)
+  (not (pred? val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
