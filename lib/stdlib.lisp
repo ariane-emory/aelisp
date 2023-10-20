@@ -154,7 +154,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun (args pred? . cond-clauses)
+(defmacro make-chase-fun (args . cond-clauses)
   "Creates a function for recursive traversal and processing of lists.
   
   This macro is a generalized version that allows customization of 
@@ -176,18 +176,18 @@
         (chase ,@lambda-args)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
- `(make-chase-fun (obj lst) ,pred?
+ `(make-chase-fun (obj lst)
    ((,pred? (car lst) obj) (cdr lst))
    (lst (cons (car lst) (chase obj (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
- `(make-chase-fun (obj lst) ,pred?
+ `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) (car rest))
    ((nil? lst) nil)
    (t (chase obj (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
- `(make-chase-fun (obj lst) ,pred?
+ `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) t)
    (lst (chase obj (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -209,13 +209,13 @@
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
-  (make-chase-fun (lst index) ==
+  (make-chase-fun (lst index)
    ((nil? lst) (error "list-set! out of range"))
    ((== index 0) (rplaca! lst (car rest)))
    (t (chase (cdr lst) (- index 1) (car rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
-  (make-chase-fun (lst index) ==
+  (make-chase-fun (lst index)
    ((nil? lst) (error "list-ref out of range"))
    ((== index 0) (car lst))
    (t (chase (cdr lst) (- index 1)))))
