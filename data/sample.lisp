@@ -13,6 +13,7 @@
 
 (setq! lst (make-list 6 5))
 
+(list-set! lst 0 2)
 (list-set! lst 4 8)
 (list-set! lst 5 10)
 
