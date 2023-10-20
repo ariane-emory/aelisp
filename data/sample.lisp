@@ -9,6 +9,10 @@
      (* n (factorial (- n 1)))))))
  (factorial 5)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(exit)
+
 (defun curry1 (fun arg1)
  (lambda args
   (apply fun arg1 args)))
