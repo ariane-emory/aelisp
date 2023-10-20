@@ -201,6 +201,34 @@
        (cond
         ,@cond-clauses))))
     (chase lst . rest))))
+(defmacro make-chase-fun (pred? . cond-clauses)
+  "Create a function to traverse a list based on a predicate.
+  
+  This macro generates a function that accepts two parameters:
+  - A value to search or operate on.
+  - A list to process.
+
+  The generated function uses an inner recursive function `chase`
+  to traverse the list and apply the conditions from `cond-clauses`.
+
+  Suitable for operations like searching, indexing, or removing items
+  from a list based on the provided predicate.
+
+  Use this when:
+  - You want to process a list based on a value (like searching for a value).
+  - The resulting function needs only the list and a target value.
+  - Additional accumulator or state variables aren't needed during recursion."
+  `(lambda (x lst . rest)
+     (letrec
+         ((chase
+           (lambda (lst . rest)
+            (cond
+             ,@cond-clauses))))
+       (chase lst . rest))))
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
