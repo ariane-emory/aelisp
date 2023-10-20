@@ -136,12 +136,12 @@
 (defun eleventh (lst)  (caddr (cddddr (cddddr lst))))
 (defun twelfth  (lst) (cadddr (cddddr (cddddr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun zero     (n)   (= n 0))
+(defun zero?     (n)   (= n 0))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nth (index lst)
  "Get the nth item in a list."
  (cond
-  ((= 0 index) (car lst))
+  ((zero? index) (car lst))
   (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun last
@@ -207,7 +207,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-list (size init-val)
  (cond
-  ((= 0 size)  nil)
+  ((zero? size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
@@ -560,7 +560,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; even?/odd? predicates:                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun even?   (n) "t if n is even." (= 0 (% n 2 )))
+(defun even?   (n) "t if n is even." (zero? (% n 2 )))
 (defun odd?    (n) "t if n is odd."  (= 1 (% n 2 )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; always?/never? predicates:
@@ -676,7 +676,7 @@
    (let ((before (time)))
     (eval qexpr)
     (setq! total (+ total (elapsed before))))
-   (when (= 0 (% ctr print-interval))
+   (when (zero? (% ctr print-interval))
     (nl)
     (princ "Iteration #")
     (princ ctr)
