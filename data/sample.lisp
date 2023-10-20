@@ -55,8 +55,17 @@
 
 (defmacro letrec (bindings . body)
  `(let ,(mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings) ; Step 1
-   ,@(mapcar (lambda (b) `(set! ,(car b) ,(cadr b))) bindings)      ; Step 2
+   ,@(mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)      ; Step 2
    ,@body))                                                         ; Step 3
+
+(defmacro letrec (bindings . body)
+ (let ((initial-bindings (mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings))
+       (set-bindings (mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)))
+  `(let ,initial-bindings
+    ,@set-bindings
+    ,@body)))
+
+(log-macro t)
 
 (letrec
  ((factorial (lambda (n)

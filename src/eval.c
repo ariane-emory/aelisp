@@ -429,6 +429,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? apply_core(env, fun, args)
     : apply_user(env, fun, args);
 
+  if (MACROP(fun) && (log_eval || log_macro))
+      OUTDENT;
+
   if (MACROP(fun)) {
     if (log_eval || log_macro)
       LOG(ret, "expansion");
@@ -442,8 +445,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
     ret = EVAL(env, ret);
 
-    if (log_eval || log_macro) {
-      OUTDENT;
+    if (MACROP(fun) && (log_eval || log_macro)) {
+      //OUTDENT;
 
       LOG(ret, "evaled expansion");
     }
