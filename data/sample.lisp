@@ -41,6 +41,13 @@
   (list-set! v ix (* 2 ix))
   (write v)
   (nl)
+  (setq! ix (1+ ix)))
+
+  (until  (== ix 10)
+  (princ "getting ") (princ ix) (nl)
+  (list-ref v ix)
+  (write v)
+  (nl)
   (setq! ix (1+ ix))))
 
 
@@ -53,16 +60,12 @@
 (write (transform integer? double l))
 (nl)
 
-(define list*
- (lambda args
-  (let*
-   ((chase
-	   (lambda (args)
-		  (cond
-       ((nil? args)       nil)
-		   ((nil? (cdr args)) (car args))
-		   (t                 (cons (car args) (chase (cdr args))))))))
-   (chase args))))
+
 
 (write (list* 'a 'b '(c d)))
 (nl)
+
+(defmacro letrec (bindings &rest body)
+  `(let ,(mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings) ; Step 1
+     ,@(mapcar (lambda (b) `(set! ,(car b) ,(cadr b))) bindings)      ; Step 2
+     ,@body))                                                         ; Step 3
