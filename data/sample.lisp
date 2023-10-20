@@ -64,27 +64,6 @@
 
 ;;(list-set! v 10 99)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-(defun mapcar! (fun lst)                                                      ;)
- "Map fun over list, altering the list."                                      ;)
- (when lst                                                                    ;)
-  (rplaca! (mapcar! fun (cdr lst)) (fun (car lst)))))                         ;)
-(defun mapcar! (fun lst)
-  "Map fun over list, altering the list."
-  (when lst
-    (rplaca! lst (fun (car lst))) ; replace the current element
-    (when (cdr lst)               ; check if there's a next element
-      (mapcar! fun (cdr lst)))   ; recursively process the rest of the list
-    lst))                        ; return the modified list
-                                        ; return the modified list
-(defun mapcar! (fun lst)
-  "Map fun over list, altering the list."
-  (cond
-   ((nil? lst) nil) ; base case: if the list is nil, return nil
-   (t
-    (rplaca! lst (fun (car lst))) ; replace the current element
-    (mapcar! fun (cdr lst))       ; recursively process the rest of the list
-    lst)))                        ; return the modified list
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
