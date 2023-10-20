@@ -217,12 +217,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcar (fun lst)
  "Map fun over list, returning the resulting list."
- (when lst                                                                    ;)
+ (when lst
   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcar! (fun lst)
  "Map fun over list, altering the list."
- (when lst                                                                    ;)
+ (when lst
   (rplaca! lst (fun (car lst)))
   (mapcar! fun (cdr lst))
   lst))
@@ -230,14 +230,14 @@
 (defun mapc (fun lst)
  "Map fun over list for side-effects only, ignoring the results and returning";)
  "nil."
- (when lst                                                                    ;)
+ (when lst
   (fun (car lst))
   (mapc fun (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapconcat (fun lst delimiter)
  "Map fun over list, returning the result of concatenating the resulting"
  "strings."
- (if lst                                                                      ;)
+ (if lst
   (reduce                                                                     ;)
    (lambda (acc item)
     (concat acc delimiter item))
@@ -247,7 +247,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun mapcan (fun lst)
  "Map fun over list and concatenate the results by altering them."
- (when lst                                                                    ;)
+ (when lst
   (let ((result (fun (car lst)))
         (rest   (mapcan fun (cdr lst))))
    (if result                                                                 ;)
@@ -313,7 +313,7 @@
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun flatten (lst)
- (when lst                                                                    ;)
+ (when lst
   (if (cons? (car lst))
    (append (flatten (car lst)) (flatten (cdr lst)))
    (cons (car lst) (flatten (cdr lst))))))
@@ -480,14 +480,14 @@
 (defun intercalate (intercalated lst)
  "Intercalate intercalated between items."
  (if (∨ (nil? lst) (nil? (cdr lst)))
-  lst                                                                       ;)
+  lst
   (cons (car lst)
    (cons intercalated                                                         ;)
     (intercalate intercalated (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun-list-pred-fun (name combiner base-case)
  `(defun ,name (pred? lst)
-   (if lst                                                                    ;)
+   (if lst
     (,combiner                                                                ;)
      (pred? (car lst))
      (,name pred? (cdr lst)))
