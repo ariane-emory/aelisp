@@ -207,6 +207,9 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   
   FOR_EACH(option, args) {
     ret = BAIL_IF_ERROR(EVAL(env, option));
+
+    if (log_core)
+      LOG(ret, "and option");
     
     if (NILP(ret))
       RETURN(NIL);
