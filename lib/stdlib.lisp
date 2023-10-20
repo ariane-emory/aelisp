@@ -192,15 +192,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (tail chasers):                                                  ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun (pred? . cond-clauses)
- `(lambda (x lst . rest)
-   (letrec
-    ((chase
-      (lambda (lst . rest)
-       (cond
-        ,@cond-clauses))))
-    (chase lst . rest))))
 (defmacro make-chase-fun (pred? . cond-clauses)
   "Create a function to traverse a list based on a predicate.
   
@@ -461,14 +452,56 @@
  (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
+(defmacro make-chase-fun (pred? . cond-clauses)
+  "Create a function to traverse a list based on a predicate.
+  
+  This macro generates a function that accepts two parameters:
+  - A value to search or operate on.
+  - A list to process.
+
+  The generated function uses an inner recursive function `chase`
+  to traverse the list and apply the conditions from `cond-clauses`.
+
+  Suitable for operations like searching, indexing, or removing items
+  from a list based on the provided predicate.
+
+  Use this when:
+  - You want to process a list based on a value (like searching for a value).
+  - The resulting function needs only the list and a target value.
+  - Additional accumulator or state variables aren't needed during recursion."
+  `(lambda (x lst)
+     (letrec
+         ((chase
+           (lambda (lst)
+            (cond
+             ,@cond-clauses))))
+       (chase lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-list-fun (pred? . cond-clauses)
- `(lambda (lst x . rest)
-   (letrec
-    ((chase
-      (lambda (lst x . rest)
-       (cond
-        ,@cond-clauses))))
-    (chase lst x . rest))))
+  "Create a function to traverse and manipulate a list based on an index or condition.
+  
+  This macro generates a function that accepts at least two parameters:
+  - A list to process.
+  - An index or condition to determine the operation.
+  - Optionally, other arguments for operations (e.g., a replacement value).
+
+  The generated function uses an inner recursive function `chase`
+  to traverse the list and apply the conditions from `cond-clauses`.
+
+  Suitable for operations that involve manipulating lists in a vector-style
+  (like setting a value at a specific index or retrieving a value).
+
+  Use this when:
+  - You want to process a list based on an index or another list-based condition.
+  - The resulting function may need more than two arguments.
+  - You need to maintain state (like an accumulator) across recursive calls."
+  `(lambda (lst x . rest)
+     (letrec
+         ((chase
+           (lambda (lst x . rest)
+            (cond
+             ,@cond-clauses))))
+       (chase lst x . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list-set! (lst index val)
  (cond
