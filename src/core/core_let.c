@@ -9,6 +9,7 @@
 ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let");
 
+  ae_obj_t *       ret = NIL;
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -39,7 +40,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     ae_obj_t * val =
       SYMBOLP(varlist_item)
       ? NIL
-      : EVAL(env, CADR(varlist_item));
+      : BAIL_IF_ERROR(EVAL(env, CADR(varlist_item)));
 
 
     if (log_core) {
@@ -63,7 +64,9 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ae_obj_t * ret           = ae_core_progn(new_env, body, LENGTH(body));
+  ret           = ae_core_progn(new_env, body, LENGTH(body));
+
+end:
   
   CORE_RETURN("let", ret);
 }
@@ -75,6 +78,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let_star");
 
+  ae_obj_t * ret           = NIL;
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -108,7 +112,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
     ae_obj_t * val =
       SYMBOLP(varlist_item)
       ? NIL
-      : EVAL(new_env, CADR(varlist_item));
+      : BAIL_IF_ERROR(EVAL(new_env, CADR(varlist_item)));
 
     if (log_core) {
       if (SYMBOLP(varlist_item))
@@ -131,7 +135,9 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ae_obj_t * ret           = ae_core_progn(new_env, body, LENGTH(body));
+  ret           = ae_core_progn(new_env, body, LENGTH(body));
+
+end:
   
   CORE_RETURN("let_star", ret);
 }
