@@ -16,15 +16,16 @@
 (when nil
  (log-eval t)
  (log-core t)
-(log-macro t))
+ (log-macro t))
 
 (list-set! lst 0 2)
 (list-set! lst 4 8)
 (list-set! lst 5 10)
 
-(exit)
+(princ "here ")
 (write lst)
 (nl)
+(exit)
 
 (write (list-ref lst 4))
 (nl)
