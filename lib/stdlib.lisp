@@ -156,37 +156,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun (args . cond-clauses)
+(defmacro make-chase-fun (params . cond-clauses)
  "Creates a function for recursive traversal and processing of lists.
   
   This macro is a generalized version that allows customization of 
-  the argument order through the ARGS parameter.
+  the parameter order through the PARAMS parameter.
   
-  ARGS:         A list that specifies the argument order.
+  PARAMS:       A list that specifies the parameter order.
   COND-CLAUSES: The conditions to process the list."
- (let* ((lst-first   (eq? 'lst (first args)))
-        (user-arg    (if lst-first (second args) (first args)))
-        (alt-args    (cons 'lst (cons user-arg 'rest)))
-        (lambda-args (cons (first args) (cons (second args) 'rest)))) 
+ (let* ((lst-first   (eq? 'lst (first params)))
+        (user-param    (if lst-first (second params) (first params)))
+        (alt-params    (cons 'lst (cons user-param 'rest)))
+        (lambda-params (cons (first params) (cons (second params) 'rest)))) 
 
   (princ "lst-first:   ") (princ lst-first)   (nl)
-  (princ "user-arg:    ") (princ user-arg)    (nl)
-  (princ "alt-args:    ") (princ alt-args)    (nl)
-  (princ "lambda-args: ") (princ lambda-args) (nl)
+  (princ "user-param:    ") (princ user-param)    (nl)
+  (princ "alt-params:    ") (princ alt-params)    (nl)
+  (princ "lambda-params: ") (princ lambda-params) (nl)
   (nl)
   
   (cond
-   ((!= 2 (length args))
-    (error "args needs length 2"))
-   ((not (or lst-first (eq? 'lst (second args))))
-    (error "one of the args must be the symbol 'lst"))
-   (t `(lambda ,lambda-args
+   ((!= 2 (length params))
+    (error "params needs length 2"))
+   ((not (or lst-first (eq? 'lst (second params))))
+    (error "one of the params must be the symbol 'lst"))
+   (t `(lambda ,lambda-params
          (letrec
           ((chase-internal
-            (lambda (lst ,user-arg . rest)
+            (lambda (lst ,user-param . rest)
              (cond
               ,@cond-clauses))))
-          (chase-internal lst ,user-arg . rest)))))))
+          (chase-internal lst ,user-param . rest)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
