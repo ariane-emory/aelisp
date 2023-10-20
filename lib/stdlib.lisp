@@ -213,7 +213,7 @@
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-list-fun (pred? . cond-clauses)
+(defmacro make-list-chase-fun (pred? . cond-clauses)
   "Create a function to traverse and manipulate a list based on an index or condition.
   
   This macro generates a function that accepts at least two parameters:
@@ -240,13 +240,13 @@
        (chase lst index . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
-  (make-chase-list-fun ==
+  (make-list-chase-fun ==
    ((nil? lst) (error "list-set! out of range"))
    ((== index 0) (rplaca! lst (car rest)))
    (t (chase (cdr lst) (- index 1) (car rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
-  (make-chase-list-fun ==
+  (make-list-chase-fun ==
    ((nil? lst) (error "list-ref out of range"))
    ((== index 0) (car lst))
    (t (chase (cdr lst) (- index 1)))))
