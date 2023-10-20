@@ -82,29 +82,26 @@
 ;;           ((eq? item (car list)) #t)
 ;;           (else (memq? item (cdr list))))))
 
-(defun union-helper (lst result)
- (if (null? lst)
-  result
-  (let* ((current (car lst))
-         (new-result (if (memq? current result)
-                      result
-                      (cons current result))))
-   (union-helper (cdr lst) new-result))))
+;; (defun union-helper (lst result)
+;;  (if (null? lst)
+;;   result
+;;   (let* ((current (car lst))
+;;          (new-result (if (memq? current result)
+;;                       result
+;;                       (cons current result))))
+;;    (union-helper (cdr lst) new-result))))
 
-(defun union (list1 list2)
- (union-helper list2 (union-helper list1 '())))
+;; (defun union (list1 list2)
+;;  (union-helper list2 (union-helper list1 '())))
 
 
-(defun memq? (item list)
-  (cond ((null? list) nil)
-        ((eq? item (car list)) t)
-        (t (memq? item (cdr list)))))
 
-(defun union (list1 list2)
-  (let* ((union1 (reduce (lambda (acc x) (if (memql? x acc) acc (cons x acc))) '() list1)))
-    (reduce (lambda (acc x) (if (memql? x acc) acc (cons x acc))) union1 list2)))
 
-(display (union '(1 2 3 4) '(4 5 2 2)))
+(defun union (memp? list1 list2)
+  (let* ((union1 (reduce (lambda (acc x) (if (memp? x acc) acc (cons x acc))) '() list1)))
+    (reduce (lambda (acc x) (if (memp? x acc) acc (cons x acc))) union1 list2)))
+
+(display (union memql? '(1 2 3 4) '(4 5 2 2)))
 
 
 
