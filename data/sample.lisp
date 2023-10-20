@@ -1,4 +1,4 @@
-(display (union2 memql? '(1 2 3 4) '(4 5 2 2)))
+(display (remove 4 (union2 memql? '(1 2 3 4) '(4 5 2 2))))
 (nl)
 
 (display (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
