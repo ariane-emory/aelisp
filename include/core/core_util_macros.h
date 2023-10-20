@@ -12,35 +12,30 @@ extern bool log_core;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper for avoiding double evaluation of macro parameters
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define CAPTURE(o)                       ae_obj_t * tmp_##__LINE__ = (o)
 #define CAPTURED                         tmp_##__LINE__
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define REQUIRE(env, args, cond, ...)                                                              \
   if (! (cond)) {                                                                                  \
     char * fmt      = ("" __VA_ARGS__)[0]                                                          \
       ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \
       : "%s:%d: \"Error in %s: require " #cond "!\"";                                              \
                                                                                                    \
-    char * msg_tmp      = free_list_malloc(256);                                                   \
-    sprintf(msg_tmp, fmt, __FILE__, __LINE__, __func__);                                           \
+    char * const msg_tmp = free_list_malloc(256);                                                  \
+    snprintf(msg_tmp, 256, fmt, __FILE__, __LINE__, __func__);                                     \
                                                                                                    \
-    char * msg          = free_list_malloc(strlen(msg_tmp) + 1);                                   \
+    char * const msg = free_list_malloc(strlen(msg_tmp) + 1);                                   \
     strcpy(msg, msg_tmp);                                                                          \
     free_list_free(msg_tmp);                                                                       \
                                                                                                    \
-    ae_obj_t * err_data = NIL;                                                                     \
+    ae_obj_t * const err_data = NIL;                                                               \
                                                                                                    \
     KSET(err_data, KW("args"), args);                                                              \
     KSET(err_data, KW("env"),  env);                                                               \
                                                                                                    \
     return NEW_ERROR(msg, err_data);                                                               \
   }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define CORE_BEGIN(name)                                                                           \
 ({                                                                                                 \
   char * tmp = SWRITE(env);                                                                        \
@@ -49,9 +44,7 @@ extern bool log_core;
   INDENT;                                                                                          \
   free(tmp);                                                                                       \
 })
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define CORE_RETURN(name, val)                                                                     \
 ({                                                                                                 \
   OUTDENT;                                                                                         \
@@ -60,5 +53,24 @@ extern bool log_core;
     LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                  \
   return CAPTURED;                                                                                 \
 })
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define BAIL_IF_ERROR(obj)                                                                         \
+  ({                                                                                               \
+    CAPTURE(obj);                                                                                  \
+                                                                                                   \
+    if (ERRORP(CAPTURED)) {                                                                        \
+      ret = CAPTURED;                                                                              \
+      goto end;                                                                                    \
+    }                                                                                              \
+                                                                                                   \
+    CAPTURED;                                                                                      \
+  })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define RETURN(obj)                                                                                \
+  ({                                                                                               \
+    CAPTURE(obj);                                                                                  \
+    ret = CAPTURED;                                                                                \
+    goto end;                                                                                      \
+    (void)CAPTURED;                                                                                \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
