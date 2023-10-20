@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; tiny-clos scheme compat
+;; tiny-clos scheme compat:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! else         t)
 (setq! #t           t)
 (setq! #f           nil)
 (setq! assq         aget)
 (setq! define       setq!)
-;; ^ should be a macro to avoid redefinining what-scheme-implementation
+;; ^ should be a macro that avoids re-definining what-scheme-implementation
 (setq! null?        nil?)
 (setq! set!         setq!)
 (setq! ???          'unspecified-result)
@@ -16,13 +16,7 @@
 (setq! position-of  indexq)
 (defun gsort (predicate lst)
  (sort lst predicate))
-(defun vector-ref   (lst n)
- (nth n lst))
 (defun %allocate-instance-internal (head . tail)
- head) ;; FAKE PLACEHOLDER
-(defun make-vector  (head . tail)
- head) ;; FAKE PLACEHOLDER
-(defun vector-set!  (head . tail)
  head) ;; FAKE PLACEHOLDER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -49,15 +43,12 @@
   ((== 0 index) (car lst))
   (t            (list-ref (cdr lst) (- index 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! make-vector make-list)  ;; for tiny-clos scheme compat.
+(setq! vector-set! list-set!)  ;; for tiny-clos scheme compat.
+(setq! vector-ref  list-ref)   ;; for tiny-clos scheme compat.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! v (make-list 10 0))
-
-;; (nl)
-;; (write v)
-;; (nl)
-
-(nl)
-
 
 (when t
  (setq! ix 0)
@@ -69,9 +60,19 @@
   (nl)
   (setq! ix (1+ ix))))
 
-;(log-eval t)
+;;(log-eval t)
 
-;(list-set! v 10 99)
+;;(list-set! v 10 99)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
+(defun mapcar! (fun lst)                                                      ;)
+ "Map fun over list, altering the list."                                      ;)
+ (when lst                                                                    ;)
+  (rplaca! (mapcar! fun (cdr lst)) (fun (car lst)))))                         ;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 
+(setq! lst '(1 2 3))
 
+(mapcar! double lst)
+
+(write lst)
