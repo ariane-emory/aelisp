@@ -43,11 +43,15 @@
 
 
 (defmacro test-it (args . cond-clauses)
- `(cond
-  ((not (or (eq? 'lst (first ,args)) (eq? 'lst (second ,args))))
+ (write (car args)) (nl)
+ (write (cadr args)) (nl)
+ (write (eq? 'lst (cadr args))) (nl)
+ (cond
+  ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
    (error "one of the args must be the symbol 'lst"))
   (t (error "should not happen"))))
 
-(log-macro t)
+(log-eval t)
+
 (test-it (obj lst))
-(log-macro nil)
+

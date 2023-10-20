@@ -183,6 +183,9 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   
   FOR_EACH(option, args) {
     ret = BAIL_IF_ERROR(EVAL(env, option));
+
+    if (log_core)
+      LOG(ret, "or option");
     
     if (! NILP(ret))
       RETURN(ret);
@@ -190,7 +193,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
       
 end:
     
-  CORE_RETURN("or", NIL);
+  CORE_RETURN("or", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
