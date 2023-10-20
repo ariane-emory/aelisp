@@ -191,6 +191,43 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; list funs (tail chasers):                                                  ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-chase-fun (pred? . cond-clauses)
+ `(lambda (x lst . rest)
+   (letrec
+    ((chase
+      (lambda (lst . rest)
+       (cond
+        ,@cond-clauses))))
+    (chase lst . rest))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-remove-fun (pred?)
+ `(make-chase-fun ,pred?
+   ((,pred? (car lst) x) (cdr lst))
+   (lst (cons (car lst) (chase (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-member-pred (pred?)
+ `(make-chase-fun ,pred?
+   ((,pred? x (car lst)) t)
+   (lst (chase (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-index-fun (pred?)
+ `(make-chase-fun ,pred?
+   ((nil? lst) nil)
+   ((,pred? x (car lst)) (car rest))
+   (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! indexq   (make-index-fun   eq?))
+(setq! memq?    (make-member-pred eq?))
+(setq! removeq  (make-remove-fun  eq?))
+(setq! indexql  (make-index-fun   eql?))
+(setq! memql?   (make-member-pred eql?))
+(setq! removeql (make-remove-fun  eql?))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (reduction):                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reduce (fun acc lst)
@@ -410,6 +447,19 @@
   ((nil? lst)   (error "list-ref out of range"))
   ((== 0 index) (car lst))
   (t            (list-ref (cdr lst) (- index 1)))))
+
+(setq! list-set!
+  (make-chase-fun eql?
+   ((nil? lst) (error "list-set! out of range"))
+   ((== x 0) (rplaca! lst (car rest)))
+   (t (chase (cdr lst) (- x 1) (car rest)))))
+
+(setq! list-ref
+  (make-chase-fun eq?
+   ((nil? lst) (error "list-ref out of range"))
+   ((== x 0) (car lst))
+   (t (chase (cdr lst) (- x 1)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -508,43 +558,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-list-transform-fun heads caar)
 (defun-list-transform-fun tails cdar)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list funs (tail chasers):                                                  ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun (pred? . cond-clauses)
- `(lambda (x lst . rest)
-   (letrec
-    ((chase
-      (lambda (lst . rest)
-       (cond
-        ,@cond-clauses))))
-    (chase lst . rest))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-remove-fun (pred?)
- `(make-chase-fun ,pred?
-   ((,pred? (car lst) x) (cdr lst))
-   (lst (cons (car lst) (chase (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-member-pred (pred?)
- `(make-chase-fun ,pred?
-   ((,pred? x (car lst)) t)
-   (lst (chase (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-index-fun (pred?)
- `(make-chase-fun ,pred?
-   ((nil? lst) nil)
-   ((,pred? x (car lst)) (car rest))
-   (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! indexq   (make-index-fun   eq?))
-(setq! memq?    (make-member-pred eq?))
-(setq! removeq  (make-remove-fun  eq?))
-(setq! indexql  (make-index-fun   eql?))
-(setq! memql?   (make-member-pred eql?))
-(setq! removeql (make-remove-fun  eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
