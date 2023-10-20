@@ -173,7 +173,9 @@
            ((chase-internal
              (lambda ,chase-args
               (cond
-               ,@cond-clauses))))
+               ,@cond-clauses)))
+            (chase nil)
+            )
         (chase-internal ,@lambda-args)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
