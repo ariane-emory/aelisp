@@ -536,11 +536,6 @@
  `(make-chase-fun ,pred?
    ((,pred? x (car lst)) t)
    (lst (chase (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! removeq  (make-remove-fun  eq?))
-(setq! removeql (make-remove-fun  eql?))
-(setq! memql?   (make-member-pred eql?))
-(setq! memq?    (make-member-pred eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;jsnam;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-index-fun (pred?)
   `(lambda (x lst)
@@ -553,9 +548,13 @@
          (t (chase (cdr lst) (+ 1 acc)))))))
      (chase lst 0))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! indexq  (make-index-fun eq?))
+(setq! memq?    (make-member-pred eq?))
+(setq! removeq  (make-remove-fun  eq?))
+(setq! memql?   (make-member-pred eql?))
+(setq! removeql (make-remove-fun  eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! indexql (make-index-fun eql?))
+(setq! indexq   (make-index-fun eq?))
+(setq! indexql  (make-index-fun eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
