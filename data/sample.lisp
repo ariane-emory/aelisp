@@ -41,15 +41,14 @@
 ;; (write (2+ 3))
 ;; (nl)
 
+;; (defmacro test-it (args . cond-clauses)
+;;  (write (car args)) (nl)
+;;  (write (cadr args)) (nl)
+;;  (write (eq? 'lst (cadr args))) (nl)
+;;  (cond
+;;   ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
+;;    (error "one of the args must be the symbol 'lst"))
+;;   (t (error "found lst"))))
 
-(defmacro test-it (args . cond-clauses)
- (write (car args)) (nl)
- (write (cadr args)) (nl)
- (write (eq? 'lst (cadr args))) (nl)
- (cond
-  ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
-   (error "one of the args must be the symbol 'lst"))
-  (t (error "found lst"))))
-
-(test-it (obj j))
+;; (test-it (obj j))
 
