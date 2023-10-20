@@ -51,6 +51,7 @@
 ;;(log-eval t)
 
 (write (transform integer? double l))
+(nl)
 
 (define list*
  (lambda args
@@ -64,5 +65,4 @@
    (chase args))))
 
 (write (list* 'a 'b '(c d)))
-
 (nl)
