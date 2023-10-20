@@ -126,6 +126,7 @@
     (combine (combine '() list1) list2)))
 
 (defun union2 (memp? list1 list2)
+ "This one works."
   (let* ((combine (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
          (union1 (reduce combine '() list1)))
     (reduce combine union1 list2)))
