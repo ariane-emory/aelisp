@@ -8,6 +8,13 @@
 (setq! unionq
  (reduced union2q))
 
+(setq! union2ql
+ (lambda (lst1 lst2)
+  (union2 memq? lst1 lst2)))
+
+(setq! unionql
+ (reduced union2ql))
+
 
 (display (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
 (nl)
