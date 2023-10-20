@@ -1,5 +1,8 @@
-(display (union2 memql? '(1 2 3 4) '(4 5 2 2)))    (nl)
-(display (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8))) (nl)
+(display (union2 memql? '(1 2 3 4) '(4 5 2 2)))
+(nl)
+
+(display (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
+(nl)
 
 (write (letrec
  ((factorial
@@ -8,6 +11,15 @@
      1
      (* n (factorial (- n 1)))))))
  (factorial 5)))
+(nl)
+
+(defun mmemql? (x lst)
+ (cond
+  ((eql? x (car lst)) t)
+  (lst (mmemql? x (cdr lst)))))
+
+(write (mmemql? 4 '(1 2 3 4 5 6 7)))
+(nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
