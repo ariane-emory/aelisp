@@ -14,9 +14,13 @@
 (nl)
 
 (defun mmemql? (x lst)
- (cond
-  ((eql? x (car lst)) t)
-  (lst (mmemql? x (cdr lst)))))
+ (letrec
+  ((chase
+    (lambda (x lst)
+     (cond
+      ((eql? x (car lst)) t)
+      (lst (mmemql? x (cdr lst)))))))
+  (chase x lst)))
 
 (write (mmemql? 4 '(1 2 3 4 5 6 7)))
 (nl)
