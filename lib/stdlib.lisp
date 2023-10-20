@@ -230,25 +230,25 @@
   - You want to process a list based on an index or another list-based condition.
   - The resulting function may need more than two arguments.
   - You need to maintain state (like an accumulator) across recursive calls."
-  `(lambda (lst x . rest)
+  `(lambda (lst index . rest)
      (letrec
          ((chase
-           (lambda (lst x . rest)
+           (lambda (lst index . rest)
             (cond
              ,@cond-clauses))))
-       (chase lst x . rest))))
+       (chase lst index . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
   (make-chase-list-fun ==
    ((nil? lst) (error "list-set! out of range"))
-   ((== x 0) (rplaca! lst (car rest)))
-   (t (chase (cdr lst) (- x 1) (car rest)))))
+   ((== index 0) (rplaca! lst (car rest)))
+   (t (chase (cdr lst) (- index 1) (car rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
   (make-chase-list-fun ==
    ((nil? lst) (error "list-ref out of range"))
-   ((== x 0) (car lst))
-   (t (chase (cdr lst) (- x 1)))))
+   ((== index 0) (car lst))
+   (t (chase (cdr lst) (- index 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
