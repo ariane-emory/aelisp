@@ -157,9 +157,10 @@
 (defmacro make-chase-fun (pred? . cond-clauses)
   "Create a function to traverse a list based on a predicate.
   
-  This macro generates a function that accepts two parameters:
+  This macro generates a function that accepts at leas two parameters:
   - A value to search or operate on.
   - A list to process.
+  - Optionally, other arguments for operations.
 
   The generated function uses an inner recursive function `chase`
   to traverse the list and apply the conditions from `cond-clauses`.
@@ -171,7 +172,7 @@
   - You want to process a list based on a value (like searching for a value).
   - The resulting function needs only the list and a target value.
   - Additional accumulator or state variables aren't needed during recursion."
-  `(lambda (x lst . rest)
+ `(lambda (obj lst . rest)
      (letrec
          ((chase
            (lambda (lst . rest)
@@ -181,18 +182,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
-   ((,pred? (car lst) x) (cdr lst))
+   ((,pred? (car lst) obj) (cdr lst))
    (lst (cons (car lst) (chase (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun ,pred?
-   ((,pred? x (car lst)) t)
+   ((,pred? obj (car lst)) t)
    (lst (chase (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
  `(make-chase-fun ,pred?
    ((nil? lst) nil)
-   ((,pred? x (car lst)) (car rest))
+   ((,pred? obj (car lst)) (car rest))
    (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq   (make-index-fun   eq?))
@@ -227,8 +228,8 @@
   (like setting a value at a specific index or retrieving a value).
 
   Use this when:
-  - You want to process a list based on an index or another list-based condition.
-  - The resulting function may need more than two arguments.
+  - you want to process a list based on an index or another list-based condition.
+  - The resuflting function may need more than two arguments.
   - You need to maintain state (like an accumulator) across recursive calls."
   `(lambda (lst index . rest)
      (letrec
