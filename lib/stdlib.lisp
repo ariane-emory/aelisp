@@ -532,7 +532,7 @@
 (defmacro defun-member-fun (name pred?)
  `(defun ,name (x lst)
    (cond
-	  ((,pred? (car lst) x) t)
+	  ((,pred? x (car lst)) t)
 	  (lst (,name x (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-member-fun memql? eql?)
