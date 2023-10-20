@@ -154,7 +154,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun-generalized (args pred? . cond-clauses)
+(defmacro make-chase-fun (args pred? . cond-clauses)
   "Creates a function for recursive traversal and processing of lists.
   
   This macro is a generalized version that allows customization of 
@@ -174,27 +174,20 @@
               (cond
                ,@cond-clauses))))
         (chase ,@lambda-args)))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun-right (pred? . cond-clauses)
-  `(make-chase-fun-generalized (obj lst) ,pred? ,@cond-clauses))
-(defmacro make-chase-fun-left (pred? . cond-clauses)
-  `(make-chase-fun-generalized (lst index) ,pred? ,@cond-clauses))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
- `(make-chase-fun-right ,pred?
+ `(make-chase-fun (obj lst) ,pred?
    ((,pred? (car lst) obj) (cdr lst))
    (lst (cons (car lst) (chase obj (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
- `(make-chase-fun-right ,pred?
+ `(make-chase-fun (obj lst) ,pred?
    ((nil? lst) nil)
    ((,pred? obj (car lst)) (car rest))
    (t (chase obj (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
- `(make-chase-fun-right ,pred?
+ `(make-chase-fun (obj lst) ,pred?
    ((,pred? obj (car lst)) t)
    (lst (chase obj (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -214,17 +207,15 @@
  (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
-  (make-chase-fun-left ==
+  (make-chase-fun (lst index) ==
    ((nil? lst) (error "list-set! out of range"))
    ((== index 0) (rplaca! lst (car rest)))
    (t (chase (cdr lst) (- index 1) (car rest)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
-  (make-chase-fun-left ==
+  (make-chase-fun (lst index) ==
    ((nil? lst) (error "list-ref out of range"))
    ((== index 0) (car lst))
    (t (chase (cdr lst) (- index 1)))))
