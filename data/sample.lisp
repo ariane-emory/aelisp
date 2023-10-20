@@ -1,13 +1,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-chase-fun (pred? . cond-clauses)
- `(lambda (x lst)
-   (letrec
-    ((chase
-      (lambda (lst)
-       (cond
-        ,@cond-clauses))))
-    (chase lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
    ((,pred? (car lst) x) (cdr lst))

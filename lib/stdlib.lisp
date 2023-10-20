@@ -506,21 +506,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-list-transform-fun tails cdar)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defmacro make-chase-fun (pred? . cond-clauses)
-;;  `(lambda (x lst)
-;;    (letrec
-;;     ((chase
-;;       (lambda (lst)
-;;        (cond
-;;         ,@cond-clauses))))
-;;     (chase lst))))
 (defmacro make-chase-fun (pred? . cond-clauses)
-  `(lambda (x lst . rest)
-     (letrec
-         ((chase
-           (lambda (lst . rest)
-             (cond ,@cond-clauses))))
-       (apply chase lst rest))))
+ `(lambda (x lst)
+   (letrec
+    ((chase
+      (lambda (lst)
+       (cond
+        ,@cond-clauses))))
+    (chase lst))))
+;; (defmacro make-chase-fun (pred? . cond-clauses)
+;;   `(lambda (x lst . rest)
+;;      (letrec
+;;          ((chase
+;;            (lambda (lst . rest)
+;;              (cond ,@cond-clauses))))
+;;        (apply chase lst rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
