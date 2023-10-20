@@ -168,7 +168,7 @@
   (cond
    ((!= 2 (length args))
     (error "args needs length 2"))
-   ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
+   ((not (or lst-first (eq? 'lst (second args))))
     (error "one of the args must be the symbol 'lst"))
    (t (let* ((chase-args  (append2 args 'rest))
              (lambda-args (cons (first args) (cons (second args) 'rest))))
