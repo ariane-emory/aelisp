@@ -29,9 +29,7 @@
 (write (list-ref lst 4))
 (nl)
 
-(exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;; (defun curry1 (fun arg1)
 ;;  (lambda args
@@ -44,12 +42,12 @@
 ;; (nl)
 
 
-(defmacro test (args . cond-clauses)
+(defmacro test-it (args . cond-clauses)
  `(cond
   ((not (or (eq? 'lst (first ,args)) (eq? 'lst (second ,args))))
    (error "one of the args must be the symbol 'lst"))
   (t (error "should not happen"))))
 
 (log-macro t)
-(test (obj lst))
+(test-it (obj lst))
 (log-macro nil)
