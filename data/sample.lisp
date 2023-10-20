@@ -51,3 +51,18 @@
 ;;(log-eval t)
 
 (write (transform integer? double l))
+
+(define list*
+ (lambda args
+  (let*
+   ((chase
+	   (lambda (args)
+		  (cond
+       ((nil? args)       nil)
+		   ((nil? (cdr args)) (car args))
+		   (t                 (cons (car args) (chase (cdr args))))))))
+   (chase args))))
+
+(write (list* 'a 'b '(c d)))
+
+(nl)
