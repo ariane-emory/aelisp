@@ -507,17 +507,27 @@
 (defun-list-transform-fun tails cdar)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;jsnam;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
- `(lambda (x lst)
-   (letrec
-    ((chase
-      (lambda (x lst)
-       (cond
-        ((,pred? x (car lst)) 0)
-        (lst
-         (let ((tail-result (chase x (cdr lst))))
-          (when tail-result
-           (+ 1 tail-result))))))))
-    (chase x lst))))
+  `(lambda (x lst)
+     (letrec
+         ((chase
+           (lambda (lst n)
+             (cond
+              ((nil? lst) nil)  ; termination condition when end of list is reached
+              ((,pred? x (car lst)) n) ; found the item
+              (t (chase (cdr lst) (+ 1 n)))))))
+       (chase lst 0))))
+;; (defmacro make-index-fun (pred?)
+;;  `(lambda (x lst)
+;;    (letrec
+;;     ((chase
+;;       (lambda (x lst)
+;;        (cond
+;;         ((,pred? x (car lst)) 0)
+;;         (lst
+;;          (let ((tail-result (chase x (cdr lst))))
+;;           (when tail-result
+;;            (+ 1 tail-result))))))))
+;;     (chase x lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq  (make-index-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
