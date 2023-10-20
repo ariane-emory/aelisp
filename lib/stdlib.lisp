@@ -186,7 +186,7 @@
             (lambda (lst ,user-arg . rest)
              (cond
               ,@cond-clauses))))
-          (chase-internal ,@lambda-args)))))))
+          (chase-internal lst ,user-arg . rest)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
