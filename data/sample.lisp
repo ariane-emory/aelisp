@@ -10,7 +10,8 @@
  (reduced union2q))
 
 
-
+(display (unionq'(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
+(nl)
 
 
 (write (letrec
