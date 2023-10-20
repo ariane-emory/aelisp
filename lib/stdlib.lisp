@@ -499,7 +499,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro defun-list-transform-fun (name transformer)
  `(defun ,name (lsts)
-   (when lsts                                                                 ;)
+   (when lsts
     (cons (,transformer (car lsts)) (,name (cdr lsts))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defun-list-transform-fun heads caar)
