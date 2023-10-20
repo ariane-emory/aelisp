@@ -11,6 +11,8 @@
 (setq! ???           'unspecified-result)
 (setq! getl          pget)
 (setq! map           mapcar)
+(setq! every         all?)
+(setq! remove        removeq)
 (setq! map-append    mapcan)
 (setq! position-of   indexq)
 (setq! make-vector   make-list)
@@ -51,4 +53,3 @@
 
 (write (list* 'a 'b '(c d)))
 (nl)
-
