@@ -167,14 +167,14 @@
  (cond
   ((!= 2 (length args))  (error "args needs length 2"))
   (t (let* ((chase-args  (append2 args 'rest))
-         (lambda-args (cons (first args) (cons (second args) 'rest))))
-   `(lambda ,lambda-args
-     (letrec
-      ((chase-internal
-        (lambda ,chase-args
-         (cond
-          ,@cond-clauses))))
-      (chase-internal ,@lambda-args)))))))
+            (lambda-args (cons (first args) (cons (second args) 'rest))))
+      `(lambda ,lambda-args
+        (letrec
+         ((chase-internal
+           (lambda ,chase-args
+            (cond
+             ,@cond-clauses))))
+         (chase-internal ,@lambda-args)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
@@ -729,3 +729,9 @@
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun butlast (lst)
+  "Returns a new list that contains all the elements of the input list except the last one."
+  (if (or (nil? lst) (nil? (cdr lst)))
+      nil
+      (cons (car lst) (butlast (cdr lst)))))
