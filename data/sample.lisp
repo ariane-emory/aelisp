@@ -13,10 +13,15 @@
 
 (setq! lst (make-list 6 1))
 
+(log-eval t)
+(log-core t)
+(log-macro t)
+
 (list-set! lst 0 2)
 (list-set! lst 4 8)
 (list-set! lst 5 10)
 
+(exit)
 (write lst)
 (nl)
 
@@ -25,7 +30,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(exit)
 
 ;; (defun curry1 (fun arg1)
 ;;  (lambda args
