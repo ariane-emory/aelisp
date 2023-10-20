@@ -522,13 +522,6 @@
        (cond
         ,@cond-clauses))))
     (chase lst . rest))))
-;; (defmacro make-chase-fun (pred? . cond-clauses)
-;;   `(lambda (x lst . rest)
-;;      (letrec
-;;          ((chase
-;;            (lambda (lst . rest)
-;;              (cond ,@cond-clauses))))
-;;        (apply chase lst rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun ,pred?
@@ -541,18 +534,17 @@
    (lst (chase (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
-  `(make-chase-fun ,pred?
-     ((nil? lst) nil)
-     ((,pred? x (car lst)) (car rest))
-     (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! memq?    (make-member-pred eq?))
-(setq! removeq  (make-remove-fun  eq?))
-(setq! memql?   (make-member-pred eql?))
-(setq! removeql (make-remove-fun  eql?))
+ `(make-chase-fun ,pred?
+   ((nil? lst) nil)
+   ((,pred? x (car lst)) (car rest))
+   (t (chase (cdr lst) (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq   (make-index-fun   eq?))
+(setq! memq?    (make-member-pred eq?))
+(setq! removeq  (make-remove-fun  eq?))
 (setq! indexql  (make-index-fun   eql?))
+(setq! memql?   (make-member-pred eql?))
+(setq! removeql (make-remove-fun  eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
