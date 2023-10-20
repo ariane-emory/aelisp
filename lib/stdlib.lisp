@@ -433,6 +433,14 @@
  (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
+(defmacro make-chase-list-fun (pred? . cond-clauses)
+ `(lambda (lst x . rest)
+   (letrec
+    ((chase
+      (lambda (lst x . rest)
+       (cond
+        ,@cond-clauses))))
+    (chase lst x . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list-set! (lst index val)
  (cond
