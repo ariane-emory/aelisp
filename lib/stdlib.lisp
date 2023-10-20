@@ -213,24 +213,34 @@
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defmacro make-list-chase-fun (pred? . cond-clauses)
-  "Create a function to traverse and manipulate a list based on an index or condition.
+  `(lambda (x lst . rest)
+     (letrec
+         ((chase
+           (lambda (lst . rest)
+            (cond
+             ,@cond-clauses))))
+       (chase lst . rest))))
+(defmacro make-list-chase-fun (pred? . cond-clauses)
+  "Create a function to process a list with additional list-based parameters.
   
-  This macro generates a function that accepts at least two parameters:
+  This macro generates a function that accepts multiple parameters:
+  - The primary value to search or operate on.
   - A list to process.
-  - An index or condition to determine the operation.
-  - Optionally, other arguments for operations (e.g., a replacement value).
+  - Any additional parameters needed for specific operations (e.g., index, accumulator).
 
   The generated function uses an inner recursive function `chase`
   to traverse the list and apply the conditions from `cond-clauses`.
 
-  Suitable for operations that involve manipulating lists in a vector-style
-  (like setting a value at a specific index or retrieving a value).
+  Suitable for operations that require:
+  - Index-based operations where the position in the list matters.
+  - Recursive list-building based on certain criteria.
+  - Operations with accumulators or state across recursive calls.
+  - Handling of nested or complex list structures.
 
-  Use this when:
-  - you want to process a list based on an index or another list-based condition.
-  - The resuflting function may need more than two arguments.
-  - You need to maintain state (like an accumulator) across recursive calls."
+  Use this macro when the task involves more intricate list processing
+  that goes beyond just searching or simple modifications."
   `(lambda (lst index . rest)
      (letrec
          ((chase
