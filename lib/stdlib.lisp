@@ -212,16 +212,7 @@
  (cond
   ((== 0 size)  nil)
   (t            (cons init-val (make-list (- size 1) init-val)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defmacro make-list-chase-fun (pred? . cond-clauses)
-  `(lambda (x lst . rest)
-     (letrec
-         ((chase
-           (lambda (lst . rest)
-            (cond
-             ,@cond-clauses))))
-       (chase lst . rest))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;)
 (defmacro make-list-chase-fun (pred? . cond-clauses)
   "Create a function to process a list with additional list-based parameters.
   
@@ -247,7 +238,7 @@
            (lambda (lst index . rest)
             (cond
              ,@cond-clauses))))
-       (chase lst index . rest))))
+      (chase lst index . rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
   (make-list-chase-fun ==
