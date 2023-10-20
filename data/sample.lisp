@@ -73,6 +73,8 @@
 
 (setq! lst '(1 2 3))
 
+(log-eval t)
+
 (mapcar! double lst)
 
 (write lst)
