@@ -505,22 +505,60 @@
 (defun-list-transform-fun heads caar)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-list-transform-fun tails cdar)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defmacro make-chase-fun (pred? . cond-clauses)
+;;  `(lambda (x lst)
+;;    (letrec
+;;     ((chase
+;;       (lambda (lst)
+;;        (cond
+;;         ,@cond-clauses))))
+;;     (chase lst))))
+(defmacro make-chase-fun (pred? . cond-clauses)
+  `(lambda (x lst . rest)
+     (letrec
+         ((chase
+           (lambda (lst . rest)
+             (cond ,@cond-clauses))))
+       (apply chase lst rest))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-remove-fun (pred?)
+ `(make-chase-fun ,pred?
+   ((,pred? (car lst) x) (cdr lst))
+   (lst (cons (car lst) (chase (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-member-pred (pred?)
+ `(make-chase-fun ,pred?
+   ((,pred? x (car lst)) t)
+   (lst (chase (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! removeq  (make-remove-fun  eq?))
+(setq! removeql (make-remove-fun  eql?))
+(setq! memql?   (make-member-pred eql?))
+(setq! memq?    (make-member-pred eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;jsnam;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-index-fun (pred?)
- `(lambda (x lst)
-   (letrec
-    ((chase
-      (lambda (lst acc)
-       (cond
-        ((nil? lst) nil)  ; termination condition when end of list is reached
-        ((,pred? x (car lst)) acc) ; found the item
-        (t (chase (cdr lst) (+ 1 acc)))))))
-    (chase lst 0))))
+ (defmacro make-index-fun (pred?)
+  `(lambda (x lst)
+    (letrec
+     ((chase
+       (lambda (lst acc)
+        (cond
+         ((nil? lst) nil)  ; termination condition when end of list is reached
+         ((,pred? x (car lst)) acc) ; found the item
+         (t (chase (cdr lst) (+ 1 acc)))))))
+     (chase lst 0))))
+;; (defmacro make-index-fun (pred?)
+;;   `(make-chase-fun
+;;      ,pred?
+;;      ((nil? lst) nil)  ; termination condition when end of list is reached
+;;      ((,pred? x (car lst)) (car rest)) ; found the item, returning accumulator
+;;      (t (chase (cdr lst) (+ 1 (car rest)))))) ; add 1 to accumulator and recurse
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq  (make-index-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexql (make-index-fun eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;i
 (defun union2 (memp? list1 list2)
  "Return the union of two lists."
  (let* ((combine (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
