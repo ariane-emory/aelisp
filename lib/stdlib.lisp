@@ -657,7 +657,7 @@
 ;; manipulate predicates:                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun compose-pred1 preds
- "Does what it says on the tin and composes unary predicatess."
+ "Does what it says on the tin and composes unary predicatess preds."
  (lambda (val)
   (lets
    ((fun
@@ -669,7 +669,7 @@
    (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun invert-pred1 pred?
- "Does what it says on the tin and inverts a unary predicate preds."
+ "Does what it says on the tin and inverts a unary predicate pred?."
  (lambda (val)
   (not (pred? val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
