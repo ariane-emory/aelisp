@@ -507,48 +507,20 @@
 (defun-list-transform-fun tails cdar)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;jsnam;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
-  `(lambda (x lst)
-     (letrec
-         ((chase
-           (lambda (lst acc)
-             (cond
-              ((nil? lst) nil)  ; termination condition when end of list is reached
-              ((,pred? x (car lst)) acc) ; found the item
-              (t (chase (cdr lst) (+ 1 acc)))))))
-       (chase lst 0))))
+ `(lambda (x lst)
+   (letrec
+    ((chase
+      (lambda (lst acc)
+       (cond
+        ((nil? lst) nil)  ; termination condition when end of list is reached
+        ((,pred? x (car lst)) acc) ; found the item
+        (t (chase (cdr lst) (+ 1 acc)))))))
+    (chase lst 0))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq  (make-index-fun eq?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexql (make-index-fun eql?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-remove-fun (pred?)
- `(lambda (x lst)
-   (letrec
-    ((chase
-      (lambda (lst)
-       (cond
-        ((,pred? (car lst) x) (cdr lst))
-        (lst (cons (car lst) (chase (cdr lst))))))))
-    (chase lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! removeq (make-remove-fun eq?))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! removeq (make-remove-fun eql?))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-member-pred (pred?)
- `(lambda (x lst)
-   (letrec
-    ((chase?
-      (lambda (lst)
-       (cond
-        ((,pred? x (car lst)) t)
-        (lst (chase? (cdr lst)))))))
-    (chase? lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! memql? (make-member-pred eql?))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! memq?  (make-member-pred eq?))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;i
 (defun union2 (memp? list1 list2)
  "Return the union of two lists."
  (let* ((combine (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
@@ -675,32 +647,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(when nil?
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; tiny-clos scheme compat:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! #f            nil)
- (setq! #t            t)
- (setq! ???           'unspecified-result)
- (setq! assoc         ahas) 
- (setq! assq          aget) 
- (setq! collect-if    filter)
- (setq! define        setq!)
- (setq! display       write) ;should should be a macro that avoids re-defining what-scheme-implementation
- (setq! else          t)
- (setq! every         all?)
- (defun funcall args  (eval args))
- (setq! getl          pget)
- (setq! gsort         sort)
- (setq! make-vector   make-list)
- (setq! map           mapcar)
- (setq! map-append    mapcan)
- (setq! null?         nil?)
- (setq! position-of   indexq)
- (setq! remove        removeq)
- (setq! set!          setq!)
- (setq! vector-length list-length)
- (setq! vector-ref    list-ref)
- (setq! vector-set!   list-set!)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
+;; (when nil?
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  ;; tiny-clos scheme compat:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  (setq! #f            nil)
+;;  (setq! #t            t)
+;;  (setq! ???           'unspecified-result)
+;;  (setq! assoc         ahas) 
+;;  (setq! assq          aget) 
+;;  (setq! collect-if    filter)
+;;  (setq! define        setq!)
+;;  (setq! display       write) ;should should be a macro that avoids re-defining what-scheme-implementation
+;;  (setq! else          t)
+;;  (setq! every         all?)
+;;  (defun funcall args  (eval args))
+;;  (setq! getl          pget)
+;;  (setq! gsort         sort)
+;;  (setq! make-vector   make-list)
+;;  (setq! map           mapcar)
+;;  (setq! map-append    mapcan)
+;;  (setq! null?         nil?)
+;;  (setq! position-of   indexq)
+;;  (setq! remove        removeq)
+;;  (setq! set!          setq!)
+;;  (setq! vector-length list-length)
+;;  (setq! vector-ref    list-ref)
+;;  (setq! vector-set!   list-set!)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  )
