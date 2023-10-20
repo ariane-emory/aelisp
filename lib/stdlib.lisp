@@ -185,9 +185,9 @@
             (lambda (lst ,user-param . rest)
              (cond
               ,@cond-clauses)))
-           (chase
-            (lambda (,user-param . rest)
-             (chase-internal lst ,user-param . rest)))
+           ;; (chase
+           ;;  (lambda (user . rest)
+           ;;   (chase-internal lst param . rest)))
             )
            (chase-internal lst ,user-param . rest)))))))
 
