@@ -201,7 +201,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     COUNTED_FPUTC(out, stream);                                                                    \
     break;
 
-static int ae_fwrite_internal(const ae_obj_t * const this) {
+static int ae_fwrite_internal(const ae_obj_t * this) {
   FILE * stream = fwrite_stream;
 
   switch (GET_TYPE(this)) {
@@ -282,9 +282,17 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     }
     break;
   case AE_CONS:
+    if (CAR(this) == SYM("quote")) {
+      COUNTED_FPUTC('\'', stream);
+
+      ae_fwrite_internal(CADR(this));
+
+      return fwrite_counter;
+    }
+
     FLPAR;
     fwrite_quoting = true;
-
+    
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);
