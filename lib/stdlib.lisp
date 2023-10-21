@@ -272,23 +272,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar! (fun lst)
  "Map fun over list, altering the list."
- (when lst
-  (rplaca! lst (fun (car lst)))
-  (mapcar! fun (cdr lst))
-  lst))
-;; (setq! mapcar! ;; very slow version
-;;  (make-chase-fun (fun lst)
-;;   (position
-;;    (progn
-;;     (rplaca! position (fun head))
-;;     (chase fun)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapc (fun lst)
- "Map fun over list for side-effects only, ignoring the results and returning
-  nil."
- (when lst
-  (fun (car lst))
-  (mapc fun (cdr lst))))
+ (letrec
+  ((mapcar-internal! nil))
+  (when lst
+   (rplaca! lst (fun (car lst)))
+   (mapcar! fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst delimiter)
  "Map fun over list, returning the result of concatenating the resulting
