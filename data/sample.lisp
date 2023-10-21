@@ -50,8 +50,6 @@
 
 ;;(write (list-ref lst 4))
 
-(nl)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (defun curry1 (fun arg1)
@@ -69,26 +67,36 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun incremental-select (pred? lst)
- "Select the first element in lst that satisfies pred? and move it to the head of the list."
- (if (or
-      (nil? lst)
-      (and (nil? (cdr lst)) (not (pred? (car lst)))))
-  (if
-   (and (pair? (cdr lst)) (pred? (cdr lst))) ; check for improper list's last item
-   (cdr lst)
-   nil) ; no element was selected
-  (let ((prev nil)
-        (current lst))
-   (while (and current (pair? current) (not (pair? (car current))))
-    (set! prev current)
-    (set! current (cdr current)))
-   (if (and current (pred? (car current)))
-    (progn
-     (if prev ; if the selected element is not the first one
-      (progn
-       (set! (cdr prev) (cdr current))
-       (set! (cdr current) lst)
-       (set! lst current)))
-     (car current))
-    nil))))
+(defun select-and-move-to-front (lst pred?)
+  "Incrementally sorts the list by selecting the first element that matches the predicate.
+  If a matching element is found, it is moved to the front of the list.
+  Returns the selected value or nil if not found."
+
+  (cond
+    ((nil? lst) nil)
+    ((pred? (car lst)) (car lst)) ; The first element matches the predicate.
+
+    (t
+     (let ((prev lst)
+           (current (cdr lst)))
+       (while (and current (not (pred? (car current))))
+         (setq! prev current)
+         (setq! current (cdr current)))
+
+       ;; If we found a match and it's not the last element
+       (when (and current (pred? (car current)))
+         (if (atom? (cdr current)) ; If the current is pointing to the last element
+           (car current) ; We just return the value without modifying the list
+
+           ;; Otherwise, we remove the current element from the list
+           ;; and place it at the front
+           (progn
+             (rplacd! prev (cdr current)) ; Remove current element from list
+             (rplacd! current lst) ; Make current's next point to the beginning of the list
+             (rplaca! lst (car current))
+             (car current)))))))) ; Return the selected value
+
+
+;;(princ (with-log-eval '(incremental-select (lambda (x) (> x 2)) '(1 2 3 . 4))))
+;;(nl)
+
