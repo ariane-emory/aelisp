@@ -209,12 +209,14 @@
     ((not (or lst-first (eq? 'lst (second params))))
      (error "one of the params must be the symbol 'lst"))
     (t `(lambda ,lambda-params
-         (let ((position lst))
+         (let ((position lst)
+               (head (car lst)))
            (letrec
             (
              (chase-internal
               (lambda (lst ,user-arg . rest)
                (setq! position lst)
+               (setq! head (car lst))
                (cond ,@cond-clauses)))
              (chase
               (lambda (,user-arg . rest)
@@ -225,12 +227,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
-   ((,pred? obj (car lst)) t)
+   ((,pred? head) t)
    (lst (chase obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
-   ((,pred? (car lst) obj) (cdr lst))
+   ((,pred? head) (cdr lst))
    (lst (cons (car lst) (chase obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
