@@ -86,8 +86,8 @@
            (princ
             "Applying "
             (kget (props ,fun) :last-bound-to)
-            " to ")
-           (princ (vals (env)))
+            " to "
+            (vals (env)))
            (nl)
            ,@old-body)))
   (rplacd! (body fun) new-body) 
