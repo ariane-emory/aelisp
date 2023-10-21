@@ -337,13 +337,13 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
 
 #if AE_PREFER_ALIST
-  ENV_SET(env, SYM("khas?"), ENV_FIND(env, SYM("ahas?")));
-  ENV_SET(env, SYM("kput!"), ENV_FIND(env, SYM("aset!")));
-  ENV_SET(env, SYM("kget"),  ENV_FIND(env, SYM("aget")));
+  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("ahas?")));
+  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("aset")));
+  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("aget")));
 #else
-  ENV_SET(env, SYM("khas?"), ENV_FIND(env, SYM("phas?")));
-  ENV_SET(env, SYM("kput!"), ENV_FIND(env, SYM("pset!")));
-  ENV_SET(env, SYM("kget"),  ENV_FIND(env, SYM("pget")));
+  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("phas?")));
+  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("pset")));
+  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("pget")));
 #endif
   
   return env;
