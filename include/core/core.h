@@ -10,12 +10,12 @@ extern bool log_core;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_1(DO)                                                                                     \
   /*================================================================================================================*/    \
-  DO(phas,         false,          2,          2,                              FUNDEF_END)                                \
+  DO(phas,         false,          2,          2, "phas?",                     FUNDEF_END)                                \
   DO(pset,         false,          3,          3, "pset!",                     FUNDEF_END)                                \
   DO(pget,         false,          2,          2,                              FUNDEF_END)                                \
+  DO(ahas,         false,          2,          2, "ahas?",                     FUNDEF_END)                                \
   DO(aset,         false,          3,          3, "aset!",                     FUNDEF_END)                                \
   DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
-  DO(ahas,         false,          2,          2,                              FUNDEF_END)                                \
   DO(eql,          false,  UNLIMITED,  UNLIMITED, "eql?",                      FUNDEF_END) /* reduceable            */    \
   DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq?",                       FUNDEF_END)                                \
   DO(cond,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \
