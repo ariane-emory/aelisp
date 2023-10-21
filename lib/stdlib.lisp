@@ -726,13 +726,18 @@
    (nl)
    each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; time evaluation:                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time (head-expr . tail-exprs)
  `(let* ((begin (now))
          (result (progn ,head-expr ,@tail-exprs))
          (time-taken (elapsed begin)))
    (cons (/ time-taken 1000) $(result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro time-msg (msg head-expr . tail-exprs)
+(defmacro report-time (msg head-expr . tail-exprs)
  `(let ((time-taken (/ (car (time ,head-expr . ,tail-exprs)) 1000)))
    (princ ,msg)
    (princ " took ")
