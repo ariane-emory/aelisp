@@ -25,7 +25,7 @@ extern bool log_core;
   DO(quote,        true,           1,          1,                              FUNDEF_END)                                \
   DO(cons,         false,          2,          2,                              FUNDEF_END)                                \
   DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
-  DO(apply,        false,          2,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(apply,        true,           2,  UNLIMITED, "apply*",                    FUNDEF_END)                                \
   DO(if,           true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
   DO(when,         true,           2,  UNLIMITED,                              FUNDEF_END) /* reduceable            */    \
@@ -36,11 +36,12 @@ extern bool log_core;
   DO(or,           true,           2,  UNLIMITED, "or", "∨",                   FUNDEF_END) /* reduceable            */    \
   DO(and,          true,           2,  UNLIMITED, "and", "∧",                  FUNDEF_END) /* reduceable            */    \
   DO(let_star,     true,           2,  UNLIMITED, "let*",                      FUNDEF_END)                                \
+  DO(letrec,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(let,          true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(cdr,          false,          1,          1,                              FUNDEF_END)                                \
   DO(car,          false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
-  DO(time,         false,          0,          0,                              FUNDEF_END)                                \
+  DO(now,          false,          0,          0,                              FUNDEF_END)                                \
   DO(repeat,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -201,7 +201,7 @@ int ae_fput(const ae_obj_t * const this, FILE * stream) {
     COUNTED_FPUTC(out, stream);                                                                    \
     break;
 
-static int ae_fwrite_internal(const ae_obj_t * const this) {
+static int ae_fwrite_internal(const ae_obj_t * this) {
   FILE * stream = fwrite_stream;
 
   switch (GET_TYPE(this)) {
@@ -210,7 +210,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     break;
   case AE_CORE:
     if (SPECIALP(this))
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s*>", GET_TYPE_STR(this), CORE_NAME(this));
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s^>", GET_TYPE_STR(this), CORE_NAME(this));
     else
       COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), CORE_NAME(this));
     break;
@@ -268,7 +268,7 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
   case AE_MACRO:
 #ifdef AE_DEBUG_OBJ
     if (DHAS(this, "last-bound-to")) {
-      COUNTED_FPRINTF(fwrite_stream, "%s<%s, ", GET_TYPE_STR(this),
+      COUNTED_FPRINTF(fwrite_stream, "%s<%s ", GET_TYPE_STR(this),
                       SYM_VAL(DGET(this, "last-bound-to")));
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");
@@ -276,15 +276,23 @@ static int ae_fwrite_internal(const ae_obj_t * const this) {
     else 
 #endif
     {
-      COUNTED_FPRINTF(fwrite_stream, "%s< %08p, ", GET_TYPE_STR(this), this);
+      COUNTED_FPRINTF(fwrite_stream, "%s< %08p ", GET_TYPE_STR(this), this);
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");      
     }
     break;
   case AE_CONS:
+    if (CAR(this) == SYM("quote")) {
+      COUNTED_FPUTC('\'', stream);
+
+      ae_fwrite_internal(CADR(this));
+
+      return fwrite_counter;
+    }
+
     FLPAR;
     fwrite_quoting = true;
-
+    
     FOR_EACH_CONST(elem, this) {
       ae_fwrite_internal(elem);
       fflush(fwrite_stream);

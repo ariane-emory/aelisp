@@ -4,3 +4,6 @@
 [submodule "3p/bestline"]
 	path = 3p/bestline
 	url = git@github.com:jart/bestline.git
+[submodule "3p/tinyclos"]
+	path = 3p/tinyclos
+	url = git@github.com:kstephens/tinyclos.git

@@ -28,7 +28,7 @@ const char * ae_type_str(const ae_type_t this) {
     FOR_EACH_LEXED_TYPE(return_str);
     return_str(AE_FREE);
   default:
-    return "UNRECOGNIZED";
+    return "AE_UNRECOGNIZED";
   }
 }
 #undef return_str

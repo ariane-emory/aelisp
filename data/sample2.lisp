@@ -1,4 +1,4 @@
-;;(write (is-unquote-expr? '(unquote 1))) (nl)
+o;;(write (is-unquote-expr? '(unquote 1))) (nl)
 
 ;;(write `(list 'a ,(+ 4 5))) (nl)
 
@@ -133,3 +133,53 @@
 
 ;;(log-macro t)
 ;;(make-mem? memql? eql?)
+
+;; (write (memq? 5 lst)) (nl)
+;; (write (memql? 5 lst)) (nl)
+;; (write (indexq 5 lst)) (nl)
+;; (write (indexql 5 lst)) (nl)
+;; (write (removeq 5 lst)) (nl)
+;; (write (removeql 5 lst)) (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun combined-comparator (x y)
+ (cond 
+  ((and (even? x) (even? y)) (< x y))  ; both even, compare values
+  ((even? x) t)                        ; x is even, y is odd, x comes first
+  ((even? y) nil)                      ; y is even, x is odd, y comes first
+  (t (< x y))))                       ; both odd, compare values
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
+(write (syms (env))) (nl)
+(write (sort lst combined-comparator)) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defmacro letrec (bindings . body)
+ `(let ,(mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings) ; Step 1
+   ,@(mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)      ; Step 2
+   ,@body))                                                         ; Step 3
+
+(defmacro letrec (bindings . body)
+ (let ((initial-bindings
+        (mapcar (lambda (b) (list (car b) :UNINITIALIZED)) bindings))
+       (set-bindings
+        (mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)))
+  set-bindings ; initial-bindings
+  ;; `(let ,initial-bindings
+  ;;   ,@set-bindings
+  ;;   ,@body)
+  ))
+
+(log-macro t)
+(log-eval t)
+
+(letrec
+ ((factorial (lambda (n)
+              (if (<= n 1)
+               1
+               (* n (factorial (- n 1)))))))
+ t ;; (factorial 5)
+ )
+
+
