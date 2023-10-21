@@ -30,7 +30,7 @@ ae_obj_t * ae_core_daset(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * value         = CADR(args); // this could be unsafe if value is NIL, maybe.
   ae_obj_t * obj           = CADDR(args);
   ae_obj_t * prop_list     = DOBJ(obj);
-  ae_obj_t * new_prop_list = ASET(prop_list, key, value);
+  ae_obj_t * new_prop_list = KSET(prop_list, key, value);
 
   DOBJ(obj)            = new_prop_list;
 
@@ -50,7 +50,7 @@ ae_obj_t * ae_core_daget(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * obj       = CADR(args); 
   ae_obj_t * prop_list = DOBJ(obj);
 
-  CORE_RETURN("daget", AGET(prop_list, key));
+  CORE_RETURN("daget", KGET(prop_list, key));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +66,6 @@ ae_obj_t * ae_core_dahas(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * obj       = CADR(args);
   ae_obj_t * prop_list = DOBJ(obj);
 
-  CORE_RETURN("dahas", TRUTH(AHAS(prop_list, key)));
+  CORE_RETURN("dahas", TRUTH(KHAS(prop_list, key)));
 }
 

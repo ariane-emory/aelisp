@@ -17,7 +17,7 @@ extern bool log_core;
   DO(aset,         false,          3,          3,                              FUNDEF_END)                                \
   DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
   DO(dahas,        false,          2,          2, "has?",                      FUNDEF_END)                                \
-  DO(daset,        false,          3,          3, "set!",                      FUNDEF_END)                                \
+  DO(daset,        false,          3,          3, "put!",                      FUNDEF_END)                                \
   DO(daget,        false,          2,          2, "get",                       FUNDEF_END)                                \
   DO(eql,          false,  UNLIMITED,  UNLIMITED, "eql?",                      FUNDEF_END) /* reduceable            */    \
   DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq?",                       FUNDEF_END)                                \
