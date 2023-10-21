@@ -165,11 +165,11 @@
   PARAMS:       A list that specifies the parameter order.
   COND-CLAUSES: The conditions to process the list."
  (let* ((lst-first     (eq? 'lst (first params)))
-        (user-arg      (if lst-first (second params) (first params)))
+        (user-param      (if lst-first (second params) (first params)))
         (lambda-params (cons (first params) (cons (second params) 'rest))))
 
   (princ "lst-first:     ") (princ lst-first)     (nl)
-  (princ "user-arg:      ") (princ user-arg)    (nl)
+  (princ "user-param:    ") (princ user-param)    (nl)
   (princ "lambda-params: ") (princ lambda-params) (nl)
   (nl)
   
@@ -189,7 +189,7 @@
            (lambda (user-val . rest)
             (chase-internal (cdr lst) user-val . rest)))
           )
-         (chase-internal lst ,user-arg . rest)))))))
+         (chase ,user-param . rest)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
