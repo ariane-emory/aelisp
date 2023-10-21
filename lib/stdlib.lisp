@@ -182,7 +182,7 @@
         (letrec
          (
           (chase-internal
-           (lambda (lst ,user-arg . rest)
+           (lambda (lst user-val . rest)
             (cond
              ,@cond-clauses)))
           (chase
