@@ -2,6 +2,7 @@
 ;; 'standard library', such as it is:                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq! begin (now))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; crucial macros, without which nothing else in stdlib will even work:       ;;
@@ -760,3 +761,8 @@
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(princ "Loaded in ")
+(princ (/ (elapsed begin) 1000))
+(princ " ms.")
+(nl)
