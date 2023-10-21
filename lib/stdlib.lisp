@@ -214,8 +214,8 @@
           ((chase-internal
             (lambda (lst ,user-arg . rest)
              (setq! position lst)
-             (let ((head (car lst))
-                   (tail (cdr lst)))
+             (let ((head (car position))
+                   (tail (cdr position)))
                    (cond ,@cond-clauses))))
             (chase
              (lambda (,user-arg . rest)
