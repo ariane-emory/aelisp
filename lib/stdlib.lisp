@@ -209,19 +209,19 @@
     ((not (or lst-first (eq? 'lst (second params))))
      (error "one of the params must be the symbol 'lst"))
     (t `(lambda ,lambda-params
-         (let ((local-lst lst))
+         (let ((position lst))
            (letrec
             (
              (chase-internal
               (lambda (lst ,user-arg . rest)
-               (setq! local-lst lst)
+               (setq! position lst)
                (cond
                 ,@cond-clauses)))
              (chase
               (lambda (,user-arg . rest)
-               (chase-internal (cdr local-lst) ,user-arg . rest)))
+               (chase-internal (cdr position) ,user-arg . rest)))
              )
-            (chase-internal local-lst ,user-arg . rest))))))))
+            (chase-internal position ,user-arg . rest))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
