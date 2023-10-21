@@ -162,60 +162,45 @@
   This macro is a generalized version that allows customization of 
   the parameter order through the PARAMS parameter.
   
-  PARAMS:       A list that specifies the parameter order.
+  PARAMS:       A list of length 2 that specifies the parameter order.
+                One parameter must be the symbol 'lst.
   COND-CLAUSES: The conditions to process the list."
- (let* ((lst-first     (eq? 'lst (first params)))
-        (user-param    (if lst-first (second params) (first params)))
+ (let* ((lst-is-first? (eq? 'lst (first  params)))
+        (user-param    (if lst-is-first? (second params) (first params)))
         (lambda-params (cons (first params) (cons (second params) 'rest))))
-
-  (princ "lst-first:     ") (princ lst-first)     (nl)
-  (princ "user-param:    ") (princ user-param)    (nl)
-  (princ "lambda-params: ") (princ lambda-params) (nl)
-  (nl)
-  
   (cond
    ((!= 2 (length params))
     (error "params needs length 2"))
-   ((not (or lst-first (eq? 'lst (second params))))
+   ((not (or lst-is-first? (eq? 'lst (second params))))
     (error "one of the params must be the symbol 'lst"))
    (t `(lambda ,lambda-params
-        (letrec
-         (
-          (chase-internal
-           (lambda (lst user-val . rest)
-            (cond
-             ,@cond-clauses)))
-          (chase
-           (lambda (user-val . rest)
-            (chase-internal lst user-val . rest)))
-          )
-         (chase ,user-param . rest)))))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-remove-fun (pred?)
- `(make-chase-fun (obj lst)
-   ((,pred? (car lst) obj) (cdr lst))
-   (lst
-    (cons (car lst)
-     (chase-internal (cdr lst) obj)
-     ;; (chase obj)
-     ))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-index-fun (pred?)
- `(make-chase-fun (obj lst)
-   ((,pred? obj (car lst)) (car rest))
-   (lst
-    (chase-internal (cdr lst) obj (if rest (1+ (car rest)) 1))
-    ;; (chase obj (if rest (1+ (car rest)) 1))
-    )))
+        (let ((position lst))
+         (letrec
+          ((chase-internal
+            (lambda (lst ,user-param . rest)
+             (setq! position lst)
+             (let ((head (car position))
+                   (tail (cdr position)))
+              (cond ,@cond-clauses))))
+           (chase
+            (lambda (,user-param . rest)
+             (chase-internal (cdr position) ,user-param . rest))))
+          (chase-internal position ,user-param . rest))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
-   ((,pred? obj (car lst)) t)
-   (lst
-    (chase-internal (cdr lst) obj)
-    ;; (chase obj)
-    )))
+   ((,pred? obj head) t)
+   (position (chase obj))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-remove-fun (pred?)
+ `(make-chase-fun (obj lst)
+   ((,pred? obj head) tail)
+   (position (cons head (chase obj)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-index-fun (pred?)
+ `(make-chase-fun (obj lst)
+   ((,pred? obj head) (car rest))
+   (position (chase obj (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -224,14 +209,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-set!
  (make-chase-fun (lst index)
-  ((= index 0) (rplaca! lst (car rest)))
-  (lst (chase-internal (cdr lst) (- index 1) (car rest)))
+  ((zero? index) (rplaca! position (car rest)))
+  (position (chase (1- index) (car rest)))
   (t (error "list-set! out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
  (make-chase-fun (lst index)
-  ((= index 0) (car lst))
-  (lst (chase-internal (cdr lst) (- index 1)))
+  ((zero? index) head)
+  (position (chase (1- index)))
   (t (error "list-ref out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
@@ -244,7 +229,7 @@
 (defun make-list (size init-val)
  (cond
   ((zero? size)  nil)
-  (t            (cons init-val (make-list (- size 1) init-val)))))
+  (t            (cons init-val (make-list (1- size) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq   (make-index-fun   eq?))
 (setq! memq?    (make-member-pred eq?))
@@ -287,17 +272,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar! (fun lst)
  "Map fun over list, altering the list."
- (when lst
-  (rplaca! lst (fun (car lst)))
-  (mapcar! fun (cdr lst))
+ (letrec
+  ((mapcar-internal!
+    (lambda (fun lst)
+     (when lst
+      (rplaca! lst (fun (car lst)))
+      (mapcar! fun (cdr lst))))))
+  (mapcar-internal! fun lst)
   lst))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapc (fun lst)
- "Map fun over list for side-effects only, ignoring the results and returning
-  nil."
- (when lst
-  (fun (car lst))
-  (mapc fun (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst delimiter)
  "Map fun over list, returning the result of concatenating the resulting
@@ -518,13 +500,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
  "Intercalate intercalated between items."
- (if (∨ (nil? lst) (nil? (cdr lst)))
+ (if (or (nil? lst) (nil? (cdr lst)))
   lst
   (cons (car lst)
    (cons intercalated
     (intercalate intercalated (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(defun butlast (lst)
+ "Returns a new list that contains all the elements of the input list except the last one."
+ (if (or (nil? lst) (nil? (cdr lst)))
+  nil
+  (cons (car lst) (butlast (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun reverse (lst)
+ "Returns a new list that is the reverse of the input list."
+ (letrec
+  ((reverse-internal
+    (lambda (lst acc)
+     (if (nil? lst)
+      acc
+      (reverse-internal (cdr lst) (cons (car lst) acc))))))
+  (reverse-internal lst nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (more unsorted):                                                 ;;
@@ -755,9 +752,3 @@
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun butlast (lst)
- "Returns a new list that contains all the elements of the input list except the last one."
- (if (or (nil? lst) (nil? (cdr lst)))
-  nil
-  (cons (car lst) (butlast (cdr lst)))))
