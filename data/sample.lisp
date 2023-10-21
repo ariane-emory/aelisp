@@ -81,7 +81,8 @@
 (defun add-logging-to (fun)
  "Add logging to a function."
  (let* ((fun-name (kget (props fun) :last-bound-to))
-        (old-body (cdr (body fun)))
+        (fun-body (body fun))
+        (old-body-tail (cdr fun-body))
         (new-body
          `((princ
             "Applying "
@@ -92,7 +93,7 @@
             (vals (env))
             ".")
            (nl)
-           (let ((result (progn ,@old-body)))
+           (let ((result (progn ,@old-body-tail)))
             (princ "Result of applying "
              ',fun-name
              " was "
