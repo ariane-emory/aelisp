@@ -12,9 +12,9 @@
 (princ "doubled:         ") (write lst)                  (nl)
 ;; (log-eval t)
 ;; (log-core t)
-(princ "butlast:         ") (write (butlast '(1 2 3 4)))             (nl)
-(princ "reverse:         ") (write (reverse '(1 2 3 4)))             (nl)
-(princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4))))   (nl)
+(princ "butlast:         ") (write (butlast '(1 2 3 4 5)))             (nl)
+(princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
+(princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
 
 (exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
