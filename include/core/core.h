@@ -10,11 +10,19 @@ extern bool log_core;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_1(DO)                                                                                     \
   /*================================================================================================================*/    \
-  DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(lambda,       true,           2,  UNLIMITED, "λ", "lambda",               FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(rplacd,       false,          2,          2, "rplacd!", "setcdr!",        FUNDEF_END)                                \
-  DO(rplaca,       false,          2,          2, "rplaca!", "setcar!",        FUNDEF_END)                                \
+  DO(rplacd,       false,          2,          2, "setcdr!", "rplacd!",        FUNDEF_END)                                \
+  DO(rplaca,       false,          2,          2, "setcar!", "rplaca!",        FUNDEF_END)                                \
+  /*================================================================================================================*/    \
+  DO(type,         false,          1,          1,                              FUNDEF_END) /* GET_TYPE proxy        */    \
+  DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
+  /*================================================================================================================*/    \
+  DO(setq,         true,           1,          2, "setq!",                     FUNDEF_END)                                \
+  /*================================================================================================================*/    \
+  DO(not,          false,          1,  UNLIMITED, "¬", "not",                  FUNDEF_END)                                \
+  DO(or,           true,           2,  UNLIMITED, "∨", "or",                   FUNDEF_END)                                \
+  DO(and,          true,           2,  UNLIMITED, "∧", "and",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(until,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(while,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
@@ -26,18 +34,9 @@ extern bool log_core;
   DO(list,         false,  UNLIMITED,  UNLIMITED,                              FUNDEF_END)                                \
   DO(quote,        true,           1,          1,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(setq,         true,           1,          2, "setq!",                     FUNDEF_END)                                \
-  /*================================================================================================================*/    \
-  DO(type,         false,          1,          1,                              FUNDEF_END) /* GET_TYPE proxy        */    \
-  DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
-  /*================================================================================================================*/    \
   DO(letrec,       true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(let_star,     true,           1,  UNLIMITED, "let*",                      FUNDEF_END)                                \
   DO(let,          true,           1,  UNLIMITED,                              FUNDEF_END)                                \
-  /*================================================================================================================*/    \
-  DO(not,          false,          1,  UNLIMITED, "not", "¬",                  FUNDEF_END)                                \
-  DO(or,           true,           2,  UNLIMITED, "or", "∨",                   FUNDEF_END)                                \
-  DO(and,          true,           2,  UNLIMITED, "and", "∧",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(eql,          false,  UNLIMITED,  UNLIMITED, "eql?",                      FUNDEF_END)                                \
   DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq?",                       FUNDEF_END)                                \
@@ -109,6 +108,7 @@ extern bool log_core;
   DO(set,          false,          1,          2, "set!",                      FUNDEF_END)                                \
   DO(length,       false,          1,          1,                              FUNDEF_END) /* reduceable            */    \
   DO(eval,         false,          1,          1,                              FUNDEF_END)                                \
+  DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(macro,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
