@@ -80,8 +80,8 @@
 
 (defun add-logging-to (fun)
  "Add logging to a function."
- (let* ((fun-name (kget (props fun) :last-bound-to))
-        (old-fun-body (body fun))
+ (let* ((fun-name      (kget (props fun) :last-bound-to))
+        (old-fun-body  (body fun))
         (old-body-tail (cdr old-fun-body))
         (new-body
          `((princ
