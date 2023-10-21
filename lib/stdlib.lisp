@@ -187,10 +187,18 @@
              ,@cond-clauses)))
           (chase
            (lambda (,user-arg . rest)
-            (chase-internal lst ,user-arg . rest)))
+            (chase-internal (cdr lst) ,user-arg . rest)))
           )
          (chase-internal lst ,user-arg . rest)))))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-member-pred (pred?)
+ `(make-chase-fun (obj lst)
+   ((,pred? obj (car lst)) t)
+   (lst
+    (chase-internal (cdr lst) obj)
+    ;; (chase obj)
+    )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
@@ -207,14 +215,6 @@
    (lst
     (chase-internal (cdr lst) obj (if rest (1+ (car rest)) 1))
     ;; (chase obj (if rest (1+ (car rest)) 1))
-    )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-member-pred (pred?)
- `(make-chase-fun (obj lst)
-   ((,pred? obj (car lst)) t)
-   (lst
-    (chase-internal (cdr lst) obj)
-    ;; (chase obj)
     )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
