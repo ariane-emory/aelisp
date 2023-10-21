@@ -74,7 +74,7 @@ typedef struct ae_obj_t {
   // the future it's remaining bits will store other info such as GC related flags:
   unsigned long long int      metadata;
 
-  struct ae_obj_t *           debug_data;
+  struct ae_obj_t *           properties;
   
   union {
     ae_string_t               str_val;
@@ -210,7 +210,7 @@ extern ae_obj_t * symbols_list;
 #define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
 #define ESET(obj, key, val)              ({ CAPTURE((obj)); EOBJ(CAPTURED) = (KSET(EOBJ(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DOBJ(obj)                        ((obj)->debug_data)
+#define DOBJ(obj)                        ((obj)->properties)
 #define DHAS(obj, key)                   (KHAS(DOBJ((obj)), KW(key)))
 #define DGET(obj, key)                   (KGET(DOBJ((obj)), KW(key)))
 #define DSET(obj, key, val)              ({ CAPTURE(obj); DOBJ(CAPTURED) = (KSET(DOBJ(CAPTURED), KW(key), (val))); })
