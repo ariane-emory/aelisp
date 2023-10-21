@@ -3,15 +3,15 @@
 ;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (setq! lst '(1 2 3 4 5 6 7 8 9 10))
 
-(princ "initial lst: ") (write lst)              (nl)
-(princ "memql? 2:    ") (write (memql?   3 lst)) (nl)
-(princ "removeql 4:  ") (write (removeql 4 lst)) (nl)
-(princ "indesql 2:   ") (write (indexql  2 lst)) (nl)
+(princ "initial lst:     ") (write lst)              (nl)
+(princ "memql? 2:        ") (write (memql?   3 lst)) (nl)
+(princ "removeql 4:      ") (write (removeql 4 lst)) (nl)
+(princ "indesql 2:       ") (write (indexql  2 lst)) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! lst (make-list 6 1))
-(princ "make-list:   ") (write lst) (nl)
+(setq! lst (make-list 6 200))
+(princ "make-list:       ") (write lst) (nl)
 
 (list-set! lst 0 100)
 (princ "list-set! 0 100: ") (write lst) (nl)
