@@ -88,9 +88,7 @@ ae_obj_t * setup_root_env(void) {
       //LOG(pool_get_object(ix), "#%d: Setting origin to 'primordial'", ix);
 #endif
       
-#ifdef AE_DEBUG_OBJ
       DOBJ(pool_get_object(ix)) = primordial_origin;
-#endif
     }
 
   PR("Done painting objects populating the root env with origin = primordial.");
@@ -170,9 +168,7 @@ void paint_parsed(void) {
       //  LOG(pool_get_object(ix), "#%d: Setting origin to 'read'", ix);
 #endif
       
-#ifdef AE_DEBUG_OBJ
       DOBJ(pool_get_object(ix)) = read_origin;
-#endif
     }
 
   PR("Done painting objects read from file with origin = read.");
