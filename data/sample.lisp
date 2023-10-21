@@ -82,17 +82,16 @@
  "Add logging to a function."
  (let* ((old-body (cdr (body fun)))
         (new-body
-         `(
-           (princ
+         `((princ
             "Applying "
             ',(kget (props fun) :last-bound-to)
             " to "
             (vals (env)))
            (nl)
-           (let ((x 1))
-            ,@old-body))))
-  (rplacd! (body fun) new-body) 
-  (body fun)))
+           (let ((result (progn ,@old-body)))
+            result))))
+        (rplacd! (body fun) new-body))
+ (body fun))
 
 (write (add-logging lshift4)) (nl)
 (write (lshift4 4)) (nl)
