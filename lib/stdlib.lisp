@@ -219,7 +219,7 @@
                    (cond ,@cond-clauses))))
             (chase
              (lambda (,user-arg . rest)
-              (chase-internal (cdr position) ,user-arg . rest)))
+              (chase-internal (cdr position) ,user-arg . rest))))
            (chase-internal position ,user-arg . rest))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
