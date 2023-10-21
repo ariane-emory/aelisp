@@ -100,3 +100,5 @@
 ;;(princ (with-log-eval '(incremental-select (lambda (x) (> x 2)) '(1 2 3 . 4))))
 ;;(nl)
 
+(princ (funcall + 2 3)) (nl)
+
