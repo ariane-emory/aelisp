@@ -246,13 +246,13 @@
  (setq! list-set!
   (make-chase-fun (lst index)
    ((= index 0) (rplaca! position (car rest)))
-   (lst (chase (- index 1) (car rest)))
+   (position (chase (- index 1) (car rest)))
    (t (error "list-set! out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-ref
   (make-chase-fun (lst index)
    ((= index 0) head)
-   (lst (chase (1- index)))
+   (position (chase (1- index)))
    (t (error "list-ref out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-length length)
