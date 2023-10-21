@@ -209,12 +209,9 @@
    ((not (or lst-first (eq? 'lst (second params))))
     (error "one of the params must be the symbol 'lst"))
    (t `(lambda ,lambda-params
-        (let ((position lst)
-              (head (car lst))
-              (tail (cdr lst)))
+        (let ((position lst))
          (letrec
-          (
-           (chase-internal
+          ((chase-internal
             (lambda (lst ,user-arg . rest)
              (setq! position lst)
              (let ((head (car lst))
@@ -223,7 +220,6 @@
             (chase
              (lambda (,user-arg . rest)
               (chase-internal (cdr position) ,user-arg . rest)))
-            )
            (chase-internal position ,user-arg . rest))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
