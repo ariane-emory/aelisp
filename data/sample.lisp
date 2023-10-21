@@ -85,7 +85,7 @@
          `(progn
            (princ
             "Applying  "
-            (kget (props double) :last-bound-to)
+            (kget (props ,fun) :last-bound-to)
             " to ")
            (princ (vals (env)))
            (nl)
