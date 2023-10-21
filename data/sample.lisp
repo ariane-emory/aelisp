@@ -87,20 +87,12 @@
          (old-body-tail (cdr old-fun-body))
          (new-body
           `((princ
-             "Applying "
-             ',fun-name
-             " to parameters "
-             (syms (env))
-             " with arguments "
-             (vals (env))
-             ".")
+             "Applying " ',fun-name
+             " to parameters "  (syms (env))
+             " with arguments " (vals (env)) ".")
             (nl)
             (let ((result (progn ,@old-body-tail)))
-             (princ "Result of applying "
-              ',fun-name
-              " was "
-              result
-              ".")
+             (princ "Result of applying " ',fun-name " was " result ".")
              (nl)
              result))))
    (rplacd! (body fun) new-body))
@@ -109,5 +101,5 @@
 
 (add-logging-to lshift4) (nl)
 (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
-(princ "Call returned " (lshift4 4) ".") (nl) (nl)
+(princ "Call returned " (lshift4 4) ".") (nl)
 (add-logging-to lshift4) (nl)
