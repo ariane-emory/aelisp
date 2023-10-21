@@ -19,3 +19,27 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   CORE_RETURN("env", env);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _syms
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_syms(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("syms");
+
+  REQUIRE(env, args, ENVP(CAR(args)));
+
+  CORE_RETURN("syms", ENV_SYMS(CAR(args)));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _vals
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_vals(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("vals");
+
+  REQUIRE(env, args, ENVP(CAR(args)));
+
+  CORE_RETURN("vals", ENV_VALS(CAR(args)));
+}
+
