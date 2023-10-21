@@ -224,13 +224,13 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
       goto end_of_env_write;
     }
     
-    if (DHAS(this, "fun")) {      
+    if (HAS_PROP(this, "fun")) {      
       char * fun_name = NULL;
 
-      if (COREP(DGET(this, "fun")))
-        fun_name = CORE_NAME(DGET(this, "fun"));
-      else if (LAMBDAP(DGET(this, "fun")) || MACROP(DGET(this, "fun")))
-        fun_name = SYM_VAL(DGET(DGET(this, "fun"), "last-bound-to"));
+      if (COREP(GET_PROP(this, "fun")))
+        fun_name = CORE_NAME(GET_PROP(this, "fun"));
+      else if (LAMBDAP(GET_PROP(this, "fun")) || MACROP(GET_PROP(this, "fun")))
+        fun_name = SYM_VAL(GET_PROP(GET_PROP(this, "fun"), "last-bound-to"));
       else 
         assert(((void)"unknown fun type", false));
 
@@ -264,9 +264,9 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
     break;
   case AE_LAMBDA:
   case AE_MACRO:
-    if (DHAS(this, "last-bound-to")) {
+    if (HAS_PROP(this, "last-bound-to")) {
       COUNTED_FPRINTF(fwrite_stream, "%s<%s ", GET_TYPE_STR(this),
-                      SYM_VAL(DGET(this, "last-bound-to")));
+                      SYM_VAL(GET_PROP(this, "last-bound-to")));
       ae_fwrite_internal(FUN_PARAMS(this));
       COUNTED_FPRINTF(fwrite_stream,">");
     }

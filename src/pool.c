@@ -101,8 +101,8 @@ void pool_print(void) {
 
     FF;
     
-    if (! NILP(DOBJ(&pool[ix])))
-      WRITE(DOBJ(&pool[ix]));
+    if (! NILP(PROPS(&pool[ix])))
+      WRITE(PROPS(&pool[ix]));
     
     putchar('\n');
   }
@@ -164,9 +164,9 @@ void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * cons
   
   while (ix --> first_allocated) {
 #ifdef AE_SHARED_PRIMORDIAL_TAIL
-    DOBJ(&pool[ix]) = common_tail;
+    PROPS(&pool[ix]) = common_tail;
 #else
-    KSET(DOBJ(&pool[ix]), key, value);
+    KSET(PROPS(&pool[ix]), key, value);
 #endif        
   }
 }

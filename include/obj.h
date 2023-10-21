@@ -210,10 +210,10 @@ extern ae_obj_t * symbols_list;
 #define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
 #define ESET(obj, key, val)              ({ CAPTURE((obj)); EOBJ(CAPTURED) = (KSET(EOBJ(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DOBJ(obj)                        ((obj)->properties)
-#define DHAS(obj, key)                   (KHAS(DOBJ((obj)), KW(key)))
-#define DGET(obj, key)                   (KGET(DOBJ((obj)), KW(key)))
-#define DSET(obj, key, val)              ({ CAPTURE(obj); DOBJ(CAPTURED) = (KSET(DOBJ(CAPTURED), KW(key), (val))); })
+#define PROPS(obj)                       ((obj)->properties)
+#define HAS_PROP(obj, key)               (KHAS(PROPS((obj)), KW(key)))
+#define GET_PROP(obj, key)               (KGET(PROPS((obj)), KW(key)))
+#define SET_PROP(obj, key, val)          ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
