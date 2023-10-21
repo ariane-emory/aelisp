@@ -16,7 +16,9 @@
 ;; (exit)
 (princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
 (princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
+(write "in")
 (princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+(write "out")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 200))

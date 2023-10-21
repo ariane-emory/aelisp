@@ -567,7 +567,7 @@
 (setq! union2ql
  (lambda (lst1 lst2)
   "Make the union of two list, using eql? to test equality."
-  (union2 memq? lst1 lst2)))
+  (union2 memql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! unionql
  (reduced union2ql))
