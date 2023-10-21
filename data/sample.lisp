@@ -81,7 +81,7 @@
 (defun add-logging-to (fun)
  "Add logging to a function."
  (if (has? :added-logging fun)
-  (error "logging was already added to fun")
+  (error "logging was already added to this fun")
   (let* ((fun-name      (get :last-bound-to fun))
          (old-fun-body  (body fun))
          (old-body-tail (cdr old-fun-body))
@@ -109,7 +109,5 @@
 
 (add-logging-to lshift4) (nl)
 (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
-(princ "Call returned " (lshift4 4) ".") (nl)
-(nl)
-(princ (props lshift4)) (nl)
-;(add-logging-to lshift4) (nl)
+(princ "Call returned " (lshift4 4) ".") (nl) (nl)
+(add-logging-to lshift4) (nl)
