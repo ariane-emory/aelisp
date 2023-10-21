@@ -189,7 +189,7 @@
            (lambda (,user-arg . rest)
             (chase-internal lst ,user-arg . rest)))
           )
-         (chase ,user-arg . rest)))))))
+         (chase-internal lst ,user-arg . rest)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
