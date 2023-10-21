@@ -100,8 +100,8 @@
              ".")
             (nl)
             result))))
-        (rplacd! (body fun) new-body))
- (body fun))
+  (rplacd! (body fun) new-body))
+ fun)
 
-(princ (add-logging lshift4)) (nl)
+(princ (body (add-logging lshift4))) (nl)
 (princ "Call returned " (lshift4 4) ".") (nl)
