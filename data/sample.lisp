@@ -75,7 +75,7 @@
 
 ;; (test-it (obj j))
 
-(defun quadruple (n)
+(defun lshift4 (n)
  (<< n 4))
 
 (defun add-logging (fun)
@@ -84,7 +84,7 @@
         (new-body
          `(progn
            (princ
-            "Applying  "
+            "Applying "
             (kget (props ,fun) :last-bound-to)
             " to ")
            (princ (vals (env)))
@@ -93,8 +93,5 @@
   (rplacd! (body fun) new-body) 
   (body fun)))
 
-
-;; ("Quadruple a number" (<< n 4))
-
-(write (add-logging quadruple)) (nl)
-(write (quadruple 4)) (nl)
+(write (add-logging lshift4)) (nl)
+(write (lshift4 4)) (nl)
