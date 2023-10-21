@@ -231,7 +231,7 @@
  (defmacro make-remove-fun (pred?)
   `(make-chase-fun (obj lst)
     ((,pred? obj head) (cdr lst))
-    (position (cons (car lst) (chase obj)))))
+    (position (cons head (chase obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-index-fun (pred?)
   `(make-chase-fun (obj lst)
@@ -246,7 +246,7 @@
  (setq! list-set!
   (make-chase-fun (lst index)
    ((zero? index) (rplaca! position (car rest)))
-   (position (chase (- index 1) (car rest)))
+   (position (chase (1- index) (car rest)))
    (t (error "list-set! out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-ref
