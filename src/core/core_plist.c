@@ -4,36 +4,29 @@
 // _pset
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_dpset(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("pset");
 
-  ae_obj_t * key       = CAR(args);
-  ae_obj_t * value     = CADR(args); // this could be unsafe if value is NIL, maybe.
-  ae_obj_t * obj       = CADDR(args);
-  
-  ae_obj_t * plist     = DOBJ(obj);
-  ae_obj_t * new_plist = PSET(plist, key, value);
+  ae_obj_t * plist = CAR(args);
+  ae_obj_t * key   = CADR(args);
+  ae_obj_t * value = CADDR(args); // this could be unsave if value is NIL, maybe.
 
-  DOBJ(obj)            = new_plist;
-  
-  CORE_RETURN("pset", new_plist);
+  CORE_RETURN("pset", PSET(plist, key, value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _pget
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_dpget(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_pget(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("pget");
 
-  ae_obj_t * key   = CAR(args);
-  ae_obj_t * obj   = CADR(args);
-  
-  ae_obj_t * plist = DOBJ(obj);
+  ae_obj_t * plist = CAR(args);
+  ae_obj_t * key   = CADR(args);
 
   CORE_RETURN("pget", PGET(plist, key));
 }
@@ -42,15 +35,13 @@ ae_obj_t * ae_core_dpget(__attribute__((unused)) ae_obj_t * const env,
 // _phas
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_dphas(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_phas(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("phas");
 
-  ae_obj_t * key   = CAR(args);
-  ae_obj_t * obj   = CADR(args);
-  
-  ae_obj_t * plist = DOBJ(obj);
+  ae_obj_t * plist = CAR(args);
+  ae_obj_t * key   = CADR(args);
 
   CORE_RETURN("phas", TRUTH(PHAS(plist, key)));
 }
