@@ -104,7 +104,7 @@
              (nl)
              result))))
    (rplacd! (body fun) new-body))
-  (write (put! :added-logging t fun)) (nl)
+  (put! :added-logging t fun) (nl)
   fun))
 
 (add-logging-to lshift4) (nl)
