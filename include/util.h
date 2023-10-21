@@ -77,3 +77,6 @@ void indent(void);
 void outdent(void);
 const char * a_or_an(const char * str);
 const char * s_or_blank(int count);
+long long int now(void);
+long long int elapsed(long long int time);
+
