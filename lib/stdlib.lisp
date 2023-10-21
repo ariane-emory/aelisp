@@ -187,18 +187,19 @@
              ,@cond-clauses)))
           (chase
            (lambda (,user-arg . rest)
-            (chase-internal lst user-val . rest)))
+            (chase-internal lst ,user-arg . rest)))
           )
-         (chase-internal lst ,user-arg . rest)))))))
+         (chase ,user-arg . rest)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? (car lst) obj) (cdr lst))
-   (lst (cons (car lst)
-         (chase-internal (cdr lst) obj)
-         ;; (chase                       obj)
-         ))))
+   (lst
+    (cons (car lst)
+     (chase-internal (cdr lst) obj)
+     ;; (chase obj)
+     ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
  `(make-chase-fun (obj lst)

@@ -1,9 +1,9 @@
 
-;; (log-eval t) (log-core t)
 ;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (setq! lst '(1 2 3 4 5 6 7 8 9 10))
 
 (princ "initial lst:     ") (write lst)              (nl)
+;; (log-eval t) (log-core t)
 (princ "memql? 2:        ") (write (memql?   3 lst)) (nl)
 (princ "removeql 4:      ") (write (removeql 4 lst)) (nl)
 (princ "indesql 2:       ") (write (indexql  2 lst)) (nl)
