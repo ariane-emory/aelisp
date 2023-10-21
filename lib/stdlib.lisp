@@ -191,13 +191,50 @@
           )
          (chase-internal lst ,user-arg . rest)))))))
 
+(defmacro make-chase-fun (params . cond-clauses)
+ "Creates a function for recursive traversal and processing of lists.
+  
+  This macro is a generalized version that allows customization of 
+  the parameter order through the PARAMS parameter.
+  
+  PARAMS:       A list that specifies the parameter order.
+  COND-CLAUSES: The conditions to process the list."
+ (let* ((lst-first     (eq? 'lst (first params)))
+        (user-arg      (if lst-first (second params) (first params)))
+        (lambda-params (cons (first params) (cons (second params) 'rest))))
+
+   (cond
+    ((!= 2 (length params))
+     (error "params needs length 2"))
+    ((not (or lst-first (eq? 'lst (second params))))
+     (error "one of the params must be the symbol 'lst"))
+    (t `(lambda ,lambda-params
+         (let ((local-lst lst))
+           (letrec
+            (
+             (chase-internal
+              (lambda (lst ,user-arg . rest)
+               (set! local-lst lst)
+               (cond
+                ,@cond-clauses)))
+             (chase
+              (lambda (,user-arg . rest)
+               (chase-internal (cdr local-lst) ,user-arg . rest)))
+             )
+            (chase-internal local-lst ,user-arg . rest))))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-member-pred (pred?)
+ `(make-chase-fun (obj lst)
+   ((,pred? obj (car lst)) t)
+   (obj (chase obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) t)
    (lst
-    (chase-internal (cdr lst) obj)
-    ;; (chase obj)
+    ;;(chase-internal (cdr lst) obj)
+    (chase obj)
     )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-remove-fun (pred?)
