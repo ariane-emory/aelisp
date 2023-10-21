@@ -82,7 +82,7 @@
  "Add logging to a function."
  (let* ((old-body (cdr (body fun)))
         (new-body
-         `(progn
+         `(
            (princ
             "Applying "
             ',(kget (props fun) :last-bound-to)
