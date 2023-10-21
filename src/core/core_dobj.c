@@ -18,12 +18,12 @@ ae_obj_t * ae_core_props(
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _daset
+// _set_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_daset(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_set_prop(__attribute__((unused)) ae_obj_t * const env,
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("aset");
 
   ae_obj_t * key           = CAR(args);
@@ -38,12 +38,12 @@ ae_obj_t * ae_core_daset(__attribute__((unused)) ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _get
+// _get_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_get(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_get_prop(__attribute__((unused)) ae_obj_t * const env,
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("get");
 
   ae_obj_t * key       = CAR(args);
@@ -54,12 +54,12 @@ ae_obj_t * ae_core_get(__attribute__((unused)) ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _has
+// _has_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_has(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_has_prop(__attribute__((unused)) ae_obj_t * const env,
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("has");
 
   ae_obj_t * key       = CAR(args);
