@@ -11,7 +11,7 @@
 ;; (log-core t)
 (princ "mapcar!:         ") (write (mapcar! double lst)) (nl)
 (princ "doubled:         ") (write lst)                  (nl)
-
+(princ "butlast:         ") (write (butlast lst))        (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 200))
