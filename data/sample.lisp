@@ -79,14 +79,15 @@
  (<< n 4))
 
 (defun add-logging (fun)
- "Add a msg to a function."
+ "Add a logging to a function."
  (let* ((old-body (cdr (body fun)))
         (new-body
          `(progn
-           (princ "Applying  ")
-           (princ (kget (props double) :last-bound-to))
-           (princ " to ")
-           (princ (syms (env)))
+           (princ
+            "Applying  "
+            (kget (props double) :last-bound-to)
+            " to ")
+           (princ (vals (env)))
            (nl)
            ,@old-body)))
   (rplacd! (body fun) new-body) 
