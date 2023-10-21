@@ -164,13 +164,13 @@
   
   PARAMS:       A list that specifies the parameter order.
   COND-CLAUSES: The conditions to process the list."
- (let* ((lst-first     (eq? 'lst (first params)))
-        (user-arg      (if lst-first (second params) (first params)))
+ (let* ((lst-is-first? (eq? 'lst (first  params)))
+        (user-arg      (if lst-is-first? (second params) (first params)))
         (lambda-params (cons (first params) (cons (second params) 'rest))))
   (cond
    ((!= 2 (length params))
     (error "params needs length 2"))
-   ((not (or lst-first (eq? 'lst (second params))))
+   ((not (or lst-is-first? (eq? 'lst (second params))))
     (error "one of the params must be the symbol 'lst"))
    (t `(lambda ,lambda-params
         (let ((position lst))

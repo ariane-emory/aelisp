@@ -7,6 +7,8 @@
 (princ "memql? 2:        ") (write (memql?   3 lst)) (nl)
 (princ "removeql 4:      ") (write (removeql 4 lst)) (nl)
 (princ "indexql 5:       ") (write (indexql  5 lst)) (nl)
+(mapcar! double lst)
+(princ "doubled:         ") (write lst)              (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
