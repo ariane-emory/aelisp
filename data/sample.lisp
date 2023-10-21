@@ -1,36 +1,24 @@
 
-(when t
- (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
- (write (memql?   3 lst)) (nl)
- (write (removeql 4 lst)) (nl)
- (write (indexql  2 lst)) (nl)
- (exit)
-
- (log-eval t)
- (write (indexql 1 lst))
- (nl)
-
- (write (unionq '(1 2 3 4) '(4 5 2 2) '(5 6 7 8)))
- (nl))
+(setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
+(write (memql?   3 lst)) (nl)
+(write (removeql 4 lst)) (nl)
+(write (indexql  2 lst)) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 1))
-
-(when nil
- (log-eval t)
- (log-core t)
- (log-macro t))
+(write lst) (nl)
 
 (list-set! lst 0 2)
+(write lst) (nl)
+
 (list-set! lst 4 8)
+(write lst) (nl)
+
 (list-set! lst 5 10)
+(write lst) (nl)
 
-(princ "here ")
-(write lst)
-(nl)
-
-(write (list-ref lst 4))
+;(write (list-ref lst 4))
 (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

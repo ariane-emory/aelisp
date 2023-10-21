@@ -42,6 +42,8 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       ? NIL
       : BAIL_IF_ERROR(EVAL(env, CADR(varlist_item)));
 
+    if (LAMBDAP(val) || MACROP(val))
+      DSET(val, "last-bound-to", CAR(varlist_item));
 
     if (log_core) {
       if (SYMBOLP(varlist_item))
@@ -114,6 +116,9 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
       ? NIL
       : BAIL_IF_ERROR(EVAL(new_env, CADR(varlist_item)));
 
+    if (LAMBDAP(val) || MACROP(val))
+      DSET(val, "last-bound-to", CAR(varlist_item));
+
     if (log_core) {
       if (SYMBOLP(varlist_item))
         LOG(varlist_item, "binding symbol");
@@ -183,7 +188,12 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
     INDENT;
 
-    ae_obj_t * val = SYMBOLP(varlist_item) ? NIL : BAIL_IF_ERROR(EVAL(new_env, CADR(varlist_item)));
+    ae_obj_t * val = SYMBOLP(varlist_item)
+      ? NIL
+      : BAIL_IF_ERROR(EVAL(new_env, CADR(varlist_item)));
+
+    if (LAMBDAP(val) || MACROP(val))
+      DSET(val, "last-bound-to", CAR(varlist_item));
 
     if (log_core) {
       if (SYMBOLP(varlist_item))
