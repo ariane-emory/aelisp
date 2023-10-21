@@ -80,8 +80,8 @@ extern bool log_core;
   DO(body,         false,          1,          1,                              FUNDEF_END) /* fun accessor          */    \
   DO(params,       false,          1,          1,                              FUNDEF_END) /* fun accessor          */    \
   DO(env,          false,          0,          1,                              FUNDEF_END) /* env/fun accessor      */    \
-  DO(vals,         false,          1,          1,                              FUNDEF_END) /* env accessor          */    \
-  DO(syms,         false,          1,          1,                              FUNDEF_END) /* env accessor          */    \
+  DO(vals,         false,          0,          1,                              FUNDEF_END) /* env accessor          */    \
+  DO(syms,         false,          0,          1,                              FUNDEF_END) /* env accessor          */    \
   /*================================================================================================================*/    \
   DO(repeat,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
