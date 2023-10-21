@@ -7,11 +7,13 @@
 (princ "memql? 2:        ") (write (memql?   3 lst))     (nl)
 (princ "removeql 4:      ") (write (removeql 4 lst))     (nl)
 (princ "indexql 5:       ") (write (indexql  5 lst))     (nl)
-;; (log-eval t)
 ;; (log-core t)
 (princ "mapcar!:         ") (write (mapcar! double lst)) (nl)
 (princ "doubled:         ") (write lst)                  (nl)
+(log-eval t)
+(log-core t)
 (princ "butlast:         ") (write (butlast lst))        (nl)
+(exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 200))
