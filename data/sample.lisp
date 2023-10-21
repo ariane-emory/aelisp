@@ -102,5 +102,5 @@
         (rplacd! (body fun) new-body))
  (body fun))
 
-(write (add-logging lshift4)) (nl)
-(write "Call returned " (lshift4 4) ".") (nl)
+(princ (add-logging lshift4)) (nl)
+(princ "Call returned " (lshift4 4) ".") (nl)
