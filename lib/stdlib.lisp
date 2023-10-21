@@ -215,19 +215,13 @@
              (chase-internal
               (lambda (lst ,user-arg . rest)
                (setq! position lst)
-               (cond
-                ,@cond-clauses)))
+               (cond ,@cond-clauses)))
              (chase
               (lambda (,user-arg . rest)
                (chase-internal (cdr position) ,user-arg . rest)))
              )
             (chase-internal position ,user-arg . rest))))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-member-pred (pred?)
- `(make-chase-fun (obj lst)
-   ((,pred? obj (car lst)) t)
-   (lst (chase obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
@@ -242,10 +236,7 @@
 (defmacro make-index-fun (pred?)
  `(make-chase-fun (obj lst)
    ((,pred? obj (car lst)) (car rest))
-   (lst
-    (chase-internal (cdr lst) obj (if rest (1+ (car rest)) 1))
-    ;; (chase obj (if rest (1+ (car rest)) 1))
-    )))
+   (lst (chase obj (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -255,13 +246,13 @@
 (setq! list-set!
  (make-chase-fun (lst index)
   ((= index 0) (rplaca! lst (car rest)))
-  (lst (chase-internal (cdr lst) (- index 1) (car rest)))
+  (lst (chase (- index 1) (car rest)))
   (t (error "list-set! out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-ref
  (make-chase-fun (lst index)
   ((= index 0) (car lst))
-  (lst (chase-internal (cdr lst) (- index 1)))
+  (lst (chase (1- index)))
   (t (error "list-ref out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list-length length)
