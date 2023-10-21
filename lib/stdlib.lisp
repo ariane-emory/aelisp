@@ -732,6 +732,15 @@
          (time-taken (elapsed begin)))
    (cons (/ time-taken 1000) $(result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro time-msg (msg head-expr . tail-exprs)
+ `(let ((time-taken (/ (car (time ,head-expr . ,tail-exprs)) 1000)))
+   (princ ,msg)
+   (princ " took ")
+   (princ time-taken)
+   (princ " ms.")
+   (nl)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos scheme compat:
