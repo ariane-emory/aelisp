@@ -6,11 +6,11 @@
 // _time
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_time(__attribute__((unused)) ae_obj_t * const env,
-                        __attribute__((unused)) ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("time");
-  CORE_RETURN("time", NEW_INT(now()));
+ae_obj_t * ae_core_now(__attribute__((unused)) ae_obj_t * const env,
+                       __attribute__((unused)) ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
+  CORE_BEGIN("now");
+  CORE_RETURN("now", NEW_INT(now()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ ae_obj_t * ae_core_elapsed(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("elapsed");
   REQUIRE(env, args, INTEGERP(CAR(args)));
-  CORE_RETURN("time", NEW_INT(now() - INT_VAL(CAR(args))));
+  CORE_RETURN("elapses", NEW_INT(now() - INT_VAL(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
