@@ -186,8 +186,8 @@
             (cond
              ,@cond-clauses)))
           (chase
-           (lambda (user-val . rest)
-            (chase-internal (cdr lst) user-val . rest)))
+           (lambda (,user-arg . rest)
+            (chase-internal lst user-val . rest)))
           )
          (chase-internal lst ,user-arg . rest)))))))
 
