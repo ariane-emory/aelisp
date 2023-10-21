@@ -550,16 +550,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (unions):                                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun union2 (memp? list1 list2)
+(defun union2 (equalityp? list1 list2)
  "Return the union of two lists, using memp? to test for duplicates."
- (let* ((combine (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
-        (union1 (reduce combine '() list1)))
+ (let* ((memp?    (make-member-pred equalityp?))
+        (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
+        (union1   (reduce combine '() list1)))
   (reduce combine union1 list2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! union2q
  (lambda (lst1 lst2)
   "Make the union of two list, using eq? to test equality."
-  (union2 memq? lst1 lst2)))
+  (union2 eq? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! unionq
  (reduced union2q))
@@ -567,7 +568,7 @@
 (setq! union2ql
  (lambda (lst1 lst2)
   "Make the union of two list, using eql? to test equality."
-  (union2 memql? lst1 lst2)))
+  (union2 eql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! unionql
  (reduced union2ql))
