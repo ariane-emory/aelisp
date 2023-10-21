@@ -3,7 +3,7 @@
  (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
  (write (memql?   3 lst)) (nl)
  (write (removeql 4 lst)) (nl)
- (write (indexql  4 lst)) (nl)
+ (write (indexql  2 lst)) (nl)
  (exit)
 
  (log-eval t)
