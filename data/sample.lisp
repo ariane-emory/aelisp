@@ -85,11 +85,11 @@
          `(progn
            (princ
             "Applying "
-            (kget (props ,fun) :last-bound-to)
+            ',(kget (props fun) :last-bound-to)
             " to "
             (vals (env)))
            (nl)
-           ,@old-body)))
+           ,@(cdr old-body))))
   (rplacd! (body fun) new-body) 
   (body fun)))
 
