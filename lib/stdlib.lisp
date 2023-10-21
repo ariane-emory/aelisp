@@ -162,7 +162,8 @@
   This macro is a generalized version that allows customization of 
   the parameter order through the PARAMS parameter.
   
-  PARAMS:       A list that specifies the parameter order.
+  PARAMS:       A list of length 2 that specifies the parameter order.
+                One parameter must be the symbol 'lst.
   COND-CLAUSES: The conditions to process the list."
  (let* ((lst-is-first? (eq? 'lst (first  params)))
         (user-param    (if lst-is-first? (second params) (first params)))
@@ -275,6 +276,12 @@
   (rplaca! lst (fun (car lst)))
   (mapcar! fun (cdr lst))
   lst))
+;; (setq! mapcar! ;; very slow version
+;;  (make-chase-fun (fun lst)
+;;   (position
+;;    (progn
+;;     (rplaca! position (fun head))
+;;     (chase fun)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
  "Map fun over list for side-effects only, ignoring the results and returning
