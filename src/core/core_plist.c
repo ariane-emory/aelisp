@@ -15,6 +15,8 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
   
   ae_obj_t * plist     = DOBJ(obj);
   ae_obj_t * new_plist = PSET(plist, key, value);
+
+  DOBJ(obj)            = new_plist;
   
   CORE_RETURN("pset", new_plist);
 }

@@ -16,6 +16,8 @@ ae_obj_t * ae_core_aset(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * alist     = DOBJ(obj);
   ae_obj_t * new_alist = ASET(alist, key, value);
 
+  DOBJ(obj)            = new_alist;
+
   CORE_RETURN("aset", new_alist);
 }
 
