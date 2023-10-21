@@ -85,18 +85,22 @@
          `((princ
             "Applying "
             ',(kget (props fun) :last-bound-to)
-            " to "
-            (vals (env)))
+            " to parameters "
+            (syms (env))
+            " with arguments "
+            (vals (env))
+            ".")
            (nl)
            (let ((result (progn ,@old-body)))
             (princ "Result of applying "
              ',(kget (props fun) :last-bound-to)
              " was "
-             result)
+             result
+             ".")
             (nl)
             result))))
         (rplacd! (body fun) new-body))
  (body fun))
 
 (write (add-logging lshift4)) (nl)
-(write (lshift4 4)) (nl)
+(write "Call returned " (lshift4 4) ".") (nl)
