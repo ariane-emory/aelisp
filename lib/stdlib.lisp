@@ -785,7 +785,7 @@
   (setq! #f            nil)
   (setq! #t            t)
   (setq! ???           'unspecified-result)
-  (setq! assoc         ahas) 
+  (setq! assoc         ahas?) 
   (setq! assq          aget) 
   (setq! collect-if    filter)
   (setq! define        setq!)
