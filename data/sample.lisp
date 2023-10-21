@@ -10,9 +10,12 @@
 ;; (log-core t)
 (princ "mapcar!:         ") (write (mapcar! double lst)) (nl)
 (princ "doubled:         ") (write lst)                  (nl)
-(log-eval t)
-(log-core t)
-(princ "butlast:         ") (write (butlast lst))        (nl)
+;; (log-eval t)
+;; (log-core t)
+(princ "butlast:         ") (write (butlast '(1 2 3 4)))             (nl)
+(princ "reverse:         ") (write (reverse '(1 2 3 4)))             (nl)
+(princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4))))   (nl)
+
 (exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
