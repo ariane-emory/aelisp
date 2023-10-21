@@ -230,7 +230,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-remove-fun (pred?)
   `(make-chase-fun (obj lst)
-    ((,pred? obj head) (cdr lst))
+    ((,pred? obj head) tail)
     (position (cons head (chase obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-index-fun (pred?)
