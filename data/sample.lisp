@@ -46,7 +46,7 @@
 (princ "list-set! 5 105: ") (write lst) (nl)
 (princ "list-ref  5:     ") (write (list-ref lst 5)) (nl)
 
-(exit)
+;; (exit)
 
 ;;(write (list-ref lst 4))
 
@@ -75,3 +75,26 @@
 
 ;; (test-it (obj j))
 
+(defun quadruple (n)
+ (<< n 4))
+
+(defun add-logging (fun)
+  "Add a msg to a function."
+ (let* ((old-body (cdr (body fun)))
+        (new-body
+         (cons
+          '(let ((x 1))
+            (princ "Applying  ")
+            (princ (kget (props double) :last-bound-to))
+            (princ " to ")
+            (princ (syms (env (env))))
+            (nl))
+          (progn old-body))))
+  (rplacd! (body fun) new-body) 
+  (body fun)))
+
+
+ ;; ("Quadruple a number" (<< n 4))
+ 
+(write (add-logging quadruple)) (nl)
+(write (quadruple 4)) (nl)

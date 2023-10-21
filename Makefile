@@ -3,7 +3,7 @@ UNAME_S      = $(shell uname -s)
 SRCS         = $(shell find src  -name "*.c" -a -not -name "main.c" -a -not -name "repl.c" -a -not -name "test.c")
 OBJS         = $(patsubst src/%.c, obj/%.o, $(SRCS)) obj/ae.tab.o obj/ae.l.o
 INCLUDE_DIRS = $(foreach dir, $(shell find include -type d) 3p/bestline, -I$(dir) -Itmp) 
-POOL_SIZE   := $(shell echo "$$(( 1 << 28))" )
+POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
 # TEST_SRCS    = $(shell find test -name "*.c")
 # TEST_BINS    = $(patsubst test/%.c, bin/%-test, $(TEST_SRCS))
 

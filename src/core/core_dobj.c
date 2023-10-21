@@ -1,18 +1,18 @@
 #include "core_includes.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _dobj
+// _props
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_dobj(
+ae_obj_t * ae_core_props(
   __attribute__((unused)) ae_obj_t * const env,
   __attribute__((unused)) ae_obj_t * const args,
   __attribute__((unused)) int              args_length) {
-  CORE_BEGIN("dobj");
+  CORE_BEGIN("props");
 
 #ifdef AE_DEBUG_OBJ
-  CORE_RETURN("dobj", DOBJ(CAR(args)));
+  CORE_RETURN("props", DOBJ(CAR(args)));
 #else
-  CORE_RETURN("dobj", NIL);
+  CORE_RETURN("props", NIL);
 #endif
 }

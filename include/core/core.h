@@ -35,9 +35,9 @@ extern bool log_core;
   DO(not,          false,          1,  UNLIMITED, "not", "¬",                  FUNDEF_END) /* reduceable            */    \
   DO(or,           true,           2,  UNLIMITED, "or", "∨",                   FUNDEF_END) /* reduceable            */    \
   DO(and,          true,           2,  UNLIMITED, "and", "∧",                  FUNDEF_END) /* reduceable            */    \
-  DO(let_star,     true,           2,  UNLIMITED, "let*",                      FUNDEF_END)                                \
-  DO(letrec,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
-  DO(let,          true,           2,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(let_star,     true,           1,  UNLIMITED, "let*",                      FUNDEF_END)                                \
+  DO(letrec,       true,           1,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(let,          true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(cdr,          false,          1,          1,                              FUNDEF_END)                                \
   DO(car,          false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
@@ -67,7 +67,7 @@ extern bool log_core;
   DO(log_all,      false,          0,          1, "log-all",                   FUNDEF_END)                                \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
-  DO(dobj,         false,          1,          1, "dobj", "debug-object",      FUNDEF_END) /* debug data accessor   */    \
+  DO(props,         false,          1,          1, "props", "debug-object",      FUNDEF_END) /* debug data accessor   */    \
   DO(error,        false,          1,          2,                              FUNDEF_END)                                \
   DO(errmsg,       false,          1,          1, "errmsg", "error-message",   FUNDEF_END) /* error accessor        */    \
   DO(name,         false,          1,          1, "sym-name",                  FUNDEF_END) /* symbol accessor       */    \

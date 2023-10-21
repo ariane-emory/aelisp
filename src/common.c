@@ -30,15 +30,17 @@ ae_obj_t * program = NIL;
 
 void preface(void) {
   NL;
+  size_t pool_size = sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE;
+  
   printf("obj size:          %d.\n",    sizeof(ae_obj_t));
   printf("int size:          %d.\n",    sizeof(int));
   printf("nil is at:         %016p.\n", NIL);
   printf("t is at:           %016p.\n", TRUE);
   printf("Pool first:        %016p.\n", pool_first);
   printf("Pool last:         %016p.\n", pool_last);
-  printf("Pool size:         %016p (%zu bytes).\n",
-         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
-         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
+  printf("Pool size:         %016p (%zu bytes / %zu kb / %zu mb / %zu gb).\n",
+         pool_size, pool_size, pool_size >> 10, pool_size >> 20, pool_size >> 30);
+
   printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
   NL;
 }
