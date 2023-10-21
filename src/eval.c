@@ -317,9 +317,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     LOG(body,            "with body");
   }
 
-#ifdef AE_DEBUG_OBJ
   DSET(env, "fun", fun);
-#endif
 
   ae_obj_t * result = EVAL(env, body);
 

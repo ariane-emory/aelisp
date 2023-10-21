@@ -12,14 +12,6 @@
 #include "plist.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Preconditions
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#if defined(AE_TRACK_ORIGINS_DURING_EVAL) && ! defined(AE_DEBUG_OBJ)
-#  error "AE_TRACK_ORIGINS_DURING_EVAL requires AE_DEBUG_OBJ"
-#endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Types
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,9 +74,7 @@ typedef struct ae_obj_t {
   // the future it's remaining bits will store other info such as GC related flags:
   unsigned long long int      metadata;
 
-#ifdef AE_DEBUG_OBJ
   struct ae_obj_t *           debug_data;
-#endif
   
   union {
     ae_string_t               str_val;
@@ -220,17 +210,10 @@ extern ae_obj_t * symbols_list;
 #define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
 #define ESET(obj, key, val)              ({ CAPTURE((obj)); EOBJ(CAPTURED) = (KSET(EOBJ(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef AE_DEBUG_OBJ
-#  define DOBJ(obj)                      ((obj)->debug_data)
-#  define DHAS(obj, key)                 (KHAS(DOBJ((obj)), KW(key)))
-#  define DGET(obj, key)                 (KGET(DOBJ((obj)), KW(key)))
-#  define DSET(obj, key, val)            ({ CAPTURE(obj); DOBJ(CAPTURED) = (KSET(DOBJ(CAPTURED), KW(key), (val))); })
-#else
-#  define DOBJ(obj)                      ((void)obj, NIL)
-#  define DHAS(obj, key)                 ((void)obj, (void)key, NIL)
-#  define DGET(obj, key)                 ((void)obj, (void)key, NIL)
-#  define DSET(obj, key, val)            ((void)obj, (void)key, (void)val, NIL)
-#endif
+#define DOBJ(obj)                        ((obj)->debug_data)
+#define DHAS(obj, key)                   (KHAS(DOBJ((obj)), KW(key)))
+#define DGET(obj, key)                   (KGET(DOBJ((obj)), KW(key)))
+#define DSET(obj, key, val)              ({ CAPTURE(obj); DOBJ(CAPTURED) = (KSET(DOBJ(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

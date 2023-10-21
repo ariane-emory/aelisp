@@ -38,14 +38,12 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if (log_core)
     LOG(val, "evaluated 'value' argument is");
 
-#ifdef AE_DEBUG_OBJ
   if (LAMBDAP(val) || MACROP(val)) {
     DSET(val, "last-bound-to", sym);
 
     if (log_core)
-      LOG(DOBJ(val), "core setq! val's new debug data");
+      LOG(DOBJ(val), "core setq! val's new properties");
   }
-#endif
 
   ENV_SET(env, sym, val);
 
