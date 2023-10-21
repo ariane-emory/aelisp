@@ -6,7 +6,7 @@
 ;; (log-eval t) (log-core t)
 (princ "memql? 2:        ") (write (memql?   3 lst)) (nl)
 (princ "removeql 4:      ") (write (removeql 4 lst)) (nl)
-(princ "indesql 2:       ") (write (indexql  2 lst)) (nl)
+(princ "indexql 2:       ") (write (indexql  5 lst)) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
