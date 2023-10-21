@@ -79,7 +79,7 @@
  (<< n 4))
 
 (defun add-logging (fun)
- "Add a logging to a function."
+ "Add logging to a function."
  (let* ((old-body (cdr (body fun)))
         (new-body
          `(progn
@@ -89,7 +89,8 @@
             " to "
             (vals (env)))
            (nl)
-           ,@(cdr old-body))))
+           (let ((x 1))
+            ,@old-body))))
   (rplacd! (body fun) new-body) 
   (body fun)))
 
