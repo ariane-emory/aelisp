@@ -77,26 +77,6 @@
 
 (defun lshift4 (n) (<< n 4))
 
-(defun add-logging-to (fun)
- "Add logging to a function."
- (if (has? :added-logging fun)
-  (error "logging was already added to this fun")
-  (let* ((fun-name      (get :last-bound-to fun))
-         (old-fun-body  (body fun))
-         (old-body-tail (cdr old-fun-body))
-         (new-body
-          `((princ
-             "Applying " ',fun-name
-             " to parameters "  (syms (env))
-             " with arguments " (vals (env)) ".")
-            (nl)
-            (let ((result (progn ,@old-body-tail)))
-             (princ "Result of applying " ',fun-name " was " result ".")
-             (nl)
-             result))))
-   (rplacd! (body fun) new-body))
-  (put! :added-logging t fun) (nl)
-  fun))
 
 (add-logging-to lshift4) (nl)
 (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)

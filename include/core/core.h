@@ -16,7 +16,6 @@ extern bool log_core;
   DO(rplaca,       false,          2,          2, "setcar!", "rplaca!",        FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(type,         false,          1,          1,                              FUNDEF_END) /* GET_TYPE proxy        */    \
-  DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(setq,         true,           1,          2, "setq!",                     FUNDEF_END)                                \
   /*================================================================================================================*/    \
@@ -24,6 +23,9 @@ extern bool log_core;
   DO(or,           true,           2,  UNLIMITED, "∨", "or",                   FUNDEF_END)                                \
   DO(and,          true,           2,  UNLIMITED, "∧", "and",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define FOR_EACH_CORE_FUN_GROUP_4(DO)                                                                                     \
   DO(until,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(while,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(unless,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
@@ -90,6 +92,7 @@ extern bool log_core;
   /*================================================================================================================*/    \
   DO(properp,      false,          1,          1, "proper?",                   FUNDEF_END)                                \
   DO(tailp,        false,          1,          1, "tail?",                     FUNDEF_END)                                \
+  DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
   DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(phas,         false,          2,          2, "phas?",                     FUNDEF_END)                                \
@@ -144,6 +147,7 @@ FOR_EACH_CORE_CMP_OP(DECL_CORE);
 FOR_EACH_CORE_FUN_GROUP_1(DECL_CORE);
 FOR_EACH_CORE_FUN_GROUP_2(DECL_CORE);
 FOR_EACH_CORE_FUN_GROUP_3(DECL_CORE);
+FOR_EACH_CORE_FUN_GROUP_4(DECL_CORE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Local Variables:
