@@ -506,7 +506,12 @@
    (cons intercalated
     (intercalate intercalated (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(defun butlast (lst)
+ "Returns a new list that contains all the elements of the input list except the last one."
+ (if (or (nil? lst) (nil? (cdr lst)))
+  nil
+  (cons (car lst) (butlast (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (more unsorted):                                                 ;;
@@ -737,9 +742,3 @@
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun butlast (lst)
- "Returns a new list that contains all the elements of the input list except the last one."
- (if (or (nil? lst) (nil? (cdr lst)))
-  nil
-  (cons (car lst) (butlast (cdr lst)))))
