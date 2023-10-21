@@ -196,8 +196,8 @@
  `(make-chase-fun (obj lst)
    ((,pred? (car lst) obj) (cdr lst))
    (lst (cons (car lst)
-         (chase-internal (cdr lst) obj)
-         ;; (chase                       obj)
+         ;; (chase-internal (cdr lst) obj)
+         (chase obj)
          ))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-index-fun (pred?)
