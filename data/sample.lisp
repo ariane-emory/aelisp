@@ -68,3 +68,27 @@
 ;; (add-logging-to lshift4) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun incremental-select (pred? lst)
+ "Select the first element in lst that satisfies pred? and move it to the head of the list."
+ (if (or
+      (nil? lst)
+      (and (nil? (cdr lst)) (not (pred? (car lst)))))
+  (if
+   (and (pair? (cdr lst)) (pred? (cdr lst))) ; check for improper list's last item
+   (cdr lst)
+   nil) ; no element was selected
+  (let ((prev nil)
+        (current lst))
+   (while (and current (pair? current) (not (pair? (car current))))
+    (set! prev current)
+    (set! current (cdr current)))
+   (if (and current (pred? (car current)))
+    (progn
+     (if prev ; if the selected element is not the first one
+      (progn
+       (set! (cdr prev) (cdr current))
+       (set! (cdr current) lst)
+       (set! lst current)))
+     (car current))
+    nil))))

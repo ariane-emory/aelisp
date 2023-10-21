@@ -802,7 +802,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; tiny-clos scheme compat:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (when nil?
+ (when t
   (setq! #f            nil)
   (setq! #t            t)
   (setq! ???           'unspecified-result)
@@ -820,6 +820,7 @@
   (setq! map           mapcar)
   (setq! map-append    mapcan)
   (setq! null?         nil?)
+  (setq! pair?         cons?)
   (setq! position-of   indexq)
   (setq! remove        removeq)
   (setq! set!          setq!)
