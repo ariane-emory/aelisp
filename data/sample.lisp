@@ -15,21 +15,27 @@
 
 (list-set! lst 0 100)
 (princ "list-set! 0 100: ") (write lst) (nl)
+(princ "list-ref  0:     ") (write (list-ref lst 0)) (nl)
 
 (list-set! lst 1 101)
 (princ "list-set! 1 101: ") (write lst) (nl)
+(princ "list-ref  1:     ") (write (list-ref lst 1)) (nl)
 
 (list-set! lst 2 102)
 (princ "list-set! 2 102: ") (write lst) (nl)
+(princ "list-ref  2:     ") (write (list-ref lst 2)) (nl)
 
 (list-set! lst 3 103)
 (princ "list-set! 3 103: ") (write lst) (nl)
+(princ "list-ref  3:     ") (write (list-ref lst 3)) (nl)
 
 (list-set! lst 4 104)
 (princ "list-set! 4 104: ") (write lst) (nl)
+(princ "list-ref  4:     ") (write (list-ref lst 4)) (nl)
 
 (list-set! lst 5 105)
 (princ "list-set! 5 105: ") (write lst) (nl)
+(princ "list-ref  5:     ") (write (list-ref lst 5)) (nl)
 
 (exit)
 
