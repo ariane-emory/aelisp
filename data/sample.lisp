@@ -12,6 +12,12 @@
 (list-set! lst 0 2)
 (write lst) (nl)
 
+(list-set! lst 1 2)
+(write lst) (nl)
+
+(list-set! lst 2 4)
+(write lst) (nl)
+
 (list-set! lst 4 8)
 (write lst) (nl)
 
