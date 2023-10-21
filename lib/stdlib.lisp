@@ -210,13 +210,15 @@
      (error "one of the params must be the symbol 'lst"))
     (t `(lambda ,lambda-params
          (let ((position lst)
-               (head (car lst)))
+               (head (car lst))
+               (tail (cdr lst)))
            (letrec
             (
              (chase-internal
               (lambda (lst ,user-arg . rest)
                (setq! position lst)
                (setq! head (car lst))
+               (setq! tail (cdr lst))
                (cond ,@cond-clauses)))
              (chase
               (lambda (,user-arg . rest)
