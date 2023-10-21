@@ -78,7 +78,7 @@
 (defun lshift4 (n)
  (<< n 4))
 
-(defun add-logging (fun)
+(defun add-logging-to (fun)
  "Add logging to a function."
  (let* ((fun-name (kget (props fun) :last-bound-to))
         (old-body (cdr (body fun)))
@@ -103,5 +103,6 @@
   (rplacd! (body fun) new-body))
  fun)
 
-(princ (body (add-logging lshift4))) (nl)
+(add-logging-to lshift4) (nl)
+(princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
 (princ "Call returned " (lshift4 4) ".") (nl)
