@@ -89,6 +89,11 @@
             (vals (env)))
            (nl)
            (let ((result (progn ,@old-body)))
+            (princ "Result of applying "
+             ',(kget (props fun) :last-bound-to)
+             " was "
+             result)
+            (nl)
             result))))
         (rplacd! (body fun) new-body))
  (body fun))
