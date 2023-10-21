@@ -10,7 +10,8 @@ ae_obj_t * ae_core_aset(__attribute__((unused)) ae_obj_t * const env,
   CORE_BEGIN("aset");
 
   ae_obj_t * key   = CAR(args);
-  ae_obj_t * alist = CADR(args);
+  ae_obj_t * obj   = CADR(args);
+  ae_obj_t * alist = DOBJ(obj);
   ae_obj_t * value = CADDR(args); // this could be unsave if value is NIL, maybe.
 
   CORE_RETURN("aset", ASET(alist, key, value));
@@ -26,7 +27,8 @@ ae_obj_t * ae_core_aget(__attribute__((unused)) ae_obj_t * const env,
   CORE_BEGIN("aget");
 
   ae_obj_t * key   = CAR(args);
-  ae_obj_t * alist = CADR(args);
+  ae_obj_t * obj   = CADR(args);
+  ae_obj_t * alist = DOBJ(obj);
 
   CORE_RETURN("aget", AGET(alist, key));
 }
@@ -41,7 +43,8 @@ ae_obj_t * ae_core_ahas(__attribute__((unused)) ae_obj_t * const env,
   CORE_BEGIN("ahas");
 
   ae_obj_t * key   = CAR(args);
-  ae_obj_t * alist = CADR(args);
+  ae_obj_t * obj   = CADR(args);
+  ae_obj_t * alist = DOBJ(obj);
 
   CORE_RETURN("ahas", TRUTH(AHAS(alist, key)));
 }
