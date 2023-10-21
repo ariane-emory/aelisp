@@ -75,8 +75,7 @@
 
 ;; (test-it (obj j))
 
-(defun lshift4 (n)
- (<< n 4))
+(defun lshift4 (n) (<< n 4))
 
 (defun add-logging-to (fun)
  "Add logging to a function."
@@ -103,3 +102,15 @@
 (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
 (princ "Call returned " (lshift4 4) ".") (nl)
 (add-logging-to lshift4) (nl)
+
+;; lshift4's body is now (progn (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") (nl) (let ((result (progn (<< n 4)))) (princ "Result of applying " 'lshift4 " was " result ".") (nl) result))
+
+;; Applying lshift4 to parameters (n) with arguments (4).
+;; Result of applying lshift4 was 64.
+;; Call returned 64.
+
+;;          CORE<error> returned an error: ERROR<logging was already added to this fun>
+;;        CORE<if^> returned an error: ERROR<logging was already added to this fun>
+;;      CORE<progn^> returned an error: ERROR<logging was already added to this fun>
+;;    LAMBDA<add-logging-to (fun)> returned an error: ERROR<logging was already added to this fun>
+;;  CORE<progn^> returned an error: ERROR<logging was already added to this fun>

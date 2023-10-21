@@ -10,12 +10,12 @@ extern bool log_core;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_1(DO)                                                                                     \
   /*================================================================================================================*/    \
-  DO(phas,         false,          2,          2, "phas?",                     FUNDEF_END)                                \
-  DO(pset,         false,          3,          3, "pset!",                     FUNDEF_END)                                \
-  DO(pget,         false,          2,          2,                              FUNDEF_END)                                \
-  DO(ahas,         false,          2,          2, "ahas?",                     FUNDEF_END)                                \
-  DO(aset,         false,          3,          3, "aset!",                     FUNDEF_END)                                \
-  DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
+  DO(dphas,        false,          2,          2, "d-phas?",                   FUNDEF_END)                                \
+  DO(dpset,        false,          3,          3, "d-pset!",                   FUNDEF_END)                                \
+  DO(dpget,        false,          2,          2, "d-pget",                    FUNDEF_END)                                \
+  DO(dahas,        false,          2,          2, "d-ahas?",                   FUNDEF_END)                                \
+  DO(daset,        false,          3,          3, "d-aset!",                   FUNDEF_END)                                \
+  DO(daget,        false,          2,          2, "d-aget",                    FUNDEF_END)                                \
   DO(eql,          false,  UNLIMITED,  UNLIMITED, "eql?",                      FUNDEF_END) /* reduceable            */    \
   DO(eq,           false,  UNLIMITED,  UNLIMITED, "eq?",                       FUNDEF_END)                                \
   DO(cond,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \

@@ -785,8 +785,8 @@
   (setq! #f            nil)
   (setq! #t            t)
   (setq! ???           'unspecified-result)
-  (setq! assoc         ahas?) 
-  (setq! assq          aget) 
+;;  (setq! assoc         ahas?) 
+;;  (setq! assq          aget) 
   (setq! collect-if    filter)
   (setq! define        setq!)
   (setq! display       write) ;should should be a macro that avoids re-defining what-scheme-implementation
