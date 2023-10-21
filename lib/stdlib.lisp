@@ -273,10 +273,13 @@
 (defun mapcar! (fun lst)
  "Map fun over list, altering the list."
  (letrec
-  ((mapcar-internal! nil))
-  (when lst
-   (rplaca! lst (fun (car lst)))
-   (mapcar! fun (cdr lst)))))
+  ((mapcar-internal!
+    (lambda (fun lst)
+     (when lst
+      (rplaca! lst (fun (car lst)))
+      (mapcar! fun (cdr lst))))))
+  (mapcar-internal! fun lst)
+  lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst delimiter)
  "Map fun over list, returning the result of concatenating the resulting
