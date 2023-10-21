@@ -144,8 +144,7 @@
   ((zero? index) (car lst))
   (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun last
- (lst)
+(defun last (lst)
  "Get last item in a list."
  (cond
   ((nil? (cdr lst)) lst)
