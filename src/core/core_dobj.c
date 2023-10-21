@@ -38,34 +38,34 @@ ae_obj_t * ae_core_daset(__attribute__((unused)) ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _daget
+// _get
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_daget(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_get(__attribute__((unused)) ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("daget");
+  CORE_BEGIN("get");
 
   ae_obj_t * key       = CAR(args);
   ae_obj_t * obj       = CADR(args); 
   ae_obj_t * prop_list = DOBJ(obj);
 
-  CORE_RETURN("daget", KGET(prop_list, key));
+  CORE_RETURN("get", KGET(prop_list, key));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _dahas
+// _has
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_dahas(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_has(__attribute__((unused)) ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("dahas");
+  CORE_BEGIN("has");
 
   ae_obj_t * key       = CAR(args);
   ae_obj_t * obj       = CADR(args);
   ae_obj_t * prop_list = DOBJ(obj);
 
-  CORE_RETURN("dahas", TRUTH(KHAS(prop_list, key)));
+  CORE_RETURN("has", TRUTH(KHAS(prop_list, key)));
 }
 
