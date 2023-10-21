@@ -167,7 +167,6 @@
  (let* ((lst-first     (eq? 'lst (first params)))
         (user-arg      (if lst-first (second params) (first params)))
         (lambda-params (cons (first params) (cons (second params) 'rest))))
-
   (cond
    ((!= 2 (length params))
     (error "params needs length 2"))
@@ -186,7 +185,6 @@
             (lambda (,user-arg . rest)
              (chase-internal (cdr position) ,user-arg . rest))))
           (chase-internal position ,user-arg . rest))))))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-member-pred (pred?)
  `(make-chase-fun (obj lst)
@@ -231,7 +229,6 @@
  (cond
   ((zero? size)  nil)
   (t            (cons init-val (make-list (1- size) init-val)))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! indexq   (make-index-fun   eq?))
 (setq! memq?    (make-member-pred eq?))
