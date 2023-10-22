@@ -104,7 +104,7 @@ extern bool log_core;
   DO(aset,         false,          3,          3,                              FUNDEF_END)                                \
   DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(put,          false,          1,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(put,          false,          1,  UNLIMITED, "put-raw",                   FUNDEF_END)                                \
   DO(princ,        false,          1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(print,        false,          1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(write,        false,          1,  UNLIMITED,                              FUNDEF_END)                                \
