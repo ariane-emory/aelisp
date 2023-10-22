@@ -977,7 +977,7 @@ void root_env_and_eval(void) {
   ae_obj_t * env    = ENV_NEW_ROOT();
   ae_obj_t * listf  = EVAL(env, SYM("list"));
 
-  OLOG(listf);
+  // OLOG(listf);
 
   ae_obj_t * expr   = NIL;
   ae_obj_t * rtrn   = NIL;
@@ -1079,20 +1079,20 @@ void root_env_and_eval(void) {
   ae_obj_t *    expr3 = CONS(TRUE, NEW_CONS(NEW_INT(30), NIL));
   /*   */ expr = CONS(SYM("cond"), CONS(expr1, CONS(expr2, NEW_CONS(expr3, NIL))));
 
-  NL;
-  PR("Evaluating this cond: ");
-  WRITE(expr);
-  PR(".");
-  NL;
+  /* NL; */
+  /* PR("Evaluating this cond: "); */
+  /* WRITE(expr); */
+  /* PR("."); */
+  /* NL; */
 
 #define TEST_COND(input, expected)                                                                 \
   {                                                                                                \
     CORE_SETQ(env, "a", NEW_INT(input));                                                           \
     this = EVAL(env, expr);                                                                        \
-    PR("Rtrn for " #input " is ");                                                                 \
-    PRINC(this);                                                                                   \
-    PR(".");                                                                                       \
-    NL;                                                                                            \
+    /* PR("Rtrn for " #input " is ");  */                                                          \
+    /* PRINC(this);  */                                                                            \
+    /* PR("."); */                                                                                 \
+    /* NL;  */                                                                                     \
     if (! EQL(this, NEW_INT(expected))) {                                                          \
       NL;                                                                                          \
       PR("this ");                                                                                 \
@@ -1120,7 +1120,7 @@ void list_fun(void) {
   ae_obj_t * ret           = EVAL(env, list_fun_call);
 
   T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
-  NL;
+  // NL;
 }
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
@@ -1143,42 +1143,42 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 void macro_expand(void) {
   SETUP_TEST;
 
-  PR("\n\nPopulating root env...");
+  // PR("\n\nPopulating root env...");
   ae_obj_t * env = ENV_NEW_ROOT();
-  PR("\nDone populating root env.\n");
+  // PR("\nDone populating root env.\n");
 
-  GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list (quote setq!) name (list (quote macro) params . body))))");
-  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq!) name (list (quote lambda) params . body)))");
-  GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
-  GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
+  GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list 'setq! name (list 'macro params . body))))");
+  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list 'setq! name (list 'lambda params . body)))");
+  GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list 'if (car args) (cons 'and (cdr args))))))");
+  GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons 'cond (mapcar list args))))");
 
   ae_obj_t * macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
   macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
   macro_def = CONS(SYM("macro"), macro_def);
-  PR("macro def  "); PRINC(macro_def); NL;
-  PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
-  T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
+  // PR("macro def  "); PRINC(macro_def); NL;
+  // PR("should be  (macro (xxx yyy) (list '+ xxx yyy))");
+  T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list '+ xxx yyy))"));
 
   ae_obj_t * setq_for_macro_def   = CONS(SYM("setq!"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   ae_obj_t * rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
-  NL;
-  OLOG(setq_for_macro_def);
-  OLOG(rtrn_for_macro_def);
-  NL;
+  // NL;
+  // OLOG(setq_for_macro_def);
+  // OLOG(rtrn_for_macro_def);
+  // NL;
 
   ae_obj_t * call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
-  OLOG(call_add2);
-  NL;
+  // OLOG(call_add2);
+  // NL;
 
   ae_obj_t * call_add2_rtrn = EVAL(env, call_add2);
-  OLOG(call_add2_rtrn);
-  NL;
+  // OLOG(call_add2_rtrn);
+  // NL;
 
   ae_obj_t * eval_call_add2_rtrn = EVAL(env, call_add2_rtrn);
-  OLOG(eval_call_add2_rtrn);
-  NL;
+  // OLOG(eval_call_add2_rtrn);
+  // NL;
 
   /* { */
   /*   ae_obj_t * princ = CONS(SYM("princ"),  CONS(CONS(SYM("quote"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   ); */
@@ -1481,18 +1481,18 @@ void eval_args_test(void) {
   
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
-    OLOG(args);
+    // OLOG(args);
     ae_obj_t * evaled_args = EVAL_ARGS(env, args);
-    OLOG(evaled_args);
+    // OLOG(evaled_args);
   }
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), NEW_CONS(SYM("bar"), SYM("baz")))));
-    OLOG(args);
+    // OLOG(args);
     ae_obj_t * evaled_args = EVAL_ARGS(env, args);
-    OLOG(evaled_args);
+    // OLOG(evaled_args);
   }
   
-  NL;
+  // NL;
 }
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////

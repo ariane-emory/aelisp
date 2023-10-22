@@ -19,9 +19,10 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     : CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
-  REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant");
-  REQUIRE(env, args, sym != NIL,      "nil is a constant symbol");
-  REQUIRE(env, args, sym != TRUE,     "t is a constant symbol");
+  REQUIRE(env, args, ! HAS_PROP("constant",  sym), "constant symbols cannot be set");
+  REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant and cannot be set");
+  REQUIRE(env, args, sym != NIL,      "nil is a constant symbol and cannot be set");
+  REQUIRE(env, args, sym != TRUE,     "t is a constant symbol and cannot be set");
 
   if (log_core) {
     LOG(sym, "setting symbol");
@@ -38,14 +39,12 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if (log_core)
     LOG(val, "evaluated 'value' argument is");
 
-#ifdef AE_DEBUG_OBJ
   if (LAMBDAP(val) || MACROP(val)) {
-    DSET(val, "last-bound-to", sym);
+    PUT_PROP(val, "last-bound-to", sym);
 
     if (log_core)
-      LOG(DOBJ(val), "core setq! val's new debug data");
+      LOG(PROPS(val), "core setq! val's new properties");
   }
-#endif
 
   ENV_SET(env, sym, val);
 

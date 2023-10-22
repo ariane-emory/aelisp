@@ -133,7 +133,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
 end:
   
-  CORE_RETURN("when", NIL);
+  CORE_RETURN("when", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("unless", NIL);
+  CORE_RETURN("unless", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

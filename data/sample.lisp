@@ -1,3 +1,12 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (defun curry1 (fun arg1)
+;;  (lambda args
+;;   (apply fun arg1 args)))
+
+;; (setq! 2+ (curry1 + 2))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (setq! lst '(1 2 3 4 5 6 7 8 9 10))
@@ -16,7 +25,8 @@
 ;; (exit)
 (princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
 (princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
-(princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+;; (princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 200))
@@ -46,32 +56,91 @@
 (princ "list-set! 5 105: ") (write lst) (nl)
 (princ "list-ref  5:     ") (write (list-ref lst 5)) (nl)
 
-(exit)
+;; (exit)
 
 ;;(write (list-ref lst 4))
 
-(nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when nil
+ (defun lshift4 (n) (<< n 4))
+ 
+ (add-logging-to lshift4) (nl)
+ (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
+ (princ "Call returned " (lshift4 4) ".") (nl))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (defun curry1 (fun arg1)
-;;  (lambda args
-;;   (apply fun arg1 args)))
-
-;; (setq! 2+ (curry1 + 2))
-
 ;; (log-eval t)
-;; (write (2+ 3))
-;; (nl)
 
-;; (defmacro test-it (args . cond-clauses)
-;;  (write (car args)) (nl)
-;;  (write (cadr args)) (nl)
-;;  (write (eq? 'lst (cadr args))) (nl)
-;;  (cond
-;;   ((not (or (eq? 'lst (first args)) (eq? 'lst (second args))))
-;;    (error "one of the args must be the symbol 'lst"))
-;;   (t (error "found lst"))))
+(defun select-and-move-to-front! (pred? lst)
+ "Move the first item matching pred? to the front of the list."
+ (let ((head (car lst)))
+  (if (pred? head)
+   head
+   (let ((obj      (remove-first! pred? lst))
+         (new-tail (cons (car lst) (cdr lst))))
+    (rplaca! lst obj)
+    (rplacd! lst new-tail)
+    obj))))
 
-;; (test-it (obj j))
+(defun remove-first! (pred? lst)
+ "Remove the first item matching pred? from the list."
+ (if (pred? (car lst))
+  (if (cdr lst)
+   (progn 
+    (rplaca! lst (cadr lst))
+    (rplacd! lst (cddr lst)))
+   (error "can't remove last item"))
+  (let ((prev lst) (current (cdr lst)))
+   (while (and current (not (pred? (car current))))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if current
+    (progn
+     (rplacd! prev (cdr current))
+     (car current))
+    (error "obj was not in lst")))))
+
+(defun remove-first! (pred? lst)
+ "Remove the first item matching pred? from the list."
+ (let ((head (car lst))
+       (tail (cdr lst)))
+  (if (pred? head)
+   (if (nil? tail)
+    (error "can't remove last item")
+    (rplaca! lst (second lst))
+    (rplacd! lst (cddr   lst)))
+   (let ((prev     lst)
+         (current  (cdr lst)))
+    (letrec
+     ((chase
+       (lambda (lst)
+        (let ((head (car lst))
+              (next (cdr lst)))
+         (cond
+          ((pred? head) (progn (rplacd! prev next) head))
+          (next         (progn (setq! prev lst) (chase next)))
+          (t               (error "obj was not in lst"))
+          )))))
+     (chase current))))))
+
+(setq! lst $(2 4 1 5 3 7 9 6 8))
+
+(princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 7)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 6)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 5)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 4)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 3)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 2)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 1)) lst)) (spc) (write lst) (nl)
+
+(select-and-move-to-front! (lambda (o) (eql? o 2)) (list 2))
+
+
+
+(root-env)
+
 

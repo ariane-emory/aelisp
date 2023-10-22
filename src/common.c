@@ -20,7 +20,7 @@
 #define free_list_size (1 << 16)
 char mem[free_list_size] = { 0 };
 
-const char * last_loaded_file = NULL;
+ae_obj_t * last_loaded_file = NIL;
 
 ae_obj_t * program = NIL;
 
@@ -30,15 +30,17 @@ ae_obj_t * program = NIL;
 
 void preface(void) {
   NL;
+  size_t pool_size = sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE;
+  
   printf("obj size:          %d.\n",    sizeof(ae_obj_t));
   printf("int size:          %d.\n",    sizeof(int));
   printf("nil is at:         %016p.\n", NIL);
   printf("t is at:           %016p.\n", TRUE);
   printf("Pool first:        %016p.\n", pool_first);
   printf("Pool last:         %016p.\n", pool_last);
-  printf("Pool size:         %016p (%zu bytes).\n",
-         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
-         sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
+  printf("Pool size:         %016p (%zu bytes / %zu kb / %zu mb / %zu gb).\n",
+         pool_size, pool_size, pool_size >> 10, pool_size >> 20, pool_size >> 30);
+
   printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
   NL;
 }
@@ -52,11 +54,15 @@ ae_obj_t * setup_root_env(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // set up the free list and populate the root env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
+  symbols_list = NIL;
+  pool_clear();
+  free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
   ae_obj_t * root_env = ENV_NEW_ROOT();
 
+  
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,9 +92,7 @@ ae_obj_t * setup_root_env(void) {
       //LOG(pool_get_object(ix), "#%d: Setting origin to 'primordial'", ix);
 #endif
       
-#ifdef AE_DEBUG_OBJ
-      DOBJ(pool_get_object(ix)) = primordial_origin;
-#endif
+      PROPS(pool_get_object(ix)) = primordial_origin;
     }
 
   PR("Done painting objects populating the root env with origin = primordial.");
@@ -163,14 +167,12 @@ void paint_parsed(void) {
   NL;
     
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
-    if (! FREEP(pool_get_object(ix)) && ! DHAS(pool_get_object(ix), "origin")) {
+    if (! FREEP(pool_get_object(ix)) && ! HAS_PROP("origin", pool_get_object(ix))) {
 #ifdef AE_LOG_KVP_SET_GET
       //  LOG(pool_get_object(ix), "#%d: Setting origin to 'read'", ix);
 #endif
       
-#ifdef AE_DEBUG_OBJ
-      DOBJ(pool_get_object(ix)) = read_origin;
-#endif
+      PROPS(pool_get_object(ix)) = read_origin;
     }
 
   PR("Done painting objects read from file with origin = read.");
@@ -249,7 +251,12 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     *failed_to_open = false;
   }
 
-  last_loaded_file = filename;
+  char * const file_basename = basename((char *)filename);
+  char * const last_loaded_file_str = free_list_malloc(strlen(file_basename) + 1);
+  strcpy(last_loaded_file_str, file_basename);
+
+  ae_obj_t * loaded_file = NEW_STRING(last_loaded_file_str);
+  last_loaded_file = loaded_file;
   
   yylineno = 0;
   yyrestart(yyin);
@@ -261,6 +268,11 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   yyin = original_yyin;
 
+  last_loaded_file = NIL;
+
+  PUT_PROP(TRUE, "constant", SYM("*program*"));
+  PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
+  
   return program; 
 }
 

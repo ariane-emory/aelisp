@@ -1,9 +1,23 @@
 #include <unistd.h>
 #include <time.h>
+
 #include "core_includes.h"
+#include "common.h"
+#include "env.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _time
+// _program
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_program(__attribute__((unused)) ae_obj_t * const env,
+                           __attribute__((unused)) ae_obj_t * const args,
+                           __attribute__((unused)) int args_length) {
+  CORE_BEGIN("program");
+  CORE_RETURN("program", program);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _now
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_now(__attribute__((unused)) ae_obj_t * const env,
@@ -59,3 +73,21 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
   CORE_RETURN("exit", CAR(args));
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _load
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_load(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("load");
+  
+  REQUIRE(env, args, STRINGP(CAR(args)));
+
+  bool failed_to_open = false;
+  
+  ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
+  ae_obj_t * ret         = EVAL(env, new_program);
+
+  CORE_RETURN("load", failed_to_open ? NEW_ERROR("failed to open file", NIL) : ret);
+}

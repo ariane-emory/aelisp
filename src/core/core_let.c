@@ -23,7 +23,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   ae_obj_t * const body    = CDR(args);
 
   REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
-  REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
+  // REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
@@ -43,7 +43,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       : BAIL_IF_ERROR(EVAL(env, CADR(varlist_item)));
 
     if (LAMBDAP(val) || MACROP(val))
-      DSET(val, "last-bound-to", CAR(varlist_item));
+      PUT_PROP(val, "last-bound-to", CAR(varlist_item));
 
     if (log_core) {
       if (SYMBOLP(varlist_item))
@@ -94,7 +94,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
   ae_obj_t * const body    = CDR(args);
 
   REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
-  REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
+  // REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
@@ -117,7 +117,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
       : BAIL_IF_ERROR(EVAL(new_env, CADR(varlist_item)));
 
     if (LAMBDAP(val) || MACROP(val))
-      DSET(val, "last-bound-to", CAR(varlist_item));
+      PUT_PROP(val, "last-bound-to", CAR(varlist_item));
 
     if (log_core) {
       if (SYMBOLP(varlist_item))
@@ -172,7 +172,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
   ae_obj_t * const body    = CDR(args);
 
   REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
-  REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
+  // REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
 
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
@@ -193,7 +193,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
       : BAIL_IF_ERROR(EVAL(new_env, CADR(varlist_item)));
 
     if (LAMBDAP(val) || MACROP(val))
-      DSET(val, "last-bound-to", CAR(varlist_item));
+      PUT_PROP(val, "last-bound-to", CAR(varlist_item));
 
     if (log_core) {
       if (SYMBOLP(varlist_item))

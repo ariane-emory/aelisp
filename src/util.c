@@ -97,7 +97,7 @@ const char * s_or_blank(int count) {
 long long int now(void) {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
-    return ((long long int) ts.tv_sec * 1000000LL + ts.tv_nsec / 1000LL);
+    return (long long) ts.tv_sec * 1000LL + ts.tv_nsec / 1000000LL; // Convert seconds to milliseconds and add nanoseconds converted to milliseconds
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

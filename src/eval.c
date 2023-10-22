@@ -297,9 +297,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
   
   if (log_eval) {
-    if (DHAS(fun, "last-bound-to")) {
+    if (HAS_PROP("last-bound-to", fun)) {
       LOG(ENV_VALS(env), "applying user fun '%s' to %d arg%s",
-          SYM_VAL(DGET(fun, "last-bound-to")), LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
+          SYM_VAL(GET_PROP("last-bound-to", fun)), LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
     }
     else {
       char * tmp = SWRITE(fun);
@@ -317,9 +317,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     LOG(body,            "with body");
   }
 
-#ifdef AE_DEBUG_OBJ
-  DSET(env, "fun", fun);
-#endif
+  PUT_PROP(fun, "fun", env);
 
   ae_obj_t * result = EVAL(env, body);
 
@@ -328,8 +326,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   OUTDENT;
 
   if (log_eval) {
-    if (DHAS(fun, "last-bound-to")) {
-      LOG(result, "applying user fun '%s' returned %s :%s", SYM_VAL(DGET(fun, "last-bound-to")), a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+    if (HAS_PROP("last-bound-to", fun)) {
+      LOG(result, "applying user fun '%s' returned %s :%s",
+          SYM_VAL(GET_PROP("last-bound-to", fun)), a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
     }
     else {
       char * tmp = SWRITE(fun);
@@ -425,9 +424,13 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     return NEW_ERROR("inapplicable", err_data); // early return!
   }
 
+  long int begin = -1;
+  
   if (MACROP(fun) && (log_eval || log_macro)) {
     LOG(obj, "expanding");
 
+    begin = now();
+      
     INDENT;
   }
 
@@ -439,16 +442,22 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     OUTDENT;
 
   if (MACROP(fun)) {
-    if (log_eval || log_macro)
+    long long int after = now();
+
+    if (log_eval || log_macro) {
       LOG(ret, "expansion");
+    }
 
     if (ATOMP(ret)) {
       ret = CONS(SYM("progn"), CONS(ret, NIL));
 
-      if (log_eval || log_macro)
+      if (log_eval || log_macro) {
         LOG(ret, "decorated expansion");
-    }
 
+        SLOGF("expansion took %ll - %lld = %lld ms", begin, after, after - begin);
+      }
+    }
+    
     ret = EVAL(env, ret);
 
     if (MACROP(fun) && (log_eval || log_macro)) {
@@ -466,15 +475,15 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
-  if (! DHAS(ret, "birth-place")) {
-    DSET(ret, "birth-place", env);
+  if (! HAS_PROP("birth-place", ret)) {
+    PUT_PROP(env, "birth-place", ret);
 
     if (log_eval)
       LOG(ret, "birthed");
   }
 
-  if (! DHAS(ret, "origin"))
-    DSET(ret, "origin", fun);
+  if (! HAS_PROP("origin", ret))
+    PUT_PROP(fun, "origin", ret);
 #endif
 
   if (ERRORP(ret)) {
@@ -514,19 +523,20 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   (void)env;
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
-  if (! DHAS(obj, "birth-place")) {
-    DSET(obj, "birth-place", env);
+  if (! HAS_PROP("birth-place", obj)) {
+    PUT_PROP(env, "birth-place", obj);
 
     if (log_eval)
       LOG(obj, "birthed");
   }
 
-  if (! DHAS(obj, "origin"))
-    DSET(obj, "origin", KW("self-evaluated"));
+  if (! HAS_PROP("origin", obj))
+    PUT_PROP(KW("self-evaluated"), "origin", obj);
 #endif
 
   if (log_eval)
-    LOG(obj, "self-evaluated %s :%s", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
+    LOG(obj, "self-evaluated %s :%s",
+        a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 
   return obj;
 }
@@ -558,15 +568,15 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     : ENV_FIND(env, sym);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
-  if (! DHAS(ret, "birth-place")) {
-    DSET(ret, "birth-place", env);
+  if (! HAS_PROP("birth-place", ret)) {
+    PUT_PROP(env, "birth-place", ret);
 
     if (log_eval)
       LOG(ret, "birthed");
   }
 
-  if (! DHAS(ret, "origin"))
-    DSET(ret, "origin", KW("lookup"));
+  if (! HAS_PROP("origin", ret))
+    PUT_PROP(KW("lookup"), "origin", ret);
 #endif
 
   if (log_eval)

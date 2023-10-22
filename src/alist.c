@@ -12,11 +12,11 @@
 ae_obj_t * ae_alist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
-  LOG(list, "in list");
+  LOG(list,  "in list");
   LOG(value, "to value");
 #endif
  
-  assert(TAILP(list));
+  assert(!list || TAILP(list));
 
   if (list == NULL)
     list = NIL;
@@ -46,10 +46,8 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ae_alist_contains_key(ae_obj_t * const list, ae_obj_t * const key) {
-  // asser(0);
-
 #ifdef AE_LOG_KVP_HAS
-  LOG(key,  "%s looking for key:", __func__);
+  LOG(key,  "%s looking for key", __func__);
   LOG(list, "in list");
 #endif
 
@@ -81,10 +79,8 @@ failed:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
-  // assert(0);
-
 #ifdef AE_LOG_KVP_SET_GET
-  LOG(key,  "%s looking for key:", __func__);
+  LOG(key,  "%s looking for key", __func__);
   LOG(list, "in list");  
 #endif
 
@@ -99,7 +95,7 @@ ae_obj_t * ae_alist_get(ae_obj_t * const list, ae_obj_t * const key) {
     
     if (EQL(CAR(elem), key)) {
 #ifdef AE_LOG_KVP_SET_GET
-      LOG(key,      "found key");
+      LOG(key,       "found key");
       LOG(CDR(elem), "with value");
       NL;
 #endif
