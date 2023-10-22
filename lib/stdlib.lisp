@@ -251,8 +251,6 @@
    ((zero? index) (rplaca! position (car rest)))
    (position (chase (1- index) (car rest)))
    (t (error "list-set! out of range"))))
-
- ;; (exit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-ref
   (make-chase-fun (lst index)
