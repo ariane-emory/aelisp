@@ -91,8 +91,8 @@
    (cons (car lst1) (append2 (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro expand-quasiquoted (expr)
- "Expand a quasiquoted expression and resolve unquotes and
-  unquote-splicings within."
+ ;; "Expand a quasiquoted expression and resolve unquotes and
+ ;;  unquote-splicings within."
  (cond
   ;; If it's not a cons then it's an atom that we should quote.
   ((atom? expr)
@@ -173,7 +173,7 @@
 (defmacro report-time (msg head-expr . tail-exprs)
  `(let ((time-taken (car (time ,head-expr . ,tail-exprs))))
    (princ ,msg)
-   (princ " took ")
+   (princ " in ")
    (princ time-taken)
    (princ " ms.")
    (nl)))
