@@ -184,14 +184,14 @@
  ;; list funs (tail chasers):                                                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-chase-fun (params . cond-clauses)
-  "Creates a function for recursive traversal and processing of lists.
+  ;; "Creates a function for recursive traversal and processing of lists.
   
-  This macro is a generalized version that allows customization of 
-  the parameter order through the PARAMS parameter.
+  ;; This macro is a generalized version that allows customization of 
+  ;; the parameter order through the PARAMS parameter.
   
-  PARAMS:       A list of length 2 that specifies the parameter order.
-                One parameter must be the symbol 'lst.
-  COND-CLAUSES: The conditions to process the list."
+  ;; PARAMS:       A list of length 2 that specifies the parameter order.
+  ;;               One parameter must be the symbol 'lst.
+  ;; COND-CLAUSES: The conditions to process the list."
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
          (lambda-params (cons (first params) (cons (second params) 'rest))))
