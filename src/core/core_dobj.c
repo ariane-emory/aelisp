@@ -31,7 +31,7 @@ ae_obj_t * ae_core_set_prop(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t * key           = EVAL(env, CAR(args));
   ae_obj_t * value         = EVAL(env, CADR(args)); // this could be unsafe if value is NIL, maybe.
-  ae_obj_t * obj           = EVAL(env, CADDR(args));
+  ae_obj_t * obj           = MAYBE_EVAL(CADDR(args));
   ae_obj_t * prop_list     = PROPS(obj);
   ae_obj_t * new_prop_list = KSET(prop_list, key, value);
 
@@ -50,7 +50,7 @@ ae_obj_t * ae_core_get_prop(__attribute__((unused)) ae_obj_t * const env,
   CORE_BEGIN("get");
 
   ae_obj_t * key       = EVAL(env, CAR(args));
-  ae_obj_t * obj       = EVAL(env, CADR(args)); 
+  ae_obj_t * obj       = MAYBE_EVAL(CADR(args)); 
   ae_obj_t * prop_list = PROPS(obj);
 
   CORE_RETURN("get", KGET(prop_list, key));
@@ -66,7 +66,7 @@ ae_obj_t * ae_core_has_prop(__attribute__((unused)) ae_obj_t * const env,
   CORE_BEGIN("has");
 
   ae_obj_t * key       = EVAL(env, CAR(args));
-  ae_obj_t * obj       = EVAL(env, CADR(args));
+  ae_obj_t * obj       = MAYBE_EVAL(CADR(args));
   ae_obj_t * prop_list = PROPS(obj);
 
   CORE_RETURN("has", TRUTH(KHAS(prop_list, key)));
