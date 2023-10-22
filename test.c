@@ -1147,10 +1147,10 @@ void macro_expand(void) {
   ae_obj_t * env = ENV_NEW_ROOT();
   PR("\nDone populating root env.\n");
 
-  GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list (quote setq!) name (list (quote macro) params . body))))");
-  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list (quote setq!) name (list (quote lambda) params . body)))");
-  GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list (quote if) (car args) (cons (quote and) (cdr args))))))");
-  GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons (quote cond) (mapcar list args))))");
+  GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list 'setq! name (list 'macro params . body))))");
+  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list 'setq! name (list 'lambda params . body)))");
+  GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list 'if (car args) (cons 'and (cdr args))))))");
+  GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons 'cond (mapcar list args))))");
 
   ae_obj_t * macro_def = NIL;
   macro_def = CONS(CONS(SYM("quote"), CONS(SYM("+"), NIL)), CONS(SYM("xxx"), CONS(SYM("yyy"), macro_def)));
