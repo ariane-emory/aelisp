@@ -78,9 +78,11 @@
 (nl)
 
 (defun removeql! (obj lst)
- (let ((head (car lst)))
+ (let ((head (car lst))
+       (tail (cdr lst)))
   (if (eql? obj head)
-   (progn
+   (if (nil? tail)
+    (error "can't remove last item")
     (rplaca! lst (second lst))
     (rplacd! lst (cddr   lst)))
    (let ((prev     lst)
