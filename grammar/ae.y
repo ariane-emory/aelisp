@@ -9,7 +9,7 @@
 
 #define YYSTYPE ae_obj_t *
 
-#define TAG(o) (PUT_PROP(((o)), "line", NEW_INT(yylineno + 1)), PUT_PROP(((o)), "file", last_loaded_file))
+#define TAG(o) (PUT_PROP(NEW_INT(yylineno + 1), "line", ((o))), PUT_PROP(last_loaded_file, "file", ((o))))
 
 extern int yylineno;
 extern ae_obj_t * program;
