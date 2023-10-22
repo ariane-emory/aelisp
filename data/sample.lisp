@@ -88,6 +88,24 @@
 
 (defun remove-first! (pred? lst)
  "Remove the first item matching pred? from the list."
+ (if (pred? (car lst))
+  (if (cdr lst)
+   (progn 
+    (rplaca! lst (cadr lst))
+    (rplacd! lst (cddr lst)))
+   (error "can't remove last item"))
+  (let ((prev lst) (current (cdr lst)))
+   (while (and current (not (pred? (car current))))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if current
+    (progn
+     (rplacd! prev (cdr current))
+     (car current))
+    (error "obj was not in lst")))))
+
+(defun remove-first! (pred? lst)
+ "Remove the first item matching pred? from the list."
  (let ((head (car lst))
        (tail (cdr lst)))
   (if (pred? head)
@@ -108,24 +126,6 @@
           (t               (error "obj was not in lst"))
           )))))
      (chase current))))))
-
-(defun remove-first! (pred? lst)
- "Remove the first item matching pred? from the list."
- (if (pred? (car lst))
-  (if (cdr lst)
-   (progn 
-    (rplaca! lst (cadr lst))
-    (rplacd! lst (cddr lst)))
-   (error "can't remove last item"))
-  (let ((prev lst) (current (cdr lst)))
-   (while (and current (not (pred? (car current))))
-    (setq! prev current)
-    (setq! current (cdr current)))
-   (if current
-    (progn
-     (rplacd! prev (cdr current))
-     (car current))
-    (error "obj was not in lst")))))
 
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
