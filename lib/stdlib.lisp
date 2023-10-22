@@ -165,7 +165,7 @@
    (cons (/ time-taken 1) $(result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg head-expr . tail-exprs)
- `(let ((time-taken (/ (car (time ,head-expr . ,tail-exprs)) 1000)))
+ `(let ((time-taken (car (time ,head-expr . ,tail-exprs))))
    (princ ,msg)
    (princ " took ")
    (princ time-taken)
