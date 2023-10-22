@@ -74,23 +74,41 @@
 ;; (log-eval t)
 
 
-(setq! lst $(1 2 3 4))
+(setq! lst $(1 2 3 4 5 6 7 8 9))
 (nl)
 
-;; (defun removeql! (obj lst)
-;;  (let ((head (car lst)))
-;;   (if (eql? obj head)
-;;    (progn
-;;     (rplaca! lst (second lst))
-;;     (rplacd! lst (cddr   lst)))
-;;    (let ((prev    head)
-;;          (current (cdr lst)))
-;;     (letrec
-;;      ((chase (lambda (obj lst)
+(defun removeql! (obj lst)
+ (let ((head (car lst)))
+  (if (eql? obj head)
+   (progn
+    (rplaca! lst (second lst))
+    (rplacd! lst (cddr   lst)))
+   (let ((prev     lst)
+         (position (cdr lst)))
+    (letrec
+     ((chase
+       (lambda (lst)
+        (let ((head (car lst))
+              (next (cdr lst)))
+         (cond
+          ((eql? obj head) (rplacd! prev next))
+          (next
+           (progn
+            (setq! prev lst)
+            (chase next))))))))
+     (chase position))))))
 
-;;    )))
 
-;; (removeql! 1 lst)
+(removeql! 1 lst)
+(removeql! 6 lst)
+(removeql! 9 lst)
+(removeql! 2 lst)
+(removeql! 3 lst)
+(removeql! 5 lst)
+(removeql! 4 lst)
+(removeql! 8 lst)
+(removeql! 4 lst)
+(removeql! 7 lst)
 
-;; (write lst)
-;; (nl)
+(write lst)
+(nl)
