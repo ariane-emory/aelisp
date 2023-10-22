@@ -23,9 +23,9 @@
 ;; time evaluation:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time (head-expr . tail-exprs)
- $('let $($('begin $('now)))
+ $('let $($('begin $('now-us)))
    (cons 'progn (cons head-expr tail-exprs))
-   $('elapsed 'begin)))
+   $('elapsed-us 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg head-expr . tail-exprs)
  $('let $($('time-taken $('time (cons 'progn (cons head-expr tail-exprs)))))
@@ -40,11 +40,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simpler-version of stdlib load time measuerement:                          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! before (now))
+(setq! before (now-us))
 (setq! print-loaded
  (lambda ()
   (princ "Loaded in ")
-  (princ (elapsed before))
+  (princ (elapsed-us before))
   (princ " us.")
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
