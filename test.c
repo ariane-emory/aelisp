@@ -977,7 +977,7 @@ void root_env_and_eval(void) {
   ae_obj_t * env    = ENV_NEW_ROOT();
   ae_obj_t * listf  = EVAL(env, SYM("list"));
 
-  OLOG(listf);
+  // OLOG(listf);
 
   ae_obj_t * expr   = NIL;
   ae_obj_t * rtrn   = NIL;
@@ -1079,11 +1079,11 @@ void root_env_and_eval(void) {
   ae_obj_t *    expr3 = CONS(TRUE, NEW_CONS(NEW_INT(30), NIL));
   /*   */ expr = CONS(SYM("cond"), CONS(expr1, CONS(expr2, NEW_CONS(expr3, NIL))));
 
-  NL;
-  PR("Evaluating this cond: ");
-  WRITE(expr);
-  PR(".");
-  NL;
+  /* NL; */
+  /* PR("Evaluating this cond: "); */
+  /* WRITE(expr); */
+  /* PR("."); */
+  /* NL; */
 
 #define TEST_COND(input, expected)                                                                 \
   {                                                                                                \
@@ -1120,7 +1120,7 @@ void list_fun(void) {
   ae_obj_t * ret           = EVAL(env, list_fun_call);
 
   T(shitty_princ_based_equality_predicate(ret, "(1 2 3)"));
-  NL;
+  // NL;
 }
 
 ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
@@ -1143,9 +1143,9 @@ ae_obj_t * apply_user_fun(ae_obj_t * fun, ae_obj_t * env, ae_obj_t * args);
 void macro_expand(void) {
   SETUP_TEST;
 
-  PR("\n\nPopulating root env...");
+  // PR("\n\nPopulating root env...");
   ae_obj_t * env = ENV_NEW_ROOT();
-  PR("\nDone populating root env.\n");
+  // PR("\nDone populating root env.\n");
 
   GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list 'setq! name (list 'macro params . body))))");
   GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list 'setq! name (list 'lambda params . body)))");
@@ -1157,8 +1157,8 @@ void macro_expand(void) {
   macro_def = CONS(CONS(SYM("list"), macro_def), NIL);
   macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
   macro_def = CONS(SYM("macro"), macro_def);
-  PR("macro def  "); PRINC(macro_def); NL;
-  PR("should be  (macro (xxx yyy) (list '+ xxx yyy))");
+  // PR("macro def  "); PRINC(macro_def); NL;
+  // PR("should be  (macro (xxx yyy) (list '+ xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list '+ xxx yyy))"));
 
   ae_obj_t * setq_for_macro_def   = CONS(SYM("setq!"), CONS(SYM("add2"), CONS(macro_def, NIL)));
