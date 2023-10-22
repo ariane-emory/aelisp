@@ -34,8 +34,14 @@ ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env,
 
   int written = 0;
 
-  FOR_EACH(elem, args)
+  FOR_EACH(elem, args) {
     written += PUT(elem);
+
+    if (! NILP(CDR(position))) {
+      SPC;
+      written++;
+    }
+  }
 
   fflush(stdout);
 
