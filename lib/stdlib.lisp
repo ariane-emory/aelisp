@@ -822,7 +822,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun benchmark (repetitions print-interval qexpr)
   "Benchmark expr by running it repetitions time and returning the
-  total/average time in ms, printing updates ever print-interval iterations."
+  total/average time in ms, printing updates ever print-interval iterations.
+
+  THIS PROBABLY NEEDS AN UPDATE!"
   (nl)
   (let ((ctr   0)
         (total 0))

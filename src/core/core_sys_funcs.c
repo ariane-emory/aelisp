@@ -32,8 +32,8 @@ ae_obj_t * ae_core_now(__attribute__((unused)) ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_now_us(__attribute__((unused)) ae_obj_t * const env,
-                       __attribute__((unused)) ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
+                          __attribute__((unused)) ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("now_us");
   CORE_RETURN("now_us", NEW_INT(now_us()));
 }
@@ -42,9 +42,9 @@ ae_obj_t * ae_core_now_us(__attribute__((unused)) ae_obj_t * const env,
 // _elapsed
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_elapsed(__attribute__((unused)) ae_obj_t * const env,
-                        __attribute__((unused)) ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_elapsed(ae_obj_t * const env,
+                           ae_obj_t * const args,
+                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("elapsed");
   REQUIRE(env, args, INTEGERP(CAR(args)));
   CORE_RETURN("elapsed", NEW_INT(now() - INT_VAL(CAR(args))));
@@ -59,7 +59,7 @@ ae_obj_t * ae_core_elapsed_us(ae_obj_t * const env,
                               __attribute__((unused)) int args_length) {
   CORE_BEGIN("elapsed_us");
   REQUIRE(env, args, INTEGERP(CAR(args)));
-  CORE_RETURN("elapsed_us", NEW_INT(now() - INT_VAL(CAR(args))));
+  CORE_RETURN("elapsed_us", NEW_INT(now_us() - INT_VAL(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
