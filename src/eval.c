@@ -427,7 +427,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   long int begin = -1;
   
   if (MACROP(fun) && (log_eval || log_macro)) {
-    LOG(obj, "expanding");
+    LOG(obj, "expanding:");
 
     begin = now();
       
@@ -445,26 +445,26 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     long long int after = now();
 
     if (log_eval || log_macro) {
-      LOG(ret, "expansion");
+      LOG(ret, "expansion:");
     }
 
     if (ATOMP(ret)) {
       ret = CONS(SYM("progn"), CONS(ret, NIL));
 
       if (log_eval || log_macro)
-        LOG(ret, "decorated expansion");
+        LOG(ret, "decorated expansion:");
     }
     
     ret = EVAL(env, ret);
 
     if (log_eval || log_macro)
-      LOG(ret, "evaled expansion");
+      LOG(ret, "evaled expansion:");
     
     if (log_eval || log_macro) // inside if MACROP
       OUTDENT;
 
     if (log_eval || log_macro)
-      LOG(obj, "expanding took %lld ms", after - begin);
+      LOG(obj, "expanding took %lld ms:", after - begin);
 
     if (ERRORP(ret))
       goto end;
