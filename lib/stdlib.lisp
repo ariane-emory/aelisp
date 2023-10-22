@@ -166,13 +166,12 @@
 ;; time evaluation:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time (head-expr . tail-exprs)
- `(let* ((begin (now))
-         (result (progn ,head-expr ,@tail-exprs))
-         (time-taken (elapsed begin)))
-   (cons time-taken $(result))))
+ `(let ((begin (now)))
+   (progn ,head-expr ,@tail-exprs)
+   (elapsed begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg head-expr . tail-exprs)
- `(let ((time-taken (car (time ,head-expr . ,tail-exprs))))
+ `(let ((time-taken (time ,head-expr . ,tail-exprs)))
    (princ ,msg)
    (princ " in ")
    (princ time-taken)
