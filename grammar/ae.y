@@ -5,6 +5,7 @@
 #include "obj.h"
 #include "list.h"
 #include "util.h"
+#include "free_list.h"
 
 #define YYSTYPE ae_obj_t *
 
@@ -35,7 +36,16 @@ atom: CHAR | FLOAT | INTEGER | RATIONAL | STRING | SYMBOL | INF;
 
 program: sexps                                  { program = CONS(SYM("progn"), $$); };
 sexps:            sexp     sexps                { $$      = CONS($1, $2); } | { $$ = NIL; };
-list:             LPAREN   list_elements RPAREN { $$      = $2; };
+list:             LPAREN   list_elements RPAREN {
+    $$      = $2;
+//    PUT_PROP($$, SYM("file"), NEW_STR(last_loaded_file));
+    PUT_PROP($$, "line", NEW_INT(yylineno));
+    WRITE($$);
+    SPC;
+    WRITE(PROPS($$));
+    NL;
+};
+
 list_elements:    sexp     list_elements        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };
 
 quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),            CONS($2, NIL)); };
