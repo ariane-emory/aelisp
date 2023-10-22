@@ -22,9 +22,9 @@ ae_obj_t * ae_core_set_prop(__attribute__((unused)) ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("aset");
 
-  ae_obj_t * key           = CAR(args);
-  ae_obj_t * value         = CADR(args); // this could be unsafe if value is NIL, maybe.
-  ae_obj_t * obj           = CADDR(args);
+  ae_obj_t * key           = EVAL(env, CAR(args));
+  ae_obj_t * value         = EVAL(env, CADR(args)); // this could be unsafe if value is NIL, maybe.
+  ae_obj_t * obj           = EVAL(env, CADDR(args));
   ae_obj_t * prop_list     = PROPS(obj);
   ae_obj_t * new_prop_list = KSET(prop_list, key, value);
 
@@ -42,8 +42,8 @@ ae_obj_t * ae_core_get_prop(__attribute__((unused)) ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("get");
 
-  ae_obj_t * key       = CAR(args);
-  ae_obj_t * obj       = CADR(args); 
+  ae_obj_t * key       = EVAL(env, CAR(args));
+  ae_obj_t * obj       = EVAL(env, CADR(args)); 
   ae_obj_t * prop_list = PROPS(obj);
 
   CORE_RETURN("get", KGET(prop_list, key));
@@ -58,8 +58,8 @@ ae_obj_t * ae_core_has_prop(__attribute__((unused)) ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("has");
 
-  ae_obj_t * key       = CAR(args);
-  ae_obj_t * obj       = CADR(args);
+  ae_obj_t * key       = EVAL(env, CAR(args));
+  ae_obj_t * obj       = EVAL(env, CADR(args));
   ae_obj_t * prop_list = PROPS(obj);
 
   CORE_RETURN("has", TRUTH(KHAS(prop_list, key)));
