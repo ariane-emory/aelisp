@@ -1089,10 +1089,10 @@ void root_env_and_eval(void) {
   {                                                                                                \
     CORE_SETQ(env, "a", NEW_INT(input));                                                           \
     this = EVAL(env, expr);                                                                        \
-    PR("Rtrn for " #input " is ");                                                                 \
-    PRINC(this);                                                                                   \
-    PR(".");                                                                                       \
-    NL;                                                                                            \
+    /* PR("Rtrn for " #input " is ");  */                                                          \
+    /* PRINC(this);  */                                                                            \
+    /* PR("."); */                                                                                 \
+    /* NL;  */                                                                                     \
     if (! EQL(this, NEW_INT(expected))) {                                                          \
       NL;                                                                                          \
       PR("this ");                                                                                 \
@@ -1163,22 +1163,22 @@ void macro_expand(void) {
 
   ae_obj_t * setq_for_macro_def   = CONS(SYM("setq!"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   ae_obj_t * rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
-  NL;
-  OLOG(setq_for_macro_def);
-  OLOG(rtrn_for_macro_def);
-  NL;
+  // NL;
+  // OLOG(setq_for_macro_def);
+  // OLOG(rtrn_for_macro_def);
+  // NL;
 
   ae_obj_t * call_add2      = CONS(SYM("add2"), CONS(NEW_INT(5), CONS(NEW_INT(8), NIL)));
-  OLOG(call_add2);
-  NL;
+  // OLOG(call_add2);
+  // NL;
 
   ae_obj_t * call_add2_rtrn = EVAL(env, call_add2);
-  OLOG(call_add2_rtrn);
-  NL;
+  // OLOG(call_add2_rtrn);
+  // NL;
 
   ae_obj_t * eval_call_add2_rtrn = EVAL(env, call_add2_rtrn);
-  OLOG(eval_call_add2_rtrn);
-  NL;
+  // OLOG(eval_call_add2_rtrn);
+  // NL;
 
   /* { */
   /*   ae_obj_t * princ = CONS(SYM("princ"),  CONS(CONS(SYM("quote"), CONS(CONS(SYM("hello"), CONS(NEW_STRING("hello"), NIL)), NIL)), NIL)   ); */
