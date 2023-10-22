@@ -104,8 +104,31 @@
      (chase position)))))
  obj)
 
+(defun remove-first! (obj lst)
+ (let ((head (car lst))
+       (tail (cdr lst)))
+  (if (eql? obj head)
+   (if (nil? tail)
+    (error "can't remove last item")
+    (rplaca! lst (second lst))
+    (rplacd! lst (cddr   lst)))
+   (let ((prev     lst)
+         (position (cdr lst)))
+    (letrec
+     ((chase
+       (lambda (lst)
+        (let ((head (car lst))
+              (tail (cdr lst)))
+         (cond
+          ((eql? obj head) (rplacd! prev tail))
+          (tail            (progn (setq! prev lst) (chase tail)))
+          (t               (error "obj was not in lst"))
+          )))))
+     (chase position)))))
+ obj)
+
 (defun select-and-move-to-front! (obj lst)
- (removeql! obj lst)
+ (remove-first! obj lst)
  (let ((new-tail (cons (car lst) (cdr lst))))
   (rplaca! lst obj)
   (rplacd! lst new-tail))
