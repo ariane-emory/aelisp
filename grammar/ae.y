@@ -9,7 +9,7 @@
 
 #define YYSTYPE ae_obj_t *
 
-#define TAG(o) (PUT_PROP(((o)), "line", NEW_INT(yylineno)), PUT_PROP(((o)), "file", last_loaded_file))
+#define TAG(o) (PUT_PROP(((o)), "line", NEW_INT(yylineno + 1)), PUT_PROP(((o)), "file", last_loaded_file))
 
 extern int yylineno;
 extern ae_obj_t * program;
@@ -18,9 +18,9 @@ extern ae_obj_t * last_loaded_file;
 
 void yyerror(const char *str) {
     if (!NILP(last_loaded_file))
-        ERR("Error on line %d of %s: %s\n", yylineno, STR_VAL(last_loaded_file), str);
+        ERR("Error on line %d of %s: %s\n", yylineno + 1, STR_VAL(last_loaded_file), str);
     else
-        ERR("Error on line %d: %s\n", yylineno, str);
+        ERR("Error on line %d: %s\n", yylineno + 1, str);
 }
 
 int  yywrap() { return 1; }   
