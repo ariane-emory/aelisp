@@ -127,15 +127,15 @@
      (car current))
     (error "obj was not in lst")))))
 
-(defun select-and-move-to-front! (pred? lst)
- "Move the first item matching pred? to the front of the list."
- (if (pred? (car lst))
-  (car lst)
-  (let ((obj (remove-first! pred? lst)))
-   (let ((new-tail (cons (car lst) (cdr lst))))
-    (rplaca! lst obj)
-    (rplacd! lst new-tail)
-    obj))))
+;; (defun select-and-move-to-front! (pred? lst)
+;;  "Move the first item matching pred? to the front of the list."
+;;  (if (pred? (car lst))
+;;   (car lst)
+;;   (let ((obj (remove-first! pred? lst)))
+;;    (let ((new-tail (cons (car lst) (cdr lst))))
+;;     (rplaca! lst obj)
+;;     (rplacd! lst new-tail)
+;;     obj))))
 
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
