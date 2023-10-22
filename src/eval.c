@@ -438,6 +438,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? apply_core(env, fun, args)
     : apply_user(env, fun, args);
 
+  if (ERRORP(ret))
+    goto end;
 
   if (MACROP(fun)) {
     long long int after = now();
@@ -452,18 +454,18 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       if (log_eval || log_macro)
         LOG(ret, "decorated expansion");
     }
-
-    if (log_eval || log_macro) // inside if MACROP
-      OUTDENT;
-
-    if (log_eval || log_macro)
-      SLOGF("expansion took %lld ms", after - begin);
     
     ret = EVAL(env, ret);
 
     if (log_eval || log_macro)
       LOG(ret, "evaled expansion");
     
+    if (log_eval || log_macro) // inside if MACROP
+      OUTDENT;
+
+    if (log_eval || log_macro)
+      SLOGF("expansion took %lld ms", after - begin);
+
     if (ERRORP(ret))
       goto end;
 
