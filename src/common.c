@@ -270,7 +270,7 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   last_loaded_file = NIL;
 
-  PUT_PROP_RAW(KW("program"), loaded_file, program);
+  PUT_PROP_RAW(SYM("*program*"), loaded_file, program);
   
   return program; 
 }

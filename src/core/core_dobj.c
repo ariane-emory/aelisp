@@ -1,5 +1,5 @@
-#include  "core_includes.h"
-
+#include "core_includes.h"
+#include "env.h"
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _props
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10,7 +10,11 @@ ae_obj_t * ae_core_props(
   __attribute__((unused)) int              args_length) {
   CORE_BEGIN("props");
 
-  CORE_RETURN("props", PROPS(CAR(args)));
+  ae_obj_t * prop_list = (SYMBOLP(CAR(args)) && (! ENV_BOUNDP(env, CAR(args))))
+    ? PROPS(CAR(args))
+    : EVAL(env, CAR(args));
+
+  CORE_RETURN("props", prop_list);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
