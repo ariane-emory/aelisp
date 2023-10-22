@@ -451,20 +451,17 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     if (ATOMP(ret)) {
       ret = CONS(SYM("progn"), CONS(ret, NIL));
 
-      if (log_eval || log_macro) {
+      if (log_eval || log_macro)
         LOG(ret, "decorated expansion");
-
-        SLOGF("expansion took %ll - %lld = %lld ms", begin, after, after - begin);
-      }
     }
+
+    if (log_eval || log_macro)
+      SLOGF("expansion took %lld ms", after - begin);
     
     ret = EVAL(env, ret);
 
-    if (MACROP(fun) && (log_eval || log_macro)) {
-      //OUTDENT;
-
+    if (log_eval || log_macro)
       LOG(ret, "evaled expansion");
-    }
     
     if (ERRORP(ret))
       goto end;
