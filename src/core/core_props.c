@@ -28,8 +28,8 @@ ae_obj_t * ae_core_set_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("aset");
 
-  ae_obj_t * key           = EVAL(env, CAR(args));
-  ae_obj_t * value         = EVAL(env, CADR(args)); // this could be unsafe if value is NIL, maybe.
+  ae_obj_t * value         = EVAL(env, CAR(args)); // this could be unsafe if value is NIL, maybe?
+  ae_obj_t * key           = EVAL(env, CADR(args));
   ae_obj_t * obj           = MAYBE_EVAL(CADDR(args));
   ae_obj_t * prop_list     = PROPS(obj);
   ae_obj_t * new_prop_list = KSET(prop_list, key, value);

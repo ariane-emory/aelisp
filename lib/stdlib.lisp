@@ -19,7 +19,7 @@
 (defmacro defconstant (sym value)
  $('progn
    $('setq! sym value)
-   $('put! ':constant 't $('quote sym))
+   $('put! 't ':constant $('quote sym))
    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -838,7 +838,7 @@
               (nl)
               result))))
     (rplacd! (body fun) new-body))
-   (put! :added-logging t fun) (nl)
+   (put! t :added-logging fun) (nl)
    fun))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro funcall (fun . args)
