@@ -564,10 +564,32 @@
        (reverse-internal (cdr lst) (cons (car lst) acc))))))
    (reverse-internal lst nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(defun removeql! (obj lst)
+ "Remove the first item eql? to obj from the list."
+ (let ((head (car lst))
+       (tail (cdr lst)))
+  (if (eql? obj head)
+   (if (nil? tail)
+    (error "can't remove last item")
+    (rplaca! lst (second lst))
+    (rplacd! lst (cddr   lst)))
+   (let ((prev     lst)
+         (current  (cdr lst)))
+    (letrec
+     ((chase
+       (lambda (lst)
+        (let ((head (car lst))
+              (next (cdr lst)))
+         (cond
+          ((eql? obj head) (progn (rplacd! prev next) obj))
+          (next            (progn (setq! prev lst) (chase next)))
+          (t               (error "obj was not in lst"))
+          )))))
+     (chase current))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (more unsorted):                                                 ;;
+ ;; list funs (more unsorted):                                                ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun-list-pred-fun (name combiner base-case)
   `(defun ,name (pred? lst)

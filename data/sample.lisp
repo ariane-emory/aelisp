@@ -78,32 +78,12 @@
 (nl)
 
 (defun copy-list (lst)
- "Returns a shallow copy of the given list."
+ "Take shallow copy of the given list."
  (when lst (cons (car lst) (copy-list (cdr lst)))))
 
-(defun removeql! (obj lst)
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (eql? obj head)
-   (if (nil? tail)
-    (error "can't remove last item")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (position (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (tail (cdr lst)))
-         (cond
-          ((eql? obj head) (progn (rplacd! prev tail) obj))
-          (tail            (progn (setq! prev lst) (chase tail)))
-          (t               (error "obj was not in lst"))
-          )))))
-     (chase position))))))
 
 (defun remove-first! (pred? lst)
+ "Remove the first item matching pred? from the list."
  (let ((head (car lst))
        (tail (cdr lst)))
   (if (pred? head)
@@ -112,20 +92,21 @@
     (rplaca! lst (second lst))
     (rplacd! lst (cddr   lst)))
    (let ((prev     lst)
-         (position (cdr lst)))
+         (current  (cdr lst)))
     (letrec
      ((chase
        (lambda (lst)
         (let ((head (car lst))
-              (tail (cdr lst)))
+              (next (cdr lst)))
          (cond
-          ((pred? head) (progn (rplacd! prev tail) head))
-          (tail         (progn (setq! prev lst) (chase tail)))
+          ((pred? head) (progn (rplacd! prev next) head))
+          (next         (progn (setq! prev lst) (chase next)))
           (t               (error "obj was not in lst"))
           )))))
-     (chase position))))))
+     (chase current))))))
 
 (defun select-and-move-to-front! (pred? lst)
+ "Move the first item matching pred? to the front of the list."
  (let ((head (car lst)))
   (if (pred? head)
    head
@@ -135,6 +116,33 @@
     (rplacd! lst new-tail)
     obj))))
 
+(defun remove-first! (pred? lst)
+ "Remove the first item matching pred? from the list."
+ (if (pred? (car lst))
+  (if (cdr lst)
+   (progn 
+    (rplaca! lst (cadr lst))
+    (rplacd! lst (cddr lst)))
+   (error "can't remove last item"))
+  (let ((prev lst) (current (cdr lst)))
+   (while (and current (not (pred? (car current))))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if current
+    (progn
+     (rplacd! prev (cdr current))
+     (car current))
+    (error "obj was not in lst")))))
+
+(defun select-and-move-to-front! (pred? lst)
+ "Move the first item matching pred? to the front of the list."
+ (if (pred? (car lst))
+  (car lst)
+  (let ((obj (remove-first! pred? lst)))
+   (let ((new-tail (cons (car lst) (cdr lst))))
+    (rplaca! lst obj)
+    (rplacd! lst new-tail)
+    obj))))
 
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
