@@ -297,9 +297,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
   
   if (log_eval) {
-    if (HAS_PROP(fun, "last-bound-to")) {
+    if (HAS_PROP("last-bound-to", fun)) {
       LOG(ENV_VALS(env), "applying user fun '%s' to %d arg%s",
-          SYM_VAL(GET_PROP(fun, "last-bound-to")), LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
+          SYM_VAL(GET_PROP("last-bound-to", fun)), LENGTH(ENV_VALS(env)), s_or_blank(LENGTH(ENV_VALS(env))));
     }
     else {
       char * tmp = SWRITE(fun);
@@ -326,8 +326,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   OUTDENT;
 
   if (log_eval) {
-    if (HAS_PROP(fun, "last-bound-to")) {
-      LOG(result, "applying user fun '%s' returned %s :%s", SYM_VAL(GET_PROP(fun, "last-bound-to")), a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+    if (HAS_PROP("last-bound-to", fun)) {
+      LOG(result, "applying user fun '%s' returned %s :%s",
+          SYM_VAL(GET_PROP("last-bound-to", fun)), a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
     }
     else {
       char * tmp = SWRITE(fun);
@@ -474,14 +475,14 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in apply
-  if (! HAS_PROP(ret, "birth-place")) {
+  if (! HAS_PROP("birth-place", ret)) {
     PUT_PROP(ret, "birth-place", env);
 
     if (log_eval)
       LOG(ret, "birthed");
   }
 
-  if (! HAS_PROP(ret, "origin"))
+  if (! HAS_PROP("origin", ret))
     PUT_PROP(ret, "origin", fun);
 #endif
 
@@ -522,19 +523,20 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   (void)env;
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
-  if (! HAS_PROP(obj, "birth-place")) {
+  if (! HAS_PROP("birth-place", obj)) {
     PUT_PROP(obj, "birth-place", env);
 
     if (log_eval)
       LOG(obj, "birthed");
   }
 
-  if (! HAS_PROP(obj, "origin"))
+  if (! HAS_PROP("origin", obj))
     PUT_PROP(obj, "origin", KW("self-evaluated"));
 #endif
 
   if (log_eval)
-    LOG(obj, "self-evaluated %s :%s", a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
+    LOG(obj, "self-evaluated %s :%s",
+        a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 
   return obj;
 }
@@ -566,14 +568,14 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     : ENV_FIND(env, sym);
 
 #if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
-  if (! HAS_PROP(ret, "birth-place")) {
+  if (! HAS_PROP("birth-place", ret)) {
     PUT_PROP(ret, "birth-place", env);
 
     if (log_eval)
       LOG(ret, "birthed");
   }
 
-  if (! HAS_PROP(ret, "origin"))
+  if (! HAS_PROP("origin", ret))
     PUT_PROP(ret, "origin", KW("lookup"));
 #endif
 

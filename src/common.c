@@ -167,7 +167,7 @@ void paint_parsed(void) {
   NL;
     
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
-    if (! FREEP(pool_get_object(ix)) && ! HAS_PROP(pool_get_object(ix), "origin")) {
+    if (! FREEP(pool_get_object(ix)) && ! HAS_PROP("origin", pool_get_object(ix))) {
 #ifdef AE_LOG_KVP_SET_GET
       //  LOG(pool_get_object(ix), "#%d: Setting origin to 'read'", ix);
 #endif

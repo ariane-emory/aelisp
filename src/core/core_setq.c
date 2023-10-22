@@ -19,7 +19,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     : CADR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
-  REQUIRE(env, args, ! HAS_PROP(sym,  "constant"), "constant symbols cannot be set");
+  REQUIRE(env, args, ! HAS_PROP("constant",  sym), "constant symbols cannot be set");
   REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols are constant and cannot be set");
   REQUIRE(env, args, sym != NIL,      "nil is a constant symbol and cannot be set");
   REQUIRE(env, args, sym != TRUE,     "t is a constant symbol and cannot be set");
