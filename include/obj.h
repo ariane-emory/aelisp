@@ -213,7 +213,7 @@ extern ae_obj_t * symbols_list;
 #define PROPS(obj)                       ((obj)->properties)
 #define HAS_PROP(obj, key)               (KHAS(PROPS((obj)), KW(key)))
 #define GET_PROP(obj, key)               (KGET(PROPS((obj)), KW(key)))
-#define SET_PROP(obj, key, val)          ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), KW(key), (val))); })
+#define PUT_PROP(obj, key, val)          ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
