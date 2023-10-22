@@ -69,11 +69,22 @@
  (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
  (princ "Call returned " (lshift4 4) ".") (nl))
 
+(setq! lst $(2 4 1 5 3 7 9 6 8))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (log-eval t)
 
-(setq! lst $(2 4 1 5 3 7 9 6 8))
+(defun select-and-move-to-front! (pred? lst)
+ "Move the first item matching pred? to the front of the list."
+ (let ((head (car lst)))
+  (if (pred? head)
+   head
+   (let ((obj      (remove-first! pred? lst))
+         (new-tail (cons (car lst) (cdr lst))))
+    (rplaca! lst obj)
+    (rplacd! lst new-tail)
+    obj))))
 
 (defun remove-first! (pred? lst)
  "Remove the first item matching pred? from the list."
@@ -98,17 +109,6 @@
           )))))
      (chase current))))))
 
-(defun select-and-move-to-front! (pred? lst)
- "Move the first item matching pred? to the front of the list."
- (let ((head (car lst)))
-  (if (pred? head)
-   head
-   (let ((obj      (remove-first! pred? lst))
-         (new-tail (cons (car lst) (cdr lst))))
-    (rplaca! lst obj)
-    (rplacd! lst new-tail)
-    obj))))
-
 (defun remove-first! (pred? lst)
  "Remove the first item matching pred? from the list."
  (if (pred? (car lst))
@@ -126,16 +126,6 @@
      (rplacd! prev (cdr current))
      (car current))
     (error "obj was not in lst")))))
-
-;; (defun select-and-move-to-front! (pred? lst)
-;;  "Move the first item matching pred? to the front of the list."
-;;  (if (pred? (car lst))
-;;   (car lst)
-;;   (let ((obj (remove-first! pred? lst)))
-;;    (let ((new-tail (cons (car lst) (cdr lst))))
-;;     (rplaca! lst obj)
-;;     (rplacd! lst new-tail)
-;;     obj))))
 
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
