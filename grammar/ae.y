@@ -42,10 +42,10 @@ list:             LPAREN   list_elements RPAREN {
     $$      = $2;
 //    PUT_PROP($$, SYM("file"), NEW_STR(last_loaded_file));
     TAG($$);
-    WRITE($$);
-    SPC;
-    WRITE(PROPS($$));
-    NL;
+    /* WRITE($$); */
+    /* SPC; */
+    /* WRITE(PROPS($$)); */
+    /* NL; */
 };
 
 list_elements:    sexp     list_elements        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };

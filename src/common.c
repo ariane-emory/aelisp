@@ -267,6 +267,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   yyin = original_yyin;
 
+  last_loaded_file = NIL;
+  
   return program; 
 }
 
