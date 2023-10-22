@@ -69,8 +69,6 @@
  (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
  (princ "Call returned " (lshift4 4) ".") (nl))
 
-(setq! lst $(2 4 1 5 3 7 9 6 8))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (log-eval t)
@@ -127,6 +125,8 @@
           )))))
      (chase current))))))
 
+(setq! lst $(2 4 1 5 3 7 9 6 8))
+
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 7)) lst)) (spc) (write lst) (nl)
@@ -138,12 +138,3 @@
 (princ (select-and-move-to-front! (lambda (o) (eql? o 1)) lst)) (spc) (write lst) (nl)
 
 (select-and-move-to-front! (lambda (o) (eql? o 2)) $(2))
-
-;; (princ (removeql! 1 lst)) (spc) (write lst) (nl)
-;; (princ (removeql! 6 lst)) (spc) (write lst) (nl)
-;; (princ (removeql! 9 lst)) (spc) (write lst) (nl)
-;; (princ (removeql! 2 lst)) (spc) (write lst) (nl)
-;; (princ (removeql! 3 lst)) (spc) (write lst) (nl)
-;; (princ (removeql! 5 lst)) (spc) (write lst) (nl)
-;; (princ (removeql! 4 lst)) (spc) (write lst) (nl)
-;; (removeql! 5 lst) (write lst) (nl)
