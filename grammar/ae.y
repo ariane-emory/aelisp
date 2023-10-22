@@ -41,10 +41,10 @@ sexps:            sexp     sexps                { $$      = CONS($1, $2); } | { 
 list:             LPAREN   list_elements RPAREN {
     $$ = $2;
     TAG($$);
-    WRITE($$);
-    SPC;
-    WRITE(PROPS($$));
-    NL;
+    /* WRITE($$); */
+    /* SPC; */
+    /* WRITE(PROPS($$)); */
+    /* NL; */
 };
 
 list_elements:    sexp     list_elements        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };

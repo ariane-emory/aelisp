@@ -67,6 +67,7 @@ extern bool log_core;
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
   DO(now,          false,          0,          0,                              FUNDEF_END)                                \
+  DO(program,      false,          0,          0,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(log_eval,     false,          0,          1, "log-eval",                  FUNDEF_END)                                \
   DO(log_core,     false,          0,          1, "log-core",                  FUNDEF_END)                                \
