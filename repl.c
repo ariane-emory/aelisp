@@ -139,7 +139,7 @@ bool load_file_cmd(const char * const line,
 
     if (ERRORP(ret)) {
       NL;
-      fprintf(stderr, "Error evaluating '%s': ", filename);
+      fprintf(stderr, "\nError evaluating '%s': ", filename);
       WRITE(ret);
       NL;
     }
