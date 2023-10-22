@@ -116,6 +116,6 @@ long long int now_us(void) {
 // elapsed
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 long long int elapsed_us(long long int time_us) {
-  return ((long long int) (now_us() - time));
+  return ((long long int) (now_us() - time_us));
 }
 
