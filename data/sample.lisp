@@ -77,14 +77,20 @@
 (setq! lst $(1 2 3 4))
 (nl)
 
-(defun removeql! (obj lst)
- (let ((head (car lst)))
-  (if (eql? obj head)
-   t
-   nil)))
+;; (defun removeql! (obj lst)
+;;  (let ((head (car lst)))
+;;   (if (eql? obj head)
+;;    (progn
+;;     (rplaca! lst (second lst))
+;;     (rplacd! lst (cddr   lst)))
+;;    (let ((prev    head)
+;;          (current (cdr lst)))
+;;     (letrec
+;;      ((chase (lambda (obj lst)
 
-(removeql! 1 lst)
+;;    )))
 
-(setq! lst $(1 2 3 4))
-(nl)
+;; (removeql! 1 lst)
 
+;; (write lst)
+;; (nl)

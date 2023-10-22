@@ -198,15 +198,15 @@
          (let ((position lst))
           (letrec
            ((chase-internal
-             (lambda (lst ,user-param . rest)
+             (lambda (,user-param lst . rest)
               (setq! position lst)
               (let ((head (car position))
                     (tail (cdr position)))
                (cond ,@cond-clauses))))
             (chase
              (lambda (,user-param . rest)
-              (chase-internal (cdr position) ,user-param . rest))))
-           (chase-internal position ,user-param . rest))))))))
+              (chase-internal ,user-param (cdr position) . rest))))
+           (chase-internal ,user-param position . rest))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-member-pred (pred?)
   `(make-chase-fun (obj lst)
