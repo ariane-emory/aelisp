@@ -10,10 +10,9 @@ ae_obj_t * ae_core_props(
   __attribute__((unused)) int              args_length) {
   CORE_BEGIN("props");
 
-  ae_obj_t * prop_list = (SYMBOLP(CAR(args)) && (! ENV_BOUNDP(env, CAR(args))))
-    ? PROPS(CAR(args))
-    : EVAL(env, CAR(args));
-
+  ae_obj_t * obj       = (SYMBOLP(CAR(args)) && (! ENV_BOUNDP(env, CAR(args)))) ? CAR(args) : EVAL(env, CAR(args));
+  ae_obj_t * prop_list = PROPS(obj);
+  
   CORE_RETURN("props", prop_list);
 }
 
