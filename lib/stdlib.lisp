@@ -50,14 +50,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(report-time "doing everything else"
+(report-time "def aliases"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; simple aliases:                                                            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! s setq!)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
 
 
+(report-time "def type preds"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; type predicates:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -78,8 +80,10 @@
  (defun symbol?   (o)          (type?    :SYMBOL         o))
  (defun improper? (o)     (and (tail? o) (not (proper?   o))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
 
 
+(report-time "def compound car/cdrs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; compound car/cdrs:                                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -112,92 +116,92 @@
  (defun cdddar   (lst)     (cdr (cdr (cdr (car lst)))))
  (defun cddddr   (lst)     (cdr (cdr (cdr (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; quasiquotation:                                                            ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! append2
-  (lambda (lst1 lst2)
-   "Append two lists."
-   (if (nil? lst1)
-    lst2
-    (cons (car lst1) (append2 (cdr lst1) lst2)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro expand-quasiquoted (expr)
-  ;; "Expand a quasiquoted expression and resolve unquotes and
-  ;;  unquote-splicings within."
-  (cond
-   ;; If it's not a cons then it's an atom that we should quote.
-   ((atom? expr)
-    $('quote expr))
-   ;; Directly replace (unquote x) with x.
-   ((eq? (car expr) 'unquote)
-    (car (cdr expr)))
-   ;; If the second element of the list is an unquote-splicing, we want to use
-   ;; append2.
-   ((and
-     (cons? (cdr expr))
-     (cons? (cadr expr))
-     (eq?   (caadr expr) 'unquote-splicing))
-    $('append2
-      $('list $('expand-quasiquoted (car expr)))
-      (cadadr expr)))
-   ;; If the second element of the list is an unquote, use cons but without
-   ;; splicing.
-   ((and
-     (cons? (cdr expr))
-     (eq?   (cadr expr) 'unquote))
-    $('cons
-      $('expand-quasiquoted (car expr))
-      (caddr expr)))
-   ;; Error out for splicing outside of list context
-   ((eq? (car expr) 'unquote-splicing)
-    (error "unquote-splicing can't occur at top level"))
-   ;; If the list is regular, we just recurse on both its parts
-   (t $('cons
-        $('expand-quasiquoted (car expr))
-        $('expand-quasiquoted (cdr expr))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! quasiquote expand-quasiquoted)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (retrieving by position):                                        ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun first    (lst)                    (car lst))
- (defun second   (lst)                   (cadr lst))
- (defun third    (lst)                  (caddr lst))
- (defun fourth   (lst)                 (cadddr lst))
- (defun fifth    (lst)            (car (cddddr lst)))
- (defun sixth    (lst)           (cadr (cddddr lst)))
- (defun seventh  (lst)          (caddr (cddddr lst)))
- (defun eighth   (lst)         (cadddr (cddddr lst)))
- (defun ninth    (lst)    (car (cddddr (cddddr lst))))
- (defun tenth    (lst)   (cadr (cddddr (cddddr lst))))
- (defun eleventh (lst)  (caddr (cddddr (cddddr lst))))
- (defun twelfth  (lst) (cadddr (cddddr (cddddr lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun zero?     (n)   (= n 0))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun nth (index lst)
-  "Get the nth item in a list."
-  (cond
-   ((zero? index) (car lst))
-   (lst          (nth (- index 1) (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun last (lst)
-  "Get last item in a list."
-  (cond
-   ((nil? (cdr lst)) lst)
-   (lst              (last (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 (print-loaded) (exit)
 
-(report-time "defining tail-chaser macros"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; quasiquotation:                                                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! append2
+ (lambda (lst1 lst2)
+  "Append two lists."
+  (if (nil? lst1)
+   lst2
+   (cons (car lst1) (append2 (cdr lst1) lst2)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro expand-quasiquoted (expr)
+ ;; "Expand a quasiquoted expression and resolve unquotes and
+ ;;  unquote-splicings within."
+ (cond
+  ;; If it's not a cons then it's an atom that we should quote.
+  ((atom? expr)
+   $('quote expr))
+  ;; Directly replace (unquote x) with x.
+  ((eq? (car expr) 'unquote)
+   (car (cdr expr)))
+  ;; If the second element of the list is an unquote-splicing, we want to use
+  ;; append2.
+  ((and
+    (cons? (cdr expr))
+    (cons? (cadr expr))
+    (eq?   (caadr expr) 'unquote-splicing))
+   $('append2
+     $('list $('expand-quasiquoted (car expr)))
+     (cadadr expr)))
+  ;; If the second element of the list is an unquote, use cons but without
+  ;; splicing.
+  ((and
+    (cons? (cdr expr))
+    (eq?   (cadr expr) 'unquote))
+   $('cons
+     $('expand-quasiquoted (car expr))
+     (caddr expr)))
+  ;; Error out for splicing outside of list context
+  ((eq? (car expr) 'unquote-splicing)
+   (error "unquote-splicing can't occur at top level"))
+  ;; If the list is regular, we just recurse on both its parts
+  (t $('cons
+       $('expand-quasiquoted (car expr))
+       $('expand-quasiquoted (cdr expr))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! quasiquote expand-quasiquoted)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; list funs (retrieving by position):                                        ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun first    (lst)                    (car lst))
+(defun second   (lst)                   (cadr lst))
+(defun third    (lst)                  (caddr lst))
+(defun fourth   (lst)                 (cadddr lst))
+(defun fifth    (lst)            (car (cddddr lst)))
+(defun sixth    (lst)           (cadr (cddddr lst)))
+(defun seventh  (lst)          (caddr (cddddr lst)))
+(defun eighth   (lst)         (cadddr (cddddr lst)))
+(defun ninth    (lst)    (car (cddddr (cddddr lst))))
+(defun tenth    (lst)   (cadr (cddddr (cddddr lst))))
+(defun eleventh (lst)  (caddr (cddddr (cddddr lst))))
+(defun twelfth  (lst) (cadddr (cddddr (cddddr lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun zero?     (n)   (= n 0))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun nth (index lst)
+ "Get the nth item in a list."
+ (cond
+  ((zero? index) (car lst))
+  (lst          (nth (- index 1) (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun last (lst)
+ "Get last item in a list."
+ (cond
+  ((nil? (cdr lst)) lst)
+  (lst              (last (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(report-time "def tail-chaser macros"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (tail chasers):                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -235,7 +239,7 @@
  )
 
 
-(report-time "defining vector-lists"
+(report-time "def vector-lists"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (vector-style list API):                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -263,7 +267,7 @@
  )
 
 
-(report-time "defining tail chasers"
+(report-time "def tail chasers"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-member-pred (pred?)
   `(make-chase-fun (obj lst)
@@ -290,7 +294,7 @@
  )
 
 
-(report-time "defining reduction functions"
+(report-time "def reduction functions"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (reduction):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -314,7 +318,7 @@
  )
 
 
-(report-time "defining map variants"
+(report-time "def map variants"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (map variants):                                                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -366,7 +370,7 @@
  )
 
 
-(report-time "defining appen/nconc variants"
+(report-time "def appen/nconc variants"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (append/nconc variants):                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -383,7 +387,7 @@
  )
 
 
-(report-time "defining push functions"
+(report-time "def push functions"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (push/push-back):                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -410,7 +414,7 @@
  )
 
 
-(report-time "defining flatten funs"
+(report-time "def flatten funs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (flattening):                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -436,7 +440,7 @@
  )
 
 
-(report-time "defining zipping funs"
+(report-time "def zipping funs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (zipping):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -463,7 +467,7 @@
  )
 
 
-(report-time "defining transform"
+(report-time "def transform"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (transform):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -509,7 +513,7 @@
  )
 
 
-(report-time "defining sort"
+(report-time "def sort"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (sorting):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -546,7 +550,7 @@
  )
 
 
-(report-time "defining misc list funs"
+(report-time "def misc list funs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (unsorted):                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -653,7 +657,7 @@
  )
 
 
-(report-time "defining union"
+(report-time "def union"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (unions):                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -683,7 +687,7 @@
  )
 
 
-(report-time "defining predicates"
+(report-time "def predicates"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; equal? predicate:                                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -730,7 +734,7 @@
  )
 
 
-(report-time "defining log toggles"
+(report-time "def log toggles"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; log toggle helpers, these should be replaced with macros:                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -761,7 +765,7 @@
  )
 
 
-(report-time "defining remainder"
+(report-time "def remainder"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; fancy output funs:                                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
