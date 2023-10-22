@@ -91,10 +91,10 @@
      ((chase
        (lambda (lst)
         (let ((head (car lst))
-              (next (cdr lst)))
+              (tail (cdr lst)))
          (cond
-          ((eql? obj head) (rplacd! prev next))
-          (next            (progn (setq! prev lst) (chase next)))
+          ((eql? obj head) (rplacd! prev tail))
+          (tail            (progn (setq! prev lst) (chase tail)))
           (t               (error "obj was not in lst"))
           )))))
      (chase position))))))
