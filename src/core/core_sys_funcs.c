@@ -78,4 +78,3 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
   
   CORE_RETURN("load", TRUTH(! failed_to_open));
 }
-
