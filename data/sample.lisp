@@ -1,3 +1,12 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (defun curry1 (fun arg1)
+;;  (lambda args
+;;   (apply fun arg1 args)))
+
+;; (setq! 2+ (curry1 + 2))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (setq! lst '(1 2 3 4 5 6 7 8 9 10))
@@ -17,6 +26,7 @@
 (princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
 (princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
 ;; (princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 200))
@@ -52,52 +62,18 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (defun curry1 (fun arg1)
-;;  (lambda args
-;;   (apply fun arg1 args)))
-
-;; (setq! 2+ (curry1 + 2))
-
-(defun lshift4 (n) (<< n 4))
-
-(add-logging-to lshift4) (nl)
-(princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
-(princ "Call returned " (lshift4 4) ".") (nl)
-;; (add-logging-to lshift4) (nl)
+(when nil
+ (defun lshift4 (n) (<< n 4))
+ 
+ (add-logging-to lshift4) (nl)
+ (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
+ (princ "Call returned " (lshift4 4) ".") (nl))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun select-and-move-to-front (lst pred?)
-  "Incrementally sorts the list by selecting the first element that matches the predicate.
-  If a matching element is found, it is moved to the front of the list.
-  Returns the selected value or nil if not found."
+;; (log-eval t)
 
-  (cond
-    ((nil? lst) nil)
-    ((pred? (car lst)) (car lst)) ; The first element matches the predicate.
-
-    (t
-     (let ((prev lst)
-           (current (cdr lst)))
-       (while (and current (not (pred? (car current))))
-         (setq! prev current)
-         (setq! current (cdr current)))
-
-       ;; If we found a match and it's not the last element
-       (when (and current (pred? (car current)))
-         (if (atom? (cdr current)) ; If the current is pointing to the last element
-           (car current) ; We just return the value without modifying the list
-
-           ;; Otherwise, we remove the current element from the list
-           ;; and place it at the front
-           (progn
-             (rplacd! prev (cdr current)) ; Remove current element from list
-             (rplacd! current lst) ; Make current's next point to the beginning of the list
-             (rplaca! lst (car current))
-             (car current)))))))) ; Return the selected value
-
-(log-eval t)
-(princ (select-and-move-to-front (lambda (x) (> x 2)) '(1 2 3 . 4)))
+(setq! lst $(1 2 3 4))
 (nl)
 
 
