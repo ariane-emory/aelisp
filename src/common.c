@@ -55,6 +55,7 @@ ae_obj_t * setup_root_env(void) {
 // set up the free list and populate the root env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  symbols_list = NIL;
   pool_clear();
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);

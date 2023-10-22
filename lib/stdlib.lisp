@@ -835,6 +835,6 @@
 
 
 (princ "Loaded in ")
-(princ (/ (elapsed begin) 1000))
+(princ (elapsed begin))
 (princ " ms.")
 (nl)

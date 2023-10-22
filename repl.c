@@ -235,8 +235,6 @@ int main(int argc, char **argv) {
       exit(0);
     }
     else if (! strncmp(line, ";r", 2)) {
-      pool_clear();
-      symbols_list = NIL;
       root_env = setup_root_env();
     }
     else if (! strncmp(line, ";s", 2)) {
