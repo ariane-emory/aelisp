@@ -1158,8 +1158,8 @@ void macro_expand(void) {
   macro_def = CONS(CONS(SYM("xxx"), CONS(SYM("yyy"), NIL)),  macro_def);
   macro_def = CONS(SYM("macro"), macro_def);
   PR("macro def  "); PRINC(macro_def); NL;
-  PR("should be  (macro (xxx yyy) (list (quote +) xxx yyy))");
-  T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list (quote +) xxx yyy))"));
+  PR("should be  (macro (xxx yyy) (list '+ xxx yyy))");
+  T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list '+ xxx yyy))"));
 
   ae_obj_t * setq_for_macro_def   = CONS(SYM("setq!"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   ae_obj_t * rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
