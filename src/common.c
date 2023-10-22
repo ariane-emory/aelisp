@@ -20,7 +20,7 @@
 #define free_list_size (1 << 16)
 char mem[free_list_size] = { 0 };
 
-const char * last_loaded_file = NULL;
+ae_obj_t * last_loaded_file = NIL;
 
 ae_obj_t * program = NIL;
 
@@ -251,7 +251,11 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     *failed_to_open = false;
   }
 
-  last_loaded_file = filename;
+  char * const file_basename = basename((char *)filename);
+  char * const last_loaded_file_str = free_list_malloc(strlen(file_basename) + 1);
+  strcpy(last_loaded_file_str, file_basename);
+  
+  last_loaded_file = NEW_STRING(last_loaded_file_str);
   
   yylineno = 0;
   yyrestart(yyin);

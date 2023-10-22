@@ -14,7 +14,7 @@ extern FILE *     yyin;
 // preface
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern const char * last_loaded_file;
+extern ae_obj_t * last_loaded_file;
 
 void       preface(void); 
 ae_obj_t * setup_root_env(void);
