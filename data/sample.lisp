@@ -74,7 +74,7 @@
 ;; (log-eval t)
 
 
-(setq! lst $(1 2 3 4 5 6 7 8 9))
+(setq! lst $(2 4 1 5 3 7 9 6 8))
 (nl)
 
 (defun removeql! (obj lst)
@@ -100,12 +100,36 @@
      (chase position)))))
  obj)
 
+(defun copy-list (lst)
+  "Returns a shallow copy of the given list."
+  (if (nil? lst)
+      nil
+      (cons (car lst) (copy-list (cdr lst)))))
 
-(princ (removeql! 1 lst)) (spc) (write lst) (nl)
-(princ (removeql! 6 lst)) (spc) (write lst) (nl)
-(princ (removeql! 9 lst)) (spc) (write lst) (nl)
-(princ (removeql! 2 lst)) (spc) (write lst) (nl)
-(princ (removeql! 3 lst)) (spc) (write lst) (nl)
-(princ (removeql! 5 lst)) (spc) (write lst) (nl)
-(princ (removeql! 4 lst)) (spc) (write lst) (nl)
+(defun select-and-move-to-front! (obj lst)
+ (removeql! obj lst)
+ (let ((new-tail (cons (car lst) (cdr lst))))
+  (rplaca! lst obj)
+  (rplacd! lst new-tail))
+ obj)
+  ;; (1 2 3 4)
+
+(princ (select-and-move-to-front! 9 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 8 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 7 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 6 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 5 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 4 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 3 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 2 lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! 1 lst)) (spc) (write lst) (nl)
+
+
+;; (princ (removeql! 1 lst)) (spc) (write lst) (nl)
+;; (princ (removeql! 6 lst)) (spc) (write lst) (nl)
+;; (princ (removeql! 9 lst)) (spc) (write lst) (nl)
+;; (princ (removeql! 2 lst)) (spc) (write lst) (nl)
+;; (princ (removeql! 3 lst)) (spc) (write lst) (nl)
+;; (princ (removeql! 5 lst)) (spc) (write lst) (nl)
+;; (princ (removeql! 4 lst)) (spc) (write lst) (nl)
 ;; (removeql! 5 lst) (write lst) (nl)
