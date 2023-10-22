@@ -151,7 +151,7 @@ bool load_file_cmd(const char * const line,
   if (failed_to_open)
     fprintf(stderr, "Failed to open file '%s'.\n", filename);
   
-  return !!failed_to_open;
+  return failed_to_open;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,9 +171,6 @@ int main(int argc, char **argv) {
 // setup AE stuff  
 ////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  preface();
-
-  // NL;
   root_env = setup_root_env();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,10 +203,10 @@ int main(int argc, char **argv) {
       add_to_history(line);
       load_file_cmd(line, ";l %255s", 255);
     }
-    else if (! strncmp(line, "(load", 5)) {
-      add_to_history(line);
-      load_file_cmd(line, "(load \"%255[^\"]\")", 255);
-    }
+    /* else if (! strncmp(line, "(load", 5)) { */
+    /*   add_to_history(line); */
+    /*   load_file_cmd(line, "(load \"%255[^\"]\")", 255); */
+    /* } */
     else if (line[0] != '\0' && line[0] != ';') {
       add_to_history(line);
       program = NIL;

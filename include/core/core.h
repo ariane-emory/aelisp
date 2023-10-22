@@ -63,6 +63,7 @@ extern bool log_core;
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                     \
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
+  DO(load,         false,          1,          1,                              FUNDEF_END)                                \
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
   DO(now,          false,          0,          0,                              FUNDEF_END)                                \

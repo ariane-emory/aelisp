@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <time.h>
 #include "core_includes.h"
+#include "common.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _time
@@ -57,5 +58,24 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
   exit(exit_code);
   
   CORE_RETURN("exit", CAR(args));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _load
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_load(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("load");
+  
+  REQUIRE(env, args, STRINGP(CAR(args)));
+
+  bool failed_to_open = false;
+  
+  ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
+  ae_obj_t * ret         = EVAL(env, new_program);
+  
+  CORE_RETURN("load", TRUTH(! failed_to_open));
 }
 
