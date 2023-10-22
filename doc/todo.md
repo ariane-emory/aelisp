@@ -1,5 +1,6 @@
 To Do:
-- [ ] #include/load equivalent (exists in REPL-speak but not in core, currently).
+- [ ] read-only property.
+- [ ] eval should take an optional env param.
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
@@ -21,6 +22,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] #include/load equivalent (exists in REPL-speak but not in core, currently).
 - [x] Fix macro expansion from eval.
 - [x] user funs need better arg count validation.
 - [x] give improper lists a length.

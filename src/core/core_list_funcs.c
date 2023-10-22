@@ -43,7 +43,8 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_BEGIN("rplaca");
 
   REQUIRE(env, args, CONSP(CAR(args)));
-
+  REQUIRE(env, args, ! HAS_PROP(CAR(args),  "read-only"), "read-only objests cannot be mutated");
+  
   CAAR(args) = CADR(args);
 
   CORE_RETURN("rplaca", CADR(args));
@@ -57,7 +58,8 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_BEGIN("rplacd");
 
   REQUIRE(env, args, CONSP(CAR(args)));
-
+  REQUIRE(env, args, ! HAS_PROP(CAR(args),  "read-only"), "read-only objests cannot be mutated");
+  
   CDAR(args) = CADR(args);
 
   CORE_RETURN("rplacd", CADR(args));

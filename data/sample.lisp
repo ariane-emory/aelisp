@@ -137,4 +137,10 @@
 (princ (select-and-move-to-front! (lambda (o) (eql? o 2)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 1)) lst)) (spc) (write lst) (nl)
 
-(select-and-move-to-front! (lambda (o) (eql? o 2)) $(2))
+(select-and-move-to-front! (lambda (o) (eql? o 2)) (list 2))
+
+
+
+(root-env)
+
+
