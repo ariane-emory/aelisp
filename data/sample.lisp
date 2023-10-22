@@ -73,14 +73,7 @@
 
 ;; (log-eval t)
 
-
 (setq! lst $(2 4 1 5 3 7 9 6 8))
-(nl)
-
-(defun copy-list (lst)
- "Take shallow copy of the given list."
- (when lst (cons (car lst) (copy-list (cdr lst)))))
-
 
 (defun remove-first! (pred? lst)
  "Remove the first item matching pred? from the list."

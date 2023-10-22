@@ -175,7 +175,7 @@
 
 (report-time "defining tail-chaser macros"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (tail chasers):                                                  ;;
+ ;; list funs (tail chasers):                                                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-chase-fun (params . cond-clauses)
   "Creates a function for recursive traversal and processing of lists.
@@ -228,7 +228,7 @@
 
 (report-time "defining vector-lists"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (vector-style list API):                                         ;;
+ ;; list funs (vector-style list API):                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-set!
   (make-chase-fun (lst index)
@@ -266,7 +266,7 @@
 
 (report-time "defining reduction functions"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (reduction):                                                     ;;
+ ;; list funs (reduction):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduce (fun acc lst)
   "Left reduce (fold) list by applying fun to successive pairs."
@@ -290,7 +290,7 @@
 
 (report-time "defining map variants"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (map variants):                                                  ;;
+ ;; list funs (map variants):                                                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar (fun lst)
   "Map fun over list, returning the resulting list."
@@ -333,7 +333,7 @@
 
 (report-time "defining appen/nconc variants"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (append/nconc variants):                                         ;;
+ ;; list funs (append/nconc variants):                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! append (reduced append2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -350,7 +350,7 @@
 
 (report-time "defining push functions"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (push/push-back):                                                ;;
+ ;; list funs (push/push-back):                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back! (lst elem)
   "Destructively push elem onto the end of lst."
@@ -377,7 +377,7 @@
 
 (report-time "defining flatten funs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (flattening):                                                    ;;
+ ;; list funs (flattening):                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten1 (lst)
   (cond
@@ -403,7 +403,7 @@
 
 (report-time "defining zipping funs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (zipping):                                                       ;;
+ ;; list funs (zipping):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip2 (lst1 lst2)
   "Zip two lists."
@@ -430,7 +430,7 @@
 
 (report-time "defining transform"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (transform):                                                     ;;
+ ;; list funs (transform):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun transform! (pred? fun obj)
   "Destructively transform the cons tree obj by replacing members matching
@@ -476,7 +476,7 @@
 
 (report-time "defining sort"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (sorting):                                                       ;;
+ ;; list funs (sorting):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun sort (predicate lst)
   "Just a basic merge sort."
@@ -505,7 +505,7 @@
    ((not lst2) lst1)
    ((predicate (car lst1) (car lst2))
     (cons (car lst1) (merge predicate (cdr lst1) lst2)))
-   (t                                                                          ;;
+   (t
     (cons (car lst2) (merge predicate lst1 (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -513,7 +513,7 @@
 
 (report-time "defining misc list funs"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (unsorted):                                                      ;;
+ ;; list funs (unsorted):                                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun list* args
   (let*
@@ -564,29 +564,34 @@
        (reverse-internal (cdr lst) (cons (car lst) acc))))))
    (reverse-internal lst nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeql! (obj lst)
- "Remove the first item eql? to obj from the list."
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (eql? obj head)
-   (if (nil? tail)
-    (error "can't remove last item")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (current  (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (next (cdr lst)))
-         (cond
-          ((eql? obj head) (progn (rplacd! prev next) obj))
-          (next            (progn (setq! prev lst) (chase next)))
-          (t               (error "obj was not in lst"))
-          )))))
-     (chase current))))))
+ (defun removeql! (obj lst)
+  "Remove the first item eql? to obj from the list."
+  (let ((head (car lst))
+        (tail (cdr lst)))
+   (if (eql? obj head)
+    (if (nil? tail)
+     (error "can't remove last item")
+     (rplaca! lst (second lst))
+     (rplacd! lst (cddr   lst)))
+    (let ((prev     lst)
+          (current  (cdr lst)))
+     (letrec
+      ((chase
+        (lambda (lst)
+         (let ((head (car lst))
+               (next (cdr lst)))
+          (cond
+           ((eql? obj head) (progn (rplacd! prev next) obj))
+           (next            (progn (setq! prev lst) (chase next)))
+           (t               (error "obj was not in lst"))
+           )))))
+      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun copy-list (lst)
+  "Take shallow copy of the given list."
+  (when lst (cons (car lst) (copy-list (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (more unsorted):                                                ;;
@@ -615,7 +620,7 @@
 
 (report-time "defining union"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (unions):                                                        ;;
+ ;; list funs (unions):                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun union2 (equalityp? list1 list2)
   "Return the union of two lists, using memp? to test for duplicates."
@@ -645,7 +650,7 @@
 
 (report-time "defining predicates"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; equal? predicate:                                                          ;;
+ ;; equal? predicate:                                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun equal? (o1 o2)
   "True when o1 and o2 are eql? or cons trees whose atomic mebers are equal?."
@@ -656,7 +661,7 @@
      (equal? (cdr o1) (cdr o2))))
    (t nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; even?/odd? predicates:                                                     ;;
+ ;; even?/odd? predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun even?   (n) "t if n is even." (zero? (% n 2 )))
  (defun odd?    (n) "t if n is odd."  (= 1 (% n 2 )))
@@ -666,7 +671,7 @@
  (defun always? (x) "always true." t)
  (defun never?  (x) "nevertrue."   nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; manipulate predicates:                                                     ;;
+ ;; manipulate predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun compose-pred1s preds
   "Does what it says on the tin and composes unary predicatess preds."
@@ -680,7 +685,7 @@
         (t     (fun (cdr preds)))))))
     (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; invert a predicate:                                                        ;;
+ ;; invert a predicate:                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun invert-pred1 pred?
   "Does what it says on the tin and inverts a unary predicate pred?."
@@ -692,7 +697,7 @@
 
 (report-time "defining log toggles"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; log toggle helpers, these should be replaced with macros:                  ;;
+ ;; log toggle helpers, these should be replaced with macros:                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun with-toggled-fun1 (toggled-fun)
   "Get a function that enables toggled-fun, evaluates fun-or-expr and sets
@@ -723,12 +728,12 @@
 
 (report-time "defining remainder"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; fancy output funs:                                                         ;;
+ ;; fancy output funs:                                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; (defmacro princn args       $(progn (cons princ args)                 $(nl)))
- ;; (defmacro printn args       $(progn (cons print args)                 $(nl)))
- ;; (defmacro putn   args       $(progn (cons put   args)                 $(nl)))
- ;; (defmacro writen args       $(progn (cons write args)                 $(nl)))
+ ;; (defmacro princn args       $(progn (cons princ args)                $(nl)))
+ ;; (defmacro printn args       $(progn (cons print args)                $(nl)))
+ ;; (defmacro putn   args       $(progn (cons put   args)                $(nl)))
+ ;; (defmacro writen args       $(progn (cons write args)                $(nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun princn  args       (apply princ   args) (nl))
  (defun printn  args       (apply print   args) (nl))
@@ -748,7 +753,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; random unsorted stuff:                                                     ;;
+ ;; random unsorted stuff:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun apply* (proc . args)
   (apply proc (apply list* args)))
@@ -800,26 +805,26 @@
     (nl)
     each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun add-logging-to (fun)
- "Add logging to a function."
- (if (has? :added-logging fun)
-  (error "logging was already added to this fun")
-  (let* ((fun-name      (get :last-bound-to fun))
-         (old-fun-body  (body fun))
-         (old-body-tail (cdr old-fun-body))
-         (new-body
-          `((princ
-             "Applying " ',fun-name
-             " to parameters "  (syms (env))
-             " with arguments " (vals (env)) ".")
-            (nl)
-            (let ((result (progn ,@old-body-tail)))
-             (princ "Result of applying " ',fun-name " was " result ".")
+ (defun add-logging-to (fun)
+  "Add logging to a function."
+  (if (has? :added-logging fun)
+   (error "logging was already added to this fun")
+   (let* ((fun-name      (get :last-bound-to fun))
+          (old-fun-body  (body fun))
+          (old-body-tail (cdr old-fun-body))
+          (new-body
+           `((princ
+              "Applying " ',fun-name
+              " to parameters "  (syms (env))
+              " with arguments " (vals (env)) ".")
              (nl)
-             result))))
-   (rplacd! (body fun) new-body))
-  (put! :added-logging t fun) (nl)
-  fun))
+             (let ((result (progn ,@old-body-tail)))
+              (princ "Result of applying " ',fun-name " was " result ".")
+              (nl)
+              result))))
+    (rplacd! (body fun) new-body))
+   (put! :added-logging t fun) (nl)
+   fun))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro funcall (fun . args)
   "This only exists to make porting code from other Lisps easier."
