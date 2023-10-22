@@ -9,6 +9,8 @@
 
 #define YYSTYPE ae_obj_t *
 
+#define TAG(o) (PUT_PROP((o), "line", NEW_INT(yylineno)))
+
 extern int yylineno;
 extern ae_obj_t * program;
 extern int main(int argc, char ** argv);
@@ -39,7 +41,7 @@ sexps:            sexp     sexps                { $$      = CONS($1, $2); } | { 
 list:             LPAREN   list_elements RPAREN {
     $$      = $2;
 //    PUT_PROP($$, SYM("file"), NEW_STR(last_loaded_file));
-    PUT_PROP($$, "line", NEW_INT(yylineno));
+    TAG($$);
     WRITE($$);
     SPC;
     WRITE(PROPS($$));
@@ -48,10 +50,10 @@ list:             LPAREN   list_elements RPAREN {
 
 list_elements:    sexp     list_elements        { $$      = CONS($1, $2); } | sexp DOT sexp { $$ = NEW_CONS($1, $3); } | { $$ = NIL; };
 
-quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),            CONS($2, NIL)); };
-quasiquoted_sexp: BACKTICK sexp                 { $$      = CONS(SYM("quasiquote"),       CONS($2, NIL)); };
-unquoted_sexp:    COMMA    sexp                 { $$      = CONS(SYM("unquote"),          CONS($2, NIL)); };
-spliced_sexp:     COMMA_AT sexp                 { $$      = CONS(SYM("unquote-splicing"), CONS($2, NIL)); };
-lit_list_sexp:    DOLLAR   sexp                 { $$      = CONS(SYM("list"),             $2);            };
+quoted_sexp:      QUOTE    sexp                 { $$      = CONS(SYM("quote"),            CONS($2, NIL)); TAG($$); };
+quasiquoted_sexp: BACKTICK sexp                 { $$      = CONS(SYM("quasiquote"),       CONS($2, NIL)); TAG($$); };
+unquoted_sexp:    COMMA    sexp                 { $$      = CONS(SYM("unquote"),          CONS($2, NIL)); TAG($$); };
+spliced_sexp:     COMMA_AT sexp                 { $$      = CONS(SYM("unquote-splicing"), CONS($2, NIL)); TAG($$); };
+lit_list_sexp:    DOLLAR   sexp                 { $$      = CONS(SYM("list"),             $2);            TAG($$); };
 
 %%
