@@ -92,23 +92,17 @@
               (next (cdr lst)))
          (cond
           ((eql? obj head) (rplacd! prev next))
-          (next
-           (progn
-            (setq! prev lst)
-            (chase next))))))))
+          (next            (progn (setq! prev lst) (chase next)))
+          (t               (error "obj was not in lst"))
+          )))))
      (chase position))))))
 
 
-(removeql! 1 lst)
-(removeql! 6 lst)
-(removeql! 9 lst)
-(removeql! 2 lst)
-(removeql! 3 lst)
-(removeql! 5 lst)
-(removeql! 4 lst)
-(removeql! 8 lst)
-(removeql! 4 lst)
-(removeql! 7 lst)
-
-(write lst)
-(nl)
+(removeql! 1 lst) (write lst) (nl)
+(removeql! 6 lst) (write lst) (nl)
+(removeql! 9 lst) (write lst) (nl)
+(removeql! 2 lst) (write lst) (nl)
+(removeql! 3 lst) (write lst) (nl)
+(removeql! 5 lst) (write lst) (nl)
+(removeql! 4 lst) (write lst) (nl)
+;; (removeql! 5 lst) (write lst) (nl)
