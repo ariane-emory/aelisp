@@ -73,7 +73,18 @@
 
 ;; (log-eval t)
 
+
 (setq! lst $(1 2 3 4))
 (nl)
 
+(defun removeql! (obj lst)
+ (let ((head (car lst)))
+  (if (eql? obj head)
+   t
+   nil)))
+
+(removeql! 1 lst)
+
+(setq! lst $(1 2 3 4))
+(nl)
 
