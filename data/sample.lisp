@@ -120,12 +120,11 @@
         (let ((head (car lst))
               (tail (cdr lst)))
          (cond
-          ((eql? obj head) (rplacd! prev tail))
+          ((eql? obj head) (progn (rplacd! prev tail) obj))
           (tail            (progn (setq! prev lst) (chase tail)))
           (t               (error "obj was not in lst"))
           )))))
-     (chase position)))))
- obj)
+     (chase position))))))
 
 (defun select-and-move-to-front! (obj lst)
  (remove-first! obj lst)
