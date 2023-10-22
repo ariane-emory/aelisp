@@ -1,5 +1,9 @@
 #include "core_includes.h"
 #include "env.h"
+#include "util.h"
+
+#define MAYBE_EVAL(o) ({ CAPTURE((o)); (SYMBOLP(CAPTURED) && (! ENV_BOUNDP(env, CAPTURED))) ? CAPTURED : EVAL(env, CAPTURED); })
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _props
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10,7 +14,7 @@ ae_obj_t * ae_core_props(
   __attribute__((unused)) int              args_length) {
   CORE_BEGIN("props");
 
-  ae_obj_t * obj       = (SYMBOLP(CAR(args)) && (! ENV_BOUNDP(env, CAR(args)))) ? CAR(args) : EVAL(env, CAR(args));
+  ae_obj_t * obj       = MAYBE_EVAL(CAR(args));
   ae_obj_t * prop_list = PROPS(obj);
   
   CORE_RETURN("props", prop_list);
