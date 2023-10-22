@@ -316,7 +316,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapconcat (fun lst delimiter)
   "Map fun over list, returning the result of concatenating the resulting
-  strings."
+   strings."
   (if lst
    (reduce
     (lambda (acc item)
@@ -333,6 +333,15 @@
     (if result
      (nconc! result rest)
      rest))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun mapc (fun lst)
+  "Apply fun to each element of lst for side effects only. 
+   Return lst."
+  (let ((current lst))
+    (while current
+      (fun (car current))
+      (setq! current (cdr current)))
+    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
