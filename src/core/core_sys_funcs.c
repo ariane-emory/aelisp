@@ -89,5 +89,5 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
   ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
   ae_obj_t * ret         = EVAL(env, new_program);
 
-  CORE_RETURN("load", failed_to_open ? NEW_ERROR("failed to open file", NIL) : ret;
+  CORE_RETURN("load", failed_to_open ? NEW_ERROR("failed to open file", NIL) : ret);
 }

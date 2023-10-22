@@ -254,8 +254,9 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   char * const file_basename = basename((char *)filename);
   char * const last_loaded_file_str = free_list_malloc(strlen(file_basename) + 1);
   strcpy(last_loaded_file_str, file_basename);
-  
-  last_loaded_file = NEW_STRING(last_loaded_file_str);
+
+  ae_obj_t * loaded_file = NEW_STRING(last_loaded_file_str);
+  last_loaded_file = loaded_file;
   
   yylineno = 0;
   yyrestart(yyin);
@@ -268,6 +269,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   yyin = original_yyin;
 
   last_loaded_file = NIL;
+
+  PUT_PROP_RAW(KW("program"), loaded_file, program);
   
   return program; 
 }
