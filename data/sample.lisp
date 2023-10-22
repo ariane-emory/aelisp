@@ -77,6 +77,10 @@
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 (nl)
 
+(defun copy-list (lst)
+  "Returns a shallow copy of the given list."
+  (when lst (cons (car lst) (copy-list (cdr lst)))))
+
 (defun removeql! (obj lst)
  (let ((head (car lst))
        (tail (cdr lst)))
@@ -99,12 +103,6 @@
           )))))
      (chase position)))))
  obj)
-
-(defun copy-list (lst)
-  "Returns a shallow copy of the given list."
-  (if (nil? lst)
-      nil
-      (cons (car lst) (copy-list (cdr lst)))))
 
 (defun select-and-move-to-front! (obj lst)
  (removeql! obj lst)
