@@ -314,6 +314,7 @@ extern ae_obj_t * symbols_list;
   _obj->params    = params_;                                                                                           \
   _obj->body      = CONS(SYM("progn"),  body_);                                                                        \
   _obj->env       = env_;                                                                                              \
+  PROPS(_obj)     = PROPS(params_);                                                                                    \
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
