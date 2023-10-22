@@ -16,7 +16,7 @@
 ;; (exit)
 (princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
 (princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
-(princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+;; (princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! lst (make-list 6 200))
@@ -96,9 +96,8 @@
              (rplaca! lst (car current))
              (car current)))))))) ; Return the selected value
 
+(log-eval t)
+(princ (select-and-move-to-front (lambda (x) (> x 2)) '(1 2 3 . 4)))
+(nl)
 
-;;(princ (with-log-eval '(incremental-select (lambda (x) (> x 2)) '(1 2 3 . 4))))
-;;(nl)
-
-(princ (funcall + 2 3)) (nl)
 
