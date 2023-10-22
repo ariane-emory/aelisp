@@ -464,7 +464,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       OUTDENT;
 
     if (log_eval || log_macro)
-      SLOGF("expansion took %lld ms", after - begin);
+      LOG(obj, "expansion took %lld ms", after - begin);
 
     if (ERRORP(ret))
       goto end;
