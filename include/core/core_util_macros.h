@@ -6,8 +6,7 @@
 #include "alist.h"
 #include "obj.h"
 #include "free_list.h"
-
-extern bool log_core;
+#include "common.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper for avoiding double evaluation of macro parameters

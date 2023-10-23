@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "common.h"
 #include "eval.h"
 #include "obj.h"
 #include "alist.h"
