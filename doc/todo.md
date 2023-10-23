@@ -1,4 +1,5 @@
 To Do:
+- [ ] core_props should probably use some jump returns.
 - [ ] core_concat could be simplified using strcat.
 - [ ] eval should take an optional env param.
 - [ ] in-language unit tests.

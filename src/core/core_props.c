@@ -1,6 +1,7 @@
 #include "core_includes.h"
+
+#include "capture.h"
 #include "env.h"
-#include "util.h"
 
 #define MAYBE_EVAL(o) ({ CAPTURE((o)); (SYMBOLP(CAPTURED) && (! ENV_BOUNDP(env, CAPTURED))) ? CAPTURED : EVAL(env, CAPTURED); })
 
