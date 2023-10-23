@@ -5,10 +5,11 @@
 #include <assert.h>
  
 #include "obj.h"
+
+#include "capture.h"
 #include "list.h"
-#include "pool.h"
 #include "free_list.h"
-#include "util.h"
+#include "pool.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Data
