@@ -19,12 +19,15 @@ extern int yylineno;
 extern ae_obj_t * program;
 extern int main(int argc, char ** argv);
 extern ae_obj_t * last_loaded_file;
+extern bool read_error;
 
 void yyerror(const char *str) {
     if (!NILP(last_loaded_file))
         ERR("Error on line %d of %s: %s\n", yylineno + 1, STR_VAL(last_loaded_file), str);
     else
         ERR("Error on line %d: %s\n", yylineno + 1, str);
+
+    read_error = true;
 }
 
 int  yywrap() { return 1; }   

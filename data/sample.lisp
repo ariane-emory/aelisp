@@ -145,17 +145,9 @@
 (princ (nthcdr 1 lst)) (nl)
 (princ (nthcdr 2 lst)) (nl)
 
-(defun curry1 (fun arg1) (lambda args (apply fun arg1 args)))
+(setq! c (curry1 nthcdr 2))) ;; deliberate syntax error
 
-(log-eval t)
-
-((curry1 + 2) 8)
-
-(exit)
-
-(setq! c (curry1 nthcdr 2)))
-
-(princ "Here ") (nl)
+(princ "Here 2: ") (nl)
 (princ (c lst)) (nl)
 
 ;; (defmacro pop! (list-sym &optional (n 1))

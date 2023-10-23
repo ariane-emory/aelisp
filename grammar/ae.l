@@ -21,7 +21,7 @@
 extern int yylineno;
 extern ae_obj_t * program;
 
-bool read_error = false;
+bool read_error = false; // move this to common, probably.
 
 ////////////////////////////////////////////////////////////////////////////////
 

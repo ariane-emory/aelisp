@@ -199,10 +199,10 @@
    (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nthcdr (n lst)
- "Get the nth cdr of a list."
- (if (zero? n)
-  lst
-  (nthcdr (1- n) (cdr lst))))
+  "Get the nth cdr of a list."
+  (if (zero? n)
+   lst
+   (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a list."
@@ -731,6 +731,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun apply* (proc . args)
   (apply proc (apply list* args)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun curry1 (fun arg1)
+  "Curry the first argument of fun. This would be better if it were a macro."
+  (lambda args
+   (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun id     (o)   o)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
