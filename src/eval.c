@@ -335,7 +335,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   PUT_PROP(fun, "fun", env);
 
-  ae_obj_t * result = EVAL(env, body);
+  ae_obj_t * ret = EVAL(env, body);
 
   // log_column = log_column_default; // end of apply user
   
@@ -343,17 +343,17 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   if (log_eval) {
     if (HAS_PROP("last-bound-to", fun)) {
-      LOG(result, "applying user fun '%s' returned %s :%s",
-          SYM_VAL(GET_PROP("last-bound-to", fun)), a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+      LOG(ret, "applying user fun '%s' returned %s :%s",
+          SYM_VAL(GET_PROP("last-bound-to", fun)), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
     }
     else {
       char * tmp = SWRITE(fun);
-      LOG(result, "applying user fun %s returned %s :%s", tmp, a_or_an(GET_TYPE_STR(result)), GET_TYPE_STR(result));
+      LOG(ret, "applying user fun %s returned %s :%s", tmp, a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
       free(tmp);
     }
   }
 
-  return result;
+  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
