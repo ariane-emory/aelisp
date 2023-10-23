@@ -28,16 +28,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-  RETURN_NIL_IF_NILP(args);
+  ae_obj_t * ret = NIL;
 
-  int args_count = LENGTH(args);
+  const int args_count = LENGTH(args);
   
   if (log_eval)
     LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
 
+  RETURN_NIL_IF_NILP(args);
+  
   INDENT;
 
-  ae_obj_t * ret         = NIL;
   ae_obj_t * result_tail = NIL;
   ae_obj_t * current_arg = args;
   int        ctr         = 0;
@@ -93,9 +94,9 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
   }
 
-end:
-  
   OUTDENT;
+  
+end:
   
   if (log_eval)
     LOG(ret, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
