@@ -285,6 +285,15 @@ extern ae_obj_t * symbols_list;
   ae_obj_set_max_args(_obj, max_args);                                                                                 \
   _obj;                                                                                                                \
   })
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define NEW_ENV(parent_, symbols_, values_)                                                                            \
+  ({                                                                                                                   \
+  ae_obj_t * _obj = NEW(AE_ENV);                                                                                       \
+  _obj->parent    = (parent_);                                                                                         \
+  _obj->symbols   = (symbols_);                                                                                        \
+  _obj->values    = (values_);                                                                                         \
+  _obj;                                                                                                                \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_ERROR(msg, obj)                                                                                            \
   ({                                                                                                                   \
