@@ -9,7 +9,6 @@
 #include "env.h"
 #include "alist.h"
 #include "list.h"
-#include "util.h"
 
 static int ae_fwrite_internal(const ae_obj_t * const this);
 
