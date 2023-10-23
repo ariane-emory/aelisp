@@ -12,6 +12,8 @@ extern FILE *     yyin;
 extern bool       log_core;
 extern bool       log_eval;
 extern bool       log_macro;
+extern bool       read_error;
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // preface

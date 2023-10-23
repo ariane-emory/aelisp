@@ -6,6 +6,7 @@
 #include "list.h"
 #include "util.h"
 #include "free_list.h"
+#include "common.h"
 
 #define YYSTYPE ae_obj_t *
 
@@ -19,7 +20,6 @@ extern int yylineno;
 extern ae_obj_t * program;
 extern int main(int argc, char ** argv);
 extern ae_obj_t * last_loaded_file;
-extern bool read_error;
 
 void yyerror(const char *str) {
     if (!NILP(last_loaded_file))

@@ -21,6 +21,7 @@ bool log_core = false;
 bool log_eval = false;
 bool log_macro = false;
 bool no_stdlib = false;
+bool read_error = false;
 
 #define free_list_size (1 << 16)
 char mem[free_list_size] = { 0 };
