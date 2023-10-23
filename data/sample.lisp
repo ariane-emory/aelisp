@@ -144,10 +144,7 @@
 (princ (nthcdr 0 lst)) (nl)
 (princ (nthcdr 1 lst)) (nl)
 (princ (nthcdr 2 lst)) (nl)
-
-(setq! c (curry1 nthcdr 2))) ;; deliberate syntax error
-
-(princ "Here 2: ") (nl)
+(setq! c (curry1 nthcdr 4))
 (princ (c lst)) (nl)
 
 ;; (defmacro pop! (list-sym &optional (n 1))
