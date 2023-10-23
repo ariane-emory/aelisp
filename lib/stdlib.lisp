@@ -172,34 +172,34 @@
 
 (report-time "get numbered access"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list funs (retrieving by position):                                        ;;
+ ;; list funs (retrieving by position):                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun first    (lst)                    (car lst))
-(defun second   (lst)                   (cadr lst))
-(defun third    (lst)                  (caddr lst))
-(defun fourth   (lst)                 (cadddr lst))
-(defun fifth    (lst)            (car (cddddr lst)))
-(defun sixth    (lst)           (cadr (cddddr lst)))
-(defun seventh  (lst)          (caddr (cddddr lst)))
-(defun eighth   (lst)         (cadddr (cddddr lst)))
-(defun ninth    (lst)    (car (cddddr (cddddr lst))))
-(defun tenth    (lst)   (cadr (cddddr (cddddr lst))))
-(defun eleventh (lst)  (caddr (cddddr (cddddr lst))))
-(defun twelfth  (lst) (cadddr (cddddr (cddddr lst))))
+ (defun first    (lst)                    (car lst))
+ (defun second   (lst)                   (cadr lst))
+ (defun third    (lst)                  (caddr lst))
+ (defun fourth   (lst)                 (cadddr lst))
+ (defun fifth    (lst)            (car (cddddr lst)))
+ (defun sixth    (lst)           (cadr (cddddr lst)))
+ (defun seventh  (lst)          (caddr (cddddr lst)))
+ (defun eighth   (lst)         (cadddr (cddddr lst)))
+ (defun ninth    (lst)    (car (cddddr (cddddr lst))))
+ (defun tenth    (lst)   (cadr (cddddr (cddddr lst))))
+ (defun eleventh (lst)  (caddr (cddddr (cddddr lst))))
+ (defun twelfth  (lst) (cadddr (cddddr (cddddr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun zero?     (n)   (= n 0))
+ (defun zero?     (n)   (= n 0))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun nth (index lst)
- "Get the nth item in a list."
- (cond
-  ((zero? index) (car lst))
-  (lst          (nth (- index 1) (cdr lst)))))
+ (defun nth (index lst)
+  "Get the nth item in a list."
+  (cond
+   ((zero? index) (car lst))
+   (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun last (lst)
- "Get last item in a list."
- (cond
-  ((nil? (cdr lst)) lst)
-  (lst              (last (cdr lst)))))
+ (defun last (lst)
+  "Get last item in a list."
+  (cond
+   ((nil? (cdr lst)) lst)
+   (lst              (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -238,32 +238,6 @@
              (lambda (,user-param . rest)
               (chase-internal ,user-param (cdr position) . rest))))
            (chase-internal ,user-param position . rest))))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
-
-
-(report-time "def vector-lists"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (vector-style list API):                                         ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! list-set!
-  (make-chase-fun (lst index)
-   ((zero? index) (rplaca! position (car rest)))
-   (position (chase (1- index) (car rest)))
-   (t (error "list-set! out of range"))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! list-ref
-  (make-chase-fun (lst index)
-   ((zero? index) head)
-   (position (chase (1- index)))
-   (t (error "list-ref out of range"))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! list-length length)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun make-list (size init-val)
-  (cond
-   ((zero? size)  nil)
-   (t            (cons init-val (make-list (1- size) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -890,7 +864,34 @@
     $('put! 't ':constant $('quote sym))
     value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-)
+ )
+
+
+(report-time "def vector-lists"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; list funs (vector-style list API):                                         ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! list-set!
+  (make-chase-fun (lst index)
+   ((zero? index) (rplaca! position (car rest)))
+   (position (chase (1- index) (car rest)))
+   (t (error "list-set! out of range"))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! list-ref
+  (make-chase-fun (lst index)
+   ((zero? index) head)
+   (position (chase (1- index)))
+   (t (error "list-ref out of range"))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! list-length length)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun make-list (size init-val)
+  (cond
+   ((zero? size)  nil)
+   (t            (cons init-val (make-list (1- size) init-val)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
+
 
 (report-time "def scheme compat"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
