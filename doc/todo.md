@@ -1,5 +1,4 @@
 To Do:
-- [ ] core_props should probably use some jump returns.
 - [ ] core_concat could be simplified using strcat.
 - [ ] eval should take an optional env param.
 - [ ] in-language unit tests.
@@ -23,6 +22,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] core_props should probably use some jump returns.
 - [x] dents/jump-returns in apply need review.
 - [x] core_elapsed / core_elapsed us should employ elapsed / elapsed_us.
 - [x] read-only property.
