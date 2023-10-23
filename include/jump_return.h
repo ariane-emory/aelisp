@@ -18,21 +18,27 @@
     goto end;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN_IF_ERRORP(obj)                                                                      \
+#define RETURN_IF_ERRORP (obj, outdents)                                                           \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (ERRORP(CAPTURED)) {                                                                        \
+      OUTDENTS(outdents);                                                                          \
+                                                                                                   \
       ret = CAPTURED;                                                                              \
+                                                                                                   \
       goto end;                                                                                    \
     }                                                                                              \
     CAPTURED;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN_NIL_IF_NILP(obj)                                                                    \
+#define RETURN_NIL_IF_NILP(obj, outdents)                                                          \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (NILP(CAPTURED)) {                                                                          \
+      OUTDENTS(outdents)                                                                           \
+                                                                                                   \
       ret = CAPTURED;                                                                              \
+                                                                                                   \
       goto end;                                                                                    \
     }                                                                                              \
     CAPTURED;                                                                                      \
