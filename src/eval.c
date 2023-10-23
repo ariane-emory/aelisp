@@ -129,6 +129,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(fun);
   assert(COREP(fun));
   assert(args);
+  assert(TAILP(args));
   
   ae_obj_t * ret                 = NIL;
   int        args_length         = LENGTH(args);
