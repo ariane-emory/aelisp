@@ -20,6 +20,7 @@
 bool log_core = false;
 bool log_eval = false;
 bool log_macro = false;
+bool no_stdlib = false;
 
 #define free_list_size (1 << 16)
 char mem[free_list_size] = { 0 };
@@ -106,49 +107,44 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef AE_NO_STDLIB
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
-  char * const       stdlib_path     = free_list_malloc(PATH_MAX);
-  uint32_t           size            = PATH_MAX;
+  if (! no_stdlib) {
+    const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
+    char * const       stdlib_path     = free_list_malloc(PATH_MAX);
+    uint32_t           size            = PATH_MAX;
   
-  if (_NSGetExecutablePath(stdlib_path, &size) == 0) {
-    char * const tmp = free_list_malloc(strlen(dirname(stdlib_path))+1);
+    if (_NSGetExecutablePath(stdlib_path, &size) == 0) {
+      char * const tmp = free_list_malloc(strlen(dirname(stdlib_path))+1);
 
-    strcpy(tmp, dirname(stdlib_path));
-    strcpy(stdlib_path, tmp);
-    strcat(stdlib_path, stdlib_rel_path);
+      strcpy(tmp, dirname(stdlib_path));
+      strcpy(stdlib_path, tmp);
+      strcat(stdlib_path, stdlib_rel_path);
     
-    free_list_free(tmp);
+      free_list_free(tmp);
 
-    PR("Loading stdlib from %s... ", stdlib_path);
-  } else {
-    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
+      PR("Loading stdlib from %s... ", stdlib_path);
+    } else {
+      FPR(stderr, "Buffer too small, need %d bytes!\n", size);
     
-    exit(1);
+      exit(1);
+    }
+
+    bool failed_to_load = false;
+  
+    ae_obj_t * program = load_file(stdlib_path, &failed_to_load);
+
+    free_list_free(stdlib_path);
+
+    if (failed_to_load)
+      FPR(stderr, "WARNING: Failed to load stdlib!\n");
+    else
+      PR("loaded.\n");
+
+    ae_obj_t * ret     = EVAL(root_env, program);
+
+    if (ERRORP(ret)) 
+      FPR(stderr, "WARNING: Error evaluating stdlib!\n");  
   }
-
-  bool failed_to_load = false;
-  
-  ae_obj_t * program = load_file(stdlib_path, &failed_to_load);
-
-  free_list_free(stdlib_path);
-
-  if (failed_to_load)
-    FPR(stderr, "WARNING: Failed to load stdlib!\n");
-  else
-    PR("loaded.\n");
-
-  ae_obj_t * ret     = EVAL(root_env, program);
-
-  if (ERRORP(ret)) 
-    FPR(stderr, "WARNING: Error evaluating stdlib!\n");  
-  
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif
-////////////////////////////////////////////////////////////////////////////////////////////////////
   
   return root_env;
 }
@@ -197,6 +193,9 @@ bool setopts(int argc, char *argv[]) {
 
   while ((opt = getopt(argc, argv, "l:")) != -1) {
     switch (opt) {
+    case 'n':
+      no_stdlib = true;
+      break;
     case 'l':
       for (int i = 0; optarg && optarg[i]; i++) {
         switch (optarg[i]) {
