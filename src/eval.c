@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-  NIL_IF_NILP(args);
+  RETURN_NIL_IF_NILP(args);
 
   int args_count = LENGTH(args);
   
@@ -612,7 +612,7 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
-  NIL_IF_NILP(obj);
+  RETURN_NIL_IF_NILP(obj);
   
   assert(env);
   assert(obj);
