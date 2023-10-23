@@ -98,7 +98,7 @@ void pool_print(void) {
 
     FF;
     
-    while (written++ < 72) SPC;
+    while (written++ < 77) SPC;
 
     
     WRITE(&pool[ix]);

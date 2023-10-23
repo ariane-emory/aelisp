@@ -72,7 +72,6 @@
   DO(log_eval,     false,          0,          1, "log-eval",                  FUNDEF_END)                                \
   DO(log_core,     false,          0,          1, "log-core",                  FUNDEF_END)                                \
   DO(log_macro,    false,          0,          1, "log-macro",                 FUNDEF_END)                                \
-  DO(log_all,      false,          0,          1, "log-all",                   FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(concat,       false,          0,  UNLIMITED,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \

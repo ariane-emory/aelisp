@@ -726,9 +726,9 @@
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! with-log-eval (with-toggled-fun log-eval))
- (setq! with-log-core (with-toggled-fun log-core))
- (setq! with-log-all  (with-toggled-fun log-all))
+ (setq! with-log-eval  (with-toggled-fun log-eval))
+ (setq! with-log-core  (with-toggled-fun log-core))
+ (setq! with-log-macro (with-toggled-fun log-macro))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
