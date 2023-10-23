@@ -429,7 +429,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     SLOGF("of type: %s", GET_TYPE_STR(fun));
     NL;
 
-    RETURN_IF_ERRORP(fun);
+    OUTDENT_AND_RETURN_IF_ERRORP(fun, 1);
 
     ae_obj_t * const err_data = NIL;
 
@@ -437,7 +437,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    RETURN(NEW_ERROR("inapplicable", err_data));
+    ae_obj_t * const err = NEW_ERROR("inapplicable", err_data);
+    
+    OUTDENT_AND_RETURN_IF_ERRORP(err, 1);
   }
 
   long int begin = -1;
