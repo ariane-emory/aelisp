@@ -5,13 +5,14 @@
 #include <assert.h>
 
 #include "list.h"
+
 #include "log.h"
 #include "free_list.h"
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _length method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 int ae_list_length(const ae_obj_t * const list) {
   assert(NILP((list)) || (CONSP((list))));
   
@@ -25,11 +26,12 @@ int ae_list_length(const ae_obj_t * const list) {
 
   return length;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _each method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
   assert(TAILP(list));
 
@@ -49,11 +51,12 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
     fun(elem);
 #endif
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _map method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   if (!(PROPERP(list)))
     return NIL;
@@ -76,11 +79,12 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   return new_list;
 #endif
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _has_member method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   assert(TAILP(list));
   assert(member);
@@ -94,11 +98,12 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
   
   return false;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _remove_member method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
   assert(TAILP(list));
   assert(member);
@@ -121,11 +126,12 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
   
   return new_list;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _cons
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   if (!(TAILP(tail)))
     fprintf(stderr, "\nCan't cons onto a %s!\n", GET_TYPE_STR(tail));
@@ -158,24 +164,25 @@ ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 
   return new_list;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _push_back
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #ifdef AE_LOG_PUSH
-#  define AFTER_PUSH_MESSAGE(tailtip)                                                                                  \
-  fputs("Pushed           ", stdout);                                                                                  \
-  PUT(member);                                                                                                         \
-  fputs(" into ", stdout);                                                                                             \
-  PUT(list);                                                                                                           \
-  fputs("'s new tailtip ", stdout);                                                                                    \
-  PUT(tailtip);                                                                                                        \
+#  define AFTER_PUSH_MESSAGE(tailtip)                                                              \
+  fputs("Pushed           ", stdout);                                                              \
+  PUT(member);                                                                                     \
+  fputs(" into ", stdout);                                                                         \
+  PUT(list);                                                                                       \
+  fputs("'s new tailtip ", stdout);                                                                \
+  PUT(tailtip);                                                                                    \
   putchar('\n');
 #else
 #  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
 #endif
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   // This takes a ** because: if the caller tries to push onto NIL, it might create a new list and
   // fix their pointer.
@@ -211,21 +218,22 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   
   return CDR(tailtip);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // intern
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define NEW_SYM                                                                                                        \
-  ae_obj_t * new_sym;                                                                                                  \
-  {                                                                                                                    \
-    char * _str = free_list_malloc(strlen(string) + 1);                                                                \
-    assert(((void)"Failed alloc!", _str));                                                                             \
-    assert(((void)"Null string!", string));                                                                            \
-    strcpy(_str, string);                                                                                              \
-    new_sym = NEW_SYMBOL(_str);                                                                                        \
+#define NEW_SYM                                                                                    \
+  ae_obj_t * new_sym;                                                                              \
+  {                                                                                                \
+    char * _str = free_list_malloc(strlen(string) + 1);                                            \
+    assert(((void)"Failed alloc!", _str));                                                         \
+    assert(((void)"Null string!", string));                                                        \
+    strcpy(_str, string);                                                                          \
+    new_sym = NEW_SYMBOL(_str);                                                                    \
   }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const string) {
   assert((! *plist) || TAILP(*plist));
   assert(string);
@@ -291,11 +299,12 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const str
 
   return new_sym;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _is_proper
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 bool ae_list_is_proper(const ae_obj_t * const list) {
   if (! TAILP(list))
     return false;
@@ -306,3 +315,4 @@ bool ae_list_is_proper(const ae_obj_t * const list) {
 
   return true;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
