@@ -17,7 +17,6 @@
 #include "eval.h"
 #include "write.h"
 #include "env.h"
-#include "util.h"
 #include "generate_macro.h"
 
 #define BEFORE_ACUTEST
