@@ -584,7 +584,6 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     strcpy(msg, tmp);
     
     RETURN(NEW_ERROR(msg, err_data));
-
   }
 
   ret = KEYWORDP(sym)
