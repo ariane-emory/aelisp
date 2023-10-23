@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define OUTDENTS(n)                                                                                \
   {                                                                                                \
-    for (int i = 0; i < n; i++)                                                                    \
+    for (int i = 0; i < (n); i++)                                                                  \
       OUTDENT;                                                                                     \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (ERRORP(CAPTURED)) {                                                                        \
-      OUTDENTS(outdents);                                                                          \
+      OUTDENTS((outdents));                                                                        \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
@@ -35,7 +35,7 @@
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (NILP(CAPTURED)) {                                                                          \
-      OUTDENTS(outdents)                                                                           \
+      OUTDENTS((outdents))                                                                         \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
