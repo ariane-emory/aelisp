@@ -92,12 +92,14 @@ void pool_print(void) {
       continue;
     
     written +=  printf(" %04d: %08p ", ix, &pool[ix]);
+    written +=  printf("@@ ");
     written +=  PUT(&pool[ix]);
     written ++; SPC;
 
     FF;
     
     while (written++ < 72) SPC;
+
     
     WRITE(&pool[ix]);
     
