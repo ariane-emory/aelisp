@@ -322,8 +322,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   ae_obj_t * body = FUN_BODY(fun);
 
-  if (log_eval) {
-    
+  if (log_eval) {  
     // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
     LOG(FUN_PARAMS(fun), "as param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
     LOG(body,            "with body");
