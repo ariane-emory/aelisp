@@ -26,6 +26,10 @@
       break;                                                                                       \
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define EVAL_FUNC_DECLS                                                                            \
+  int        local_indents = 0;                                                                    \
+  ae_obj_t * ret           = NIL;
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,8 +136,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
   
-  int        local_indents = 0;
-  ae_obj_t * ret           = NIL;
+  EVAL_FUNC_DECLS;
+  
   int        args_length   = LENGTH(args);
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
@@ -258,8 +262,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
 
-  int        local_indents = 0;
-  ae_obj_t * ret           = NIL;
+  EVAL_FUNC_DECLS;
   
   if (CONSP(FUN_PARAMS(fun)) &&
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
@@ -389,8 +392,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(obj);
   assert(CONSP(obj));
 
-  int        local_indents = 0;
-  ae_obj_t * ret           = NIL;
+  EVAL_FUNC_DECLS;
+  
   ae_obj_t * head          = CAR(obj);
   ae_obj_t * args          = CDR(obj);
 
@@ -547,8 +550,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   assert(sym);
   assert(SYMBOLP(sym));
 
-  int        local_indents = 0;
-  ae_obj_t * ret           = NIL;
+  EVAL_FUNC_DECLS;
 
   if (! ENV_BOUNDP(env, sym)) {
     ae_obj_t * err_data = NIL;
@@ -606,12 +608,11 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
+  EVAL_FUNC_DECLS;
+
   assert(env);
   assert(obj);
   assert(ENVP(env));
-
-  int        local_indents = 0;
-  ae_obj_t * ret           = NIL;
 
   RETURN_NIL_IF_NILP(obj);
   
