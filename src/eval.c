@@ -35,6 +35,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   assert(env);
   assert(ENVP(env));
   assert(args);
+  assert(TAILP(args));
   
   ae_obj_t * ret = NIL;
 
@@ -249,7 +250,12 @@ end:
 //==================================================================================================
 
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
+  assert(env);
+  assert(ENVP(env));
+  assert(fun);
   assert(LAMBDAP(fun) || MACROP(fun));
+  assert(args);
+  assert(TAILP(args));
 
   if (CONSP(FUN_PARAMS(fun)) &&
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
