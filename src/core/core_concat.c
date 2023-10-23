@@ -8,7 +8,7 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_BEGIN("concat");
   int total_length = 1;
 
-  // Measure the new string's requred length.
+  // Measure the new string's required length.
   FOR_EACH(elem, args) {
     REQUIRE(env, args, STRINGP(elem));
     total_length += strlen(STR_VAL(elem));
@@ -29,7 +29,7 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
     pos += len;
   }
 
-  // Terminate i.
+  // Terminate it.
   string[total_length - 1] = '\0';
   
   CORE_RETURN("concat", NEW_STRING(string));
