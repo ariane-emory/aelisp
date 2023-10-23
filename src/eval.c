@@ -538,11 +538,14 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 }
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
-  bool bound = ENV_BOUNDP(env, sym);
-
+  assert(env);
+  assert(ENVP(env));
+  assert(sym);
+  assert(SYMBOLP(sym));
+  
   ae_obj_t * ret = NIL;
 
-  if (! bound) {
+  if (! ENV_BOUNDP(env, sym)) {
     ae_obj_t * err_data = NIL;
     KSET(err_data, KW("env"), env);
     KSET(err_data, KW("unbound-symbol"), sym);
@@ -554,9 +557,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     char * msg = free_list_malloc(strlen(tmp) + 1);
     strcpy(msg, tmp);
     
-    ret = NEW_ERROR(msg, err_data);
+    RETURN(NEW_ERROR(msg, err_data));
 
-    goto end;
   }
 
   ret = KEYWORDP(sym)
@@ -575,10 +577,11 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
     PUT_PROP(KW("lookup"), "origin", ret);
 #endif
 
+end:
+
   if (log_eval)
     LOG(ret, "looked up '%s' and found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
-end:
   return ret;
 }
 
