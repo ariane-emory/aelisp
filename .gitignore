@@ -2,5 +2,5 @@ bin/*
 obj/*
 tmp/*
 .DS_Store
-out
+out*
 *history.txt
