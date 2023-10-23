@@ -19,7 +19,7 @@
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
                                                                                                    \
-    OUTDENTS((outdents));                                                                          \
+    OUTDENTS(local_indents);                                                                       \
                                                                                                    \
     ret = CAPTURED;                                                                                \
                                                                                                    \
@@ -33,7 +33,7 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (ERRORP(CAPTURED)) {                                                                        \
-      OUTDENTS((outdents));                                                                        \
+      OUTDENTS(local_indents);                                                                        \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
@@ -49,7 +49,7 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (NILP(CAPTURED)) {                                                                          \
-      OUTDENTS((outdents))                                                                         \
+      OUTDENTS(local_indents)                                                                         \
                                                                                                    \
         ret = CAPTURED;                                                                            \
                                                                                                    \
