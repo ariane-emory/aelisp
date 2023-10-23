@@ -1,12 +1,14 @@
 #pragma once
 
 #include <string.h>
+#include <stdio.h>
 
 #include "common.h"
-#include "obj.h"
 #include "free_list.h"
 #include "log.h"
+#include "obj.h"
 #include "util.h"
+#include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define REQUIRE(env, args, cond, ...)                                                              \
