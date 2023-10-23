@@ -14,13 +14,16 @@
 #define RETURN(obj)                                                                                \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
+                                                                                                   \
     ret = CAPTURED;                                                                                \
+                                                                                                   \
     goto end;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define OUTDENT_AND_RETURN_IF_ERRORP(obj, outdents)                                                \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
+                                                                                                   \
     if (ERRORP(CAPTURED)) {                                                                        \
       OUTDENTS((outdents));                                                                        \
                                                                                                    \
@@ -36,6 +39,7 @@
 #define OUTDENT_AND_RETURN_NIL_IF_NILP(obj, outdents)                                              \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
+                                                                                                   \
     if (NILP(CAPTURED)) {                                                                          \
       OUTDENTS((outdents))                                                                         \
                                                                                                    \
