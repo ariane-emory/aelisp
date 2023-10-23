@@ -38,10 +38,10 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
   INDENT;
 
-  ae_obj_t * current_arg = args;
-  ae_obj_t * ret = NIL;
+  ae_obj_t * ret         = NIL;
   ae_obj_t * result_tail = NIL;
-  int ctr = 0;
+  ae_obj_t * current_arg = args;
+  int        ctr         = 0;
   
   while (! ATOMP(current_arg)) {
     ++ctr;
@@ -51,7 +51,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = EVAL(env, CAR(current_arg));
+    ae_obj_t* eval_result = BAIL_IF_ERRORP(EVAL(env, CAR(current_arg)));
 
     OUTDENT;
 
@@ -78,7 +78,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = EVAL(env, current_arg);
+    ae_obj_t* eval_result = BAIL_IF_ERRORP(EVAL(env, current_arg));
 
     // tail arg needs error handling!
 
