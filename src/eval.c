@@ -388,9 +388,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(obj);
   assert(CONSP(obj));
 
+  ae_obj_t * ret = NIL;
+
   ae_obj_t * head = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
+  assert(args);
   assert(TAILP(args));
 
   if (log_eval) {
@@ -419,7 +422,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
 
   ae_obj_t * fun = EVAL(env, head);
-  ae_obj_t * ret = NIL;
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
