@@ -32,7 +32,7 @@
 // ae_eval_args
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
-  JUMP_RETURN_DECLS;
+  JUMP_RETURN_ENTER;
 
   assert(env);
   assert(ENVP(env));
@@ -124,7 +124,7 @@ end:
 //==================================================================================================
 
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
-  JUMP_RETURN_DECLS;
+  JUMP_RETURN_ENTER;
 
   assert(env);
   assert(ENVP(env));
@@ -250,7 +250,7 @@ end:
 //==================================================================================================
 
 static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
-  JUMP_RETURN_DECLS;
+  JUMP_RETURN_ENTER;
   
   assert(env);
   assert(ENVP(env));
@@ -382,7 +382,7 @@ static void snap_indent(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
-  JUMP_RETURN_DECLS;
+  JUMP_RETURN_ENTER;
 
   assert(env);
   assert(ENVP(env));
@@ -540,7 +540,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 }
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
-  JUMP_RETURN_DECLS;
+  JUMP_RETURN_ENTER;
 
   assert(env);
   assert(ENVP(env));
@@ -603,7 +603,7 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
-  JUMP_RETURN_DECLS;
+  JUMP_RETURN_ENTER;
 
   assert(env);
   assert(obj);
@@ -619,7 +619,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   RETURN((*dispatch.handler)(env, obj));
 
-end:
-  
+end:  
+
   JUMP_RETURN_EXIT;
 }

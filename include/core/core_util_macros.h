@@ -35,7 +35,7 @@
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_BEGIN(name)                                                                           \
-  JUMP_RETURN_DECLS;                                                                               \
+  JUMP_RETURN_ENTER;                                                                               \
                                                                                                    \
   assert(env);                                                                                     \
   assert(ENVP(env));                                                                               \
