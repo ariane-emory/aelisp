@@ -1,13 +1,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "common.h"
 #include "eval.h"
+
+// one or two of these includes might not by strictly necessary: 
+#include "common.h"
 #include "obj.h"
 #include "free_list.h"
-#include "alist.h"
-#include "plist.h"
-#include "list.h"
 #include "log.h"
 #include "env.h"
 #include "util.h"
