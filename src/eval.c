@@ -389,7 +389,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(CONSP(obj));
 
   ae_obj_t * ret = NIL;
-
   ae_obj_t * head = CAR(obj);
   ae_obj_t * args = CDR(obj);
 
@@ -430,13 +429,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     SLOGF("of type: %s", GET_TYPE_STR(fun));
     NL;
 
-    if (ERRORP(fun)) {
-      ret = fun;
-
-      goto end;
-    }
-
-    /* This assert should never be reached: */
+    RETURN_IF_ERRORP(fun);
 
     ae_obj_t * const err_data = NIL;
 
@@ -444,7 +437,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    return NEW_ERROR("inapplicable", err_data); // early return!
+    RETURN(NEW_ERROR("inapplicable", err_data));
   }
 
   long int begin = -1;
