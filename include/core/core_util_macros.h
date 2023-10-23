@@ -6,6 +6,7 @@
 #include "capture.h"
 #include "common.h"
 #include "free_list.h"
+#include "jump_return.h"
 #include "log.h"
 #include "obj.h"
 #include "util.h"
@@ -34,8 +35,7 @@
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_BEGIN(name)                                                                           \
-  int local_indents = 0;                                                                           \
-                                                                                                   \
+  JUMP_RETURN_DECLS;                                                                               \
   {                                                                                                \
     char * tmp##__LINE__ = SWRITE(env);                                                            \
     if (log_core)                                                                                  \

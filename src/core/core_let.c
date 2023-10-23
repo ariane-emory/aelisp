@@ -11,7 +11,6 @@
 ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let");
 
-  ae_obj_t *       ret = NIL;
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -82,7 +81,6 @@ end:
 ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("let_star");
 
-  ae_obj_t * ret           = NIL;
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -156,7 +154,6 @@ end:
 ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("letrec");
 
-  ae_obj_t *        ret     = NIL;
   ae_obj_t * const  varlist = CAR(args);
   static ae_obj_t * dummy   = NULL;
 

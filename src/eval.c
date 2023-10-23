@@ -32,13 +32,12 @@
 // ae_eval_args
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
+  JUMP_RETURN_DECLS;
+
   assert(env);
   assert(ENVP(env));
   assert(args);
   assert(TAILP(args));
-  
-  int        local_indents = 0;
-  ae_obj_t * ret           = NIL;
   
   const int args_count = LENGTH(args);
   

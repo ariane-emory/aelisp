@@ -9,8 +9,6 @@
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("progn");
 
-  ae_obj_t * ret = NIL;
-
   int ctr = 0;
   
   FOR_EACH(elem, args) {
@@ -38,8 +36,6 @@ end:
 
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("cond");
-
-  ae_obj_t * ret = NIL;
   
   FOR_EACH(cond_item, args) {
     REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be proper lists with at least two elements");
@@ -71,7 +67,6 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ae_obj_t * const if_cond     = CAR(args);
   ae_obj_t * const then_branch = CADR(args);
   ae_obj_t * const else_branch = CDDR(args);
-  ae_obj_t * ret               = NIL;
   
   if (log_core) {
     LOG(if_cond,     "if");
@@ -111,7 +106,6 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   ae_obj_t * const when_cond   = CAR(args);
   ae_obj_t * const then_branch = CDR(args);
-  ae_obj_t *       ret         = NIL; 
   
   if (log_core) {
     LOG(when_cond,   "when");
@@ -147,7 +141,6 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   ae_obj_t * const unless_cond = CAR(args);
   ae_obj_t * const then_branch = CDR(args);
-  ae_obj_t *       ret         = NIL;
   
   if (log_core) {
     LOG(unless_cond, "unless");
@@ -181,7 +174,6 @@ end:
 ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("or");
 
-  ae_obj_t * ret = NIL;
   
   FOR_EACH(option, args) {
     ret = RETURN_IF_ERRORP(EVAL(env, option));
@@ -205,7 +197,6 @@ end:
 ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
-  ae_obj_t * ret = NIL;
   
   FOR_EACH(option, args) {
     ret = RETURN_IF_ERRORP(EVAL(env, option));
@@ -231,7 +222,6 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   ae_obj_t * const while_cond = CAR(args);
   ae_obj_t * const do_branch  = CDR(args);
-  ae_obj_t *       ret        = NIL;
   
   if (log_core) {
     LOG(while_cond, "while");
@@ -262,7 +252,6 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   ae_obj_t * const until_cond = CAR(args);
   ae_obj_t * const do_branch  = CDR(args);
-  ae_obj_t *       ret        = NIL;
   
   if (log_core) {
     LOG(until_cond, "until");
@@ -293,7 +282,6 @@ end:
 ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("repeat");
 
-  ae_obj_t * ret       = NIL;
   ae_obj_t * first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
  
   REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
