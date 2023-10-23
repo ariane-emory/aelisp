@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // jump-return and error bailing
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define JUMP_RETURN_DECLS                                                                            \
+#define JUMP_RETURN_DECLS                                                                          \
   int        local_indents = 0;                                                                    \
   ae_obj_t * ret           = NIL;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (ERRORP(CAPTURED)) {                                                                        \
-      OUTDENTS(local_indents);                                                                        \
+      OUTDENTS(local_indents);                                                                     \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
@@ -49,7 +49,7 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (NILP(CAPTURED)) {                                                                          \
-      OUTDENTS(local_indents)                                                                         \
+      OUTDENTS(local_indents)                                                                      \
                                                                                                    \
         ret = CAPTURED;                                                                            \
                                                                                                    \
