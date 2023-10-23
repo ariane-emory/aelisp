@@ -69,10 +69,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
 
-    if (ERRORP(eval_result)) {
-      RETURN(eval_result);
-    }
-    else if (NILP(ret)) {
+    if (NILP(ret)) {
       ret = NEW_CONS(eval_result, NIL);
       result_tail = ret;
     } else {
@@ -135,10 +132,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
   
-  int args_length   = LENGTH(args);
+  int args_length = LENGTH(args);
   
-  if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
-           (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
+  if ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
+      (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
     char * const err_msg_tmp = free_list_malloc(256);
 
     LOG(args, "invalid arg count:");
@@ -191,7 +188,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     ae_obj_t * err = NEW_ERROR(err_msg, err_data); 
 
-    RETURN(err);
+    RETURN_IF_ERRORP(err);
   }
 
   {
@@ -203,12 +200,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     if (! SPECIALP(fun)) {
       args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
 
-      if (ERRORP(args)) {
-        ret = args;
-        
-        goto end;
-      }
-      
       if (log_eval) 
         snprintf(msg, 256,
                  "applying core fun '%s' to %d evaled arg%s:",
@@ -227,8 +218,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     }
   }
 
-  // this call might change the value of log_eval:
-  ret = (*CORE_FUN(fun))(env, args, args_length);
+  // this call might change the value of log_eval or log_core:
+  RETURN((*CORE_FUN(fun))(env, args, args_length));
 
 end:
 
@@ -291,7 +282,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    RETURN(NEW_ERROR(msg, err_data));
+    RETURN_IF_ERRORP(NEW_ERROR(msg, err_data));
   }
     
   if (! SPECIALP(fun)) {
@@ -304,10 +295,9 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
   }
   
-  ae_obj_t * body    = FUN_BODY(fun);
+//  ae_obj_t * body = FUN_BODY(fun);
 
   env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
-  // env = NEW_ENV(env, FUN_PARAMS(fun), args);
 
   if (log_eval) {
     LOG(env,           "new env for user fun:");
@@ -329,8 +319,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
   
   INDENT;
-  
+
+  ae_obj_t * body = FUN_BODY(fun);
+
   if (log_eval) {
+    
     // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
     LOG(FUN_PARAMS(fun), "as param%s", s_or_blank(CONSP(FUN_PARAMS(fun)) ? LENGTH(FUN_PARAMS(fun)) : 2));
     LOG(body,            "with body");
@@ -338,7 +331,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   PUT_PROP(fun, "fun", env);
 
-  ret = RETURN_IF_ERRORP(EVAL(env, body));
+  ret = EVAL_AND_RETURN_IF_ERRORP(env, body);
 
   OUTDENT;
 
@@ -422,7 +415,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
   }
 
-  ae_obj_t * fun = RETURN_IF_ERRORP(EVAL(env, head));
+  ae_obj_t * fun = EVAL_AND_RETURN_IF_ERRORP(env, head);
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
@@ -430,8 +423,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     LOG(fun,  "is inapplicable object: ");
     SLOGF("of type: %s", GET_TYPE_STR(fun));
     NL;
-
-    RETURN_IF_ERRORP(fun);
 
     ae_obj_t * const err_data = NIL;
 
