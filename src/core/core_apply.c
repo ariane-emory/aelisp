@@ -41,11 +41,13 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   ae_obj_t * last = CAR(pos);
 
-  REQUIRE(env, args, PROPERP(last), "apply requires a proper list as its final argument");
-
   if (IS_QUOTE_FORM(last))
     last = CADR(last);
+  else
+    last = BAIL_IF_ERROR(EVAL(env, last));
 
+  REQUIRE(env, args, PROPERP(last), "apply requires a proper list as its final argument");
+  
   while (!NILP(last)) {
     ae_obj_t * const elem = CONS(REQUOTE(CAR(last)), NIL);
     CDR(new_expr_tail)    = elem;
