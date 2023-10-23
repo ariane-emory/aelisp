@@ -9,7 +9,7 @@
 
 #define YYSTYPE ae_obj_t *
 
-#fdef AE_READ_OBJ_TAGGING
+#ifdef AE_READ_OBJ_TAGGING
 #  define TAG(o) (PUT_PROP(NEW_INT(yylineno + 1), "line", ((o))), PUT_PROP(last_loaded_file, "file", ((o))))
 #else
 #  define TAG(o) (o)
