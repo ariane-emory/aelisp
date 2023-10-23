@@ -199,7 +199,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       msg = free_list_malloc(256);
   
     if (! SPECIALP(fun)) {
-      args = EVAL_ARGS(env, args);
+      args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
 
       if (ERRORP(args)) {
         ret = args;
@@ -420,7 +420,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
   }
 
-  ae_obj_t * fun = EVAL(env, head);
+  ae_obj_t * fun = RETURN_IF_ERRORP(EVAL(env, head));
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
