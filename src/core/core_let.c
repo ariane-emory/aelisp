@@ -192,7 +192,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
     ae_obj_t * val = SYMBOLP(varlist_item)
       ? NIL
-      : RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)));
+      : OUTDENT_AND_RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)), 1);
 
     if (LAMBDAP(val) || MACROP(val))
       PUT_PROP(val, "last-bound-to", CAR(varlist_item));
