@@ -11,7 +11,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
-setq!(lst, '(1 2 3 4 5 6 7 8 9 10));
+(setq! lst '(1 2 3 4 5 6 7 8 9 10))
 
 (princ "initial lst:     ") (write lst)                  (nl)
 ;; (log-eval t) (log-core t)
@@ -141,8 +141,18 @@ setq!(lst, '(1 2 3 4 5 6 7 8 9 10));
 
 (select-and-move-to-front! (lambda (o) (eql? o 2)) (list 2))
 
+;; (defun nthcdr (n lst)
+;;  (if (zero? n)
+;;   lst
+;;   (nthcdr (1- n) (cdr lst))))
+
+;; (princ (nthcdr 0 lst)) (nl)
+;; (princ (nthcdr 1 lst)) (nl)
+;; (princ (nthcdr 2 lst)) (nl)
 
 
-(root-env)
-
+;; (defmacro pop! (list-sym &optional (n 1))
+;;  `(let ((head (car ,list-sym)))
+;;    (setq! ,list-sym (nthcdr ,n ,list-sym))
+;;    head))
 
