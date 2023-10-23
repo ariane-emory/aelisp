@@ -11,14 +11,18 @@
       OUTDENT;                                                                                     \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN(obj)                                                                                \
+#define OUTDENT_AND_RETURN(obj, outdents)                                                          \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
+                                                                                                   \
+    OUTDENTS((outdents));                                                                          \
                                                                                                    \
     ret = CAPTURED;                                                                                \
                                                                                                    \
     goto end;                                                                                      \
   })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define RETURN(obj) (OUTDENT_AND_RETURN((obj), 0))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define OUTDENT_AND_RETURN_IF_ERRORP(obj, outdents)                                                \
   ({                                                                                               \
