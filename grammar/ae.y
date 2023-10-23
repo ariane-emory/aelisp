@@ -2,11 +2,11 @@
 
 #include <stdio.h>
 
+#include "common.h"
+#include "free_list.h"
 #include "obj.h"
 #include "list.h"
-#include "util.h"
-#include "free_list.h"
-#include "common.h"
+#include "log.h"
 
 #define YYSTYPE ae_obj_t *
 

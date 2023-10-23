@@ -10,8 +10,8 @@
 #include "env.h"
 #include "eval.h"
 #include "free_list.h"
+#include "log.h"
 #include "obj.h"
-#include "util.h"
 #include "write.h"
 
 extern bool read_error;

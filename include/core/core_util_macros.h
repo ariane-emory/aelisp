@@ -7,6 +7,8 @@
 #include "obj.h"
 #include "free_list.h"
 #include "common.h"
+#include "log.h"
+#include "util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper for avoiding double evaluation of macro parameters

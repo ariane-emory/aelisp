@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "obj.h"
-#include "env.h"
-#include "write.h"
-#include "eval.h"
-#include "util.h"
 #include "common.h"
+#include "env.h"
+#include "eval.h"
+#include "log.h"
+#include "obj.h"
+#include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
