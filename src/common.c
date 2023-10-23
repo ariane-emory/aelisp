@@ -107,7 +107,6 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
   if (! no_stdlib) {
     const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
     char * const       stdlib_path     = free_list_malloc(PATH_MAX);
