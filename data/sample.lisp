@@ -147,8 +147,19 @@
 (setq! c (curry1 nthcdr 3))
 (princ (c lst)) (nl)
 
-;; (defmacro pop! (list-sym &optional (n 1))
-;;  `(let ((head (car ,list-sym)))
-;;    (setq! ,list-sym (nthcdr ,n ,list-sym))
-;;    head))
+(defmacro pop! (list-sym)
+ (if (not (symbol? list-sym))
+  (error "pop! expects a symbol referring to a list"))
+ `(let ((head (car ,list-sym)))
+   (setq! ,list-sym (cdr ,list-sym))
+   head))
 
+(defmacro push! (val list-sym)
+ (if (not (symbol? list-sym))
+  (error "push! expects a symbol referring to a list"))
+ `(setq! ,list-sym (cons ,val ,list-sym)))
+
+(princ (pop! lst)) (nl)
+(princ lst) (nl)
+(princ (push! 99 lst)) (nl)
+(princ lst) (nl)
