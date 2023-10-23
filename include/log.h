@@ -12,8 +12,8 @@
 #define FF               (fflush(stdout))
 #define NL               (putchar('\n'))
 #define SPC              (putchar(' '))
-#define INDENT           ({ indent (); })
-#define OUTDENT          ({ outdent();})
+#define INDENT           ({ local_indents += indent (); })
+#define OUTDENT          ({ local_indents += outdent(); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PR(...)          (fprintf(stdout,   __VA_ARGS__))
 #define FPR(stream, ...) (fprintf((stream), __VA_ARGS__))

@@ -15,7 +15,9 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
   assert(value);
-    
+
+  int local_indents = 0;
+  
   ENV_SYMS(env) = CONS(symbol, ENV_SYMS(env));
   ENV_VALS(env) = CONS(value,  ENV_VALS(env));
 
@@ -48,6 +50,8 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
                          bool * const found_ptr) {
   assert(ENVP(env));
   assert(SYMBOLP(symbol));
+
+  int local_indents = 0;
 
 #ifdef AE_LOG_ENV
   LOG(symbol, "[looking up '%s']", SYM_VAL(symbol));
@@ -194,6 +198,8 @@ void ae_env_set(
   assert(SYMBOLP(symbol));
   assert(! KEYWORDP(symbol));
   assert(value);
+
+  int local_indents = 0;
   
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[setting]");
