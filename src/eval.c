@@ -176,8 +176,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     ae_obj_t * err = NEW_ERROR(err_msg, err_data); 
 
     LOG(err, "should error");
-    
-    return err; // early return!
+
+    ret = err;
+
+    goto end;
   }
 
   {
@@ -216,6 +218,8 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   // this call might change the value of log_eval:
   ret = (*CORE_FUN(fun))(env, args, args_length);
 
+end:
+
   if (log_eval) {
     char * const msg = free_list_malloc(256);
 
@@ -227,8 +231,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     free_list_free(msg);
   }
-
-end:
   
   return ret;
 }
