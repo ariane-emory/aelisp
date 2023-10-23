@@ -540,6 +540,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
   assert(ENVP(env));
   assert(obj);
 
+  ae_obj_t * const ret = obj;
+  
 #if AE_TRACK_ORIGINS_DURING_EVAL // in self
   if (! HAS_PROP("birth-place", obj)) {
     PUT_PROP(env, "birth-place", obj);
@@ -556,7 +558,7 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
     LOG(obj, "self-evaluated %s :%s",
         a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 
-  return obj;
+  return ret;
 }
 
 static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
