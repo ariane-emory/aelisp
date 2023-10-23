@@ -33,7 +33,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (IS_QUOTE_FORM(arg))
       arg = CADR(arg);
 
-    evaluated_arg         = RETURN_IF_ERRORP(EVAL(env, CAR(pos)));
+    evaluated_arg         = RETURN_IF_ERRORP(EVAL(env, CAR(pos)), 0);
     ae_obj_t * const elem = CONS(REQUOTE(evaluated_arg), NIL);
     CDR(new_expr_tail)    = elem;
     new_expr_tail         = elem;
@@ -45,7 +45,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
   if (IS_QUOTE_FORM(last))
     last = CADR(last);
   else
-    last = RETURN_IF_ERRORP(EVAL(env, last));
+    last = RETURN_IF_ERRORP(EVAL(env, last), 0);
 
   REQUIRE(env, args, PROPERP(last), "apply requires a proper list as its final argument");
   
@@ -59,7 +59,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
   if (log_core)
     LOG(new_expr, "flattened apply's args:");
 
-  ret = RETURN_IF_ERRORP(EVAL(env, new_expr));
+  ret = RETURN_IF_ERRORP(EVAL(env, new_expr), 0);
 
   if (log_core)
     OLOG(ret);
