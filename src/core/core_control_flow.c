@@ -21,7 +21,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
     ret = EVAL(env, elem);
     
-    OUTDENT_AND_RETURN_IF_ERRORP(ret, 0);
+    RETURN_IF_ERRORP(ret);
         
     if (log_core)
       LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);

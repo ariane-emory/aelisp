@@ -31,7 +31,9 @@
     CAPTURED;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define OUTDENT_AND_RETURN_NIL_IF_NILP(obj, outdents)                                                          \
+#define RETURN_IF_ERRORP(obj) (OUTDENT_AND_RETURN_IF_ERRORP((obj), 0))
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define OUTDENT_AND_RETURN_NIL_IF_NILP(obj, outdents)                                              \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (NILP(CAPTURED)) {                                                                          \
@@ -44,5 +46,5 @@
     CAPTURED;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN_NIL_IF_NILP(obj) (OUTDENT_AND_OUTDENT_AND_RETURN_NIL_IF_NILP((obj)))
+#define RETURN_NIL_IF_NILP(obj) (OUTDENT_AND_RETURN_NIL_IF_NILP((obj), 0))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
