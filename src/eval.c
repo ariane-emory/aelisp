@@ -38,7 +38,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   if (log_eval)
     LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
 
-  RETURN_NIL_IF_NILP(args);
+  RETURN_NIL_IF_NILP(args, 0);
   
   INDENT;
 
@@ -54,7 +54,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, CAR(current_arg)));
+    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, CAR(current_arg)), 1);
 
     OUTDENT;
 
@@ -81,7 +81,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, current_arg));
+    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, current_arg), 2);
 
     // tail arg needs error handling!
 
@@ -626,7 +626,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * ret = NIL;
 
-  RETURN_NIL_IF_NILP(obj);
+  RETURN_NIL_IF_NILP(obj, 0);
   
   eval_dispatch_row_t dispatch = { 0 };
 
