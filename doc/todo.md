@@ -1,5 +1,5 @@
 To Do:
-- [ ] read-only property.
+- [ ] core_elapsed / core_elapsed us should employ elapsed / elapsed_us.
 - [ ] eval should take an optional env param.
 - [ ] in-language unit tests.
 - [ ] try incremental bubble sorting env syms/vals?
@@ -22,6 +22,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] read-only property.
 - [x] #include/load equivalent (exists in REPL-speak but not in core, currently).
 - [x] Fix macro expansion from eval.
 - [x] user funs need better arg count validation.
