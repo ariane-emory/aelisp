@@ -558,6 +558,8 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
     LOG(obj, "self-evaluated %s :%s",
         a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
 
+end:
+  
   return ret;
 }
 
