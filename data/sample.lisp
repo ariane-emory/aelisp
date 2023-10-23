@@ -157,9 +157,13 @@
 (defmacro push! (val list-sym)
  (if (not (symbol? list-sym))
   (error "push! expects a symbol referring to a list"))
- `(setq! ,list-sym (cons ,val ,list-sym) 2))
+ `(setq! ,list-sym (cons ,val ,list-sym)))
 
 (princ (pop! lst)) (nl)
 (princ lst) (nl)
 (princ (push! 99 lst)) (nl)
 (princ lst) (nl)
+
+;; a deliberate invalid call:
+(log-eval t)
+(s x 2 3)

@@ -560,6 +560,29 @@
        (reverse-internal (cdr lst) (cons (car lst) acc))))))
    (reverse-internal lst nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun removeq! (obj lst)
+  "Remove the first item eq? to obj from the list."
+  (let ((head (car lst))
+        (tail (cdr lst)))
+   (if (eq? obj head)
+    (if (nil? tail)
+     (error "can't remove last item")
+     (rplaca! lst (second lst))
+     (rplacd! lst (cddr   lst)))
+    (let ((prev     lst)
+          (current  (cdr lst)))
+     (letrec
+      ((chase
+        (lambda (lst)
+         (let ((head (car lst))
+               (next (cdr lst)))
+          (cond
+           ((eq? obj head) (progn (rplacd! prev next) obj))
+           (next            (progn (setq! prev lst) (chase next)))
+           (t               (error "obj was not in lst"))
+           )))))
+      (chase current))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeql! (obj lst)
   "Remove the first item eql? to obj from the list."
   (let ((head (car lst))
@@ -586,6 +609,18 @@
  (defun copy-list (lst)
   "Take shallow copy of the given list."
   (when lst (cons (car lst) (copy-list (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro pop! (list-sym)
+  (if (not (symbol? list-sym))
+   (error "pop! expects a symbol referring to a list"))
+  `(let ((head (car ,list-sym)))
+    (setq! ,list-sym (cdr ,list-sym))
+    head))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro push! (val list-sym)
+  (if (not (symbol? list-sym))
+   (error "push! expects a symbol referring to a list"))
+  `(setq! ,list-sym (cons ,val ,list-sym)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -730,6 +765,7 @@
  ;; random unsorted stuff:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun apply* (proc . args)
+  "Try to remember how this one works and document it."
   (apply proc (apply list* args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun curry1 (fun arg1)
