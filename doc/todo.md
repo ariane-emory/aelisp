@@ -1,5 +1,4 @@
 To Do:
-- [ ] dents/jump-returns in apply need review.
 - [ ] core_props should probably use some jump returns.
 - [ ] core_concat could be simplified using strcat.
 - [ ] eval should take an optional env param.
@@ -24,6 +23,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] dents/jump-returns in apply need review.
 - [x] core_elapsed / core_elapsed us should employ elapsed / elapsed_us.
 - [x] read-only property.
 - [x] constant property.
