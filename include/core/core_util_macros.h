@@ -34,20 +34,22 @@
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_BEGIN(name)                                                                           \
-({                                                                                                 \
-  char * tmp = SWRITE(env);                                                                        \
-  if (log_core)                                                                                    \
-    LOG(env,  "[applying 'core_"  name "' in env]", tmp);                                          \
-  INDENT;                                                                                          \
-  free(tmp);                                                                                       \
-})
+  int local_indents = 0;                                                                           \
+                                                                                                   \
+  {                                                                                                \
+    char * tmp##__LINE__ = SWRITE(env);                                                            \
+    if (log_core)                                                                                  \
+      LOG(env,  "[applying 'core_"  name "' in env]", tmp##__LINE__);                              \
+    INDENT;                                                                                        \
+    free(tmp##__LINE__);                                                                           \
+  }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_RETURN(name, val)                                                                     \
-({                                                                                                 \
-  OUTDENT;                                                                                         \
-  CAPTURE((val));                                                                                  \
-  if (log_core)                                                                                    \
-    LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                  \
-  return CAPTURED;                                                                                 \
-})
+  {                                                                                                \
+    OUTDENT;                                                                                       \
+    CAPTURE((val));                                                                                \
+    if (log_core)                                                                                  \
+      LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                \
+    return CAPTURED;                                                                               \
+  }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
