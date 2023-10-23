@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
   ae_obj_t * result = EVAL(root_env, program);
 
   if (ERRORP(result)) {
-    FPR(stderr, "\nERROR: "); WRITE(result); NL;
+    PR("\nERROR: "); WRITE(result); NL;
 
     exit(4);
   }
