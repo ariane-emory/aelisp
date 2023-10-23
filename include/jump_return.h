@@ -18,7 +18,7 @@
     goto end;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define OUTDENT_AND_RETURN_IF_ERRORP(obj, outdents)                                                            \
+#define OUTDENT_AND_RETURN_IF_ERRORP(obj, outdents)                                                \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (ERRORP(CAPTURED)) {                                                                        \
@@ -31,16 +31,18 @@
     CAPTURED;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN_NIL_IF_NILP(obj, outdents)                                                          \
+#define OUTDENT_AND_RETURN_NIL_IF_NILP(obj, outdents)                                                          \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (NILP(CAPTURED)) {                                                                          \
       OUTDENTS((outdents))                                                                         \
                                                                                                    \
-      ret = CAPTURED;                                                                              \
+        ret = CAPTURED;                                                                            \
                                                                                                    \
       goto end;                                                                                    \
     }                                                                                              \
     CAPTURED;                                                                                      \
   })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define RETURN_NIL_IF_NILP(obj) (OUTDENT_AND_OUTDENT_AND_RETURN_NIL_IF_NILP((obj)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
