@@ -383,7 +383,10 @@ static void snap_indent(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
-  assert(CONSP(obj)); // should return an ERROR instead?
+  assert(env);
+  assert(ENVP(env));
+  assert(obj);
+  assert(CONSP(obj));
 
   ae_obj_t * head = CAR(obj);
   ae_obj_t * args = CDR(obj);
