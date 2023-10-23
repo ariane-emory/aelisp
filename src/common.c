@@ -51,7 +51,10 @@ void preface(void) {
 }
 
 ae_obj_t * setup_root_env(void) {
-
+  bool old_log_core = log_core;
+  bool old_log_eval = log_eval;
+  bool old_log_macro = log_macro;
+  
 #ifdef AE_PREFACE
   preface();
 #endif
@@ -144,6 +147,10 @@ ae_obj_t * setup_root_env(void) {
     if (ERRORP(ret)) 
       FPR(stderr, "WARNING: Error evaluating stdlib!\n");  
   }
+
+  log_core = old_log_core;
+  log_eval = old_log_eval;
+  log_macro = old_log_macro;
   
   return root_env;
 }
