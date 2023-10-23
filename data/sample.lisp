@@ -143,5 +143,6 @@
 (princ lst) (nl)
 
 ;; a deliberate invalid call:
+(nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
 (log-eval t)
 (s x 2 3)
