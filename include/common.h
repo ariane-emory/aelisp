@@ -9,6 +9,9 @@
 extern char       mem[free_list_size];
 extern ae_obj_t * program;
 extern FILE *     yyin;
+extern bool       log_core;
+extern bool       log_eval;
+extern bool       log_macro;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // preface
