@@ -38,7 +38,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   if (log_eval)
     LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
 
-  OUTDENT_AND_RETURN_NIL_IF_NILP(args, 0);
+  RETURN_NIL_IF_NILP(args);
   
   INDENT;
 
@@ -626,7 +626,7 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * ret = NIL;
 
-  OUTDENT_AND_RETURN_NIL_IF_NILP(obj, 0);
+  RETURN_NIL_IF_NILP(obj);
   
   eval_dispatch_row_t dispatch = { 0 };
 
