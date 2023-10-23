@@ -11,7 +11,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
-(setq! lst '(1 2 3 4 5 6 7 8 9 10))
+setq!(lst, '(1 2 3 4 5 6 7 8 9 10));
 
 (princ "initial lst:     ") (write lst)                  (nl)
 ;; (log-eval t) (log-core t)
@@ -87,7 +87,7 @@
     obj))))
 
 (defun remove-first! (pred? lst)
- "Remove the first item matching pred? from the list."
+ "Destructivelyl Remove the first item matching pred? from the list."
  (if (pred? (car lst))
   (if (cdr lst)
    (progn 
@@ -105,7 +105,7 @@
     (error "obj was not in lst")))))
 
 (defun remove-first! (pred? lst)
- "Remove the first item matching pred? from the list."
+ "Destructively remove the first item matching pred? from the list."
  (let ((head (car lst))
        (tail (cdr lst)))
   (if (pred? head)
@@ -123,7 +123,7 @@
          (cond
           ((pred? head) (progn (rplacd! prev next) head))
           (next         (progn (setq! prev lst) (chase next)))
-          (t               (error "obj was not in lst"))
+          (t            (error "obj was not in lst"))
           )))))
      (chase current))))))
 
