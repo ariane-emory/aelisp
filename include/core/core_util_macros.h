@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "capture.h"
 #include "common.h"
 #include "free_list.h"
 #include "log.h"

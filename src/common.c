@@ -5,6 +5,8 @@
 #include <sys/syslimits.h>
 
 #include "common.h"
+
+#include "capture.h"
 #include "core.h"
 #include "env.h"
 #include "eval.h"
