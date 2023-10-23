@@ -82,3 +82,23 @@ long long int elapsed(long long int time);
 long long int now_us(void);
 long long int elapsed_us(long long int time_us);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// jump-return and error bailing
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define BAIL_IF_ERROR(obj)                                                                         \
+  ({                                                                                               \
+    CAPTURE(obj);                                                                                  \
+    if (ERRORP(CAPTURED)) {                                                                        \
+      ret = CAPTURED;                                                                              \
+      goto end;                                                                                    \
+    }                                                                                              \
+    CAPTURED;                                                                                      \
+  })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define RETURN(obj)                                                                                \
+  ({                                                                                               \
+    CAPTURE(obj);                                                                                  \
+    ret = CAPTURED;                                                                                \
+    goto end;                                                                                      \
+  })
+////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -23,7 +23,7 @@
     char * const msg_tmp = free_list_malloc(256);                                                  \
     snprintf(msg_tmp, 256, fmt, __FILE__, __LINE__, __func__);                                     \
                                                                                                    \
-    char * const msg = free_list_malloc(strlen(msg_tmp) + 1);                                   \
+    char * const msg = free_list_malloc(strlen(msg_tmp) + 1);                                      \
     strcpy(msg, msg_tmp);                                                                          \
     free_list_free(msg_tmp);                                                                       \
                                                                                                    \
@@ -52,24 +52,4 @@
     LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                  \
   return CAPTURED;                                                                                 \
 })
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define BAIL_IF_ERROR(obj)                                                                         \
-  ({                                                                                               \
-    CAPTURE(obj);                                                                                  \
-                                                                                                   \
-    if (ERRORP(CAPTURED)) {                                                                        \
-      ret = CAPTURED;                                                                              \
-      goto end;                                                                                    \
-    }                                                                                              \
-                                                                                                   \
-    CAPTURED;                                                                                      \
-  })
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN(obj)                                                                                \
-  ({                                                                                               \
-    CAPTURE(obj);                                                                                  \
-    ret = CAPTURED;                                                                                \
-    goto end;                                                                                      \
-    (void)CAPTURED;                                                                                \
-  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
