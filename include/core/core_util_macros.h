@@ -36,6 +36,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_BEGIN(name)                                                                           \
   JUMP_RETURN_DECLS;                                                                               \
+                                                                                                   \
+  assert(env);                                                                                     \
+  assert(ENVP(env));                                                                               \
+  assert(args);                                                                                    \
+  assert(TAILP(args));                                                                             \
+                                                                                                   \
   {                                                                                                \
     char * tmp##__LINE__ = SWRITE(env);                                                            \
     if (log_core)                                                                                  \
