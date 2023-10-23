@@ -62,7 +62,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, CAR(current_arg)));
+    ae_obj_t* eval_result = EVAL_AND_RETURN_IF_ERRORP(env, CAR(current_arg));
 
     OUTDENT;
 
