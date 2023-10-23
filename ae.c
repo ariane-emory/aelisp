@@ -124,9 +124,17 @@ int main(int argc, char **argv) {
   /* NL; */
   
   /* SLOG("Evaluating program..."); */
+  
+  ae_obj_t * result = EVAL(root_env, program);
 
-  EVAL(root_env, program);
-
+  if (ERRORP(result)) {
+    FPR(stderr, "ERROR: "); WRITE(result); NL;
+    exit(4);
+  }
+  else {
+    PR("Result: "); WRITE(result); NL;
+  }
+  
   /* SLOG("\nDone evaluating program.\n"); */
   
 #ifdef AE_DUMP_POOL_AFTER

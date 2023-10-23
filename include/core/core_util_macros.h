@@ -41,6 +41,7 @@
   assert(ENVP(env));                                                                               \
   assert(args);                                                                                    \
   assert(TAILP(args));                                                                             \
+  assert(args_length >= 0);                                                                        \
                                                                                                    \
   {                                                                                                \
     char * tmp##__LINE__ = SWRITE(env);                                                            \
