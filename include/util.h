@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // jump-return and error bailing
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define BAIL_IF_ERRORP(obj)                                                                        \
+#define RETURN_IF_ERRORP(obj)                                                                        \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (ERRORP(CAPTURED)) {                                                                        \
@@ -31,8 +31,8 @@
 #define RETURN_NIL_IF_NILP(obj)                                                                    \
   if (NILP((obj))) RETURN(NIL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define OUTDENT_AND_BAIL_IF_ERRORP(obj)                                                            \
-  ({ OUTDENT; BAIL_IF_ERRORP((ob)); })
+#define OUTDENT_AND_RETURN_IF_ERRORP(obj)                                                            \
+  ({ OUTDENT; RETURN_IF_ERRORP((ob)); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define OUTDENT_AND_RETURN_NIL_IF_NILP(obj)                                                        \
   ({ OUTDENT; RETURN_NIL_IF_NILP((ob)); })
