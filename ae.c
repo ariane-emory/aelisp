@@ -128,12 +128,13 @@ int main(int argc, char **argv) {
   ae_obj_t * result = EVAL(root_env, program);
 
   if (ERRORP(result)) {
-    FPR(stderr, "ERROR: "); WRITE(result); NL;
+    FPR(stderr, "\nERROR: "); WRITE(result); NL;
+
     exit(4);
   }
-  else {
-    PR("Result: "); WRITE(result); NL;
-  }
+  /* else { */
+  /*   PR("Result: "); WRITE(result); NL; */
+  /* } */
   
   /* SLOG("\nDone evaluating program.\n"); */
   
