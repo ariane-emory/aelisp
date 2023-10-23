@@ -7,11 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  if (log_core)
-    // No CORE_BEGIN!
-    LOG(args, "[core_setq!]");
-
-  INDENT;
+  CORE_BEGIN("setq!");
 
   ae_obj_t * sym = CAR(args);
   ae_obj_t * val = args_length == 1
