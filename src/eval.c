@@ -22,7 +22,11 @@
       row = table[ix];                                                                             \
                                                                                                    \
       break;                                                                                       \
-    }
+    }                                                                                              \
+
+#define RETURN(o) \
+  ret = (o);      \
+  goto end;       \
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_eval_args
@@ -39,7 +43,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   INDENT;
 
   ae_obj_t * current_arg = args;
-  ae_obj_t * result_head = NIL; // Initialized to NULL now
+  ae_obj_t * ret = NIL;
   ae_obj_t * result_tail = NIL;
   int ctr = 0;
   
@@ -59,13 +63,11 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
       LOG(eval_result, "evaled arg #%d/%d", ctr, args_count);
 
     if (ERRORP(eval_result)) {
-      result_head = eval_result;
-
-      goto end;
+      RETURN(eval_result);
     }
-    else if (NILP(result_head)) {
-      result_head = NEW_CONS(eval_result, NIL);
-      result_tail = result_head;
+    else if (NILP(ret)) {
+      ret = NEW_CONS(eval_result, NIL);
+      result_tail = ret;
     } else {
       CDR(result_tail) = NEW_CONS(eval_result, NIL);
       result_tail = CDR(result_tail);
@@ -89,8 +91,8 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled tail arg");
 
-    if (NILP(result_head))
-      result_head = eval_result;
+    if (NILP(ret))
+      ret = eval_result;
     else
       CDR(result_tail) = eval_result;
 
@@ -101,9 +103,9 @@ end:
   OUTDENT;
   
   if (log_eval)
-    LOG(result_head, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(ret, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
 
-  return result_head;
+  return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +119,6 @@ end:
 static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(COREP(fun));
   
-  bool       invalid_args_length = false;
   int        args_length         = LENGTH(args);
   ae_obj_t * ret                 = NIL;
   
