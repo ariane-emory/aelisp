@@ -60,7 +60,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, CAR(current_arg)), 1);
+    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, CAR(current_arg)));
 
     OUTDENT;
 
@@ -87,7 +87,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, current_arg), 2);
+    ae_obj_t* eval_result = RETURN_IF_ERRORP(EVAL(env, current_arg));
 
     // tail arg needs error handling!
 
@@ -336,7 +336,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   PUT_PROP(fun, "fun", env);
 
-  ret = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, body), 1);
+  ret = RETURN_IF_ERRORP(EVAL(env, body));
 
   OUTDENT;
 
@@ -429,7 +429,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     SLOGF("of type: %s", GET_TYPE_STR(fun));
     NL;
 
-    OUTDENT_AND_RETURN_IF_ERRORP(fun, 1);
+    RETURN_IF_ERRORP(fun);
 
     ae_obj_t * const err_data = NIL;
 
@@ -439,7 +439,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
     ae_obj_t * const err = NEW_ERROR("inapplicable", err_data);
     
-    OUTDENT_AND_RETURN_IF_ERRORP(err, 1);
+    RETURN_IF_ERRORP(err);
   }
 
   long int begin = -1;
