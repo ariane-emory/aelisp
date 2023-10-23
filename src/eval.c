@@ -37,8 +37,9 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   assert(args);
   assert(TAILP(args));
   
-  ae_obj_t * ret = NIL;
-
+  int        local_indents = 0;
+  ae_obj_t * ret           = NIL;
+  
   const int args_count = LENGTH(args);
   
   if (log_eval)
@@ -131,8 +132,9 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
   
-  ae_obj_t * ret                 = NIL;
-  int        args_length         = LENGTH(args);
+  int        local_indents = 0;
+  ae_obj_t * ret           = NIL;
+  int        args_length   = LENGTH(args);
   
   if      ((CORE_MIN_ARGS(fun) != 15 && LENGTH(args) < (int)CORE_MIN_ARGS(fun)) ||
            (CORE_MAX_ARGS(fun) != 15 && LENGTH(args) > (int)CORE_MAX_ARGS(fun))) {
@@ -256,7 +258,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
 
-  ae_obj_t * ret = NIL;
+  int        local_indents = 0;
+  ae_obj_t * ret           = NIL;
   
   if (CONSP(FUN_PARAMS(fun)) &&
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
@@ -386,9 +389,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(obj);
   assert(CONSP(obj));
 
-  ae_obj_t * ret = NIL;
-  ae_obj_t * head = CAR(obj);
-  ae_obj_t * args = CDR(obj);
+  int        local_indents = 0;
+  ae_obj_t * ret           = NIL;
+  ae_obj_t * head          = CAR(obj);
+  ae_obj_t * args          = CDR(obj);
 
   assert(args);
   assert(TAILP(args));
@@ -542,8 +546,9 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   assert(ENVP(env));
   assert(sym);
   assert(SYMBOLP(sym));
-  
-  ae_obj_t * ret = NIL;
+
+  int        local_indents = 0;
+  ae_obj_t * ret           = NIL;
 
   if (! ENV_BOUNDP(env, sym)) {
     ae_obj_t * err_data = NIL;
@@ -605,7 +610,8 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
   assert(obj);
   assert(ENVP(env));
 
-  ae_obj_t * ret = NIL;
+  int        local_indents = 0;
+  ae_obj_t * ret           = NIL;
 
   RETURN_NIL_IF_NILP(obj);
   
