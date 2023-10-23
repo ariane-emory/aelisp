@@ -12,8 +12,8 @@
 #define FF               (fflush(stdout))
 #define NL               (putchar('\n'))
 #define SPC              (putchar(' '))
-#define INDENT           (indent ())
-#define OUTDENT          (outdent())
+#define INDENT           ({ indent (); })
+#define OUTDENT          ({ outdent();})
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PR(...)          (fprintf(stdout,   __VA_ARGS__))
 #define FPR(stream, ...) (fprintf((stream), __VA_ARGS__))
@@ -68,8 +68,8 @@ extern       int  log_tab_width;
 // Logging-related functions
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 int  obj_log(const ae_obj_t * const obj, char * desc);
-void indent(void);
-void outdent(void);
+int indent(void);
+int outdent(void);
 const char * a_or_an(const char * str);
 const char * s_or_blank(int count);
 /////////////////////////////////////////////////////////////////////////////////////////////////////

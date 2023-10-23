@@ -490,18 +490,6 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     // *obj = *ret; 
   }
 
-#if AE_TRACK_ORIGINS_DURING_EVAL // in apply
-  if (! HAS_PROP("birth-place", ret)) {
-    PUT_PROP(env, "birth-place", ret);
-
-    if (log_eval)
-      LOG(ret, "birthed");
-  }
-
-  if (! HAS_PROP("origin", ret))
-    PUT_PROP(fun, "origin", ret);
-#endif
-
   if (ERRORP(ret)) {
     char * fun_tmp = SWRITE(fun);
     char * ret_tmp = SWRITE(ret);
@@ -542,18 +530,6 @@ static ae_obj_t * self(ae_obj_t * env, ae_obj_t * obj) {
 
   ae_obj_t * const ret = obj;
   
-#if AE_TRACK_ORIGINS_DURING_EVAL // in self
-  if (! HAS_PROP("birth-place", obj)) {
-    PUT_PROP(env, "birth-place", obj);
-
-    if (log_eval)
-      LOG(obj, "birthed");
-  }
-
-  if (! HAS_PROP("origin", obj))
-    PUT_PROP(KW("self-evaluated"), "origin", obj);
-#endif
-
   if (log_eval)
     LOG(obj, "self-evaluated %s :%s",
         a_or_an(GET_TYPE_STR(obj)), GET_TYPE_STR(obj));
@@ -587,18 +563,6 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   ret = KEYWORDP(sym)
     ? sym
     : ENV_FIND(env, sym);
-
-#if AE_TRACK_ORIGINS_DURING_EVAL // in lookup
-  if (! HAS_PROP("birth-place", ret)) {
-    PUT_PROP(env, "birth-place", ret);
-
-    if (log_eval)
-      LOG(ret, "birthed");
-  }
-
-  if (! HAS_PROP("origin", ret))
-    PUT_PROP(KW("lookup"), "origin", ret);
-#endif
 
 end:
 

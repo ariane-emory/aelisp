@@ -12,6 +12,7 @@ COMMON_CFLAGS = \
 	-ggdb \
 	-O3 \
 	-Wno-misleading-indentation \
+	-Wno-unused-label \
 	-DAE_OBJ_POOL_SIZE=$(POOL_SIZE) \
 	-DAE_DEADLY_MARGIN \
   -D_GNU_SOURCE \
@@ -37,7 +38,6 @@ UNUSED_CFLAGS = \
 	-DAE_PAINT_EARLY_OBJECTS \
 	-DAE_PREFACE \
 	-DAE_PREFER_ALIST \
-	-DAE_TRACK_ORIGINS_DURING_EVAL \
 
 YACC_LEX_CFLAGS = \
 	-Wno-implicit-int \
