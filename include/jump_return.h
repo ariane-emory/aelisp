@@ -18,7 +18,7 @@
     goto end;                                                                                      \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define RETURN_IF_ERRORP(obj, outdents)                                                            \
+#define OUTDENT_AND_RETURN_IF_ERRORP(obj, outdents)                                                            \
   ({                                                                                               \
     CAPTURE(obj);                                                                                  \
     if (ERRORP(CAPTURED)) {                                                                        \

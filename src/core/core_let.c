@@ -42,7 +42,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     ae_obj_t * val =
       SYMBOLP(varlist_item)
       ? NIL
-      : RETURN_IF_ERRORP(EVAL(env, CADR(varlist_item)), 1);
+      : OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, CADR(varlist_item)), 1);
 
     if (LAMBDAP(val) || MACROP(val))
       PUT_PROP(val, "last-bound-to", CAR(varlist_item));
@@ -68,7 +68,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ret = RETURN_IF_ERRORP(ae_core_progn(new_env, body, LENGTH(body)), 0);
+  ret = OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(new_env, body, LENGTH(body)), 0);
 
 end:
   
@@ -116,7 +116,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
     ae_obj_t * val =
       SYMBOLP(varlist_item)
       ? NIL
-      : RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)), 1);
+      : OUTDENT_AND_RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)), 1);
 
     if (LAMBDAP(val) || MACROP(val))
       PUT_PROP(val, "last-bound-to", CAR(varlist_item));
@@ -142,7 +142,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ret = RETURN_IF_ERRORP(ae_core_progn(new_env, body, LENGTH(body)), 0);
+  ret = OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(new_env, body, LENGTH(body)), 0);
 
 end:
   
@@ -192,7 +192,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
     ae_obj_t * val = SYMBOLP(varlist_item)
       ? NIL
-      : RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)), 0);
+      : OUTDENT_AND_RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)), 0);
 
     if (LAMBDAP(val) || MACROP(val))
       PUT_PROP(val, "last-bound-to", CAR(varlist_item));
@@ -216,7 +216,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
     LOG(ENV_VALS(new_env), "new_env vals");
   }
 
-  ret = RETURN_IF_ERRORP(ae_core_progn(new_env, body, LENGTH(body)), 0);
+  ret = OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(new_env, body, LENGTH(body)), 0);
 
 end:
   

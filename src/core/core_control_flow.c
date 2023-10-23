@@ -21,7 +21,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
     ret = EVAL(env, elem);
     
-    RETURN_IF_ERRORP(ret, 0);
+    OUTDENT_AND_RETURN_IF_ERRORP(ret, 0);
         
     if (log_core)
       LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);
@@ -52,8 +52,8 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
       LOG(item_cdr, "cond item's cdr");
     }
 
-    if (! NILP(RETURN_IF_ERRORP(EVAL(env, item_car), 0)))
-      RETURN(RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)), 0));
+    if (! NILP(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, item_car), 0)))
+      RETURN(OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)), 0));
   }
 
 end:
@@ -79,7 +79,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
     LOG(else_branch, "else");
   }
 
-  bool cond_result = ! NILP(RETURN_IF_ERRORP(EVAL(env, if_cond), 0));
+  bool cond_result = ! NILP(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, if_cond), 0));
 
   if (log_core) 
     LOG(cond_result ? TRUE : NIL, "cond_result: ");
@@ -88,13 +88,13 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
     if (log_core)
       LOG(then_branch, "chose then");
 
-    RETURN(RETURN_IF_ERRORP(EVAL(env, then_branch), 0));
+    RETURN(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, then_branch), 0));
   } 
   else {
     if (log_core)
       LOG(else_branch, "chose else");
 
-    RETURN(RETURN_IF_ERRORP(ae_core_progn(env, else_branch, LENGTH(else_branch)), 0));
+    RETURN(OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, else_branch, LENGTH(else_branch)), 0));
   }
 
 end:
@@ -118,7 +118,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
     LOG(then_branch, "then");
   }
 
-  bool cond_result = ! NILP(RETURN_IF_ERRORP(EVAL(env, when_cond), 0));
+  bool cond_result = ! NILP(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, when_cond), 0));
 
   if (log_core)
     LOG(cond_result ? TRUE : NIL, "cond_result: ");
@@ -127,7 +127,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
     if (log_core)
       LOG(then_branch, "chose then");
 
-    RETURN(RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)), 0));
+    RETURN(OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)), 0));
   }
 
   if (log_core)
@@ -154,7 +154,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
     LOG(then_branch, "then");
   }
 
-  bool cond_result = NILP(RETURN_IF_ERRORP(EVAL(env, unless_cond), 0));
+  bool cond_result = NILP(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, unless_cond), 0));
 
   if (log_core)
     LOG(cond_result ? TRUE : NIL, "cond_result: ");
@@ -163,7 +163,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
     if (log_core)
       LOG(then_branch, "chose then");
 
-    RETURN(RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)), 0));
+    RETURN(OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)), 0));
   }
 
   if (log_core)
@@ -184,7 +184,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ae_obj_t * ret = NIL;
   
   FOR_EACH(option, args) {
-    ret = RETURN_IF_ERRORP(EVAL(env, option), 0);
+    ret = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, option), 0);
 
     if (log_core)
       LOG(ret, "or option");
@@ -208,7 +208,7 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   ae_obj_t * ret = NIL;
   
   FOR_EACH(option, args) {
-    ret = RETURN_IF_ERRORP(EVAL(env, option), 0);
+    ret = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, option), 0);
 
     if (log_core)
       LOG(ret, "and option");
@@ -238,11 +238,11 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
     LOG(do_branch,  "do");
   }
   
-  while (! NILP(RETURN_IF_ERRORP(EVAL(env, while_cond), 0))) {
+  while (! NILP(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, while_cond), 0))) {
     if (log_core)
       LOG(do_branch, "do while");
 
-    RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)), 0);
+    OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)), 0);
   }
 
 end:
@@ -271,11 +271,11 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
   // ae_obj_t * cond_result = NIL;
 
-  while (NILP(RETURN_IF_ERRORP(EVAL(env, until_cond), 0))) {
+  while (NILP(OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, until_cond), 0))) {
     if (log_core)
       LOG(do_branch, "do until");
 
-    RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)), 0);
+    OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)), 0);
   }
 
 end:
@@ -294,14 +294,14 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_BEGIN("repeat");
 
   ae_obj_t * ret       = NIL;
-  ae_obj_t * first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)), 0);
+  ae_obj_t * first_arg = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, CAR(args)), 0);
  
   REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
 
   long long int times = INT_VAL(first_arg);
 
   for (long long int ix = 0; ix < times; ix++)
-    RETURN_IF_ERRORP(ae_core_progn(env, CDR(args), LENGTH(CDR(args))), 0);
+    OUTDENT_AND_RETURN_IF_ERRORP(ae_core_progn(env, CDR(args), LENGTH(CDR(args))), 0);
 
 end:
   
