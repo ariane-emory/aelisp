@@ -173,7 +173,11 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    return NEW_ERROR(err_msg, err_data); // early return!
+    ae_obj_t * err = NEW_ERROR(err_msg, err_data); 
+
+    LOG(err, "should error");
+    
+    return err; // early return!
   }
 
   {
