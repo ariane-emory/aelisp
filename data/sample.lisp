@@ -144,7 +144,7 @@
 (princ (nthcdr 0 lst)) (nl)
 (princ (nthcdr 1 lst)) (nl)
 (princ (nthcdr 2 lst)) (nl)
-(setq! c (curry1 nthcdr 4))
+(setq! c (curry1 nthcdr 3))
 (princ (c lst)) (nl)
 
 ;; (defmacro pop! (list-sym &optional (n 1))
