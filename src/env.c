@@ -332,6 +332,16 @@ ae_obj_t * ae_env_new_root(void) {
   /* ENV_SET(env, SYM("≥"), ENV_FIND(env, SYM(">="))); */
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
 
+#if AE_PREFER_ALIST
+  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("ahas?")));
+  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("aset")));
+  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("aget")));
+#else
+  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("phas?")));
+  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("pset")));
+  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("pget")));
+#endif
+
   FOR_EACH_CORE_FUN_GROUP_3(load_fun);
 
   FOR_EACH_CORE_MATH_OP(add_core_op);
@@ -343,16 +353,6 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("="), ENV_FIND(env, SYM("==")));
 
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
-  
-#if AE_PREFER_ALIST
-  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("ahas?")));
-  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("aset")));
-  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("aget")));
-#else
-  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("phas?")));
-  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("pset")));
-  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("pget")));
-#endif
-  
+    
   return env;
 }
