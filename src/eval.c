@@ -16,7 +16,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define GET_DISPATCH(row, table, obj)                                                              \
   for (size_t ix = 0; ix < ARRAY_SIZE(table); ix++)                                                \
     if (table[ix].type == GET_TYPE(obj)) {                                                         \
@@ -612,19 +611,23 @@ static const eval_dispatch_row_t eval_dispatch_table[] = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
-  RETURN_NIL_IF_NILP(obj);
-  
   assert(env);
   assert(obj);
   assert(ENVP(env));
 
+  ae_obj_t * ret = NIL;
+
+  RETURN_NIL_IF_NILP(obj);
+  
   eval_dispatch_row_t dispatch = { 0 };
 
   GET_DISPATCH(dispatch, eval_dispatch_table, obj);
 
   assert(*dispatch.handler);
 
-  ae_obj_t * ret = (*dispatch.handler)(env, obj);
+  RETURN((*dispatch.handler)(env, obj));
 
+end:
+  
   return ret;
 }
