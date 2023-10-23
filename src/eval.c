@@ -258,6 +258,8 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
 
+  ae_obj_t * ret = NIL;
+  
   if (CONSP(FUN_PARAMS(fun)) &&
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
        (PROPERP(FUN_PARAMS(fun)) && LENGTH(args) > LENGTH(FUN_PARAMS(fun))))
@@ -288,11 +290,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     KSET(err_data, KW("args"), args);
     KSET(err_data, KW("fun"),  fun);
 
-    return NEW_ERROR(msg, err_data);
+    RETURN(NEW_ERROR(msg, err_data));
   }
     
   if (! SPECIALP(fun)) {
-    args = EVAL_ARGS(env, args);
+    args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
     
     if (log_eval)
       LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
@@ -335,11 +337,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   PUT_PROP(fun, "fun", env);
 
-  ae_obj_t * ret = EVAL(env, body);
+  ret = OUTDENT_AND_RETURN_IF_ERRORP(EVAL(env, body), 1);
 
-  // log_column = log_column_default; // end of apply user
-  
   OUTDENT;
+
+end:
 
   if (log_eval) {
     if (HAS_PROP("last-bound-to", fun)) {
@@ -351,7 +353,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
       LOG(ret, "applying user fun %s returned %s :%s", tmp, a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
       free(tmp);
     }
-  }
+  }  
 
   return ret;
 }
