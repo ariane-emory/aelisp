@@ -2,19 +2,12 @@
 
 #include <string.h>
 
-#include "list.h"
-#include "alist.h"
+#include "common.h"
 #include "obj.h"
 #include "free_list.h"
-#include "common.h"
 #include "log.h"
 #include "util.h"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// Helper for avoiding double evaluation of macro parameters
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CAPTURE(o)                       ae_obj_t * tmp_##__LINE__ = (o)
-#define CAPTURED                         tmp_##__LINE__
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define REQUIRE(env, args, cond, ...)                                                              \
   if (! (cond)) {                                                                                  \
