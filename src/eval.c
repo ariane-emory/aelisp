@@ -110,7 +110,7 @@ end:
   if (log_eval)
     LOG(ret, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
 
-  return ret;
+  JUMP_RETURN_EXIT;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -242,7 +242,7 @@ end:
     free_list_free(msg);
   }
   
-  return ret;
+  JUMP_RETURN_EXIT;
 }
 
 //==================================================================================================
@@ -354,7 +354,7 @@ end:
     }
   }  
 
-  return ret;
+  JUMP_RETURN_EXIT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -518,7 +518,7 @@ end:
   
   snap_indent();
   
-  return ret;
+  JUMP_RETURN_EXIT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -571,7 +571,7 @@ end:
   if (log_eval)
     LOG(ret, "looked up '%s' and found %s :%s", SYM_VAL(sym), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
 
-  return ret;
+  JUMP_RETURN_EXIT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -621,5 +621,5 @@ ae_obj_t * ae_eval(ae_obj_t * env, ae_obj_t * obj) {
 
 end:
   
-  return ret;
+  JUMP_RETURN_EXIT;
 }
