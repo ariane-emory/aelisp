@@ -104,12 +104,12 @@
   ((nil? (cdr lst))  (car lst))
   (t                 (left-reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun left-reduce (fun lst)
+(defun left-reduce (fun lst . init-val)
  "Left-reduce (foldl) LST by applying FUN to successive pairs."
  (cond
-  ((nil? lst)        nil)
-  ((nil? (cdr lst))  (car lst))
-  (t                 (left-reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
+  ((nil? init-val)             (left-reduce-inner fun lst))
+  ((not (nil? (cdr init-val))) (error "init-val must be a single object")
+  (t                           (left-reduce-inner fun (cons (car init-val) lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (nl)
