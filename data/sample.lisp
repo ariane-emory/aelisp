@@ -68,24 +68,24 @@
 (nl)
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(test "samtf!" '(9 2 4 1 5 3 7 6 8) (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst))
-(test "samtf!" '(8 9 2 4 1 5 3 7 6) (progn (select-and-move-to-front! (lambda (o) (eql? o 8)) lst) lst))
-(test "samtf!" '(7 8 9 2 4 1 5 3 6) (progn (select-and-move-to-front! (lambda (o) (eql? o 7)) lst) lst))
-(test "samtf!" '(6 7 8 9 2 4 1 5 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 6)) lst) lst))
-(test "samtf!" '(5 6 7 8 9 2 4 1 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 5)) lst) lst))
-(test "samtf!" '(4 5 6 7 8 9 2 1 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 4)) lst) lst))
-(test "samtf!" '(3 4 5 6 7 8 9 2 1) (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst))
-(test "samtf!" '(2 3 4 5 6 7 8 9 1) (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst))
-(test "samtf!" '(1 2 3 4 5 6 7 8 9) (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst))
+(test "samtf!" (9 2 4 1 5 3 7 6 8) (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst))
+(test "samtf!" (8 9 2 4 1 5 3 7 6) (progn (select-and-move-to-front! (lambda (o) (eql? o 8)) lst) lst))
+(test "samtf!" (7 8 9 2 4 1 5 3 6) (progn (select-and-move-to-front! (lambda (o) (eql? o 7)) lst) lst))
+(test "samtf!" (6 7 8 9 2 4 1 5 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 6)) lst) lst))
+(test "samtf!" (5 6 7 8 9 2 4 1 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 5)) lst) lst))
+(test "samtf!" (4 5 6 7 8 9 2 1 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 4)) lst) lst))
+(test "samtf!" (3 4 5 6 7 8 9 2 1) (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst))
+(test "samtf!" (2 3 4 5 6 7 8 9 1) (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst))
+(test "samtf!" (1 2 3 4 5 6 7 8 9) (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(test "nthcdr 0" '(1 2 3 4 5 6 7 8 9) (nthcdr 0 lst))
-(test "nthcdr 1" '(2 3 4 5 6 7 8 9)   (nthcdr 1 lst))
-(test "nthcdr 2" '(3 4 5 6 7 8 9)     (nthcdr 2 lst))
+(test "nthcdr 0" (1 2 3 4 5 6 7 8 9) (nthcdr 0 lst))
+(test "nthcdr 1" (2 3 4 5 6 7 8 9)   (nthcdr 1 lst))
+(test "nthcdr 2" (3 4 5 6 7 8 9)     (nthcdr 2 lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -93,7 +93,7 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! c (curry1 nthcdr 3))
-(test "c" '(4 5 6 7 8 9) (c lst))
+(test "c" (4 5 6 7 8 9) (c lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -101,7 +101,7 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (test "pop!" 1 (pop! lst))
-(test "push!" '(99 2 3 4 5 6 7 8 9)  (push! 99 lst))
+(test "push!"  (99 2 3 4 5 6 7 8 9)  (push! 99 lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -137,8 +137,8 @@
  "This test cannot work until handling of strings containing escaped double quotes is fixed,"
  "and so for now we will ignore it."
  (test "front" "\"asdw erer rerw\"" (apply concat (intercalate " " (car split)))))
-
-(test "back" '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8) (cadr split))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(test "back" (1 nil (lambda (x) x) zoop z (1 2 . 3) 8) (cadr split))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -221,8 +221,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(test "zipped 2" '((a 1) (b 2) (c 3))       (zip '(a b c) '(1 2 3)))
-(test "zipped 3" '((a 1 x) (b 2 y) (c 3 z)) (zip '(a b c) '(1 2 3) '(x y z)))
+(test "zipped 2" ((a 1) (b 2) (c 3))       (zip '(a b c) '(1 2 3)))
+(test "zipped 3" ((a 1 x) (b 2 y) (c 3 z)) (zip '(a b c) '(1 2 3) '(x y z)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -231,10 +231,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (defun less-than (a b) (< a b))
-(test "sorted" '(1 2 3 4 5 6 6 6 7 8 9) (sort!! mylist less-than))
+(test "sorted" (1 2 3 4 5 6 6 6 7 8 9) (sort!! mylist less-than))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
-(test "sorted" '(1 2 3 4 5 6 6 6 7 8 9) (sort!! mylist <))
+(test "sorted" (1 2 3 4 5 6 6 6 7 8 9) (sort!! mylist <))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
