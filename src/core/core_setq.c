@@ -35,7 +35,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if (log_core)
     LOG(val, "evaluated 'value' argument is");
 
-  if (LAMBDAP(val) || MACROP(val)) {
+  if (LAMBDAP(val) || MACROP(val) || CONSP(val)) {
     PUT_PROP(sym, "last-bound-to", val);
 
     if (log_core)

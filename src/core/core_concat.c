@@ -25,6 +25,8 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   //Copy the argument strings into it.
   FOR_EACH(elem, args) {
+    if (NILP(elem))
+      continue;
     int len = strlen(STR_VAL(elem));    
     strcpy(string + pos, STR_VAL(elem));
     pos += len;
