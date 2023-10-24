@@ -239,7 +239,6 @@
 ;;     " ≠ "
 ;;     (list 'string 'val)))))
 
-Assertion failed: (local_indents == 0), function ae_eval_args, file eval.c, line 133.
 
 (princ "require: ") (write (require-eql 10 10)) (nl)
 
