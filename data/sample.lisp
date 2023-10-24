@@ -86,5 +86,5 @@
   (chase 0 lst)))
 
 (log-eval t)
-(write (binlist-to-dec '(1 1 1 1))) (nl)
+(write (binlist-to-dec '(1 1 0 1))) (nl)
 
