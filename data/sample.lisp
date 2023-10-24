@@ -108,7 +108,7 @@
   (t     (reduce-nacc fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
 
 (write (reduce-inner + '(1 2 3 4) 0)) (nl)
-;; (log-eval t)
+;;(log-eval t)
 (write (reduce-nacc  + '(1 2 3 4)))   (nl)
 (write (reduce-nacc  + '(1)))   (nl)
 (write (reduce-nacc  + '()))   (nl)
