@@ -55,6 +55,18 @@
    (push! (pop! back) front))
   (list (reverse front) back))) ; reverse the first section to retain original order
 
+(defun split-list (pred? lst)
+  (let ((prev nil)
+        (current lst))
+    (while (and current (pred? (car current)))
+      (setq! prev current)
+      (setq! current (cdr current)))
+    (if prev
+        (progn
+          (rplacd! prev nil)  ; "cut" the list
+          (list lst current)) ; return the two parts
+        (list nil lst))))     ; if no split occurred, return nil and the original list
+
 ;; Testing with your example:
 (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
 
