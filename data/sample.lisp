@@ -61,12 +61,12 @@
    ((and (even? x) (even? y)) (< x y))  ; both even, compare values
    ((even? x) t)                        ; x is even, y is odd, x comes first
    ((even? y) nil)                      ; y is even, x is odd, y comes first
-   (t (< x y)))))                       ; both odd, compare values
+   (t (< x y))))                       ; both odd, compare values
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
-(write (syms (env))) (nl)
-(log-eval t)
-(write (sort < lst)) (nl)
+ (setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
+ (write (syms (env))) (nl)
+ (log-eval t)
+ (write (sort < lst)) (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -116,11 +116,11 @@
 ;;    (setq front (cons (car current) front))
 ;;    (setq current (cdr current)))
 ;;   $((fake-reverse front) current)))
-(ignore
- (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
- (s split (split-list string? lst))
- (princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
- (princ "back:  ") (write (cadr split)) (nl))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
+(s split (split-list string? lst))
+(nl) (princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
+(princ "back:  ") (write (cadr split)) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -228,3 +228,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl) (princ "Done.") (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
