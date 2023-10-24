@@ -1097,7 +1097,7 @@
  )
 
 
-(report-time-us "def require-equal              "
+(report-time-us "def require-equal and test     "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (ignore
   "An old version of require-equal that we are no longer using."
@@ -1121,6 +1121,13 @@
           $('string test-val)
           '" ≠ "
           $('string 'val))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro test (msg test-val expr)
+  "Test whether EXPR evaluates to TEST-VAL."
+  $('progn
+    $('princ msg '": ")
+    $('write $('require-equal test-val expr))
+    $('nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
