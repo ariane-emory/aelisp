@@ -37,20 +37,29 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;(ignore
 (defun split-list (pred? lst)
-  "Splits the list LST into two sublists:
+ "Splits the list LST into two sublists:
    1. The longest initial sublist of elements satisfying PRED?
    2. The rest of the elements."
-  (let ((prefix '())
-        (suffix lst))
-    (while (and suffix (pred? (car suffix)))
-      (push (pop suffix) prefix))
-    (list (reverse prefix) suffix)))
+ (let ((prefix '())
+       (suffix lst))
+  (while (and suffix (pred? (car suffix)))
+   (push (pop suffix) prefix))
+  (list (reverse prefix) suffix)))
+
+(defun split-list (pred? lst)
+ (let ((front nil)
+       (back lst)) ; Use lst directly since push! and pop! are destructive
+  (while (and back (pred? (car back)))
+   (push! (pop! back) front))
+  (list (reverse front) back))) ; reverse the first section to retain original order
 
 ;; Testing with your example:
 (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
 
-(log-eval t)
+;; (log-eval t)
 
 (write (split-list string? lst))
 (nl)
+;; )
