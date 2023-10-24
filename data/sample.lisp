@@ -71,7 +71,8 @@
 (defun-doc doc (obj)
  "Get an object's OBJ's documentation."
  (let* ((doc-string (or (get :doc obj) "This object has no documentation."))
-        (docs (concat (when (has? :last-bound-to obj) (symbol-name (get :last-bound-to obj))) ": " doc-string)))
+        (binding (get :last-bound-to obj))
+        (docs (concat (when binding (symbol-name binding)) ": " doc-string)))
   docs))
 
 ;;(log-eval t)
