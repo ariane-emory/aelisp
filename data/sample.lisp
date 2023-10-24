@@ -70,9 +70,9 @@
 
 (defun doc (obj)
  "Get an object OBJ's documentation."
- (let* ((doc (or (get :doc obj) "This object has no documentation."))
-        (binding (get :last-bound-to obj))
-        (name (if binding (symbol-name binding) "Unknown object"))
+ (let* ((doc       (or (get :doc obj) "This object has no documentation."))
+        (binding   (get :last-bound-to obj))
+        (name      (if binding (symbol-name binding) (string obj)))
         (docstring (concat name ": " doc)))
   docstring))
 
