@@ -16,7 +16,7 @@ ae_obj_t * ae_core_type(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t   * sym  = SYM(tmp);
 
-  free_list_free(tmp); // freeing this might leave the interned symbol with a dangling sym_val pointer?
+  free_list_free(tmp);
 
   CORE_RETURN("type", sym);
 }
