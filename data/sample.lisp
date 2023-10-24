@@ -157,6 +157,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
+ "No tests written for this one yet."
  (defmacro defun (name params . docs-and-body)
   (let* ((split (split-list string? docs-and-body))
          (docs  (apply concat (intercalate " " (car split))))
@@ -164,16 +165,13 @@
    $('progn 
      $('setq! name $('lambda params . body))
      $('put! docs ':doc name))))
-
  (defun somefun (x y)
   "Multiply two"
   "numbers."
   (* x y))
-
  (write (get :doc somefun)) (nl)
- 
- (write (doc somefun)) (nl)
- (write (doc write)) (nl))
+ (write (doc somefun))      (nl)
+ (write (doc write))        (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -193,27 +191,27 @@
 (setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
 (setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(test "binlist-to-dec-1" (binlist-to-dec-1 '(1 0 1 0 1 0 1)) 85) ;; ⇒ 85
-(test "binlist-to-dec-2" (binlist-to-dec-2 '(1 0 1 0 1 0 1)) 85) ;; ⇒ 85
-(test "binlist-to-dec-3" (binlist-to-dec-3 '(1 0 1 0 1 0 1)) 85) ;; ⇒ 85
-(test "bins-to-dec"      (bins-to-dec        1 0 1 0 1 0 1) 85)  ;; ⇒ 85
+(test "binlist-to-dec-1"      (binlist-to-dec-1 '(1 0 1 0 1 0 1))    85)
+(test "binlist-to-dec-2"      (binlist-to-dec-2 '(1 0 1 0 1 0 1))    85)
+(test "binlist-to-dec-3"      (binlist-to-dec-3 '(1 0 1 0 1 0 1))    85)
+(test "bins-to-dec"           (bins-to-dec        1 0 1 0 1 0 1)     85)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-(test "lr   #1" (reduce  + '()) nil)
-(test "lr   #2" (reduce  + '(1))   1)
-(test "lr   #3" (reduce  + '(1 2))   3)
-(test "lr   #4" (reduce  + '(1 2 3))   6)
-(test "lr   #5" (reduce  + '(1 2 3 4))  10)
+(test "lr   #1" (reduce  + '())            nil)
+(test "lr   #2" (reduce  + '(1))             1)
+(test "lr   #3" (reduce  + '(1 2))           3)
+(test "lr   #4" (reduce  + '(1 2 3))         6)
+(test "lr   #5" (reduce  + '(1 2 3 4))      10)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-(test "lr 0 #1" (reduce  + '()         0)   0)
-(test "lr 0 #2" (reduce  + '(1)        0)   1)
-(test "lr 0 #3" (reduce  + '(1 2)      0)   3)
-(test "lr 0 #4" (reduce  + '(1 2 3)    0)   6)
-(test "lr 0 #5" (reduce  + '(1 2 3 4)  0)  10)
+(test "lr 0 #1" (reduce  + '()         0)    0)
+(test "lr 0 #2" (reduce  + '(1)        0)    1)
+(test "lr 0 #3" (reduce  + '(1 2)      0)    3)
+(test "lr 0 #4" (reduce  + '(1 2 3)    0)    6)
+(test "lr 0 #5" (reduce  + '(1 2 3 4)  0)   10)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (test "rr   #1" (rreduce + '()) nil)
