@@ -213,16 +213,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! sum (reduced* +))
-(princ "#1 l this*   == 10: ") (write (sum   1 2 3 4))   (nl)
+(princ "#1 l this*   == 10: ") (write (require-eql 10 (sum  1 2 3 4)))   (nl)
 
 (setq! sum (reduced* + 4))
-(princ "#2 l this* 4 == 10: ") (write (sum   1 2 3))     (nl)
+(princ "#2 l this* 4 == 10: ") (write (require-eql 10 (sum  1 2 3)))     (nl)
 
 (setq! sum (rreduced* +))
-(princ "#3 r this*   == 10: ") (write (sum   1 2 3 4))   (nl)
+(princ "#3 r this*   == 10: ") (write (require-eql 10 (sum  1 2 3 4)))   (nl)
 
 (setq! sum (rreduced* + 4))
-(princ "#4 r this* 4 == 10: ") (write (sum   1 2 3))     (nl)
+(princ "#4 r this* 4 == 10: ") (write (require-eql 10 (sum  1 2 3)))     (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
