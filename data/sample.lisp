@@ -85,6 +85,14 @@
       (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
   (chase 0 lst)))
 
-(log-eval t)
+;; (defun binlist-to-dec (lst)
+;;  (reduce
+;;   (lambda (l r)
+;;   0
+;;   lst)))
+
+
+;; (log-eval t)
 (write (binlist-to-dec '(1 1 0 1))) (nl)
+(write (reduce (lambda (x y) (+ x y)) 0 '(1 1 0 1))) (nl)
 
