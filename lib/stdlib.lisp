@@ -1113,12 +1113,12 @@
   "Signal an error unless EXPR evaluates to TEST-VAL, otherwise return the"
   "result of evaluating EXPR."
   $('let $($('val expr))
-    $('if $('equal? test-val 'val)
+    $('if $('equal? $('quote test-val) 'val)
       'val
       $('error
         $('concat
           '"require-equal failed: "
-          $('string test-val)
+          $('string $('quote test-val))
           '" ≠ "
           $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
