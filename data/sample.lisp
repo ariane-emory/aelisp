@@ -96,6 +96,12 @@
   ((nil? lst)        nil)
   ((nil? (cdr lst))  (car lst))
   (t                 (fun (car lst) (right-reduce-inner fun (cdr lst))))))
+(defun right-reduce (fun lst . init-val)
+ "Right-reduce (foldr) LST by applying FUN to successive pairs."
+ (cond
+  ((nil? init-val)   (right-reduce-inner fun lst))
+  ((cdr init-val)    (error "init-val must be a single object"))
+  (t                 (right-reduce-inner fun (append lst (list (car init-val)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun left-reduce-inner (fun lst)
  "Left-reduce (foldl) LST by applying FUN to successive pairs."
@@ -140,6 +146,13 @@
 (princ "#3: ") (write (left-reduce         + '(1 2)      0)) (nl)
 (princ "#4: ") (write (left-reduce         + '(1 2 3)    0)) (nl)
 (princ "#5: ") (write (left-reduce         + '(1 2 3 4)  0)) (nl)
+(nl)
+;; (log-eval t)
+(princ "#1: ") (write (right-reduce        + '()         0)) (nl)
+(princ "#2: ") (write (right-reduce        + '(1)        0)) (nl)
+(princ "#3: ") (write (right-reduce        + '(1 2)      0)) (nl)
+(princ "#4: ") (write (right-reduce        + '(1 2 3)    0)) (nl)
+(princ "#5: ") (write (right-reduce        + '(1 2 3 4)  0)) (nl)
 (nl)
 ;; (log-eval t)
 (princ "#1: ") (write (reduce  + '()        0))  (nl)
