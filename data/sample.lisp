@@ -54,11 +54,11 @@
 (add-logging-to lshift4)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (test "lshft4 body"
- '(progn
-   (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") (nl)
-   (let ((result (progn (<< n 4))))
-    (princ "Result of applying " 'lshift4 " was " result ".") (nl)
-    result))
+ (progn
+  (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") (nl)
+  (let ((result (progn (<< n 4))))
+   (princ "Result of applying " 'lshift4 " was " result ".") (nl)
+   result))
  (body lshift4))
 (test "lshift4" 64 (lshift4 4))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
