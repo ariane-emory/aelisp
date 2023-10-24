@@ -52,7 +52,7 @@
 
 (add-logging-to lshift4)
 (princ 'lshift4 "'s body is now " (body lshift4)) (nl)
-(princ "Call returned " (lshift4 4) ".") (nl) (nl)
+(test "lshift4" 64 (lshift4 4))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
