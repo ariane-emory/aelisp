@@ -1122,17 +1122,17 @@
           '" ≠ "
           $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro test (msg test-val expr)
-  "Test whether EXPR evaluates to TEST-VAL."
+ (defmacro test (msg expected expr)
+  "Test whether EXPR evaluates to EXPECTED."
   $('progn
     $('let $($('printed $('princ msg '":")))
       $('while $('< 'printed 32)
         $('princ '" ")
         $('setq! 'printed $('+ 1 'printed)))
       $('write $('require-equal
-                 (if (cons? test-val)
-                  $('quote test-val)
-                  test-val)
+                 (if (cons? expected)
+                  $('quote expected)
+                  expected)
                  expr))
       $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
