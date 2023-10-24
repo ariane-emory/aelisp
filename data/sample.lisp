@@ -22,30 +22,31 @@
 (nl) (princ "make-list:       ") (write lst) (nl)
 
 (list-set! lst 0 100)
-(princ "list-set! 0 100: ") (write lst) (nl)
-(princ "list-ref  0:     ") (write (list-ref lst 0)) (nl)
+(test "list-set! 0 100" '(100 200 200 200 200 200) lst)
+(test "list-ref  0:   " 100 (list-ref lst 0))
 
 (list-set! lst 1 101)
-(princ "list-set! 1 101: ") (write lst) (nl)
-(princ "list-ref  1:     ") (write (list-ref lst 1)) (nl)
-
+(test "list-set! 1 101" '(100 101 200 200 200 200) lst)
+(test "list-ref  1:   " 101 (list-ref lst 1))
+                       
 (list-set! lst 2 102)
-(princ "list-set! 2 102: ") (write lst) (nl)
-(princ "list-ref  2:     ") (write (list-ref lst 2)) (nl)
-
+(test "list-set! 2 102" '(100 101 102 200 200 200) lst)
+(test "list-ref  2:   " 102 (list-ref lst 2))
+                       
 (list-set! lst 3 103)
-(princ "list-set! 3 103: ") (write lst) (nl)
-(princ "list-ref  3:     ") (write (list-ref lst 3)) (nl)
-
+(test "list-set! 3 103" '(100 101 102 103 200 200) lst)
+(test "list-ref  3:   " 103 (list-ref lst 3))
+                       
 (list-set! lst 4 104)
-(princ "list-set! 4 104: ") (write lst) (nl)
-(princ "list-ref  4:     ") (write (list-ref lst 4)) (nl)
-
+(test "list-set! 4 104" '(100 101 102 103 104 200) lst)
+(test "list-ref  4:   " 104 (list-ref lst 4))
+                       
 (list-set! lst 5 105)
-(princ "list-set! 5 105: ") (write lst) (nl)
-(princ "list-ref  5:     ") (write (list-ref lst 5)) (nl)
+(test "list-set! 5 105" '(100 101 102 103 104 105) lst)
+(test "list-ref  5:   " 105 (list-ref lst 5))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(200 200 200 200 200 200)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun lshift4 (n) (<< n 4))
