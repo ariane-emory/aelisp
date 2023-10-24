@@ -223,13 +223,23 @@
        $('concat
          '"require-eql failed: "
          $('string test-val)
-         '" ≠ " '
+         '" ≠ "
          $('string 'val))))))
 
 (log-macro t)
 (require-eql 10 (+ 3 6))
 
+;; (let ((val (+ 3 6)))
+;;  (if (eql? 10 val)
+;;   val
+;;   (error
+;;    (concat
+;;     "require-eql failed: "
+;;     (string 10)
+;;     " ≠ "
+;;     (list 'string 'val)))))
 
+Assertion failed: (local_indents == 0), function ae_eval_args, file eval.c, line 133.
 
 (princ "require: ") (write (require-eql 10 10)) (nl)
 
