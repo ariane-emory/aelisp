@@ -276,6 +276,12 @@
    acc
    (reduce fun (cdr lst) (fun acc (car lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun reduce (fun lst acc)
+  "Left-reduce (fold) LST by applying FUN to successive pairs."
+  (if (nil? lst)
+   acc
+   (reduce fun (cdr lst) (fun acc (car lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun)
   "Return a function that is a left reduction of the binary function FUN."
   (lambda (lst)
