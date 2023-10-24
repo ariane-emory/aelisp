@@ -229,7 +229,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq mylist '(5 4 2 6 3 9 1 6 2 6))
+(setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (defun less-than (a b) (< a b))
 (nl)
 (write (sort mylist less-than)) (nl)
