@@ -71,9 +71,10 @@
 
 (select-and-move-to-front! (lambda (o) (eql? o 2)) (list 2))
 
-(princ (nthcdr 0 lst)) (nl)
-(princ (nthcdr 1 lst)) (nl)
-(princ (nthcdr 2 lst)) (nl)
+(test "nthcdr 0" '(1 2 3 4 5 6 7 8 9) (nthcdr 0 lst))
+(test "nthcdr 1" '(2 3 4 5 6 7 8 9)   (nthcdr 1 lst))
+(test "nthcdr 2" '(3 4 5 6 7 8 9)     (nthcdr 2 lst))
+
 (setq! c (curry1 nthcdr 3))
 (test "c" '(4 5 6 7 8 9) (c lst))
 
