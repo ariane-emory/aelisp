@@ -66,13 +66,15 @@
  "numbers."
  (* x y))
 
-(write (get :doc somefun))
+(write (get :doc somefun)) (nl)
 
 (defun-doc doc (obj)
  "Get an object's OBJ's documentation."
- (let ((doc-string (or (get :doc obj) "has no documentation.")))
-  doc-string))
+ (let* ((doc-string (or (get :doc obj) "has no documentation."))
+        (docs (concat (symbol-name (get :last-bound-to obj)) ": " doc-string))
+        )
+  docs))
 
-(log-eval t)
+;; (log-eval t)
 
 (write (doc somefun))
