@@ -53,7 +53,7 @@
  (princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
  (princ "back:  ") (write (cadr split)) (nl))
 
-(defmacro defun-doc (name params . docs-and-body)
+(defmacro defun (name params . docs-and-body)
  (let* ((split (split-list string? docs-and-body))
         (docs  (apply concat (intercalate " " (car split))))
         (body  (cadr split)))
@@ -61,20 +61,20 @@
     $('setq! name $('lambda params . body))
     $('put! docs ':doc name))))
 
-(defun-doc somefun (x y)
+(defun somefun (x y)
  "Multiply two"
  "numbers."
  (* x y))
 
 (write (get :doc somefun)) (nl)
 
-(defun-doc doc (obj)
+(defun doc (obj)
  "Get an object OBJ's documentation."
- (let* ((doc-string (or (get :doc obj) "This object has no documentation."))
+ (let* ((doc (or (get :doc obj) "This object has no documentation."))
         (binding (get :last-bound-to obj))
         (name (if binding (symbol-name binding) "Unknown object"))
-        (docs (concat name ": " doc-string)))
-  docs))
+        (docstring (concat name ": " doc)))
+  docstring))
 
 ;;(log-eval t)
 
