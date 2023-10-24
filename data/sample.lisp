@@ -209,7 +209,7 @@
 ;; (log-eval nil)
 
 
-(lambda require-eql? (test-val val)
+(lambda require-eql (test-val val)
  (if (eql? test-val val)
   val
   (error "require-eql? failed: " test-val " ≠ " val)))
