@@ -104,7 +104,10 @@
  "Left-reduce (fold) LST by applying FUN to successive pairs."
  (cond
   ((nil? lst)        nil)
-  ((nil? (cdr lst))  (car lst))))
+  ((nil? (cdr lst))  (car lst))
+  (t                 (cons
+                      (fun (car lst) (cadr lst))
+                      (reduce-nacc fun (cddr lst))))))
 
 ;;(write (reduce-inner + '(1 2 3 4) 0)) (nl)
 ;;(log-eval t)
