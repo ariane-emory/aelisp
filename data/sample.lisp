@@ -69,7 +69,7 @@
 (write (get :doc somefun)) (nl)
 
 (defun-doc doc (obj)
- "Get an object's OBJ's documentation."
+ "Get an object OBJ's documentation."
  (let* ((doc-string (or (get :doc obj) "This object has no documentation."))
         (binding (get :last-bound-to obj))
         (name (if binding (symbol-name binding) "Unknown object"))
