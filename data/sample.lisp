@@ -5,15 +5,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(setq! lst '(1 2 3 4 5 6))
 (setq! lst (unionql '(1 2 3) '(4 5 6)))
-(princ "initial lst:     ") (write lst)                                (nl)
-(princ "memql? 2:        ") (write (memql?   3 lst))                   (nl)
-(princ "removeql 4:      ") (write (removeql 4 lst))                   (nl)
-(princ "indexql 5:       ") (write (indexql  5 lst))                   (nl)
-(princ "mapcar!:         ") (write (mapcar! double lst))               (nl)
-(princ "butlast:         ") (write (butlast '(1 2 3 4 5)))             (nl)
-(princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
-(princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
-(princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+
+(test "initial lst"     '(6 5 4 3 2 1) lst)
+(test "memql? 2"        't (memql?   3 lst))
+(test "removeql 4"      '(6 5 3 2 1) (removeql 4 lst))
+(test "indexql 5"       '1 (indexql  5 lst))
+(test "mapcar!"         '(12 10 8 6 4 2) (mapcar! double lst))
+(test "butlast"         '(1 2 3 4) (butlast '(1 2 3 4 5)))
+(test "reverse"         '(5 4 3 2 1) (reverse '(1 2 3 4 5)))
+(test "reverse butlast" '(4 3 2 1) (reverse (butlast '(1 2 3 4 5))))
+(test "union"           '(6 5 4 3 2 1) (unionql '(1 2 3) '(4 5 6)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
