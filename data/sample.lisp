@@ -104,6 +104,13 @@
   ((nil? (cdr lst))  (car lst))
   (t                 (left-reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun left-reduce (fun lst)
+ "Left-reduce (foldl) LST by applying FUN to successive pairs."
+ (cond
+  ((nil? lst)        nil)
+  ((nil? (cdr lst))  (car lst))
+  (t                 (left-reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (nl)
 ;;(log-eval t)
@@ -119,6 +126,13 @@
 (princ "#3: ") (write (left-reduce-inner   + '(1 2)))      (nl)
 (princ "#4: ") (write (left-reduce-inner   + '(1 2 3)))    (nl)
 (princ "#5: ") (write (left-reduce-inner   + '(1 2 3 4)))  (nl)
+(nl)
+;; (log-eval t)
+(princ "#1: ") (write (left-reduce         + '()))         (nl)
+(princ "#2: ") (write (left-reduce         + '(1)))        (nl)
+(princ "#3: ") (write (left-reduce         + '(1 2)))      (nl)
+(princ "#4: ") (write (left-reduce         + '(1 2 3)))    (nl)
+(princ "#5: ") (write (left-reduce         + '(1 2 3 4)))  (nl)
 (nl)
 ;; (log-eval t)
 (princ "#1: ") (write (reduce  + '()        0))  (nl)
