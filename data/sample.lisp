@@ -2,6 +2,8 @@
 
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
 (princ (select-and-move-to-front! (lambda (o) (eql? o 7)) lst)) (spc) (write lst) (nl)
@@ -25,6 +27,8 @@
 (princ (push! 99 lst)) (nl)
 (princ lst) (nl)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (ignore
  ;; a deliberate invalid call:
  (nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
@@ -43,7 +47,8 @@
       (push (pop suffix) prefix))
     (list (nreverse prefix) suffix)))
 
-;; ;; Testing with your example:
-;; (let ((lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8)))
-;;  (write (split-list string? lst)))
-;; (nl)
+;; Testing with your example:
+(s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
+
+(write (split-list string? lst))
+(nl)
