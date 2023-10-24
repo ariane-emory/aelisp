@@ -307,6 +307,15 @@
   "which takes loose args."
   (lambda args ((reduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun rreduced (fun . init-val)
+  "Return a function that is a right reduction of the binary function FUN."
+  (lambda (lst) (rreduce fun lst . init-val)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun rreduced* (fun . init-val)
+  "Return a function that is a right reduction of the binary function FUN."
+  "which takes loose args."
+  (lambda args ((rreduced fun . init-val) args)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 
