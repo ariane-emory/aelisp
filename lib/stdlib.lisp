@@ -307,7 +307,7 @@
   "which takes loose args."
   (if init-val
    (lambda args ((reduced fun . init-val) args))
-   (lambda args ((reduced fun) args)))
+   (lambda args ((reduced fun) args))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
