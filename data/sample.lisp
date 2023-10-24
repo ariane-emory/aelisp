@@ -242,7 +242,7 @@
    (cons lst right))))
 
 (defun merge-sort (lst pred?)
- (if (or (null lst) (null (cdr lst))) ; If the list has 0 or 1 element, it's already sorted.
+ (if (or (nil? lst) (nil? (cdr lst))) ; If the list has 0 or 1 element, it's already sorted.
   lst
   (let* ((splits (half lst))
          (left   (car splits))
@@ -251,8 +251,9 @@
     (merge-sort right pred?) pred?))))
 
 (defun merge (left right pred?)
- (cond ((null left) right)
-  ((null right) left)
+ (cond
+  ((nil? left)  right)
+  ((nil? right) left)
   ((pred? (car left) (car right))
    (cons (car left) (merge (cdr left) right pred?)))
   (t
@@ -263,9 +264,9 @@
 
 (setq mylist '(5 2 9 1 5 6))
 
-(defun less-than (a b)
- (< a b))
+(defun less-than (a b) (< a b))
 
+(nl)
 (write (merge-sort mylist less-than)) (nl)
 
 
