@@ -209,9 +209,9 @@
 (setq! sum (reduced + 4))
 (princ "this: ")
 
-(log-eval t)
-(sum '(1 2 3))
-(log-eval nil)
+;;(log-eval t)
+(write (sum '(1 2 3)))
+;;(log-eval nil)
 (nl)
 
 
