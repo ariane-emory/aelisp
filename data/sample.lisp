@@ -242,12 +242,12 @@
    (cons lst right))))
 
 (defun merge-sort (lst pred?)
- (if (or (nil? lst) (nil? (cdr lst))) ; If the list has 0 or 1 element, it's already sorted.
+ (if (or (nil? lst) (nil? (cdr lst)))
   lst
   (let* ((splits (half lst))
          (left   (car splits))
          (right  (cdr splits)))
-   (merge (merge-sort left pred?)       ; Recursively sort both halves
+   (merge (merge-sort left pred?)
     (merge-sort right pred?) pred?))))
 
 (defun merge (left right pred?)
