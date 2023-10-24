@@ -72,8 +72,13 @@
  "Get an object OBJ's documentation."
  (let* ((doc       (or (get :doc obj) "This object has no documentation."))
         (binding   (get :last-bound-to obj))
+        (is-fun    (or (lambda? obj) (macro? obj)))
+        (params    (when is-fun
+                    (string (params obj))))
         (name      (if binding (symbol-name binding) (string obj)))
-        (docstring (concat name ": " doc)))
+        (docstring (if is-fun
+                    (concat "(" name params "): " doc)
+                    (concat name ": " doc))))
   docstring))
 
 ;;(log-eval t)
