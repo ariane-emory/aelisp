@@ -22,10 +22,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; time evaluation:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro time (head-expr . tail-exprs)
+(defmacro time exprs
  "Return how long it takes to evaluate the given expressions in milliseconds."
  $('let $($('begin $('now)))
-   (cons 'progn (cons head-expr tail-exprs))
+   (cons 'progn exprs)
    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg head-expr . tail-exprs)
@@ -36,10 +36,10 @@
    $('princ '" us.")
    $('nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro time-us (head-expr . tail-exprs)
+(defmacro time-us exprs
  "Return how long it takes to evaluate the given expressions in microseconds."
  $('let $($('begin $('now-us)))
-   (cons 'progn (cons head-expr tail-exprs))
+   (cons 'progn exprs)
    $('elapsed-us 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time-us (msg head-expr . tail-exprs)
