@@ -75,3 +75,16 @@
 
 (write (doc somefun)) (nl)
 (write (doc write)) (nl)
+
+(defun binlist-to-dec (lst)
+ (letrec
+  ((chase
+    (lambda (acc lst)
+     (if (nil? lst)
+      acc
+      (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
+  (chase 0 lst)))
+
+(log-eval t)
+(write (binlist-to-dec '(1 1 1 1))) (nl)
+
