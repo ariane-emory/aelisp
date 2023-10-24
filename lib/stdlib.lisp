@@ -1097,7 +1097,7 @@
  )
 
 
-(report-time-us "def require-equal                "
+(report-time-us "def require-equal              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (ignore
   "An old version of require-equal that we are no longer using."
