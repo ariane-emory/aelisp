@@ -148,7 +148,7 @@
 (setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-(write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(test "binlist-to-dec-1" 85 (binlist-to-dec-1 '(1 0 1 0 1 0 1))) ;; ⇒ 85
 (write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
