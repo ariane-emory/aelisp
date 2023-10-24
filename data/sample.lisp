@@ -67,3 +67,12 @@
  (* x y))
 
 (write (get :doc somefun))
+
+(defun-doc doc (obj)
+ "Get an object's OBJ's documentation."
+ (let ((doc-string (or (get :doc obj) "has no documentation.")))
+  doc-string))
+
+(log-eval t)
+
+(write (doc somefun))
