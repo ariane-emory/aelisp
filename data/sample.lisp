@@ -106,7 +106,11 @@
 (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 (s split (split-list string? lst))
 (nl)
-(princ "front") (write (apply concat (intercalate " " (car split))))  (nl)
+
+(ignore
+ "This test cannot work until handling of strings containing escaped double quotes is fixed,"
+ "and so for now we will ignore it."
+ (test "front" "\"asdw erer rerw\"" (apply concat (intercalate " " (car split)))))
 
 (test "back" '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8) (cadr split))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
