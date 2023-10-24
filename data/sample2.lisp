@@ -1,22 +1,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
-(setq! lst '(1 2 3 4 5 6 7 8 9 10))
-
+(setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
 (princ "initial lst:     ") (write lst)                  (nl)
-;; (log-eval t) (log-core t)
 (princ "memql? 2:        ") (write (memql?   3 lst))     (nl)
 (princ "removeql 4:      ") (write (removeql 4 lst))     (nl)
 (princ "indexql 5:       ") (write (indexql  5 lst))     (nl)
-;; (log-core t)
 (princ "mapcar!:         ") (write (mapcar! double lst)) (nl)
 (princ "doubled:         ") (write lst)                  (nl)
-;; (log-eval t)
-;; (log-core t)
 (princ "butlast:         ") (write (butlast '(1 2 3 4 5)))             (nl)
-;; (exit)
 (princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
 (princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
-;; (princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
+(princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
