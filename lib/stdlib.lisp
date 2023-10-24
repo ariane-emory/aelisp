@@ -521,7 +521,7 @@
  )
 
 
-(report-time-us "def sort!!!                    "
+(report-time-us "def sort!!                     "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (sorting):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -548,7 +548,7 @@
        (cons (car left) (merge (cdr left) right pred?)))
       (t
        (cons (car right) (merge left (cdr right) pred?)))))))
-  (defun sort!!! (lst pred?)
+  (defun sort!!  (lst pred?)
    "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
    "returning a new list."
    (if (or (nil? lst) (nil? (cdr lst)))
@@ -556,8 +556,8 @@
     (let* ((splits (half lst))
            (left   (car splits))
            (right  (cdr splits)))
-     (merge (sort!!! left pred?)
-      (sort!!! right pred?) pred?)))))
+     (merge (sort!!  left pred?)
+      (sort!!  right pred?) pred?)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1152,7 +1152,7 @@
   (setq! every         all?)
   ;;(defun funcall args  (eval args))
   (setq! getl          pget)
-  (setq! gsort         sort!!!)
+  (setq! gsort         sort!!)
   (setq! make-vector   make-list)
   (setq! map           mapcar)
   (setq! map-append    mapcan)
