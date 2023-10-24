@@ -25,9 +25,25 @@
 (princ (push! 99 lst)) (nl)
 (princ lst) (nl)
 
-;; a deliberate invalid call:
-(nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
-;; (log-eval t)
-(s x 2 3)
+(ignore
+ ;; a deliberate invalid call:
+ (nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
+ ;; (log-eval t)
+ (s x 2 3))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun split-list (pred? lst)
+  "Splits the list LST into two sublists:
+   1. The longest initial sublist of elements satisfying PRED?
+   2. The rest of the elements."
+  (let ((prefix '())
+        (suffix lst))
+    (while (and suffix (funcall pred? (car suffix)))
+      (push (pop suffix) prefix))
+    (list (nreverse prefix) suffix)))
+
+;; ;; Testing with your example:
+;; (let ((lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8)))
+;;  (write (split-list string? lst)))
+;; (nl)
