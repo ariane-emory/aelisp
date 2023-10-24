@@ -48,6 +48,6 @@
 
 (s lst   '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
 (s split (split-list string? lst))
-(princ "front: ") (write (car split)) (nl)
-(princ "back:  ") (write (cdr split)) (nl)
+(princ "front: ") (write (car split))  (nl)
+(princ "back:  ") (write (cadr split)) (nl)
 
