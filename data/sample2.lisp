@@ -1,147 +1,64 @@
-o;;(write (is-unquote-expr? '(unquote 1))) (nl)
-
-;;(write `(list 'a ,(+ 4 5))) (nl)
-
-;; (write `(list 1 a ,x)) (nl)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! x 10)
+;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
+(setq! lst '(1 2 3 4 5 6 7 8 9 10))
 
-(setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; complex version
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun transform (expr pred?)
-  (cond
-    ;; Handle atoms
-    ((atom? expr)
-     (if (pred? expr)
-         (eval (cdr expr)) ; If the expression matches pred?, evaluate it
-         (if (symbol? expr) ; Check if the expression is a symbol
-             (list 'quote expr) ; Quote the symbol
-             expr))) ; Return the expression unchanged
-    ;; If the car matches the pred?
-    ((pred? (car expr)) 
-     (cons (eval (cadr (car expr))) ; Evaluate the unwrapped car
-           (transform (cdr expr) pred?)))
-    ;; Special handling for first item being 'quote
-    ((eq? (car expr) 'quote)
-     (list 'quote (cadr expr)))
-    ;; Otherwise, recurse over car and cdr
-    (t 
-     (let ((new-car (transform (car expr) pred?))
-           (new-cdr (transform (cdr expr) pred?)))
-       (if (eq? new-cdr 'quote) ; Check if the new cdr is just a 'quote
-           (cons new-car nil) ; If so, don't add it to the list
-           (cons new-car new-cdr))))))
-
-(defmacro unquote (expr) expr) 
-
-(defmacro quasiquote (expr)
-  (transform expr
-   (lambda (x) (and
-     (cons? x)
-     (eq? (car x) 'unquote)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; simple version
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun transform (obj pred? fun)
-  (if (pred? obj)
-   (fun obj)
-   (if (atom? obj)
-    obj
-    (cons
-     (transform (car obj) pred? fun)
-     (transform (cdr obj) pred? fun)))))
-
-(defun is-unquote-expr? (obj)
-  (and (cons? obj) (eq? (car obj) 'unquote)))
-
-(defmacro quasiquote (expr)
-  (transform expr
-   is-unquote-expr?
-   second))
-
-(defmacro unquote (expr) expr)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (log-eval t)
-
-(setq! lst-base '(1 2 3 4 5 6 ((7 8 (unquote 9) 10 11 12 13))))
-(setq! lst lst-base)
-
-(write (transform lst integer? 2*))
-(nl)
-
-(princ "Done.")
-(nl)
-
-
-(setq! lists (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))
-
-;; (log-macro t)
-;; (log-macro nil)
-
-;; (nl)
-;; (write `,1)
-
-;; (nl)
-;; (eval `(mapcar princ ',lists))
-
-;; (nl)
-;; (write (zip '(a b c) '(1 2 3)))
-
-;; ;; (nl)
-;; ;; (old-zip '(a b c) '(1 2 3))
-
-;; (nl)
-;; (princ "Done.")
-
+(princ "initial lst:     ") (write lst)                  (nl)
+;; (log-eval t) (log-core t)
+(princ "memql? 2:        ") (write (memql?   3 lst))     (nl)
+(princ "removeql 4:      ") (write (removeql 4 lst))     (nl)
+(princ "indexql 5:       ") (write (indexql  5 lst))     (nl)
 ;; (log-core t)
-;; (log-core nil)
+(princ "mapcar!:         ") (write (mapcar! double lst)) (nl)
+(princ "doubled:         ") (write lst)                  (nl)
 ;; (log-eval t)
-;; (log-eval nil)
-
-;; (princ "Found 5 in list at index ")
-;; (write (indexql 5 lst))
-;; (nl)
-;; (princ "Found 88 in list at index ")
-;; (write (indexql 88 lst))
-;; (nl)
-;; (princ "Found 5 in list at index ")
-;; (write (indexq 5 lst))
-;; (nl)
-;; (princ "Found 88 in list at index ")
-;; (write (indexq 88 lst))
-;; (nl)
-
-;; (princ "Removing 5 from list:  ") (write (removeq  5  lst)) (nl)
-;; (princ "Removing 88 from list: ") (write (removeq  88 lst)) (nl)
-;; (princ "Removing 5 from list:  ") (write (removeql 5  lst)) (nl)
-;; (princ "Removing 88 from list: ") (write (removeql 88 lst)) (nl)
-
-;; (log-eval t)
-;; (memql? 5 lst)
-;; (memql? 88 lst)
-;; (log-eval nil)
-
-;;(log-macro t)
-;;(make-mem? memql? eql?)
-
-;; (write (memq? 5 lst)) (nl)
-;; (write (memql? 5 lst)) (nl)
-;; (write (indexq 5 lst)) (nl)
-;; (write (indexql 5 lst)) (nl)
-;; (write (removeq 5 lst)) (nl)
-;; (write (removeql 5 lst)) (nl)
+;; (log-core t)
+(princ "butlast:         ") (write (butlast '(1 2 3 4 5)))             (nl)
+;; (exit)
+(princ "reverse:         ") (write (reverse '(1 2 3 4 5)))             (nl)
+(princ "reverse butlast: ") (write (reverse (butlast '(1 2 3 4 5))))   (nl)
+;; (princ "union:           ") (write (unionql '(1 2 3) '(4 5 6)))        (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq! lst (make-list 6 200))
+(princ "make-list:       ") (write lst) (nl)
+
+(list-set! lst 0 100)
+(princ "list-set! 0 100: ") (write lst) (nl)
+(princ "list-ref  0:     ") (write (list-ref lst 0)) (nl)
+
+(list-set! lst 1 101)
+(princ "list-set! 1 101: ") (write lst) (nl)
+(princ "list-ref  1:     ") (write (list-ref lst 1)) (nl)
+
+(list-set! lst 2 102)
+(princ "list-set! 2 102: ") (write lst) (nl)
+(princ "list-ref  2:     ") (write (list-ref lst 2)) (nl)
+
+(list-set! lst 3 103)
+(princ "list-set! 3 103: ") (write lst) (nl)
+(princ "list-ref  3:     ") (write (list-ref lst 3)) (nl)
+
+(list-set! lst 4 104)
+(princ "list-set! 4 104: ") (write lst) (nl)
+(princ "list-ref  4:     ") (write (list-ref lst 4)) (nl)
+
+(list-set! lst 5 105)
+(princ "list-set! 5 105: ") (write lst) (nl)
+(princ "list-ref  5:     ") (write (list-ref lst 5)) (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when nil
+ (defun lshift4 (n) (<< n 4))
+ 
+ (add-logging-to lshift4) (nl)
+ (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
+ (princ "Call returned " (lshift4 4) ".") (nl))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun combined-comparator (x y)
  (cond 
   ((and (even? x) (even? y)) (< x y))  ; both even, compare values
@@ -149,37 +66,10 @@ o;;(write (is-unquote-expr? '(unquote 1))) (nl)
   ((even? y) nil)                      ; y is even, x is odd, y comes first
   (t (< x y))))                       ; both odd, compare values
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
 (write (syms (env))) (nl)
 (write (sort lst combined-comparator)) (nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-(defmacro letrec (bindings . body)
- `(let ,(mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings) ; Step 1
-   ,@(mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)      ; Step 2
-   ,@body))                                                         ; Step 3
-
-(defmacro letrec (bindings . body)
- (let ((initial-bindings
-        (mapcar (lambda (b) (list (car b) :UNINITIALIZED)) bindings))
-       (set-bindings
-        (mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)))
-  set-bindings ; initial-bindings
-  ;; `(let ,initial-bindings
-  ;;   ,@set-bindings
-  ;;   ,@body)
-  ))
-
-(log-macro t)
-(log-eval t)
-
-(letrec
- ((factorial (lambda (n)
-              (if (<= n 1)
-               1
-               (* n (factorial (- n 1)))))))
- t ;; (factorial 5)
- )
-
 

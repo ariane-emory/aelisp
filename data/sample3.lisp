@@ -1,145 +1,185 @@
-(setq! ct 8)
+o;;(write (is-unquote-expr? '(unquote 1))) (nl)
 
-(while (> ct 0)
- (write ct) (nl)
- (setq! ct (- ct 1)))
+;;(write `(list 'a ,(+ 4 5))) (nl)
 
-(until (> ct 20)
- (write ct) (nl)
- (setq! ct (1+ ct)))
+;; (write `(list 1 a ,x)) (nl)
 
-(write (filter (lambda (x) (not (nil? x))) '(a nil b c nil d))) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! lst  '(1 2 3 4))
-(setq! lst2 '(6 7 8 9))
+(setq! x 10)
 
-(princ "one:   ") (write (push-back! lst 5))    (nl)
-(princ "two:   ") (write (push!      0   lst))  (nl)
-(princ "three: ") (write (nconc!     lst lst2)) (nl)
+(setq! lst '(1 2 3 4 5 6 7 8 9 10 11 12 13))
 
-(princ "four:  ") (write (mapconcat         (lambda (x) x) '("a" "b" "c") " "))  (nl)
-(princ "five:  ") (write (apply mapconcat '((lambda (x) x) '("a" "b" "c") " "))) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; complex version
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(equal? '(1) '(1))
+(defun transform (expr pred?)
+  (cond
+    ;; Handle atoms
+    ((atom? expr)
+     (if (pred? expr)
+         (eval (cdr expr)) ; If the expression matches pred?, evaluate it
+         (if (symbol? expr) ; Check if the expression is a symbol
+             (list 'quote expr) ; Quote the symbol
+             expr))) ; Return the expression unchanged
+    ;; If the car matches the pred?
+    ((pred? (car expr)) 
+     (cons (eval (cadr (car expr))) ; Evaluate the unwrapped car
+           (transform (cdr expr) pred?)))
+    ;; Special handling for first item being 'quote
+    ((eq? (car expr) 'quote)
+     (list 'quote (cadr expr)))
+    ;; Otherwise, recurse over car and cdr
+    (t 
+     (let ((new-car (transform (car expr) pred?))
+           (new-cdr (transform (cdr expr) pred?)))
+       (if (eq? new-cdr 'quote) ; Check if the new cdr is just a 'quote
+           (cons new-car nil) ; If so, don't add it to the list
+           (cons new-car new-cdr))))))
 
-(setq! l '(1 2 (3 4)))
-(transform! l integer? double)
-(write l) (nl) ;; (2 4 (6 8))
+(defmacro unquote (expr) expr) 
 
-(setq! l '(1 2 (3 4)))
-(setq! new-l (transform l integer? double))
-(write l) (nl)     ;; (1 2 (3 4)) remains unchanged
-(write new-l) (nl) ;; (2 4 (6 8)) the transformed list
+(defmacro quasiquote (expr)
+  (transform expr
+   (lambda (x) (and
+     (cons? x)
+     (eq? (car x) 'unquote)))))
 
-(setq! replicate-or-ignore
- (lambda (x)
-  (when (integer? x)
-   $(x x))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; simple version
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! mylist '(1 "a" 2 3 "b" 4)) 
-(write (mapcan replicate-or-ignore mylist)) (nl)
-(write (mapcan replicate-or-ignore mylist)) (nl)
-(write mylist) (nl)
+(defun transform (obj pred? fun)
+  (if (pred? obj)
+   (fun obj)
+   (if (atom? obj)
+    obj
+    (cons
+     (transform (car obj) pred? fun)
+     (transform (cdr obj) pred? fun)))))
 
-(setq! lst1 '(1 2))
-(setq! lst2 '(3 4))
-(setq! lst3 '(5 6))
+(defun is-unquote-expr? (obj)
+  (and (cons? obj) (eq? (car obj) 'unquote)))
 
-(write (nconc! lst1 lst2 lst3)) (nl)
+(defmacro quasiquote (expr)
+  (transform expr
+   is-unquote-expr?
+   second))
 
-(write lst1) (nl)
+(defmacro unquote (expr) expr)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (log-eval t)
+
+(setq! lst-base '(1 2 3 4 5 6 ((7 8 (unquote 9) 10 11 12 13))))
+(setq! lst lst-base)
+
+(write (transform lst integer? 2*))
 (nl)
-(princ "state eval: ") (write (log-eval)) (nl)
-(princ "state core: ") (write (log-core)) (nl)
 
-(write (apply + '(1 2))) (nl)
-(write (apply + 1 2 '(3 4))) (nl)
-(write (apply + 1 2 '(* 3 4) '(5 6))) (nl)
+(princ "Done.")
+(nl)
 
 
-(write (zip2 '(1 2 3) '(a b c d))) (nl)
+(setq! lists (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))
 
-(write (flatten1 '(a (b c)))) (nl)
+;; (log-macro t)
+;; (log-macro nil)
 
-(setq! lsts '((a b) (2 3) (4 5))) (nl)
-(write (mapcar flatten1 (reduce zip2 (car lsts) (cdr lsts)))) (nl)
-(write (zip3 '(a b) '(2 3) '(4 5))) (nl)
+;; (nl)
+;; (write `,1)
 
-(princ "Odd numbers: ") (write (filter (compose-preds integer? odd?) '(1 2 3 4 5 6 7 8 9 10))) (nl)
-(write (any? (compose-preds integer? even?) '(1 3 a 5))) (nl)
-(write (any? (compose-preds integer? even?) '(1 3 a 4 5))) (nl)
+;; (nl)
+;; (eval `(mapcar princ ',lists))
 
-(write ((compose-preds integer? odd?)  7)) (nl)
-(write ((compose-preds integer? odd?)  8)) (nl)
-(write ((compose-preds integer? odd?) 'a)) (nl)
+;; (nl)
+;; (write (zip '(a b c) '(1 2 3)))
 
-(writen '(heads '((1 2 3) (4 5 6) (7 8 9))))
-(writen '(tails '((1 2 3) (4 5 6) (7 8 9))))
+;; ;; (nl)
+;; ;; (old-zip '(a b c) '(1 2 3))
 
-(writen       '(all? nil? '(nil nil nil)))        
-(writen       '(all? nil? '(nil nil 1  )))        
-(writen '(not (all? nil? '(nil nil nil)))) 
-(writen '(not (all? nil? '(nil nil 1  )))) 
+;; (nl)
+;; (princ "Done.")
 
-(princn  "this" "is" "a" "test")
-(princns "this" "is" "a" "test")
+;; (log-core t)
+;; (log-core nil)
+;; (log-eval t)
+;; (log-eval nil)
 
-(princ "princns: ") (princns 1 2 3 4 5 6 7 8 9)
+;; (princ "Found 5 in list at index ")
+;; (write (indexql 5 lst))
+;; (nl)
+;; (princ "Found 88 in list at index ")
+;; (write (indexql 88 lst))
+;; (nl)
+;; (princ "Found 5 in list at index ")
+;; (write (indexq 5 lst))
+;; (nl)
+;; (princ "Found 88 in list at index ")
+;; (write (indexq 88 lst))
+;; (nl)
 
-(princn (or  nil nil 3 8))
-(princn (and 3 8 nil))
-(princn (and 3 7 8))
+;; (princ "Removing 5 from list:  ") (write (removeq  5  lst)) (nl)
+;; (princ "Removing 88 from list: ") (write (removeq  88 lst)) (nl)
+;; (princ "Removing 5 from list:  ") (write (removeql 5  lst)) (nl)
+;; (princ "Removing 88 from list: ") (write (removeql 88 lst)) (nl)
 
-(princni ", " 1 2 3)
+;; (log-eval t)
+;; (memql? 5 lst)
+;; (memql? 88 lst)
+;; (log-eval nil)
 
-(princn ''(1 . 2))
-(princn ''(1 2))
+;;(log-macro t)
+;;(make-mem? memql? eql?)
 
-(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z) '(p q r))) (nl)
-(write (zip '(1 2 3) '(a b c) '(7 8 9) '(x y z))) (nl)
-(write (zip '(1 2 3) '(a b c) '(7 8 9))) (nl)
-(write (zip '(1 2 3) '(a b c))) (nl)
-(write (zip '(1 2 3))) (nl)
+;; (write (memq? 5 lst)) (nl)
+;; (write (memql? 5 lst)) (nl)
+;; (write (indexq 5 lst)) (nl)
+;; (write (indexql 5 lst)) (nl)
+;; (write (removeq 5 lst)) (nl)
+;; (write (removeql 5 lst)) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; construction zone
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun combined-comparator (x y)
+ (cond 
+  ((and (even? x) (even? y)) (< x y))  ; both even, compare values
+  ((even? x) t)                        ; x is even, y is odd, x comes first
+  ((even? y) nil)                      ; y is even, x is odd, y comes first
+  (t (< x y))))                       ; both odd, compare values
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
+(write (syms (env))) (nl)
+(write (sort lst combined-comparator)) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defmacro letrec (bindings . body)
+ `(let ,(mapcar (lambda (b) (list (car b) 'uninitialized!)) bindings) ; Step 1
+   ,@(mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)      ; Step 2
+   ,@body))                                                         ; Step 3
+
+(defmacro letrec (bindings . body)
+ (let ((initial-bindings
+        (mapcar (lambda (b) (list (car b) :UNINITIALIZED)) bindings))
+       (set-bindings
+        (mapcar (lambda (b) `(setq! ,(car b) ,(cadr b))) bindings)))
+  set-bindings ; initial-bindings
+  ;; `(let ,initial-bindings
+  ;;   ,@set-bindings
+  ;;   ,@body)
+  ))
 
 (log-macro t)
-(log-core  t)
-(log-eval  t)
+(log-eval t)
 
-(princn "This is a test")
-(princn "this" "is" "a" "test")
-(printn "This is a test")
-(printn "this" "is" "a" "test")
-(putn   "This is a test")
-(putn   "this" "is" "a" "test")
-(writen "This is a test")
-(writen "this" "is" "a" "test")
+(letrec
+ ((factorial (lambda (n)
+              (if (<= n 1)
+               1
+               (* n (factorial (- n 1)))))))
+ t ;; (factorial 5)
+ )
 
-(nl)
-(princ "Reached the end.") (nl)
-
-(princ "begin") (nl)
-(princni " " "these" "are" "words")
-(princns     "these" "are" "words")
-(princ "end") (nl)
-
-(princn (length $(1 2 3   4)))
-(princn (length $(1 2 3 . 4)))
-
-(write (first    lst)) (nl)
-(write (second   lst)) (nl)
-(write (third    lst)) (nl)
-(write (fourth   lst)) (nl)
-(write (fifth    lst)) (nl)
-(write (sixth    lst)) (nl)
-(write (seventh  lst)) (nl)
-(write (eighth   lst)) (nl)
-(write (ninth    lst)) (nl)
-(write (tenth    lst)) (nl)
-(write (eleventh lst)) (nl)
-(write (twelfth  lst)) (nl)
 
