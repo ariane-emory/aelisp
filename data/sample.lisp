@@ -148,24 +148,24 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(ignore
- (defun binlist-to-dec-1 (lst)
-  (letrec
-   ((chase
-     (lambda (acc lst)
-      (if (nil? lst)
-       acc
-       (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
-   (chase 0 lst)))
+(defun binlist-to-dec-1 (lst)
+ (letrec
+  ((chase
+    (lambda (acc lst)
+     (if (nil? lst)
+      acc
+      (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
+  (chase 0 lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) lst 0))
- (setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
- (setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
+(defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) lst 0))
+(setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
+(setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
- (write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
- (write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
- (write (bins-to-dec        1 0 1 0 1 0 1))  (nl)) ;; ⇒ 85
+(nl)
+(write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
