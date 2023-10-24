@@ -208,6 +208,7 @@
 ;; (log-eval t)
 ;; (log-eval nil)
 
+
 (setq! sum (reduced* +))
 (princ "l this*   == 10: ") (write (sum   1 2 3 4))  (nl)
 
@@ -219,6 +220,20 @@
 
 (setq! sum (rreduced* + 4))
 (princ "r this* 4 == 10: ") (write (sum   1 2 3))  (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq! sum (reduced* +))
+(princ "l this    == 10: ") (write (sum   1 2 3 4))  (nl)
+
+(setq! sum (reduced  + 4))
+(princ "l this  4 == 10: ") (write (sum   1 2 3))  (nl)
+
+(setq! sum (rreduced  +))
+(princ "r this    == 10: ") (write (sum   1 2 3 4))  (nl)
+
+(setq! sum (rreduced  + 4))
+(princ "r this  4 == 10: ") (write (sum   1 2 3))  (nl)
 
 
 
