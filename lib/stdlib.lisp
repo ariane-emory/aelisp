@@ -667,15 +667,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro pop! (list-sym)
   $('if $('not $('symbol? $('quote list-sym)))
-   $('error '"pop! expects a symbol referring to a list"))
-  $('let $($('head $('car list-sym)))
-    $('setq! list-sym $('cdr list-sym))
-    'head))
+    $('error '"pop! expects a symbol referring to a list")
+    $('let $($('head $('car list-sym)))
+      $('setq! list-sym $('cdr list-sym))
+      'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro push! (val list-sym)
   $('if $('not $('symbol? $('quote list-sym)))
-    $('error '"push! expects a symbol referring to a list"))
-  $('setq! list-sym $('cons val list-sym)))
+    $('error '"push! expects a symbol referring to a list")
+    $('setq! list-sym $('cons val list-sym))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
