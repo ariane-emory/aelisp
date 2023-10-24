@@ -298,9 +298,9 @@
    ((cdr init-val)    (error "init-val must be a single object"))
    (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun reduced (fun . init-arg)
+ (defun reduced (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
-  (lambda (lst) (reduce fun lst . init-arg)))
+  (lambda (lst) (reduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun)
   "Return a function that is a left reduction of the binary function FUN."
