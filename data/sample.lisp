@@ -55,22 +55,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(ignore
- (defun combined-comparator (x y)
-  (cond 
-   ((and (even? x) (even? y)) (< x y))  ; both even, compare values
-   ((even? x) t)                        ; x is even, y is odd, x comes first
-   ((even? y) nil)                      ; y is even, x is odd, y comes first
-   (t (< x y))))                       ; both odd, compare values
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
- (write (syms (env))) (nl)
- (log-eval t)
- (write (sort < lst)) (nl))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
 (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
