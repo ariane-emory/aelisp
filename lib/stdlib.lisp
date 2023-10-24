@@ -23,7 +23,7 @@
 ;; time evaluation:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time exprs
- "Return how long it takes to evaluate the given expressions in milliseconds."
+ "Return how long it takes to evaluate the given EXPRS in milliseconds."
  $('let $($('begin $('now)))
    (cons 'progn exprs)
    $('elapsed 'begin)))
@@ -37,7 +37,7 @@
    $('nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time-us exprs
- "Return how long it takes to evaluate the given expressions in microseconds."
+ "Return how long it takes to evaluate the given EXPRS in microseconds."
  $('let $($('begin $('now-us)))
    (cons 'progn exprs)
    $('elapsed-us 'begin)))
@@ -143,14 +143,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! append2
   (lambda (lst1 lst2)
-   "Append two lists."
+   "Append two LST1 and LST2."
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro expand-quasiquoted (expr)
-  ;; "Expand a quasiquoted expression and resolve unquotes and
-  ;;  unquote-splicings within."
+  "Expand a quasiquoted expression and resolve unquotes and
+   unquote-splicings within."
   (cond
    ;; If it's not a cons then it's an atom that we should quote.
    ((atom? expr)
@@ -208,19 +208,19 @@
  (defun zero?     (n)   (= n 0))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nth (index lst)
-  "Get the nth item in a list."
+  "Get the nth item in LST."
   (cond
    ((zero? index) (car lst))
    (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nthcdr (n lst)
-  "Get the nth cdr of a list."
+  "Get the nth cdr of LST."
   (if (zero? n)
    lst
    (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
-  "Get last item in a list."
+  "Get last item in a LST."
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
@@ -233,14 +233,14 @@
  ;; list funs (tail chaser macros):                                            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-chase-fun (params . cond-clauses)
-  ;; "Creates a function for recursive traversal and processing of lists.
+  "Creates a function for recursive traversal and processing of lists.
   
-  ;; This macro is a generalized version that allows customization of 
-  ;; the parameter order through the PARAMS parameter.
+  This macro is a generalized version that allows customization of 
+  the parameter order through the PARAMS parameter.
   
-  ;; PARAMS:       A list of length 2 that specifies the parameter order.
-  ;;               One parameter must be the symbol 'lst.
-  ;; COND-CLAUSES: The conditions to process the list."
+  PARAMS:       A list of length 2 that specifies the parameter order.
+                One parameter must be the symbol 'lst.
+  COND-CLAUSES: The conditions to process the list."
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
          (lambda-params (cons (first params) (cons (second params) 'rest))))
@@ -271,23 +271,23 @@
  ;; list funs (reduction):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduce (fun acc lst)
-  "Left reduce (fold) LST by applying FUN to successive pairs."
+  "Left-reduce (fold) LST by applying FUN to successive pairs."
   (if (nil? lst)
    acc
    (reduce fun (fun acc (car lst)) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun)
-  "Return a function that is a reduction of the binary function FUN."
+  "Return a function that is a left reduction of the binary function FUN."
   (lambda (lst)
    (reduce fun (car lst) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun)
-  "Return a function that is a reduction of the binary function FUN."
+  "Return a function that is a left reduction of the binary function FUN."
   (lambda args 
    ((reduced fun) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduce (fun acc lst)
-  "Right reduce ('foldr') list by applying FUN to successive pairs."
+  "Right-reduce ('foldr') list by applying FUN to successive pairs."
   (if (nil? lst)
    acc
    (fun (car lst) (rreduce fun acc (cdr lst)))))
@@ -300,12 +300,12 @@
  ;; list funs (map variants):                                                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar (fun lst)
-  "Map fun over list, returning the resulting list."
+  "Map fun over LST, returning the resulting list."
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar! (fun lst)
-  "Map fun over list, altering the list."
+  "Map fun over LST, altering the list."
   (letrec
    ((mapcar-internal!
      (lambda (fun lst)
@@ -316,7 +316,7 @@
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapconcat (fun lst delimiter)
-  "Map fun over list, returning the result of concatenating the resulting
+  "Map fun over LST, returning the result of concatenating the resulting
    strings."
   (if lst
    (reduce
@@ -327,7 +327,7 @@
    ""))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
-  "Map fun over list and concatenate the results by altering them."
+  "Map fun over LST and concatenate the results by altering them."
   (when lst
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
@@ -336,8 +336,7 @@
      rest))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapc (fun lst)
-  "Apply fun to each element of lst for side effects only. 
-   Return lst."
+  "Apply FUN to each element of LST for side effects only and return LST."
   (let ((current lst))
    (while current
     (fun (car current))
@@ -354,7 +353,7 @@
  (setq! append (reduced* append2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
-  "Destructively join two lists."
+  "Destructively join LST1 an LST2."
   (cond
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
@@ -369,23 +368,23 @@
  ;; list funs (push/push-back):                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back! (lst elem)
-  "Destructively push elem onto the end of lst."
+  "Destructively push ELEM onto the tail of LST."
   (rplacd! (last lst) (cons elem nil))
   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push! (elem lst)
-  "Destructively push elem onto the front of lst."
+  "Destructively push ELEM onto the head of LST."
   (let ((old-car (car lst)))
    (rplaca! lst elem)
    (rplacd! lst (cons old-car (cdr lst)))
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun push-back (lst elem)
-  "Non-destructively push elem onto the end of lst."
+ (defun push-back (lst elem) 
+  "Non-destructively push ELEM onto the tail of LST."
   (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
-  "Non-destructively push elem onto the front of lst, aka cons."
+  "Non-destructively push ELEM onto the head of LST, aka cons."
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -403,7 +402,7 @@
    (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten-left (lst)
-  "Flatten left-nested list structures."
+  "Flatten a left-nested list structure LST."
   (if (cons? (car lst))
    (append (flatten-left (car lst)) $(cadr lst))
    lst))
@@ -422,14 +421,14 @@
  ;; list funs (zipping):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip2 (lst1 lst2)
-  "Zip two lists."
+  "Zip LST1 and LST2."
   (cond
    ((∨ (nil? lst1) (nil? lst2)) nil)
    (t  (cons  $((car lst1) (car lst2))
         (zip2   (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip3 (l1 l2 l3)
-  "Zip three lists."
+  "Zip the three lists LST1, LST2 and LST3."
   (mapcar flatten1 (reduce zip2 l1 $(l2 l3))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! left-nested-zip (reduced* zip2))
@@ -449,8 +448,8 @@
  ;; list funs (transform):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun transform! (pred? fun obj)
-  "Destructively transform the cons tree obj by replacing members matching
-  pred? with the result of applying fun to them."
+  "Destructively transform the cons tree OBJ by replacing members matching
+  PRED? with the result of applying FUN to them."
   (if (atom? obj)
    (error "obj must be a list")
    (cond
@@ -468,9 +467,9 @@
    obj))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun transform (pred? fun obj)
-  "Transform obj by replacing members matching pred? with the result of
-  applying fun to them or, if obj is not a cons tree, by applying fun to
-  obj."
+  "Transform OBJ by replacing members matching PRED? with the result of
+  applying FUN to them or, if obj is not a cons tree, by applying FUN to
+  OBJ."
   (cond
    ((and (atom? obj) (pred? obj)) (fun obj))
    ((atom? obj) obj)
@@ -480,7 +479,7 @@
      (transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun prefetch (expr)
-  "Try to optimize expr by replacing it's symbol? members with the result of
+  "Try to optimize EXPR by replacing it's symbol? members with the result of
   looking them up. This is, mysteriously, not a very effective optimization."
   (transform!
    (lambda (x) (and (symbol? x) (bound? x)))
@@ -504,7 +503,7 @@
      predicate))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun half (lst)
-  "Splits lst into two approximately equal halves."
+  "Splits LST into two approximately equal halves."
   (let ((slow lst)
         (fast (cdr lst)))
    (while (and fast (cdr fast))
@@ -514,15 +513,15 @@
     (rplacd! slow nil) ; Split the list
     (cons lst second-half))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun merge (predicate lst1 lst2)
-  "Merges two sorted lists based on predicate."
+ (defun merge (pred? lst1 lst2)
+  "Merges two sorted lists LST1 and LST2 based on PRED?."
   (cond
    ((not lst1) lst2)
    ((not lst2) lst1)
-   ((predicate (car lst1) (car lst2))
-    (cons (car lst1) (merge predicate (cdr lst1) lst2)))
+   ((pred? (car lst1) (car lst2))
+    (cons (car lst1) (merge pred? (cdr lst1) lst2)))
    (t
-    (cons (car lst2) (merge predicate lst1 (cdr lst2))))))
+    (cons (car lst2) (merge pred? lst1 (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -680,7 +679,7 @@
  ;; equal? predicate:                                                         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun equal? (o1 o2)
-  "True when o1 and o2 are eql? or cons trees whose atomic mebers are equal?."
+  "True when O1 and O2 are eql? or cons trees whose atomic mebers are equal?."
   (cond
    ((and (atom? o1) (atom? o2)) (eql? o1 o2))
    ((and (cons? o1) (cons? o2))
@@ -690,18 +689,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; even?/odd? predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun even?   (n) "t if n is even." (zero? (% n 2 )))
- (defun odd?    (n) "t if n is odd."  (= 1 (% n 2 )))
+ (defun even?   (n) "t if N is even." (zero? (% n 2 )))
+ (defun odd?    (n) "t if N is odd."  (= 1 (% n 2 )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; always?/never? predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun always? (x) "always true." t)
- (defun never?  (x) "nevertrue."   nil)
+ (defun never?  (x) "never true."  nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; manipulate predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun compose-pred1s preds
-  "Does what it says on the tin and composes unary predicatess preds."
+  "Does what it says on the tin and composes unary predicatess PREDS."
   (lambda (val)
    (lets
     ((fun
@@ -715,7 +714,7 @@
  ;; invert a predicate:                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun invert-pred1 pred?
-  "Does what it says on the tin and inverts a unary predicate pred?."
+  "Does what it says on the tin and inverts a unary predicate PRED?."
   (lambda (val)
    (not (pred? val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -727,8 +726,8 @@
  ;; log toggle helpers, these should be replaced with macros:                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun with-toggled-fun1 (toggled-fun)
-  "Get a function that enables toggled-fun, evaluates fun-or-expr and sets
-  toggled-fun back to it's prior state."
+  "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPR and sets
+  TOGGLED-FUN back to it's prior state."
   (lambda (fun-or-expr)
    (if (lambda? fun-or-expr)
     (let* ((old    (toggled-fun t))
@@ -741,8 +740,8 @@
      result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun with-toggled-fun (toggled-fun)
-  "Get a function that enables toggled-fun, evaluates fun-or-exprs and sets
-  toggled-fun back to it's prior state."
+  "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPRS and sets
+  TOGGLED-FUN back to it's prior state."
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -789,7 +788,7 @@
   (apply proc (apply list* args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun curry1 (fun arg1)
-  "Curry the first argument of fun. This would be better if it were a macro."
+  "Curry the first argument of FUN as ARG1. This would be better if it were a macro."
   (lambda args
    (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -810,12 +809,12 @@
  (setq! 2*     double)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro ignore args
-  "Ignores it's arguments and does nothing."
+  "Ignores ARGS and do nothing."
   nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun benchmark (repetitions print-interval qexpr)
-  "Benchmark expr by running it repetitions time and returning the
-  total/average time in ms, printing updates ever print-interval iterations.
+  "Benchmark QEXPR by running it REPETITIONS times and returning the
+  total/average time in ms, printing updates ever PRINT-INTERVAL iterations.
 
   THIS PROBABLY NEEDS AN UPDATE!"
   (nl)
@@ -847,7 +846,7 @@
     each-ms)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun add-logging-to (fun)
-  "Add logging to a function."
+  "Add logging to a function FUN."
   (if (has? :added-logging fun)
    (error "logging was already added to this fun")
    (let* ((fun-name      (get :last-bound-to fun))
@@ -868,7 +867,7 @@
    fun))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro funcall (fun . args)
-  "This only exists to make porting code from other Lisps easier."
+  "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
   `(,fun ,@args))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun root-env ()
@@ -880,6 +879,7 @@
   pos) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defconstant (sym value)
+  "Set SYM to VALUE and mark it as constant."
   $('progn
     $('setq! sym value)
     $('put! 't ':constant $('quote sym))
@@ -933,6 +933,7 @@
  (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-list (size init-val)
+  "Make a new list of length SIZE with it's cars set to INIT-VAL."
   (cond
    ((zero? size)  nil)
    (t            (cons init-val (make-list (1- size) init-val)))))
@@ -995,9 +996,9 @@
     $(nil lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun split-list (pred? lst)
-  ;; "Split LST into two sublists:
-  ;;  1. The longest initial sublist of elements satisfying PRED?
-  ;;  2. The rest of the elements."
+  "Split LST into two sublists:
+   1. The longest initial sublist of elements satisfying PRED?
+   2. The rest of the elements."
   (let ((front nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1011,7 +1012,7 @@
 (report-time-us "def selection sort parts       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun remove-first! (pred? lst)
-  "Destructivelyl Remove the first item matching pred? from the list."
+  "Destructively remove the first item matching PRED? from the list LST."
   (if (pred? (car lst))
    (if (cdr lst)
     (progn 
@@ -1029,7 +1030,7 @@
      (error "obj was not in lst")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun select-and-move-to-front! (pred? lst)
-  "Move the first item matching pred? to the front of the list."
+  "Move the first item in LST matching PRED? to its head."
   (let ((head (car lst)))
    (if (pred? head)
     head
