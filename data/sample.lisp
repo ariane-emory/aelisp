@@ -106,8 +106,9 @@
 (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 (s split (split-list string? lst))
 (nl)
-(princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
-(princ "back:  ") (write (cadr split)) (nl)
+(princ "front") (write (apply concat (intercalate " " (car split))))  (nl)
+
+(test "back" '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8) (cadr split))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
