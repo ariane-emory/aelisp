@@ -91,3 +91,13 @@
 (write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 ;(log-eval t)
 (write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
+
+
+
+ (defun reduce-inner (fun lst acc)
+  "Left-reduce (fold) LST by applying FUN to successive pairs."
+  (if (nil? lst)
+   acc
+   (reduce-inner fun (cdr lst) (fun acc (car lst)))))
+
+(write (reduce-inner + '(1 2 3 4) 0)) (nl)
