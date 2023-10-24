@@ -209,22 +209,22 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! sum (reduced* +))
-(princ "#1 l this*   == 10: ") (write (require-equal 10 (sum  1 2 3 4)))   (nl)
+(test "#1 l this*   == 10" 10 (sum  1 2 3 4))   (nl)
 (setq! sum (reduced* + 4))
-(princ "#2 l this* 4 == 10: ") (write (require-equal 10 (sum  1 2 3)))     (nl)
+(test "#2 l this* 4 == 10" 10 (sum  1 2 3))     (nl)
 (setq! sum (rreduced* +))
-(princ "#3 r this*   == 10: ") (write (require-equal 10 (sum  1 2 3 4)))   (nl)
+(test "#3 r this*   == 10" 10 (sum  1 2 3 4))   (nl)
 (setq! sum (rreduced* + 4))
-(princ "#4 r this* 4 == 10: ") (write (require-equal 10 (sum  1 2 3)))     (nl)
+(test "#4 r this* 4 == 10" 10 (sum  1 2 3))     (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! sum (reduced  +))
-(princ "#5 l this    == 10: ") (write (require-equal 10 (sum '(1 2 3 4)))) (nl)
+(test "#5 l this    == 10" 10 (sum '(1 2 3 4))) (nl)
 (setq! sum (reduced  + 4))
-(princ "#6 l this  4 == 10: ") (write (require-equal 10 (sum '(1 2 3))))   (nl)
+(test "#6 l this  4 == 10" 10 (sum '(1 2 3)))   (nl)
 (setq! sum (rreduced  +))
-(princ "#7 r this    == 10: ") (write (require-equal 10 (sum '(1 2 3 4)))) (nl)
+(test "#7 r this    == 10" 10 (sum '(1 2 3 4))) (nl)
 (setq! sum (rreduced  + 4))
-(princ "#8 r this  4 == 10: ") (write (require-equal 10 (sum '(1 2 3))))   (nl)
+(test "#8 r this  4 == 10" 10 (sum '(1 2 3)))   (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
