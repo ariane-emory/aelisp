@@ -86,6 +86,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
+ "This would result (deliberately) in an invalid call, so we ignore it for now."
+ "It remains here only to serve as an example."
  ;; a deliberate invalid call:
  (nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
  ;; (log-eval t)
