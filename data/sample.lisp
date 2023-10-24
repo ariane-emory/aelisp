@@ -95,17 +95,16 @@
  (cond
   ((nil? lst)        nil)
   ((nil? (cdr lst))  (car lst))
-  (t                 (fun (car lst)
-                      (right-reduce fun (cdr lst))))))
+  (t                 (fun (car lst) (right-reduce fun (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun left-reduce (fun lst)
- "Left-reduce (fold) LST by applying FUN to successive pairs."
+ "Left-reduce (foldl) LST by applying FUN to successive pairs."
  (cond
-  ((nil? lst)       nil)
-  ((nil? (cdr lst)) (car lst))
-  (t                (left-reduce fun
-                     (cons (fun (car lst) (cadr lst)) (cddr lst))))))
+  ((nil? lst)        nil)
+  ((nil? (cdr lst))  (car lst))
+  (t                 (left-reduce fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (nl)
 ;;(log-eval t)
 (princ "#1: ") (write (right-reduce  + '()))         (nl)
