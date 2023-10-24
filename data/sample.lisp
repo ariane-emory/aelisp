@@ -215,6 +215,15 @@
   val
   (error "require-eql failed: " test-val " ≠ " val)))
 
+(defmacro require-eql (test-val expr)
+ $('let $($('val expr))
+   $('if $('eql? test-val 'val)
+     'val
+   $('error '"require-eql failed: " test-val '" ≠ " 'val))))
+
+(require-eql 10 (+ 3 6))
+
+
 
 (princ "require: ") (write (require-eql 10 10)) (nl)
 
