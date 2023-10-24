@@ -106,14 +106,19 @@
   ((nil? lst)        nil)
   ((nil? (cdr lst))  (car lst))
   (t                 (fun (car lst) (reduce-nacc fun (cdr lst))))))
-                     
 
 ;;(write (reduce-inner + '(1 2 3 4) 0)) (nl)
 ;;(log-eval t)
 
-
+(nl)
 (princ "#1: ") (write (reduce-nacc  + '()))         (nl)
 (princ "#2: ") (write (reduce-nacc  + '(1)))        (nl)
 (princ "#3: ") (write (reduce-nacc  + '(1 2)))      (nl)
 (princ "#4: ") (write (reduce-nacc  + '(1 2 3)))    (nl)
 (princ "#5: ") (write (reduce-nacc  + '(1 2 3 4)))  (nl)
+(nl)
+(princ "#1: ") (write (reduce  + '()        0))  (nl)
+(princ "#2: ") (write (reduce  + '(1)       0))  (nl)
+(princ "#3: ") (write (reduce  + '(1 2)     0))  (nl)
+(princ "#4: ") (write (reduce  + '(1 2 3)   0))  (nl)
+(princ "#5: ") (write (reduce  + '(1 2 3 4) 0))  (nl)
