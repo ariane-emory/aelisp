@@ -59,19 +59,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
-(princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 7)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 6)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 5)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 4)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 3)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 2)) lst)) (spc) (write lst) (nl)
-(princ (select-and-move-to-front! (lambda (o) (eql? o 1)) lst)) (spc) (write lst) (nl)
+(test "samtf!" '(9 2 4 1 5 3 7 6 8) (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst))
+(test "samtf!" '(8 9 2 4 1 5 3 7 6) (progn (select-and-move-to-front! (lambda (o) (eql? o 8)) lst) lst))
+(test "samtf!" '(7 8 9 2 4 1 5 3 6) (progn (select-and-move-to-front! (lambda (o) (eql? o 7)) lst) lst))
+(test "samtf!" '(6 7 8 9 2 4 1 5 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 6)) lst) lst))
+(test "samtf!" '(5 6 7 8 9 2 4 1 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 5)) lst) lst))
+(test "samtf!" '(4 5 6 7 8 9 2 1 3) (progn (select-and-move-to-front! (lambda (o) (eql? o 4)) lst) lst))
+(test "samtf!" '(3 4 5 6 7 8 9 2 1) (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst))
+(test "samtf!" '(2 3 4 5 6 7 8 9 1) (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst))
+(test "samtf!" '(1 2 3 4 5 6 7 8 9) (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl)
 (test "nthcdr 0" '(1 2 3 4 5 6 7 8 9) (nthcdr 0 lst))
 (test "nthcdr 1" '(2 3 4 5 6 7 8 9)   (nthcdr 1 lst))
 (test "nthcdr 2" '(3 4 5 6 7 8 9)     (nthcdr 2 lst))
