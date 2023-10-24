@@ -990,6 +990,9 @@
    $(nil lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun split-list (pred? lst)
+ "Destructivly split LST into two sublists:
+   1. The longest initial sublist of elements satisfying PRED?
+   2. The rest of the elements."
  (let ((front nil)
        (current lst))
   (while (and current (pred? (car current)))
