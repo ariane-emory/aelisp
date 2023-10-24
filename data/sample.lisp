@@ -89,15 +89,27 @@
 (write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
-;(log-eval t)
+;;(log-eval t)
 (write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
 
 
 
- (defun reduce-inner (fun lst acc)
-  "Left-reduce (fold) LST by applying FUN to successive pairs."
-  (if (nil? lst)
-   acc
-   (reduce-inner fun (cdr lst) (fun acc (car lst)))))
+(defun reduce-inner (fun lst acc)
+ "Left-reduce (fold) LST by applying FUN to successive pairs."
+ (if (nil? lst)
+  acc
+  (reduce-inner fun (cdr lst) (fun acc (car lst)))))
+
+(defun reduce-nacc (fun lst)
+ "Left-reduce (fold) LST by applying FUN to successive pairs."
+ (cond
+  ((nil? lst)       nil)
+  ((nil? (cdr lst)) (car lst))
+  (t     (reduce-nacc fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))
 
 (write (reduce-inner + '(1 2 3 4) 0)) (nl)
+;; (log-eval t)
+(write (reduce-nacc  + '(1 2 3 4)))   (nl)
+(write (reduce-nacc  + '(1)))   (nl)
+(write (reduce-nacc  + '()))   (nl)
+
