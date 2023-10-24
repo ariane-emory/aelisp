@@ -90,18 +90,19 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun right-reduce-inner (fun lst)
- "Right-reduce (foldr) LST by applying FUN to successive pairs."
- (cond
-  ((nil? lst)        nil)
-  ((nil? (cdr lst))  (car lst))
-  (t                 (fun (car lst) (right-reduce-inner fun (cdr lst))))))
-(defun right-reduce (fun lst . init-val)
- "Right-reduce (foldr) LST by applying FUN to successive pairs."
- (cond
-  ((nil? init-val)   (right-reduce-inner fun lst))
-  ((cdr init-val)    (error "init-val must be a single object"))
-  (t                 (right-reduce-inner fun (append lst (list (car init-val)))))))
+(letrec
+ ((right-reduce-inner
+   (lambda (fun lst)
+    (cond
+     ((nil? lst)        nil)
+     ((nil? (cdr lst))  (car lst))
+     (t                 (fun (car lst) (right-reduce-inner fun (cdr lst))))))))
+ (defun right-reduce (fun lst . init-val)
+  "Right-reduce (foldr) LST by applying FUN to successive pairs."
+  (cond
+   ((nil? init-val)   (right-reduce-inner fun lst))
+   ((cdr init-val)    (error "init-val must be a single object"))
+   (t                 (right-reduce-inner fun (append lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (letrec
  ((left-reduce-inner
@@ -110,7 +111,6 @@
      ((nil? lst)        nil)
      ((nil? (cdr lst))  (car lst))
      (t                 (left-reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun left-reduce (fun lst . init-val)
   "Left-reduce (foldl) LST by applying FUN to successive pairs."
   (cond
