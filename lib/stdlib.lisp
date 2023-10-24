@@ -300,9 +300,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun . init-arg)
   "Return a function that is a left reduction of the binary function FUN."
-  (if init-arg
-   (lambda (lst) (reduce fun lst . init-arg))
-   (lambda (lst) (reduce fun (cdr lst) (car lst)))))
+  (lambda (lst) (reduce fun lst . init-arg)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun)
   "Return a function that is a left reduction of the binary function FUN."
