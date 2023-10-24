@@ -48,10 +48,6 @@
 (princ "list-set! 5 105: ") (write lst) (nl)
 (princ "list-ref  5:     ") (write (list-ref lst 5)) (nl)
 
-;; (exit)
-
-;;(write (list-ref lst 4))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (when nil
@@ -62,60 +58,6 @@
  (princ "Call returned " (lshift4 4) ".") (nl))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (log-eval t)
-
-(defun select-and-move-to-front! (pred? lst)
- "Move the first item matching pred? to the front of the list."
- (let ((head (car lst)))
-  (if (pred? head)
-   head
-   (let ((obj      (remove-first! pred? lst))
-         (new-tail (cons (car lst) (cdr lst))))
-    (rplaca! lst obj)
-    (rplacd! lst new-tail)
-    obj))))
-
-(defun remove-first! (pred? lst)
- "Destructivelyl Remove the first item matching pred? from the list."
- (if (pred? (car lst))
-  (if (cdr lst)
-   (progn 
-    (rplaca! lst (cadr lst))
-    (rplacd! lst (cddr lst)))
-   (error "can't remove last item"))
-  (let ((prev lst) (current (cdr lst)))
-   (while (and current (not (pred? (car current))))
-    (setq! prev current)
-    (setq! current (cdr current)))
-   (if current
-    (progn
-     (rplacd! prev (cdr current))
-     (car current))
-    (error "obj was not in lst")))))
-
-;; (defun remove-first! (pred? lst)
-;;  "Destructively remove the first item matching pred? from the list."
-;;  (let ((head (car lst))
-;;        (tail (cdr lst)))
-;;   (if (pred? head)
-;;    (if (nil? tail)
-;;     (error "can't remove last item")
-;;     (rplaca! lst (second lst))
-;;     (rplacd! lst (cddr   lst)))
-;;    (let ((prev     lst)
-;;          (current  (cdr lst)))
-;;     (letrec
-;;      ((chase
-;;        (lambda (lst)
-;;         (let ((head (car lst))
-;;               (next (cdr lst)))
-;;          (cond
-;;           ((pred? head) (progn (rplacd! prev next) head))
-;;           (next         (progn (setq! prev lst) (chase next)))
-;;           (t            (error "obj was not in lst"))
-;;           )))))
-;;      (chase current))))))
 
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
