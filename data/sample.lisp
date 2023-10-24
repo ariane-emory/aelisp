@@ -1,5 +1,7 @@
 ;;(log-eval t)
 
+(nl)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(setq! lst '(1 2 3 4 5 6))
 (setq! lst (unionql '(1 2 3) '(4 5 6)))
@@ -224,8 +226,9 @@
 (defun less-than (a b) (< a b))
 (nl)
 (princ "sorted: ") (write (sort mylist less-than)) (nl)
+(princ "sorted: ")
 (log-eval t)
-(princ "sorted: ") (write (sort mylist <))
+(sort mylist <)
 (log-eval nil)
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
