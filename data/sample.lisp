@@ -228,6 +228,48 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+
+
+(defun split-list (lst)
+ "Splits LST into two approximately equal parts."
+ (let ((slow lst)
+       (fast (cdr lst)))
+  (while (and fast (cdr fast))
+   (setq! slow (cdr slow))
+   (setq! fast (cddr fast)))
+  (let ((right (cdr slow)))
+   (rplacd! slow nil)
+   (cons lst right))))
+
+(defun merge-sort (lst pred?)
+ (if (or (null lst) (null (cdr lst))) ; If the list has 0 or 1 element, it's already sorted.
+  lst
+  (let* ((splits (split-list lst))
+         (left (car splits))
+         (right (cdr splits)))
+   (merge (merge-sort left pred?)       ; Recursively sort both halves
+    (merge-sort right pred?) pred?))))
+
+(defun merge (left right pred?)
+ (cond ((null left) right)
+  ((null right) left)
+  ((pred? (car left) (car right))
+   (cons (car left) (merge (cdr left) right pred?)))
+  (t
+   (cons (car right) (merge left (cdr right) pred?)))))
+
+
+
+
+(setq mylist '(5 2 9 1 5 6))
+
+(defun less-than (a b)
+ (< a b))
+
+(write (merge-sort mylist less-than)) (nl)
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl) (princ "Done.") (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

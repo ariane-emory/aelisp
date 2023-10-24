@@ -1103,7 +1103,8 @@
  (when t
   (setq! nreverse reverse)
   (setq! put      put!)
-  (setq! setq     setq!))
+  (setq! setq     setq!)
+  (setq! null     nil?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
