@@ -205,19 +205,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
+(setq! sum (reduced +))
+(princ "this:   ") (write (sum '(1 2 3))) (nl)
 
 (setq! sum (reduced + 4))
-(princ "this: ") (write (sum '(1 2 3))) (nl)
-
-(setq! sum (reduced +))
-(princ "this: ") (write (sum '(1 2 3))) (nl)
+(princ "this 4: ") (write (sum '(1 2 3))) (nl)
 
 ;; (log-eval t)
 ;; (log-eval nil)
 
-(ignore
- (setq! sum (reduced* +))
- (princ "this: ") (write (sum 1 2 3)) (nl))
+(setq! sum (reduced* +))
+(princ "this*:  ") (write (sum 1 2 3)) (nl)
 
 
 
