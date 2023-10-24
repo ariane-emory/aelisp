@@ -495,7 +495,7 @@
  )
 
 
-(report-time-us "def sort!!!                       "
+(report-time-us "def sort!!!                     "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (sorting):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -523,7 +523,8 @@
       (t
        (cons (car right) (merge left (cdr right) pred?)))))))
   (defun sort!!! (lst pred?)
-   "Just a basic merge sort of LST by PRED?."
+   "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
+   "returning a new list."
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
     (let* ((splits (half lst))

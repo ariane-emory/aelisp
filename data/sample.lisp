@@ -51,7 +51,7 @@
 (defun lshift4 (n) (<< n 4))
 
 (add-logging-to lshift4)
-(princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
+(princ 'lshift4 "'s body is now " (body lshift4)) (nl)
 (princ "Call returned " (lshift4 4) ".") (nl) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -228,7 +228,6 @@
 (princ "sorted: ") (write (sort!!! mylist less-than)) (nl)
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (princ "sorted: ") (write (sort!!! mylist <))         (nl)
-(nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
