@@ -1122,7 +1122,7 @@
           '" ≠ "
           $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro test (msg expected expr)
+ (defmacro test (msg expr expected)
   "Test whether EXPR evaluates to EXPECTED."
   $('progn
     $('let $($('printed $('princ msg '":")))
