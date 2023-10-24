@@ -230,7 +230,7 @@
 
 
 
-(defun split-list (lst)
+(defun half (lst)
  "Splits LST into two approximately equal parts."
  (let ((slow lst)
        (fast (cdr lst)))
@@ -244,9 +244,9 @@
 (defun merge-sort (lst pred?)
  (if (or (null lst) (null (cdr lst))) ; If the list has 0 or 1 element, it's already sorted.
   lst
-  (let* ((splits (split-list lst))
-         (left (car splits))
-         (right (cdr splits)))
+  (let* ((splits (half lst))
+         (left   (car splits))
+         (right  (cdr splits)))
    (merge (merge-sort left pred?)       ; Recursively sort both halves
     (merge-sort right pred?) pred?))))
 
