@@ -66,17 +66,14 @@
  "numbers."
  (* x y))
 
-
-
-
-
 (write (get :doc somefun)) (nl)
 ;;(log-eval t)
 
 (write (doc somefun)) (nl)
 (write (doc write)) (nl)
 
-(defun binlist-to-dec (lst)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun binlist-to-dec-1 (lst)
  (letrec
   ((chase
     (lambda (acc lst)
@@ -84,11 +81,12 @@
       acc
       (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
   (chase 0 lst)))
-
-(defun binlist-to-dec (lst)
- (reduce (lambda (x y) (+ (<< x 1) y)) 0 lst))
-
-;; (log-eval t)
-(write (binlist-to-dec '(1 1 0 1))) (nl)
-(write (reduce (lambda (x y) (+ (<< x 1) y)) 0 '(1 1 0 1))) (nl)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) 0 lst))
+(setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
+(setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+(write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
