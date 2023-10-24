@@ -943,6 +943,40 @@
  )
 
 
+(report-time "def selection sort parts       "
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun remove-first! (pred? lst)
+  "Destructivelyl Remove the first item matching pred? from the list."
+  (if (pred? (car lst))
+   (if (cdr lst)
+    (progn 
+     (rplaca! lst (cadr lst))
+     (rplacd! lst (cddr lst)))
+    (error "can't remove last item"))
+   (let ((prev lst) (current (cdr lst)))
+    (while (and current (not (pred? (car current))))
+     (setq! prev current)
+     (setq! current (cdr current)))
+    (if current
+     (progn
+      (rplacd! prev (cdr current))
+      (car current))
+     (error "obj was not in lst")))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun select-and-move-to-front! (pred? lst)
+  "Move the first item matching pred? to the front of the list."
+  (let ((head (car lst)))
+   (if (pred? head)
+    head
+    (let ((obj      (remove-first! pred? lst))
+          (new-tail (cons (car lst) (cdr lst))))
+     (rplaca! lst obj)
+     (rplacd! lst new-tail)
+     obj))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
+
+
 (report-time "def scheme compat              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; tiny-clos scheme compat:

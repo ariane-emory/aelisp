@@ -94,28 +94,28 @@
      (car current))
     (error "obj was not in lst")))))
 
-(defun remove-first! (pred? lst)
- "Destructively remove the first item matching pred? from the list."
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (pred? head)
-   (if (nil? tail)
-    (error "can't remove last item")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (current  (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (next (cdr lst)))
-         (cond
-          ((pred? head) (progn (rplacd! prev next) head))
-          (next         (progn (setq! prev lst) (chase next)))
-          (t            (error "obj was not in lst"))
-          )))))
-     (chase current))))))
+;; (defun remove-first! (pred? lst)
+;;  "Destructively remove the first item matching pred? from the list."
+;;  (let ((head (car lst))
+;;        (tail (cdr lst)))
+;;   (if (pred? head)
+;;    (if (nil? tail)
+;;     (error "can't remove last item")
+;;     (rplaca! lst (second lst))
+;;     (rplacd! lst (cddr   lst)))
+;;    (let ((prev     lst)
+;;          (current  (cdr lst)))
+;;     (letrec
+;;      ((chase
+;;        (lambda (lst)
+;;         (let ((head (car lst))
+;;               (next (cdr lst)))
+;;          (cond
+;;           ((pred? head) (progn (rplacd! prev next) head))
+;;           (next         (progn (setq! prev lst) (chase next)))
+;;           (t            (error "obj was not in lst"))
+;;           )))))
+;;      (chase current))))))
 
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
