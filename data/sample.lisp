@@ -82,7 +82,7 @@
       (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
   (chase 0 lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) 0 lst))
+(defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) lst 0))
 (setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
 (setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

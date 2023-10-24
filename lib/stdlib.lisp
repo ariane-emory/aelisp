@@ -270,27 +270,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (reduction):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun reduce (fun acc lst)
+ (defun reduce (fun lst acc)
   "Left-reduce (fold) LST by applying FUN to successive pairs."
   (if (nil? lst)
    acc
-   (reduce fun (fun acc (car lst)) (cdr lst))))
+   (reduce fun (cdr lst) (fun acc (car lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun)
   "Return a function that is a left reduction of the binary function FUN."
   (lambda (lst)
-   (reduce fun (car lst) (cdr lst))))
+   (reduce fun (cdr lst) (car lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun)
   "Return a function that is a left reduction of the binary function FUN."
   (lambda args 
    ((reduced fun) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun rreduce (fun acc lst)
+ (defun rreduce (fun lst acc)
   "Right-reduce ('foldr') list by applying FUN to successive pairs."
   (if (nil? lst)
    acc
-   (fun (car lst) (rreduce fun acc (cdr lst)))))
+   (fun (car lst) (rreduce fun (cdr lst) acc))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -322,8 +322,8 @@
    (reduce
     (lambda (acc item)
      (concat acc delimiter item))
-    (fun (car lst))
-    (mapcar fun (cdr lst)))
+    (mapcar fun (cdr lst))
+    (fun (car lst)))
    ""))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
@@ -429,7 +429,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip3 (l1 l2 l3)
   "Zip the three lists LST1, LST2 and LST3."
-  (mapcar flatten1 (reduce zip2 l1 $(l2 l3))))
+  (mapcar flatten1 (reduce zip2 $(l2 l3) l1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! left-nested-zip (reduced* zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -652,8 +652,8 @@
   "Return the union of two lists, using memp? to test for duplicates."
   (let* ((memp?    (make-member-pred equalityp?))
          (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
-         (union1   (reduce combine '() list1)))
-   (reduce combine union1 list2)))
+         (union1   (reduce combine list1 '())))
+   (reduce combine list2 union1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! union2q
   (lambda (lst1 lst2)
