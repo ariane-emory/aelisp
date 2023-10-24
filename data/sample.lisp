@@ -51,3 +51,16 @@
 (princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
 (princ "back:  ") (write (cadr split)) (nl)
 
+(defmacro defun-doc (name params . docs-and-body)
+ (let ((splitted (split-list string? docs-and-body))
+       (docs     (apply concat (intercalate " " (car splitted))))
+       (body     (cadr split)))
+  $('progn 
+    $('setq! name $('lambda params . body))
+    $('put! docs :docs name))))
+
+(defun-doc somefun (x y)
+ "Multiply two"
+ "numbers."
+ (* x y))
+
