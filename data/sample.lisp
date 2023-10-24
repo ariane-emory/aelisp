@@ -222,9 +222,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl)
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (defun less-than (a b) (< a b))
-(nl)
 (princ "sorted: ") (write (sort!!! mylist less-than)) (nl)
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (princ "sorted: ") (write (sort!!! mylist <))         (nl)
