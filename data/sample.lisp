@@ -117,7 +117,6 @@
   ((cdr init-val)    (error "init-val must be a single object"))
   (t                 (left-reduce-inner fun (cons (car init-val) lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (nl)
 ;;(log-eval t)
 (princ "rri  #1: ") (write (right-reduce-inner  + '()))           (nl)
@@ -125,6 +124,7 @@
 (princ "rri  #3: ") (write (right-reduce-inner  + '(1 2)))        (nl)
 (princ "rri  #4: ") (write (right-reduce-inner  + '(1 2 3)))      (nl)
 (princ "rri  #5: ") (write (right-reduce-inner  + '(1 2 3 4)))    (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;; (log-eval t)
 (princ "lri  #1: ") (write (left-reduce-inner   + '()))           (nl)
@@ -132,6 +132,7 @@
 (princ "lri  #3: ") (write (left-reduce-inner   + '(1 2)))        (nl)
 (princ "lri  #4: ") (write (left-reduce-inner   + '(1 2 3)))      (nl)
 (princ "lri  #5: ") (write (left-reduce-inner   + '(1 2 3 4)))    (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;; (log-eval t)
 (princ "lr   #1: ") (write (left-reduce         + '()))           (nl)
@@ -139,6 +140,7 @@
 (princ "lr   #3: ") (write (left-reduce         + '(1 2)))        (nl)
 (princ "lr   #4: ") (write (left-reduce         + '(1 2 3)))      (nl)
 (princ "lr   #5: ") (write (left-reduce         + '(1 2 3 4)))    (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;; (log-eval t)
 (princ "lr 0 #1: ") (write (left-reduce         + '()         0)) (nl)
@@ -146,6 +148,7 @@
 (princ "lr 0 #3: ") (write (left-reduce         + '(1 2)      0)) (nl)
 (princ "lr 0 #4: ") (write (left-reduce         + '(1 2 3)    0)) (nl)
 (princ "lr 0 #5: ") (write (left-reduce         + '(1 2 3 4)  0)) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;; (log-eval t)
 (princ "rr 0 #1: ") (write (left-reduce         + '()))           (nl)
@@ -153,6 +156,7 @@
 (princ "rr 0 #3: ") (write (left-reduce         + '(1 2)))        (nl)
 (princ "rr 0 #4: ") (write (left-reduce         + '(1 2 3)))      (nl)
 (princ "rr 0 #5: ") (write (left-reduce         + '(1 2 3 4)))    (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;; (log-eval t)
 (princ "rr   #1: ") (write (right-reduce        + '()         0)) (nl)
@@ -160,11 +164,13 @@
 (princ "rr   #3: ") (write (right-reduce        + '(1 2)      0)) (nl)
 (princ "rr   #4: ") (write (right-reduce        + '(1 2 3)    0)) (nl)
 (princ "rr   #5: ") (write (right-reduce        + '(1 2 3 4)  0)) (nl)
-(nl)
-;; (log-eval t)
-(princ "r 0  #1: ") (write (reduce              + '()         0)) (nl)
-(princ "r 0  #2: ") (write (reduce              + '(1)        0)) (nl)
-(princ "r 0  #3: ") (write (reduce              + '(1 2)      0)) (nl)
-(princ "r 0  #4: ") (write (reduce              + '(1 2 3)    0)) (nl)
-(princ "r 0  #5: ") (write (reduce              + '(1 2 3 4)  0)) (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(ignore
+ (nl)
+ ;; (log-eval t)
+ (princ "r 0  #1: ") (write (reduce              + '()         0)) (nl)
+ (princ "r 0  #2: ") (write (reduce              + '(1)        0)) (nl)
+ (princ "r 0  #3: ") (write (reduce              + '(1 2)      0)) (nl)
+ (princ "r 0  #4: ") (write (reduce              + '(1 2 3)    0)) (nl)
+ (princ "r 0  #5: ") (write (reduce              + '(1 2 3 4)  0)) (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
