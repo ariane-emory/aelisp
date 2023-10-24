@@ -673,9 +673,9 @@
     head))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro push! (val list-sym)
-  (if (not (symbol? list-sym))
-   (error "push! expects a symbol referring to a list"))
-  `(setq! ,list-sym (cons ,val ,list-sym)))
+  $('if $('not $('symbol? $('quote list-sym)))
+    $('error '"push! expects a symbol referring to a list"))
+  $('setq! list-sym $('cons val list-sym)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 

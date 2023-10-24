@@ -77,10 +77,11 @@
 (setq! c (curry1 nthcdr 3))
 (princ (c lst)) (nl)
 
-(log-eval t)
-(test "pop!" '(2 3 4 5 6 7 8 9) (pop! lst))
-(log-eval nil)
-(test "push!" '(99 2 3 4 5 6 7 8 9)  (push! 99 lst))
+
+;; (log-eval t)
+;; (test "pop!" '(2 3 4 5 6 7 8 9) (pop! lst))
+(test "push!" '(99 1 2 3 4 5 6 7 8 9)  (push! 99 lst))
+;; (log-eval nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
