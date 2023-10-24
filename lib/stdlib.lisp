@@ -1095,27 +1095,27 @@
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
-(report-time-us "def require-eql                "
+(report-time-us "def require-equal                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (ignore
-  "An old version of require-eql that we are no longer using."
+  "An old version of require-equal that we are no longer using."
 
-  "Signal an error unless VAL is eql? to TEST-VAL, otherwise return the result"
+  "Signal an error unless VAL is equal? to TEST-VAL, otherwise return the result"
   "of evaluating EXPR."
-  (defun require-eql (test-val val)
-   (if (eql? test-val val)
+  (defun require-equal (test-val val)
+   (if (equal? test-val val)
     val
-    (error "require-eql failed: " test-val " ≠ " val))))
+    (error "require-equal failed: " test-val " ≠ " val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro require-eql (test-val expr)
+ (defmacro require-equal (test-val expr)
   "Signal an error unless EXPR evaluates to TEST-VAL, otherwise return the"
   "result of evaluating EXPR."
   $('let $($('val expr))
-    $('if $('eql? test-val 'val)
+    $('if $('equal? test-val 'val)
       'val
       $('error
         $('concat
-          '"require-eql failed: "
+          '"require-equal failed: "
           $('string test-val)
           '" ≠ "
           $('string 'val))))))
