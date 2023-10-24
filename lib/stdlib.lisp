@@ -43,7 +43,7 @@
    $('elapsed-us 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time-us (msg . exprs)
- $('let $($('time-taken $('time-us (cons 'progn exprs))))
+ $('let $($('time-taken (cons 'time-us exprs)))
    $('princ msg)
    $('princ '" in ")
    $('princ 'time-taken)
