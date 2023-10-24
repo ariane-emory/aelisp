@@ -219,8 +219,14 @@
  $('let $($('val expr))
    $('if $('eql? test-val 'val)
      'val
-   $('error '"require-eql failed: " test-val '" ≠ " 'val))))
+     $('error
+       $('concat
+         '"require-eql failed: "
+         $('string test-val)
+         '" ≠ " '
+         $('string 'val))))))
 
+(log-macro t)
 (require-eql 10 (+ 3 6))
 
 
