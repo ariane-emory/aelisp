@@ -1,9 +1,5 @@
 (ignore
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
  (setq! lst $(2 4 1 5 3 7 9 6 8))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
  (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
  (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
@@ -48,7 +44,7 @@
 ;;   $((fake-reverse front) current)))
 
 (ignore
- (s lst   '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
+ (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
  (s split (split-list string? lst))
  (princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
  (princ "back:  ") (write (cadr split)) (nl))
@@ -89,38 +85,30 @@
 (write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
-;;(log-eval t)
 (write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
-(defun reduce-inner (fun lst acc)
- "Left-reduce (fold) LST by applying FUN to successive pairs."
- (if (nil? lst)
-  acc
-  (reduce-inner fun (cdr lst) (fun acc (car lst)))))
-
-(defun reduce-noacc-deep (fun lst)
- "Left-reduce (fold) LST by applying FUN to successive pairs."
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun right-reduce (fun lst)
+ "Right-reduce (foldr) LST by applying FUN to successive pairs."
  (cond
   ((nil? lst)        nil)
   ((nil? (cdr lst))  (car lst))
-  (t                 (fun (car lst) (reduce-noacc-deep fun (cdr lst))))))
-
-;;(write (reduce-inner + '(1 2 3 4) 0)) (nl)
-;;(log-eval t)
-
+  (t                 (fun (car lst) (right-reduce fun (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-(log-eval t)
-(princ "#1: ") (write (reduce-noacc-deep  + '()))         (nl)
-(princ "#2: ") (write (reduce-noacc-deep  + '(1)))        (nl)
-(princ "#3: ") (write (reduce-noacc-deep  + '(1 2)))      (nl)
-(princ "#4: ") (write (reduce-noacc-deep  + '(1 2 3)))    (nl)
-(princ "#5: ") (write (reduce-noacc-deep  + '(1 2 3 4)))  (nl)
-;; (nl)
-;; ;; (log-eval t)
-;; (princ "#1: ") (write (reduce  + '()        0))  (nl)
-;; (princ "#2: ") (write (reduce  + '(1)       0))  (nl)
-;; (princ "#3: ") (write (reduce  + '(1 2)     0))  (nl)
-;; (princ "#4: ") (write (reduce  + '(1 2 3)   0))  (nl)
-;; (princ "#5: ") (write (reduce  + '(1 2 3 4) 0))  (nl)
+;;(log-eval t)
+(princ "#1: ") (write (right-reduce  + '()))         (nl)
+(princ "#2: ") (write (right-reduce  + '(1)))        (nl)
+(princ "#3: ") (write (right-reduce  + '(1 2)))      (nl)
+(princ "#4: ") (write (right-reduce  + '(1 2 3)))    (nl)
+(princ "#5: ") (write (right-reduce  + '(1 2 3 4)))  (nl)
+(nl)
+;; (log-eval t)
+(princ "#1: ") (write (reduce  + '()        0))  (nl)
+(princ "#2: ") (write (reduce  + '(1)       0))  (nl)
+(princ "#3: ") (write (reduce  + '(1 2)     0))  (nl)
+(princ "#4: ") (write (reduce  + '(1 2 3)   0))  (nl)
+(princ "#5: ") (write (reduce  + '(1 2 3 4) 0))  (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
