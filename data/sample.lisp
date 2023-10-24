@@ -72,7 +72,8 @@
  "Get an object's OBJ's documentation."
  (let* ((doc-string (or (get :doc obj) "This object has no documentation."))
         (binding (get :last-bound-to obj))
-        (docs (concat (when binding (symbol-name binding)) ": " doc-string)))
+        (name (if binding (symbol-name binding) "Unknown object"))
+        (docs (concat name ": " doc-string)))
   docs))
 
 ;;(log-eval t)
