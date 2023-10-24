@@ -156,34 +156,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(letrec
- ((reduce-inner
-   (lambda (fun lst)
-    (cond
-     ((nil? lst)        nil)
-     ((nil? (cdr lst))  (car lst))
-     (t                 (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
- (defun reduce (fun lst . init-val)
-  "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
-  (cond
-   ((nil? init-val)   (reduce-inner fun lst))
-   ((cdr init-val)    (error "init-val must be a single object"))
-   (t                 (reduce-inner fun (cons (car init-val) lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(letrec
- ((rreduce-inner
-   (lambda (fun lst)
-    (cond
-     ((nil? lst)        nil)
-     ((nil? (cdr lst))  (car lst))
-     (t                 (fun (car lst) (rreduce-inner fun (cdr lst))))))))
- (defun rreduce (fun lst . init-val)
-  "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
-  (cond
-   ((nil? init-val)   (rreduce-inner fun lst))
-   ((cdr init-val)    (error "init-val must be a single object"))
-   (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl) ;; (log-eval t)
 (princ "lr   #1: ") (write (reduce  + '()))           (nl)
 (princ "lr   #2: ") (write (reduce  + '(1)))          (nl)

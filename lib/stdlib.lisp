@@ -270,17 +270,33 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (reduction):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun reduce (fun lst acc)
-  "Left-reduce (fold) LST by applying FUN to successive pairs."
-  (if (nil? lst)
-   acc
-   (reduce fun (cdr lst) (fun acc (car lst)))))
+(letrec
+ ((reduce-inner
+   (lambda (fun lst)
+    (cond
+     ((nil? lst)        nil)
+     ((nil? (cdr lst))  (car lst))
+     (t                 (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
+ (defun reduce (fun lst . init-val)
+  "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
+  (cond
+   ((nil? init-val)   (reduce-inner fun lst))
+   ((cdr init-val)    (error "init-val must be a single object"))
+   (t                 (reduce-inner fun (cons (car init-val) lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun reduce (fun lst acc)
-  "Left-reduce (fold) LST by applying FUN to successive pairs."
-  (if (nil? lst)
-   acc
-   (reduce fun (cdr lst) (fun acc (car lst)))))
+(letrec
+ ((rreduce-inner
+   (lambda (fun lst)
+    (cond
+     ((nil? lst)        nil)
+     ((nil? (cdr lst))  (car lst))
+     (t                 (fun (car lst) (rreduce-inner fun (cdr lst))))))))
+ (defun rreduce (fun lst . init-val)
+  "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
+  (cond
+   ((nil? init-val)   (rreduce-inner fun lst))
+   ((cdr init-val)    (error "init-val must be a single object"))
+   (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun)
   "Return a function that is a left reduction of the binary function FUN."
@@ -291,12 +307,6 @@
   "Return a function that is a left reduction of the binary function FUN."
   (lambda args 
    ((reduced fun) args)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun rreduce (fun lst acc)
-  "Right-reduce ('foldr') list by applying FUN to successive pairs."
-  (if (nil? lst)
-   acc
-   (fun (car lst) (rreduce fun (cdr lst) acc))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -495,7 +505,7 @@
  )
 
 
-(report-time-us "def sort!!!                     "
+(report-time-us "def sort!!!                    "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (sorting):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
