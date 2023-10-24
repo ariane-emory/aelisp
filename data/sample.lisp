@@ -1,8 +1,8 @@
 ;;(log-eval t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;(setq! lst '(1 2 3 4 5 6))
 (setq! lst (unionql '(1 2 3) '(4 5 6)))
-(setq! lst '(1 2 3 4 5 6))
 (princ "initial lst:     ") (write lst)                                (nl)
 (princ "memql? 2:        ") (write (memql?   3 lst))                   (nl)
 (princ "removeql 4:      ") (write (removeql 4 lst))                   (nl)
@@ -46,12 +46,11 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(ignore
- (defun lshift4 (n) (<< n 4))
- 
- (add-logging-to lshift4) (nl)
- (princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
- (princ "Call returned " (lshift4 4) ".") (nl))
+(defun lshift4 (n) (<< n 4))
+
+(add-logging-to lshift4)
+(princ 'lshift4 "'s body is now " (body lshift4)) (nl) (nl)
+(princ "Call returned " (lshift4 4) ".") (nl) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -71,31 +70,30 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(ignore
- (setq! lst $(2 4 1 5 3 7 9 6 8))
+(setq! lst $(2 4 1 5 3 7 9 6 8))
 
- (princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 7)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 6)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 5)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 4)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 3)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 2)) lst)) (spc) (write lst) (nl)
- (princ (select-and-move-to-front! (lambda (o) (eql? o 1)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 9)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 8)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 7)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 6)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 5)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 4)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 3)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 2)) lst)) (spc) (write lst) (nl)
+(princ (select-and-move-to-front! (lambda (o) (eql? o 1)) lst)) (spc) (write lst) (nl)
 
- (select-and-move-to-front! (lambda (o) (eql? o 2)) (list 2))
+(select-and-move-to-front! (lambda (o) (eql? o 2)) (list 2))
 
- (princ (nthcdr 0 lst)) (nl)
- (princ (nthcdr 1 lst)) (nl)
- (princ (nthcdr 2 lst)) (nl)
- (setq! c (curry1 nthcdr 3))
- (princ (c lst)) (nl)
+(princ (nthcdr 0 lst)) (nl)
+(princ (nthcdr 1 lst)) (nl)
+(princ (nthcdr 2 lst)) (nl)
+(setq! c (curry1 nthcdr 3))
+(princ (c lst)) (nl)
 
- (princ (pop! lst)) (nl)
- (princ lst) (nl)
- (princ (push! 99 lst)) (nl)
- (princ lst) (nl))
+(princ (pop! lst)) (nl)
+(princ lst) (nl)
+(princ (push! 99 lst)) (nl)
+(princ lst) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
