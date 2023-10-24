@@ -111,6 +111,12 @@
   ((not (nil? (cdr init-val))) (error "init-val must be a single object")
   (t                           (left-reduce-inner fun (cons (car init-val) lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun left-reduce (fun lst . init-val)
+  "Left-reduce (foldl) LST by applying FUN to successive pairs."
+  (cond
+   ((nil? init-val)               (left-reduce-inner fun lst))
+   ((not (= (length init-val) 1)) (error "init-val must be a single object"))
+   (t                             (left-reduce-inner fun (cons (car init-val) lst)))))
 
 (nl)
 ;;(log-eval t)
@@ -135,11 +141,11 @@
 (princ "#5: ") (write (left-reduce         + '(1 2 3 4)))  (nl)
 (nl)
 ;; (log-eval t)
-(princ "#1: ") (write (left-reduce         + '()       0)) (nl)
-(princ "#2: ") (write (left-reduce         + '(1)))        (nl)
-(princ "#3: ") (write (left-reduce         + '(1 2)))      (nl)
-(princ "#4: ") (write (left-reduce         + '(1 2 3)))    (nl)
-(princ "#5: ") (write (left-reduce         + '(1 2 3 4)))  (nl)
+(princ "#1: ") (write (left-reduce         + '()         0)) (nl)
+(princ "#2: ") (write (left-reduce         + '(1)        0)) (nl)
+(princ "#3: ") (write (left-reduce         + '(1 2)      0)) (nl)
+(princ "#4: ") (write (left-reduce         + '(1 2 3)    0)) (nl)
+(princ "#5: ") (write (left-reduce         + '(1 2 3 4)  0)) (nl)
 (nl)
 ;; (log-eval t)
 (princ "#1: ") (write (reduce  + '()        0))  (nl)
