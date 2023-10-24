@@ -28,8 +28,8 @@
    (cons 'progn exprs)
    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro report-time (msg head-expr . tail-exprs)
- $('let $($('time-taken $('time (cons 'progn (cons head-expr tail-exprs)))))
+(defmacro report-time (msg . exprs)
+ $('let $($('time-taken (cons 'time exprs)))
    $('princ msg)
    $('princ '" in ")
    $('princ 'time-taken)
