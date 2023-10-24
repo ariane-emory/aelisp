@@ -208,11 +208,17 @@
 ;; (log-eval t)
 ;; (log-eval nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(lambda require-eql (test-val val)
+(defun require-eql (test-val val)
  (if (eql? test-val val)
   val
-  (error "require-eql? failed: " test-val " ≠ " val)))
+  (error "require-eql failed: " test-val " ≠ " val)))
+
+
+(princ "require: ") (write (require-eql 10 10)) (nl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! sum (reduced* +))
 (princ "#1 l this*   == 10: ") (write (sum   1 2 3 4))   (nl)
@@ -240,7 +246,7 @@
 (setq! sum (rreduced  + 4))
 (princ "#8 r this  4 == 10: ") (write (sum '(1 2 3)))    (nl)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
