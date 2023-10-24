@@ -55,12 +55,13 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun combined-comparator (x y)
- (cond 
-  ((and (even? x) (even? y)) (< x y))  ; both even, compare values
-  ((even? x) t)                        ; x is even, y is odd, x comes first
-  ((even? y) nil)                      ; y is even, x is odd, y comes first
-  (t (< x y))))                        ; both odd, compare values
+(ignore
+ (defun combined-comparator (x y)
+  (cond 
+   ((and (even? x) (even? y)) (< x y))  ; both even, compare values
+   ((even? x) t)                        ; x is even, y is odd, x comes first
+   ((even? y) nil)                      ; y is even, x is odd, y comes first
+   (t (< x y)))))                       ; both odd, compare values
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! lst '(3 1 13 2 8 4 5 12 7 11 9 6 10 15 14))
 (write (syms (env))) (nl)
