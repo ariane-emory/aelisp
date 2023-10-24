@@ -103,10 +103,9 @@
 ;;    (setq current (cdr current)))
 ;;   $((fake-reverse front) current)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl)
 (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 (s split (split-list string? lst))
-(nl)
-
 (ignore
  "This test cannot work until handling of strings containing escaped double quotes is fixed,"
  "and so for now we will ignore it."
