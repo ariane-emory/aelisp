@@ -271,23 +271,23 @@
  ;; list funs (reduction):                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduce (fun acc lst)
-  "Left reduce (fold) list by applying fun to successive pairs."
+  "Left reduce (fold) LST by applying FUN to successive pairs."
   (if (nil? lst)
    acc
    (reduce fun (fun acc (car lst)) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun)
-  "Return a function that is a reduction of the binary function fun."
+  "Return a function that is a reduction of the binary function FUN."
   (lambda (lst)
    (reduce fun (car lst) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun)
-  "Return a function that is a reduction of the binary function fun."
-  (lambda args
-   (reduce fun (car args) (cdr args))))
+  "Return a function that is a reduction of the binary function FUN."
+  (lambda args 
+   ((reduced fun) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduce (fun acc lst)
-  "Right reduce ('foldr') list by applying fun to successive pairs."
+  "Right reduce ('foldr') list by applying FUN to successive pairs."
   (if (nil? lst)
    acc
    (fun (car lst) (rreduce fun acc (cdr lst)))))

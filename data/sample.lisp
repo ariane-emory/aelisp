@@ -89,4 +89,5 @@
 (write (binlist-to-dec-1 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-2 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
 (write (binlist-to-dec-3 '(1 0 1 0 1 0 1))) (nl) ;; ⇒ 85
+;(log-eval t)
 (write (bins-to-dec        1 0 1 0 1 0 1))  (nl) ;; ⇒ 85
