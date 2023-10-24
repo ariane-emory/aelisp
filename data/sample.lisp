@@ -43,12 +43,14 @@
    2. The rest of the elements."
   (let ((prefix '())
         (suffix lst))
-    (while (and suffix (funcall pred? (car suffix)))
+    (while (and suffix (pred? (car suffix)))
       (push (pop suffix) prefix))
-    (list (nreverse prefix) suffix)))
+    (list (reverse prefix) suffix)))
 
 ;; Testing with your example:
 (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
+
+(log-eval t)
 
 (write (split-list string? lst))
 (nl)
