@@ -1126,6 +1126,9 @@
   "Test whether EXPR evaluates to TEST-VAL."
   $('progn
     $('let $($('printed $('princ msg '": ")))
+      $('while $('< 'printed 20)
+        $('princ '" ")
+        $('setq! 'printed $('+ 1 'printed)))
       $('write $('require-equal test-val expr))
       $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
