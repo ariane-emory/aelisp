@@ -107,16 +107,10 @@
 (defun left-reduce (fun lst . init-val)
  "Left-reduce (foldl) LST by applying FUN to successive pairs."
  (cond
-  ((nil? init-val)             (left-reduce-inner fun lst))
+  ((nil? init-val)   (left-reduce-inner fun lst))
   ((cdr init-val)    (error "init-val must be a single object"))
-  (t                           (left-reduce-inner fun (cons (car init-val) lst)))))
+  (t                 (left-reduce-inner fun (cons (car init-val) lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun left-reduce (fun lst . init-val)
-;;   "Left-reduce (foldl) LST by applying FUN to successive pairs."
-;;   (cond
-;;    ((nil? init-val)               (left-reduce-inner fun lst))
-;;    ((not (= (length init-val) 1)) (error "init-val must be a single object"))
-;;    (t                             (left-reduce-inner fun (cons (car init-val) lst)))))
 
 (nl)
 ;;(log-eval t)
