@@ -1125,9 +1125,9 @@
  (defmacro test (msg test-val expr)
   "Test whether EXPR evaluates to TEST-VAL."
   $('progn
-    $('princ msg '": ")
-    $('write $('require-equal test-val expr))
-    $('nl)))
+    $('let $($('printed $('princ msg '": ")))
+      $('write $('require-equal test-val expr))
+      $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
