@@ -23,7 +23,7 @@
 ;; time evaluation:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time exprs
- "Return how long it takes to evaluate the given EXPRS in milliseconds."
+ "Return how long it takes to evaluate EXPRS in milliseconds."
  $('let $($('begin $('now)))
    (cons 'progn exprs)
    $('elapsed 'begin)))
@@ -37,7 +37,7 @@
    $('nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time-us exprs
- "Return how long it takes to evaluate the given EXPRS in microseconds."
+ "Return how long it takes to evaluate EXPRS in microseconds."
  $('let $($('begin $('now-us)))
    (cons 'progn exprs)
    $('elapsed-us 'begin)))
