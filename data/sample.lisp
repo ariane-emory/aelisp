@@ -209,6 +209,11 @@
 ;; (log-eval nil)
 
 
+(lambda require-eql? (test-val val)
+ (if (eql? test-val val)
+  val
+  (error "require-eql? failed: " test-val " ≠ " val)))
+
 (setq! sum (reduced* +))
 (princ "#1 l this*   == 10: ") (write (sum   1 2 3 4))   (nl)
 
