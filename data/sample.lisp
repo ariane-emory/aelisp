@@ -51,12 +51,21 @@
 (defun lshift4 (n) (<< n 4))
 
 (add-logging-to lshift4)
-(princ 'lshift4 "'s body is now " (body lshift4)) (nl)
+
+(test "lshft4 body"
+ '(progn
+   (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") (nl)
+   (let ((result (progn (<< n 4))))
+    (princ "Result of applying " 'lshift4 " was " result ".") (nl)
+    result))
+ (body lshift4))
+
 (test "lshift4" 64 (lshift4 4))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl)
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (test "samtf!" '(9 2 4 1 5 3 7 6 8) (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst))
