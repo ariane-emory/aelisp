@@ -499,35 +499,38 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (sorting):                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun sort (predicate lst)
-  "Just a basic merge sort."
-  (if (or (not lst) (not (cdr lst))) ; If list has 0 or 1 element
-   lst                          ; it's already sorted
-   (let ((middle (half lst)))
-    (merge (sort predicate (car middle))
-     (sort predicate (cdr middle))
-     predicate))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun half (lst)
-  "Splits LST into two approximately equal halves."
-  (let ((slow lst)
-        (fast (cdr lst)))
-   (while (and fast (cdr fast))
-    (setq! slow (cdr slow))
-    (setq! fast (cdr (cdr fast))))
-   (let ((second-half (cdr slow)))
-    (rplacd! slow nil) ; Split the list
-    (cons lst second-half))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun merge (pred? lst1 lst2)
-  "Merges two sorted lists LST1 and LST2 based on PRED?."
-  (cond
-   ((not lst1) lst2)
-   ((not lst2) lst1)
-   ((pred? (car lst1) (car lst2))
-    (cons (car lst1) (merge pred? (cdr lst1) lst2)))
-   (t
-    (cons (car lst2) (merge pred? lst1 (cdr lst2))))))
+ (letrec
+  ((half
+    (lambda (lst)
+     "Splits LST into two approximately equal parts."
+     (let ((slow lst)
+           (fast (cdr lst)))
+      (while (and fast (cdr fast))
+       (setq! slow (cdr slow))
+       (setq! fast (cddr fast)))
+      (let ((right (cdr slow)))
+       (rplacd! slow nil)
+       (cons lst right)))))
+   (merge
+    (lambda (left right pred?)
+     "Merge two sorted lists, LST1 and LST2, into a single sorted list according"
+     "to the binary predicate PRED?."
+     (cond
+      ((nil? left)  right)
+      ((nil? right) left)
+      ((pred? (car left) (car right))
+       (cons (car left) (merge (cdr left) right pred?)))
+      (t
+       (cons (car right) (merge left (cdr right) pred?)))))))
+  (defun sort (lst pred?)
+   "Just a basic merge sort of LST by PRED?."
+   (if (or (nil? lst) (nil? (cdr lst)))
+    lst
+    (let* ((splits (half lst))
+           (left   (car splits))
+           (right  (cdr splits)))
+     (merge (sort left pred?)
+      (sort right pred?) pred?)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1051,17 +1054,17 @@
 (report-time-us "def documentation funs         "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun doc (obj)
- "Get an object OBJ's documentation."
- (let* ((doc       (or (get :doc obj) "This object has no documentation."))
-        (binding   (get :last-bound-to obj))
-        (is-fun    (or (lambda? obj) (macro? obj)))
-        (name      (or binding (string obj)))
-        (params    (when is-fun
-                    (string (cons name (params obj)))))
-        (docstring (if is-fun
-                    (concat params ": " doc)
-                    (concat name   ": " doc))))
-  docstring))
+  "Get an object OBJ's documentation."
+  (let* ((doc       (or (get :doc obj) "This object has no documentation."))
+         (binding   (get :last-bound-to obj))
+         (is-fun    (or (lambda? obj) (macro? obj)))
+         (name      (or binding (string obj)))
+         (params    (when is-fun
+                     (string (cons name (params obj)))))
+         (docstring (if is-fun
+                     (concat params ": " doc)
+                     (concat name   ": " doc))))
+   docstring))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 

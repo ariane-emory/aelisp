@@ -230,34 +230,10 @@
 
 
 
-(defun half (lst)
- "Splits LST into two approximately equal parts."
- (let ((slow lst)
-       (fast (cdr lst)))
-  (while (and fast (cdr fast))
-   (setq! slow (cdr slow))
-   (setq! fast (cddr fast)))
-  (let ((right (cdr slow)))
-   (rplacd! slow nil)
-   (cons lst right))))
 
-(defun merge-sort (lst pred?)
- (if (or (nil? lst) (nil? (cdr lst)))
-  lst
-  (let* ((splits (half lst))
-         (left   (car splits))
-         (right  (cdr splits)))
-   (merge (merge-sort left pred?)
-    (merge-sort right pred?) pred?))))
 
-(defun merge (left right pred?)
- (cond
-  ((nil? left)  right)
-  ((nil? right) left)
-  ((pred? (car left) (car right))
-   (cons (car left) (merge (cdr left) right pred?)))
-  (t
-   (cons (car right) (merge left (cdr right) pred?)))))
+
+
 
 
 
@@ -267,7 +243,7 @@
 (defun less-than (a b) (< a b))
 
 (nl)
-(write (merge-sort mylist less-than)) (nl)
+(write (sort mylist less-than)) (nl)
 
 
 
