@@ -171,18 +171,18 @@
 (princ "lr 0 #5: ") (write (reduce  + '(1 2 3 4)  0)) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl) ;; (log-evalj t)
-(princ "rr   #1: ") (write (rreduce + '()))           (nl)
-(princ "rr   #2: ") (write (rreduce + '(1)))          (nl)
-(princ "rr   #3: ") (write (rreduce + '(1 2)))        (nl)
-(princ "rr   #4: ") (write (rreduce + '(1 2 3)))      (nl)
-(princ "rr   #5: ") (write (rreduce + '(1 2 3 4)))    (nl)
+(test "rr   #1: " nil (rreduce + '()))
+(test "rr   #2: " 1   (rreduce + '(1)))
+(test "rr   #3: " 3   (rreduce + '(1 2)))
+(test "rr   #4: " 6   (rreduce + '(1 2 3)))
+(test "rr   #5: " 10  (rreduce + '(1 2 3 4)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl) ;; (log-eval t)
-(test "rr 0 #1: " 0  (rreduce + '()         0))
-(test "rr 0 #2: " 1  (rreduce + '(1)        0))
-(test "rr 0 #3: " 3  (rreduce + '(1 2)      0))
-(test "rr 0 #4: " 6  (rreduce + '(1 2 3)    0))
-(test "rr 0 #5: " 10 (rreduce + '(1 2 3 4)  0))
+(test "rr 0 #1: " 0   (rreduce + '()         0))
+(test "rr 0 #2: " 1   (rreduce + '(1)        0))
+(test "rr 0 #3: " 3   (rreduce + '(1 2)      0))
+(test "rr 0 #4: " 6   (rreduce + '(1 2 3)    0))
+(test "rr 0 #5: " 10  (rreduce + '(1 2 3 4)  0))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
