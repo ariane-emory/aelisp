@@ -45,32 +45,36 @@
 ;;    (setq front (cons (car current) front))
 ;;    (setq current (cdr current)))
 ;;   $((fake-reverse front) current)))
-
 (ignore
  (s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) "zoop" z (1 2 . 3) 8))
  (s split (split-list string? lst))
  (princ "front: ") (write (apply concat (intercalate " " (car split))))  (nl)
  (princ "back:  ") (write (cadr split)) (nl))
-
-(defmacro defun (name params . docs-and-body)
- (let* ((split (split-list string? docs-and-body))
-        (docs  (apply concat (intercalate " " (car split))))
-        (body  (cadr split)))
-  $('progn 
-    $('setq! name $('lambda params . body))
-    $('put! docs ':doc name))))
-
-(defun somefun (x y)
- "Multiply two"
- "numbers."
- (* x y))
-
-(write (get :doc somefun)) (nl)
-;;(log-eval t)
-
-(write (doc somefun)) (nl)
-(write (doc write)) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(ignore
+ (defmacro defun (name params . docs-and-body)
+  (let* ((split (split-list string? docs-and-body))
+         (docs  (apply concat (intercalate " " (car split))))
+         (body  (cadr split)))
+   $('progn 
+     $('setq! name $('lambda params . body))
+     $('put! docs ':doc name))))
+
+ (defun somefun (x y)
+  "Multiply two"
+  "numbers."
+  (* x y))
+
+ (write (get :doc somefun)) (nl)
+ ;;(log-eval t)
+
+ (write (doc somefun)) (nl)
+ (write (doc write)) (nl))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
