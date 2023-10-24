@@ -305,9 +305,7 @@
  (defun reduced* (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
   "which takes loose args."
-  (if init-val
-   (lambda args ((reduced fun . init-val) args))
-   (lambda args ((reduced fun) args))))
+  (lambda args ((reduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
