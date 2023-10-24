@@ -666,11 +666,11 @@
   (when lst (cons (car lst) (copy-list (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro pop! (list-sym)
-  (if (not (symbol? list-sym))
-   (error "pop! expects a symbol referring to a list"))
-  `(let ((head (car ,list-sym)))
-    (setq! ,list-sym (cdr ,list-sym))
-    head))
+  $('if $('not $('symbol? $('quote list-sym)))
+   $('error '"pop! expects a symbol referring to a list"))
+  $('let $($('head $('car list-sym)))
+    $('setq! list-sym $('cdr list-sym))
+    'head))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro push! (val list-sym)
   $('if $('not $('symbol? $('quote list-sym)))
