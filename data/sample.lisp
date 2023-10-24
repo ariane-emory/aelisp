@@ -63,7 +63,7 @@
 ;;======================================================================================================================
 (test "lshft4 body"
  (body lshift4)
-                         (progn
+ (progn
   (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
   (nl)
   (let ((result (progn (<< n 4))))
@@ -128,28 +128,30 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; This one triggers an indentation bug, investigate:
-;; (defun split-list (pred? lst)
-;;  (let ((front nil)
-;;        (current lst))
-;;   (while (and current (funcall pred? (car current)))
-;;    (setq front (cons (car current) front))
-;;    (setq current (cdr current)))
-;;   $((fake-reverse front) current)))
+(ignore
+ "This one triggers an indentation bug, investigate:"
+ (defun split-list (pred? lst)
+  (let ((front nil)
+        (current lst))
+   (while (and current (funcall pred? (car current)))
+    (setq front (cons (car current) front))
+    (setq current (cdr current)))
+   $((fake-reverse front) current))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(s lst  '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
-(s split (split-list string? lst))
+(setq!           lst                                    '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
+(setq!           split (split-list string?              lst))
+;;======================================================================================================================
 (ignore
  "This test cannot work until handling of strings containing escaped double quotes is fixed,"
  "and so for now we will ignore it."
  (test "front" (apply concat (intercalate " " (car split))) "\"asdw erer rerw\""))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(test "back" (cadr split) (1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
+(test "back"     (cadr split)                           (1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
