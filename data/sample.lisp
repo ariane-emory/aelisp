@@ -1,7 +1,7 @@
 ;;(log-eval t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq! lst (union2 memql? '(1 2 3 4) '(4 5 2 2)))
+(setq! lst (unionql '(1 2 3) '(4 5 6)))
 (setq! lst '(1 2 3 4 5 6))
 (princ "initial lst:     ") (write lst)                                (nl)
 (princ "memql? 2:        ") (write (memql?   3 lst))                   (nl)
