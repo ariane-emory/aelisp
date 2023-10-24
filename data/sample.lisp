@@ -210,30 +210,30 @@
 
 
 (setq! sum (reduced* +))
-(princ "l this*   == 10: ") (write (sum   1 2 3 4))  (nl)
+(princ "#1 l this*   == 10: ") (write (sum   1 2 3 4))  (nl)
 
 (setq! sum (reduced* + 4))
-(princ "l this* 4 == 10: ") (write (sum   1 2 3))  (nl)
+(princ "#2 l this* 4 == 10: ") (write (sum   1 2 3))  (nl)
 
 (setq! sum (rreduced* +))
-(princ "r this*   == 10: ") (write (sum   1 2 3 4))  (nl)
+(princ "#3 r this*   == 10: ") (write (sum   1 2 3 4))  (nl)
 
 (setq! sum (rreduced* + 4))
-(princ "r this* 4 == 10: ") (write (sum   1 2 3))  (nl)
+(princ "#4 r this* 4 == 10: ") (write (sum   1 2 3))  (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! sum (reduced* +))
-(princ "l this    == 10: ") (write (sum   1 2 3 4))  (nl)
+(princ "#5 l this    == 10: ") (write (sum   1 2 3 4))  (nl)
 
 (setq! sum (reduced  + 4))
-(princ "l this  4 == 10: ") (write (sum   1 2 3))  (nl)
+(princ "#6 l this  4 == 10: ") (write (sum   1 2 3))  (nl)
 
 (setq! sum (rreduced  +))
-(princ "r this    == 10: ") (write (sum   1 2 3 4))  (nl)
+(princ "#7 r this    == 10: ") (write (sum   1 2 3 4))  (nl)
 
 (setq! sum (rreduced  + 4))
-(princ "r this  4 == 10: ") (write (sum   1 2 3))  (nl)
+(princ "#8 r this  4 == 10: ") (write (sum   1 2 3))  (nl)
 
 
 
