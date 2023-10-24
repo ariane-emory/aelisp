@@ -106,7 +106,7 @@
   (cond
    ((nil? init-val)   (right-reduce-inner fun lst))
    ((cdr init-val)    (error "init-val must be a single object"))
-   (t                 (right-reduce-inner fun (append lst (list (car init-val))))))))
+   (t                 (right-reduce-inner fun (append2 lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (letrec
  ((left-reduce-inner
