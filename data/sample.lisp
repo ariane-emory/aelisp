@@ -204,44 +204,12 @@
 (princ "sorted: ") (write (sort!!! mylist <))         (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-
-;; (log-eval t)
-;; (log-eval nil)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun require-eql (test-val val)
- (if (eql? test-val val)
-  val
-  (error "require-eql failed: " test-val " ≠ " val)))
 
-(defmacro require-eql (test-val expr)
- $('let $($('val expr))
-   $('if $('eql? test-val 'val)
-     'val
-     $('error
-       $('concat
-         '"require-eql failed: "
-         $('string test-val)
-         '" ≠ "
-         $('string 'val))))))
-
-(log-macro t)
-(require-eql 10 (+ 3 6))
-
-;; (let ((val (+ 3 6)))
-;;  (if (eql? 10 val)
-;;   val
-;;   (error
-;;    (concat
-;;     "require-eql failed: "
-;;     (string 10)
-;;     " ≠ "
-;;     (list 'string 'val)))))
-
-
-(princ "require: ") (write (require-eql 10 10)) (nl)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require-eql 10 (+ 3 7))
+(ignore (princ "require: ") (write (require-eql 10 10)) (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! sum (reduced* +))
