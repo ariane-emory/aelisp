@@ -285,13 +285,10 @@
  (let* ((str-pred (string pred?))
         (new-name (symbol (concat str-pred "!"))))
   $('defmacro new-name $('sym)
-    $('unless $(pred? 'sym)
+    $('unless $(pred? $('eval 'sym))
       $('error $('concat $('string 'sym) " must satisfy " str-pred ", got a " $('string $('type $('eval 'sym)))))))))
 
-(setq! integer?!
- (macro (sym)
-  (unless (integer? sym)
-   (error (concat (string sym) " must satisfy " "integer?" ", got a " (string (type (eval sym))))))))
+
 
 
 (log-macro t)
