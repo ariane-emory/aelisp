@@ -12,16 +12,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! defmacro
  (macro (name params . body)
-  (when (not (eq? :SYMBOL (type name)))
+  (unless (eq? :SYMBOL (type name))
    (error "name must be a symbol"))
-  (when (not (or (eq? :CONS (type params)) (eq? :SYMBOL (type params))))
+  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
    (error "params must be a list or symbol"))
   $('setq! name $('macro params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun (name params . body)
- (when (not (eq? :SYMBOL (type name)))
+ (unless (eq? :SYMBOL (type name))
   (error "name must be a symbol"))
- (when (not (or (eq? :CONS (type params)) (eq? :SYMBOL (type params))))
+ (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
   (error "params must be a list or symbol"))
  $('setq! name $('lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -37,6 +37,7 @@
    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg . exprs)
+ (unless (string? msg) (error "msg must be a string"))
  $('progn
    $('princ msg)
    $('let $($('time-taken (cons 'time exprs)))
