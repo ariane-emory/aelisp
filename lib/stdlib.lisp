@@ -37,7 +37,7 @@
    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg . exprs)
- (unless (string? msg) (error "msg must be a string"))
+ (unless (eq? :STRING (type msg)) (error "msg must be a string"))
  $('progn
    $('princ msg)
    $('let $($('time-taken (cons 'time exprs)))
