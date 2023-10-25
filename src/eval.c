@@ -392,7 +392,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     char * msg = free_list_malloc(256);
 
     snprintf(msg, 256,
-             "applying '%s' to %d arg%s:",
+             "evaluating list by applying '%s' to %d arg%s:",
              tmp, LENGTH(args), s_or_blank(LENGTH(args)));
     
     LOG(args, msg);
@@ -497,10 +497,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     RETURN_IF_ERRORP(ret);
   }
 
-  
-  OUTDENT;
-  
 end:
+
+  OUTDENT;
 
   if (log_eval)
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
