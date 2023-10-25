@@ -13,20 +13,20 @@
 (setq! defmacro
  (macro (name params . body)
   (unless (eq? :SYMBOL (type name))
-   (error "name must be a symbol"))
+   (error "NAME must be a symbol"))
   (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
-   (error "params must be a list or symbol"))
+   (error "PARAMS must be a list or symbol"))
   (unless (eq? :CONS (type body))
-   (error "body must be a cons"))
+   (error "BODY must be a cons"))
   $('setq! name $('macro params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun (name params . body)
  (unless (eq? :SYMBOL (type name))
-  (error "name must be a symbol"))
+  (error "NAME must be a symbol"))
  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
-  (error "params must be a list or symbol"))
+  (error "PARAMS must be a list or symbol"))
  (unless (eq? :CONS (type body))
-  (error "body must be a cons"))
+  (error "BODY must be a cons"))
  $('setq! name $('lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -41,7 +41,7 @@
    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg . exprs)
- (unless (eq? :STRING (type msg)) (error "msg must be a string"))
+ (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
  $('progn
    $('princ msg)
    $('let $($('time-taken (cons 'time exprs)))
@@ -57,7 +57,7 @@
    $('elapsed-us 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time-us (msg . exprs)
- (unless (eq? :STRING (type msg)) (error "msg must be a string"))
+ (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
  $('progn
    $('princ msg)
    $('let $($('time-taken (cons 'time-us exprs)))
@@ -173,8 +173,8 @@
  (setq! append2
   (lambda (lst1 lst2)
    "Append two LST1 and LST2."
-   (unless (tail? lst1) (error "lst1 must be a tail"))
-   (unless (tail? lst2) (error "lst2 must be a tail"))
+   (unless (tail? lst1) (error "LST1 must be a tail"))
+   (unless (tail? lst2) (error "LST2 must be a tail"))
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
@@ -240,23 +240,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nth (index lst)
   "Get the nth item in LST."
-  (unless (integer? index) (error "index must be an integer"))
-  (unless (tail? lst)      (error "lst must be a tail"))
+  (unless (integer? index) (error "INDEX must be an integer"))
+  (unless (tail? lst)      (error "LST must be a tail"))
   (cond
    ((zero? index) (car lst))
    (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nthcdr (n lst)
   "Get the nth cdr of LST."
-  (unless (integer? n) (error "n must be an integer"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (unless (integer? n) (error "N must be an integer"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (if (zero? n)
    lst
    (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a LST."
-  (unless (tail? lst) (error "lst must be a tail"))
+  (unless (tail? lst) (error "LST must be a tail"))
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
@@ -277,14 +277,14 @@
   PARAMS:       A list of length 2 that specifies the parameter order.
                 One parameter must be the symbol 'lst.
   COND-CLAUSES: The conditions to process the list."
-  (unless (cons? params)        (error "params must be a list"))
-  (unless (cons? cond-clauses)  (error "cond-clauses must be a list"))
-  (unless (= 2 (length params)) (error "params needs length 2"))
+  (unless (cons? params)        (error "PARAMS must be a list"))
+  (unless (cons? cond-clauses)  (error "COND-clauses must be a list"))
+  (unless (= 2 (length params)) (error "PARAMS needs length 2"))
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
          (lambda-params (cons (first params) (cons (second params) 'rest))))
    (unless (or lst-is-first? (eq? 'lst (second params)))
-    (error "one of the params must be the symbol 'lst"))
+    (error "one of the PARAMS must be the symbol 'lst"))
    `(lambda ,lambda-params
      (let ((position lst))
       (letrec
@@ -316,9 +316,9 @@
   (defun reduce (fun lst . init-val)
    "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
    (cond
-    ((not (fun? fun))  (error "fun must be a function"))
-    ((not (tail? lst)) (error "lst must be a tail"))
-    ((cdr init-val)    (error "init-val must be a single object"))
+    ((not (fun? fun))  (error "FUN must be a function"))
+    ((not (tail? lst)) (error "LST must be a tail"))
+    ((cdr init-val)    (error "INIT-VAL must be a single object"))
     ((nil? init-val)   (reduce-inner fun lst))
     (t                 (reduce-inner fun (cons (car init-val) lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -332,36 +332,36 @@
   (defun rreduce (fun lst . init-val)
    "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
    (cond
-    ((not (fun? fun))  (error "fun must be a function"))
-    ((not (tail? lst)) (error "lst must be a tail"))
-    ((cdr init-val)    (error "init-val must be a single object"))
+    ((not (fun? fun))  (error "FUN must be a function"))
+    ((not (tail? lst)) (error "LST must be a tail"))
+    ((cdr init-val)    (error "INIT-VAL must be a single object"))
     ((nil? init-val)   (rreduce-inner fun lst))
     (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (when (cdr init-val) (error "init-val must be a single object"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (when (cdr init-val) (error "INIT-VAL must be a single object"))
   (lambda (lst) (reduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
   "which takes loose args."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (when (cdr init-val) (error "init-val must be a single object"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (when (cdr init-val) (error "INIT-VAL must be a single object"))
   (lambda args ((reduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (when (cdr init-val) (error "init-val must be a single object"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (when (cdr init-val) (error "INIT-VAL must be a single object"))
   (lambda (lst) (rreduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced* (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
   "which takes loose args."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (when (cdr init-val) (error "init-val must be a single object"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (when (cdr init-val) (error "INIT-VAL must be a single object"))
   (lambda args ((rreduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -373,15 +373,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar! (fun lst)
   "Map fun over LST, altering the list."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (letrec
    ((mapcar-internal!
      (lambda (fun lst)
@@ -394,9 +394,9 @@
  (defun mapconcat (fun lst delimiter)
   "Map fun over LST, returning the result of concatenating the resulting
    strings."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
-  (unless (string? delimiter) (error "delimiter must be a string"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (string? delimiter) (error "DELIMITER must be a string"))
   (if lst
    (reduce
     (lambda (acc item)
@@ -407,8 +407,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (when lst
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
@@ -418,8 +418,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapc (fun lst)
   "Apply FUN to each element of LST for side effects only and return LST."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (let ((current lst))
    (while current
     (fun (car current))
@@ -533,8 +533,8 @@
  (defun transform! (pred? fun obj)
   "Destructively transform the cons tree OBJ by replacing members matching
   PRED? with the result of applying FUN to them."
-  (when (not (lambda? fun)) (error "fun must be a function"))
-  (when (atom? obj)         (error "obj must be a list"))
+  (when (not (lambda? fun)) (error "FUN must be a function"))
+  (when (atom? obj)         (error "OBJ must be a list"))
   (cond
    ((pred? obj) (set! obj (fun obj)))
    ((cons? obj)
@@ -553,7 +553,7 @@
   "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
-  (when (not (lambda? fun)) (error "fun must be a function"))
+  (when (not (lambda? fun)) (error "FUN must be a function"))
   (cond
    ((and (atom? obj) (pred? obj)) (fun obj))
    ((atom? obj) obj)
@@ -667,7 +667,7 @@
    (reverse-internal lst nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeq! (obj lst)
-  "Remove the first item eq? to obj from the list."
+  "Remove the first item eq? to OBJ from LST."
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eq? obj head)
@@ -685,7 +685,7 @@
           (cond
            ((eq? obj head) (progn (rplacd! prev next) obj))
            (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "obj was not in lst"))
+           (t               (error "OBJ was not in LST"))
            )))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -695,7 +695,7 @@
         (tail (cdr lst)))
    (if (eql? obj head)
     (if (nil? tail)
-     (error "can't remove last item")
+     (error "can't remove last item in LST")
      (rplaca! lst (second lst))
      (rplacd! lst (cddr   lst)))
     (let ((prev     lst)
@@ -708,7 +708,7 @@
           (cond
            ((eql? obj head) (progn (rplacd! prev next) obj))
            (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "obj was not in lst"))
+           (t               (error "OBJ was not in LST"))
            )))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -718,14 +718,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro pop! (list-sym)
   $('if $('not $('symbol? $('quote list-sym)))
-    $('error '"pop! expects a symbol referring to a list")
+    $('error "LIST-SYM must be a symbol")
     $('let $($('head $('car list-sym)))
       $('setq! list-sym $('cdr list-sym))
       'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro push! (val list-sym)
   $('if $('not $('symbol? $('quote list-sym)))
-    $('error '"push! expects a symbol referring to a list")
+    $('error "LIST-SYM must be a symbol")
     $('setq! list-sym $('cons val list-sym))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -738,16 +738,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (unions):                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun union2 (equalityp? list1 list2)
-  "Return the union of two lists, using memp? to test for duplicates."
+ (defun union2 (equalityp? lst1 lst2)
+  "Return the union of LST1 and LST2, using memp? to test for duplicates."
   (let* ((memp?    (make-member-pred equalityp?))
          (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
-         (union1   (reduce combine list1 '())))
-   (reduce combine list2 union1)))
+         (union1   (reduce combine lst1 '())))
+   (reduce combine lst2 union1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! union2q
   (lambda (lst1 lst2)
-   "Make the union of two list, using eq? to test equality."
+  "Return the union of LST1 and LST2, using eq? to test for duplicates."
    (union2 eq? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionq
@@ -755,7 +755,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! union2ql
   (lambda (lst1 lst2)
-   "Make the union of two list, using eql? to test equality."
+  "Return the union of LST1 and LST2, using eql? to test for duplicates."
    (union2 eql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionql
@@ -1012,13 +1012,13 @@
   (make-chase-fun (lst index)
    ((zero? index) (rplaca! position (car rest)))
    (position (chase (1- index) (car rest)))
-   (t (error "list-set! out of range"))))
+   (t (error "INDEX out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-ref
   (make-chase-fun (lst index)
    ((zero? index) head)
    (position (chase (1- index)))
-   (t (error "list-ref out of range"))))
+   (t (error "INDEX out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1157,7 +1157,7 @@
 (report-time-us "def selection sort parts       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun remove-first! (pred? lst)
-  "Destructively remove the first item matching PRED? from the list LST."
+  "Destructively remove the first item matching PRED? from LST."
   (if (pred? (car lst))
    (if (cdr lst)
     (progn 
@@ -1256,15 +1256,15 @@
 (report-time-us "def string funs                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-string (size init-val)
-  (unless (integer? size)         (error "make-string: size must be an integer."))
-  (unless (string? init-val)      (error "make-string: init-val must be a string."))
-  (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
+  (unless (integer? size)         (error "SIZE must be an integer."))
+  (unless (string? init-val)      (error "INIT-VAL must be a string."))
+  (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
   (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun pad-string (size init-val str)
-  (unless (integer? size)         (error "pad-string: size must be an integer."))
-  (unless (string? init-val)      (error "pad-string: init-val must be a string."))
-  (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
+  (unless (integer? size)         (error "SIZE must be an integer."))
+  (unless (string? init-val)      (error "INIT-VAL must be a string."))
+  (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
   (let ((pad (make-string (- size (length str)) init-val)))
    (concat str pad)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
