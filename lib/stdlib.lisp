@@ -498,6 +498,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push! (elem lst)
   "Destructively push ELEM onto the head of LST."
+  (cons?! lst)
   (let ((old-car (car lst)))
    (rplaca! lst elem)
    (rplacd! lst (cons old-car (cdr lst)))
@@ -505,10 +506,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back (lst elem) 
   "Non-destructively push ELEM onto the tail of LST."
+  (tail?! lst)
   (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
   "Non-destructively push ELEM onto the head of LST, aka cons."
+  (tail?! lst)
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
