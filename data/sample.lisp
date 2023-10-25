@@ -286,11 +286,12 @@
 
 
 (defmacro add-logging-to (fun-or-sym)
- (let* ((got-fun (fun? fun-or-sym))
-        (fun
-         (if got-fun
-          fun-or-sym
-          (eval fun-or-sym))))
+ (unless (or (fun? fun-or-sym) (symbol? fun-or-sym))
+  (error "fun-or-sym must be fun? or sym?"))
+ (let* ((got-fun  (fun? fun-or-sym))
+        (fun      (if got-fun fun-or-sym (eval fun-or-sym)))
+        (fun-name (if got-fun (get :last-bound-to fun) fun-or-sym))
+        )
  fun))
  
 (log-macro t)
