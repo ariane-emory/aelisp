@@ -307,8 +307,7 @@
               'obj-string " must satisfy " 'pred-string ", got a "
               $('type    'val) ", "
               'val-string 
-              ))))
-      t))))
+              ))))))))
 
 (log-macro t)
 
