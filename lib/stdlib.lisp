@@ -864,6 +864,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun compose-pred1s preds
   "Does what it says on the tin and composes unary predicatess PREDS."
+  (unless (all? fun? preds) (error "all preds must be fun?"))
   (lambda (val)
    (lets
     ((fun
