@@ -25,19 +25,22 @@
 (confirm that (list-ref lst 1)                 returns 101)
 
 (confirm that lst                              returns '(100 101 200 200 200 200))
-(confirm that (list-ref lst 1)                 returns 101)
 (confirm that (list-set! lst 2 102)            returns 102)
-(confirm that lst                              returns '(100 101 102 200 200 200))
 (confirm that (list-ref lst 2)                 returns 102)
+
+(confirm that lst                              returns '(100 101 102 200 200 200))
 (confirm that (list-set! lst 3 103)            returns 103)
-(confirm that lst                              returns '(100 101 102 103 200 200))
 (confirm that (list-ref lst 3)                 returns 103)
+
+(confirm that lst                              returns '(100 101 102 103 200 200))
 (confirm that (list-set! lst 4 104)            returns 104)
-(confirm that lst                              returns '(100 101 102 103 104 200))
 (confirm that (list-ref lst 4)                 returns 104)
+
+(confirm that lst                              returns '(100 101 102 103 104 200))
 (confirm that (list-set! lst 5 105)            returns 105)
-(confirm that lst                              returns '(100 101 102 103 104 105))
 (confirm that (list-ref lst 5)                 returns 105)
+
+(confirm that lst                              returns '(100 101 102 103 104 105))
 
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
