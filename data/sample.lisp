@@ -287,8 +287,7 @@
 
 
 (defmacro make-type-checker (pred?)
- (let* (;; (type-pred? pred?)
-        (pred-string (symbol-name pred?))
+ (let* ((pred-string (symbol-name pred?))
         (checker-name (symbol (concat pred-string "!"))))
   
   $('defmacro checker-name $('sym)
