@@ -688,12 +688,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun depth (lst)
   "Get the depth of a nested list structure. This one is untested."
+  (tail?! lst)
   (if (atom? lst)
    0
    (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
+  (fun?!  pred?)
+  (tail?! lst)
   (cond
    ((nil? lst) nil)
    ((pred? (car lst))
@@ -702,6 +705,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun intercalate (intercalated lst)
   "Intercalate intercalated between items."
+  (tail?! lst)
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (cons (car lst)
@@ -711,6 +715,7 @@
  (defun butlast (lst)
   "Returns a new list that contains all the elements of the input list except"
   "last one."
+  (tail?! lst)
   (if (or (nil? lst) (nil? (cdr lst)))
    nil
    (cons (car lst) (butlast (cdr lst)))))
