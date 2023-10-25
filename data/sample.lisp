@@ -237,6 +237,8 @@
 (confirm that (mapconcat string '(These  are  words) " ")           returns "These are words")
 (confirm that (mapconcat string '(These "are" words) " ")           returns "These are words")
 
+(nl)
+
 (confirm that (append      '(1 2) '(3 4) '(5 6))                    returns '(1 2 3 4 5 6))
 (confirm that (append      $(1 2) '(3 4) $(5 6))                    returns '(1 2 3 4 5 6))
 (confirm that (mapcan id  '((1 2)  (3 4)  (5 6)))                   returns '(1 2 3 4 5 6))
