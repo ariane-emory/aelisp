@@ -288,16 +288,16 @@
 
 (defmacro make-type-checker (pred?)
  (let* (;; (type-pred? pred?)
-        (str-pred (symbol-name pred?))
-        (checker-name (symbol (concat str-pred "!"))))
+        (pred-string (symbol-name pred?))
+        (checker-name (symbol (concat pred-string "!"))))
   
   $('defmacro checker-name $('sym)
     $('let*
-      $($('type-pred?    pred?)
-        $('str-pred       str-pred)
+      $($('type-pred?     pred?)
+        $('pred-string    pred-string)
         $('val            $('eval 'sym))
         $('val-type       $('type 'val))
-        $('val-string     $('string? 'val))
+        $('val-string     $('string 'val))
         $('obj-string     $('if $('symbol? 'sym) 'sym 'val-string))
         )
 
@@ -306,7 +306,7 @@
       
       $('unless $('type-pred? 'val)
         $('error $('concat
-                   'obj-string " must satisfy " 'str-pred ", got a "
+                   'obj-string " must satisfy " 'pred-string ", got a "
                    $('string $('type    'val)) ", "
                    $('when   'val-string  "'")
                    $('string 'val)
