@@ -286,7 +286,13 @@
         (new-name (symbol (concat str-pred "!"))))
   $('defmacro new-name $('sym)
     $('unless $(pred? 'sym)
-      $('error $('concat $('string 'sym) " must satisfy " str-pred))))))
+      $('error $('concat $('string 'sym) " must satisfy " str-pred ", got a " $('string $('type $('eval 'sym)))))))))
+
+(setq! integer?!
+ (macro (sym)
+  (unless (integer? sym)
+   (error (concat (string sym) " must satisfy " "integer?" ", got a " (string (type (eval sym))))))))
+
 
 (log-macro t)
 ;; (log-eval t)
@@ -299,7 +305,8 @@
  (* 2 x))
 
 (thing 77)
-(thing 'a)
+;s(thing "asd")
+;;(thing 'a)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
