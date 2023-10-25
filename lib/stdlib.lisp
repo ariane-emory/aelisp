@@ -1019,7 +1019,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun add-logging-to (fun)
   "Add logging to a function FUN."
-  (fun?! fun)
   (if (has? :added-logging fun)
    (error "logging was already added to this fun")
    (let* ((fun-name      (get :last-bound-to fun))
