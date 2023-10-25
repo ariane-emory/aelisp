@@ -475,6 +475,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
+  (tail? lst1)
+  (tail? lst2)
   (cond
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
