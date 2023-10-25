@@ -100,3 +100,51 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
   CORE_RETURN("length", ret);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _push
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("push");
+
+  REQUIRE(env, args, TAILP(CADR(args)));
+  REQUIRE(env, args, ! HAS_PROP("read-only", CADR(args)), "read-only objects cannot be mutated");
+  
+
+  CORE_RETURN("push", PUSH(CAR(args), CADR(args)));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _push_back
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_push_back(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("push_back");
+
+  REQUIRE(env, args, TAILP(CAR(args)));
+  REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
+  
+
+  CORE_RETURN("push_back", PUSH_BACK(CAR(args), CADR(args)));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _pop
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("pop");
+
+  REQUIRE(env, args, CONSP(CAR(args)));
+  REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
+  
+
+  CORE_RETURN("pop", POP(CAR(args)));
+}
