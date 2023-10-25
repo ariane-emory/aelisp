@@ -212,6 +212,11 @@
 (confirm that ((rreduced* +  )   1 2 3 4 )        returns 10)
 (confirm that ((rreduced* + 4)   1 2 3   )        returns 10)
 
+(nl)
+
+(confirm that (apply concat (intercalate " " '(These are words))) returns "These are words")
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
