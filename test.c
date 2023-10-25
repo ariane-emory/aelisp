@@ -126,7 +126,7 @@ ae_obj_t * push_together_a_list_of_ints(void) {
     int        int_val = ix;
     ae_obj_t * new_int = NEW_INT(int_val);
 
-    tailtip            = PUSH(tailtip, new_int);
+    tailtip            = PUSH_BACK(tailtip, new_int);
 
     T(CONSP(tailtip));
     T(INTEGERP(CAR(tailtip)));
