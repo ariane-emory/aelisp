@@ -29,12 +29,13 @@
    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time (msg . exprs)
- $('let $($('time-taken (cons 'time exprs)))
+ $('progn
    $('princ msg)
-   $('princ '" in ")
-   $('princ 'time-taken)
-   $('princ '" us.")
-   $('nl)))
+   $('let $($('time-taken (cons 'time exprs)))
+     $('princ '" in ")
+     $('princ 'time-taken)
+     $('princ '" us.")
+     $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time-us exprs
  "Return how long it takes to evaluate EXPRS in microseconds."
@@ -43,12 +44,13 @@
    $('elapsed-us 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro report-time-us (msg . exprs)
- $('let $($('time-taken (cons 'time-us exprs)))
+ $('progn
    $('princ msg)
-   $('princ '" in ")
-   $('princ 'time-taken)
-   $('princ '" us.")
-   $('nl)))
+   $('let $($('time-taken (cons 'time-us exprs)))
+     $('princ '" in ")
+     $('princ 'time-taken)
+     $('princ '" us.")
+     $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -378,7 +380,7 @@
  )
 
 
-(report-time-us "def appen/nconc variants       "
+(report-time-us "def append/nconc variants      "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (append/nconc variants):                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

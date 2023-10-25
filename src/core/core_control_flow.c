@@ -1,6 +1,7 @@
 #include "core_includes.h"
 
 #include "jump_return.h"
+#include "common.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _progn
@@ -83,13 +84,13 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
     if (log_core)
       LOG(then_branch, "chose then");
 
-    RETURN(RETURN_IF_ERRORP(EVAL(env, then_branch)));
+    ret = RETURN_IF_ERRORP(EVAL(env, then_branch));
   } 
   else {
     if (log_core)
       LOG(else_branch, "chose else");
 
-    RETURN(RETURN_IF_ERRORP(ae_core_progn(env, else_branch, LENGTH(else_branch))));
+    ret = RETURN_IF_ERRORP(ae_core_progn(env, else_branch, LENGTH(else_branch)));
   }
 
 end:
@@ -202,8 +203,13 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
     if (log_core)
       LOG(ret, "and option");
-    
-    RETURN_NIL_IF_NILP(ret);
+
+    /* if (NILP(ret)) */
+    /*   log_eval = true; */
+
+    if (NILP(ret))
+      break;
+    // RETURN_NIL_IF_NILP(ret);
   }
 
 end:  
