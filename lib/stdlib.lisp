@@ -211,8 +211,8 @@
  (setq! append2
   (lambda (lst1 lst2)
    "Append two LST1 and LST2."
-   (tail?! lst1)
-   (tail?! lst2)
+   ;; (tail?! lst1)
+   ;; (tail?! lst2)
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
@@ -278,8 +278,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nth (index lst)
   "Get the nth item in LST."
-  (integer?! index)
-  (tail?!    lst)
+  ;; (integer?! index)
+  ;; (tail?!    lst)
   (cond
    ((zero? index) (car lst))
    (lst          (nth (- index 1) (cdr lst)))))
