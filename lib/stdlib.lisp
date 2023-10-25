@@ -1145,6 +1145,8 @@
   "Destructively split the LST into two sublists:"
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
+  (fun?! pred?)
+  (tail?! lst)
   (let ((front nil)
         (back lst))
    (while (and back (pred? (car back)))
@@ -1155,6 +1157,8 @@
   "Destructivly split LST into two sublists:"
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
+  (fun?! pred?)
+  (tail?! lst)
   (let ((prev nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1170,6 +1174,8 @@
   "Split LST into two sublists:"
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
+  (fun?! pred?)
+  (tail?! lst)
   (let ((front nil)
         (current lst))
    (while (and current (pred? (car current)))
