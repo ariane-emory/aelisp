@@ -471,7 +471,7 @@
   "Zip many lists. This might not flatten properly if the zipped elements are
   themselves lists."
   (if (cdr lists)
-   `(mapcar flatten (left-nested-zip ,@lists))
+   $('mapcar 'flatten (cons 'left-nested-zip lists))
    $('mapcar 'list  (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )

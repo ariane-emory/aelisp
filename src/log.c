@@ -66,15 +66,15 @@ int indent(void) {
 // outdent
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int outdent(void) {
-  if (log_indentation == 0) {
-    FPR(stderr,
-        "\nBANGED AGAINST THE LEFT MARGIN, THIS SHOULDN'T HAPPEN AND PROBABLY INDICATES "
-        "A PROGRAMMER ERROR!\n");
+/*   if (log_indentation == 0) { */
+/*     FPR(stderr, */
+/*         "\nBANGED AGAINST THE LEFT MARGIN, THIS SHOULDN'T HAPPEN AND PROBABLY INDICATES " */
+/*         "A PROGRAMMER ERROR!\n"); */
 
-#ifdef AE_DEADLY_MARGIN
-    assert(((void)"hit the margin", 0));
-#endif
-  }
+/* #ifdef AE_DEADLY_MARGIN */
+/*     assert(((void)"hit the margin", 0)); */
+/* #endif */
+/*   } */
 
   log_indentation    -= 1;
 
