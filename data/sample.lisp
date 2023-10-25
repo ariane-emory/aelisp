@@ -303,8 +303,6 @@
 (log-macro t)
 (make-type-checker integer?)
 
-(defmacro integer?! (sym)
- (let ((pred? integer?)
-       (str-pred "integer?")
-       (val (eval sym))))
- str-pred val)
+
+(princ "Succeed: ") (integer?! 7)     (nl)
+(princ "Fail:    ") (integer?! "asd") (nl)
