@@ -7,17 +7,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "core.h"
-#include "obj.h"
-#include "list.h"
 #include "alist.h"
-#include "plist.h"
-#include "free_list.h"
 #include "core.h"
-#include "eval.h"
-#include "write.h"
+#include "core.h"
 #include "env.h"
+#include "eval.h"
+#include "free_list.h"
 #include "generate_macro.h"
+#include "list.h"
+#include "log.h"
+#include "obj.h"
+#include "plist.h"
+#include "write.h"
 
 #define BEFORE_ACUTEST
 
@@ -1494,6 +1495,16 @@ void eval_args_test(void) {
   // NL;
 }
   
+void push_and_pop(void) {
+  SETUP_TEST;
+
+  ae_obj_t * lst = NIL;
+
+  PUSH(NEW_INT(1), lst);
+
+  LOG(lst, "after push");
+}
+  
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1535,7 +1546,9 @@ void eval_args_test(void) {
   DO(root_env_and_eval)                                                                            \
   DO(fun_specialness)                                                                              \
   DO(env_with_a_dot)                                                                               \
-  DO(eval_args_test)
+  DO(eval_args_test)                                                                               \
+  DO(push_and_pop)
+
 // DO(bubble_list) 
 
 #define pair(fun) { #fun, fun },
