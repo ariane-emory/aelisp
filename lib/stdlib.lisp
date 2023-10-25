@@ -619,6 +619,8 @@
   (defun sort!!  (lst pred?)
    "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
    "returning a new list."
+   (unless (tail? lst)  (error "LST must be a tail"))
+   (unless (fun? pred?) (error "PRED? must be a function"))
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
     (let* ((splits (half lst))
@@ -645,12 +647,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun depth (lst)
   "Get the depth of a nested list structure. This one is untested."
+  (unless (tail? lst) (error "LST must be a tail"))
   (if (atom? lst)
    0
    (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (cond
    ((nil? lst) nil)
    ((pred? (car lst))
@@ -659,6 +664,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun intercalate (intercalated lst)
   "Intercalate intercalated between items."
+  (unless (tail? lst) (error "LST must be a tail"))
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (cons (car lst)
@@ -668,12 +674,14 @@
  (defun butlast (lst)
   "Returns a new list that contains all the elements of the input list except"
   "last one."
+  (unless (tail? lst) (error "LST must be a tail"))
   (if (or (nil? lst) (nil? (cdr lst)))
    nil
    (cons (car lst) (butlast (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Returns a new list that is the reverse of the input list."
+  (unless (tail? lst) (error "LST must be a tail"))
   (letrec
    ((reverse-internal
      (lambda (lst acc)
@@ -684,11 +692,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeq! (obj lst)
   "Remove the first item eq? to OBJ from LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eq? obj head)
     (if (nil? tail)
-     (error "can't remove last item")
+     (error "can't remove last item from LST")
      (rplaca! lst (second lst))
      (rplacd! lst (cddr   lst)))
     (let ((prev     lst)
@@ -701,17 +710,18 @@
           (cond
            ((eq? obj head) (progn (rplacd! prev next) obj))
            (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "OBJ was not in LST"))
+           (t               (error "OBJ was not found in LST"))
            )))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeql! (obj lst)
-  "Remove the first item eql? to obj from the list."
+  "Remove the first item eql? to OBJ from LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eql? obj head)
     (if (nil? tail)
-     (error "can't remove last item in LST")
+     (error "can't remove last item from LST")
      (rplaca! lst (second lst))
      (rplacd! lst (cddr   lst)))
     (let ((prev     lst)
@@ -724,15 +734,18 @@
           (cond
            ((eql? obj head) (progn (rplacd! prev next) obj))
            (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "OBJ was not in LST"))
+           (t               (error "OBJ was not found in LST"))
            )))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun copy-list (lst)
-  "Take shallow copy of the given list."
+  "Take shallow copy of LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (when lst (cons (car lst) (copy-list (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro pop! (list-sym)
+  "Destructively pop an item from the list bound to LIST-SYM."
+  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
   $('if $('not $('symbol? $('quote list-sym)))
     $('error "LIST-SYM must be a symbol")
     $('let $($('head $('car list-sym)))
@@ -740,6 +753,8 @@
       'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro push! (val list-sym)
+  "Destructively push an item onto the list bound to LIST-SYM."
+  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
   $('if $('not $('symbol? $('quote list-sym)))
     $('error "LIST-SYM must be a symbol")
     $('setq! list-sym $('cons val list-sym))))
