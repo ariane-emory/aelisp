@@ -300,8 +300,8 @@
         $('obj-string     $('if $('symbol? 'sym) 'sym 'val-string))
         )
 
-      $('unless $('symbol? 'sym)
-        $('error "sym must be a symbol"))
+      ;; $('unless $('symbol? 'sym)
+      ;;   $('error "sym must be a symbol"))
       
       $('unless $('inner-pred? 'val)
         $('error $('concat
