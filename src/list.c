@@ -170,7 +170,7 @@ ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
 // _push_back
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_LOG_PUSH
-#  define AFTER_PUSH_MESSAGE(tailtip)                                                              \
+#  define AFTER_PUSH_BACK_MESSAGE(tailtip)                                                         \
   fputs("Pushed           ", stdout);                                                              \
   PUT(member);                                                                                     \
   fputs(" into ", stdout);                                                                         \
@@ -179,7 +179,7 @@ ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
   PUT(tailtip);                                                                                    \
   putchar('\n');
 #else
-#  define AFTER_PUSH_MESSAGE(tailtip) ((void)NULL)
+#  define AFTER_PUSH_BACK_MESSAGE(tailtip) ((void)NULL)
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
@@ -188,7 +188,8 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 
   // Return value is the tailtip of the list, so repeated pushes can be performed more performantly
   // by pushing onto the return value of a prior push.
-  
+
+  assert(*plist);
   assert(TAILP(*plist));
   assert(member);
 
@@ -213,9 +214,21 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 
   CDR(tailtip) = NEW_CONS(member, NIL);
 
-  AFTER_PUSH_MESSAGE(CDR(tailtip));
+  AFTER_PUSH_BACK_MESSAGE(CDR(tailtip));
   
   return CDR(tailtip);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ae_obj_t * ae_list_push(ae_obj_t ** const plist, ae_obj_t * const member) {
+  // This takes a ** because it's going to mutate the targe ae_obj_t  *.
+
+  assert(*plist);
+  assert(TAILP(*plist));
+  assert(member);
+
+  *plist = CONS(member, *plist);
+
+  return *plist;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
