@@ -228,7 +228,10 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     }
 
     if (log_eval) {
-      LOG(args, msg);
+      LOG(args_length == 1
+          ? CAR(args)
+          : args,
+          msg);
       
       free_list_free(msg);
     }
@@ -395,7 +398,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
              "evaluating list by applying '%s' to %d arg%s:",
              tmp, LENGTH(args), s_or_blank(LENGTH(args)));
     
-    LOG(args, msg);
+    LOG(LENGTH(args) == 1
+        ? CAR(args)
+        : args,
+        msg);
     
     free(tmp);
     free_list_free(msg);
