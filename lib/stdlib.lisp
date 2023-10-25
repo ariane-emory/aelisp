@@ -1004,9 +1004,9 @@
   "total/average time in ms, printing updates ever PRINT-INTERVAL iterations."
 
   "THIS PROBABLY NEEDS AN UPDATE!"
-  (integer?! repetitions)
-  (integer?! print-interval)
-  (cons?!    qexpr)
+  ;; (integer?! repetitions)
+  ;; (integer?! print-interval)
+  ;; (cons?!    qexpr)
   (nl)
   (let ((ctr   0)
         (total 0))
@@ -1037,7 +1037,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun add-logging-to (fun)
   "Add logging to a function FUN."
-  ;; (fun?! fun) errors for some reason.
+  ;; (fun?! fun)
   (when (has? :added-logging fun)
    (error "logging was already added to this fun"))
   (let* ((fun-name      (get :last-bound-to fun))
@@ -1059,7 +1059,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro funcall (fun . args)
  "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
- (fun?! (eval fun))
+ ;; (fun?! (eval fun))
  (cons fun args))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun root-env ()
@@ -1072,7 +1072,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defconstant (sym value)
  "Set SYM to VALUE and mark it as constant."
- (symbol?! sym)
+ ;; (symbol?! sym)
  $('progn
    $('setq! sym value)
    $('put! 't ':constant $('quote sym))
@@ -1087,7 +1087,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun-list-pred-fun (name combiner base-case)
   `(defun ,name (pred? lst)
-    (tail?! lst)
+    ;; (tail?! lst)
     (if lst
      (,combiner
       (pred? (car lst))
@@ -1099,7 +1099,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun-list-transform-fun (name transformer)
   `(defun ,name (lsts)
-    (tail?! lst)
+    ;; (tail?! lst)
     (when lsts
      (cons (,transformer (car lsts)) (,name (cdr lsts))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1129,7 +1129,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-list (size init-val)
   "Make a new list of length SIZE with it's cars set to INIT-VAL."
-  (integer?! size)
+  ;; (integer?! size)
   (cond
    ((zero? size)  nil)
    (t            (cons init-val (make-list (1- size) init-val)))))
@@ -1140,19 +1140,19 @@
 (report-time-us "def tail chasers               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-member-pred (pred?)
-  (fun?! (eval pred?))
+  ;; (fun?! (eval pred?))
   `(make-chase-fun (obj lst)
     ((,pred? obj head) t)
     (position (chase obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-remove-fun (pred?)
-  (fun?! (eval pred?))
+  ;; (fun?! (eval pred?))
   `(make-chase-fun (obj lst)
     ((,pred? obj head) tail)
     (position (cons head (chase obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-index-fun (pred?)
-  (fun?! (eval pred?))
+  ;; (fun?! (eval pred?))
   `(make-chase-fun (obj lst)
     ((,pred? obj head) (car rest))
     (position (chase obj (if rest (1+ (car rest)) 1)))))
@@ -1173,8 +1173,8 @@
   "Destructively split the LST into two sublists:"
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
-  (fun?! pred?)
-  (tail?! lst)
+  ;; (fun?! pred?)
+  ;; (tail?! lst)
   (let ((front nil)
         (back lst))
    (while (and back (pred? (car back)))
@@ -1185,8 +1185,8 @@
   "Destructivly split LST into two sublists:"
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
-  (fun?! pred?)
-  (tail?! lst)
+  ;; (fun?! pred?)
+  ;; (tail?! lst)
   (let ((prev nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1202,8 +1202,8 @@
   "Split LST into two sublists:"
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
-  (fun?! pred?)
-  (tail?! lst)
+  ;; (fun?! pred?)
+  ;; (tail?! lst)
   (let ((front nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1217,7 +1217,7 @@
 (report-time-us "def delq!/delql!               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delq! (item lst)
-  (cons?! lst)
+  ;; (cons?! lst)
   (when lst
    (while (and lst (eq? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1229,7 +1229,7 @@
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delql! (item lst)
-  (cons?! lst)
+  ;; (cons?! lst)
   (when lst
    (while (and lst (eql? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1246,7 +1246,7 @@
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun prime? (num)
   "Check if a number is prime."
-  (integer?! num)
+  ;; (integer?! num)
   (if (or (= num 0) (= num 1))
    nil
    (let ((limit (/ num 2))
@@ -1260,7 +1260,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun primes (n)
   "Return the first n prime numbers."
-  (integer?! n)
+  ;; (integer?! n)
   (let ((count 0)
         (num 2)
         (primes '()))
@@ -1277,8 +1277,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun remove-first! (pred? lst)
   "Destructively remove the first item matching PRED? from the list LST."
-  (fun?!  pred?)
-  (cons?! lst)
+  ;; (fun?!  pred?)
+  ;; (cons?! lst)
   (if (pred? (car lst))
    (if (cdr lst)
     (progn 
@@ -1297,7 +1297,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun select-and-move-to-front! (pred? lst)
   "Move the first item in LST matching PRED? to its head."
-  (fun?! pred?)
+  ;; (fun?! pred?)
   (let ((head (car lst)))
    (if (pred? head)
     head
@@ -1378,14 +1378,14 @@
 (report-time-us "def string funs                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-string (size init-val)
-  (integer?! size)
-  (string?!  init-val)
+  ;; (integer?! size)
+  ;; (string?!  init-val)
   (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
   (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun pad-string (size init-val str)
-  (integer?! size)
-  (string?!  init-val)
+  ;; (integer?! size)
+  ;; (string?!  init-val)
   (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
   (let ((pad (make-string (- size (length str)) init-val)))
    (concat str pad)))
