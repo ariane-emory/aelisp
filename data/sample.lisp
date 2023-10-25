@@ -270,7 +270,7 @@
     (while (< count n)
       (when (prime? num)
         (setq! count (+ count 1))
-        (setq! primes (append primes (list num))))
+        (setq! primes (append2 primes (list num))))
       (setq! num (+ num 1)))
     primes))
 
