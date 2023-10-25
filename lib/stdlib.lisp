@@ -149,8 +149,8 @@
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro expand-quasiquoted (expr)
-  "Expand a quasiquoted expression and resolve unquotes and
-   unquote-splicings within."
+  "Expand a quasiquoted expression and resolve unquotes and"
+  "unquote-splicings within."
   (cond
    ;; If it's not a cons then it's an atom that we should quote.
    ((atom? expr)
@@ -377,7 +377,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
-(exit)
 
 (report-time-us "def appen/nconc variants       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -436,9 +435,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten-left (lst)
   "Flatten a left-nested list structure LST."
-  (if (cons? (car lst))
+  (if (cons? (car lst))i)
    (append (flatten-left (car lst)) $(cadr lst))
-   lst))
+   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten (lst)
   (when lst
@@ -562,7 +561,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
-
 (report-time-us "def misc list funs             "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (unsorted):                                                     ;;
@@ -600,8 +598,8 @@
      (intercalate intercalated (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun butlast (lst)
-  "Returns a new list that contains all the elements of the input list except the
-  last one."
+  "Returns a new list that contains all the elements of the input list except"
+  "last one."
   (if (or (nil? lst) (nil? (cdr lst)))
    nil
    (cons (car lst) (butlast (cdr lst)))))
@@ -679,6 +677,9 @@
     $('setq! list-sym $('cons val list-sym))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
+
+
+;;(log-eval t)
 
 
 (report-time-us "def union                      "
@@ -763,8 +764,8 @@
  ;; log toggle helpers, these should be replaced with macros:                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun with-toggled-fun1 (toggled-fun)
-  "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPR and sets
-  TOGGLED-FUN back to it's prior state."
+  "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPR and sets"
+  "TOGGLED-FUN back to it's prior state."
   (lambda (fun-or-expr)
    (if (lambda? fun-or-expr)
     (let* ((old    (toggled-fun t))
@@ -777,8 +778,8 @@
      result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun with-toggled-fun (toggled-fun)
-  "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPRS and sets
-  TOGGLED-FUN back to it's prior state."
+  "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPRS and sets"
+  "TOGGLED-FUN back to it's prior state."
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -850,10 +851,10 @@
   nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun benchmark (repetitions print-interval qexpr)
-  "Benchmark QEXPR by running it REPETITIONS times and returning the
-  total/average time in ms, printing updates ever PRINT-INTERVAL iterations.
+  "Benchmark QEXPR by running it REPETITIONS times and returning the"
+  "total/average time in ms, printing updates ever PRINT-INTERVAL iterations."
 
-  THIS PROBABLY NEEDS AN UPDATE!"
+  "THIS PROBABLY NEEDS AN UPDATE!"
   (nl)
   (let ((ctr   0)
         (total 0))
@@ -1008,9 +1009,9 @@
 (report-time-us "def list split funs            "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun split-list-alternate! (pred? lst)
-  "Destructively split the LST into two sublists:
-   1. The longest initial sublist of elements satisfying PRED?
-   2. The rest of the elements."
+  "Destructively split the LST into two sublists:"
+  "1. The longest initial sublist of elements satisfying PRED?"
+  "2. The rest of the elements."
   (let ((front nil)
         (back lst))
    (while (and back (pred? (car back)))
@@ -1018,9 +1019,9 @@
    $((reverse front) back)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun split-list (pred? lst)
-  "Destructivly split LST into two sublists:
-   1. The longest initial sublist of elements satisfying PRED?
-   2. The rest of the elements."
+  "Destructivly split LST into two sublists:"
+  "1. The longest initial sublist of elements satisfying PRED?"
+  "2. The rest of the elements."
   (let ((prev nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1033,9 +1034,9 @@
     $(nil lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun split-list (pred? lst)
-  "Split LST into two sublists:
-   1. The longest initial sublist of elements satisfying PRED?
-   2. The rest of the elements."
+  "Split LST into two sublists:"
+  "1. The longest initial sublist of elements satisfying PRED?"
+  "2. The rest of the elements."
   (let ((front nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1178,7 +1179,7 @@
           '" ≠ "
           $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! confirm-2nd-column 70)
+ (setq! confirm-2nd-column 70)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro confirm (that expr returns expected)
   "Test whether EXPR evaluates to EXPECTED."
@@ -1199,7 +1200,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
-(log-eval t)
 
 (report-time-us "def scheme compat              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

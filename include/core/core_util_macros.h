@@ -53,7 +53,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_RETURN(name, val)                                                                     \
   {                                                                                                \
-    OUTDENT;                                                                                       \
+    if (local_indents) OUTDENT;                                                                    \
     CAPTURE((val));                                                                                \
     if (log_core)                                                                                  \
       LOG_RETURN_WITH_TYPE("core_" name, CAPTURED);                                                \

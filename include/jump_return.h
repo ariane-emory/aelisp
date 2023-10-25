@@ -10,20 +10,20 @@
   ae_obj_t * ret           = NIL
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define JUMP_RETURN_EXIT                                                                           \
-  if (local_indents > 0)                                                                           \
-    printf("WARNING: JUMP_RETURN_EXIT with local_indents > 0: %d\n", local_indents);               \
+  /* if (local_indents > 0) */                                                                     \
+  /* printf("WARNING: JUMP_RETURN_EXIT with local_indents > 0: %d\n", local_indents); */           \
                                                                                                    \
-  assert(local_indents == 0);                                                                      \
+  /* assert(local_indents == 0); */                                                                \
                                                                                                    \
   return ret
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define OUTDENTS(n)                                                                                \
+#define OUTDENTS(n, noisy)                                                                         \
   {                                                                                                \
-    if (n > 0)                                                                                     \
+    if ((n > 0))                                                                                   \
       printf("OUTDENTS(%d)\n", n);                                                                 \
                                                                                                    \
-    for (int ix = 1; ix < (n); ix++) {                                                             \
-      printf("OUTDENT!\n");                                                                        \
+    for (int ix = 0; ix < (n); ix++) {                                                             \
+      if ((noisy)) printf("OUTDENT!\n");                                                           \
       OUTDENT;                                                                                     \
     }                                                                                              \
   }
@@ -35,7 +35,7 @@
     if (local_indents != 0)                                                                        \
       PR("RETURN at %s:%d\n", __FILE__, __LINE__);                                                 \
                                                                                                    \
-    OUTDENTS(local_indents);                                                                       \
+    OUTDENTS(local_indents, 0);                                                                    \
                                                                                                    \
     ret = CAPTURED;                                                                                \
                                                                                                    \
@@ -50,7 +50,7 @@
       if (local_indents != 0)                                                                      \
         PR("RETURN because ERRORP at %s:%d\n", __FILE__, __LINE__);                                \
                                                                                                    \
-      OUTDENTS(local_indents);                                                                     \
+      OUTDENTS(local_indents, 1);                                                                  \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
@@ -68,7 +68,7 @@
       if (local_indents != 0)                                                                      \
         PR("RETURN because NILP at %s:%d\n", __FILE__, __LINE__);                                  \
                                                                                                    \
-      OUTDENTS(local_indents);                                                                     \
+      OUTDENTS(local_indents, 0);                                                                  \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
