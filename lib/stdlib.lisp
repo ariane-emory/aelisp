@@ -817,6 +817,8 @@
  (setq! union2q
   (lambda (lst1 lst2)
    "Make the union of two list, using eq? to test equality."
+   (tail?! lst1)
+   (tail?! lst2)
    (union2 eq? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionq
@@ -825,6 +827,8 @@
  (setq! union2ql
   (lambda (lst1 lst2)
    "Make the union of two list, using eql? to test equality."
+   (tail?! lst1)
+   (tail?! lst2)
    (union2 eql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionql
@@ -848,8 +852,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; even?/odd? predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun even?   (n) "t if N is even." (zero? (% n 2 )))
- (defun odd?    (n) "t if N is odd."  (= 1 (% n 2 )))
+ (defun even?   (n) "t if N is even." (integer?! n) (zero? (% n 2 )))
+ (defun odd?    (n) "t if N is odd."  (integer?! n) (= 1 (% n 2 )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; always?/never? predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
