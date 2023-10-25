@@ -292,20 +292,17 @@
   
   $('defmacro checker-name $('sym)
     $('let*
-      $($('type-pred?     pred?)
-        $('pred-string    pred-string)
-        $('val            $('eval 'sym))
-        $('val-type       $('type 'val))
-        
-                )
+      $($('type-pred? pred?)
+        $('val        $('eval 'sym)))
 
       $('unless $('type-pred? 'val)
         $('let* $($('val-string
-                   $('if $('string? 'val)
-                     $('concat "'" 'val "'")
-                     $('string 'val)))
+                    $('if $('string? 'val)
+                      $('concat "'" 'val "'")
+                      $('string 'val)))
                   $('obj-string
-                    $('if $('symbol? 'sym) 'sym 'val-string)))
+                    $('if $('symbol? 'sym) 'sym 'val-string))
+                  $('pred-string    pred-string))
           $('error
             $('concat
               'obj-string " must satisfy " 'pred-string ", got a "
