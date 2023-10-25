@@ -312,8 +312,8 @@
                    $('when   'val-string  "'")
                    )))))))
 
+;; (log-macro t)
 
-(log-macro t)
 (make-type-checker integer?)
 
 (setq! q 7)
