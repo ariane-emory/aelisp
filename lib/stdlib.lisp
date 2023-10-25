@@ -721,6 +721,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Returns a new list that is the reverse of the input list."
+  (tail?! lst)
   (letrec
    ((reverse-internal
      (lambda (lst acc)
@@ -731,6 +732,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeq! (obj lst)
   "Remove the first item eq? to obj from the list."
+  (tail?! lst)
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eq? obj head)
@@ -754,6 +756,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeql! (obj lst)
   "Remove the first item eql? to obj from the list."
+  (tail?! lst)
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eql? obj head)
@@ -801,12 +804,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (unions):                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun union2 (equalityp? list1 list2)
+ (defun union2 (equalityp? lst1 lst2)
+  (fun?!  equalityp?)
+  (tail?! lst1)
+  (tail?! lst2)
   "Return the union of two lists, using memp? to test for duplicates."
   (let* ((memp?    (make-member-pred equalityp?))
          (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
-         (union1   (reduce combine list1 '())))
-   (reduce combine list2 union1)))
+         (union1   (reduce combine lst1 '())))
+   (reduce combine lst2 union1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! union2q
   (lambda (lst1 lst2)
