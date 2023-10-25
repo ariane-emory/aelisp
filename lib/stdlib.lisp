@@ -1301,12 +1301,14 @@
 (report-time-us "def string funs                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-string (size init-val)
+  "Make a new string of length SIZE with it's chars set to INIT-VAL."
   (unless (integer? size)         (error "SIZE must be an integer."))
   (unless (string? init-val)      (error "INIT-VAL must be a string."))
   (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
   (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun pad-string (size init-val str)
+  "Pad STR to SIZE with INIT-VAL."
   (unless (integer? size)         (error "SIZE must be an integer."))
   (unless (string? init-val)      (error "INIT-VAL must be a string."))
   (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
