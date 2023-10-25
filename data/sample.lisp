@@ -274,6 +274,22 @@
 
 (confirm that (funcall + 1 2 3 4 5 6)                                                returns 21)
 
+
+;; (defun pad (str)
+;;  (let* ((len (length str))
+;;         (pad (make-string (- 10 len) #\space)))
+;;   (concat str pad)))
+
+(defun make-string (size init-val)
+ (unless (integer? size)         (error "make-string: size must be an integer."))
+ (unless (string? init-val)      (error "make-string: init-val must be a string."))
+ (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
+ (let* ((lst (make-list size init-val)))
+  (apply concat lst)))
+
+(princ (make-string 10 "x"))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
