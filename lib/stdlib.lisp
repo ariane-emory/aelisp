@@ -1197,6 +1197,7 @@
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun prime? (num)
   "Check if a number is prime."
+  (unless (integer? num) (error "NUM must be an integer"))
   (if (or (= num 0) (= num 1))
    nil
    (let ((limit (/ num 2))
@@ -1210,6 +1211,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun primes (n)
   "Return the first n prime numbers."
+  (unless (integer? n) (error "N must be an integer"))
   (let ((count 0)
         (num 2)
         (primes '()))
@@ -1226,6 +1228,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun remove-first! (pred? lst)
   "Destructively remove the first item matching PRED? from LST."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (if (pred? (car lst))
    (if (cdr lst)
     (progn 
