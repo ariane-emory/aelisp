@@ -1038,6 +1038,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defconstant (sym value)
   "Set SYM to VALUE and mark it as constant."
+  (unless (symbol? sym) (error "SYM must be a symbol"))
   $('progn
     $('setq! sym value)
     $('put! 't ':constant $('quote sym))
@@ -1092,6 +1093,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-list (size init-val)
   "Make a new list of length SIZE with it's cars set to INIT-VAL."
+  (unless (integer? size) (error "SIZE must be an integer"))
   (cond
    ((zero? size)  nil)
    (t            (cons init-val (make-list (1- size) init-val)))))
