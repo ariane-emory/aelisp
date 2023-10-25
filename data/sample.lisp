@@ -191,7 +191,7 @@
 (nl)
 
 (setq lst '(7 5 4 6 3 9 1 6 2 8 6))
-(confirm that (sort!! lst <) returns (1 2 3 4 5 6 6 6 7 8 9))
+(confirm that (sort!! lst <)                   returns (1 2 3 4 5 6 6 6 7 8 9))
 
 (nl)
 
