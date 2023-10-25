@@ -16,6 +16,8 @@
    (error "name must be a symbol"))
   (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
    (error "params must be a list or symbol"))
+  (unless (eq? :CONS (type body))
+   (error "body must be a cons"))
   $('setq! name $('macro params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun (name params . body)
@@ -23,6 +25,8 @@
   (error "name must be a symbol"))
  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
   (error "params must be a list or symbol"))
+ (unless (eq? :CONS (type body))
+  (error "body must be a cons"))
  $('setq! name $('lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
