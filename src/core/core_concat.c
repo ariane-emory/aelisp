@@ -18,7 +18,9 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
       ? SYM_VAL(elem)
       : STR_VAL(elem);
     
-    total_length += strlen(str);
+    int len = strlen(str);
+
+    total_length += len;
   }
 
   if (log_core)
@@ -33,8 +35,15 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   FOR_EACH(elem, args) {
     if (NILP(elem))
       continue;
-    int len = strlen(STR_VAL(elem));    
-    strcpy(string + pos, STR_VAL(elem));
+
+    char * str = SYMBOLP(elem)
+      ? SYM_VAL(elem)
+      : STR_VAL(elem);
+
+    int len = strlen(str);
+    
+    strcpy(string + pos, str);
+
     pos += len;
   }
 
