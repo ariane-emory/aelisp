@@ -291,8 +291,11 @@
          (checker-name (symbol (concat str-pred "!"))))
     
    $('defmacro checker-name $('sym)
-     $('let $($('str-pred str-pred))
-       str-pred))))
+     $('let
+       $($('str-pred str-pred)
+         $('val $('eval 'sym)))
+       
+       'str-pred))))
 
 
 ;; $('defmacro 'checker-name $('sym)
