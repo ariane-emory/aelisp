@@ -340,7 +340,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   if (log_eval)
     LOG(env, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
 
-  free_list_free(fun_name_part);
   
   INDENT;
 
@@ -371,6 +370,8 @@ end:
       free(tmp);
     }
   }  
+
+  free_list_free(fun_name_part);
 
   JUMP_RETURN_EXIT;
 }
