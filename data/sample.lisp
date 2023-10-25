@@ -311,10 +311,11 @@
         $('error $('concat
                    'obj-string " must satisfy " 'pred-string ", got a "
                    $('type    'val) ", "
-                   'val-string
-                   )))))))
+                   'val-string 
+                   )))
+      t))))
 
-;; (log-macro t)
+(log-macro t)
 
 (make-type-checker integer?)
 
