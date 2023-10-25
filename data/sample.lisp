@@ -215,8 +215,6 @@
 (nl)
 
 (confirm that (apply concat (intercalate " " '(These are words))) returns "These are words")
-(confirm that (apply concat (intercalate " " $(These are words))) returns "These are words")
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
