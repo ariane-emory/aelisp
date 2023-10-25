@@ -38,13 +38,13 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define MAP(list, fun)                (ae_list_map((list), (ae_list_map_fun)fun))
 #define LENGTH(list)                  (ae_list_length((list)))
 #define POP(list)                     (ae_list_pop(&(list)))
-#define PUSH(that, list)              (ae_list_push(&(list), (that)))
-#define PUSH_BACK(list, that)         (ae_list_push_back(&(list), (that)))
+#define PUSH(elem, list)              (ae_list_push(&(list), (elem)))
+#define PUSH_BACK(list, elem)         (ae_list_push_back(&(list), (elem)))
 #define REMOVE(list, elem)            (ae_list_remove_member((list), elem))
 #define SYM2(sym_list, str)           (ae_list_intern_string((sym_list), (str)))
 #define SYM(str)                      (SYM2(&symbols_list, (str)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MEMBERP(list, that)           (ae_list_has_member((list), (that)))
+#define MEMBERP(list, elem)           (ae_list_has_member((list), (elem)))
 #define PROPERP(obj)                  (ae_list_is_proper((obj)))
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH(elem, list)                                                                                           \
