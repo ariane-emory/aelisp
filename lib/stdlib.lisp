@@ -239,18 +239,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nth (index lst)
   "Get the nth item in LST."
+  ;; (unless (integer? index) (error "index must be an integer"))
+  ;; (unless (tail? lst)      (error "lst must be a tail"))
   (cond
    ((zero? index) (car lst))
    (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nthcdr (n lst)
   "Get the nth cdr of LST."
+  (unless (integer? n) (error "n must be an integer"))
+  (unless (tail? lst)  (error "lst must be a tail"))
   (if (zero? n)
    lst
    (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a LST."
+  ;; (unless (tail? lst) (error "lst must be a tail"))))
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
