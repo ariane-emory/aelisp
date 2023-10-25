@@ -716,8 +716,7 @@
   "Returns a new list that contains all the elements of the input list except"
   "last one."
   (tail?! lst)
-  (if (or (nil? lst) (nil? (cdr lst)))
-   nil
+  (unless (or (nil? lst) (nil? (cdr lst)))
    (cons (car lst) (butlast (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
