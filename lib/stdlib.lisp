@@ -122,6 +122,7 @@
  (defun string?   (o)          (type?    :STRING         o))
  (defun symbol?   (o)          (type?    :SYMBOL         o))
  (defun improper? (o)     (and (tail? o) (not (proper?   o))))
+ (defun fun?      (o)    (or (core? o) (lambda? o) (macro? o)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! pair? cons?) ;; scheme compatability
  (setq! null? nil?)  ;; scheme compatability
