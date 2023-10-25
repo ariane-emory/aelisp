@@ -296,6 +296,7 @@
       $($('type-pred?    pred?)
         $('str-pred       str-pred)
         $('val            $('eval 'sym))
+        $('val-type       $('type 'val))
         $('val-string     $('string? 'val))
         $('obj-string     $('if $('symbol? 'sym) 'sym 'val-string))
         )
