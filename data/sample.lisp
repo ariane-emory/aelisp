@@ -1,6 +1,6 @@
 (nl)
 
-(setq! lst (unionql '(1 2 3) '(4 5 6)))
+(setq!   lst  (unionql '(1 2 3) '(4 5 6)))
 
 (confirm that lst                              returns (6 5 4 3 2 1))
 (confirm that (memql?   3 lst)                 returns t)
@@ -14,7 +14,7 @@
 
 (nl)
 
-(setq! lst (make-list 6 200))
+(setq!   lst  (make-list 6 200))
 
 (confirm that lst                              returns (200 200 200 200 200 200))
 (confirm that (list-set! lst 0 100)            returns 100)
