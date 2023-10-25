@@ -277,25 +277,6 @@
 (confirm that (make-string 10 "x")                                      returns "xxxxxxxxxx")
 (confirm that (pad-string  10 "x" "hello")                              returns "helloxxxxx")
 
-;; (defmacro integer?! (sym)
-;;  $('unless $('integer? sym)
-;;    $('error (concat (string sym) " must be integer?"))))
-
-
-
-(log-macro t)
-;; (log-eval t)
-;; (log-eval nil)
-(log-macro nil)
-
-(defun thing (x)
- (integer?! x)
- (* 2 x))
-
-(thing 77)
-(thing "asd")
-;;(thing 'a)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
