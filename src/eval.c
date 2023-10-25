@@ -320,10 +320,10 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   if (log_eval)
     LOG(args, "applying user fun %s to %d %s arg%s:", fun_name_part, LENGTH(args), (SPECIALP(fun) ? "unevaled" : "evaled"), s_or_blank(LENGTH(args)));
 
-  if (MACROP(fun))
-    env = NEW_ENV(env, FUN_PARAMS(fun), args);
-  else
-    env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
+  /* if (MACROP(fun)) */
+  /*   env = NEW_ENV(env, FUN_PARAMS(fun), args); */
+  /* else */
+  env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
   /* if (log_eval) { */
   /*   LOG(env,           "new env for user fun:"); */
