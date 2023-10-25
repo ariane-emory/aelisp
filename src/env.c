@@ -25,14 +25,14 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   LOG(symbol,  "[adding]");
 #endif
   
-  INDENT;
+  // INDENT;
 
 #ifdef AE_LOG_ENG
   LOG(value,   "with value");
   LOG(env,     "to env");
 #endif
   
-  OUTDENT;
+  // OUTDENT;
 
 #ifdef AE_LOG_ENG
   LOG(symbol,  "[done adding]");
@@ -58,7 +58,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
   LOG(symbol, "[looking up '%s']", SYM_VAL(symbol));
 #endif
 
-  INDENT;
+  // INDENT;
 
   if (found_ptr)
     *found_ptr = false;
@@ -73,7 +73,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
     if (found_ptr)
       *found_ptr = true;
 
-    OUTDENT;
+    // OUTDENT;
     
 #ifdef AE_LOG_ENV
     LOG(symbol, "[looked up]");
@@ -91,7 +91,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
     if (found_ptr)
       *found_ptr = true;
     
-    OUTDENT;
+    // OUTDENT;
     
 #ifdef AE_LOG_ENV
     LOG(NIL, "[looked up]");
@@ -109,7 +109,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
     if (found_ptr)
       *found_ptr = true;
     
-    OUTDENT;
+    // OUTDENT;
     
 #ifdef AE_LOG_ENV
     LOG(TRUE, "[looked up]");
@@ -173,7 +173,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
 #endif
 
 end:
-  OUTDENT;
+  // OUTDENT;
   
 #ifdef AE_LOG_ENV
   LOG(ret, "[looked up]");
@@ -206,7 +206,7 @@ void ae_env_set(
 #ifdef AE_LOG_ENV
   LOG(symbol,    "[setting]");
 
-  INDENT;
+  // INDENT;
 
   LOG(value,   "to value");
 #endif
@@ -266,7 +266,7 @@ void ae_env_set(
 end:
   
 #ifdef AE_LOG_ENV
-  OUTDENT;
+  // OUTDENT;
 
   SLOG("[done setting]");
 #endif

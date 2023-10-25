@@ -14,13 +14,13 @@
 #define SPC              (putchar(' '))
 #define INDENT                                                                                     \
   ({                                                                                               \
-    printf("In to %d at %s:%d\n", local_indents + 1, __FILE__, __LINE__);                          \
+    printf("In  from %d to %d at %s:%d\n", local_indents, local_indents + 1, __FILE__, __LINE__);  \
     local_indents += indent ();                                                                    \
     local_indents;                                                                                 \
   })
 #define OUTDENT                                                                                    \
   ({                                                                                               \
-    printf("Out to %d at %s:%d\n", local_indents - 1, __FILE__, __LINE__);                         \
+    printf("Out from %d to %d at %s:%d\n", local_indents, local_indents - 1, __FILE__, __LINE__);  \
     local_indents += outdent();                                                                    \
     local_indents;                                                                                 \
   })
