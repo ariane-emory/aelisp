@@ -1026,6 +1026,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro funcall (fun . args)
   "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
+  (unless (fun? (eval fun)) (error "FUN must be a function"))
   (cons fun args))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun root-env ()
