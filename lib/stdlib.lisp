@@ -771,6 +771,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun union2 (equalityp? lst1 lst2)
   "Return the union of LST1 and LST2, using memp? to test for duplicates."
+  (unless (fun? equalityp?) (error "EQUALITYP? must be a function"))
+  (unless (tail? lst1)      (error "LST1 must be a tail"))
+  (unless (tail? lst2)      (error "LST2 must be a tail"))
   (let* ((memp?    (make-member-pred equalityp?))
          (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
          (union1   (reduce combine lst1 '())))
