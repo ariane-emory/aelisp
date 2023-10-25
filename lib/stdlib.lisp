@@ -608,8 +608,8 @@
   "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
-  (fun? pred?)
-  (fun? fun)
+  (fun?! pred?)
+  (fun?! fun)
   (when (not (lambda? fun)) (error "fun must be a function"))
   (cond
    ((and (atom? obj) (pred? obj)) (fun obj))
@@ -660,6 +660,8 @@
   (defun sort!!  (lst pred?)
    "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
    "returning a new list."
+   (tail?! lst)
+   (fun?!  pred?)
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
     (let* ((splits (half lst))
