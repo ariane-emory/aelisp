@@ -289,7 +289,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
        (PROPERP(FUN_PARAMS(fun)) && LENGTH(args) > LENGTH(FUN_PARAMS(fun))))
   ) {
     char * const msg_tmp = free_list_malloc(256);
-    char * const fun_desc = SWRITE(fun);
     
     snprintf(msg_tmp,
              256,
@@ -302,7 +301,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
              s_or_blank(LENGTH(FUN_PARAMS(fun))),
              LENGTH(args));
 
-    free(fun_desc);
     
     char * msg = free_list_malloc(strlen(msg_tmp) + 1);
     strcpy(msg, msg_tmp);
