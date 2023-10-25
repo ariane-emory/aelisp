@@ -282,10 +282,11 @@
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
          (lambda-params (cons (first params) (cons (second params) 'rest))))
+   (unless (or lst-is-first? (eq? 'lst (second params)))
+     (error "one of the params must be the symbol 'lst"))
    (cond
 
-    ((not (or lst-is-first? (eq? 'lst (second params))))
-     (error "one of the params must be the symbol 'lst"))
+
     (t `(lambda ,lambda-params
          (let ((position lst))
           (letrec
