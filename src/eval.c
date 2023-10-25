@@ -319,10 +319,10 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
     
     if (log_eval)
-      LOG(args, "applying user fun to %d evaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+      LOG(args, "applying user fun %s to %d evaled arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
   }
   else if (log_eval) {
-    LOG(args, "applying user fun to %d unevaled arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
+    LOG(args, "applying user fun %s to %d unevaled arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
   }
   
 //  ae_obj_t * body = FUN_BODY(fun);
@@ -336,8 +336,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   }
 
   if (log_eval)
-    LOG(env, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
-
+    LOG(args, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
   
   INDENT;
 
