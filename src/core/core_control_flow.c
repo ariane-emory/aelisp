@@ -185,7 +185,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
       LOG(ret, "or option");
     
     if (! NILP(ret))
-      RETURN(ret);
+      break;
   }
       
 end:
@@ -206,13 +206,9 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     if (log_core)
       LOG(ret, "and option");
 
-    /* if (NILP(ret)) */
-    /*   log_eval = true; */
-
     if (NILP(ret))
       break;
-    // RETURN_NIL_IF_NILP(ret);
-  }
+   }
 
 end:  
   CORE_RETURN("and", ret);
