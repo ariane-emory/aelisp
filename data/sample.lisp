@@ -249,36 +249,12 @@
 (nl)
 
 
-(defun prime? (num)
-  "Check if a number is prime."
-  (if (or (= num 0) (= num 1))
-      nil
-      (let ((limit (/ num 2))
-            (divisor 2)
-            (is-prime t))
-        (while (and (<= divisor limit) is-prime)
-          (if (= (% num divisor) 0)
-              (setq! is-prime nil)
-              (setq! divisor (+ divisor 1))))
-        is-prime)))
-
-(defun primes (n)
-  "Return the first n prime numbers."
-  (let ((count 0)
-        (num 2)
-        (primes '()))
-    (while (< count n)
-      (when (prime? num)
-        (setq! count (+ count 1))
-        (setq! primes (append2 primes (list num))))
-      (setq! num (+ num 1)))
-    primes))
 
 ;; (log-eval t)
 
-(write (prime? 7)) (nl)
-(write (prime? 8)) (nl)
-(write (primes 8)) (nl)
+(confirm that (prime? 7) returns t)
+(confirm that (prime? 8) returns nil)
+(confirm that (primes 8) returns '(2 3 5 7 11 13 17 19))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)

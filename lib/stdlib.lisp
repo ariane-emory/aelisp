@@ -1047,30 +1047,58 @@
 
 (report-time-us "def delq!/delql!               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun delq! (item lst)
- (when lst
-  (while (and lst (eq? (car lst) item))
-   (setq! lst (cdr lst)))
-  (let ((ptr lst))
-   (while (and ptr (cdr ptr))
-    (if (eq? (cadr ptr) item)
-     (rplacd! ptr (cddr ptr))
-     (setq! ptr (cdr ptr)))))
-  lst))
+ (defun delq! (item lst)
+  (when lst
+   (while (and lst (eq? (car lst) item))
+    (setq! lst (cdr lst)))
+   (let ((ptr lst))
+    (while (and ptr (cdr ptr))
+     (if (eq? (cadr ptr) item)
+      (rplacd! ptr (cddr ptr))
+      (setq! ptr (cdr ptr)))))
+   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun delql! (item lst)
- (when lst
-  (while (and lst (eql? (car lst) item))
-   (setq! lst (cdr lst)))
-  (let ((ptr lst))
-   (while (and ptr (cdr ptr))
-    (if (eql? (cadr ptr) item)
-     (rplacd! ptr (cddr ptr))
-     (setq! ptr (cdr ptr)))))
-  lst))
+ (defun delql! (item lst)
+  (when lst
+   (while (and lst (eql? (car lst) item))
+    (setq! lst (cdr lst)))
+   (let ((ptr lst))
+    (while (and ptr (cdr ptr))
+     (if (eql? (cadr ptr) item)
+      (rplacd! ptr (cddr ptr))
+      (setq! ptr (cdr ptr)))))
+   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-)
+ )
 
+(report-time-us "def prime?/primes              "
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun prime? (num)
+  "Check if a number is prime."
+  (if (or (= num 0) (= num 1))
+   nil
+   (let ((limit (/ num 2))
+         (divisor 2)
+         (is-prime t))
+    (while (and (<= divisor limit) is-prime)
+     (if (= (% num divisor) 0)
+      (setq! is-prime nil)
+      (setq! divisor (+ divisor 1))))
+    is-prime)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun primes (n)
+  "Return the first n prime numbers."
+  (let ((count 0)
+        (num 2)
+        (primes '()))
+   (while (< count n)
+    (when (prime? num)
+     (setq! count (+ count 1))
+     (setq! primes (append2 primes (list num))))
+    (setq! num (+ num 1)))
+   primes))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
 
 (report-time-us "def selection sort parts       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
