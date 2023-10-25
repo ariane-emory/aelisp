@@ -19,7 +19,6 @@
 extern int yylineno;
 extern ae_obj_t * program;
 extern int main(int argc, char ** argv);
-extern ae_obj_t * last_loaded_file;
 
 void yyerror(const char *str) {
     if (!NILP(last_loaded_file))
