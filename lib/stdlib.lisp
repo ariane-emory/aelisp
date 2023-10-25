@@ -122,7 +122,7 @@
  (defun string?   (o)          (type?    :STRING         o))
  (defun symbol?   (o)          (type?    :SYMBOL         o))
  (defun improper? (o)     (and (tail? o) (not (proper?   o))))
- (defun fun?      (o)    (or (core? o) (lambda? o) (macro? o)))
+ (defun fun?      (o)     (or  (core? o) (lambda? o) (macro? o)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! pair? cons?) ;; scheme compatability
  (setq! null? nil?)  ;; scheme compatability
@@ -315,6 +315,8 @@
       (t                 (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
   (defun reduce (fun lst . init-val)
    "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
+   (unless (fun? fun)  (error "fun must be a function"))
+   (unless (tail? lst) (error "lst must be a tail"))
    (cond
     ((nil? init-val)   (reduce-inner fun lst))
     ((cdr init-val)    (error "init-val must be a single object"))
