@@ -1183,6 +1183,7 @@
 (report-time-us "def delq!/delql!               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delq! (item lst)
+  (cons?! lst)
   (when lst
    (while (and lst (eq? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1194,6 +1195,7 @@
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delql! (item lst)
+  (cons?! lst)
   (when lst
    (while (and lst (eql? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1210,6 +1212,7 @@
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun prime? (num)
   "Check if a number is prime."
+  (integer?! num)
   (if (or (= num 0) (= num 1))
    nil
    (let ((limit (/ num 2))
@@ -1223,6 +1226,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun primes (n)
   "Return the first n prime numbers."
+  (integer?! n)
   (let ((count 0)
         (num 2)
         (primes '()))
