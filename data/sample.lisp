@@ -14,8 +14,6 @@
 
 (nl)
 
-(exit)
-
 (setq!   lst (make-list 6 200))
 
 (confirm that lst                              returns '(200 200 200 200 200 200))
