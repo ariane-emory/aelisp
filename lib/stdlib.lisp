@@ -432,9 +432,9 @@
  (defun mapconcat (fun lst delimiter)
   "Map fun over LST, returning the result of concatenating the resulting
    strings."
-  (fun?!    fun)
-  (tail?!   lst)
-  (string?! delimiter)
+  ;; (fun?!    fun)
+  ;; (tail?!   lst)
+  ;; (string?! delimiter)
   (if lst
    (reduce
     (lambda (acc item)
@@ -445,8 +445,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
-  (fun?!  fun)
-  (tail?! lst)
+  ;; (fun?!  fun)
+  ;; (tail?! lst)
   (when lst
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
@@ -456,8 +456,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapc (fun lst)
   "Apply FUN to each element of LST for side effects only and return LST."
-  (fun?!  fun)
-  (tail?! lst)
+  ;; (fun?!  fun)
+  ;; (tail?! lst)
   (let ((current lst))
    (while current
     (fun (car current))
