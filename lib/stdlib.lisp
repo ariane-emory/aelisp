@@ -1239,6 +1239,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun remove-first! (pred? lst)
   "Destructively remove the first item matching PRED? from the list LST."
+  (fun?!  pred?)
+  (cons?! lst)
   (if (pred? (car lst))
    (if (cdr lst)
     (progn 
