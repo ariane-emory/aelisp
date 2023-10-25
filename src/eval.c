@@ -293,10 +293,10 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     
     snprintf(msg_tmp,
              256,
-             "%s:%d: user fun '%s' requires %s %d arg%s, but got %d",
+             "%s:%d: user fun %s requires %s %d arg%s, but got %d",
              __FILE__,
              __LINE__,
-             fun_desc,
+             fun_name_part,
              ! PROPERP(FUN_PARAMS(fun)) ? "at least" : "exactly",
              LENGTH(FUN_PARAMS(fun)),
              s_or_blank(LENGTH(FUN_PARAMS(fun))),
