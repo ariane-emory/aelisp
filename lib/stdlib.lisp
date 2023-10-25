@@ -986,6 +986,9 @@
   "total/average time in ms, printing updates ever PRINT-INTERVAL iterations."
 
   "THIS PROBABLY NEEDS AN UPDATE!"
+  (integer?! repetitions)
+  (integer?! print-interval)
+  (cons?!    qexpr)
   (nl)
   (let ((ctr   0)
         (total 0))
