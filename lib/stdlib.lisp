@@ -1122,10 +1122,10 @@
           '" ≠ "
           $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro test (msg expr expected)
+ (defmacro test (expr expected)
   "Test whether EXPR evaluates to EXPECTED."
   $('progn
-    $('let $($('printed $('princ msg '":")))
+    $('let $($('printed $('princ $('string $('quote expr)) '":")))
       $('while $('< 'printed 32)
         $('princ '" ")
         $('setq! 'printed $('+ 1 'printed)))
