@@ -1020,47 +1020,47 @@
  (defun add-logging-to (fun)
   "Add logging to a function FUN."
   ;; (fun?! fun) errors for some reason.
-  (if (has? :added-logging fun)
-   (error "logging was already added to this fun")
-   (let* ((fun-name      (get :last-bound-to fun))
-          (old-fun-body  (body fun))
-          (old-body-tail (cdr old-fun-body))
-          (new-body
-           `((princ
-              "Applying " ',fun-name
-              " to parameters "  (syms (env))
-              " with arguments " (vals (env)) ".")
+  (when (has? :added-logging fun)
+   (error "logging was already added to this fun"))
+  (let* ((fun-name      (get :last-bound-to fun))
+         (old-fun-body  (body fun))
+         (old-body-tail (cdr old-fun-body))
+         (new-body
+          `((princ
+             "Applying " ',fun-name
+             " to parameters "  (syms (env))
+             " with arguments " (vals (env)) ".")
+            (nl)
+            (let ((result (progn ,@old-body-tail)))
+             (princ "Result of applying " ',fun-name " was " result ".")
              (nl)
-             (let ((result (progn ,@old-body-tail)))
-              (princ "Result of applying " ',fun-name " was " result ".")
-              (nl)
-              result))))
-    (rplacd! (body fun) new-body))
-   (put! t :added-logging fun) (nl)
-   fun))
+             result))))
+   (rplacd! (body fun) new-body))
+  (put! t :added-logging fun) (nl)
+  fun)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro funcall (fun . args)
-  "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
-  (fun?! (eval fun))
-  (cons fun args))
+(defmacro funcall (fun . args)
+ "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
+ (fun?! (eval fun))
+ (cons fun args))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun root-env ()
-  "Get the root environment."
-  (setq! pos (env))
-  (while (env pos)
-   (write pos) (nl)
-   (setq! pos (env pos)))
-  pos) 
+(defun root-env ()
+ "Get the root environment."
+ (setq! pos (env))
+ (while (env pos)
+  (write pos) (nl)
+  (setq! pos (env pos)))
+ pos) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro defconstant (sym value)
-  "Set SYM to VALUE and mark it as constant."
-  (symbol?! sym)
-  $('progn
-    $('setq! sym value)
-    $('put! 't ':constant $('quote sym))
-    value))
+(defmacro defconstant (sym value)
+ "Set SYM to VALUE and mark it as constant."
+ (symbol?! sym)
+ $('progn
+   $('setq! sym value)
+   $('put! 't ':constant $('quote sym))
+   value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
+)
 
 
 (report-time-us "def list predicates            "
