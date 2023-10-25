@@ -10,9 +10,15 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   // Measure the new string's required length.
   FOR_EACH(elem, args) {
-    REQUIRE(env, args, NILP(elem) || STRINGP(elem));
-    if (! NILP(elem))
-      total_length += strlen(STR_VAL(elem));
+    REQUIRE(env, args, NILP(elem) || STRINGP(elem) || SYMBOLP(elem));
+    if (NILP(elem))
+      continue;
+
+    char * str = SYMBOLP(elem)
+      ? SYM_VAL(elem)
+      : STR_VAL(elem);
+    
+    total_length += strlen(str);
   }
 
   if (log_core)
