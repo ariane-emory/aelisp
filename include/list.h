@@ -37,6 +37,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define EACH(list, fun)               (ae_list_each((list), (ae_list_each_fun)fun))
 #define MAP(list, fun)                (ae_list_map((list), (ae_list_map_fun)fun))
 #define LENGTH(list)                  (ae_list_length((list)))
+#define POP(list)                     (ae_list_pop(&(list)))
 #define PUSH(list, that)              (ae_list_push(&(list), (that)))
 #define PUSH_BACK(list, that)         (ae_list_push_back(&(list), (that)))
 #define REMOVE(list, elem)            (ae_list_remove_member((list), elem))
@@ -62,6 +63,7 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 // Obj's methods list-related methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t *    ae_list_cons         (      ae_obj_t *  const head,  ae_obj_t *  const  tail                            );
+ae_obj_t *    ae_list_pop          (      ae_obj_t ** const plist                                                     );
 ae_obj_t *    ae_list_push         (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
 ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
 ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const  member                          );
