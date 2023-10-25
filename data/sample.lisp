@@ -1,3 +1,12 @@
+(setq! blah
+ (lambda (x y)
+  (princ x y)))
+
+(blah "hello" "world") (nl)
+
+(exit)
+
+
 (nl)
 
 (setq!   lst  (unionql '(1 2 3) '(4 5 6)))

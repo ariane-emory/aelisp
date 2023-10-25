@@ -319,22 +319,18 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
     
   if (log_eval)
-    LOG(args, "applying user fun %s to %d evaled arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
-  else if (log_eval)
-    LOG(args, "applying user fun %s to %d unevaled arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
-  
-//  ae_obj_t * body = FUN_BODY(fun);
-
+    LOG(args, "applying user fun %s to %d %s arg%s:", fun_name_part, LENGTH(args), (SPECIALP(fun) ? "unevaled" : "evaled"), s_or_blank(LENGTH(args)));
+      
   env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
-  if (log_eval) {
-    LOG(env,           "new env for user fun:");
-    LOG(ENV_SYMS(env), "new env's syms:");
-    LOG(ENV_VALS(env), "new env's vals:");
-  }
+  /* if (log_eval) { */
+  /*   LOG(env,           "new env for user fun:"); */
+  /*   LOG(ENV_SYMS(env), "new env's syms:"); */
+  /*   LOG(ENV_VALS(env), "new env's vals:"); */
+  /* } */
 
-  if (log_eval)
-    LOG(args, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
+  /* if (log_eval) */
+  /*   LOG(args, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args))); */
   
   INDENT;
 
