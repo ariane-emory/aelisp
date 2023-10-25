@@ -370,7 +370,7 @@
   (defun rreduce (fun lst . init-val)
    "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
    ;; (fun?! fun)
-   (tail? lst)
+   ;; (tail?! lst)
    (cond
     ((cdr init-val)    (error "init-val must be a single object"))
     ((nil? init-val)   (rreduce-inner fun lst))
@@ -378,27 +378,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
-  (fun?! fun)
+  ;; (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda (lst) (reduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
   "which takes loose args."
-  (fun?! fun)
+  ;; (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda args ((reduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
-  (fun?! fun)
+  ;; (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda (lst) (rreduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced* (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
   "which takes loose args."
-  (fun?! fun)
+  ;; (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda args ((rreduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -411,15 +411,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
-  (fun?!  fun)
-  (tail?! lst)
+  ;; (fun?!  fun)
+  ;; (tail?! lst)
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar! (fun lst)
   "Map fun over LST, altering the list."
-  (fun?!  fun)
-  (tail?! lst)
+  ;; (fun?!  fun)
+  ;; (tail?! lst)
   (letrec
    ((mapcar-internal!
      (lambda (fun lst)
