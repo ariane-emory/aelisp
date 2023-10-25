@@ -172,6 +172,8 @@
  (setq! append2
   (lambda (lst1 lst2)
    "Append two LST1 and LST2."
+   (unless (tail? lst1) (error "lst1 must be a tail"))
+   (unless (tail? lst2) (error "lst2 must be a tail"))
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
