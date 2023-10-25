@@ -183,45 +183,43 @@
 (confirm that (binlist-to-dec-2 '(1 0 1 0 1 0 1)) returns 85)
 (confirm that (binlist-to-dec-3 '(1 0 1 0 1 0 1)) returns 85)
 (confirm that (bins-to-dec        1 0 1 0 1 0 1)  returns 85)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(nl)
-(confirm that (reduce  + '())                  returns nil)
-(confirm that (reduce  + '(1))                 returns 1)
-(confirm that (reduce  + '(1 2))               returns 3)
-(confirm that (reduce  + '(1 2 3))             returns 6)
-(confirm that (reduce  + '(1 2 3 4))           returns 10)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(nl)
-(confirm that (reduce  + '()         0)        returns 0)
-(confirm that (reduce  + '(1)        0)        returns 1)
-(confirm that (reduce  + '(1 2)      0)        returns 3)
-(confirm that (reduce  + '(1 2 3)    0)        returns 6)
-(confirm that (reduce  + '(1 2 3 4)  0)        returns 10)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(nl)
-(confirm that (rreduce + '())                  returns nil)
-(confirm that (rreduce + '(1))                 returns 1)
-(confirm that (rreduce + '(1 2))               returns 3)
-(confirm that (rreduce + '(1 2 3))             returns 6)
-(confirm that (rreduce + '(1 2 3 4))           returns 10)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(nl)
-(confirm that (rreduce + '()         0)        returns 0)
-(confirm that (rreduce + '(1)        0)        returns 1)
-(confirm that (rreduce + '(1 2)      0)        returns 3)
-(confirm that (rreduce + '(1 2 3)    0)        returns 6)
-(confirm that (rreduce + '(1 2 3 4)  0)        returns 10)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
-(confirm that (zip '(a b c) '(1 2 3))          returns ((a 1) (b 2) (c 3)))
-(confirm that (zip '(a b c) '(1 2 3) '(x y z)) returns ((a 1 x) (b 2 y) (c 3 z)))
+(confirm that (reduce  + '())                     returns nil)
+(confirm that (reduce  + '(1))                    returns 1)
+(confirm that (reduce  + '(1 2))                  returns 3)
+(confirm that (reduce  + '(1 2 3))                returns 6)
+(confirm that (reduce  + '(1 2 3 4))              returns 10)
+
+(nl)
+
+(confirm that (reduce  + '()         0)           returns 0)
+(confirm that (reduce  + '(1)        0)           returns 1)
+(confirm that (reduce  + '(1 2)      0)           returns 3)
+(confirm that (reduce  + '(1 2 3)    0)           returns 6)
+(confirm that (reduce  + '(1 2 3 4)  0)           returns 10)
+
+(nl)
+
+(confirm that (rreduce + '())                     returns nil)
+(confirm that (rreduce + '(1))                    returns 1)
+(confirm that (rreduce + '(1 2))                  returns 3)
+(confirm that (rreduce + '(1 2 3))                returns 6)
+(confirm that (rreduce + '(1 2 3 4))              returns 10)
+
+(nl)
+
+(confirm that (rreduce + '()         0)           returns 0)
+(confirm that (rreduce + '(1)        0)           returns 1)
+(confirm that (rreduce + '(1 2)      0)           returns 3)
+(confirm that (rreduce + '(1 2 3)    0)           returns 6)
+(confirm that (rreduce + '(1 2 3 4)  0)           returns 10)
+
+(nl)
+
+(confirm that (zip '(a b c) '(1 2 3))             returns ((a 1) (b 2) (c 3)))
+(confirm that (zip '(a b c) '(1 2 3) '(x y z))    returns ((a 1 x) (b 2 y) (c 3 z)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
