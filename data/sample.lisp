@@ -277,16 +277,16 @@
 (confirm that (make-string 10 "x")                                      returns "xxxxxxxxxx")
 (confirm that (pad-string  10 "x" "hello")                              returns "helloxxxxx")
 
-(defmacro integer?! (sym)
- $('unless $('integer? sym)
-   $('error (concat (string sym) " must be integer?"))))
+;; (defmacro integer?! (sym)
+;;  $('unless $('integer? sym)
+;;    $('error (concat (string sym) " must be integer?"))))
 
 (defmacro require-type (pred?)
  (let* ((str-pred (string pred?))
         (new-name (symbol (concat str-pred "!"))))
   $('defmacro new-name $('sym)
     $('unless $(pred? 'sym)
-      $('error $('concat $('string 'sym) " must be " str-pred))))))
+      $('error $('concat $('string 'sym) " must satisfy " str-pred))))))
 
 (log-macro t)
 ;; (log-eval t)
