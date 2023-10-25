@@ -313,9 +313,8 @@
 (log-macro t)
 (make-type-checker integer?)
 
+(setq! q 7)
+(princ "Succeed: ") (integer?! q) (nl)
 
-
-
-
-(princ "Succeed: ") (integer?! 7)     (nl)
-(princ "Fail:    ") (integer?! "asd") (nl)
+(setq! q "asd")
+(princ "Fail:    ") (integer?! q) (nl)
