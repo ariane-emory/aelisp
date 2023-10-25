@@ -1209,15 +1209,13 @@
  (unless (integer? size)         (error "make-string: size must be an integer."))
  (unless (string? init-val)      (error "make-string: init-val must be a string."))
  (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
- (let* ((lst (make-list size init-val)))
-  (apply concat lst)))
+  (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string (size init-val str)
  (unless (integer? size)         (error "pad-string: size must be an integer."))
  (unless (string? init-val)      (error "pad-string: init-val must be a string."))
  (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
- (let* ((len (length str))
-        (pad (make-string (- size len) init-val)))
+ (let ((pad (make-string (- size (length str)) init-val)))
   (concat str pad)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
