@@ -295,7 +295,9 @@
     $('let*
       $($('inner-pred?    pred?)
         $('str-pred       str-pred)
-        $('val            $('eval 'sym)))
+        $('val            $('eval 'sym))
+        $('obj-string     $('if $('symbol? 'sym) 'sym $('string? 'val)))
+        )
 
       $('unless $('symbol? 'sym)
         $('error "sym must be a symbol"))
