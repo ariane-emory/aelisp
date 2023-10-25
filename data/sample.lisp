@@ -298,18 +298,20 @@
          $('val            $('eval 'sym)))
 
      $('unless $('inner-pred? 'val)
-       $('error "bad news")) ))))
+       $('error $('concat
+                  $('string 'sym) " must satisfy " 'str-pred ", got a "
+                  $('string $('type    'val)) ", "
+                  $('when   $('string? 'val)  "'")
+                  $('string 'val)
+                  $('when   $('string? 'val)  "'")
+                  )))))))
 
 
 (log-macro t)
 (make-type-checker integer?)
 
 
-(defmacro integer?! (sym)
- (let* ((inner-pred? integer?)
-        (str-pred "integer?")
-        (val (eval sym)))
-  (unless (inner-pred? val) (error (concat "bad news: " (string val))))))
+
 
 
 (princ "Succeed: ") (integer?! 7)     (nl)
