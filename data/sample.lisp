@@ -281,6 +281,15 @@
  $('unless $('integer? sym)
   $('error (concat (string sym) " must be integer?"))))
 
+(defmacro require-type (pred?)
+ $('macro $('sym)
+  $('unless $(pred? 'sym)
+   $('error $('concat $('string 'sym) " must be " (string pred?))))))
+
+(log-macro t)
+(require-type integer?)
+(log-macro nil)
+
 (defun thing (x)
  (integer?! x)
  (* 2 x))
