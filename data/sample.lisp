@@ -318,13 +318,16 @@
 
 (make-type-checker integer?)
 
-;; (setq! q 7)
-;; (princ "Succeed: ") (integer?! q) (nl)
+(setq! q 7)
+(princ "Succeed: ") (integer?! q) (nl)
 
 ;; (setq! q "asd")
 ;; (princ "Fail:    ") (integer?! q) (nl)
 
+(setq! q t)
+(princ "Fail:    ") (integer?! q) (nl)
+
 (integer?! 7)
 (integer?! t)
 (integer?! "asd")
-(integer?! "asd")
+
