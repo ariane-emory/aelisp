@@ -286,15 +286,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nthcdr (n lst)
   "Get the nth cdr of LST."
-  (integer?! n)
-  (tail?!    lst)
+  ;; (integer?! n)
+  ;; (tail?!    lst)
   (if (zero? n)
    lst
    (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a LST."
-  (tail?! lst)
+  ;; (tail?! lst)
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
@@ -315,8 +315,8 @@
   PARAMS:       A list of length 2 that specifies the parameter order.
                 One parameter must be the symbol 'lst.
   COND-CLAUSES: The conditions to process the list."
-  (cons?! params)
-  (cons?! cond-clauses)
+  ;; (cons?! params)
+  ;; (cons?! cond-clauses)
   (unless (= 2 (length params)) (error "params needs length 2"))
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
