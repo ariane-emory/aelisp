@@ -12,9 +12,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! defmacro
  (macro (name params . body)
+  (when (not (eq? :SYMBOL (type name)))
+   (error "name must be a symbol"))
+  (when (not (or (eq? :CONS (type params)) (eq? :SYMBOL (type params))))
+   (error "params must be a list or symbol"))
   $('setq! name $('macro params . body))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun (name params . body)
+ (when (not (eq? :SYMBOL (type name)))
+  (error "name must be a symbol"))
+ (when (not (or (eq? :CONS (type params)) (eq? :SYMBOL (type params))))
+  (error "params must be a list or symbol"))
  $('setq! name $('lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -496,8 +504,8 @@
  (defun transform! (pred? fun obj)
   "Destructively transform the cons tree OBJ by replacing members matching
   PRED? with the result of applying FUN to them."
-  (when (atom? obj)
-   (error "obj must be a list"))
+  (when (not (lambda? fun)) (error "fun must be a function"))
+  (when (atom? obj)         (error "obj must be a list"))
   (cond
    ((pred? obj) (set! obj (fun obj)))
    ((cons? obj)
@@ -512,27 +520,28 @@
    (t obj))
   obj)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transform (pred? fun obj)
- "Transform OBJ by replacing members matching PRED? with the result of
+ (defun transform (pred? fun obj)
+  "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
- (cond
-  ((and (atom? obj) (pred? obj)) (fun obj))
-  ((atom? obj) obj)
-  (t
-   (cons
-    (transform pred? fun (car obj))
-    (transform pred? fun (cdr obj))))))
+  (when (not (lambda? fun)) (error "fun must be a function"))
+  (cond
+   ((and (atom? obj) (pred? obj)) (fun obj))
+   ((atom? obj) obj)
+   (t
+    (cons
+     (transform pred? fun (car obj))
+     (transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun prefetch (expr)
- "Try to optimize EXPR by replacing it's symbol? members with the result of
+ (defun prefetch (expr)
+  "Try to optimize EXPR by replacing it's symbol? members with the result of
   looking them up. This is, mysteriously, not a very effective optimization."
- (transform!
-  (lambda (x) (and (symbol? x) (bound? x)))
-  (lambda (x) (eval x))
-  expr))
+  (transform!
+   (lambda (x) (and (symbol? x) (bound? x)))
+   (lambda (x) (eval x))
+   expr))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-)
+ )
 
 
 (report-time-us "def sort!!                     "
