@@ -286,7 +286,13 @@
         (new-name (symbol (concat str-pred "!"))))
   $('defmacro new-name $('sym)
     $('unless $(pred? $('eval 'sym))
-      $('error $('concat $('string 'sym) " must satisfy " str-pred ", got a " $('string $('type $('eval 'sym)))))))))
+      $('error $('concat $('string 'sym) " must satisfy " str-pred ", got a "
+                 $('string $('type $('eval 'sym)))
+                 ", "
+                 $('when $('string? $('eval 'sym)) "'")
+                 $('string $('eval 'sym))
+                 $('when $('string? $('eval 'sym)) "'")
+                 ))))))
 
 
 
