@@ -1181,8 +1181,11 @@
   (setq! nreverse reverse)
   (setq! put      put!)
   (setq! setq     setq!)
-  (setq! null     nil?))
+  (setq! null     nil?)
+  (setq! identity id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 (print-loaded)
+
+
