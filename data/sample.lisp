@@ -277,6 +277,15 @@
 (confirm that (make-string 10 "x")                                      returns "xxxxxxxxxx")
 (confirm that (pad-string  10 "x" "hello")                              returns "helloxxxxx")
 
+(defmacro integer?! (sym)
+ (unless (integer? sym)
+  (error (string sym) "must be integer?")))
+
+(defun thing (x)
+ (* 2 x))
+
+(thing 77)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
