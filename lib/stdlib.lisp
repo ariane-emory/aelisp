@@ -587,8 +587,9 @@
  (defun transform! (pred? fun obj)
   "Destructively transform the cons tree OBJ by replacing members matching
   PRED? with the result of applying FUN to them."
-  (when (not (lambda? fun)) (error "fun must be a function"))
-  (when (atom? obj)         (error "obj must be a list"))
+  (fun?!  pred?)
+  (fun?!  fun)
+  (cons?! obj)
   (cond
    ((pred? obj) (set! obj (fun obj)))
    ((cons? obj)
@@ -607,6 +608,8 @@
   "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
+  (fun? pred?)
+  (fun? fun)
   (when (not (lambda? fun)) (error "fun must be a function"))
   (cond
    ((and (atom? obj) (pred? obj)) (fun obj))
