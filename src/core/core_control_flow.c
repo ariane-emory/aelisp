@@ -124,7 +124,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
     if (log_core)
       LOG(then_branch, "chose then");
 
-    RETURN(RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch))));
+    ret = RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 
   if (log_core)
@@ -159,7 +159,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
     if (log_core)
       LOG(then_branch, "chose then");
 
-    RETURN(RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch))));
+    ret = RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 
   if (log_core)
