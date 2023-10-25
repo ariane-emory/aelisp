@@ -232,21 +232,19 @@
 
 
 
+
+
 (setq lst '(1 nil 2 3 nil 4 nil))
-(write (delq! nil lst)) (nl)
-;; => (1 2 3 4)
+(confirm that (delq! nil lst) returns '(1 2 3 4))
 
-(setq another-list '(1 2 3 2 4 2 5))
-(write (delq! 2 another-list)) (nl)
-;; => (1 2 3 2 4 2 5)
+(setq lst '(1 2 3 2 4 2 5))
+(confirm that (delq! 2 lst) returns '(1 2 3 2 4 2 5))
 
-(setq another-list '(1 2 3 2 4 2 5))
-(write (delql! 2 another-list)) (nl)
-;; => (1 3 4 5)
+(setq lst '(1 2 3 2 4 2 5))
+(confirm that (delql! 2 lst) returns '(1 3 4 5))
 
-(setq another-list '(1 2 3 2 4 2 5))
-(write (delql! 1 another-list)) (nl)
-;; => (1 3 4 5)
+(setq lst '(1 2 3 2 4 2 5))
+(confirm that (delql! 1 lst) returns '(2 3 2 4 2 5))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
