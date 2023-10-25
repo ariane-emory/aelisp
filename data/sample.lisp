@@ -279,10 +279,11 @@
 
 (defmacro integer?! (sym)
  $('unless $('integer? sym)
-  $('error (concat (string sym) " must be integer?"))))
+   $('error (concat (string sym) " must be integer?"))))
 
 (defmacro require-type (pred?)
- (let ((str-pred (string pred?)))
+ (let* ((str-pred (string pred?))
+        (new-name (concat str-pred "!")))
   $('defmacro 'asd $('sym)
     $('unless $(pred? 'sym)
       $('error $('concat $('string 'sym) " must be " str-pred))))))
