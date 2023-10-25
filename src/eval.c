@@ -37,7 +37,7 @@ static void snap_indent(void) {
   static int ctr = 0;
   // return;
   if (log_column > log_column_default) {
-    if (++ctr > 4) {
+    if (++ctr > 8) {
       ctr = 0;
       log_column -= log_tab_width;
       if (log_column < log_column_default)
@@ -300,7 +300,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
              LENGTH(FUN_PARAMS(fun)),
              s_or_blank(LENGTH(FUN_PARAMS(fun))),
              LENGTH(args));
-
     
     char * msg = free_list_malloc(strlen(msg_tmp) + 1);
     strcpy(msg, msg_tmp);
