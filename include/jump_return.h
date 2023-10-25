@@ -32,6 +32,9 @@
   {                                                                                                \
     CAPTURE(obj);                                                                                  \
                                                                                                    \
+    if (local_indents != 0)                                                                        \
+      PR("RETURN at %s:%d\n", __FILE__, __LINE__);                                                 \
+                                                                                                   \
     OUTDENTS(local_indents);                                                                       \
                                                                                                    \
     ret = CAPTURED;                                                                                \
@@ -44,6 +47,9 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (ERRORP(CAPTURED)) {                                                                        \
+      if (local_indents != 0)                                                                      \
+        PR("RETURN because ERRORP at %s:%d\n", __FILE__, __LINE__);                                \
+                                                                                                   \
       OUTDENTS(local_indents);                                                                     \
                                                                                                    \
       ret = CAPTURED;                                                                              \
@@ -59,6 +65,9 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (NILP(CAPTURED)) {                                                                          \
+      if (local_indents != 0)                                                                      \
+        PR("RETURN because NILP at %s:%d\n", __FILE__, __LINE__);                                  \
+                                                                                                   \
       OUTDENTS(local_indents);                                                                     \
                                                                                                    \
       ret = CAPTURED;                                                                              \

@@ -497,10 +497,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     RETURN_IF_ERRORP(ret);
   }
 
-  OUTDENT;
   
 end:
-
+  OUTDENT;
 
   if (log_eval)
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));

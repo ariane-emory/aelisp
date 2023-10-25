@@ -197,7 +197,6 @@ end:
 ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
-  
   FOR_EACH(option, args) {
     ret = RETURN_IF_ERRORP(EVAL(env, option));
 
@@ -208,8 +207,7 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       RETURN(NIL);
   }
 
-end:
-  
+end:  
   CORE_RETURN("and", ret);
 }
 
