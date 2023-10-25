@@ -296,7 +296,8 @@
       $($('inner-pred?    pred?)
         $('str-pred       str-pred)
         $('val            $('eval 'sym))
-        $('obj-string     $('if $('symbol? 'sym) 'sym $('string? 'val)))
+        $('val-string     $('string? 'val))
+        $('obj-string     $('if $('symbol? 'sym) 'sym 'val-string))
         )
 
       $('unless $('symbol? 'sym)
