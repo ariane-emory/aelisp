@@ -1052,6 +1052,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defconstant (sym value)
   "Set SYM to VALUE and mark it as constant."
+  (symbol?! sym)
   $('progn
     $('setq! sym value)
     $('put! 't ':constant $('quote sym))
@@ -1066,6 +1067,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun-list-pred-fun (name combiner base-case)
   `(defun ,name (pred? lst)
+    (tail?! lst)
     (if lst
      (,combiner
       (pred? (car lst))
@@ -1075,7 +1077,9 @@
  (defun-list-pred-fun any? or  nil)
  (defun-list-pred-fun all? and t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro defun-list-transform-fun (name transformer)s  `(defun ,name (lsts)
+ (defmacro defun-list-transform-fun (name transformer)
+  `(defun ,name (lsts)
+    (tail?! lst)
     (when lsts
      (cons (,transformer (car lsts)) (,name (cdr lsts))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1105,6 +1109,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-list (size init-val)
   "Make a new list of length SIZE with it's cars set to INIT-VAL."
+  (integer?! size)
   (cond
    ((zero? size)  nil)
    (t            (cons init-val (make-list (1- size) init-val)))))
@@ -1115,16 +1120,19 @@
 (report-time-us "def tail chasers               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-member-pred (pred?)
+  (fun?! (eval pred?))
   `(make-chase-fun (obj lst)
     ((,pred? obj head) t)
     (position (chase obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-remove-fun (pred?)
+  (fun?! (eval pred?))
   `(make-chase-fun (obj lst)
     ((,pred? obj head) tail)
     (position (cons head (chase obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-index-fun (pred?)
+  (fun?! (eval pred?))
   `(make-chase-fun (obj lst)
     ((,pred? obj head) (car rest))
     (position (chase obj (if rest (1+ (car rest)) 1)))))
