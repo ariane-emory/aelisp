@@ -220,20 +220,6 @@
 (confirm that (mapcan id  '((1 2) (3 4) (5 6)))                   returns '(1 2 3 4 5 6))
 (confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9)))             returns '(2 3 5 6 8 9))
 
-
-(ignore
- (setq lst '((1 2) (3 4) (5 6)))
-
- (defun filter-evens (lst)
-  (delq nil (mapcar (lambda (x) (when (evenp x) x)) lst)))
-
- (mapcan filter-evens lst))
-
-
-
-
-
-
 (setq lst '(1 nil 2 3 nil 4 nil))
 (confirm that (delq! nil lst) returns '(1 2 3 4))
 
@@ -245,6 +231,14 @@
 
 (setq lst '(1 2 3 2 4 2 5))
 (confirm that (delql! 1 lst) returns '(2 3 2 4 2 5))
+
+(ignore
+ (setq lst '((1 2) (3 4) (5 6)))
+
+ (defun filter-evens (lst)
+  (delq nil (mapcar (lambda (x) (when (evenp x) x)) lst)))
+
+ (mapcan filter-evens lst))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
