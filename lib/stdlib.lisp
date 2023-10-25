@@ -332,8 +332,10 @@
   (defun rreduce (fun lst . init-val)
    "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
    (cond
-    ((nil? init-val)   (rreduce-inner fun lst))
+    ((not (fun? fun))  (error "fun must be a function"))
+    ((not (tail? lst)) (error "lst must be a tail"))
     ((cdr init-val)    (error "init-val must be a single object"))
+    ((nil? init-val)   (rreduce-inner fun lst))
     (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun . init-val)
