@@ -975,6 +975,8 @@
   "total/average time in ms, printing updates ever PRINT-INTERVAL iterations."
 
   "THIS PROBABLY NEEDS AN UPDATE!"
+  (unless (integer? repetitions)   (error "REPETITIONS must be an integer"))
+  (unless (integer? print-interval)(error "PRINT-INTERVAL must be an integer"))
   (nl)
   (let ((ctr   0)
         (total 0))
@@ -1005,6 +1007,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun add-logging-to (fun)
   "Add logging to a function FUN."
+  (unless (fun? fun) (error "FUN must be a function"))
   (if (has? :added-logging fun)
    (error "logging was already added to this fun")
    (let* ((fun-name      (get :last-bound-to fun))
