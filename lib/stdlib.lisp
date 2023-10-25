@@ -353,9 +353,9 @@
       (t                 (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
   (defun reduce (fun lst . init-val)
    "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
+   (fun?! fun)
+   (tail? lst)
    (cond
-    ((not (fun? fun))  (error "fun must be a function"))
-    ((not (tail? lst)) (error "lst must be a tail"))
     ((cdr init-val)    (error "init-val must be a single object"))
     ((nil? init-val)   (reduce-inner fun lst))
     (t                 (reduce-inner fun (cons (car init-val) lst))))))
@@ -369,9 +369,9 @@
       (t                 (fun (car lst) (rreduce-inner fun (cdr lst))))))))
   (defun rreduce (fun lst . init-val)
    "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
+   (fun?! fun)
+   (tail? lst)
    (cond
-    ((not (fun? fun))  (error "fun must be a function"))
-    ((not (tail? lst)) (error "lst must be a tail"))
     ((cdr init-val)    (error "init-val must be a single object"))
     ((nil? init-val)   (rreduce-inner fun lst))
     (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
@@ -411,15 +411,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (fun?! fun)
+  (tail?! lst)
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar! (fun lst)
   "Map fun over LST, altering the list."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (fun?! fun)
+  (tail?! lst)
   (letrec
    ((mapcar-internal!
      (lambda (fun lst)
@@ -432,9 +432,9 @@
  (defun mapconcat (fun lst delimiter)
   "Map fun over LST, returning the result of concatenating the resulting
    strings."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
-  (unless (string? delimiter) (error "delimiter must be a string"))
+  (fun?!    fun)
+  (tail?!   lst)
+  (string?! delimiter)
   (if lst
    (reduce
     (lambda (acc item)
@@ -445,8 +445,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (fun?!  fun)
+  (tail?! lst)
   (when lst
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
@@ -456,8 +456,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapc (fun lst)
   "Apply FUN to each element of LST for side effects only and return LST."
-  (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (fun?!  fun)
+  (tail?! lst)
   (let ((current lst))
    (while current
     (fun (car current))
