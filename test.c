@@ -1517,6 +1517,13 @@ void push_and_pop(void) {
   T(EQL(CAR(lst),   NEW_INT(1)));
   T(EQL(CADR(lst),  NEW_INT(2)));
   T(EQL(CADDR(lst), NEW_INT(3)));
+
+  ae_obj_t * popped = POP(lst);
+  LOG(lst, "after pop");
+  T(EQL(popped, NEW_INT(1)));
+  T(LENGTH(lst) == 2);
+  T(EQL(CAR(lst),  NEW_INT(2)));
+  T(EQL(CADR(lst), NEW_INT(3)));
   
   NL;
 }
