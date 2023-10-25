@@ -282,9 +282,10 @@
   $('error (concat (string sym) " must be integer?"))))
 
 (defmacro require-type (pred?)
+ (let ((str-pred (string pred?)))
   $('defmacro 'asd $('sym)
     $('unless $(pred? 'sym)
-      $('error $('concat $('string 'sym) " must be " (string pred?))))))
+      $('error $('concat $('string 'sym) " must be " str-pred))))))
 
 (log-macro t)
 (require-type integer?)
