@@ -1257,6 +1257,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun select-and-move-to-front! (pred? lst)
   "Move the first item in LST matching PRED? to its head."
+  (fun?! pred?)
   (let ((head (car lst)))
    (if (pred? head)
     head
@@ -1337,14 +1338,14 @@
 (report-time-us "def string funs                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-string (size init-val)
-  (unless (integer? size)         (error "make-string: size must be an integer."))
-  (unless (string? init-val)      (error "make-string: init-val must be a string."))
+  (integer?! size)
+  (string?!  init-val)
   (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
   (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun pad-string (size init-val str)
-  (unless (integer? size)         (error "pad-string: size must be an integer."))
-  (unless (string? init-val)      (error "pad-string: init-val must be a string."))
+  (integer?! size)
+  (string?!  init-val)
   (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
   (let ((pad (make-string (- size (length str)) init-val)))
    (concat str pad)))
