@@ -163,8 +163,12 @@ ae_obj_t * setup_root_env(void) {
 
     ae_obj_t * ret     = EVAL(root_env, program);
 
-    if (ERRORP(ret)) 
-      FPR(stderr, "WARNING: Error evaluating stdlib!\n");  
+    if (ERRORP(ret)) {
+      FPR(stderr, "WARNING: Error evaluating stdlib: ");
+      WRITE(ret);
+      putchar('!');
+      NL;
+    }
   }
 
   log_core = old_log_core;
