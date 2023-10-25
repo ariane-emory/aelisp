@@ -287,17 +287,18 @@
 
 
  (defmacro make-type-checker (pred?)
-  (let* ((str-pred (symbol-name pred?))
+  (let* (;; (inner-pred? pred?)
+         (str-pred (symbol-name pred?))
          (checker-name (symbol (concat str-pred "!"))))
     
    $('defmacro checker-name $('sym)
-     $('let
-       $($('pred?    pred?)
-         $('str-pred str-pred)
-         $('val      $('eval 'sym))))
+     $('let*
+       $($('inner-pred?    pred?)
+         $('str-pred       str-pred)
+         $('val            $('eval 'sym)))
 
-     $('unless $('pred? 'val)
-       $('error "bad news")))))
+     $('unless $('inner-pred? 'val)
+       $('error "bad news")) ))))
 
 
 (log-macro t)
@@ -306,3 +307,7 @@
 
 (princ "Succeed: ") (integer?! 7)     (nl)
 (princ "Fail:    ") (integer?! "asd") (nl)
+
+(defmacro integer?! (sym)
+ (let* ((str-pred "integer?") (val (eval sym))) (unless (inner-pred? val) (error "bad news"))))
+
