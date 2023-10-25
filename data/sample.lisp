@@ -36,8 +36,6 @@
 (confirm that lst                              returns (100 101 102 103 104 105))
 (confirm that (list-ref lst 5)                 returns 105)
 
-(nl) 
-
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
 
