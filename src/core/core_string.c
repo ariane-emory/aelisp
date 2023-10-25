@@ -20,3 +20,16 @@ ae_obj_t * ae_core_string(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_RETURN("string", ret);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _symbol
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_symbol(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("symbol");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "symbol's 1st arg must be a string");
+  ret = SYM(STR_VAL(CAR(args)));
+  
+  CORE_RETURN("symbol", ret);
+}
+
