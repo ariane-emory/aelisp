@@ -836,6 +836,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun compose-pred1s preds
   "Does what it says on the tin and composes unary predicatess PREDS."
+  (unless (all? fun? preds) (error "PREDS must be functions"))
   (lambda (val)
    (lets
     ((fun
@@ -850,6 +851,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun invert-pred1 pred?
   "Does what it says on the tin and inverts a unary predicate PRED?."
+  (unless (fun? pred?) (error "PRED? must be a function"))
   (lambda (val)
    (not (pred? val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -863,6 +865,7 @@
  (defun with-toggled-fun1 (toggled-fun)
   "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPR and sets"
   "TOGGLED-FUN back to it's prior state."
+  (unless (fun? toggled-fun) (error "TOGGLED-FUN must be a function"))
   (lambda (fun-or-expr)
    (if (lambda? fun-or-expr)
     (let* ((old    (toggled-fun t))
@@ -877,6 +880,7 @@
  (defun with-toggled-fun (toggled-fun)
   "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPRS and sets"
   "TOGGLED-FUN back to it's prior state."
+  (unless (fun? toggled-fun) (error "TOGGLED-FUN must be a function"))
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -918,12 +922,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; random unsorted stuff:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun apply* (proc . args)
+ (defun apply* (fun . args)
   "Try to remember how this one works and document it."
-  (apply proc (apply list* args)))
+  (unless (fun? fun) (error "FUN must be a function"))
+  (apply fun (apply list* args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun curry1 (fun arg1)
   "Curry the first argument of FUN as ARG1. This would be better if it were a macro."
+  (unless (fun? fun) (error "FUN must be a function"))
   (lambda args
    (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -931,15 +937,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun spc    ()    (princ " "))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun max    (a b) (if (> a b) a b))
+ (defun max(a b)
+  "Return the larger of A and B."
+  (unless (integer? a) (error "A must be an integer"))
+  (unless (integer? b) (error "B must be an integer"))
+  (if (> a b) a b))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun min    (a b) (if (< a b) a b))
+ (defun min(a b)
+  "Return the smaller of A and B."
+  (unless (integer? a) (error "A must be an integer"))
+  (unless (integer? b) (error "B must be an integer"))
+  (if (< a b) a b))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun 1+     (n)   (+ 1 n))
+ (defun 1+(n)
+  "Return N + 1."
+  (unless (integer? n) (error "N must be an integer"))
+  (+ 1 n))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun 1-     (n)   (- n 1))
+ (defun 1-(n)
+  "Return N - 1."
+  (unless (integer? n) (error "N must be an integer"))
+  (- n 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun double (n)   (<< n 1))
+ (defun double(n)
+  "Return N * 2."
+  (unless (integer? n) (error "N must be an integer"))
+  (<< n 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! 2*     double)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
