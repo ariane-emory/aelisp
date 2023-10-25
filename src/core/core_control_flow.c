@@ -49,7 +49,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
     }
 
     if (! NILP(RETURN_IF_ERRORP(EVAL(env, item_car))))
-     RETURN(RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr))));
+      RETURN(RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr))));
   }
 
 end:
@@ -203,8 +203,7 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     if (log_core)
       LOG(ret, "and option");
     
-    if (NILP(ret))
-      RETURN(NIL);
+    RETURN_NIL_IF_NILP(ret);
   }
 
 end:  
