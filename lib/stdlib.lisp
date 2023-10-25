@@ -211,8 +211,8 @@
  (setq! append2
   (lambda (lst1 lst2)
    "Append two LST1 and LST2."
-   (unless (tail? lst1) (error "lst1 must be a tail"))
-   (unless (tail? lst2) (error "lst2 must be a tail"))
+   (tail?! lst1)
+   (tail?! lst2)
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
@@ -278,23 +278,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nth (index lst)
   "Get the nth item in LST."
-  (unless (integer? index) (error "index must be an integer"))
-  (unless (tail? lst)      (error "lst must be a tail"))
+  (integer?! index)
+  (tail?!    lst)
   (cond
    ((zero? index) (car lst))
    (lst          (nth (- index 1) (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nthcdr (n lst)
   "Get the nth cdr of LST."
-  (unless (integer? n) (error "n must be an integer"))
-  (unless (tail? lst)  (error "lst must be a tail"))
+  (integer?! n)
+  (tail?!    lst)
   (if (zero? n)
    lst
    (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a LST."
-  (unless (tail? lst) (error "lst must be a tail"))
+  (tail?! lst)
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
@@ -315,8 +315,8 @@
   PARAMS:       A list of length 2 that specifies the parameter order.
                 One parameter must be the symbol 'lst.
   COND-CLAUSES: The conditions to process the list."
-  (unless (cons? params)        (error "params must be a list"))
-  (unless (cons? cond-clauses)  (error "cond-clauses must be a list"))
+  (cons?! params)
+  (cons?! cond-clauses)
   (unless (= 2 (length params)) (error "params needs length 2"))
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
@@ -378,27 +378,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
-  (unless (fun? fun)   (error "fun must be a function"))
+  (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda (lst) (reduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
   "which takes loose args."
-  (unless (fun? fun)   (error "fun must be a function"))
+  (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda args ((reduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
-  (unless (fun? fun)   (error "fun must be a function"))
+  (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda (lst) (rreduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced* (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
   "which takes loose args."
-  (unless (fun? fun)   (error "fun must be a function"))
+  (fun?! fun)
   (when (cdr init-val) (error "init-val must be a single object"))
   (lambda args ((rreduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
