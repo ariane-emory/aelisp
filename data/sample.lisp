@@ -220,6 +220,8 @@
 (confirm that (mapcan id  '((1 2) (3 4) (5 6)))                   returns '(1 2 3 4 5 6))
 (confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9)))             returns '(2 3 5 6 8 9))
 
+(nl)
+
 (setq lst '(1 nil 2 3 nil 4 nil))
 (confirm that (delq! nil lst) returns '(1 2 3 4))
 
