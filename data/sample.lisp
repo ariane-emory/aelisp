@@ -283,13 +283,15 @@
 
 (defmacro require-type (pred?)
  (let* ((str-pred (string pred?))
-        (new-name (concat str-pred "!")))
-  $('defmacro 'asd $('sym)
+        (new-name (symbol (concat str-pred "!"))))
+  $('defmacro new-name $('sym)
     $('unless $(pred? 'sym)
       $('error $('concat $('string 'sym) " must be " str-pred))))))
 
 (log-macro t)
+;; (log-eval t)
 (require-type integer?)
+;; (log-eval nil)
 (log-macro nil)
 
 (defun thing (x)
