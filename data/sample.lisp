@@ -196,13 +196,13 @@
 (nl)
 
 (confirm that ((reduced   +  )  '(1 2 3 4))    returns 10)
-(confirm that ((reduced   + 4)  '(1 2 3))      returns 10)
+(confirm that ((reduced   + 4)  '(1 2 3  ))    returns 10)
 (confirm that ((rreduced  +  )  '(1 2 3 4))    returns 10)
-(confirm that ((rreduced  + 4)  '(1 2 3))      returns 10)
-(confirm that ((reduced*  +  )    1 2 3 4)     returns 10)
-(confirm that ((reduced*  + 4)    1 2 3)       returns 10)
-(confirm that ((rreduced* +  )    1 2 3 4)     returns 10)
-(confirm that ((rreduced* + 4)    1 2 3)       returns 10)
+(confirm that ((rreduced  + 4)  '(1 2 3)  )    returns 10)
+(confirm that ((reduced*  +  )    1 2 3 4 )    returns 10)
+(confirm that ((reduced*  + 4)    1 2 3   )    returns 10)
+(confirm that ((rreduced* +  )    1 2 3 4 )    returns 10)
+(confirm that ((rreduced* + 4)    1 2 3   )    returns 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
