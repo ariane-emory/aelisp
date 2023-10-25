@@ -1,9 +1,7 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq! lst (unionql '(1 2 3) '(4 5 6)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (confirm that lst                              returns (6 5 4 3 2 1))
 (confirm that (memql?   3 lst)                 returns t)
 (confirm that (removeql 4 lst)                 returns (6 5 3 2 1))
@@ -13,12 +11,9 @@
 (confirm that (reverse '(1 2 3 4 5))           returns (5 4 3 2 1))
 (confirm that (reverse (butlast '(1 2 3 4 5))) returns (4 3 2 1))
 (confirm that (unionql '(1 2 3) '(4 5 6))      returns (6 5 4 3 2 1))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq! lst (make-list 6 200))
 
 (confirm that lst                              returns (200 200 200 200 200 200))
@@ -40,10 +35,7 @@
 (confirm that (list-set! lst 5 105)            returns 105)
 (confirm that lst                              returns (100 101 102 103 104 105))
 (confirm that (list-ref lst 5)                 returns 105)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl) 
 
 (defun lshift4 (n) (<< n 4))
@@ -57,11 +49,9 @@
   (let ((result (progn (<< n 4))))
    (princ "Result of applying " 'lshift4 " was " result ".") (nl)
    result)))
+
 (confirm that (lshift4 4) returns 64)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (setq! lst $(2 4 1 5 3 7 9 6 8))
@@ -75,36 +65,23 @@
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst) returns (3 4 5 6 7 8 9 2 1))
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst) returns (2 3 4 5 6 7 8 9 1))
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst) returns (1 2 3 4 5 6 7 8 9))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (confirm that (nthcdr 0 lst) returns (1 2 3 4 5 6 7 8 9))
 (confirm that (nthcdr 1 lst) returns (2 3 4 5 6 7 8 9))
 (confirm that (nthcdr 2 lst) returns (3 4 5 6 7 8 9))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (setq! c (curry1 nthcdr 3))
-
 (confirm that (c lst) returns (4 5 6 7 8 9))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (confirm that (pop! lst)     returns 1)
 (confirm that (push! 99 lst) returns (99 2 3 4 5 6 7 8 9))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
  "This would result (deliberately) in an invalid call, so we ignore it for now."
  "It remains here only to serve as an example."
@@ -112,10 +89,7 @@
  (nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
  ;; (log-eval t)
  (s x 2 3))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
  "This one triggers an indentation bug, investigate:"
  (defun split-list (pred? lst)
@@ -125,10 +99,7 @@
     (setq front (cons (car current) front))
     (setq current (cdr current)))
    $((fake-reverse front) current))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (setq! lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
@@ -140,8 +111,6 @@
  (confirm that (apply concat (intercalate " " (car split))) returns "\"asdw erer rerw\""))
 
 (confirm that (cadr split) returns (1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
@@ -162,8 +131,6 @@
  (write (doc write))        (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (defun binlist-to-dec-1 (lst)
@@ -176,8 +143,8 @@
   (chase 0 lst)))
 
 (defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) lst 0))
-(setq! binlist-to-dec-3 (reduced  (lambda (x y) (+ (<< x 1) y))))
-(setq! bins-to-dec (reduced* (lambda (x y) (+ (<< x 1) y))))
+(setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
+(setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
 
 (confirm that (binlist-to-dec-1 '(1 0 1 0 1 0 1)) returns 85)
 (confirm that (binlist-to-dec-2 '(1 0 1 0 1 0 1)) returns 85)
@@ -186,11 +153,11 @@
 
 (nl)
 
-(confirm that (reduce  + '())                     returns nil)
-(confirm that (reduce  + '(1))                    returns 1)
-(confirm that (reduce  + '(1 2))                  returns 3)
-(confirm that (reduce  + '(1 2 3))                returns 6)
-(confirm that (reduce  + '(1 2 3 4))              returns 10)
+(confirm that (reduce  + '()          )           returns nil)
+(confirm that (reduce  + '(1)         )           returns 1)
+(confirm that (reduce  + '(1 2)       )           returns 3)
+(confirm that (reduce  + '(1 2 3)     )           returns 6)
+(confirm that (reduce  + '(1 2 3 4)   )           returns 10)
 
 (nl)
 
@@ -202,11 +169,11 @@
 
 (nl)
 
-(confirm that (rreduce + '())                     returns nil)
-(confirm that (rreduce + '(1))                    returns 1)
-(confirm that (rreduce + '(1 2))                  returns 3)
-(confirm that (rreduce + '(1 2 3))                returns 6)
-(confirm that (rreduce + '(1 2 3 4))              returns 10)
+(confirm that (rreduce + '()          )           returns nil)
+(confirm that (rreduce + '(1)         )           returns 1)
+(confirm that (rreduce + '(1 2)       )           returns 3)
+(confirm that (rreduce + '(1 2 3)     )           returns 6)
+(confirm that (rreduce + '(1 2 3 4)   )           returns 10)
 
 (nl)
 
@@ -220,31 +187,28 @@
 
 (confirm that (zip '(a b c) '(1 2 3))             returns ((a 1) (b 2) (c 3)))
 (confirm that (zip '(a b c) '(1 2 3) '(x y z))    returns ((a 1 x) (b 2 y) (c 3 z)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (defun less-than (a b) (< a b))
 (confirm that (sort!! mylist less-than) returns (1 2 3 4 5 6 6 6 7 8 9))
 
+(nl)
+
 (setq mylist '(7 5 4 6 3 9 1 6 2 8 6))
 (confirm that (sort!! mylist <) returns (1 2 3 4 5 6 6 6 7 8 9))
 
-
 (nl)
 
-(confirm that ((reduced* +)      1 2 3 4)  returns 10)
-(confirm that ((reduced* + 4)    1 2 3)    returns 10)
-(confirm that ((rreduced* +)     1 2 3 4)  returns 10)
-(confirm that ((rreduced* + 4)   1 2 3)    returns 10)
-(confirm that ((reduced  +)    '(1 2 3 4)) returns 10)
-(confirm that ((reduced  + 4)  '(1 2 3))   returns 10)
-(confirm that ((rreduced  +)   '(1 2 3 4)) returns 10)
-(confirm that ((rreduced  + 4) '(1 2 3))   returns 10)
-
+(confirm that ((reduced   +  )  '(1 2 3 4)) returns 10)
+(confirm that ((reduced   + 4)  '(1 2 3))   returns 10)
+(confirm that ((rreduced  +  )  '(1 2 3 4)) returns 10)
+(confirm that ((rreduced  + 4)  '(1 2 3))   returns 10)
+(confirm that ((reduced*  +  )    1 2 3 4)  returns 10)
+(confirm that ((reduced*  + 4)    1 2 3)    returns 10)
+(confirm that ((rreduced* +  )    1 2 3 4)  returns 10)
+(confirm that ((rreduced* + 4)    1 2 3)    returns 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
