@@ -41,8 +41,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     if (log_core)
       OLOG(varlist_item);
 
-    ae_obj_t * val =
-      SYMBOLP(varlist_item)
+    ae_obj_t * val = SYMBOLP(varlist_item)
       ? NIL
       : RETURN_IF_ERRORP(EVAL(env, CADR(varlist_item)));
 
@@ -58,9 +57,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       LOG(val,               "to value");   
     }
 
-    ENV_SET_L(new_env,
-              CAR(varlist_item), 
-              val);
+    ENV_SET_L(new_env, CAR(varlist_item), val);
 
     OUTDENT;
   }
