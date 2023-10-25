@@ -272,6 +272,18 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   assert(args);
   assert(TAILP(args));
 
+  char * const fun_name_part = free_list_malloc(256);
+  fun_name_part[0] = '\0';
+
+  if (HAS_PROP("last-bound-to", fun)) {
+    snprintf(fun_name_part, 256, "'%s'", SYM_VAL(GET_PROP("last-bound-to", fun)));
+  }
+  else {
+    char * tmp = SWRITE(fun);
+    snprintf(fun_name_part, 256, "%s", tmp);
+    free(tmp);
+  }
+  
   if (CONSP(FUN_PARAMS(fun)) &&
       ((LENGTH(args) < LENGTH(FUN_PARAMS(fun))) ||
        (PROPERP(FUN_PARAMS(fun)) && LENGTH(args) > LENGTH(FUN_PARAMS(fun))))
@@ -325,18 +337,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     LOG(ENV_VALS(env), "new env's vals:");
   }
 
-  char * const fun_name_part = free_list_malloc(256);
-  fun_name_part[0] = '\0';
-
-  if (HAS_PROP("last-bound-to", fun)) {
-    snprintf(fun_name_part, 256, "'%s'", SYM_VAL(GET_PROP("last-bound-to", fun)));
-  }
-  else {
-    char * tmp = SWRITE(fun);
-    snprintf(fun_name_part, 256, "%s", tmp);
-    free(tmp);
-  }
-  
   if (log_eval)
     LOG(env, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args)));
 
