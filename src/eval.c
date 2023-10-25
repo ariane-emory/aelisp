@@ -446,8 +446,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     ? apply_core(env, fun, args)
     : apply_user(env, fun, args);
 
-  if (ERRORP(ret))
-    goto end;
+  RETURN_IF_ERRORP(ret);
 
   if (MACROP(fun)) {
     if (log_eval || log_macro) {
@@ -474,8 +473,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     if (log_eval || log_macro)
       LOG(obj, "expanding took %.2f ms:", ((double)(after - begin))/1000.0);
 
-    if (ERRORP(ret))
-      goto end;
+    RETURN_IF_ERRORP(ret);
 
     // this line would cause 'in-place expansion' and is disabled until a way
     // to annotate which macros should be expanded in-place is implemented:
@@ -496,12 +494,13 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     else
       ESET(ret, "fun", CONS(fun, NIL));
 
-    goto end;
+    RETURN_IF_ERRORP(ret);
   }
 
   OUTDENT;
   
 end:
+
 
   if (log_eval)
     LOG(ret, "evaluating list returned %s :%s", a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));

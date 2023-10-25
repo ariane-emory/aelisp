@@ -22,7 +22,7 @@
     if (n > 0)                                                                                     \
       printf("OUTDENTS(%d)\n", n);                                                                 \
                                                                                                    \
-    for (int ix = 0; ix < (n); ix++) {                                                             \
+    for (int ix = 1; ix < (n); ix++) {                                                             \
       printf("OUTDENT!\n");                                                                        \
       OUTDENT;                                                                                     \
     }                                                                                              \
