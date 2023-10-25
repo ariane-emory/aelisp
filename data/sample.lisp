@@ -292,21 +292,13 @@
     
    $('defmacro checker-name $('sym)
      $('let
-       $($('str-pred str-pred)
-         $('val $('eval 'sym)))
+       $($('pred?    pred?)
+         $('str-pred str-pred)
+         $('val      $('eval 'sym))))
        
-       'str-pred))))
+       'str-pred
+       'val)))
 
-
-;; $('defmacro 'checker-name $('sym)
-   ;;   $('let $($('val $('eval 'sym)))
-   ;;     $('unless $(pred? 'val)
-   ;;       $('error $('concat
-   ;;                  $('string 'sym) " must satisfy " 'str-pred ", got a "
-   ;;                  $('string $('type 'val)) ", "
-   ;;                  $('when   $('string? 'val) "'")
-   ;;                  $('string 'val)
-   ;;                  $('when   $('string? 'val) "'"))))))))
 
 (log-macro t)
 (make-type-checker integer?)
