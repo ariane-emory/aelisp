@@ -255,7 +255,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a LST."
-  ;; (unless (tail? lst) (error "lst must be a tail"))))
+  (unless (tail? lst) (error "lst must be a tail"))
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
