@@ -276,14 +276,14 @@
   PARAMS:       A list of length 2 that specifies the parameter order.
                 One parameter must be the symbol 'lst.
   COND-CLAUSES: The conditions to process the list."
-  (unless (cons? params)       (error "params must be a list"))
-  (unless (cons? cond-clauses) (error "cond-clauses must be a list"))
+  (unless (cons? params)        (error "params must be a list"))
+  (unless (cons? cond-clauses)  (error "cond-clauses must be a list"))
+  (unless (= 2 (length params)) (error "params needs length 2"))
   (let* ((lst-is-first? (eq? 'lst (first  params)))
          (user-param    (if lst-is-first? (second params) (first params)))
          (lambda-params (cons (first params) (cons (second params) 'rest))))
    (cond
-    ((!= 2 (length params))
-     (error "params needs length 2"))
+
     ((not (or lst-is-first? (eq? 'lst (second params))))
      (error "one of the params must be the symbol 'lst"))
     (t `(lambda ,lambda-params
