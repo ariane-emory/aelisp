@@ -310,10 +310,8 @@
       $('unless $('type-pred? 'val)
         $('error $('concat
                    'obj-string " must satisfy " 'pred-string ", got a "
-                   $('string $('type    'val)) ", "
-                   $('when   'val-string  "'")
-                   $('string 'val)
-                   $('when   'val-string  "'")
+                   $('type    'val) ", "
+                   'val-string
                    )))))))
 
 ;; (log-macro t)
@@ -326,4 +324,7 @@
 ;; (setq! q "asd")
 ;; (princ "Fail:    ") (integer?! q) (nl)
 
+(integer?! 7)
+(integer?! t)
+(integer?! "asd")
 (integer?! "asd")
