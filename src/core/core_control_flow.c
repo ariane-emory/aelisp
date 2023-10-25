@@ -49,8 +49,10 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
       LOG(item_cdr, "cond item's cdr");
     }
 
-    if (! NILP(RETURN_IF_ERRORP(EVAL(env, item_car))))
-      RETURN(RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr))));
+    if (! NILP(RETURN_IF_ERRORP(EVAL(env, item_car)))) {
+      ret = RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)));
+      break;
+    }
   }
 
 end:
