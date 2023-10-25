@@ -1132,10 +1132,12 @@
         $('princ '" ")
         $('setq! 'printed $('+ 1 'printed)))
       $('princ '" ⇒ ")
+      (when (cons? expected)
+       $('princ "'"))
       $('write $('require-equal
-                 (if (cons? expected)
-                  $('quote expected)
-                  expected)
+                 (if (not (cons? expected))
+                  expected
+                  $('quote expected))
                  expr))
       $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
