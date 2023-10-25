@@ -287,11 +287,13 @@
   $('defmacro new-name $('sym)
     $('let $($('val $('eval 'sym)))
       $('unless $(pred? 'val)
-        $('error $('concat $('string 'sym) " must satisfy " str-pred ", got a "
-                   $('string $('type 'val)) ", "
-                   $('when   $('string? 'val) "'")
-                   $('string 'val)
-                   $('when   $('string? 'val) "'"))))))))
+        $('error
+          $('concat
+            $('string 'sym) " must satisfy " str-pred ", got a "
+            $('string $('type 'val)) ", "
+            $('when   $('string? 'val) "'")
+            $('string 'val)
+            $('when   $('string? 'val) "'"))))))))
 
 
 
