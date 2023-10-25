@@ -340,16 +340,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
-  (if (cdr init-val)
-   (error "init-val must be a single object")
-   (lambda (lst) (reduce fun lst . init-val))))
+  (unless (fun? fun)   (error "fun must be a function"))
+  (when (cdr init-val) (error "init-val must be a single object"))
+  (lambda (lst) (reduce fun lst . init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reduced* (fun . init-val)
   "Return a function that is a left reduction of the binary function FUN."
   "which takes loose args."
-  (if (cdr init-val)
-   (error "init-val must be a single object")
-   (lambda args ((reduced fun . init-val) args))))
+  (unless (fun? fun)   (error "fun must be a function"))
+  (when (cdr init-val) (error "init-val must be a single object"))
+  (lambda args ((reduced fun . init-val) args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun rreduced (fun . init-val)
   "Return a function that is a right reduction of the binary function FUN."
