@@ -286,13 +286,14 @@
 
 
 (defmacro add-logging-to (fun-or-sym)
- (let* ((fun
-         (if (fun? fun-or-sym)
+ (let* ((got-fun (fun? fun-or-sym))
+        (fun
+         (if got-fun
           fun-or-sym
-          (eval fun-or-sym))))         
+          (eval fun-or-sym))))
  fun))
  
 (log-macro t)
-(log-eval  t)
+;;(log-eval  t)
  
 (add-logging-to lshift4)
