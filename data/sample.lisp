@@ -263,6 +263,10 @@
 (confirm that (transform! integer? double lst)                          returns '(a 4 6 (b 8 x (y 10)) (12 14)))
 (confirm that lst                                                       returns '(a 4 6 (b 8 x (y 10)) (12 14)))
 
+(nl)
+
+(confirm that (sort!! '(1 2 3 4 5 6 7 8 9) (lambda (x y) (and (even? x) (not (even? y))))) returns '(8 6 4 2 9 7 5 3 1))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
