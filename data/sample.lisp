@@ -299,6 +299,7 @@
 
       $('unless $('symbol? 'sym)
         $('error "sym must be a symbol"))
+      
       $('unless $('inner-pred? 'val)
         $('error $('concat
                    'sym " must satisfy " 'str-pred ", got a "
