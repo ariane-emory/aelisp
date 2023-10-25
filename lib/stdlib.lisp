@@ -315,11 +315,11 @@
       (t                 (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
   (defun reduce (fun lst . init-val)
    "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
-   (unless (fun? fun)  (error "fun must be a function"))
-   (unless (tail? lst) (error "lst must be a tail"))
    (cond
-    ((nil? init-val)   (reduce-inner fun lst))
+    ((not (fun? fun))  (error "fun must be a function"))
+    ((not (tail? lst)) (error "lst must be a tail"))
     ((cdr init-val)    (error "init-val must be a single object"))
+    ((nil? init-val)   (reduce-inner fun lst))
     (t                 (reduce-inner fun (cons (car init-val) lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (letrec
