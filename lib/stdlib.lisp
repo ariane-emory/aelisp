@@ -374,7 +374,7 @@
  (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
   (unless (fun? fun)   (error "fun must be a function"))
-  (unless (tail? lstio (error "lst must be a tail")))
+  (unless (tail? lst)  (error "lst must be a tail"))
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
