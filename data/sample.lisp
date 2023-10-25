@@ -234,31 +234,34 @@
 
 (nl)
 
-(confirm that (apply concat (intercalate " " '(These  are words)))     returns "These are words")
-(confirm that (apply concat (intercalate " " '(These "are" words)))    returns "These are words")
-(confirm that (mapconcat string '(These  are  words) " ")              returns "These are words")
-(confirm that (mapconcat string '(These "are" words) " ")              returns "These are words")
+(confirm that (apply concat (intercalate " " '(These  are words)))      returns "These are words")
+(confirm that (apply concat (intercalate " " '(These "are" words)))     returns "These are words")
+(confirm that (mapconcat string '(These  are  words) " ")               returns "These are words")
+(confirm that (mapconcat string '(These "are" words) " ")               returns "These are words")
 
 (nl)
 
-(confirm that (append      '(1 2) '(3 4) '(5 6))                       returns '(1 2 3 4 5 6))
-(confirm that (append      $(1 2) '(3 4) $(5 6))                       returns '(1 2 3 4 5 6))
-(confirm that (mapcan id  '((1 2)  (3 4)  (5 6)))                      returns '(1 2 3 4 5 6))
-(confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9)))                  returns '(2 3 5 6 8 9))
+(confirm that (append      '(1 2) '(3 4) '(5 6))                        returns '(1 2 3 4 5 6))
+(confirm that (append      $(1 2) '(3 4) $(5 6))                        returns '(1 2 3 4 5 6))
+(confirm that (mapcan id  '((1 2)  (3 4)  (5 6)))                       returns '(1 2 3 4 5 6))
+(confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9)))                   returns '(2 3 5 6 8 9))
 
 (nl)
 
-(confirm that (prime? 7)                                               returns t)
-(confirm that (prime? 8)                                               returns nil)
-(confirm that (primes 8)                                               returns '(2 3 5 7 11 13 17 19))
+(confirm that (prime? 7)                                                returns t)
+(confirm that (prime? 8)                                                returns nil)
+(confirm that (primes 8)                                                returns '(2 3 5 7 11 13 17 19))
 
 (nl)
 
 (setq! lst '(1 2 3 4))
-(confirm that (mapcar! double lst)                                     returns '(2 4 6 8))
-(confirm that lst                                                      returns '(2 4 6 8))
+(confirm that (mapcar! double lst)                                      returns '(2 4 6 8))
+(confirm that lst                                                       returns '(2 4 6 8))
 
-(confirm that (transform integer? double '(a 2 3 (b 4 x (y 5)) (6 7))) returns '(a 4 6 (b 8 x (y 10)) (12 14)))
+(confirm that (transform  integer? double '(a 2 3 (b 4 x (y 5)) (6 7))) returns '(a 4 6 (b 8 x (y 10)) (12 14)))
+(setq! lst '(a 2 3 (b 4 x (y 5)) (6 7)))
+(confirm that (transform! integer? double lst)                          returns '(a 4 6 (b 8 x (y 10)) (12 14)))
+(confirm that lst                                                       returns '(a 4 6 (b 8 x (y 10)) (12 14)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
