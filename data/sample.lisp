@@ -226,6 +226,8 @@
 (setq lst '(1 2 3 2 4 2 5))
 (confirm that (delql! 1 lst)                      returns '(2 3 2 4 2 5))
 
+(nl)
+
 (setq lst '((1 2) (3 4) (5 6)))
 (defun filter-evens (lst) (delq! nil (mapcar (lambda (x) (when (even? x) x)) lst)))
 (confirm that (mapcan filter-evens lst)           returns '(2 4 6))
