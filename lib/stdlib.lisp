@@ -283,23 +283,20 @@
          (user-param    (if lst-is-first? (second params) (first params)))
          (lambda-params (cons (first params) (cons (second params) 'rest))))
    (unless (or lst-is-first? (eq? 'lst (second params)))
-     (error "one of the params must be the symbol 'lst"))
-   (cond
-
-
-    (t `(lambda ,lambda-params
-         (let ((position lst))
-          (letrec
-           ((chase-internal
-             (lambda (,user-param lst . rest)
-              (setq! position lst)
-              (let ((head (car position))
-                    (tail (cdr position)))
-               (cond ,@cond-clauses))))
-            (chase
-             (lambda (,user-param . rest)
-              (chase-internal ,user-param (cdr position) . rest))))
-           (chase-internal ,user-param position . rest))))))))
+    (error "one of the params must be the symbol 'lst"))
+   `(lambda ,lambda-params
+     (let ((position lst))
+      (letrec
+       ((chase-internal
+         (lambda (,user-param lst . rest)
+          (setq! position lst)
+          (let ((head (car position))
+                (tail (cdr position)))
+           (cond ,@cond-clauses))))
+        (chase
+         (lambda (,user-param . rest)
+          (chase-internal ,user-param (cdr position) . rest))))
+       (chase-internal ,user-param position . rest))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
