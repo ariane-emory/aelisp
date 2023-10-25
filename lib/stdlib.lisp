@@ -1135,9 +1135,7 @@
       (when (cons? expected)
        $('princ "'"))
       $('write $('require-equal
-                 (if (not (cons? expected))
-                  expected
-                  $('quote expected))
+                 expected
                  expr))
       $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

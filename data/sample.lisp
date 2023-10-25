@@ -2,38 +2,38 @@
 
 (setq!   lst  (unionql '(1 2 3) '(4 5 6)))
 
-(confirm that lst                              returns (6 5 4 3 2 1))
+(confirm that lst                              returns '(6 5 4 3 2 1))
 (confirm that (memql?   3 lst)                 returns t)
-(confirm that (removeql 4 lst)                 returns (6 5 3 2 1))
+(confirm that (removeql 4 lst)                 returns '(6 5 3 2 1))
 (confirm that (indexql  5 lst)                 returns 1)
-(confirm that (mapcar! double lst)             returns (12 10 8 6 4 2))
-(confirm that (butlast '(1 2 3 4 5))           returns (1 2 3 4))
-(confirm that (reverse '(1 2 3 4 5))           returns (5 4 3 2 1))
-(confirm that (reverse (butlast '(1 2 3 4 5))) returns (4 3 2 1))
-(confirm that (unionql '(1 2 3) '(4 5 6))      returns (6 5 4 3 2 1))
+(confirm that (mapcar! double lst)             returns '(12 10 8 6 4 2))
+(confirm that (butlast '(1 2 3 4 5))           returns '(1 2 3 4))
+(confirm that (reverse '(1 2 3 4 5))           returns '(5 4 3 2 1))
+(confirm that (reverse (butlast '(1 2 3 4 5))) returns '(4 3 2 1))
+(confirm that (unionql '(1 2 3) '(4 5 6))      returns '(6 5 4 3 2 1))
 
 (nl)
 
 (setq!   lst  (make-list 6 200))
 
-(confirm that lst                              returns (200 200 200 200 200 200))
+(confirm that lst                              returns '(200 200 200 200 200 200))
 (confirm that (list-set! lst 0 100)            returns 100)
-(confirm that lst                              returns (100 200 200 200 200 200))
+(confirm that lst                              returns '(100 200 200 200 200 200))
 (confirm that (list-ref lst 0)                 returns 100)
 (confirm that (list-set! lst 1 101)            returns 101)
-(confirm that lst                              returns (100 101 200 200 200 200))
+(confirm that lst                              returns '(100 101 200 200 200 200))
 (confirm that (list-ref lst 1)                 returns 101)
 (confirm that (list-set! lst 2 102)            returns 102)
-(confirm that lst                              returns (100 101 102 200 200 200))
+(confirm that lst                              returns '(100 101 102 200 200 200))
 (confirm that (list-ref lst 2)                 returns 102)
 (confirm that (list-set! lst 3 103)            returns 103)
-(confirm that lst                              returns (100 101 102 103 200 200))
+(confirm that lst                              returns '(100 101 102 103 200 200))
 (confirm that (list-ref lst 3)                 returns 103)
 (confirm that (list-set! lst 4 104)            returns 104)
-(confirm that lst                              returns (100 101 102 103 104 200))
+(confirm that lst                              returns '(100 101 102 103 104 200))
 (confirm that (list-ref lst 4)                 returns 104)
 (confirm that (list-set! lst 5 105)            returns 105)
-(confirm that lst                              returns (100 101 102 103 104 105))
+(confirm that lst                              returns '(100 101 102 103 104 105))
 (confirm that (list-ref lst 5)                 returns 105)
 
 (defun lshift4 (n) (<< n 4))
@@ -41,7 +41,7 @@
 
 (confirm that 
  (body lshift4)
- returns (progn
+ returns '(progn
   (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
   (nl)
   (let ((result (progn (<< n 4))))
@@ -54,31 +54,31 @@
 
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst) returns (9 2 4 1 5 3 7 6 8))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 8)) lst) lst) returns (8 9 2 4 1 5 3 7 6))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 7)) lst) lst) returns (7 8 9 2 4 1 5 3 6))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 6)) lst) lst) returns (6 7 8 9 2 4 1 5 3))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 5)) lst) lst) returns (5 6 7 8 9 2 4 1 3))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 4)) lst) lst) returns (4 5 6 7 8 9 2 1 3))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst) returns (3 4 5 6 7 8 9 2 1))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst) returns (2 3 4 5 6 7 8 9 1))
-(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst) returns (1 2 3 4 5 6 7 8 9))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst) returns '(9 2 4 1 5 3 7 6 8))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 8)) lst) lst) returns '(8 9 2 4 1 5 3 7 6))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 7)) lst) lst) returns '(7 8 9 2 4 1 5 3 6))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 6)) lst) lst) returns '(6 7 8 9 2 4 1 5 3))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 5)) lst) lst) returns '(5 6 7 8 9 2 4 1 3))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 4)) lst) lst) returns '(4 5 6 7 8 9 2 1 3))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst) returns '(3 4 5 6 7 8 9 2 1))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst) returns '(2 3 4 5 6 7 8 9 1))
+(confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst) returns '(1 2 3 4 5 6 7 8 9))
 
 (nl)
 
-(confirm that (nthcdr 0 lst) returns (1 2 3 4 5 6 7 8 9))
-(confirm that (nthcdr 1 lst) returns (2 3 4 5 6 7 8 9))
-(confirm that (nthcdr 2 lst) returns (3 4 5 6 7 8 9))
+(confirm that (nthcdr 0 lst) returns '(1 2 3 4 5 6 7 8 9))
+(confirm that (nthcdr 1 lst) returns '(2 3 4 5 6 7 8 9))
+(confirm that (nthcdr 2 lst) returns '(3 4 5 6 7 8 9))
 
 (nl)
 
 (setq! c (curry1 nthcdr 3))
-(confirm that (c lst) returns (4 5 6 7 8 9))
+(confirm that (c lst) returns '(4 5 6 7 8 9))
 
 (nl)
 
 (confirm that (pop! lst)     returns 1)
-(confirm that (push! 99 lst) returns (99 2 3 4 5 6 7 8 9))
+(confirm that (push! 99 lst) returns '(99 2 3 4 5 6 7 8 9))
 
 (ignore
  "This would result (deliberately) in an invalid call, so we ignore it for now."
@@ -108,7 +108,7 @@
  "and so for now we will ignore it."
  (confirm that (apply concat (intercalate " " (car split))) returns "\"asdw erer rerw\""))
 
-(confirm that (cadr split) returns (1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
+(confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
@@ -183,13 +183,13 @@
 
 (nl)
 
-(confirm that (zip '(a b c) '(1 2 3))          returns ((a 1) (b 2) (c 3)))
-(confirm that (zip '(a b c) '(1 2 3) '(x y z)) returns ((a 1 x) (b 2 y) (c 3 z)))
+(confirm that (zip '(a b c) '(1 2 3))          returns '((a 1) (b 2) (c 3)))
+(confirm that (zip '(a b c) '(1 2 3) '(x y z)) returns '((a 1 x) (b 2 y) (c 3 z)))
 
 (nl)
 
-(setq!   lst                                          '(7 5 4 6 3 9 1 6 2 8 6))
-(confirm that (sort!! lst <)                   returns (1 2 3 4 5 6 6 6 7 8 9))
+(setq!   lst                                           '(7 5 4 6 3 9 1 6 2 8 6))
+(confirm that (sort!! lst <)                   returns '(1 2 3 4 5 6 6 6 7 8 9))
 
 (nl)
 
