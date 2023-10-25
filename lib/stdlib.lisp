@@ -411,14 +411,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
-  (fun?! fun)
+  (fun?!  fun)
   (tail?! lst)
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar! (fun lst)
   "Map fun over LST, altering the list."
-  (fun?! fun)
+  (fun?!  fun)
   (tail?! lst)
   (letrec
    ((mapcar-internal!
