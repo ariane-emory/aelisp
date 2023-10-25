@@ -475,8 +475,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
-  (tail? lst1)
-  (tail? lst2)
+  (tail?! lst1)
+  (tail?! lst2)
   (cond
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
@@ -492,6 +492,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back! (lst elem)
   "Destructively push ELEM onto the tail of LST."
+  (cons?! lst)
   (rplacd! (last lst) (cons elem nil))
   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
