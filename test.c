@@ -1501,18 +1501,18 @@ void push_and_pop(void) {
   ae_obj_t * lst = NIL;
 
   PUSH(NEW_INT(2), lst);
-  LOG(lst, "after push");
+  // LOG(lst, "after push");
   T(LENGTH(lst) == 1);
   T(EQL(CAR(lst), NEW_INT(2)));
 
   PUSH(NEW_INT(1), lst);
-  LOG(lst, "after push");
+  // LOG(lst, "after push");
   T(LENGTH(lst) == 2);
   T(EQL(CAR(lst), NEW_INT(1)));
   T(EQL(CADR(lst),  NEW_INT(2)));
   
   PUSH_BACK(lst, NEW_INT(3));
-  LOG(lst, "after push");
+  // LOG(lst, "after push");
   T(LENGTH(lst) == 3);
   T(EQL(CAR(lst),   NEW_INT(1)));
   T(EQL(CADR(lst),  NEW_INT(2)));
@@ -1521,24 +1521,81 @@ void push_and_pop(void) {
   ae_obj_t * popped = NIL;
 
   popped = POP(lst);
-  LOG(popped, "popped");
-  LOG(lst, "after pop");
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
   T(EQL(popped, NEW_INT(1)));
   T(LENGTH(lst) == 2);
   T(EQL(CAR(lst),  NEW_INT(2)));
   T(EQL(CADR(lst), NEW_INT(3)));
 
   popped = POP(lst);
-  LOG(popped, "popped");
-  LOG(lst, "after pop");
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
   T(EQL(popped, NEW_INT(2)));
   T(LENGTH(lst) == 1);
   T(EQL(CAR(lst), NEW_INT(3)));
 
   popped = POP(lst);
-  LOG(popped, "popped");
-  LOG(lst, "after pop");
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
   T(EQL(popped, NEW_INT(3)));
+  T(LENGTH(lst) == 0);
+  T(NILP(lst));
+
+  PUSH_BACK(lst, NEW_INT(3));
+  // LOG(lst, "after push_back");
+  T(LENGTH(lst) == 1);
+  T(EQL(CAR(lst), NEW_INT(3)));
+
+  PUSH_BACK(lst, NEW_INT(4));
+  // LOG(lst, "after push_back");
+  T(LENGTH(lst) == 2);
+  T(EQL(CAR(lst),  NEW_INT(3)));
+  T(EQL(CADR(lst), NEW_INT(4)));
+
+  PUSH(NEW_INT(2), lst);
+  // LOG(lst, "after push");
+  T(LENGTH(lst) == 3);
+  T(EQL(CAR(lst),   NEW_INT(2)));
+  T(EQL(CADR(lst),  NEW_INT(3)));
+  T(EQL(CADDR(lst), NEW_INT(4)));
+  
+  PUSH(NEW_INT(1), lst);
+  // LOG(lst, "after push");
+  T(LENGTH(lst) == 4);
+  T(EQL(CAR(lst),   NEW_INT(1)));
+  T(EQL(CADR(lst),  NEW_INT(2)));
+  T(EQL(CADDR(lst), NEW_INT(3)));
+  T(EQL(CAR(CDDDR(lst)), NEW_INT(4)));
+
+  popped = POP(lst);
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
+  T(EQL(popped, NEW_INT(1)));
+  T(LENGTH(lst) == 3);
+  T(EQL(CAR(lst),  NEW_INT(2)));
+  T(EQL(CADR(lst), NEW_INT(3)));
+  T(EQL(CADDR(lst), NEW_INT(4)));
+
+  popped = POP(lst);
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
+  T(EQL(popped, NEW_INT(2)));
+  T(LENGTH(lst) == 2);
+  T(EQL(CAR(lst), NEW_INT(3)));
+  T(EQL(CADR(lst), NEW_INT(4)));
+  
+  popped = POP(lst);
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
+  T(EQL(popped, NEW_INT(3)));
+  T(LENGTH(lst) == 1);
+  T(EQL(CAR(lst), NEW_INT(4)));
+
+  popped = POP(lst);
+  // LOG(popped, "popped");
+  // LOG(lst, "after pop");
+  T(EQL(popped, NEW_INT(4)));
   T(LENGTH(lst) == 0);
   T(NILP(lst));
   
