@@ -248,13 +248,9 @@
 
 (nl)
 
-
-
-;; (log-eval t)
-
-(confirm that (prime? 7) returns t)
-(confirm that (prime? 8) returns nil)
-(confirm that (primes 8) returns '(2 3 5 7 11 13 17 19))
+(confirm that (prime? 7)                                            returns t)
+(confirm that (prime? 8)                                            returns nil)
+(confirm that (primes 8)                                            returns '(2 3 5 7 11 13 17 19))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
