@@ -287,12 +287,13 @@
 
 
  (defmacro make-type-checker (pred?)
-  $('let* $($('str-pred (string pred?))
-            $('checker-name $('quote (symbol (concat (string pred?) "!")))))
-    ;;'checker-name
+  (let* ((str-pred (symbol-name pred?))
+         (checker-name (symbol (concat str-pred "!"))))
+    
+   $('defmacro checker-name $('sym)
+     $('let $($('str-pred str-pred))
+       str-pred))))
 
-
-    ))
 
 ;; $('defmacro 'checker-name $('sym)
    ;;   $('let $($('val $('eval 'sym)))

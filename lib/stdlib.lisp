@@ -134,8 +134,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; (defmacro make-type-checker (pred?)
  ;;  (let* ((str-pred (string pred?))
- ;;         (new-name (symbol (concat str-pred "!"))))
- ;;   $('defmacro new-name $('sym)
+ ;;         (checker-name (symbol (concat str-pred "!"))))
+ ;;   $('defmacro checker-name $('sym)
  ;;     $('let $($('val $('eval 'sym)))
  ;;       $('unless $(pred? 'val)
  ;;         $('error $('concat
