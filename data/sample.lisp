@@ -297,36 +297,36 @@
         $('pred-string    pred-string)
         $('val            $('eval 'sym))
         $('val-type       $('type 'val))
-        $('val-string
-          $('if $('string? 'val)
-            $('concat "'" 'val "'")
-            $('string 'val)))
-        $('obj-string     $('if $('symbol? 'sym) 'sym 'val-string))
-        )
+        
+                )
 
-      ;; $('unless $('symbol? 'sym)
-      ;;   $('error "sym must be a symbol"))
-      
       $('unless $('type-pred? 'val)
-        $('error $('concat
-                   'obj-string " must satisfy " 'pred-string ", got a "
-                   $('type    'val) ", "
-                   'val-string 
-                   )))
+        $('let* $($('val-string
+                   $('if $('string? 'val)
+                     $('concat "'" 'val "'")
+                     $('string 'val)))
+                  $('obj-string
+                    $('if $('symbol? 'sym) 'sym 'val-string)))
+          $('error
+            $('concat
+              'obj-string " must satisfy " 'pred-string ", got a "
+              $('type    'val) ", "
+              'val-string 
+              ))))
       t))))
 
 (log-macro t)
 
 (make-type-checker integer?)
 
-(setq! q 7)
-(princ "Succeed: ") (integer?! q) (nl)
+;; (setq! q 7)
+;; (princ "Succeed: ") (integer?! q) (nl)
 
 ;; (setq! q "asd")
 ;; (princ "Fail:    ") (integer?! q) (nl)
 
-(setq! q t)
-(princ "Fail:    ") (integer?! q) (nl)
+;; (setq! q t)
+;; (princ "Fail:    ") (integer?! q) (nl)
 
 (integer?! 7)
 (integer?! t)
