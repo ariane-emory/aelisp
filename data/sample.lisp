@@ -241,29 +241,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! sum (reduced* +))
-(confirm that (sum  1 2 3 4) returns 10)
-
-(setq! sum (reduced* + 4))
-(confirm that (sum  1 2 3) returns 10)
-
-(setq! sum (rreduced* +))
-(confirm that (sum  1 2 3 4) returns 10)
-
-(setq! sum (rreduced* + 4))
-(confirm that (sum  1 2 3) returns 10)
-
-(setq! sum (reduced  +))
-(confirm that (sum '(1 2 3 4)) returns 10)
-
-(setq! sum (reduced  + 4))
-(confirm that (sum '(1 2 3)) returns 10)
-
-(setq! sum (rreduced  +))
-(confirm that (sum '(1 2 3 4)) returns 10)
-
-(setq! sum (rreduced  + 4))
-(confirm that (sum '(1 2 3)) returns 10)
+(confirm that ((reduced* +)  1 2 3 4) returns 10)
+(confirm that ((reduced* + 4)  1 2 3) returns 10)
+(confirm that ((rreduced* +)  1 2 3 4) returns 10)
+(confirm that ((rreduced* + 4)  1 2 3) returns 10)
+(confirm that ((reduced  +) '(1 2 3 4)) returns 10)
+(confirm that ((reduced  + 4) '(1 2 3)) returns 10)
+(confirm that ((rreduced  +) '(1 2 3 4)) returns 10)
+(confirm that ((rreduced  + 4) '(1 2 3)) returns 10)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
