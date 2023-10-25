@@ -12,8 +12,18 @@
 #define FF               (fflush(stdout))
 #define NL               (putchar('\n'))
 #define SPC              (putchar(' '))
-#define INDENT           ({ local_indents += indent (); })
-#define OUTDENT          ({ local_indents += outdent(); })
+#define INDENT                                                                                     \
+  ({                                                                                               \
+    printf("In to %d at %s:%d\n", local_indents + 1, __FILE__, __LINE__);                          \
+    local_indents += indent ();                                                                    \
+    local_indents;                                                                                 \
+  })
+#define OUTDENT                                                                                    \
+  ({                                                                                               \
+    printf("Out to %d at %s:%d\n", local_indents - 1, __FILE__, __LINE__);                         \
+    local_indents += outdent();                                                                    \
+    local_indents;                                                                                 \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PR(...)          (fprintf(stdout,   __VA_ARGS__))
 #define FPR(stream, ...) (fprintf((stream), __VA_ARGS__))
