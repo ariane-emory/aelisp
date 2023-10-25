@@ -1019,6 +1019,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun add-logging-to (fun)
   "Add logging to a function FUN."
+  (fun?! fun)
   (if (has? :added-logging fun)
    (error "logging was already added to this fun")
    (let* ((fun-name      (get :last-bound-to fun))
@@ -1075,8 +1076,7 @@
  (defun-list-pred-fun any? or  nil)
  (defun-list-pred-fun all? and t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro defun-list-transform-fun (name transformer)
-  `(defun ,name (lsts)
+ (defmacro defun-list-transform-fun (name transformer)s  `(defun ,name (lsts)
     (when lsts
      (cons (,transformer (car lsts)) (,name (cdr lsts))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
