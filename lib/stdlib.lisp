@@ -452,6 +452,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (push/push-back):                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun push-back (lst elem) 
+  "Non-destructively push ELEM onto the tail of LST."
+  (unless (tail? lst) (error "LST must be a tail"))
+  (append lst (cons elem nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun push (elem lst)
+  "Non-destructively push ELEM onto the head of LST, aka cons."
+  (unless (tail? lst) (error "LST must be a tail"))
+  (cons elem lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back! (lst elem)
   "Destructively push ELEM onto the tail of LST."
   (unless (tail? lst) (error "LST must be a tail"))
@@ -466,15 +476,21 @@
    (rplacd! lst (cons old-car (cdr lst)))
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun push-back (lst elem) 
-  "Non-destructively push ELEM onto the tail of LST."
-  (unless (tail? lst) (error "LST must be a tail"))
-  (append lst (cons elem nil)))
+;;  (defmacro push! (val list-sym)
+;;   "Destructively push an item onto the list bound to LIST-SYM."
+;;   (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
+;;   $('if $('not $('symbol? $('quote list-sym)))
+;;     $('error "LIST-SYM must be a symbol")
+;;     $('setq! list-sym $('cons val list-sym))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun push (elem lst)
-  "Non-destructively push ELEM onto the head of LST, aka cons."
-  (unless (tail? lst) (error "LST must be a tail"))
-  (cons elem lst))
+;; (defmacro pop! (list-sym)
+;;  "Destructively pop an item from the list bound to LIST-SYM."
+;;  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
+;;  $('if $('not $('symbol? $('quote list-sym)))
+;;    $('error "LIST-SYM must be a symbol")
+;;    $('let $($('head $('car list-sym)))
+;;      $('setq! list-sym $('cdr list-sym))
+;;      'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -742,22 +758,6 @@
   "Take shallow copy of LST."
   (unless (tail? lst) (error "LST must be a tail"))
   (when lst (cons (car lst) (copy-list (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro pop! (list-sym)
-  "Destructively pop an item from the list bound to LIST-SYM."
-  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
-  $('if $('not $('symbol? $('quote list-sym)))
-    $('error "LIST-SYM must be a symbol")
-    $('let $($('head $('car list-sym)))
-      $('setq! list-sym $('cdr list-sym))
-      'head)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro push! (val list-sym)
-  "Destructively push an item onto the list bound to LIST-SYM."
-  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
-  $('if $('not $('symbol? $('quote list-sym)))
-    $('error "LIST-SYM must be a symbol")
-    $('setq! list-sym $('cons val list-sym))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1133,49 +1133,49 @@
 
 
 (report-time-us "def list split funs            "
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun split-list-alternate! (pred? lst)
-  "Destructively split the LST into two sublists:"
-  "1. The longest initial sublist of elements satisfying PRED?"
-  "2. The rest of the elements."
-  (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst) (error "LST must be a tail"))
-  (let ((front nil)
-        (back lst))
-   (while (and back (pred? (car back)))
-    (push! (pop! back) front))
-   $((reverse front) back)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun split-list (pred? lst)
-  "Destructivly split LST into two sublists:"
-  "1. The longest initial sublist of elements satisfying PRED?"
-  "2. The rest of the elements."
-  (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst) (error "LST must be a tail"))
-  (let ((prev nil)
-        (current lst))
-   (while (and current (pred? (car current)))
-    (setq! prev current)
-    (setq! current (cdr current)))
-   (if prev
-    (progn
-     (rplacd! prev nil)
-     $(lst current))
-    $(nil lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun split-list (pred? lst)
-  "Split LST into two sublists:"
-  "1. The longest initial sublist of elements satisfying PRED?"
-  "2. The rest of the elements."
-  (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst) (error "LST must be a tail"))
-  (let ((front nil)
-        (current lst))
-   (while (and current (pred? (car current)))
-    (setq front (cons (car current) front))
-    (setq current (cdr current)))
-   $((reverse front) current)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  (defun split-list-alternate! (pred? lst)
+;;   "Destructively split the LST into two sublists:"
+;;   "1. The longest initial sublist of elements satisfying PRED?"
+;;   "2. The rest of the elements."
+;;   (unless (fun? pred?) (error "PRED? must be a function"))
+;;   (unless (tail? lst) (error "LST must be a tail"))
+;;   (let ((front nil)
+;;         (back lst))
+;;    (while (and back (pred? (car back)))
+;;     (push! (pop! back) front))
+;;    $((reverse front) back)))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  (defun split-list (pred? lst)
+;;   "Destructivly split LST into two sublists:"
+;;   "1. The longest initial sublist of elements satisfying PRED?"
+;;   "2. The rest of the elements."
+;;   (unless (fun? pred?) (error "PRED? must be a function"))
+;;   (unless (tail? lst) (error "LST must be a tail"))
+;;   (let ((prev nil)
+;;         (current lst))
+;;    (while (and current (pred? (car current)))
+;;     (setq! prev current)
+;;     (setq! current (cdr current)))
+;;    (if prev
+;;     (progn
+;;      (rplacd! prev nil)
+;;      $(lst current))
+;;     $(nil lst))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  (defun split-list (pred? lst)
+;;   "Split LST into two sublists:"
+;;   "1. The longest initial sublist of elements satisfying PRED?"
+;;   "2. The rest of the elements."
+;;   (unless (fun? pred?) (error "PRED? must be a function"))
+;;   (unless (tail? lst) (error "LST must be a tail"))
+;;   (let ((front nil)
+;;         (current lst))
+;;    (while (and current (pred? (car current)))
+;;     (setq front (cons (car current) front))
+;;     (setq current (cdr current)))
+;;    $((reverse front) current)))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 
