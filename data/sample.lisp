@@ -286,25 +286,27 @@
 
 
 
- (defmacro make-type-checker (pred?)
-  (let* (;; (inner-pred? pred?)
-         (str-pred (symbol-name pred?))
-         (checker-name (symbol (concat str-pred "!"))))
-    
-   $('defmacro checker-name $('sym)
-     $('let*
-       $($('inner-pred?    pred?)
-         $('str-pred       str-pred)
-         $('val            $('eval 'sym)))
+(defmacro make-type-checker (pred?)
+ (let* (;; (inner-pred? pred?)
+        (str-pred (symbol-name pred?))
+        (checker-name (symbol (concat str-pred "!"))))
+  
+  $('defmacro checker-name $('sym)
+    $('let*
+      $($('inner-pred?    pred?)
+        $('str-pred       str-pred)
+        $('val            $('eval 'sym)))
 
-     $('unless $('inner-pred? 'val)
-       $('error $('concat
-                  'sym " must satisfy " 'str-pred ", got a "
-                  $('string $('type    'val)) ", "
-                  $('when   $('string? 'val)  "'")
-                  $('string 'val)
-                  $('when   $('string? 'val)  "'")
-                  )))))))
+      $('unless $('symbol? 'sym)
+        $('error "sym must be a symbol"))
+      $('unless $('inner-pred? 'val)
+        $('error $('concat
+                   'sym " must satisfy " 'str-pred ", got a "
+                   $('string $('type    'val)) ", "
+                   $('when   $('string? 'val)  "'")
+                   $('string 'val)
+                   $('when   $('string? 'val)  "'")
+                   )))))))
 
 
 (log-macro t)
