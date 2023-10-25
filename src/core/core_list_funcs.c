@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "core_includes.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,5 +92,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   // REQUIRE(env, args, PROPERP(CAR(args)), "core length only works on proper lists");
 
-  CORE_RETURN("length", NEW_INT(LENGTH(CAR(args))));
+  ret = NEW_INT(LENGTH(CAR(args)));
+  
+  CORE_RETURN("length", ret);
 }
