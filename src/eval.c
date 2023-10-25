@@ -464,7 +464,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
         LOG(ret, "decorated expansion:");
     }
     
-    ret = EVAL(env, ret);
+    ret = EVAL(env, ret); // ???
 
     long long int after = now_us();
 

@@ -305,9 +305,12 @@
 (make-type-checker integer?)
 
 
+(defmacro integer?! (sym)
+ (let* ((inner-pred? integer?)
+        (str-pred "integer?")
+        (val (eval sym)))
+  (unless (inner-pred? val) (error (concat "bad news: " (string val))))))
+
+
 (princ "Succeed: ") (integer?! 7)     (nl)
 (princ "Fail:    ") (integer?! "asd") (nl)
-
-(defmacro integer?! (sym)
- (let* ((str-pred "integer?") (val (eval sym))) (unless (inner-pred? val) (error "bad news"))))
-
