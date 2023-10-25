@@ -296,7 +296,7 @@
          $('str-pred str-pred)
          $('val      $('eval 'sym))))
 
-     $('unless $('pred? /val)
+     $('unless $('pred? 'val)
        $('error "bad news")))))
 
 
