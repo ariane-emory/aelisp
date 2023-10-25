@@ -270,6 +270,10 @@
 (setq!   lst  (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))))
 (confirm that (filter even? lst)                                                     returns '(6 4 2))
 
+(nl)
+
+(confirm that (funcall + 1 2 3 4 5 6)                                                returns 21)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")

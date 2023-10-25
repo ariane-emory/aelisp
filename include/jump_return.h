@@ -19,11 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define OUTDENTS(n, noisy)                                                                         \
   {                                                                                                \
-    if ((n > 0))                                                                                   \
-      printf("OUTDENTS(%d)\n", n);                                                                 \
+    /* if ((n > 0)) */                                                                             \
+    /* printf("OUTDENTS(%d)\n", n); */                                                             \
                                                                                                    \
     for (int ix = 0; ix < (n); ix++) {                                                             \
-      if ((noisy)) printf("OUTDENT!\n");                                                           \
+      /* if ((noisy)) printf("OUTDENT!\n"); */                                                     \
       OUTDENT;                                                                                     \
     }                                                                                              \
   }
@@ -32,8 +32,8 @@
   {                                                                                                \
     CAPTURE(obj);                                                                                  \
                                                                                                    \
-    if (local_indents != 0)                                                                        \
-      PR("RETURN at %s:%d\n", __FILE__, __LINE__);                                                 \
+    /* if (local_indents != 0) */                                                                  \
+    /* PR("RETURN at %s:%d\n", __FILE__, __LINE__); */                                             \
                                                                                                    \
     OUTDENTS(local_indents, 0);                                                                    \
                                                                                                    \
@@ -47,8 +47,8 @@
     CAPTURE(obj);                                                                                  \
                                                                                                    \
     if (ERRORP(CAPTURED)) {                                                                        \
-      if (local_indents != 0)                                                                      \
-        PR("RETURN because ERRORP at %s:%d\n", __FILE__, __LINE__);                                \
+      /* if (local_indents != 0) */                                                                \
+      /* PR("RETURN because ERRORP at %s:%d\n", __FILE__, __LINE__); */                            \
                                                                                                    \
       OUTDENTS(local_indents, 1);                                                                  \
                                                                                                    \
