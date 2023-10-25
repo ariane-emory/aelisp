@@ -64,7 +64,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   
   const int args_count = LENGTH(args);
   
-  if (log_eval)
+  if (log_eval && !NILP(args))
     LOG(args, "evaluating fun's %d arg%s:", LENGTH(args), s_or_blank(args_count));
 
   RETURN_NIL_IF_NILP(args);
@@ -127,7 +127,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
   
 end:
   
-  if (log_eval)
+  if (log_eval && !NILP(args))
     LOG(ret, "evaluated fun's %d arg%s:", LENGTH(args), s_or_blank(LENGTH(args)));
 
   JUMP_RETURN_EXIT;
