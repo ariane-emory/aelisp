@@ -437,6 +437,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
+  (unless (tail? lst1) (error "LST1 must be a tail"))
+  (unless (tail? lst2) (error "LST2 must be a tail"))
   (cond
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
@@ -452,11 +454,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back! (lst elem)
   "Destructively push ELEM onto the tail of LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (rplacd! (last lst) (cons elem nil))
   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push! (elem lst)
   "Destructively push ELEM onto the head of LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (let ((old-car (car lst)))
    (rplaca! lst elem)
    (rplacd! lst (cons old-car (cdr lst)))
@@ -464,10 +468,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back (lst elem) 
   "Non-destructively push ELEM onto the tail of LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
   "Non-destructively push ELEM onto the head of LST, aka cons."
+  (unless (tail? lst) (error "LST must be a tail"))
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -478,6 +484,7 @@
  ;; list funs (flattening):                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten1 (lst)
+  (unless (tail? lst) (error "LST must be a tail"))
   (cond
    ((nil? lst) nil)
    ((tail? (car lst))
@@ -486,11 +493,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten-left (lst)
   "Flatten a left-nested list structure LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (if (cons? (car lst))i)
   (append (flatten-left (car lst)) $(cadr lst))
   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten (lst)
+  (unless (tail? lst) (error "LST must be a tail"))
   (when lst
    (if (cons? (car lst))
     (append (flatten (car lst)) (flatten (cdr lst)))
@@ -505,6 +514,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip2 (lst1 lst2)
   "Zip LST1 and LST2."
+  (unless (tail? lst1) (error "LST1 must be a tail"))
+  (unless (tail? lst2) (error "LST2 must be a tail"))
   (cond
    ((∨ (nil? lst1) (nil? lst2)) nil)
    (t  (cons  $((car lst1) (car lst2))
@@ -512,6 +523,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip3 (l1 l2 l3)
   "Zip the three lists LST1, LST2 and LST3."
+  (unless (tail? l1) (error "LST1 must be a tail"))
+  (unless (tail? l2) (error "LST2 must be a tail"))
+  (unless (tail? l3) (error "LST3 must be a tail"))
   (mapcar flatten1 (reduce zip2 $(l2 l3) l1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! left-nested-zip (reduced* zip2))
@@ -519,6 +533,7 @@
  (defmacro zip lists
   "Zip many lists. This might not flatten properly if the zipped elements are
   themselves lists."
+  (unless (tail? lists) (error "LISTS must be a tail"))
   (if (cdr lists)
    $('mapcar 'flatten (cons 'left-nested-zip lists))
    $('mapcar 'list  (car lists))))
@@ -553,7 +568,8 @@
   "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
-  (when (not (lambda? fun)) (error "FUN must be a function"))
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (fun? fun?)  (error "FUN must be a function"))
   (cond
    ((and (atom? obj) (pred? obj)) (fun obj))
    ((atom? obj) obj)
