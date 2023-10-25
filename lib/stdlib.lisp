@@ -1237,15 +1237,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; tiny-clos scheme compat:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (when t
-  (setq! nreverse reverse)
-  (setq! put      put!)
-  (setq! setq     setq!)
-  (setq! rplaca   rplaca!)
-  (setq! rplacd   rplacd!)
-  (setq! nconc    nconc!)
-  (setq! null     nil?)
-  (setq! identity id))
+ (setq! nreverse reverse)
+ (setq! put      put!)
+ (setq! setq     setq!)
+ (setq! rplaca   rplaca!)
+ (setq! rplacd   rplacd!)
+ (setq! nconc    nconc!)
+ (setq! null     nil?)
+ (setq! identity id)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
