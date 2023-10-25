@@ -472,7 +472,7 @@
   themselves lists."
   (if (cdr lists)
    `(mapcar flatten (left-nested-zip ,@lists))
-   `(mapcar list   ,(car lists))))
+   $('mapcar 'list  (car lists))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
