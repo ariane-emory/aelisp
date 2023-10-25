@@ -258,11 +258,11 @@
 (confirm that (mapcar! double lst)                                      returns '(2 4 6 8))
 (confirm that lst                                                       returns '(2 4 6 8))
 
-(setq!   lst  '(a 2 3 (b 4 x (y 5)) (6 7)))
-(confirm that (transform  integer? double lst)                          returns '(a 4 6 (b 8 x (y 10)) (12 14)))
-(confirm that lst                                                       returns '(a 2 3 (b 4 x (y 5)) (6 7)))
-(confirm that (transform! integer? double lst)                          returns '(a 4 6 (b 8 x (y 10)) (12 14)))
-(confirm that lst                                                       returns '(a 4 6 (b 8 x (y 10)) (12 14)))
+(setq!   lst  '(a 2 3 (b 4 x (y 5)) (6 nil 7)))
+(confirm that (transform  integer? double lst)                          returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that lst                                                       returns '(a 2 3 (b 4 x (y  5)) (6  nil  7)))
+(confirm that (transform! integer? double lst)                          returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that lst                                                       returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 
 (nl)
 
