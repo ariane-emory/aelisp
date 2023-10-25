@@ -21,31 +21,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! lst (make-list 6 200))
 
-(confirm that lst                    returns (200 200 200 200 200 200))
-(confirm that (list-set! lst 0 100)  returns 100)
-(confirm that lst                    returns (100 200 200 200 200 200))
-(confirm that (list-ref lst 0)       returns 100)
-(confirm that (list-set! lst 1 101)  returns 101)
-(confirm that lst                    returns (100 101 200 200 200 200))
-(confirm that (list-ref lst 1)       returns 101)
-(confirm that (list-set! lst 2 102)  returns 102)
-(confirm that lst                    returns (100 101 102 200 200 200))
-(confirm that (list-ref lst 2)       returns 102)
-(confirm that (list-set! lst 3 103)  returns 103)
-(confirm that lst                    returns (100 101 102 103 200 200))
-(confirm that (list-ref lst 3)       returns 103)
-(confirm that (list-set! lst 4 104)  returns 104)
-(confirm that lst                    returns (100 101 102 103 104 200))
-(confirm that (list-ref lst 4)       returns 104)
-(confirm that (list-set! lst 5 105)  returns 105)
-(confirm that lst                    returns (100 101 102 103 104 105))
-(confirm that (list-ref lst 5)       returns 105)
+(confirm that lst                              returns (200 200 200 200 200 200))
+(confirm that (list-set! lst 0 100)            returns 100)
+(confirm that lst                              returns (100 200 200 200 200 200))
+(confirm that (list-ref lst 0)                 returns 100)
+(confirm that (list-set! lst 1 101)            returns 101)
+(confirm that lst                              returns (100 101 200 200 200 200))
+(confirm that (list-ref lst 1)                 returns 101)
+(confirm that (list-set! lst 2 102)            returns 102)
+(confirm that lst                              returns (100 101 102 200 200 200))
+(confirm that (list-ref lst 2)                 returns 102)
+(confirm that (list-set! lst 3 103)            returns 103)
+(confirm that lst                              returns (100 101 102 103 200 200))
+(confirm that (list-ref lst 3)                 returns 103)
+(confirm that (list-set! lst 4 104)            returns 104)
+(confirm that lst                              returns (100 101 102 103 104 200))
+(confirm that (list-ref lst 4)                 returns 104)
+(confirm that (list-set! lst 5 105)            returns 105)
+(confirm that lst                              returns (100 101 102 103 104 105))
+(confirm that (list-ref lst 5)                 returns 105)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
 
@@ -63,7 +63,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 9)) lst) lst) returns (9 2 4 1 5 3 7 6 8))

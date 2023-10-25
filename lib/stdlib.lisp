@@ -1127,7 +1127,7 @@
   (unless (eq? 'that   that)   (error "expected 'that as 2nd argument"))
   (unless (eq? 'returns returns) (error "expected 'returns as 4th argument"))
   $('progn
-    $('let $($('printed $('princ $('string $('quote expr)) '":")))
+    $('let $($('printed $('princ $('string $('quote expr)) '" ⇒ ")))
       $('while $('< 'printed 32)
         $('princ '" ")
         $('setq! 'printed $('+ 1 'printed)))
