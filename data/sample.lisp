@@ -299,7 +299,7 @@
 
      $('unless $('inner-pred? 'val)
        $('error $('concat
-                  $('sym " must satisfy " 'str-pred ", got a "
+                  $('string 'sym) " must satisfy " 'str-pred ", got a "
                   $('string $('type    'val)) ", "
                   $('when   $('string? 'val)  "'")
                   $('string 'val)
