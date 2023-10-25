@@ -344,10 +344,6 @@ ae_obj_t * ae_env_new_root(void) {
     ENV_SET(env, SYM(#name), new_core);                                                            \
   }
 
-  /* ENV_SET(env, SYM("⊤"), ENV_FIND(env, SYM("t"))); */
-  /* ENV_SET(env, SYM("⊥"),  NIL); */
-  /* ENV_SET(env, SYM("≤"), ENV_FIND(env, SYM("<="))); */
-  /* ENV_SET(env, SYM("≥"), ENV_FIND(env, SYM(">="))); */
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
 
 #if AE_PREFER_ALIST

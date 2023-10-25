@@ -69,28 +69,28 @@
 
 (report-time-us "def aliases                    "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; simple aliases:                                                            ;;
+ ;; simple aliases:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! s setq!)
-
+ (setq! s       setq!)
  (setq! setcar! rplaca!)
  (setq! setcdr! rplacd!)
- (setq! ¬ not)          
- (setq! ∨ or )           
- (setq! ∧ and)
-
+ (setq! ¬       not)          
+ (setq! ∨       or )           
+ (setq! ∧       and)
  (setq! setcdr! rplacd!)
  (setq! setcar! rplaca!)
- (setq! λ lambda)
-
- 
+ (setq! λ       lambda)
+ (setq! lte     <=)
+ (setq! gte     >=)
+ (setq! lt      <)
+ (setq! gt      >) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 
 (report-time-us "def type preds                 "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; type predicates:                                                           ;;
+ ;; type predicates:                                                          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun type?     (typ o) (eq? typ       (type           o)))
  (defun atom?     (o)     (not (type?    :CONS           o)))
@@ -117,7 +117,7 @@
 
 (report-time-us "def compound car/cdrs          "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; compound car/cdrs:                                                         ;;
+ ;; compound car/cdrs:                                                        ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun caar     (lst)               (car (car lst)))
  (defun cadr     (lst)               (car (cdr lst)))
@@ -153,7 +153,7 @@
 
 (report-time-us "def quasiquoted                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; quasiquotation:                                                            ;;
+ ;; quasiquotation:                                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! append2
   (lambda (lst1 lst2)
@@ -204,7 +204,7 @@
 
 (report-time-us "get numbered access            "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (retrieving by position):                                        ;;
+ ;; list funs (retrieving by position):                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun first    (lst)                    (car lst))
  (defun second   (lst)                   (cadr lst))
@@ -244,7 +244,7 @@
 
 (report-time-us "def tail-chaser macros         "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (tail chaser macros):                                            ;;
+ ;; list funs (tail chaser macros):                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro make-chase-fun (params . cond-clauses)
   "Creates a function for recursive traversal and processing of lists.
@@ -496,43 +496,43 @@
  (defun transform! (pred? fun obj)
   "Destructively transform the cons tree OBJ by replacing members matching
   PRED? with the result of applying FUN to them."
-  (if (atom? obj)
-   (error "obj must be a list")
-   (cond
-    ((pred? obj) (set! obj (fun obj)))
-    ((cons? obj)
-     (let ((head (car obj))
-           (tail (cdr obj)))
-      (cond
-       ((pred? head) (rplaca! obj (fun head)))
-       ((cons? head) (transform! pred? fun head)))
-      (cond
-       ((pred? tail) (rplacd! obj (fun tail)))
-       ((cons? tail) (rplacd! obj (transform! pred? fun tail))))))
-    (t obj))
-   obj))
+  (when (atom? obj)
+   (error "obj must be a list"))
+  (cond
+   ((pred? obj) (set! obj (fun obj)))
+   ((cons? obj)
+    (let ((head (car obj))
+          (tail (cdr obj)))
+     (cond
+      ((pred? head) (rplaca! obj (fun head)))
+      ((cons? head) (transform! pred? fun head)))
+     (cond
+      ((pred? tail) (rplacd! obj (fun tail)))
+      ((cons? tail) (rplacd! obj (transform! pred? fun tail))))))
+   (t obj))
+  obj)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun transform (pred? fun obj)
-  "Transform OBJ by replacing members matching PRED? with the result of
+(defun transform (pred? fun obj)
+ "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
-  (cond
-   ((and (atom? obj) (pred? obj)) (fun obj))
-   ((atom? obj) obj)
-   (t
-    (cons
-     (transform pred? fun (car obj))
-     (transform pred? fun (cdr obj))))))
+ (cond
+  ((and (atom? obj) (pred? obj)) (fun obj))
+  ((atom? obj) obj)
+  (t
+   (cons
+    (transform pred? fun (car obj))
+    (transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun prefetch (expr)
-  "Try to optimize EXPR by replacing it's symbol? members with the result of
+(defun prefetch (expr)
+ "Try to optimize EXPR by replacing it's symbol? members with the result of
   looking them up. This is, mysteriously, not a very effective optimization."
-  (transform!
-   (lambda (x) (and (symbol? x) (bound? x)))
-   (lambda (x) (eval x))
-   expr))
+ (transform!
+  (lambda (x) (and (symbol? x) (bound? x)))
+  (lambda (x) (eval x))
+  expr))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
+)
 
 
 (report-time-us "def sort!!                     "
@@ -1218,17 +1218,17 @@
 (report-time-us "def string funs                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-string (size init-val)
- (unless (integer? size)         (error "make-string: size must be an integer."))
- (unless (string? init-val)      (error "make-string: init-val must be a string."))
- (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
+  (unless (integer? size)         (error "make-string: size must be an integer."))
+  (unless (string? init-val)      (error "make-string: init-val must be a string."))
+  (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
   (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun pad-string (size init-val str)
- (unless (integer? size)         (error "pad-string: size must be an integer."))
- (unless (string? init-val)      (error "pad-string: init-val must be a string."))
- (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
- (let ((pad (make-string (- size (length str)) init-val)))
-  (concat str pad)))
+ (defun pad-string (size init-val str)
+  (unless (integer? size)         (error "pad-string: size must be an integer."))
+  (unless (string? init-val)      (error "pad-string: init-val must be a string."))
+  (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
+  (let ((pad (make-string (- size (length str)) init-val)))
+   (concat str pad)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 

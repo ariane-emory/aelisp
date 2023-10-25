@@ -149,14 +149,15 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("letrec");
-
-  ae_obj_t * const  varlist = CAR(args);
   static ae_obj_t * dummy   = NULL;
 
   if (!dummy)
     dummy = KW("DUMMY");
   
+  CORE_BEGIN("letrec");
+
+  ae_obj_t * const  varlist = CAR(args);
+
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
   // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
  
