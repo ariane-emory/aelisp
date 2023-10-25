@@ -287,8 +287,16 @@
  (let* ((lst (make-list size init-val)))
   (apply concat lst)))
 
-(princ (make-string 10 "x"))
+(defun pad-string (size init-val str)
+ (unless (integer? size)         (error "pad-string: size must be an integer."))
+ (unless (string? init-val)      (error "pad-string: init-val must be a string."))
+ (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
+ (let* ((len (length str))
+        (pad (make-string (- size len) init-val)))
+  (concat str pad)))
 
+(princ (make-string 10 "x")) (nl)
+(princ (pad-string  10 "x" "hello")) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
