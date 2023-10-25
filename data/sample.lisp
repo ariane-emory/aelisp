@@ -285,3 +285,22 @@
 
 
 
+
+ (defmacro make-type-checker (pred?)
+  $('let* $($('str-pred (string pred?))
+            $('new-name $('symbol $('concat 'str-pred "!"))))
+    'new-name))
+
+;; $('defmacro 'new-name $('sym)
+   ;;   $('let $($('val $('eval 'sym)))
+   ;;     $('unless $(pred? 'val)
+   ;;       $('error $('concat
+   ;;                  $('string 'sym) " must satisfy " 'str-pred ", got a "
+   ;;                  $('string $('type 'val)) ", "
+   ;;                  $('when   $('string? 'val) "'")
+   ;;                  $('string 'val)
+   ;;                  $('when   $('string? 'val) "'"))))))))
+
+(log-macro t)
+(make-type-checker integer?)
+
