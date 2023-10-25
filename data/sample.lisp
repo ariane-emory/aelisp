@@ -291,10 +291,9 @@
         (checker-name (symbol (concat pred-string "!"))))
   
   $('defmacro checker-name $('sym)
-    $('let*
+    $('let
       $($('type-pred? pred?)
-        $('val        $('eval 'sym)))
-
+        $('val $('eval 'sym)))
       $('unless $('type-pred? 'val)
         $('let* $($('val-string
                     $('if $('string? 'val)
@@ -302,7 +301,8 @@
                       $('string 'val)))
                   $('obj-string
                     $('if $('symbol? 'sym) 'sym 'val-string))
-                  $('pred-string    pred-string))
+                  $('pred-string
+                    pred-string))
           $('error
             $('concat
               'obj-string " must satisfy " 'pred-string ", got a "
