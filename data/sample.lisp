@@ -252,6 +252,12 @@
 (confirm that (prime? 8)                                            returns nil)
 (confirm that (primes 8)                                            returns '(2 3 5 7 11 13 17 19))
 
+(nl)
+
+(setq! lst '(1 2 3 4))
+(confirm that (mapcar! double lst)                                  returns '(2 4 6 8))
+(confirm that lst                                                   returns '(2 4 6 8))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
