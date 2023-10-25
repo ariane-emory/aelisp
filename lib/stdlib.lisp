@@ -827,8 +827,8 @@
  (setq! union2ql
   (lambda (lst1 lst2)
    "Make the union of two list, using eql? to test equality."
-   (tail?! lst1)
-   (tail?! lst2)
+   ;; (tail?! lst1)
+   ;; (tail?! lst2)
    (union2 eql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionql
@@ -852,8 +852,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; even?/odd? predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun even?   (n) "t if N is even." (integer?! n) (zero? (% n 2 )))
- (defun odd?    (n) "t if N is odd."  (integer?! n) (= 1 (% n 2 )))
+ (defun even? (n)
+  "t if N is even."
+  ;; (integer?! n)
+  (zero? (% n 2 )))
+ (defun odd? (n)
+  "t if N is odd."
+  ;; (integer?! n)
+  (= 1 (% n 2 )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; always?/never? predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -879,7 +885,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun invert-pred1 pred?
   "Does what it says on the tin and inverts a unary predicate PRED?."
-  (fun?! pred?)
+  ;; (fun?! pred?)
   (lambda (val)
    (not (pred? val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -893,7 +899,7 @@
  (defun with-toggled-fun1 (toggled-fun)
   "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPR and sets"
   "TOGGLED-FUN back to it's prior state."
-  (fun?! toggled-fun)
+  ;; (fun?! toggled-fun)
   (lambda (fun-or-expr)
    (if (lambda? fun-or-expr)
     (let* ((old    (toggled-fun t))
@@ -908,7 +914,7 @@
  (defun with-toggled-fun (toggled-fun)
   "Get a function that enables TOGGLED-FUN, evaluates FUN-OR-EXPRS and sets"
   "TOGGLED-FUN back to it's prior state."
-  (fun?! toggled-fun)
+  ;; (fun?! toggled-fun)
   (lambda funs-or-exprs
    (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -952,12 +958,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun apply* (fun . args)
   "Try to remember how this one works and document it."
-  (fun?! fun)
+  ;; (fun?! fun)
   (apply fun (apply list* args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun curry1 (fun arg1)
   "Curry the first argument of FUN as ARG1. This would be better if it were a macro."
-  (fun?! fun)
+  ;; (fun?! fun)
   (lambda args
    (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
