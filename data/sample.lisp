@@ -275,7 +275,7 @@
 (confirm that (funcall + 1 2 3 4 5 6)                                   returns 21)
 
 (confirm that (make-string 10 "x")                                      returns "xxxxxxxxxx")
-(confirm that (pad-string  10 "x" "hello")                              returns "helloxxxx")
+(confirm that (pad-string  10 "x" "hello")                              returns "helloxxxxx")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
