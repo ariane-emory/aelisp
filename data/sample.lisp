@@ -18,9 +18,12 @@
 
 (confirm that lst                              returns '(200 200 200 200 200 200))
 (confirm that (list-set! lst 0 100)            returns 100)
+(confirm that (list-ref  lst 0)                returns 100)
+
 (confirm that lst                              returns '(100 200 200 200 200 200))
-(confirm that (list-ref lst 0)                 returns 100)
 (confirm that (list-set! lst 1 101)            returns 101)
+(confirm that (list-ref lst 1)                 returns 101)
+
 (confirm that lst                              returns '(100 101 200 200 200 200))
 (confirm that (list-ref lst 1)                 returns 101)
 (confirm that (list-set! lst 2 102)            returns 102)
