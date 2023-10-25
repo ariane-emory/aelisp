@@ -305,11 +305,11 @@
       
       $('unless $('inner-pred? 'val)
         $('error $('concat
-                   'sym " must satisfy " 'str-pred ", got a "
+                   'obj-string " must satisfy " 'str-pred ", got a "
                    $('string $('type    'val)) ", "
-                   $('when   $('string? 'val)  "'")
+                   $('when   'val-string  "'")
                    $('string 'val)
-                   $('when   $('string? 'val)  "'")
+                   $('when   'val-string  "'")
                    )))))))
 
 
