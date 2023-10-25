@@ -281,40 +281,10 @@
 ;;  $('unless $('integer? sym)
 ;;    $('error (concat (string sym) " must be integer?"))))
 
-(defmacro make-type-enforcer (pred?)
- (let* ((str-pred (string pred?))
-        (new-name (symbol (concat str-pred "!"))))
-  $('defmacro new-name $('sym)
-    $('let $($('val $('eval 'sym)))
-      $('unless $(pred? 'val)
-        $('error $('concat
-                   $('string 'sym) " must satisfy " str-pred ", got a "
-                   $('string $('type 'val)) ", "
-                   $('when   $('string? 'val) "'")
-                   $('string 'val)
-                   $('when   $('string? 'val) "'"))))))))
-
-(make-type-enforcer atom?)
-(make-type-enforcer char?)
-(make-type-enforcer cons?)
-(make-type-enforcer core?)
-(make-type-enforcer env?)
-(make-type-enforcer error?)
-(make-type-enforcer float?)
-(make-type-enforcer integer?)
-(make-type-enforcer lambda?)
-(make-type-enforcer λ?)
-(make-type-enforcer macro?)
-(make-type-enforcer rational?)
-(make-type-enforcer string?)
-(make-type-enforcer symbol?)
-(make-type-enforcer improper?)
-(make-type-enforcer fun?)
 
 
 (log-macro t)
 ;; (log-eval t)
-(make-type-enforcer integer?)
 ;; (log-eval nil)
 (log-macro nil)
 

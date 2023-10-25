@@ -130,6 +130,42 @@
  )
 
 
+(report-time-us "def type checkers              "
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro make-type-checker (pred?)
+  (let* ((str-pred (string pred?))
+         (new-name (symbol (concat str-pred "!"))))
+   $('defmacro new-name $('sym)
+     $('let $($('val $('eval 'sym)))
+       $('unless $(pred? 'val)
+         $('error $('concat
+                    $('string 'sym) " must satisfy " str-pred ", got a "
+                    $('string $('type 'val)) ", "
+                    $('when   $('string? 'val) "'")
+                    $('string 'val)
+                    $('when   $('string? 'val) "'"))))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (make-type-checker atom?)
+ (make-type-checker char?)
+ (make-type-checker cons?)
+ (make-type-checker core?)
+ (make-type-checker env?)
+ (make-type-checker error?)
+ (make-type-checker float?)
+ (make-type-checker integer?)
+ (make-type-checker lambda?)
+ (make-type-checker λ?)
+ (make-type-checker macro?)
+ (make-type-checker rational?)
+ (make-type-checker string?)
+ (make-type-checker symbol?)
+ (make-type-checker improper?)
+ (make-type-checker fun?)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
+
+
+
 (report-time-us "def compound car/cdrs          "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; compound car/cdrs:                                                        ;;
