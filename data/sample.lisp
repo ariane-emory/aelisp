@@ -297,7 +297,10 @@
         $('pred-string    pred-string)
         $('val            $('eval 'sym))
         $('val-type       $('type 'val))
-        $('val-string     $('string 'val))
+        $('val-string
+          $('if $('string? 'val)
+            $('concat "'" 'val "'")
+            $('string 'val)))
         $('obj-string     $('if $('symbol? 'sym) 'sym 'val-string))
         )
 
