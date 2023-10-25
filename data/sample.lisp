@@ -278,13 +278,15 @@
 (confirm that (pad-string  10 "x" "hello")                              returns "helloxxxxx")
 
 (defmacro integer?! (sym)
- (unless (integer? sym)
-  (error (string sym) "must be integer?")))
+ $('unless $('integer? sym)
+  $('error (concat (string sym) " must be integer?"))))
 
 (defun thing (x)
+ (integer?! x)
  (* 2 x))
 
 (thing 77)
+(thing 'a)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
