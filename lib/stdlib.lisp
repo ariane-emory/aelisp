@@ -475,8 +475,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
-  (tail?! lst1)
-  (tail?! lst2)
+  ;; (tail?! lst1)
+  ;; (tail?! lst2)
   (cond
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
@@ -492,13 +492,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back! (lst elem)
   "Destructively push ELEM onto the tail of LST."
-  (cons?! lst)
+  ;; (cons?! lst)
   (rplacd! (last lst) (cons elem nil))
   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push! (elem lst)
   "Destructively push ELEM onto the head of LST."
-  (cons?! lst)
+  ;; (cons?! lst)
   (let ((old-car (car lst)))
    (rplaca! lst elem)
    (rplacd! lst (cons old-car (cdr lst)))
@@ -506,12 +506,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back (lst elem) 
   "Non-destructively push ELEM onto the tail of LST."
-  (tail?! lst)
+  ;; (tail?! lst)
   (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
   "Non-destructively push ELEM onto the head of LST, aka cons."
-  (tail?! lst)
+  ;; (tail?! lst)
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -522,7 +522,7 @@
  ;; list funs (flattening):                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten1 (lst)
-  (tail?! lst)
+  ;; (tail?! lst)
   (cond
    ((nil? lst) nil)
    ((tail? (car lst))
@@ -531,13 +531,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten-left (lst)
   "Flatten a left-nested list structure LST."
-  (tail?! lst)
+  ;; (tail?! lst)
   (if (cons? (car lst))
    (append (flatten-left (car lst)) $(cadr lst))
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten (lst)
-  (tail?! lst)
+  ;; (tail?! lst)
   (when lst
    (if (cons? (car lst))
     (append (flatten (car lst)) (flatten (cdr lst)))
@@ -552,8 +552,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip2 (lst1 lst2)
   "Zip LST1 and LST2."
-  (tail?! lst1)
-  (tail?! lst1)
+  ;; (tail?! lst1)
+  ;; (tail?! lst1)
   (cond
    ((∨ (nil? lst1) (nil? lst2)) nil)
    (t  (cons  $((car lst1) (car lst2))
@@ -561,9 +561,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip3 (l1 l2 l3)
   "Zip the three lists LST1, LST2 and LST3."
-  (tail?! lst1)
-  (tail?! lst2)
-  (tail?! lst3)
+  ;; (tail?! lst1)
+  ;; (tail?! lst2)
+  ;; (tail?! lst3)
   (mapcar flatten1 (reduce zip2 $(l2 l3) l1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! left-nested-zip (reduced* zip2))
@@ -587,9 +587,9 @@
  (defun transform! (pred? fun obj)
   "Destructively transform the cons tree OBJ by replacing members matching
   PRED? with the result of applying FUN to them."
-  (fun?!  pred?)
-  (fun?!  fun)
-  (cons?! obj)
+  ;; (fun?!  pred?)
+  ;; (fun?!  fun)
+  ;; (cons?! obj)
   (cond
    ((pred? obj) (set! obj (fun obj)))
    ((cons? obj)
@@ -608,8 +608,8 @@
   "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
-  (fun?! pred?)
-  (fun?! fun)
+  ;; (fun?! pred?)
+  ;; (fun?! fun)
   (when (not (lambda? fun)) (error "fun must be a function"))
   (cond
    ((and (atom? obj) (pred? obj)) (fun obj))
@@ -660,8 +660,8 @@
   (defun sort!!  (lst pred?)
    "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
    "returning a new list."
-   (tail?! lst)
-   (fun?!  pred?)
+   ;; (tail?! lst)
+   ;; (fun?!  pred?)
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
     (let* ((splits (half lst))
@@ -688,15 +688,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun depth (lst)
   "Get the depth of a nested list structure. This one is untested."
-  (tail?! lst)
+  ;; (tail?! lst)
   (if (atom? lst)
    0
    (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
-  (fun?!  pred?)
-  (tail?! lst)
+  ;; (fun?!  pred?)
+  ;; (tail?! lst)
   (cond
    ((nil? lst) nil)
    ((pred? (car lst))
