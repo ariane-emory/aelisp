@@ -781,7 +781,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! union2q
   (lambda (lst1 lst2)
-  "Return the union of LST1 and LST2, using eq? to test for duplicates."
+   "Return the union of LST1 and LST2, using eq? to test for duplicates."
+   (unless (tail? lst1) (error "LST1 must be a tail"))
+   (unless (tail? lst2) (error "LST2 must be a tail"))
    (union2 eq? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionq
@@ -789,7 +791,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! union2ql
   (lambda (lst1 lst2)
-  "Return the union of LST1 and LST2, using eql? to test for duplicates."
+   "Return the union of LST1 and LST2, using eql? to test for duplicates."
+   (unless (tail? lst1) (error "LST1 must be a tail"))
+   (unless (tail? lst2) (error "LST2 must be a tail"))
    (union2 eql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionql
