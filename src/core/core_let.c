@@ -38,6 +38,9 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     
     INDENT;
     
+    if (log_core)
+      OLOG(varlist_item);
+
     ae_obj_t * val =
       SYMBOLP(varlist_item)
       ? NIL
