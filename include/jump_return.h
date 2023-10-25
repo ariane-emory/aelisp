@@ -10,6 +10,9 @@
   ae_obj_t * ret           = NIL
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define JUMP_RETURN_EXIT                                                                           \
+  if (local_indents > 0)                                                                           \
+    printf("WARNING: JUMP_RETURN_EXIT with local_indents > 0: %d\n", local_indents);               \
+                                                                                                   \
   assert(local_indents == 0);                                                                      \
                                                                                                    \
   return ret
