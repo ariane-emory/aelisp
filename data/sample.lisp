@@ -288,7 +288,7 @@
 
  (defmacro make-type-checker (pred?)
   $('let* $($('str-pred (string pred?))
-            $('new-name (symbol (concat 'str-pred "!"))))
+            $('new-name $('quote (symbol (concat (string pred?) "!")))))
     'new-name))
 
 ;; $('defmacro 'new-name $('sym)
