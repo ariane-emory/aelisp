@@ -522,6 +522,7 @@
  ;; list funs (flattening):                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten1 (lst)
+  (tail?! lst)
   (cond
    ((nil? lst) nil)
    ((tail? (car lst))
@@ -530,9 +531,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten-left (lst)
   "Flatten a left-nested list structure LST."
-  (if (cons? (car lst))i)
-  (append (flatten-left (car lst)) $(cadr lst))
-  lst)
+  (tail?! lst)
+  (if (cons? (car lst))
+   (append (flatten-left (car lst)) $(cadr lst))
+   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten (lst)
   (when lst
