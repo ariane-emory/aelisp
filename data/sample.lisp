@@ -280,23 +280,9 @@
 ;;         (pad (make-string (- 10 len) #\space)))
 ;;   (concat str pad)))
 
-(defun make-string (size init-val)
- (unless (integer? size)         (error "make-string: size must be an integer."))
- (unless (string? init-val)      (error "make-string: init-val must be a string."))
- (unless (= 1 (length init-val)) (error "make-string: init-val must be a string of length 1."))
- (let* ((lst (make-list size init-val)))
-  (apply concat lst)))
 
-(defun pad-string (size init-val str)
- (unless (integer? size)         (error "pad-string: size must be an integer."))
- (unless (string? init-val)      (error "pad-string: init-val must be a string."))
- (unless (= 1 (length init-val)) (error "pad-string: init-val must be a string of length 1."))
- (let* ((len (length str))
-        (pad (make-string (- size len) init-val)))
-  (concat str pad)))
-
-(princ (make-string 10 "x")) (nl)
-(princ (pad-string  10 "x" "hello")) (nl)
+(confirm that (make-string 10 "x")                returns "xxxxxxxxxx")
+(confirm that (pad-string  10 "x" "hello")        returns "helloxxxx")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
