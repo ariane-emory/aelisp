@@ -1244,6 +1244,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun select-and-move-to-front! (pred? lst)
   "Move the first item in LST matching PRED? to its head."
+  (unless (fun? pred? ) (error "PRED? must be a function"))
+  (unless (tail? lst)  (error "LST must be a tail"))
   (let ((head (car lst)))
    (if (pred? head)
     head
