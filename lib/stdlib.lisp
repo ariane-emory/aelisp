@@ -1128,7 +1128,7 @@
   (unless (eq? 'returns returns) (error "expected 'returns as 4th argument"))
   $('progn
     $('let $($('printed $('princ $('string $('quote expr)) '" ⇒ ")))
-      $('while $('< 'printed 32)
+      $('while $('< 'printed 48)
         $('princ '" ")
         $('setq! 'printed $('+ 1 'printed)))
       $('write $('require-equal
