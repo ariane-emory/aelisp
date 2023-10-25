@@ -48,11 +48,11 @@
 (confirm that 
  (body lshift4)
  returns '(progn
-  (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
-  (nl)
-  (let ((result (progn (<< n 4))))
-   (princ "Result of applying " 'lshift4 " was " result ".") (nl)
-   result)))
+           (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
+           (nl)
+           (let ((result (progn (<< n 4))))
+            (princ "Result of applying " 'lshift4 " was " result ".") (nl)
+            result)))
 
 (confirm that (lshift4 4) returns 64)
 
@@ -219,6 +219,15 @@
 
 (confirm that (mapcan id  '((1 2) (3 4) (5 6)))                   returns '(1 2 3 4 5 6))
 (confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9)))             returns '(2 3 5 6 8 9))
+
+
+(ignore
+ (setq lst '((1 2) (3 4) (5 6)))
+
+ (defun filter-evens (lst)
+  (delq nil (mapcar (lambda (x) (when (evenp x) x)) lst)))
+
+ (mapcan filter-evens lst))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
