@@ -537,6 +537,7 @@
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten (lst)
+  (tail?! lst)
   (when lst
    (if (cons? (car lst))
     (append (flatten (car lst)) (flatten (cdr lst)))
@@ -551,6 +552,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip2 (lst1 lst2)
   "Zip LST1 and LST2."
+  (tail?! lst1)
+  (tail?! lst1)
   (cond
    ((∨ (nil? lst1) (nil? lst2)) nil)
    (t  (cons  $((car lst1) (car lst2))
@@ -558,6 +561,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip3 (l1 l2 l3)
   "Zip the three lists LST1, LST2 and LST3."
+  (tail?! lst1)
+  (tail?! lst2)
+  (tail?! lst3)
   (mapcar flatten1 (reduce zip2 $(l2 l3) l1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! left-nested-zip (reduced* zip2))
@@ -565,6 +571,8 @@
  (defmacro zip lists
   "Zip many lists. This might not flatten properly if the zipped elements are
   themselves lists."
+  (unless (all? tail? lists)
+   (error "all lists must be tail?"))
   (if (cdr lists)
    $('mapcar 'flatten (cons 'left-nested-zip lists))
    $('mapcar 'list  (car lists))))
