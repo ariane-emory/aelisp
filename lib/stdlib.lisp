@@ -1170,6 +1170,8 @@
 (report-time-us "def delq!/delql!               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delq! (item lst)
+  "Destructively remove all items eq? to ITEM from LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (when lst
    (while (and lst (eq? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1181,6 +1183,8 @@
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delql! (item lst)
+  "Destructively remove all items eql? to ITEM from LST."
+  (unless (tail? lst) (error "LST must be a tail"))
   (when lst
    (while (and lst (eql? (car lst) item))
     (setq! lst (cdr lst)))
