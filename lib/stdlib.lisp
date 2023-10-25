@@ -705,7 +705,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun intercalate (intercalated lst)
   "Intercalate intercalated between items."
-  (tail?! lst)
+  ;; (tail?! lst)
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (cons (car lst)
@@ -715,13 +715,13 @@
  (defun butlast (lst)
   "Returns a new list that contains all the elements of the input list except"
   "last one."
-  (tail?! lst)
+  ;; (tail?! lst)
   (unless (or (nil? lst) (nil? (cdr lst)))
    (cons (car lst) (butlast (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Returns a new list that is the reverse of the input list."
-  (tail?! lst)
+  ;; (tail?! lst)
   (letrec
    ((reverse-internal
      (lambda (lst acc)
@@ -732,7 +732,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeq! (obj lst)
   "Remove the first item eq? to obj from the list."
-  (tail?! lst)
+  ;; (tail?! lst)
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eq? obj head)
@@ -756,7 +756,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeql! (obj lst)
   "Remove the first item eql? to obj from the list."
-  (tail?! lst)
+  ;; (tail?! lst)
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eql? obj head)
@@ -805,9 +805,9 @@
  ;; list funs (unions):                                                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun union2 (equalityp? lst1 lst2)
-  (fun?!  equalityp?)
-  (tail?! lst1)
-  (tail?! lst2)
+  ;; (fun?!  equalityp?)
+  ;; (tail?! lst1)
+  ;; (tail?! lst2)
   "Return the union of two lists, using memp? to test for duplicates."
   (let* ((memp?    (make-member-pred equalityp?))
          (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
@@ -817,8 +817,8 @@
  (setq! union2q
   (lambda (lst1 lst2)
    "Make the union of two list, using eq? to test equality."
-   (tail?! lst1)
-   (tail?! lst2)
+   ;; (tail?! lst1)
+   ;; (tail?! lst2)
    (union2 eq? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionq
