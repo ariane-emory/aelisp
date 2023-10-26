@@ -126,12 +126,38 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// find_file
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+char * find_file(ae_obj_t * const env,
+                 bool add_extension,
+                 const char * const name) {
+  FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
+    char * const possible_path = add_extension
+      ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 7)
+      : free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 2);
+    
+    sprintf(possible_path,
+            add_extension ? "%s/%s.lisp" : "%s/%s",
+            STR_VAL(dir), name);
+
+    if (access(possible_path, F_OK) != -1)
+      return possible_path;
+    else
+      free_list_free(possible_path);
+  }
+
+  return NULL;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // have_feature
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
   assert(sym);
-  assert(SYMBOLP(sym));
+  assert(SYMBOLP(sym) && (! KEYWORDP(sym)));
   assert(env);
   assert(ENVP(env));
   
@@ -158,52 +184,18 @@ static ae_obj_t * load_or_require(bool check_feature,
                                   __attribute__((unused)) int args_length) {
   CORE_BEGIN("load_or_require");
 
-  ae_obj_t * const load_target  = CAR(args);
+  ae_obj_t * const load_target = CAR(args);
 
-  REQUIRE(env, args, (SYMBOLP(load_target) && ! KEYWORDP(load_target)) || STRINGP(load_target));
+  REQUIRE(env, args,
+          (SYMBOLP(load_target) || (! KEYWORDP(load_target))) || STRINGP(load_target)) && 
 
-  const char * load_target_string = NULL;
-  
-  if (SYMBOLP(load_target)) {
-    REQUIRE(env, args,
-            SYMBOLP(load_target)      &&
-            (! KEYWORDP(load_target)) &&
-            (! NILP(load_target))     &&
-            (! TRUEP(load_target)));
-    load_target_string = SYM_VAL(load_target);
-  }
-  else {
-    load_target_string = STR_VAL(load_target);
-  }
+  const char * const load_target_string = SYMBOLP(load_target)
+    ? SYM_VAL(load_target)
+    : STR_VAL(load_target);
 
-  char * file_found = NULL;
-  
-  FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
-    // PR("\nLooking in %s...\n", STR_VAL(dir));
-
-    char * const possible_path = add_extension
-      ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(load_target_string) + 7)
-      : free_list_malloc(strlen(STR_VAL(dir)) + strlen(load_target_string) + 2);
+  char * file_path = find_file(env, add_extension, load_target_string);
     
-    sprintf(possible_path,
-            add_extension ? "%s/%s.lisp" : "%s/%s",
-            STR_VAL(dir), load_target_string);
-
-    // PR("Trying %s... ", possible_path);
-    
-    if (access(possible_path, F_OK) != -1) {
-      PR("found it.\n");
-      file_found = possible_path;
-      
-      break;
-    }
-    else {
-      // PR("not found.\n");
-      free_list_free(possible_path);
-    }
-  }
-  
-  if (!file_found) {
+  if (!file_path) {
     char * const tmp = free_list_malloc(256);
     snprintf(tmp, 256, "could not find file for '%s", load_target_string);
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
@@ -213,7 +205,7 @@ static ae_obj_t * load_or_require(bool check_feature,
     RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
   }
 
-  ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_found, NULL));
+  ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
   const bool old_log_macro     = log_macro;
   const bool old_log_core      = log_core;
   const bool old_log_eval      = log_eval;
@@ -225,10 +217,7 @@ static ae_obj_t * load_or_require(bool check_feature,
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
 
-  if (! check_feature)
-    RETURN(ret);
-
-  if (! have_feature(env, load_target)) {
+  if (check_feature && (! have_feature(env, load_target))) {
     char * const tmp = free_list_malloc(256);
     snprintf(tmp, 256, "required file did not provide '%s", load_target_string);
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
@@ -252,7 +241,9 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("load");
+
   REQUIRE(env, args, STRINGP(CAR(args)));
+
   CORE_RETURN("load", load_or_require(false, false, env, args, args_length));
 }
 
@@ -264,7 +255,14 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
                            ae_obj_t * const args,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("require");
-  REQUIRE(env, args, SYMBOLP(CAR(args)));
+
+  REQUIRE(env, args,
+          SYMBOLP(CAR(args))      &&
+          (! KEYWORDP(CAR(args))) &&
+          (! NILP(CAR(args)))     &&
+          (! TRUEP(CAR(args))));
+
   CORE_RETURN("require", load_or_require(true, true, env, args, args_length));
 }
+   shove
    
