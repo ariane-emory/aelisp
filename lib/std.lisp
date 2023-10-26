@@ -1415,7 +1415,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-keys (plist)
   "Extracts the keys from a plist PLIST."
-  (unless (list? plist) (error "PLIST must be a list"))
+  (unless (list? plist)          (error "PLIST must be a list"))
   (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-values (plist)
