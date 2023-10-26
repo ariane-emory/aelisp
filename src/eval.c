@@ -211,7 +211,7 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     if (log_eval)
       msg = free_list_malloc(256);
   
-    if (! SPECIALP(fun)) {
+    if (! SPECIAL_FUNP(fun)) {
       args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
 
       if (log_eval) 
@@ -314,11 +314,11 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     RETURN_IF_ERRORP(err);
   }
     
-  if (! SPECIALP(fun))
+  if (! SPECIAL_FUNP(fun))
     args = RETURN_IF_ERRORP(EVAL_ARGS(env, args));
     
   if (log_eval)
-    LOG(args, "applying user fun %s to %d %s arg%s:", fun_name_part, LENGTH(args), (SPECIALP(fun) ? "unevaled" : "evaled"), s_or_blank(LENGTH(args)));
+    LOG(args, "applying user fun %s to %d %s arg%s:", fun_name_part, LENGTH(args), (SPECIAL_FUNP(fun) ? "unevaled" : "evaled"), s_or_blank(LENGTH(args)));
       
   env = NEW_ENV(FUN_ENV(fun), FUN_PARAMS(fun), args);
 
@@ -538,6 +538,12 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   bool found = false;
 
+  if ((SYM_VAL(sym)[0] == '*') &&
+      (SYM_VAL(sym)[strlen(SYM_VAL(sym)) - 1] == '*')) {
+    LOG(sym, "evaluating special symbol");
+    while (1);
+  }
+  
   ret = ENV_GET(env, sym, &found);
   
   if (! found) {

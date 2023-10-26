@@ -221,7 +221,7 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
     COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), EMSG(this));
     break;
   case AE_CORE:
-    if (SPECIALP(this))
+    if (SPECIAL_FUNP(this))
       COUNTED_FPRINTF(fwrite_stream, "%s<%s^>", GET_TYPE_STR(this), CORE_NAME(this));
     else
       COUNTED_FPRINTF(fwrite_stream, "%s<%s>", GET_TYPE_STR(this), CORE_NAME(this));

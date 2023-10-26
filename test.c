@@ -722,37 +722,37 @@ void fun_specialness(void) {
   bool ignored = false;
   
   T(COREP(ENV_GET(env, SYM("progn"), &ignored)));
-  T(SPECIALP(ENV_GET(env, SYM("progn"), &ignored)));
+  T(SPECIAL_FUNP(ENV_GET(env, SYM("progn"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("if"), &ignored)));
-  T(SPECIALP(ENV_GET(env, SYM("if"), &ignored)));
+  T(SPECIAL_FUNP(ENV_GET(env, SYM("if"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("cond"), &ignored)));
-  T(SPECIALP(ENV_GET(env, SYM("cond"), &ignored)));
+  T(SPECIAL_FUNP(ENV_GET(env, SYM("cond"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("lambda"), &ignored)));
-  T(SPECIALP(ENV_GET(env, SYM("lambda"), &ignored)));
+  T(SPECIAL_FUNP(ENV_GET(env, SYM("lambda"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("let"), &ignored)));
-  T(SPECIALP(ENV_GET(env, SYM("let"), &ignored)));
+  T(SPECIAL_FUNP(ENV_GET(env, SYM("let"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("print"), &ignored)));
-  T(! SPECIALP(ENV_GET(env, SYM("print"), &ignored)));
+  T(! SPECIAL_FUNP(ENV_GET(env, SYM("print"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("cons"), &ignored)));
-  T(! SPECIALP(ENV_GET(env, SYM("cons"), &ignored)));
+  T(! SPECIAL_FUNP(ENV_GET(env, SYM("cons"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("car"), &ignored)));
-  T(! SPECIALP(ENV_GET(env, SYM("car"), &ignored)));
+  T(! SPECIAL_FUNP(ENV_GET(env, SYM("car"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("cdr"), &ignored)));
-  T(! SPECIALP(ENV_GET(env, SYM("cdr"), &ignored)));
+  T(! SPECIAL_FUNP(ENV_GET(env, SYM("cdr"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("+"), &ignored)));
-  T(! SPECIALP(ENV_GET(env, SYM("+"), &ignored)));
+  T(! SPECIAL_FUNP(ENV_GET(env, SYM("+"), &ignored)));
 
   T(COREP(ENV_GET(env, SYM("=="), &ignored)));
-  T(! SPECIALP(ENV_GET(env, SYM("=="), &ignored)));
+  T(! SPECIAL_FUNP(ENV_GET(env, SYM("=="), &ignored)));
 }
 
 void core_cons_car_cdr(void) {
