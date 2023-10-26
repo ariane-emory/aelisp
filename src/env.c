@@ -400,6 +400,14 @@ ae_obj_t * ae_env_new_root(void) {
     list;                                                                                          \
   })
 
+#define ENV_POP(env, sym)                                                                          \
+  ({                                                                                               \
+    ae_obj_t * list         = ENV_GET((env), (sym));                                               \
+    ae_obj_t * const popped = POP(list);                                                           \
+    ENV_SET((env), (sym), list);                                                                   \
+    popped;                                                                                        \
+  })
+
   ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
   ENV_PUSH(env, NEW_STRING(home_path),   SYM("*load-path*"));
 
