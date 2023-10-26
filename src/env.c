@@ -388,18 +388,18 @@ ae_obj_t * ae_env_new_root(void) {
     free_list_free(bin_path);
   }
     
-  printf("Found home    '%s'.\n", home_path);
+  // PR("Found home    '%s'.\n", home_path);
 
   const int    libdir_len  = strlen(home_path) + 1 + strlen(libdir_rel_path) + 1;
   char * const libdir_path = free_list_malloc(libdir_len);
 
   snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
   
-  PR("Found lib dir '%s'.\n", libdir_path);
+  // PR("Found lib dir '%s'.\n", libdir_path);
 
   ENV_SET(env, SYM("*home-path*"), NEW_STRING(home_path));
 
-  ae_obj_t * load_path = NIL;
+  ae_obj_t * load_path = ENV_FIND(env, SYM("*load_path*"));
   
   PUSH(NEW_STRING(libdir_path), load_path);
 
