@@ -640,30 +640,30 @@ void env_basics(void) {
   T(LENGTH(ENV_SYMS(this)) == 3);
   T(LENGTH(ENV_VALS(this)) == 3);
   T(MEMBERP(ENV_SYMS(this), SYM("baz")));
-  T(INT_VAL(ENV_FIND(this, SYM("foo"))) == 12);
-  T(INT_VAL(ENV_FIND(this, SYM("bar"))) == 24);
-  T(INT_VAL(ENV_FIND(this, SYM("baz"))) == 36);
+  T(INT_VAL(ENV_GET(this, SYM("foo"))) == 12);
+  T(INT_VAL(ENV_GET(this, SYM("bar"))) == 24);
+  T(INT_VAL(ENV_GET(this, SYM("baz"))) == 36);
 
   that = NEW_ENV(NIL, NIL, NIL); // not yet linked to.
 
   ENV_ADD(that, SYM("quux"), NEW_INT(48));
 
-  T(NILP(ENV_FIND(this, SYM("quux"))));
+  T(NILP(ENV_GET(this, SYM("quux"))));
 
   ENV_PARENT(this) = that; // link this to that.
 
-  T(INT_VAL(ENV_FIND(this, SYM("quux"))) == 48);
-  T(ENV_FIND(this, SYM("quux")) == ENV_FIND(that, SYM("quux")));
-  T(NILP(ENV_FIND(this, SYM("zot"))));
-  T(NILP(ENV_FIND(that, SYM("foo"))));
+  T(INT_VAL(ENV_GET(this, SYM("quux"))) == 48);
+  T(ENV_GET(this, SYM("quux")) == ENV_GET(that, SYM("quux")));
+  T(NILP(ENV_GET(this, SYM("zot"))));
+  T(NILP(ENV_GET(that, SYM("foo"))));
 
   ENV_SET(this, SYM("bar"), NEW_INT(99));
 
-  T(INT_VAL(ENV_FIND(this, SYM("bar"))) == 99);
+  T(INT_VAL(ENV_GET(this, SYM("bar"))) == 99);
 
   ENV_SET(this, SYM("zot"), NEW_INT(66));
 
-  T(INT_VAL(ENV_FIND(this, SYM("zot"))) == 66);
+  T(INT_VAL(ENV_GET(this, SYM("zot"))) == 66);
 
 #ifdef AE_LOG_ENV_TEST
   pool_print();
@@ -716,38 +716,38 @@ void fun_specialness(void) {
   SETUP_TEST;
   ae_obj_t * env   = ENV_NEW_ROOT();
 
-  T(COREP(ENV_FIND(env, SYM("progn"))));
-  T(SPECIALP(ENV_FIND(env, SYM("progn"))));
+  T(COREP(ENV_GET(env, SYM("progn"))));
+  T(SPECIALP(ENV_GET(env, SYM("progn"))));
 
-  T(COREP(ENV_FIND(env, SYM("if"))));
-  T(SPECIALP(ENV_FIND(env, SYM("if"))));
+  T(COREP(ENV_GET(env, SYM("if"))));
+  T(SPECIALP(ENV_GET(env, SYM("if"))));
 
-  T(COREP(ENV_FIND(env, SYM("cond"))));
-  T(SPECIALP(ENV_FIND(env, SYM("cond"))));
+  T(COREP(ENV_GET(env, SYM("cond"))));
+  T(SPECIALP(ENV_GET(env, SYM("cond"))));
 
-  T(COREP(ENV_FIND(env, SYM("lambda"))));
-  T(SPECIALP(ENV_FIND(env, SYM("lambda"))));
+  T(COREP(ENV_GET(env, SYM("lambda"))));
+  T(SPECIALP(ENV_GET(env, SYM("lambda"))));
 
-  T(COREP(ENV_FIND(env, SYM("let"))));
-  T(SPECIALP(ENV_FIND(env, SYM("let"))));
+  T(COREP(ENV_GET(env, SYM("let"))));
+  T(SPECIALP(ENV_GET(env, SYM("let"))));
 
-  T(COREP(ENV_FIND(env, SYM("print"))));
-  T(! SPECIALP(ENV_FIND(env, SYM("print"))));
+  T(COREP(ENV_GET(env, SYM("print"))));
+  T(! SPECIALP(ENV_GET(env, SYM("print"))));
 
-  T(COREP(ENV_FIND(env, SYM("cons"))));
-  T(! SPECIALP(ENV_FIND(env, SYM("cons"))));
+  T(COREP(ENV_GET(env, SYM("cons"))));
+  T(! SPECIALP(ENV_GET(env, SYM("cons"))));
 
-  T(COREP(ENV_FIND(env, SYM("car"))));
-  T(! SPECIALP(ENV_FIND(env, SYM("car"))));
+  T(COREP(ENV_GET(env, SYM("car"))));
+  T(! SPECIALP(ENV_GET(env, SYM("car"))));
 
-  T(COREP(ENV_FIND(env, SYM("cdr"))));
-  T(! SPECIALP(ENV_FIND(env, SYM("cdr"))));
+  T(COREP(ENV_GET(env, SYM("cdr"))));
+  T(! SPECIALP(ENV_GET(env, SYM("cdr"))));
 
-  T(COREP(ENV_FIND(env, SYM("+"))));
-  T(! SPECIALP(ENV_FIND(env, SYM("+"))));
+  T(COREP(ENV_GET(env, SYM("+"))));
+  T(! SPECIALP(ENV_GET(env, SYM("+"))));
 
-  T(COREP(ENV_FIND(env, SYM("=="))));
-  T(! SPECIALP(ENV_FIND(env, SYM("=="))));
+  T(COREP(ENV_GET(env, SYM("=="))));
+  T(! SPECIALP(ENV_GET(env, SYM("=="))));
 }
 
 void core_cons_car_cdr(void) {
@@ -1115,7 +1115,7 @@ void list_fun(void) {
   SETUP_TEST;
 
   ae_obj_t * env           = ENV_NEW_ROOT();
-  ae_obj_t * list_fun      = ENV_FIND(env, SYM("list"));
+  ae_obj_t * list_fun      = ENV_GET(env, SYM("list"));
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))));
   ae_obj_t * ret           = EVAL(env, list_fun_call);
 
@@ -1409,7 +1409,7 @@ void env_with_a_dot(void) {
     /* LOG(ENV_SYMS(env), "with syms"); */
     /* LOG(ENV_VALS(env), "and  vals"); */
     
-    ae_obj_t * found = ENV_FIND(env, SYM("third"));
+    ae_obj_t * found = ENV_GET(env, SYM("third"));
 
     // OLOG(found);
 
@@ -1444,7 +1444,7 @@ void env_with_a_dot(void) {
     // LOG(ENV_SYMS(env), "with syms");
     // LOG(ENV_VALS(env), "and  vals");
   
-    ae_obj_t * found = ENV_FIND(env, SYM("args"));
+    ae_obj_t * found = ENV_GET(env, SYM("args"));
 
     // OLOG(found);
 

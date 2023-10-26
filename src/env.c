@@ -351,20 +351,20 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
 
 #if AE_PREFER_ALIST
-  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("ahas?")));
-  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("aset")));
-  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("aget")));
+  ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("ahas?")));
+  ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("aset")));
+  ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("aget")));
 #else
-  ENV_SET(env, SYM("has-key?"), ENV_FIND(env, SYM("phas?")));
-  ENV_SET(env, SYM("put-key"),  ENV_FIND(env, SYM("pset")));
-  ENV_SET(env, SYM("get-key"),  ENV_FIND(env, SYM("pget")));
+  ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("phas?")));
+  ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("pset")));
+  ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("pget")));
 #endif
 
   FOR_EACH_CORE_FUN_GROUP_3(load_fun);
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
   FOR_EACH_CORE_CMP_OP(add_core_op);
-  ENV_SET(env, SYM("="), ENV_FIND(env, SYM("==")));
+  ENV_SET(env, SYM("="), ENV_GET(env, SYM("==")));
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
@@ -399,11 +399,17 @@ ae_obj_t * ae_env_new_root(void) {
 
   ENV_SET(env, SYM("*home-path*"), NEW_STRING(home_path));
 
-  ae_obj_t * load_path = ENV_FIND(env, SYM("*load_path*"));
-  
-  PUSH(NEW_STRING(libdir_path), load_path);
+#define ENV_PUSH(env, val, sym)                                                                    \
+  ae_obj_t * lst = ENV_GET((env), (sym));                                                          \
+  PUSH((val), lst);                                                                                \
+  ENV_SET((env), (sym), lst)
 
-  ENV_SET(env, SYM("*load-path*"), load_path);
+  ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
+
+  /* // _GET isn't strictly necessary since it will be NIL right now anyhow: */
+  /* ae_obj_t * load_path = ENV_GET(env, SYM("*load-path*")); */
+  /* PUSH(NEW_STRING(libdir_path), load_path); */
+  /* ENV_SET(env, SYM("*load-path*"), load_path); */
     
   return env;
 }

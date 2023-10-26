@@ -31,9 +31,11 @@ typedef enum {
 #define    ENV_SET_G(env, sym, val) (ae_env_set(    GLOBAL, (env), (sym), (val)))                                                    //
 #define    ENV_SET_L(env, sym, val) (ae_env_set(     LOCAL, (env), (sym), (val)))                                                    //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_FIND(env, sym)       (ae_env_lookup(NEAREST, (env), (sym), NULL))                                                     //
-#define    ENV_FIND_G(env, sym)     (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                                     //
-#define    ENV_FIND_L(env, sym)     (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                                     //
+#define    ENV_GET(env, sym)        (ae_env_lookup(NEAREST, (env), (sym), NULL))                                                     //
+#define    ENV_GET_G(env, sym)      (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                                     //
+#define    ENV_GET_L(env, sym)      (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                                     //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_BOUND_IN(mode, env, sym)                                                                                               \
   ({                                                                                                                                  \

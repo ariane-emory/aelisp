@@ -554,7 +554,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   ret = KEYWORDP(sym)
     ? sym
-    : ENV_FIND(env, sym);
+    : ENV_GET(env, sym);
 
 end:
 
