@@ -128,30 +128,31 @@ typedef struct ae_obj_t {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Obj's methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *    ae_obj_init           (      ae_obj_t * const this,       ae_type_t        type     );
-ae_obj_t *    ae_obj_unsafe_move    (      ae_obj_t * const this,       ae_obj_t * const that     );
-ae_obj_t *    ae_obj_clone          (      ae_obj_t * const this                                  );
-bool          ae_obj_eql            (const ae_obj_t * const this, const ae_obj_t * const that     );
-ae_obj_t *    ae_obj_truth          (const bool             this                                  );
-ae_type_t     ae_obj_get_type       (const ae_obj_t * const this                                  );
-void          ae_obj_set_type       (      ae_obj_t * const this, const ae_type_t        type     );
+ae_obj_t *    ae_obj_init                  (      ae_obj_t * const this,       ae_type_t        type     );
+ae_obj_t *    ae_obj_unsafe_move           (      ae_obj_t * const this,       ae_obj_t * const that     );
+ae_obj_t *    ae_obj_clone                 (      ae_obj_t * const this                                  );
+bool          ae_obj_eql                   (const ae_obj_t * const this, const ae_obj_t * const that     );
+ae_obj_t *    ae_obj_truth                 (const bool             this                                  );
+ae_type_t     ae_obj_get_type              (const ae_obj_t * const this                                  );
+void          ae_obj_set_type              (      ae_obj_t * const this, const ae_type_t        type     );
 //======================================================================================================================
-bool          ae_obj_keywordp       (const ae_obj_t * const this                                  );
-bool          ae_obj_specialp       (const ae_obj_t * const this                                  );
-bool          ae_obj_tailp          (const ae_obj_t * const this                                  );
+bool          ae_obj_settable_symbolp      (const ae_obj_t * const this                                  );
+bool          ae_obj_keywordp              (const ae_obj_t * const this                                  );
+bool          ae_obj_specialp              (const ae_obj_t * const this                                  );
+bool          ae_obj_tailp                 (const ae_obj_t * const this                                  );
 //======================================================================================================================
-bool          ae_obj_get_delocalized(const ae_obj_t * const this                                  );
-void          ae_obj_set_delocalized(      ae_obj_t * const this, const bool             foo      );
+bool          ae_obj_get_delocalized       (const ae_obj_t * const this                                  );
+void          ae_obj_set_delocalized       (      ae_obj_t * const this, const bool             foo      );
 //======================================================================================================================
 // These two are not yet used and are just here as an example of how to set the next metadata region:
-char          ae_obj_get_foo        (const ae_obj_t * const this                                  );
-void          ae_obj_set_foo        (      ae_obj_t * const this, const char             foo      );
+char          ae_obj_get_foo               (const ae_obj_t * const this                                  );
+void          ae_obj_set_foo               (      ae_obj_t * const this, const char             foo      );
 //======================================================================================================================
-unsigned int  ae_obj_get_min_args   (const ae_obj_t * const this                                  );
-void          ae_obj_set_min_args   (      ae_obj_t * const this, const unsigned int      min_args);
+unsigned int  ae_obj_get_min_args          (const ae_obj_t * const this                                  );
+void          ae_obj_set_min_args          (      ae_obj_t * const this, const unsigned int      min_args);
 //======================================================================================================================
-unsigned int  ae_obj_get_max_args   (const ae_obj_t * const this                                  );
-void          ae_obj_set_max_args   (      ae_obj_t * const this, const unsigned int      max_args);
+unsigned int  ae_obj_get_max_args          (const ae_obj_t * const this                                  );
+void          ae_obj_set_max_args          (      ae_obj_t * const this, const unsigned int      max_args);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -253,6 +254,7 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(obj)                     (TYPEP((obj), AE_STRING))
 #define SYMBOLP(obj)                     (TYPEP((obj), AE_SYMBOL))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define SETTABLEP(obj)                   (ae_obj_settable_symbolp((obj)))
 #define KEYWORDP(obj)                    (ae_obj_keywordp((obj)))
 #define SPECIALP(obj)                    (ae_obj_specialp((obj)))
 #define TAILP(obj)                       (ae_obj_tailp((obj)))
