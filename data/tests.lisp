@@ -304,3 +304,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and (bound? 'provide) (fun? provide)) (provide :tests))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmacro writen exprs
+ (cons 'progn exprs))
+
+(log-macro t)
+(log-eval  t)
+
+(writen 1 2 3)

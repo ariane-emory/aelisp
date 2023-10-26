@@ -251,6 +251,12 @@ bool setopts(int argc, char *argv[]) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
+  bool old_log_macro = log_macro;
+  bool old_log_core  = log_core;
+  bool old_log_eval  = log_eval;
+  
+  log_macro = false; log_core = false; log_eval = false;
+  
   FILE * const original_yyin = yyin;
   yyin = fopen(filename, "r");
 
@@ -267,6 +273,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     char * const err_msg     = free_list_malloc(strlen(err_msg_tmp) + 1);
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
+
+    log_macro = old_log_macro; log_core = old_log_core; log_eval = old_log_eval;
     
     return NEW_ERROR(err_msg, NIL);
   }
@@ -296,6 +304,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   yylineno = INT_VAL(POP(line_stack));
   
   PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
+  
+  log_macro = old_log_macro; log_core = old_log_core; log_eval = old_log_eval;
   
   return program; 
 }
