@@ -105,7 +105,7 @@
  "and so for now we will ignore it."
  (confirm that (apply concat (intercalate " " (car split))) returns "\"asdw erer rerw\""))
 
-;; (confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
+(confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (ignore
