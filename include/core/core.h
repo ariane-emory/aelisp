@@ -43,6 +43,7 @@
   DO(tailp,        false,          1,          1, "tail?",                     FUNDEF_END)                                \
   DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
   DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
+  DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(phas,         false,          2,          2, "phas?",                     FUNDEF_END)                                \
   DO(pset,         false,          3,          3,                              FUNDEF_END)                                \

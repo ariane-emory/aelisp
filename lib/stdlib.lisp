@@ -1436,6 +1436,21 @@
  )
 
 
+(report-time-us "def feature?/provide           "
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun feature? (feature)
+ "t if FEATURE is present in *features*."
+ (unless (keyword? feaure) (error "FEATURE must be a keyword."))
+ (memq? feature *features*))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun provide (feature)
+ "Add FEATURE to *features* if it is not already present."
+ (unless (keyword? feaure)  (error "FEATURE must be a keyword."))
+ (unless (feature? feature) (push! feature *features*)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
+
+
 (report-time-us "def scheme compat              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; tiny-clos scheme compat:
@@ -1493,5 +1508,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
-
 (print-loaded)
+
+(when (and (bound? 'provide) (fun? provide)) (provide :stdlib))
