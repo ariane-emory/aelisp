@@ -1,3 +1,5 @@
+(require 'prog-macros)
+
 (report-time-us "def prop remove!               "
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro remove! (prop obj)

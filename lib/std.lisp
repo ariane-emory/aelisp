@@ -1395,16 +1395,6 @@
  )
 
 
-(report-time-us "def prop remove!               "
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro remove! (prop obj)
-  $('prog1
-    $('quote $('get prop obj))
-    $('props! obj $('plist-removeql prop $('props obj)))))
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
-
-
 (report-time-us "def feature?/provide           "
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun feature? (feature)
@@ -1425,6 +1415,7 @@
 
 (mapc* require
  'prog-macros
+ 'prop-removeb
  'plist-funs
  'prop-removeb
  'scheme-compat
