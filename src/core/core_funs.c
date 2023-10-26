@@ -11,6 +11,17 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribut
   REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   REQUIRE(env, args, TAILP(CDR(args)));
 
+  // symbols used in params must not be '*special*':
+  if (SYMBOLP(CAR(args))) {
+      REQUIRE(env, args, ! SPECIAL_SYMP(CAR(args)), "special symbols cannot be used as params");
+  }
+  else {
+    FOR_EACH (param, CAR(args)) {
+      REQUIRE(env, args, SYMBOLP(param));
+      REQUIRE(env, args, ! SPECIAL_SYMP(param), "special symbols cannot be used as params");
+    }
+  }
+  
   CORE_RETURN("macro", NEW_MACRO(CAR(args), CDR(args), env));
 }
 
@@ -24,6 +35,17 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribu
   REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   REQUIRE(env, args, TAILP(CDR(args)));
 
+  // symbols used in params must not be '*special*':
+  if (SYMBOLP(CAR(args))) {
+      REQUIRE(env, args, ! SPECIAL_SYMP(CAR(args)), "special symbols cannot be used as params");
+  }
+  else {
+    FOR_EACH (param, CAR(args)) {
+      REQUIRE(env, args, SYMBOLP(param));
+      REQUIRE(env, args, ! SPECIAL_SYMP(param), "special symbols cannot be used as params");
+    }
+  }
+  
   CORE_RETURN("lambda", NEW_LAMBDA(CAR(args), CDR(args), env));
 }
 

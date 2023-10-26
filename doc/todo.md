@@ -1,5 +1,4 @@
 To Do:
-- [ ] fun args must not be special syms.
 - [ ] require: add :no-error and :force arguments (or maybe use 'require!' for force).
 - [ ] require: when feature?, only reload if :force.
 - [ ] revise startup to (provide :stdblib).
@@ -7,6 +6,7 @@ To Do:
 - [ ] makunbound.
 - [ ] AE_FILE type.
 - [ ] Refactor: CORE_RETURN should be unary.
+- [ ] DRY up core_funs.c.
 - [ ] DRY up core_let.c.
 - [ ] Review correctness environments used for macro expansion/evaluation.
 - [ ] Review correctness of unwinding indentation.
@@ -32,6 +32,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] fun args must not be special syms.
 - [x] let should not permit binding special symbols as it would not shadow and could be a trap.
 - [x] Special variables should skip local lookup for set/get.
 - [x] AE_ERROR: get rid of object field, use error's properties instead.
