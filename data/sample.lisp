@@ -83,8 +83,9 @@
 
 (nl)
 
-;; (confirm that (pop! lst)     returns 1)
-;; (confirm that (push! 99 lst) returns '(99 2 3 4 5 6 7 8 9))
+(confirm that (pop! lst)  returns 1)
+(confirm that lst         returns '(2 3 4 5 6 7 8 9))
+(confirm that (push! 99 lst) returns '(99 2 3 4 5 6 7 8 9))
 
 (ignore
  "This would result (deliberately) in an invalid call, so we ignore it for now."
