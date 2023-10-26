@@ -369,7 +369,9 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("*load-path*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
-  char * home_path = NULL;
+  /* */ char *        home_path      = NULL;
+  const char * const libdir_rel_path = "lib";
+  
   
   {
     char * const bin_path = free_list_malloc(PATH_MAX);
@@ -377,6 +379,7 @@ ae_obj_t * ae_env_new_root(void) {
   
     if (_NSGetExecutablePath(bin_path, &size) != 0) {
       FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
+
       exit(1);
     }
 
