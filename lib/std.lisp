@@ -1413,14 +1413,14 @@
 
 (report-time-us "def plist funs                 " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun plist-keys (lst)
-  "Extracts the keys from a plist LST."
-  (unless (list? lst) (error "LST must be a list"))
-  (when lst (cons (car lst) (plist-keys (cddr lst)))))
+ (defun plist-keys (plist)
+  "Extracts the keys from a plist PLIST."
+  (unless (list? plist) (error "PLIST must be a list"))
+  (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun plist-values (lst)
-  "Extracts the values from a plist LST."
-  (when lst (plist-keys (cdr lst))))
+ (defun plist-values (plist)
+  "Extracts the values from a plist PLIST."
+  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-remove (pred? prop plist)
  (unless (list? plist)          (error "PLIST must be a list"))
