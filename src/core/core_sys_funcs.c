@@ -142,7 +142,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
           (! NILP(new_feature))     &&
           (! TRUEP(new_feature)));
 
-  char * found = NULL;
+  char * file_found = NULL;
   
   FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
     // PR("\nLooking in %s...\n", STR_VAL(dir));
@@ -155,7 +155,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     
     if (access(possible_path, F_OK) != -1) {
       PR("found it.\n");
-      found = possible_path;
+      file_found = possible_path;
       
       break;
     }
@@ -165,7 +165,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     }
   }
   
-  if (!found) {
+  if (!file_found) {
     char * const tmp = free_list_malloc(256);
     snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(new_feature));
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
@@ -175,7 +175,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
   }
 
-  ae_obj_t * new_program        = RETURN_IF_ERRORP(load_file(found, NULL));
+  ae_obj_t * new_program        = RETURN_IF_ERRORP(load_file(file_found, NULL));
   bool old_log_macro            = log_macro;
   bool old_log_core             = log_core;
   bool old_log_eval             = log_eval;
