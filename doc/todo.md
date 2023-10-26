@@ -1,7 +1,6 @@
 To Do:
+- [ ] require: add :no-error and :force arguments.
 - [ ] Refactor: CORE_RETURN should be unary.
-- [ ] require.
-- [ ] load-path.
 - [ ] Special variables should skip local lookup for set/get.
 - [ ] AE_FILE type.
 - [ ] Review correctness environments used for macro expansion/evaluation.
@@ -28,6 +27,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] require.
+- [x] load-path.
 - [x] provide.
 - [x] feature?.
 - [x] prog2 (as a macro).
