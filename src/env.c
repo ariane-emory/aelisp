@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <mach-o/dyld.h>
 #include <libgen.h>
+#include <sys/syslimits.h>
 
 #include "env.h"
 
@@ -360,22 +361,35 @@ ae_obj_t * ae_env_new_root(void) {
 #endif
 
   FOR_EACH_CORE_FUN_GROUP_3(load_fun);
-
   FOR_EACH_CORE_MATH_OP(add_core_op);
-
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
-
   FOR_EACH_CORE_CMP_OP(add_core_op);
-
   ENV_SET(env, SYM("="), ENV_FIND(env, SYM("==")));
-
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
-
   ENV_SET(env, SYM("*load-path*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
-
+  const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
+  char * const       stdlib_path     = free_list_malloc(PATH_MAX);
+  uint32_t           size            = PATH_MAX;
   
+  if (_NSGetExecutablePath(stdlib_path, &size) == 0) {
+    char * const tmp = free_list_malloc(strlen(dirname(stdlib_path))+1);
+
+    strcpy(tmp, dirname(stdlib_path));
+    strcpy(stdlib_path, tmp);
+    strcat(stdlib_path, stdlib_rel_path);
+    
+    free_list_free(tmp);
+
+    PR("Loading stdlib from %s... ", stdlib_path);
+  } else {
+    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
+    
+    exit(1);
+  }
+  
+  free_list_free(stdlib_path);
   
   return env;
 }
