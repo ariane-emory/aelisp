@@ -31,7 +31,7 @@ extern int yylineno;
 bool       log_core            = false;
 bool       log_eval            = false;
 bool       log_macro           = false;
-bool       no_stdlib           = false;
+bool       no_std           = false;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
 ae_obj_t * filename_stack      = NIL;
@@ -129,21 +129,21 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  if (! no_stdlib) {
-    const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
-    char * const       stdlib_path     = free_list_malloc(PATH_MAX);
+  if (! no_std) {
+    const char * const std_rel_path = "/../lib/std.lisp";
+    char * const       std_path     = free_list_malloc(PATH_MAX);
     uint32_t           size            = PATH_MAX;
   
-    if (_NSGetExecutablePath(stdlib_path, &size) == 0) {
-      char * const tmp = free_list_malloc(strlen(dirname(stdlib_path))+1);
+    if (_NSGetExecutablePath(std_path, &size) == 0) {
+      char * const tmp = free_list_malloc(strlen(dirname(std_path))+1);
 
-      strcpy(tmp, dirname(stdlib_path));
-      strcpy(stdlib_path, tmp);
-      strcat(stdlib_path, stdlib_rel_path);
+      strcpy(tmp, dirname(std_path));
+      strcpy(std_path, tmp);
+      strcat(std_path, std_rel_path);
     
       free_list_free(tmp);
 
-      PR("Loading stdlib from %s... ", stdlib_path);
+      PR("Loading std from %s... ", std_path);
     } else {
       FPR(stderr, "Buffer too small, need %d bytes!\n", size);
     
@@ -152,19 +152,19 @@ ae_obj_t * setup_root_env(void) {
 
     bool failed_to_load = false;
   
-    ae_obj_t * const program  = load_file(stdlib_path, &failed_to_load);
+    ae_obj_t * const program  = load_file(std_path, &failed_to_load);
 
-    free_list_free(stdlib_path);
+    free_list_free(std_path);
 
     if (failed_to_load)
-      FPR(stderr, "WARNING: Failed to load stdlib!\n");
+      FPR(stderr, "WARNING: Failed to load std!\n");
     else
       PR("loaded.\n");
 
     ae_obj_t * const ret = EVAL(root_env, program);
 
     if (ERRORP(ret)) {
-      FPR(stderr, "WARNING: Error evaluating stdlib: ");
+      FPR(stderr, "WARNING: Error evaluating std: ");
       WRITE(ret);
       putchar('!');
       NL;
@@ -236,7 +236,7 @@ bool setopts(int argc, char *argv[]) {
       }
       break;
     case 'n':
-      no_stdlib = true;
+      no_std = true;
       break;
     default:
       fprintf(stderr, "Usage: %s [-lcem] [-n]\n", argv[0]);
