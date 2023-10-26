@@ -269,7 +269,7 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
 
-    return MAKE_ERROR(err_msg);
+    return NEW_ERROR(err_msg);
   }
   else if (failed_to_open != NULL) {
     *failed_to_open = false;

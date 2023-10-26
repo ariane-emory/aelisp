@@ -114,7 +114,7 @@ ae_obj_t * ae_core_load_file(ae_obj_t * const env,
   bool failed_to_open = false;
 
   if (failed_to_open)
-    RETURN(MAKE_ERROR("failed to open file"));
+    RETURN(NEW_ERROR("failed to open file"));
   
   ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
 
@@ -193,7 +193,7 @@ static ae_obj_t * load_or_require(bool verify_feature,
   char * file_path                      = find_file(env, add_extension, load_target_string);
     
   if (! file_path)
-    RETURN(MAKE_ERROR("could not find file for '%s", load_target_string));
+    RETURN(NEW_ERROR("could not find file for '%s", load_target_string));
 
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
@@ -212,7 +212,7 @@ static ae_obj_t * load_or_require(bool verify_feature,
 
   
   if (verify_feature && ! have_feature(env, load_target))
-    RETURN(MAKE_ERROR("required file did not provide '%s", load_target_string));
+    RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
   
 end:
   

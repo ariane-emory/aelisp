@@ -538,7 +538,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   assert(SYMBOLP(sym));
 
   if (! ENV_BOUNDP(env, sym)) {
-    ae_obj_t * const err = MAKE_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
+    ae_obj_t * const err = NEW_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
 
     PUT_PROP(env, "error-env",             err);
     PUT_PROP(sym, "errror-unbound-symbol", err);

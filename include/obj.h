@@ -300,10 +300,15 @@ extern ae_obj_t * symbols_list;
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_ERROR(msg)                                                                                                 \
+#define NEW_ERROR(...)                                                                                                 \
   ({                                                                                                                   \
-  ae_obj_t * _obj  = NEW(AE_ERROR);                                                                                    \
-  EMSG   (_obj) = (msg);                                                                                               \
+  char * const tmp = free_list_malloc(256);                                                                            \
+  snprintf(tmp, 256, __VA_ARGS__);                                                                                     \
+  char * const err_msg = free_list_malloc(strlen(tmp) + 1);                                                            \
+  strcpy(err_msg, tmp);                                                                                                \
+  free_list_free(tmp);                                                                                                 \
+  ae_obj_t * _obj = NEW(AE_ERROR);                                                                                     \
+  EMSG(_obj) = err_msg;                                                                                                \
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

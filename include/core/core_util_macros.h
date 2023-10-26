@@ -19,7 +19,7 @@
       ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \
       : "%s:%d: \"Error in %s: require " #cond "!\"";                                              \
                                                                                                    \
-    ae_obj_t * const err = MAKE_ERROR(fmt, __FILE__, __LINE__, __func__);                          \
+    ae_obj_t * const err = NEW_ERROR(fmt, __FILE__, __LINE__, __func__);                           \
                                                                                                    \
     PUT_PROP(args, "error-args", err);                                                             \
     PUT_PROP(env,  "error-env",  err);                                                             \
