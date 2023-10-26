@@ -97,7 +97,7 @@
  (setq! lte     <=)
  (setq! gte     >=)
  (setq! lt      <)
- (setq! gt      >) 
+ (setq! gt      >)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -456,6 +456,12 @@
   "Non-destructively push ELEM onto the tail of LST."
   (unless (tail? lst) (error "LST must be a tail"))
   (append lst (cons elem nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun push (elem lst)
+  "Non-destructively pop ELEM from the head of LST."
+  "The only difference from car is tha an empty LST may not be popped."
+  (unless (cons? lst) (error "LST must be a tail"))
+  (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
   "Non-destructively push ELEM onto the head of LST, aka cons."
