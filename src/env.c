@@ -127,7 +127,7 @@ ae_obj_t * ae_env_lookup(ae_env_set_mode_t mode,
 
   // If GLOBAL, dive right to the top:
   if (mode == GLOBAL)
-    while (!NILP(ENV_PARENT(pos)))
+    while (! NILP(ENV_PARENT(pos)))
       pos = ENV_PARENT(pos);
 
   for (; ENVP(pos); pos = ENV_PARENT(pos)) {
@@ -217,10 +217,12 @@ void ae_env_set(
 
   ae_obj_t * pos     = env;
 
+  // If GLOBAL, dive right to the top:
+  if (mode == GLOBAL)
+    while (! NILP(ENV_PARENT(pos)))
+      pos = ENV_PARENT(pos);
+
   while (! NILP(pos)) { // loop through envs
-    if (mode == GLOBAL && (! NILP(ENV_PARENT(pos))))
-      goto go_up;
-        
     ae_obj_t * syms = ENV_SYMS(pos);
     ae_obj_t * vals = ENV_VALS(pos);
 
