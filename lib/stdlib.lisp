@@ -1439,14 +1439,15 @@
 (report-time-us "def feature?/provide           "
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun feature? (feature)
- "t if FEATURE is present in *features*."
- (unless (keyword? feaure) (error "FEATURE must be a keyword."))
- (memq? feature *features*))
+  "t if FEATURE is present in *features*."
+  (unless (keyword? feature) (error "FEATURE must be a keyword."))
+  (memq? feature *features*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun provide (feature)
- "Add FEATURE to *features* if it is not already present."
- (unless (keyword? feaure)  (error "FEATURE must be a keyword."))
- (unless (feature? feature) (push! feature *features*)))
+ (defun provide (feature)
+  "Add FEATURE to *features* if it is not already present."
+  (unless (keyword? feature)  (error "FEATURE must be a keyword."))
+  (unless (feature? feature)  (push! feature *features*))
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1510,4 +1511,4 @@
 
 (print-loaded)
 
-(when (and (bound? 'provide) (fun? provide)) (provide :stdlib))
+(when (and (bound? 'provide) (fun? provide)) (provide :std))

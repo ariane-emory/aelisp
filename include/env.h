@@ -53,7 +53,7 @@ typedef enum {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_BOUND_IN(mode, env, sym)                                                                                               \
   ({                                                                                                                                  \
-    bool found = KEYWORDP(sym);                                                                                                       \
+    bool found = KEYWORDP((sym));                                                                                                     \
     if (! found)                                                                                                                      \
       ((void)ae_env_lookup(mode, (env), (sym), &found));                                                                              \
     found;                                                                                                                            \

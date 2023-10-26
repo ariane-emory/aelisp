@@ -1,7 +1,5 @@
 To Do:
 - [ ] require.
-- [ ] provide.
-- [ ] feature?.
 - [ ] load-path.
 - [ ] Special variables should skip local lookup for set/get.
 - [ ] AE_FILE type.
@@ -29,6 +27,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] provide.
+- [x] feature?.
 - [x] prog2 (as a macro).
 - [x] prog1 (as a macro).
 - [x] in-language unit tests.

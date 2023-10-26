@@ -537,9 +537,6 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   assert(sym);
   assert(SYMBOLP(sym));
 
-  if (KEYWORDP(sym))
-    RETURN(sym);
-  
   if (! ENV_BOUNDP(env, sym)) {
     ae_obj_t * err_data = NIL;
     KSET(err_data, KW("env"), env);
