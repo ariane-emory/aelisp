@@ -135,6 +135,7 @@ void          ae_obj_set_type              (      ae_obj_t * const this, const a
 bool          ae_obj_settable_symbolp      (const ae_obj_t * const this                                  );
 bool          ae_obj_keywordp              (const ae_obj_t * const this                                  );
 bool          ae_obj_special_funp          (const ae_obj_t * const this                                  );
+bool          ae_obj_special_symp          (const ae_obj_t * const this                                  );
 bool          ae_obj_tailp                 (const ae_obj_t * const this                                  );
 //======================================================================================================================
 bool          ae_obj_get_delocalized       (const ae_obj_t * const this                                  );
@@ -249,7 +250,8 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define SETTABLEP(obj)                   (ae_obj_settable_symbolp((obj)))
 #define KEYWORDP(obj)                    (ae_obj_keywordp((obj)))
-#define SPECIAL_FUNP(obj)                    (ae_obj_special_funp((obj)))
+#define SPECIAL_FUNP(obj)                (ae_obj_special_funp((obj)))
+#define SPECIAL_SYMP(obj)                (ae_obj_special_symp((obj)))
 #define TAILP(obj)                       (ae_obj_tailp((obj)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP(obj)                        ((obj) == NIL)

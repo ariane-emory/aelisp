@@ -538,10 +538,8 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   bool found = false;
 
-  if ((SYM_VAL(sym)[0] == '*') &&
-      (SYM_VAL(sym)[strlen(SYM_VAL(sym)) - 1] == '*')) {
+  if (SPECIAL_SYMP(sym)) {
     LOG(sym, "evaluating special symbol");
-    while (1);
   }
   
   ret = ENV_GET(env, sym, &found);
