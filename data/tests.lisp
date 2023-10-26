@@ -311,14 +311,28 @@
 (put 'c :baz :quux)
 (writen (props :quux))
 
-(defun plist-remove (prop plist)
+(defun plist-remove (pred? prop plist)
  (unless (list? plist)          (error "PLIST must be a list"))
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist
-  (if (eq? prop (car plist))
-   (plist-remove prop (cddr plist))
-   (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
+  (if (pred? prop (car plist))
+   (plist-remove pred? prop (cddr plist))
+   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
 
-(writen (plist-remove :foo (props :quux)))
-(writen (plist-remove :bar (props :quux)))
-(writen (plist-remove :baz (props :quux)))
+(defun plist-removeq (prop plist)
+ (plist-remove eq? prop plist))
+
+(defun plist-removeql (prop plist)
+ (plist-remove eql? prop plist))
+
+(writen (plist-remove eq? :foo (props :quux)))
+(writen (plist-remove eq? :bar (props :quux)))
+(writen (plist-remove eq? :baz (props :quux)))
+
+(writen (plist-removeq    :foo (props :quux)))
+(writen (plist-removeq    :bar (props :quux)))
+(writen (plist-removeq    :baz (props :quux)))
+
+(writen (plist-removeql   :foo (props :quux)))
+(writen (plist-removeql   :bar (props :quux)))
+(writen (plist-removeql   :baz (props :quux)))
