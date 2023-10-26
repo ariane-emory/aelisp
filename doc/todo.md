@@ -1,12 +1,13 @@
 To Do:
-- [ ] DRY up core_let.c.
-- [ ] require: add :no-error and :force arguments.
+- [ ] fun args must not be special syms.
+- [ ] require: add :no-error and :force arguments (or maybe use 'require!' for force).
 - [ ] require: when feature?, only reload if :force.
 - [ ] revise startup to (provide :stdblib).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
-- [ ] Refactor: CORE_RETURN should be unary.
 - [ ] AE_FILE type.
+- [ ] Refactor: CORE_RETURN should be unary.
+- [ ] DRY up core_let.c.
 - [ ] Review correctness environments used for macro expansion/evaluation.
 - [ ] Review correctness of unwinding indentation.
 - [ ] try incremental bubble sorting env syms/vals?
