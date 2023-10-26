@@ -8,7 +8,9 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribut
   CORE_BEGIN("error");
 
   REQUIRE(env, args, STRINGP(CAR(args)), "error's 1st arg must be a string");
-  REQUIRE(env, args, (args_length == 1) || PROPERP(CADR(args)), "error's 2nd arg must be a proper list or nil");
+  REQUIRE(env, args,
+          (args_length == 1)  ||
+          (PROPERP(CADR(args)) && ((LENGTH(CADR(args)) % 2) == 0)), "error's 2nd arg must be a proper list or nil");
 
   ae_obj_t * const err = MAKE_ERROR(STR_VAL(CAR(args)));
 
