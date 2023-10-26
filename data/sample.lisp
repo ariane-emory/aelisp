@@ -291,18 +291,21 @@
 (defun mapconcat (fun lst . rest)
  "Map fun over LST, returning the result of concatenating the resulting
    strings."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (tail? lst)  (error "LST must be a tail"))
- (unless (single? rest)
-  (error "MAPCONCAT takes exactly only one optional arguments after LST"))
- (unless (or (nil? delimiter) (string? (car delimiter)))
-  (error "DELIMITER must be a string or nil"))
- (if lst
-  (reduce
-   (lambda (acc item)
-    (concat acc (car delimiter) item))
-   (mapcar fun (cdr lst))
-   (fun (car lst)))
-  ""))
+ (unless (fun? fun)     (error "FUN must be a function"))
+ (unless (tail? lst)    (error "LST must be a tail"))
+ (unless (single? rest) (error "MAPCONCAT takes exactly only one optional arguments after LST"))
+ (let ((delimiter (car rest)))
+  (unless (or (nil? delimiter) (string? delimiter))
+   (write "rest:      " rest) (nl)
+   (write "delimiter: " delimiter) (nl)
+   (error "DELIMITE must be a string or nil"))
+  (if lst
+   (reduce
+    (lambda (acc item)
+     (concat acc delimiter item))
+    (mapcar fun (cdr lst))
+    (fun (car lst)))
+   "")))
 
+;;(log-eval t)
 (write (mapconcat id '("hello" "to" "the" "world") " "))
