@@ -275,3 +275,26 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun plist-keys (lst)
+  "Extracts the keys from a plist LST."
+  (letrec
+      ((helper
+        (lambda (lst acc)
+         (if (nil? lst)
+             (reverse acc)
+             (helper (cddr lst) (cons (car lst) acc))))))
+    (helper lst '())))
+
+(defun plist-values (lst)
+ "Extracts the values from a plist LST."
+ (letrec
+     ((helper
+       (lambda (lst acc)
+        (if (null? lst)
+            (reverse acc)
+            (helper (cddr lst) (cons (cadr lst) acc))))))
+   (helper lst '())))
+
+(write (plist-keys   '(a 1 b 2 c 3))) (nl)
+(write (plist-values '(a 1 b 2 c 3))) (nl)
+

@@ -12,7 +12,7 @@ extern bool       log_core;
 extern bool       log_eval;
 extern bool       log_macro;
 extern bool       read_error;
-extern ae_obj_t * last_loaded_file;
+extern ae_obj_t * file_stack;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

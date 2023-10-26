@@ -1393,6 +1393,7 @@
  (setq! vector-length list-length)
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!)
+ (setq! null?         nil?)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
