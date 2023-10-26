@@ -538,9 +538,9 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   bool found = false;
 
-  if (SPECIAL_SYMP(sym)) {
-    LOG(sym, "evaluating special symbol");
-  }
+  ae_env_set_mode_t mode = SPECIAL_SYMP(sym)
+    ? GLOBAL
+    : NEAREST;
   
   ret = ENV_GET(env, sym, &found);
   
