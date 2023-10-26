@@ -142,9 +142,23 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("pop");
 
-  REQUIRE(env, args, CONSP(CAR(args)));
-  REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
-  
+  ae_obj_t * sym = CAR(args);
 
-  CORE_RETURN("pop", POP(CAR(args)));
+  REQUIRE(env, args, SYMBOLP(sym));
+
+  ae_obj_t * lst  = RETURN_IF_ERRORP(EVAL(env, sym));
+
+  REQUIRE(env, args, TAILP(lst));
+  
+  ret = CAR(lst);
+  
+  ae_obj_t * setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(CDR(lst), NIL)), NIL));
+
+  LOG(setq_args, "setq_args");
+  
+  RETURN_IF_ERRORP(ae_core_setq(env, setq_args, 2));
+
+end:
+  
+  CORE_RETURN("pop", ret);
 }

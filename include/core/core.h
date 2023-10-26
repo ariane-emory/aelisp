@@ -70,9 +70,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_3(DO)                                                                                     \
   /*================================================================================================================*/    \
-  DO(push_back,    false,          2,          2, "push-back!",                FUNDEF_END)                                \
-  DO(push,         false,          2,          2, "push!",                     FUNDEF_END)                                \
-  DO(pop,          false,          1,          1, "pop!",                      FUNDEF_END)                                \
+  DO(push_back,    true,           2,          2, "push-back!",                FUNDEF_END)                                \
+  DO(push,         true,           2,          2, "push!",                     FUNDEF_END)                                \
+  DO(pop,          true,           1,          1, "pop!",                      FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(has_prop,     true,           2,          2, "has?",                      FUNDEF_END)                                \
   DO(set_prop,     true,           3,          3, "put!",                      FUNDEF_END)                                \
