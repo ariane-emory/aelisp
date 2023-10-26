@@ -367,7 +367,9 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("="), ENV_FIND(env, SYM("==")));
 
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
-    
+
+  ENV_SET(env, SYM("*load-path*"), NIL);
+  
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
