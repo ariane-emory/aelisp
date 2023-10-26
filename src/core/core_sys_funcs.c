@@ -104,10 +104,10 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 // _load
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_load(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("load");
+ae_obj_t * ae_core_load_file(ae_obj_t * const env,
+                             ae_obj_t * const args,
+                             __attribute__((unused)) int args_length) {
+  CORE_BEGIN("load-file");
   
   REQUIRE(env, args, STRINGP(CAR(args)));
 
@@ -122,7 +122,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("load", ret);
+  CORE_RETURN("load-file", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,29 +175,29 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
   }
 
-  ae_obj_t * new_program        = RETURN_IF_ERRORP(load_file(file_found, NULL));
-  bool old_log_macro            = log_macro;
-  bool old_log_core             = log_core;
-  bool old_log_eval             = log_eval;
-  log_macro                     = false;
-  log_core                      = false;
-  log_eval                      = false;
-  ret                           = RETURN_IF_ERRORP(EVAL(env, new_program));
-  log_macro                     = old_log_macro;
-  log_core                      = old_log_core;
-  log_eval                      = old_log_eval;
-  bool found_feature            = false;
-  ae_obj_t * const features     = ENV_GET(env, SYM("*features*"));
+  ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_found, NULL));
+  const bool old_log_macro     = log_macro;
+  const bool old_log_core      = log_core;
+  const bool old_log_eval      = log_eval;
+  log_macro                    = false;
+  log_core                     = false;
+  log_eval                     = false;
+  ret                          = RETURN_IF_ERRORP(EVAL(env, new_program));
+  log_macro                    = old_log_macro;
+  log_core                     = old_log_core;
+  log_eval                     = old_log_eval;
+  bool feature_found           = false;
+  ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
   
   FOR_EACH(feature, features) {
     if (EQL(feature, new_feature)) {
-      found_feature = true;
+      feature_found = true;
       
       break;
     }
   }
 
-  if (!found_feature) {
+  if (!feature_found) {
     char * const tmp = free_list_malloc(256);
     snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(new_feature));
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
