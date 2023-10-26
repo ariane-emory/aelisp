@@ -11,6 +11,7 @@
 #include "env.h"
 #include "jump_return.h"
 #include "time_funcs.h"
+#include "utility.h"
 #include "write.h"
 
 
@@ -196,11 +197,11 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     free_list_free(err_msg_tmp);
     
 
-    ae_obj_t * err = NEW_ERROR(err_msg); 
+    ae_obj_t * const err = NEW_ERROR(err_msg); 
 
-    PUT(env,  "error-env",  err);
-    PUT(args, "error-args", err);
-    PUT(fun,  "error-fun",  err);
+    PUT_PROP(env,  "error-env",  err);
+    PUT_PROP(args, "error-args", err);
+    PUT_PROP(fun,  "error-fun",  err);
 
     RETURN_IF_ERRORP(err);
   }
@@ -305,11 +306,13 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
     ae_obj_t * err_data = NIL;
 
-    KSET(err_data, KW("env"),  env);
-    KSET(err_data, KW("args"), args);
-    KSET(err_data, KW("fun"),  fun);
+    ae_obj_t * const err = NEW_ERROR(msg);
+    
+    PUT_PROP(env,  "error-env",  err);
+    PUT_PROP(args, "error-args", err);
+    PUT_PROP(fun,  "error-fun",  err);
 
-    RETURN_IF_ERRORP(NEW_ERROR(msg, err_data));
+    RETURN_IF_ERRORP(err);
   }
     
   if (! SPECIALP(fun))
@@ -420,13 +423,11 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     SLOGF("of type: %s", GET_TYPE_STR(fun));
     NL;
 
-    ae_obj_t * const err_data = NIL;
+    ae_obj_t * const err = NEW_ERROR("inapplicable");
 
-    KSET(err_data, KW("env"),  env);
-    KSET(err_data, KW("args"), args);
-    KSET(err_data, KW("fun"),  fun);
-
-    ae_obj_t * const err = NEW_ERROR("inapplicable", err_data);
+    PUT_PROP(env,  "error-env",  err);
+    PUT_PROP(args, "error-args", err);
+    PUT_PROP(fun,  "error-fun",  err);
     
     RETURN_IF_ERRORP(err);
   }
@@ -488,11 +489,12 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     free(fun_tmp);
     free(ret_tmp);
     
-    if (EHAS(ret, "fun")) // this is probably going to double the first fun in the list but I can't be bothered fixing it yet.
-      ESET(ret, "fun", CONS(fun, EGET(ret, "fun")));
+    if (HAS_PROP("error-fun", ret)) // this is probably going to double the first fun in the list but I can't be bothered fixing it yet.
+      PUT_PROP(CONS(fun, GET_PROP("error-fun", ret)), "error-fun", ret);
     else
-      ESET(ret, "fun", CONS(fun, NIL));
+      PUT_PROP(CONS(fun, NIL), "error-fun", ret);
 
+        
     RETURN_IF_ERRORP(ret);
   }
 
@@ -536,18 +538,13 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   assert(SYMBOLP(sym));
 
   if (! ENV_BOUNDP(env, sym)) {
-    ae_obj_t * err_data = NIL;
-    KSET(err_data, KW("env"), env);
-    KSET(err_data, KW("unbound-symbol"), sym);
+    ae_obj_t * const err = MAKE_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
 
-    char * tmp = free_list_malloc(256);
-    snprintf(tmp, 256,
-             "%s:%d: unbound symbol '%s'",
-             __FILE__, __LINE__, SYM_VAL(sym));
-    char * msg = free_list_malloc(strlen(tmp) + 1);
-    strcpy(msg, tmp);
+    PUT_PROP(env, "error-env",             err);
+    PUT_PROP(sym, "errror-unbound-symbol", err);
+
     
-    RETURN(NEW_ERROR(msg, err_data));
+    RETURN(err);
   }
 
   ret = ENV_GET(env, sym);
