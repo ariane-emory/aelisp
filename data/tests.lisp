@@ -315,16 +315,15 @@
 (defmacro putni   (delim . exprs) $('apply 'putn   $('intercalate delim $('quote exprs))))
 (defmacro writeni (delim . exprs) $('apply 'writen $('intercalate delim $('quote exprs))))
 
-(defmacro princns exprs           $('apply 'princn $('intercalate delim $('quote exprs))))
-(defmacro prints  exprs           $('apply 'print  $('intercalate delim $('quote exprs))))
-(defmacro putns   exprs           $('apply 'putn   $('intercalate delim $('quote exprs))))
-(defmacro writens exprs           $('apply 'writen $('intercalate delim $('quote exprs))))
+(defmacro princns exprs           $('princni " " . exprs))
+(defmacro prints  exprs           $('princti " " . exprs))
+(defmacro putns   exprs           $('putni   " " . exprs))
+(defmacro writens exprs           $('writeni " " . exprs))
 
-
-(log-macro t)
+;; (log-macro t)
 
 (princni ", " 1 2 3)
 
 (log-macro nil)
 
-(princni ", " 1 2 3)
+(princns 1 2 3)
