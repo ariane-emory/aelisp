@@ -112,21 +112,20 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("pop");
 
-  ae_obj_t * const sym       = CAR(args);
+  ae_obj_t * const sym  = CAR(args);
 
-  REQUIRE(env, args, SYMBOLP(sym) && ENV_BOUNDP(env, sym));
+  REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
+          "pop! only works on bound and settable symbols");
 
-  ae_obj_t * const lst       = RETURN_IF_ERRORP(EVAL(env, sym));
+  ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
 
   REQUIRE(env, args, CONSP(lst));
+
+  ae_obj_t * const tail = CDR(lst);
   
   ret = CAR(lst);
-  
-  ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(CDR(lst), NIL)), NIL));
 
-  LOG(setq_args, "pop!'s setq_args");
-  
-  RETURN_IF_ERRORP(ae_core_setq(env, setq_args, 2));
+  ENV_SET(env, sym, tail);
 
 end:
   
