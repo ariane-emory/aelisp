@@ -132,23 +132,11 @@
 
 (nl)
 
-(defun binlist-to-dec-1 (lst)
- (letrec
-  ((chase
-    (lambda (acc lst)
-     (if (nil? lst)
-      acc
-      (chase (+ (<< acc 1) (car lst)) (cdr lst))))))
-  (chase 0 lst)))
+(setq! bin-list-to-dec  (reduced  (lambda (x y) (+ (<< x 1) y))))
+(setq! bin-list-to-dec* (reduced* (lambda (x y) (+ (<< x 1) y))))
 
-(defun binlist-to-dec-2 (lst) (reduce   (lambda (x y) (+ (<< x 1) y)) lst 0))
-(setq! binlist-to-dec-3       (reduced  (lambda (x y) (+ (<< x 1) y))))
-(setq! bins-to-dec            (reduced* (lambda (x y) (+ (<< x 1) y))))
-
-(confirm that (binlist-to-dec-1 '(1 0 1 0 1 0 1)) returns 85)
-(confirm that (binlist-to-dec-2 '(1 0 1 0 1 0 1)) returns 85)
-(confirm that (binlist-to-dec-3 '(1 0 1 0 1 0 1)) returns 85)
-(confirm that (bins-to-dec        1 0 1 0 1 0 1)  returns 85)
+(confirm that (bin-list-to-dec  '(1 0 1 0 1 0 1)) returns 85)
+(confirm that (bin-list-to-dec*   1 0 1 0 1 0 1)  returns 85)
 
 (nl)
 
