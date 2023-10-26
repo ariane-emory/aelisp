@@ -130,6 +130,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static ae_obj_t * ae_core_load_or_require(bool check_feature,
+                                          bool add_extension,
                                           ae_obj_t * const env,
                                           ae_obj_t * const args,
                                           __attribute__((unused)) int args_length) {
@@ -158,9 +159,13 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
   FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
     // PR("\nLooking in %s...\n", STR_VAL(dir));
 
-    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(load_target_string) + 7);
+    char * const possible_path = add_extension
+      ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(load_target_string) + 7)
+      : free_list_malloc(strlen(STR_VAL(dir)) + strlen(load_target_string) + 2);
     
-    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), load_target_string);
+    sprintf(possible_path,
+            add_extension ? "%s/%s.lisp" : "%s/%s",
+            STR_VAL(dir), load_target_string);
 
     // PR("Trying %s... ", possible_path);
     
@@ -236,7 +241,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("load");
   REQUIRE(env, args, STRINGP(CAR(args)));
-  CORE_RETURN("load", ae_core_load_or_require(false, env, args, args_length));
+  CORE_RETURN("load", ae_core_load_or_require(false, false, env, args, args_length));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,6 +253,6 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("require");
   REQUIRE(env, args, SYMBOLP(CAR(args)));
-  CORE_RETURN("require", ae_core_load_or_require(true, env, args, args_length));
+  CORE_RETURN("require", ae_core_load_or_require(true, true, env, args, args_length));
 }
    
