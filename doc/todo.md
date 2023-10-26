@@ -1,6 +1,5 @@
 To Do:
-- [ ] require: add :no-error and :force arguments (or maybe use 'require!' for force).
-- [ ] require: when feature?, only reload if :force.
+- [ ] require: add :no-error argument
 - [ ] revise startup to (provide :stdblib).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
@@ -32,6 +31,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] require: use require! to force reload.
 - [x] fun args must not be special syms.
 - [x] let should not permit binding special symbols as it would not shadow and could be a trap.
 - [x] Special variables should skip local lookup for set/get.

@@ -10,8 +10,9 @@
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
   DO(load_file,    false,          1,          1, "load-file",                 FUNDEF_END)                                \
-  DO(load,         false,          1,          1,                              FUNDEF_END)                                \
-  DO(require,      false,          1,          1,                              FUNDEF_END)                                \
+  DO(load,         false,          1,          2,                              FUNDEF_END)                                \
+  DO(requireb,     false,          1,          2, "require!",                  FUNDEF_END)                                \
+  DO(require,      false,          1,          2,                              FUNDEF_END)                                \
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed_us,   false,          1,          1, "elapsed-us",                FUNDEF_END)                                \
@@ -29,7 +30,7 @@
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */    \
   DO(set_props,    true,           2,          2, "props!",                    FUNDEF_END) /* props accessor        */    \
   DO(props,        true,           1,          1,                              FUNDEF_END) /* props accessor        */    \
-  DO(message,      false,          1,          1,                              FUNDEF_END) /* error accessor        */   \
+  DO(message,      false,          1,          1,                              FUNDEF_END) /* error accessor        */    \
   DO(name,         false,          1,          1, "symbol-name",               FUNDEF_END) /* symbol accessor       */    \
   DO(denom,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \
   DO(numer,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \

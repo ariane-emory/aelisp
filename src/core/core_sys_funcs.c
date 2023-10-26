@@ -198,6 +198,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   ae_obj_t * const load_target = CAR(args);
 
+  
   if ((mode == REQUIRE) && have_feature(env, load_target))
     RETURN(load_target);
 
@@ -209,9 +210,17 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
                                                     mode != LOAD, 
                                                     load_target_string);
     
-  if (! file_path)
-    RETURN(NEW_ERROR("could not find file for '%s", load_target_string));
+  bool no_error = (args_length == 2) && ! NILP(CADR(args));
 
+  if (! file_path) {
+    if (no_error) {
+      RETURN(NIL);
+    }
+    else {
+      RETURN(NEW_ERROR("could not find file for '%s", load_target_string));
+    }
+  }
+  
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
   free_list_free(file_path);
@@ -267,6 +276,25 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
           (! TRUEP(CAR(args))));
 
   CORE_RETURN("require", load_or_require(REQUIRE, env, args, args_length));
+}
+
+   
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _requireb
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_requireb(ae_obj_t * const env,
+                           ae_obj_t * const args,
+                           __attribute__((unused)) int args_length) {
+  CORE_BEGIN("requireb");
+
+  REQUIRE(env, args,
+          SYMBOLP(CAR(args))      &&
+          (! KEYWORDP(CAR(args))) &&
+          (! NILP(CAR(args)))     &&
+          (! TRUEP(CAR(args))));
+
+  CORE_RETURN("requireb", load_or_require(REREQUIRE, env, args, args_length));
 }
 
    
