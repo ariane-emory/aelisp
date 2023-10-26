@@ -1,7 +1,8 @@
 To Do:
+- [ ] Special variables should skip local lookup.
 - [ ] load-path.
-- [ ] review correctness environments used for macro expansion/evaluation.
-- [ ] review correctness of unwinding indentation.
+- [ ] Review correctness environments used for macro expansion/evaluation.
+- [ ] Review correctness of unwinding indentation.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.

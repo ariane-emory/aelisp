@@ -369,25 +369,38 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("*load-path*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
-  const char * const libdir_rel_path = "../lib";
-  char * const       libdir_path     = free_list_malloc(PATH_MAX);
-  uint32_t           size            = PATH_MAX;
+  char * home_path = NULL;
   
-  if (_NSGetExecutablePath(libdir_path, &size) != 0) {
-    FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
-    exit(1);
-  } 
+  {
+    char * const bin_path = free_list_malloc(PATH_MAX);
+    uint32_t     size     = PATH_MAX;
+  
+    if (_NSGetExecutablePath(bin_path, &size) != 0) {
+      FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
+      exit(1);
+    }
 
-  char * const tmp = free_list_malloc(strlen(dirname(libdir_path))+1);
-
-  strcpy(tmp, dirname(libdir_path));
-  snprintf(libdir_path, PATH_MAX, "%s/%s", tmp, libdir_rel_path);
+    const char * const home_path_tmp = dirname(dirname(bin_path));
     
-  free_list_free(tmp);
-
-  PR("Adding libdir '%s' to *load-path*.\n", libdir_path);
+    home_path = free_list_malloc(strlen(home_path_tmp) + 1);
+    strcpy(home_path, home_path_tmp);
+    free_list_free(bin_path);
+  }
+    
+  printf("Found '%s'.\n", home_path);
   
-  free_list_free(libdir_path);
+//  printf("Found '%s'.\n", dirname(dirname(bin_path)));
+
+  /* char * const tmp = free_list_malloc(strlen(dirname(libdir_path))+1); */
+
+  /* strcpy(tmp, dirname(libdir_path)); */
+  /* snprintf(libdir_path, PATH_MAX, "%s/%s", tmp, libdir_rel_path); */
+    
+  /* free_list_free(tmp); */
+
+  /* PR("Adding libdir '%s' to *load-path*.\n", libdir_path); */
+  
+  /* free_list_free(libdir_path); */
   
   return env;
 }
