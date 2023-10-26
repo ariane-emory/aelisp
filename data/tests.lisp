@@ -309,7 +309,15 @@
 (confirm that (plist-removeql   :foo (props :quux)) returns '(:baz c :bar b))
 (confirm that (plist-removeql   :bar (props :quux)) returns '(:baz c :foo a))
 (confirm that (plist-removeql   :baz (props :quux)) returns '(:bar b :foo a))
-(confirm that (props! :quux '(:corge d))            returns '(:corge d))
+(confirm that (props!  :quux  '(:corge d))          returns '(:corge d))
+(confirm that (put 'a  :foo     :quux)              returns 'a)
+(confirm that (put 'b  :bar     :quux)              returns 'b)
+(confirm that (put 'c  :baz     :quux)              returns 'c)
+(confirm that (remove! :foo     :quux)              returns 'a)
+(confirm that (remove! :bar     :quux)              returns 'b)
+(confirm that (remove! :baz     :quux)              returns 'c)
+(confirm that (remove! :corge   :quux)              returns 'd)
+(confirm that (props   :quux)                       returns nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -321,12 +329,5 @@
 (when (and (bound? 'provide) (fun? provide)) (provide :tests))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(put 'a :foo :quux)
-(put 'b :bar :quux)
-(put 'c :baz :quux)
-
-
-(confirm that (remove! :foo :quux) returns 'a)
-(confirm that (remove! :bar :quux) returns 'b)
 
 
