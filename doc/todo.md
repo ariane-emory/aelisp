@@ -1,9 +1,7 @@
 To Do:
-- [ ] core_concat could be simplified using strcat.
-- [ ] eval should take an optional env param.
-- [ ] in-language unit tests.
+- [ ] review correctness environments used for macro expansion/evaluation.
+- [ ] review correctness of unwinding indentation.
 - [ ] try incremental bubble sorting env syms/vals?
-- [ ] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
 - [ ] Implement math for non-integer types.
@@ -11,9 +9,11 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 
 Under Consideration:
+- [ ] core_concat could be simplified using strcat? Maybe not.
+- [ ] eval could take an optional env param?
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
 - [ ] Maybe parse-time math on integers?
-- [ ] Maybe put line/column of source in metadata of relevant objects?
+- [ ] Maybe put line/column of source in properties of read objects?
 - [ ] Maybe slice up root_env_and_eval test? It's pretty big.
 - [ ] Maybe eliminate use of memstreams in swrite/sput/sprinc?
 - [ ] Maybe add a 'short symbol' ae_type that contains a 'char sym_str_val[24]' instead of a 'char * sym_val',
@@ -22,6 +22,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] in-language unit tests.
+- [x] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [x] core_props should probably use some jump returns.
 - [x] dents/jump-returns in apply need review.
 - [x] core_elapsed / core_elapsed us should employ elapsed / elapsed_us.
