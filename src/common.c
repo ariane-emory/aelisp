@@ -275,8 +275,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   ae_obj_t * loaded_file         = NEW_STRING(file_basename_str);
 
-  PUSH(loaded_file, filename_stack);
-  PUSH(NEW_INT(yylineno), line_stack);
+  PUSH(loaded_file, filename_stack);   // current file 
+  PUSH(NEW_INT(yylineno), line_stack); // line in previous file
   
   yylineno = 0;
   yyrestart(yyin);
@@ -291,7 +291,6 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   POP(filename_stack);
   yylineno = INT_VAL(POP(line_stack));
   
-  PUT_PROP(TRUE, "constant", SYM("*program*"));
   PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
   
   return program; 
