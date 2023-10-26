@@ -131,7 +131,7 @@ end:
 char * find_file(ae_obj_t * const env,
                  bool add_extension,
                  const char * const name) {
-   bool load_path_found = false;
+  bool load_path_found = false;
   ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
 
   assert(load_path_found);
