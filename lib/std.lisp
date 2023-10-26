@@ -118,7 +118,7 @@
  (defun rational? (o)          (type?    :RATIONAL       o))
  (defun string?   (o)          (type?    :STRING         o))
  (defun symbol?   (o)          (type?    :SYMBOL         o))
- (defun improper? (o)     (and (tail? o) (not (proper?   o))))
+ (defun improper? (o)     (and (list? o) (not (proper?   o))))
  (defun fun?      (o)     (or  (core? o) (lambda? o) (macro? o)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! pair? cons?) ;; scheme compatability
@@ -170,8 +170,8 @@
  (setq! append2
   (lambda (lst1 lst2)
    "Append two LST1 and LST2."
-   (unless (tail? lst1) (error "LST1 must be a tail"))
-   (unless (tail? lst2) (error "LST2 must be a tail"))
+   (unless (list? lst1) (error "LST1 must be a list"))
+   (unless (list? lst2) (error "LST2 must be a list"))
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
@@ -238,7 +238,7 @@
  (defun nth (index lst)
   "Get the nth item in LST."
   (unless (integer? index) (error "INDEX must be an integer"))
-  (unless (tail? lst)      (error "LST must be a tail"))
+  (unless (list? lst)      (error "LST must be a list"))
   (cond
    ((zero? index) (car lst))
    (lst          (nth (- index 1) (cdr lst)))))
@@ -246,14 +246,14 @@
  (defun nthcdr (n lst)
   "Get the nth cdr of LST."
   (unless (integer? n) (error "N must be an integer"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (if (zero? n)
    lst
    (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun last (lst)
   "Get last item in a LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (cond
    ((nil? (cdr lst)) lst)
    (lst              (last (cdr lst)))))
@@ -314,7 +314,7 @@
    "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
    (cond
     ((not (fun? fun))  (error "FUN must be a function"))
-    ((not (tail? lst)) (error "LST must be a tail"))
+    ((not (list? lst)) (error "LST must be a list"))
     ((cdr init-val)    (error "INIT-VAL must be a single object"))
     ((nil? init-val)   (reduce-inner fun lst))
     (t                 (reduce-inner fun (cons (car init-val) lst))))))
@@ -330,7 +330,7 @@
    "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
    (cond
     ((not (fun? fun))  (error "FUN must be a function"))
-    ((not (tail? lst)) (error "LST must be a tail"))
+    ((not (list? lst)) (error "LST must be a list"))
     ((cdr init-val)    (error "INIT-VAL must be a single object"))
     ((nil? init-val)   (rreduce-inner fun lst))
     (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
@@ -371,7 +371,7 @@
  (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
   (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -380,7 +380,7 @@
  (defun mapcar! (fun lst)
   "Map fun over LST, altering the list."
   (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (letrec
    ((mapcar-internal!
      (lambda (fun lst)
@@ -394,7 +394,7 @@
   "Map fun over LST, returning the result of concatenating the resulting
    strings."
   (unless (fun? fun)     (error "FUN must be a function"))
-  (unless (tail? lst)    (error "LST must be a tail"))
+  (unless (list? lst)    (error "LST must be a list"))
   (unless (or (nil? rest) (single? rest))
    (error "MAPCONCAT takes exactly only one optional arguments after LST"))
   (let ((delimiter (car rest)))
@@ -409,7 +409,7 @@
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
   (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (when lst
    (let ((result (fun (car lst)))
          (rest   (mapcan fun (cdr lst))))
@@ -420,7 +420,7 @@
  (defun mapc (fun lst)
   "Apply FUN to each element of LST for side effects only and return LST."
   (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (let ((current lst))
    (while current
     (fun (car current))
@@ -440,8 +440,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
-  (unless (tail? lst1) (error "LST1 must be a tail"))
-  (unless (tail? lst2) (error "LST2 must be a tail"))
+  (unless (list? lst1) (error "LST1 must be a list"))
+  (unless (list? lst2) (error "LST2 must be a list"))
   (cond
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
@@ -457,29 +457,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push-back (lst elem) 
   "Non-destructively push ELEM onto the tail of LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
   "Non-destructively pop ELEM from the head of LST."
   "The only difference from car is tha an empty LST may not be popped."
-  (unless (cons? lst) (error "LST must be a tail"))
+  (unless (cons? lst) (error "LST must be a list"))
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun push (elem lst)
   "Non-destructively push ELEM onto the head of LST, aka cons."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;;  (defun push-back! (lst elem)
  ;;   "Destructively push ELEM onto the tail of LST."
- ;;   (unless (tail? lst) (error "LST must be a tail"))
+ ;;   (unless (list? lst) (error "LST must be a list"))
  ;;   (rplacd! (last lst) (cons elem nil))
  ;;   lst)
  ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;;  (defun push! (elem lst)
  ;;   "Destructively push ELEM onto the head of LST."
- ;;   (unless (tail? lst) (error "LST must be a tail"))
+ ;;   (unless (list? lst) (error "LST must be a list"))
  ;;   (let ((old-car (car lst)))
  ;;    (rplaca! lst elem)
  ;;    (rplacd! lst (cons old-car (cdr lst)))
@@ -509,22 +509,22 @@
  ;; list funs (flattening):                                                              ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten1 (lst)
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (cond
    ((nil? lst) nil)
-   ((tail? (car lst))
+   ((list? (car lst))
     (append (car lst) (flatten1 (cdr lst))))
    (t (cons (car lst) (flatten1 (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten-left (lst)
   "Flatten a left-nested list structure LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (if (cons? (car lst))i)
   (append (flatten-left (car lst)) $(cadr lst))
   lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun flatten (lst)
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (when lst
    (if (cons? (car lst))
     (append (flatten (car lst)) (flatten (cdr lst)))
@@ -539,8 +539,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip2 (lst1 lst2)
   "Zip LST1 and LST2."
-  (unless (tail? lst1) (error "LST1 must be a tail"))
-  (unless (tail? lst2) (error "LST2 must be a tail"))
+  (unless (list? lst1) (error "LST1 must be a list"))
+  (unless (list? lst2) (error "LST2 must be a list"))
   (cond
    ((∨ (nil? lst1) (nil? lst2)) nil)
    (t  (cons  $((car lst1) (car lst2))
@@ -548,9 +548,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun zip3 (l1 l2 l3)
   "Zip the three lists LST1, LST2 and LST3."
-  (unless (tail? l1) (error "LST1 must be a tail"))
-  (unless (tail? l2) (error "LST2 must be a tail"))
-  (unless (tail? l3) (error "LST3 must be a tail"))
+  (unless (list? l1) (error "LST1 must be a list"))
+  (unless (list? l2) (error "LST2 must be a list"))
+  (unless (list? l3) (error "LST3 must be a list"))
   (mapcar flatten1 (reduce zip2 $(l2 l3) l1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! left-nested-zip (reduced* zip2))
@@ -558,7 +558,7 @@
  (defmacro zip lists
   "Zip many lists. This might not flatten properly if the zipped elements are
   themselves lists."
-  (unless (tail? lists) (error "LISTS must be a tail"))
+  (unless (list? lists) (error "LISTS must be a list"))
   (if (cdr lists)
    $('mapcar 'flatten (cons 'left-nested-zip lists))
    $('mapcar 'list  (car lists))))
@@ -644,7 +644,7 @@
   (defun sort!!  (lst pred?)
    "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
    "returning a new list."
-   (unless (tail? lst)  (error "LST must be a tail"))
+   (unless (list? lst)  (error "LST must be a list"))
    (unless (fun? pred?) (error "PRED? must be a function"))
    (if (or (nil? lst) (nil? (cdr lst)))
     lst
@@ -672,7 +672,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun depth (lst)
   "Get the depth of a nested list structure. This one is untested."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (if (atom? lst)
    0
    (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
@@ -680,7 +680,7 @@
  (defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
   (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (cond
    ((nil? lst) nil)
    ((pred? (car lst))
@@ -689,7 +689,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun intercalate (intercalated lst)
   "Intercalate intercalated between items."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (cons (car lst)
@@ -699,14 +699,14 @@
  (defun butlast (lst)
   "Returns a new list that contains all the elements of the input list except"
   "last one."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (if (or (nil? lst) (nil? (cdr lst)))
    nil
    (cons (car lst) (butlast (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Returns a new list that is the reverse of the input list."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (letrec
    ((reverse-internal
      (lambda (lst acc)
@@ -717,7 +717,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeq! (obj lst)
   "Remove the first item eq? to OBJ from LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eq? obj head)
@@ -741,7 +741,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeql! (obj lst)
   "Remove the first item eql? to OBJ from LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (let ((head (car lst))
         (tail (cdr lst)))
    (if (eql? obj head)
@@ -765,7 +765,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun copy-list (lst)
   "Take shallow copy of LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (when lst (cons (car lst) (copy-list (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -778,8 +778,8 @@
  (defun union2 (equalityp? lst1 lst2)
   "Return the union of LST1 and LST2, using memp? to test for duplicates."
   (unless (fun? equalityp?) (error "EQUALITYP? must be a function"))
-  (unless (tail? lst1)      (error "LST1 must be a tail"))
-  (unless (tail? lst2)      (error "LST2 must be a tail"))
+  (unless (list? lst1)      (error "LST1 must be a list"))
+  (unless (list? lst2)      (error "LST2 must be a list"))
   (let* ((memp?    (make-member-pred equalityp?))
          (combine  (lambda (acc x) (if (memp? x acc) acc (cons x acc))))
          (union1   (reduce combine lst1 '())))
@@ -788,8 +788,8 @@
  (setq! union2q
   (lambda (lst1 lst2)
    "Return the union of LST1 and LST2, using eq? to test for duplicates."
-   (unless (tail? lst1) (error "LST1 must be a tail"))
-   (unless (tail? lst2) (error "LST2 must be a tail"))
+   (unless (list? lst1) (error "LST1 must be a list"))
+   (unless (list? lst2) (error "LST2 must be a list"))
    (union2 eq? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionq
@@ -798,8 +798,8 @@
  (setq! union2ql
   (lambda (lst1 lst2)
    "Return the union of LST1 and LST2, using eql? to test for duplicates."
-   (unless (tail? lst1) (error "LST1 must be a tail"))
-   (unless (tail? lst2) (error "LST2 must be a tail"))
+   (unless (list? lst1) (error "LST1 must be a list"))
+   (unless (list? lst2) (error "LST2 must be a list"))
    (union2 eql? lst1 lst2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! unionql
@@ -1155,7 +1155,7 @@
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
   (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (let ((front nil)
         (back lst))
    (while (and back (pred? (car back)))
@@ -1167,7 +1167,7 @@
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
   (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (let ((prev nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1184,7 +1184,7 @@
   "1. The longest initial sublist of elements satisfying PRED?"
   "2. The rest of the elements."
   (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (let ((front nil)
         (current lst))
    (while (and current (pred? (car current)))
@@ -1199,7 +1199,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delq! (item lst)
   "Destructively remove all items eq? to ITEM from LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (when lst
    (while (and lst (eq? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1212,7 +1212,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delql! (item lst)
   "Destructively remove all items eql? to ITEM from LST."
-  (unless (tail? lst) (error "LST must be a tail"))
+  (unless (list? lst) (error "LST must be a list"))
   (when lst
    (while (and lst (eql? (car lst) item))
     (setq! lst (cdr lst)))
@@ -1261,7 +1261,7 @@
  (defun remove-first! (pred? lst)
   "Destructively remove the first item matching PRED? from LST."
   (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (list? lst)  (error "LST must be a list"))
   (if (pred? (car lst))
    (if (cdr lst)
     (progn 
@@ -1280,8 +1280,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun select-and-move-to-front! (pred? lst)
   "Move the first item in LST matching PRED? to its head."
-  (unless (fun? pred? ) (error "PRED? must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (list? lst)  (error "LST must be a list"))
   (let ((head (car lst)))
    (if (pred? head)
     head
