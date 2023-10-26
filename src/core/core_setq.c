@@ -9,8 +9,8 @@
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("setq!");
 
-  ae_obj_t * sym = CAR(args);
-  ae_obj_t * val = args_length == 1
+  ae_obj_t * sym      = CAR(args);
+  ae_obj_t * val_expr = args_length == 1
     ? NIL
     : CADR(args);
 
@@ -22,28 +22,30 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   if (log_core) {
     LOG(sym, "setting symbol");
-    LOG(val, "to value"); 
-    LOG(val, "evaluating 'value' argument");
+    LOG(val_expr, "to value"); 
+    LOG(val_expr, "evaluating 'value' argument");
   }
 
   INDENT;
 
-  val = EVAL(env, val);
+  ret = RETURN_IF_ERRORP(EVAL(env, val_expr));
 
   OUTDENT;
 
   if (log_core)
-    LOG(val, "evaluated 'value' argument is");
+    LOG(ret, "evaluated 'value' argument is");
 
-  if (LAMBDAP(val) || MACROP(val) || CONSP(val)) {
-    PUT_PROP(sym, "last-bound-to", val);
+  if (LAMBDAP(ret) || MACROP(ret) || CONSP(ret)) {
+    PUT_PROP(sym, "last-bound-to", ret);
 
     if (log_core)
-      LOG(PROPS(val), "core setq! val's new properties");
+      LOG(PROPS(ret), "core setq! val's new properties");
   }
 
-  ENV_SET(env, sym, val);
+  ENV_SET(env, sym, ret);
 
-  CORE_RETURN("setq!", val);
+end:
+  
+  CORE_RETURN("setq!", ret);
 }
 
