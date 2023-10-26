@@ -10,6 +10,7 @@
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
   DO(load_file,    false,          1,          1, "load-file",                 FUNDEF_END)                                \
+  DO(load,         false,          1,          1,                              FUNDEF_END)                                \
   DO(require,      false,          1,          1,                              FUNDEF_END)                                \
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
@@ -26,7 +27,7 @@
   /*================================================================================================================*/    \
   DO(string,       false,          1,          1,                              FUNDEF_END) /* stringifier           */    \
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */    \
-  DO(set_props,    true,           2,          2, "props!",                    FUNDEF_END) /* props accessor        */ \
+  DO(set_props,    true,           2,          2, "props!",                    FUNDEF_END) /* props accessor        */    \
   DO(props,        true,           1,          1,                              FUNDEF_END) /* props accessor        */    \
   DO(errmsg,       false,          1,          1, "error-message",             FUNDEF_END) /* error accessor        */    \
   DO(name,         false,          1,          1, "symbol-name",               FUNDEF_END) /* symbol accessor       */    \

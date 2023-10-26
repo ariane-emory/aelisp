@@ -1,7 +1,7 @@
 To Do:
+- [ ] load: should accept strings (not just symbols) and should not add file extension.
 - [ ] require: add :no-error and :force arguments.
 - [ ] require: when feature?, only reload if :force.
-- [ ] require: check feature? after eval.
 - [ ] revise startup to (provide :stdblib).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
@@ -32,6 +32,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] require: check feature? after eval.
 - [x] remove! macro for plists / properties.
 - [x] Features should be normal symbols (instead of keywords)?
 - [x] require.

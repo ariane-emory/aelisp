@@ -126,13 +126,14 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _require
+// _load_or_require
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_require(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("require");
+static ae_obj_t * ae_core_load_or_require(bool check_feature,
+                                          ae_obj_t * const env,
+                                          ae_obj_t * const args,
+                                          __attribute__((unused)) int args_length) {
+  CORE_BEGIN("load_or_require");
 
   ae_obj_t * const new_feature  = CAR(args);
 
@@ -186,28 +187,55 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
   log_macro                    = old_log_macro;
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
-  bool feature_found           = false;
-  ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
+
+  if (check_feature) {
+    bool feature_found           = false;
+    ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
   
-  FOR_EACH(feature, features) {
-    if (EQL(feature, new_feature)) {
-      feature_found = true;
+    FOR_EACH(feature, features) {
+      if (EQL(feature, new_feature)) {
+        feature_found = true;
       
-      break;
+        break;
+      }
     }
-  }
 
-  if (!feature_found) {
-    char * const tmp = free_list_malloc(256);
-    snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(new_feature));
-    char * const err_msg = free_list_malloc(strlen(tmp) + 1);
-    strcpy(err_msg, tmp);
-    free_list_free(tmp);
+    if (!feature_found) {
+      char * const tmp = free_list_malloc(256);
+      snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(new_feature));
+      char * const err_msg = free_list_malloc(strlen(tmp) + 1);
+      strcpy(err_msg, tmp);
+      free_list_free(tmp);
 
-    RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
+      RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
+    }
   }
   
 end:
   
-  CORE_RETURN("require", ret);
+  CORE_RETURN("load_or_require", ret);
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _load
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_load(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("load");
+  CORE_RETURN("load", ae_core_load_or_require(false, env, args, args_length));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _require
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_require(ae_obj_t * const env,
+                           ae_obj_t * const args,
+                           __attribute__((unused)) int args_length) {
+  CORE_BEGIN("require");
+  CORE_RETURN("require", ae_core_load_or_require(true, env, args, args_length));
+}
+   
