@@ -142,27 +142,20 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("push");
 
-  ae_obj_t * const sym       = CADR(args);
+  ae_obj_t * const sym = CADR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
           "push! only works on bound and settable symbols");
 
-  ae_obj_t * const lst       = RETURN_IF_ERRORP(EVAL(env, sym));
+  ae_obj_t * const lst = RETURN_IF_ERRORP(EVAL(env, sym));
 
   REQUIRE(env, args, TAILP(lst));
 
-  ae_obj_t * const val       = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
-  ret                        = CONS(val, lst);
+  ae_obj_t * const val = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
+  ret                  = CONS(val, lst);
 
   ENV_SET(env, sym, ret);
   
-  /* ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(ret, NIL)), NIL)); */
-
-  /* if (log_core) */
-  /*   LOG(setq_args, "push!'s setq_args"); */
-  
-  /* RETURN_IF_ERRORP(ae_core_setq(env, setq_args, 2)); */
-
 end:
   
   CORE_RETURN("push", ret);
