@@ -5,7 +5,7 @@
 #include "common.h"
 #include "env.h"
 #include "time_funcs.h"
-
+#include "free_list.h"
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _program
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,20 +129,57 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_require(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+                           ae_obj_t * const args,
+                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("require");
   
-  REQUIRE(env, args, STRINGP(CAR(args)));
+  REQUIRE(env, args,
+          SYMBOLP(CAR(args))      &&
+          (! KEYWORDP(CAR(args))) &&
+          (! NILP(CAR(args)))     &&
+          (! TRUEP(CAR(args))));
 
-  bool failed_to_open = false;
-
-  if (failed_to_open)
-    RETURN(NEW_ERROR("failed to open file", NIL));
+  char * found = NULL;
   
-  ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
+  FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
+    PR("\nLooking in %s...\n", STR_VAL(dir));
 
-  ret = RETURN_IF_ERRORP(EVAL(env, new_program));
+    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(CAR(args))) + 7);
+    
+    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(CAR(args)));
+
+    PR("Trying %s... ", possible_path);
+
+    if (access(possible_path, F_OK) != -1) {
+      PR("found.\n");
+      found = possible_path;
+      
+      break;
+    }
+    else {
+      PR("not found.\n");
+      free_list_free(possible_path);
+    }
+  }
+  
+  if (found == NULL) {
+    char * const tmp = free_list_malloc(256);
+    snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(CAR(args)));
+    char * const err_msg = free_list_malloc(strlen(tmp) + 1);
+    strcpy(err_msg, tmp);
+    free_list_free(tmp);
+
+    RETURN(NEW_ERROR(err_msg, NIL));
+  }
+  
+  /* bool failed_to_open = false; */
+
+  /* if (failed_to_open) */
+  /*   RETURN(NEW_ERROR("failed to open file", NIL)); */
+  
+  /* ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open); */
+
+  /* ret = RETURN_IF_ERRORP(EVAL(env, new_program)); */
 
 end:
   
