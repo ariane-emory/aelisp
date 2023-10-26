@@ -1,4 +1,5 @@
 To Do:
+- [ ] Refactor: CORE_RETURN should be unary.
 - [ ] require.
 - [ ] load-path.
 - [ ] Special variables should skip local lookup for set/get.
