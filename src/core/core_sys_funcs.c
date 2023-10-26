@@ -133,21 +133,23 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
                            ae_obj_t * const args,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("require");
-  
+
+  ae_obj_t * const new_feature  = CAR(args);
+
   REQUIRE(env, args,
-          SYMBOLP(CAR(args))      &&
-          (! KEYWORDP(CAR(args))) &&
-          (! NILP(CAR(args)))     &&
-          (! TRUEP(CAR(args))));
+          SYMBOLP(new_feature)      &&
+          (! KEYWORDP(new_feature)) &&
+          (! NILP(new_feature))     &&
+          (! TRUEP(new_feature)));
 
   char * found = NULL;
   
   FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
     // PR("\nLooking in %s...\n", STR_VAL(dir));
 
-    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(CAR(args))) + 7);
+    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(new_feature)) + 7);
     
-    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(CAR(args)));
+    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(new_feature));
 
     // PR("Trying %s... ", possible_path);
     
@@ -165,7 +167,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
   
   if (!found) {
     char * const tmp = free_list_malloc(256);
-    snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(CAR(args)));
+    snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(new_feature));
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
     strcpy(err_msg, tmp);
     free_list_free(tmp);
@@ -173,21 +175,42 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     RETURN(NEW_ERROR(err_msg, NIL));
   }
 
-  ae_obj_t * new_program = RETURN_IF_ERRORP(load_file(found, NULL));
+  ae_obj_t * new_program        = RETURN_IF_ERRORP(load_file(found, NULL));
 
-  bool old_log_macro     = log_macro;
-  bool old_log_core      = log_core;
-  bool old_log_eval      = log_eval;
-  log_macro              = false;
-  log_core               = false;
-  log_eval               = false;
+  bool old_log_macro            = log_macro;
+  bool old_log_core             = log_core;
+  bool old_log_eval             = log_eval;
+  log_macro                     = false;
+  log_core                      = false;
+  log_eval                      = false;
   
   ret = RETURN_IF_ERRORP(EVAL(env, new_program));
 
-  log_macro              = old_log_macro;
-  log_core               = old_log_core;
-  log_eval               = old_log_eval;
+  log_macro                     = old_log_macro;
+  log_core                      = old_log_core;
+  log_eval                      = old_log_eval;
 
+  ae_obj_t * const features     = ENV_GET(env, SYM("*features*"));
+  bool found_feature            = false;
+  
+  FOR_EACH(feature, features) {
+    if (EQL(feature, new_feature)) {
+      found_feature = true;
+      
+      break;
+    }
+  }
+
+  if (!found_feature) {
+    char * const tmp = free_list_malloc(256);
+    snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(new_feature));
+    char * const err_msg = free_list_malloc(strlen(tmp) + 1);
+    strcpy(err_msg, tmp);
+    free_list_free(tmp);
+
+    RETURN(NEW_ERROR(err_msg, NIL));
+  }
+  
 end:
   
   CORE_RETURN("require", ret);
