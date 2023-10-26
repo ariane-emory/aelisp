@@ -92,14 +92,17 @@ ae_obj_t * ae_core_cons(
 ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("length");
 
-  // REQUIRE(env, args, PROPERP(CAR(args)), "core length only works on proper lists");
+  REQUIRE(env, args, TAILP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");
 
-  REQUIRE(env, args, CONSP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");
+  if (NILP(CAR(args)))
+    RETURN(NEW_INT(0));
   
   ret = CONSP(CAR(args))
     ? NEW_INT(LENGTH(CAR(args)))
     : NEW_INT(strlen(STR_VAL(CAR(args))));
   
+end:
+
   CORE_RETURN("length", ret);
 }
 
