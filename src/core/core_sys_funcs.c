@@ -135,22 +135,22 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
                                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("load_or_require");
 
-  ae_obj_t * const new_feature  = CAR(args);
+  ae_obj_t * const load_target  = CAR(args);
 
   REQUIRE(env, args,
-          SYMBOLP(new_feature)      &&
-          (! KEYWORDP(new_feature)) &&
-          (! NILP(new_feature))     &&
-          (! TRUEP(new_feature)));
+          SYMBOLP(load_target)      &&
+          (! KEYWORDP(load_target)) &&
+          (! NILP(load_target))     &&
+          (! TRUEP(load_target)));
 
   char * file_found = NULL;
   
   FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
     // PR("\nLooking in %s...\n", STR_VAL(dir));
 
-    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(new_feature)) + 7);
+    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(load_target)) + 7);
     
-    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(new_feature));
+    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(load_target));
 
     // PR("Trying %s... ", possible_path);
     
@@ -168,7 +168,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
   
   if (!file_found) {
     char * const tmp = free_list_malloc(256);
-    snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(new_feature));
+    snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(load_target));
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
     strcpy(err_msg, tmp);
     free_list_free(tmp);
@@ -193,7 +193,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
     ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
   
     FOR_EACH(feature, features) {
-      if (EQL(feature, new_feature)) {
+      if (EQL(feature, load_target)) {
         feature_found = true;
       
         break;
@@ -202,7 +202,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
 
     if (!feature_found) {
       char * const tmp = free_list_malloc(256);
-      snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(new_feature));
+      snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(load_target));
       char * const err_msg = free_list_malloc(strlen(tmp) + 1);
       strcpy(err_msg, tmp);
       free_list_free(tmp);
