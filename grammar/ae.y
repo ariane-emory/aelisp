@@ -12,7 +12,7 @@
 
 #ifdef AE_READ_OBJ_TAGGING
 // This will need to be revised to deal with the upcoming load stack.
-#  define TAG(o) (PUT_PROP(NEW_INT(yylineno + 1), "line", ((o))), PUT_PROP(file_stack, "file", ((o))))
+#  define TAG(o) (PUT_PROP(NEW_INT(yylineno + 1), "line", ((o))), PUT_PROP(filename_stack, "file", ((o))))
 #else
 #  define TAG(o) (o)
 #endif
@@ -22,8 +22,8 @@ extern ae_obj_t * program;
 extern int main(int argc, char ** argv);
 
 void yyerror(const char *str) {
-    if (!NILP(file_stack))
-        ERR("Error on line %d of %s: %s\n", yylineno + 1, STR_VAL(file_stack), str);
+    if (!NILP(filename_stack))
+        ERR("Error on line %d of %s: %s\n", yylineno + 1, STR_VAL(filename_stack), str);
     else
         ERR("Error on line %d: %s\n", yylineno + 1, str);
 
