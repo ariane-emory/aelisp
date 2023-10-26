@@ -29,9 +29,8 @@
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */    \
   DO(set_props,    true,           2,          2, "props!",                    FUNDEF_END) /* props accessor        */    \
   DO(props,        true,           1,          1,                              FUNDEF_END) /* props accessor        */    \
-  DO(errmsg,       false,          1,          1, "error-message",             FUNDEF_END) /* error accessor        */    \
+  DO(message,      false,          1,          1,                              FUNDEF_END) /* error accessor        */   \
   DO(name,         false,          1,          1, "symbol-name",               FUNDEF_END) /* symbol accessor       */    \
-  DO(errobj,       false,          1,          1, "error-object",              FUNDEF_END) /* error accessor        */    \
   DO(denom,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \
   DO(numer,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \
   DO(body,         false,          1,          1,                              FUNDEF_END) /* fun accessor          */    \

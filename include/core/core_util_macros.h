@@ -9,28 +9,22 @@
 #include "jump_return.h"
 #include "log.h"
 #include "obj.h"
+#include "utility.h"
 #include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define REQUIRE(env, args, cond, ...)                                                              \
   if (! (cond)) {                                                                                  \
-    char * fmt      = ("" __VA_ARGS__)[0]                                                          \
+    char * const fmt      = ("" __VA_ARGS__)[0]                                                    \
       ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \
       : "%s:%d: \"Error in %s: require " #cond "!\"";                                              \
                                                                                                    \
-    char * const msg_tmp = free_list_malloc(256);                                                  \
-    snprintf(msg_tmp, 256, fmt, __FILE__, __LINE__, __func__);                                     \
+    ae_obj_t * const err = MAKE_ERROR(fmt, __FILE__, __LINE__, __func__);                          \
                                                                                                    \
-    char * const msg = free_list_malloc(strlen(msg_tmp) + 1);                                      \
-    strcpy(msg, msg_tmp);                                                                          \
-    free_list_free(msg_tmp);                                                                       \
+    PUT_PROP(args, "error-args", err);                                                             \
+    PUT_PROP(env,  "error-env",  err);                                                             \
                                                                                                    \
-    ae_obj_t * const err_data = NIL;                                                               \
-                                                                                                   \
-    KSET(err_data, KW("args"), args);                                                              \
-    KSET(err_data, KW("env"),  env);                                                               \
-                                                                                                   \
-    return NEW_ERROR(msg, err_data);                                                               \
+    return err;                                                                                    \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_BEGIN(name)                                                                           \

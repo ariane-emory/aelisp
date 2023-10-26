@@ -8,38 +8,24 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribut
   CORE_BEGIN("error");
 
   REQUIRE(env, args, STRINGP(CAR(args)), "error's 1st arg must be a string");
+  REQUIRE(env, args, (args_length == 1) || PROPERP(CADR(args)), "error's 2nd arg must be a proper list or nil");
 
-  ae_obj_t * err_obj = NIL;
+  ae_obj_t * const err = MAKE_ERROR(STR_VAL(CAR(args)));
+
+  ASSIGN_PROPS(CADR(args), err);
   
-  if (args_length == 2) {
-    REQUIRE(env, args, PROPERP(CADR(args)), "error's 2nd arg must be a list or nil");
-    err_obj = CADR(args);
-  }
-  
-  CORE_RETURN("error", NEW_ERROR(STR_VAL(CAR(args)), err_obj));
+  CORE_RETURN("error", err);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _errmsg
+// _message
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_errmsg(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("errmsg");
+ae_obj_t * ae_core_message(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("message");
 
   REQUIRE(env, args, ERRORP(CAR(args)));
 
-  CORE_RETURN("errmsg", NEW_STRING(EMSG(CAR(args))));
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _errobj
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_errobj(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("errobj");
-
-  REQUIRE(env, args, ERRORP(CAR(args)));
-
-  CORE_RETURN("errobj", EOBJ(CAR(args)));
+  CORE_RETURN("message", NEW_STRING(EMSG(CAR(args))));
 }
 
