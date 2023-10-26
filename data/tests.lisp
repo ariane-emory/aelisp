@@ -311,19 +311,6 @@
 (put 'c :baz :quux)
 (writen (props :quux))
 
-(defun plist-remove (pred? prop plist)
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist
-  (if (pred? prop (car plist))
-   (plist-remove pred? prop (cddr plist))
-   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
-
-(defun plist-removeq (prop plist)
- (plist-remove eq? prop plist))
-
-(defun plist-removeql (prop plist)
- (plist-remove eql? prop plist))
 
 (writen (plist-remove eq? :foo (props :quux)))
 (writen (plist-remove eq? :bar (props :quux)))
