@@ -184,8 +184,13 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
 // load_or_require
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * load_or_require(bool verify_feature,
-                                  bool add_extension,
+typedef enum {
+  LOAD,
+  REQUIRE,
+  REREQUIRE
+} load_or_require_mode_t;
+
+static ae_obj_t * load_or_require(load_or_require_mode_t mode,
                                   ae_obj_t * const env,
                                   ae_obj_t * const args,
                                   __attribute__((unused)) int args_length) {
@@ -197,7 +202,9 @@ static ae_obj_t * load_or_require(bool verify_feature,
   // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
 
   const char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
-  char * file_path                      = find_file(env, add_extension, load_target_string);
+  char * file_path                      = find_file(env,
+                                                    mode == LOAD, 
+                                                    load_target_string);
     
   if (! file_path)
     RETURN(NEW_ERROR("could not find file for '%s", load_target_string));
@@ -218,7 +225,7 @@ static ae_obj_t * load_or_require(bool verify_feature,
   log_eval                     = old_log_eval;
 
   
-  if (verify_feature && ! have_feature(env, load_target))
+  if ((mode == REQUIRE || mode == REREQUIRE) && ! have_feature(env, load_target))
     RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
   
 end:
@@ -238,7 +245,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("load", load_or_require(false, false, env, args, args_length));
+  CORE_RETURN("load", load_or_require(LOAD, env, args, args_length));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +263,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
           (! NILP(CAR(args)))     &&
           (! TRUEP(CAR(args))));
 
-  CORE_RETURN("require", load_or_require(true, true, env, args, args_length));
+  CORE_RETURN("require", load_or_require(REQUIRE, env, args, args_length));
 }
 
    
