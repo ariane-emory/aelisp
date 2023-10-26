@@ -129,7 +129,7 @@ end:
 // have_feature
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static bool have_feature(ae_obj_t * const sym, ae_obj_t * const env) {
+static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
   assert(sym);
   assert(SYMBOLP(sym));
   assert(env);
