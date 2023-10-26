@@ -123,3 +123,28 @@ end:
   
   CORE_RETURN("load", ret);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _require
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_require(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("require");
+  
+  REQUIRE(env, args, STRINGP(CAR(args)));
+
+  bool failed_to_open = false;
+
+  if (failed_to_open)
+    RETURN(NEW_ERROR("failed to open file", NIL));
+  
+  ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
+
+  ret = RETURN_IF_ERRORP(EVAL(env, new_program));
+
+end:
+  
+  CORE_RETURN("require", ret);
+}

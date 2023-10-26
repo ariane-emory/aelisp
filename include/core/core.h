@@ -10,6 +10,7 @@
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
   DO(load,         false,          1,          1,                              FUNDEF_END)                                \
+  DO(require,      false,          1,          1,                              FUNDEF_END)                                \
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed_us,   false,          1,          1, "elapsed-us",                FUNDEF_END)                                \
