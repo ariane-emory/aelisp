@@ -138,22 +138,29 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
   ae_obj_t * const load_target  = CAR(args);
 
   REQUIRE(env, args, SYMBOLP(load_target) || STRINGP(load_target));
+
+  const char * load_target_string = NULL;
   
-  if (SYMBOLP(load_target))
+  if (SYMBOLP(load_target)) {
     REQUIRE(env, args,
             SYMBOLP(load_target)      &&
             (! KEYWORDP(load_target)) &&
             (! NILP(load_target))     &&
             (! TRUEP(load_target)));
+    load_target_string = SYM_VAL(load_target);
+  }
+  else {
+    load_target_string = STR_VAL(load_target);
+  }
 
   char * file_found = NULL;
   
   FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
     // PR("\nLooking in %s...\n", STR_VAL(dir));
 
-    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(load_target)) + 7);
+    char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(load_target_string) + 7);
     
-    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(load_target));
+    sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), load_target_string);
 
     // PR("Trying %s... ", possible_path);
     
@@ -171,7 +178,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
   
   if (!file_found) {
     char * const tmp = free_list_malloc(256);
-    snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(load_target));
+    snprintf(tmp, 256, "could not find file for '%s", load_target_string);
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
     strcpy(err_msg, tmp);
     free_list_free(tmp);
@@ -205,7 +212,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
 
     if (!feature_found) {
       char * const tmp = free_list_malloc(256);
-      snprintf(tmp, 256, "required file did not provide '%s", SYM_VAL(load_target));
+      snprintf(tmp, 256, "required file did not provide '%s", load_target_string);
       char * const err_msg = free_list_malloc(strlen(tmp) + 1);
       strcpy(err_msg, tmp);
       free_list_free(tmp);
