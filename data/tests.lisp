@@ -327,3 +327,9 @@
 
 (defmacro remove! (prop obj)
  $('props! obj $('plist-removeq prop $('props obj))))
+
+(log-macro t)
+
+(remove! :foo :quux)
+(remove! :bar :quux)
+
