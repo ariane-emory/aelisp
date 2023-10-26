@@ -366,7 +366,6 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_CMP_OP(add_core_op);
   ENV_SET(env, SYM("="), ENV_FIND(env, SYM("==")));
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
-  ENV_SET(env, SYM("*load-path*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
   /* */ char *       home_path       = NULL;
@@ -397,6 +396,12 @@ ae_obj_t * ae_env_new_root(void) {
   snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
   
   printf("Found lib dir '%s'.\n", libdir_path);
+
+  ENV_SET(env, SYM("*home-path*"), NEW_STRING(home_path));
+
+  ENV_SET(env, SYM("*load-path*"), NIL);
+  ae_obj_t * load_path = ENV_FIND(env, SYM("*load-path*"));
+  PUSH(NEW_STRING(libdir_path), load_path);
   
 //  printf("Found '%s'.\n", dirname(dirname(bin_path)));
 
