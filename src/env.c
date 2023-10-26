@@ -381,36 +381,28 @@ ae_obj_t * ae_env_new_root(void) {
       exit(1);
     }
 
-    const char * const home_path_tmp = dirname(dirname(bin_path));
-    
+    const char * const home_path_tmp = dirname(dirname(bin_path));    
     home_path = free_list_malloc(strlen(home_path_tmp) + 1);
     strcpy(home_path, home_path_tmp);
     free_list_free(bin_path);
   }
-    
-  // PR("Found home    '%s'.\n", home_path);
 
   const int    libdir_len  = strlen(home_path) + 1 + strlen(libdir_rel_path) + 1;
   char * const libdir_path = free_list_malloc(libdir_len);
 
   snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
-  
-  // PR("Found lib dir '%s'.\n", libdir_path);
-
-  ENV_SET(env, SYM("*home-path*"), NEW_STRING(home_path));
 
 #define ENV_PUSH(env, val, sym)                                                                    \
-  ae_obj_t * lst = ENV_GET((env), (sym));                                                          \
-  PUSH((val), lst);                                                                                \
-  ENV_SET((env), (sym), lst)
+  ({                                                                                               \
+    ae_obj_t * list = ENV_GET((env), (sym));                                                       \
+    PUSH((val), list);                                                                             \
+    ENV_SET((env), (sym), list);                                                                   \
+    list;                                                                                          \
+  })
 
   ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
+  ENV_PUSH(env, NEW_STRING(home_path),   SYM("*load-path*"));
 
-  /* // _GET isn't strictly necessary since it will be NIL right now anyhow: */
-  /* ae_obj_t * load_path = ENV_GET(env, SYM("*load-path*")); */
-  /* PUSH(NEW_STRING(libdir_path), load_path); */
-  /* ENV_SET(env, SYM("*load-path*"), load_path); */
-    
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
