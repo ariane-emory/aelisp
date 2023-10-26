@@ -95,20 +95,10 @@
  ;; (log-eval t)
  (s x 2 3))
 
-;; (ignore
-;;  "This one triggers an indentation bug, investigate:"
-;;  (defun split-list (pred? lst)
-;;   (let ((front nil)
-;;         (current lst))
-;;    (while (and current (funcall pred? (car current)))
-;;     (setq front (cons (car current) front))
-;;     (setq current (cdr current)))
-;;    $((fake-reverse front) current))))
-
 (nl)
 
-;; (setq! lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
-;; (setq! split (split-list string?              lst))
+(setq! lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
+(setq! split (split-list string? lst))
 
 (ignore
  "This test cannot work until handling of strings containing escaped double quotes is fixed,"
