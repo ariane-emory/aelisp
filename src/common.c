@@ -34,7 +34,7 @@ bool       log_macro           = false;
 bool       no_stdlib           = false;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
-ae_obj_t * filename_stack          = NIL;
+ae_obj_t * filename_stack      = NIL;
 ae_obj_t * line_stack          = NIL;
 ae_obj_t * program             = NIL;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
