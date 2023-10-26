@@ -1,5 +1,12 @@
 To Do:
+- [ ] Maybe features should be normal symbols (instead of keywords)?
+- [ ] revise startup to (provide :stdblib).
+- [ ] remove! fun for plists / properties.
 - [ ] require: add :no-error and :force arguments.
+- [ ] require: if feature?, only reload if :force.
+- [ ] require: check feature? after eval.
+- [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
+- [ ] makunbound.
 - [ ] Refactor: CORE_RETURN should be unary.
 - [ ] Special variables should skip local lookup for set/get.
 - [ ] AE_FILE type.
