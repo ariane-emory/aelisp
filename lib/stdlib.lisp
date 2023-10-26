@@ -1139,49 +1139,49 @@
 
 
 (report-time-us "def list split funs            "
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defun split-list-alternate! (pred? lst)
-;;   "Destructively split the LST into two sublists:"
-;;   "1. The longest initial sublist of elements satisfying PRED?"
-;;   "2. The rest of the elements."
-;;   (unless (fun? pred?) (error "PRED? must be a function"))
-;;   (unless (tail? lst) (error "LST must be a tail"))
-;;   (let ((front nil)
-;;         (back lst))
-;;    (while (and back (pred? (car back)))
-;;     (push! (pop! back) front))
-;;    $((reverse front) back)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defun split-list (pred? lst)
-;;   "Destructivly split LST into two sublists:"
-;;   "1. The longest initial sublist of elements satisfying PRED?"
-;;   "2. The rest of the elements."
-;;   (unless (fun? pred?) (error "PRED? must be a function"))
-;;   (unless (tail? lst) (error "LST must be a tail"))
-;;   (let ((prev nil)
-;;         (current lst))
-;;    (while (and current (pred? (car current)))
-;;     (setq! prev current)
-;;     (setq! current (cdr current)))
-;;    (if prev
-;;     (progn
-;;      (rplacd! prev nil)
-;;      $(lst current))
-;;     $(nil lst))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defun split-list (pred? lst)
-;;   "Split LST into two sublists:"
-;;   "1. The longest initial sublist of elements satisfying PRED?"
-;;   "2. The rest of the elements."
-;;   (unless (fun? pred?) (error "PRED? must be a function"))
-;;   (unless (tail? lst) (error "LST must be a tail"))
-;;   (let ((front nil)
-;;         (current lst))
-;;    (while (and current (pred? (car current)))
-;;     (setq front (cons (car current) front))
-;;     (setq current (cdr current)))
-;;    $((reverse front) current)))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun split-list-alternate! (pred? lst)
+  "Destructively split the LST into two sublists:"
+  "1. The longest initial sublist of elements satisfying PRED?"
+  "2. The rest of the elements."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (tail? lst) (error "LST must be a tail"))
+  (let ((front nil)
+        (back lst))
+   (while (and back (pred? (car back)))
+    (push! (pop! back) front))
+   $((reverse front) back)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun split-list (pred? lst)
+  "Destructivly split LST into two sublists:"
+  "1. The longest initial sublist of elements satisfying PRED?"
+  "2. The rest of the elements."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (tail? lst) (error "LST must be a tail"))
+  (let ((prev nil)
+        (current lst))
+   (while (and current (pred? (car current)))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if prev
+    (progn
+     (rplacd! prev nil)
+     $(lst current))
+    $(nil lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun split-list (pred? lst)
+  "Split LST into two sublists:"
+  "1. The longest initial sublist of elements satisfying PRED?"
+  "2. The rest of the elements."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (tail? lst) (error "LST must be a tail"))
+  (let ((front nil)
+        (current lst))
+   (while (and current (pred? (car current)))
+    (setq front (cons (car current) front))
+    (setq current (cdr current)))
+   $((reverse front) current)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 
@@ -1379,10 +1379,9 @@
  (setq! assq          aget) 
  (setq! collect-if    filter)
  (setq! define        setq!)
- (setq! display       write) ;should should be a macro that avoids re-defining what-scheme-implementation
+ (setq! display       write)
  (setq! else          t)
  (setq! every         all?)
- ;;(defun funcall args  (eval args))
  (setq! getl          pget)
  (setq! gsort         sort!!)
  (setq! make-vector   make-list)
@@ -1390,7 +1389,7 @@
  (setq! map-append    mapcan)
  (setq! position-of   indexq)
  (setq! remove        removeq)
- (setq! set!          setq!)
+ (setq! set!          setq!) ;should should be a macro that avoids re-defining what-scheme-implementation
  (setq! vector-length list-length)
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!)
