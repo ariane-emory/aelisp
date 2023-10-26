@@ -312,6 +312,8 @@
 (writen (props :quux))
 
 (defun plist-remove (prop plist)
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist
   (if (eq? prop (car plist))
    (plist-remove prop (cddr plist))
