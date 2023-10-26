@@ -326,7 +326,7 @@
 (put 'c :baz :quux)
 
 
-(remove! :foo :quux)
-(remove! :bar :quux)
+(confirm that (remove! :foo :quux) returns 'a)
+(confirm that (remove! :bar :quux) returns 'b)
 
 
