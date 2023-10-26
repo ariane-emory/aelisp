@@ -6,6 +6,7 @@
 #include "env.h"
 #include "time_funcs.h"
 #include "free_list.h"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _program
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +152,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     PR("Trying %s... ", possible_path);
 
     if (access(possible_path, F_OK) != -1) {
-      PR("found.\n");
+      PR("found it.\n");
       found = possible_path;
       
       break;
@@ -162,7 +163,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     }
   }
   
-  if (found == NULL) {
+  if (!found) {
     char * const tmp = free_list_malloc(256);
     snprintf(tmp, 256, "could not find file for '%s", SYM_VAL(CAR(args)));
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
@@ -171,15 +172,10 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
 
     RETURN(NEW_ERROR(err_msg, NIL));
   }
-  
-  /* bool failed_to_open = false; */
 
-  /* if (failed_to_open) */
-  /*   RETURN(NEW_ERROR("failed to open file", NIL)); */
-  
-  /* ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open); */
+  ae_obj_t * new_program = RETURN_IF_ERRORP(load_file(found, NULL));
 
-  /* ret = RETURN_IF_ERRORP(EVAL(env, new_program)); */
+  ret = RETURN_IF_ERRORP(EVAL(env, new_program));
 
 end:
   
