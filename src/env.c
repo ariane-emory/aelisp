@@ -392,25 +392,9 @@ ae_obj_t * ae_env_new_root(void) {
 
   snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
 
-#define ENV_PUSH(env, val, sym)                                                                    \
-  ({                                                                                               \
-    ae_obj_t * list = ENV_GET((env), (sym));                                                       \
-    PUSH((val), list);                                                                             \
-    ENV_SET((env), (sym), list);                                                                   \
-    list;                                                                                          \
-  })
-
-#define ENV_POP(env, sym)                                                                          \
-  ({                                                                                               \
-    ae_obj_t * list         = ENV_GET((env), (sym));                                               \
-    ae_obj_t * const popped = POP(list);                                                           \
-    ENV_SET((env), (sym), list);                                                                   \
-    popped;                                                                                        \
-  })
-
   ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
   ENV_PUSH(env, NEW_STRING(home_path),   SYM("*load-path*"));
-
+  
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

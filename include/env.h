@@ -35,7 +35,21 @@ typedef enum {
 #define    ENV_GET_G(env, sym)      (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                                     //
 #define    ENV_GET_L(env, sym)      (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                                     //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+#define ENV_PUSH(env, val, sym)                                                                                                       \
+  ({                                                                                                                                  \
+    ae_obj_t * list = ENV_GET((env), (sym));                                                                                          \
+    PUSH((val), list);                                                                                                                \
+    ENV_SET((env), (sym), list);                                                                                                      \
+    list;                                                                                                                             \
+  })
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define ENV_POP(env, sym)                                                                                                             \
+  ({                                                                                                                                  \
+    ae_obj_t * list         = ENV_GET((env), (sym));                                                                                  \
+    ae_obj_t * const popped = POP(list);                                                                                              \
+    ENV_SET((env), (sym), list);                                                                                                      \
+    popped;                                                                                                                           \
+  })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_BOUND_IN(mode, env, sym)                                                                                               \
   ({                                                                                                                                  \
