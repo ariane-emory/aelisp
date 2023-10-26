@@ -366,34 +366,42 @@ ae_obj_t * ae_env_new_root(void) {
   FOR_EACH_CORE_CMP_OP(add_core_op);
   ENV_SET(env, SYM("="), ENV_GET(env, SYM("==")));
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
-  PUT_PROP(TRUE, "constant", SYM("*program*"));
 
-  /* */ char *       home_path       = NULL;
-  const char * const libdir_rel_path = "lib";
+  PUT_PROP(TRUE, "constant", SYM("*program*"));
   
   {
-    char * const bin_path = free_list_malloc(PATH_MAX);
-    uint32_t     size     = PATH_MAX;
+    /* Do a quick song and dance to put the home dir and lib dir in *load-path */
+    
+    /* */ char *       home_path       = NULL;
+    const char * const libdir_rel_path = "lib";
   
-    if (_NSGetExecutablePath(bin_path, &size) != 0) {
-      FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
+    {
+      char * const bin_path = free_list_malloc(PATH_MAX);
+      uint32_t     size     = PATH_MAX;
+  
+      if (_NSGetExecutablePath(bin_path, &size) != 0) {
+        FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
 
-      exit(1);
+        exit(1);
+      }
+
+      const char * const home_path_tmp = dirname(dirname(bin_path));    
+      home_path = free_list_malloc(strlen(home_path_tmp) + 1);
+      strcpy(home_path, home_path_tmp);
+      free_list_free(bin_path);
     }
 
-    const char * const home_path_tmp = dirname(dirname(bin_path));    
-    home_path = free_list_malloc(strlen(home_path_tmp) + 1);
-    strcpy(home_path, home_path_tmp);
-    free_list_free(bin_path);
+    const int    libdir_len  = strlen(home_path) + 1 + strlen(libdir_rel_path) + 1;
+    char * const libdir_path = free_list_malloc(libdir_len);
+
+    snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
+
+    ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
+    ENV_PUSH(env, NEW_STRING(home_path),   SYM("*load-path*"));
   }
 
-  const int    libdir_len  = strlen(home_path) + 1 + strlen(libdir_rel_path) + 1;
-  char * const libdir_path = free_list_malloc(libdir_len);
-
-  snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
-
-  ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
-  ENV_PUSH(env, NEW_STRING(home_path),   SYM("*load-path*"));
+  // *features* should always be ENV_BOUNDP:
+  ENV_SET(env, SYM("*features*"), NIL);
   
   return env;
 }

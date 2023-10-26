@@ -1,6 +1,7 @@
 To Do:
-- [ ] Special variables should skip local lookup.
 - [ ] load-path.
+- [ ] Special variables should skip local lookup for set/get.
+- [ ] AE_FILE type.
 - [ ] Review correctness environments used for macro expansion/evaluation.
 - [ ] Review correctness of unwinding indentation.
 - [ ] try incremental bubble sorting env syms/vals?
