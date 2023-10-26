@@ -48,7 +48,7 @@ end:
 ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("aset");
+  CORE_BEGIN("pus!");
 
   ae_obj_t * value         = RETURN_IF_ERRORP(EVAL(env, CAR(args))); // this could be unsafe if value is NIL, maybe?
   ae_obj_t * key           = RETURN_IF_ERRORP(EVAL(env, CADR(args)));
@@ -60,7 +60,7 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("daset", ret);
+  CORE_RETURN("put!", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ end:
 ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("has");
+  CORE_BEGIN("has?");
 
   ae_obj_t * key       = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
   ae_obj_t * obj       = RETURN_IF_ERRORP(MAYBE_EVAL(CADR(args)));
@@ -98,6 +98,6 @@ ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("has", ret);
+  CORE_RETURN("has?", ret);
 }
 
