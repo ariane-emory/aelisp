@@ -309,7 +309,7 @@
 (confirm that (plist-removeql   :foo (props :quux)) returns '(:baz c :bar b))
 (confirm that (plist-removeql   :bar (props :quux)) returns '(:baz c :foo a))
 (confirm that (plist-removeql   :baz (props :quux)) returns '(:bar b :foo a))
-
+(confirm that (props! :quux '(:corge d))            returns '(:corge d))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
