@@ -468,35 +468,35 @@
   (unless (tail? lst) (error "LST must be a tail"))
   (cons elem lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defun push-back! (lst elem)
-;;   "Destructively push ELEM onto the tail of LST."
-;;   (unless (tail? lst) (error "LST must be a tail"))
-;;   (rplacd! (last lst) (cons elem nil))
-;;   lst)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defun push! (elem lst)
-;;   "Destructively push ELEM onto the head of LST."
-;;   (unless (tail? lst) (error "LST must be a tail"))
-;;   (let ((old-car (car lst)))
-;;    (rplaca! lst elem)
-;;    (rplacd! lst (cons old-car (cdr lst)))
-;;    lst))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defmacro push! (val list-sym)
-;;   "Destructively push an item onto the list bound to LIST-SYM."
-;;   (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
-;;   $('if $('not $('symbol? $('quote list-sym)))
-;;     $('error "LIST-SYM must be a symbol")
-;;     $('setq! list-sym $('cons val list-sym))))
-;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defmacro pop! (list-sym)
-;;  "Destructively pop an item from the list bound to LIST-SYM."
-;;  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
-;;  $('if $('not $('symbol? $('quote list-sym)))
-;;    $('error "LIST-SYM must be a symbol")
-;;    $('let $($('head $('car list-sym)))
-;;      $('setq! list-sym $('cdr list-sym))
-;;      'head)))
+ ;;  (defun push-back! (lst elem)
+ ;;   "Destructively push ELEM onto the tail of LST."
+ ;;   (unless (tail? lst) (error "LST must be a tail"))
+ ;;   (rplacd! (last lst) (cons elem nil))
+ ;;   lst)
+ ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;  (defun push! (elem lst)
+ ;;   "Destructively push ELEM onto the head of LST."
+ ;;   (unless (tail? lst) (error "LST must be a tail"))
+ ;;   (let ((old-car (car lst)))
+ ;;    (rplaca! lst elem)
+ ;;    (rplacd! lst (cons old-car (cdr lst)))
+ ;;    lst))
+ ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;  (defmacro push! (val list-sym)
+ ;;   "Destructively push an item onto the list bound to LIST-SYM."
+ ;;   (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
+ ;;   $('if $('not $('symbol? $('quote list-sym)))
+ ;;     $('error "LIST-SYM must be a symbol")
+ ;;     $('setq! list-sym $('cons val list-sym))))
+ ;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; (defmacro pop! (list-sym)
+ ;;  "Destructively pop an item from the list bound to LIST-SYM."
+ ;;  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
+ ;;  $('if $('not $('symbol? $('quote list-sym)))
+ ;;    $('error "LIST-SYM must be a symbol")
+ ;;    $('let $($('head $('car list-sym)))
+ ;;      $('setq! list-sym $('cdr list-sym))
+ ;;      'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1372,26 +1372,28 @@
 (report-time-us "def plist-keys/plist-values    " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-keys (lst)
- "Extracts the keys from a plist LST."
- (letrec
-  ((helper
-    (lambda (lst acc)
-     (if (nil? lst)
-      (reverse acc)
-      (helper (cddr lst) (cons (car lst) acc))))))
-  (helper lst '())))
+  "Extracts the keys from a plist LST."
+  (unless (tail? lst)  (error "LST must be a tail"))
+  (letrec
+   ((helper
+     (lambda (lst acc)
+      (if (nil? lst)
+       (reverse acc)
+       (helper (cddr lst) (cons (car lst) acc))))))
+   (helper lst '())))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-values (lst)
- "Extracts the values from a plist LST."
- (letrec
-  ((helper
-    (lambda (lst acc)
-     (if (nil? lst)
-      (reverse acc)
-      (helper (cddr lst) (cons (cadr lst) acc))))))
-  (helper lst '())))
+ (defun plist-values (lst)
+  "Extracts the values from a plist LST."
+  (unless (tail? lst)  (error "LST must be a tail"))
+  (letrec
+   ((helper
+     (lambda (lst acc)
+      (if (nil? lst)
+       (reverse acc)
+       (helper (cddr lst) (cons (cadr lst) acc))))))
+   (helper lst '())))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-)
+ )
 
 
 (report-time-us "def scheme compat              "
