@@ -1,5 +1,5 @@
 To Do:
-- [ ] Special variables should skip local lookup for set/get.
+- [ ] let should not permit binding special symbols as it would not shadow and could be a trap.
 - [ ] require: add :no-error and :force arguments.
 - [ ] require: when feature?, only reload if :force.
 - [ ] revise startup to (provide :stdblib).
@@ -31,6 +31,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Special variables should skip local lookup for set/get.
 - [x] AE_ERROR: get rid of object field, use error's properties instead.
 - [x] load: should accept strings (not symbols) and should not add file extension.
 - [x] require: check feature? after eval.

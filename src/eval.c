@@ -538,11 +538,11 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   bool found = false;
 
-  ae_env_set_mode_t mode = SPECIAL_SYMP(sym)
+  ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym)
     ? GLOBAL
     : NEAREST;
   
-  ret = ENV_GET(env, sym, &found);
+  ret = ENV_GET_4(mode, env, sym, &found);
   
   if (! found) {
     ae_obj_t * const err = NEW_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
