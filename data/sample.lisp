@@ -297,10 +297,7 @@
  (unless (tail? lst)    (error "LST must be a tail"))
  (unless (single? rest) (error "MAPCONCAT takes exactly only one optional arguments after LST"))
  (let ((delimiter (car rest)))
-  (unless (or (nil? delimiter) (string? delimiter))
-   (write "rest:      " rest) (nl)
-   (write "delimiter: " delimiter) (nl)
-   (error "DELIMITER must be a string or nil"))
+  (unless (or (nil? delimiter) (string? delimiter)) (error "DELIMITER must be a string or nil"))
   (if lst
    (reduce
     (lambda (acc item) (concat acc delimiter item))
