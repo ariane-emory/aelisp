@@ -400,8 +400,12 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("*home-path*"), NEW_STRING(home_path));
 
   ENV_SET(env, SYM("*load-path*"), NIL);
+
   ae_obj_t * load_path = ENV_FIND(env, SYM("*load-path*"));
+  
   PUSH(NEW_STRING(libdir_path), load_path);
+
+  ENV_SET(env, SYM("*load-path*"), load_path);
   
 //  printf("Found '%s'.\n", dirname(dirname(bin_path)));
 
