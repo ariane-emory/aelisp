@@ -102,38 +102,6 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _push
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("push");
-
-  REQUIRE(env, args, TAILP(CADR(args)));
-  REQUIRE(env, args, ! HAS_PROP("read-only", CADR(args)), "read-only objects cannot be mutated");
-  
-
-  CORE_RETURN("push", PUSH(CAR(args), CADR(args)));
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _push_back
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_push_back(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("push_back");
-
-  REQUIRE(env, args, TAILP(CAR(args)));
-  REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
-  
-
-  CORE_RETURN("push_back", PUSH_BACK(CAR(args), CADR(args)));
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _pop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -142,17 +110,17 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("pop");
 
-  ae_obj_t * sym = CAR(args);
+  ae_obj_t * const sym = CAR(args);
 
   REQUIRE(env, args, SYMBOLP(sym));
 
-  ae_obj_t * lst  = RETURN_IF_ERRORP(EVAL(env, sym));
+  ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
 
   REQUIRE(env, args, CONSP(lst));
   
   ret = CAR(lst);
   
-  ae_obj_t * setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(CDR(lst), NIL)), NIL));
+  ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(CDR(lst), NIL)), NIL));
 
   LOG(setq_args, "setq_args");
   
@@ -161,4 +129,38 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 end:
   
   CORE_RETURN("pop", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _push
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("push");
+
+  ae_obj_t * const sym = CADR(args);
+
+  REQUIRE(env, args, SYMBOLP(sym));
+
+  ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
+
+  REQUIRE(env, args, TAILP(lst));
+
+  ae_obj_t * const val = CAR(args);
+
+  ae_obj_t * const new_list = CONS(val, lst);
+  
+  ret = new_list;
+  
+  ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(new_list, NIL)), NIL));
+
+  LOG(setq_args, "setq_args");
+  
+  RETURN_IF_ERRORP(ae_core_setq(env, setq_args, 2));
+
+end:
+  
+  CORE_RETURN("push", ret);
 }
