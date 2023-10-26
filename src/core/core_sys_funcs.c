@@ -235,6 +235,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("load");
+  REQUIRE(env, args, STRINGP(CAR(args)));
   CORE_RETURN("load", ae_core_load_or_require(false, env, args, args_length));
 }
 
@@ -246,6 +247,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
                            ae_obj_t * const args,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("require");
+  REQUIRE(env, args, SYMBOLP(CAR(args)));
   CORE_RETURN("require", ae_core_load_or_require(true, env, args, args_length));
 }
    
