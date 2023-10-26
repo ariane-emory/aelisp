@@ -35,6 +35,7 @@ bool       no_stdlib           = false;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
 ae_obj_t * file_stack          = NIL;
+ae_obj_t * line_stack          = NIL;
 ae_obj_t * program             = NIL;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -275,8 +276,7 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   ae_obj_t * loaded_file         = NEW_STRING(file_basename_str);
 
   PUSH(loaded_file, file_stack);
-  
-  // file_stack = loaded_file;
+  PUSH(NEW_INT(yylineno), line_stack);
   
   yylineno = 0;
   yyrestart(yyin);
@@ -289,7 +289,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   yyin = original_yyin;
 
   POP(file_stack);
-
+  yylineno = INT_VAL(POP(line_stack));
+  
   PUT_PROP(TRUE, "constant", SYM("*program*"));
   PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
   

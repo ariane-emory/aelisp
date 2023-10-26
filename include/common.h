@@ -13,6 +13,7 @@ extern bool       log_eval;
 extern bool       log_macro;
 extern bool       read_error;
 extern ae_obj_t * file_stack;
+extern ae_obj_t * line_stack;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
