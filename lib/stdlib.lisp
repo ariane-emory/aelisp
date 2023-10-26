@@ -399,7 +399,7 @@
    strings."
  (unless (fun? fun)     (error "FUN must be a function"))
  (unless (tail? lst)    (error "LST must be a tail"))
- (unless (single? rest)
+ (unless (or (nil? rest) (single? rest))
   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
  (let ((delimiter (car rest)))
   (unless (or (nil? delimiter) (string? delimiter))

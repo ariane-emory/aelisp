@@ -281,16 +281,10 @@
  returns "hello               to                  the                 world               ")
 
 (confirm that (mapconcat id '("hello" "to" "the" "world") " ") returns "hello to the world")
-;; (confirm that (mapconcat id '("hello" "to" "the" "world"))     returns "hellototheworld")
+(confirm that (mapconcat id '("hello" "to" "the" "world"))     returns "hellototheworld")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(ignore (mapconcat* (curry1 ljust 20) "hello" "to" "the" "world"))
-
-
-;;(log-eval t)
-(write (mapconcat id '("hello" "to" "the" "world")))
