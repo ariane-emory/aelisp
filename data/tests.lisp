@@ -132,11 +132,8 @@
 
 (nl)
 
-(setq! bin-list-to-dec  (reduced  (lambda (x y) (+ (<< x 1) y))))
-(setq! bin-list-to-dec* (reduced* (lambda (x y) (+ (<< x 1) y))))
-
-(confirm that (bin-list-to-dec  '(1 0 1 0 1 0 1)) returns 85)
-(confirm that (bin-list-to-dec*   1 0 1 0 1 0 1)  returns 85)
+(confirm that (bin-list-to-int  '(1 0 1 0 1 0 1)) returns 85)
+(confirm that (bin-list-to-int*   1 0 1 0 1 0 1)  returns 85)
 
 (nl)
 

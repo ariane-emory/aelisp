@@ -1063,6 +1063,10 @@
     $('setq! sym value)
     $('put! 't ':constant $('quote sym))
     value))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+ (setq! bin-list-to-int  (reduced  (lambda (x y) (+ (<< x 1) y))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! bin-list-to-int* (reduced* (lambda (x y) (+ (<< x 1) y))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1423,16 +1427,16 @@
   (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-remove (pred? prop plist)
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist
-  (if (pred? prop (car plist))
-   (plist-remove pred? prop (cddr plist))
-   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
+  (unless (list? plist)          (error "PLIST must be a list"))
+  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
+  (when plist
+   (if (pred? prop (car plist))
+    (plist-remove pred? prop (cddr plist))
+    (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeq  (prop plist) (plist-remove eq?  prop plist))
+ (defun plist-removeq  (prop plist) (plist-remove eq?  prop plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeql (prop plist) (plist-remove eql? prop plist))
+ (defun plist-removeql (prop plist) (plist-remove eql? prop plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
