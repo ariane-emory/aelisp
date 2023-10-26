@@ -262,7 +262,13 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     if (failed_to_open != NULL)
       *failed_to_open = true;
     
-    return NIL; // maybe return an ERROR instead.
+    char * const err_msg_tmp = free_list_malloc(256);
+    sprintf(err_msg_tmp, "Failed to open file '%s'.", filename);
+    char * const err_msg     = free_list_malloc(strlen(err_msg_tmp) + 1);
+    strcpy(err_msg, err_msg_tmp);
+    free_list_free(err_msg_tmp);
+    
+    return NEW_ERROR(err_msg, NIL);
   }
   else if (failed_to_open != NULL) {
     *failed_to_open = false;
@@ -281,8 +287,6 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   yylineno = 0;
   yyrestart(yyin);
   yyparse();
-
-  // ae_obj_t * ret = EVAL(env, program);
   
   fclose(yyin);
 
