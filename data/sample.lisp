@@ -301,8 +301,7 @@
   (if lst
    (reduce
     (lambda (acc item) (concat acc delimiter item))
-    (mapcar fun (cdr lst))
-    (fun (car lst)))
+    (mapcar fun lst))
    "")))
 
 ;;(log-eval t)

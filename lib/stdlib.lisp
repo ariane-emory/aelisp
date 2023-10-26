@@ -846,10 +846,20 @@
  (defun always?(x) "always true." t)
  (defun never? (x) "never true."  nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun single? (x)
-  "true if X is a single item."
-  (unless (cons? x) (error "X must be a cons"))
-  (not (cdr x)))
+ (defun single? (lst)
+  "true if LST is a list with single item."
+  (unless (cons? lst) (error "LST must be a cons"))
+  (not (cdr lst)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun double? (lst)
+  "true if LST is list with two items."
+  (unless (cons? lst) (error "LST must be a cons"))
+  (not (cddr lst)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun single? (lst)
+  "true if LST is a list with three items."
+  (unless (cons? lst) (error "LST must be a cons"))
+  (not (cdddr lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; manipulate predicates:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
