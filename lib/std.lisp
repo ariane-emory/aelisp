@@ -1429,13 +1429,11 @@
   (if (pred? prop (car plist))
    (plist-remove pred? prop (cddr plist))
    (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
-
-(defun plist-removeq (prop plist)
- (plist-remove eq? prop plist))
-
-(defun plist-removeql (prop plist)
- (plist-remove eql? prop plist))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-removeq  (prop plist) (plist-remove eq?  prop plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-removeql (prop plist) (plist-remove eql? prop plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 
