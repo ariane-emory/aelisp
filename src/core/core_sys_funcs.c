@@ -176,7 +176,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
       break;
     }
     else {
-      PR("not found.\n");
+      // PR("not found.\n");
       free_list_free(possible_path);
     }
   }
@@ -203,27 +203,28 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
 
-  if (check_feature) {
-    bool feature_found           = false;
-    ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
+  if (! check_feature)
+    RETURN(ret);
+
+  bool feature_found           = false;
+  ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
   
-    FOR_EACH(feature, features) {
-      if (EQL(feature, load_target)) {
-        feature_found = true;
+  FOR_EACH(feature, features) {
+    if (EQL(feature, load_target)) {
+      feature_found = true;
       
-        break;
-      }
+      break;
     }
+  }
 
-    if (!feature_found) {
-      char * const tmp = free_list_malloc(256);
-      snprintf(tmp, 256, "required file did not provide '%s", load_target_string);
-      char * const err_msg = free_list_malloc(strlen(tmp) + 1);
-      strcpy(err_msg, tmp);
-      free_list_free(tmp);
+  if (!feature_found) {
+    char * const tmp = free_list_malloc(256);
+    snprintf(tmp, 256, "required file did not provide '%s", load_target_string);
+    char * const err_msg = free_list_malloc(strlen(tmp) + 1);
+    strcpy(err_msg, tmp);
+    free_list_free(tmp);
 
-      RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
-    }
+    RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
   }
   
 end:
