@@ -2,6 +2,8 @@
 
 #include "core_includes.h"
 
+#include "env.h"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _car
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,11 +112,11 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("pop");
 
-  ae_obj_t * const sym = CAR(args);
+  ae_obj_t * const sym       = CAR(args);
 
-  REQUIRE(env, args, SYMBOLP(sym));
+  REQUIRE(env, args, SYMBOLP(sym) && ENV_BOUNDP(env, sym));
 
-  ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
+  ae_obj_t * const lst       = RETURN_IF_ERRORP(EVAL(env, sym));
 
   REQUIRE(env, args, CONSP(lst));
   
@@ -122,7 +124,7 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
   
   ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(CDR(lst), NIL)), NIL));
 
-  LOG(setq_args, "setq_args");
+  LOG(setq_args, "pop!'s setq_args");
   
   RETURN_IF_ERRORP(ae_core_setq(env, setq_args, 2));
 
@@ -140,23 +142,20 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("push");
 
-  ae_obj_t * const sym = CADR(args);
+  ae_obj_t * const sym       = CADR(args);
 
-  REQUIRE(env, args, SYMBOLP(sym));
+  REQUIRE(env, args, SYMBOLP(sym) && ENV_BOUNDP(env, sym));
 
-  ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
+  ae_obj_t * const lst       = RETURN_IF_ERRORP(EVAL(env, sym));
 
   REQUIRE(env, args, TAILP(lst));
 
-  ae_obj_t * const val = CAR(args);
+  ae_obj_t * const val       = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
+  ret                        = CONS(val, lst);
+  ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(ret, NIL)), NIL));
 
-  ae_obj_t * const new_list = CONS(val, lst);
-  
-  ret = new_list;
-  
-  ae_obj_t * const setq_args = CONS(sym, CONS(CONS(SYM("quote"), CONS(new_list, NIL)), NIL));
-
-  LOG(setq_args, "setq_args");
+  if (log_core)
+    LOG(setq_args, "push!'s setq_args");
   
   RETURN_IF_ERRORP(ae_core_setq(env, setq_args, 2));
 
