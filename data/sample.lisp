@@ -289,9 +289,7 @@
  "Extracts the values from a plist LST."
  (when lst (plist-keys (cdr lst))))
 
-;; (log-eval t)
-
-(write (plist-keys   '(a 1 b 2 c 3)))
+(write (plist-keys   '(a 1 b 2 c 3))) ;; ⇒ (a b c)
 (nl)
-(write (plist-values '(a 1 b 2 c 3)))
+(write (plist-values '(a 1 b 2 c 3))) ;; ⇒ (1 2 3)
 (nl)

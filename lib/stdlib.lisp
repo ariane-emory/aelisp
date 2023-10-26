@@ -1372,27 +1372,14 @@
 
 (report-time-us "def plist-keys/plist-values    " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun plist-keys (lst)
-  "Extracts the keys from a plist LST."
-  (unless (tail? lst)  (error "LST must be a tail"))
-  (letrec
-   ((helper
-     (lambda (lst acc)
-      (if (nil? lst)
-       (reverse acc)
-       (helper (cddr lst) (cons (car lst) acc))))))
-   (helper lst '())))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun plist-values (lst)
-  "Extracts the values from a plist LST."
-  (unless (tail? lst)  (error "LST must be a tail"))
-  (letrec
-   ((helper
-     (lambda (lst acc)
-      (if (nil? lst)
-       (reverse acc)
-       (helper (cddr lst) (cons (cadr lst) acc))))))
-   (helper lst '())))
+(defun plist-keys (lst)
+ "Extracts the keys from a plist LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst (cons (car lst) (plist-keys (cddr lst)))))
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-values (lst)
+ "Extracts the values from a plist LST."
+ (when lst (plist-keys (cdr lst))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
