@@ -134,7 +134,7 @@ void          ae_obj_set_type              (      ae_obj_t * const this, const a
 //======================================================================================================================
 bool          ae_obj_settable_symbolp      (const ae_obj_t * const this                                  );
 bool          ae_obj_keywordp              (const ae_obj_t * const this                                  );
-bool          ae_obj_special_funp              (const ae_obj_t * const this                                  );
+bool          ae_obj_special_funp          (const ae_obj_t * const this                                  );
 bool          ae_obj_tailp                 (const ae_obj_t * const this                                  );
 //======================================================================================================================
 bool          ae_obj_get_delocalized       (const ae_obj_t * const this                                  );
