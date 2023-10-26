@@ -370,10 +370,11 @@ ae_obj_t * ae_env_new_root(void) {
   PUT_PROP(TRUE, "constant", SYM("*program*"));
   
   {
-    /* Do a quick song and dance to put the home dir and lib dir in *load-path */
+    /* Do a little song and dance to put the home dir, lib dir and data dir in *load-path*. */
     
-    /* */ char *       home_path       = NULL;
-    const char * const libdir_rel_path = "lib";
+    /* */ char *       home_path         = NULL;
+    const char * const lib_dir_rel_path  = "lib";
+    const char * const data_dir_rel_path = "data";
   
     {
       char * const bin_path = free_list_malloc(PATH_MAX);
@@ -391,13 +392,18 @@ ae_obj_t * ae_env_new_root(void) {
       free_list_free(bin_path);
     }
 
-    const int    libdir_len  = strlen(home_path) + 1 + strlen(libdir_rel_path) + 1;
-    char * const libdir_path = free_list_malloc(libdir_len);
+    const int    lib_dir_len   = strlen(home_path) + 1 + strlen(lib_dir_rel_path)  + 1;
+    const int    data_dir_len  = strlen(home_path) + 1 + strlen(data_dir_rel_path) + 1;
 
-    snprintf(libdir_path, libdir_len, "%s/%s", home_path, libdir_rel_path);
+    char * const lib_dir_path  = free_list_malloc(lib_dir_len);
+    char * const data_dir_path = free_list_malloc(data_dir_len);
 
-    ENV_PUSH(env, NEW_STRING(libdir_path), SYM("*load-path*")); 
-    ENV_PUSH(env, NEW_STRING(home_path),   SYM("*load-path*"));
+    snprintf(lib_dir_path,  lib_dir_len,  "%s/%s", home_path, lib_dir_rel_path);
+    snprintf(data_dir_path, data_dir_len, "%s/%s", home_path, data_dir_rel_path);
+
+    ENV_PUSH(env, NEW_STRING(home_path),     SYM("*load-path*"));
+    ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*")); 
+    ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
   }
 
   // *features* should always be ENV_BOUNDP:
