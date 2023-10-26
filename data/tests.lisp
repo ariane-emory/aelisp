@@ -306,10 +306,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;(log-macro t)
+(put 'a :foo :quux)
+(put 'b :bar :quux)
+(put 'c :baz :quux)
+(writen (props :quux))
 
-(princni ", " 1 2 3)
+(defun plist-remove (prop plist)
+ (if (nil? plist)
+  nil
+  (if (eq? prop (car plist))
+   (plist-remove prop (cddr plist))
+   (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
 
-;;(log-macro nil)
-
-(princns 1 2 3)
+(writen (plist-remove :bar (props :quux)))
