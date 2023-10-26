@@ -321,5 +321,9 @@
 (when (and (bound? 'provide) (fun? provide)) (provide :tests))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(put 'a :foo :quux)
+(put 'b :bar :quux)
+(put 'c :baz :quux)
 
-
+(defmacro remove! (prop obj)
+ $('props! obj $('plist-removeq prop $('props obj))))
