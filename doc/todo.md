@@ -1,6 +1,5 @@
 To Do:
-- [ ] require: add :no-error argument
-- [ ] revise startup to (provide :stdblib).
+- [ ] revise startup to (require 'std).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
 - [ ] AE_FILE type.
@@ -31,6 +30,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] require: add no-error argument
 - [x] require: use require! to force reload.
 - [x] fun args must not be special syms.
 - [x] let should not permit binding special symbols as it would not shadow and could be a trap.

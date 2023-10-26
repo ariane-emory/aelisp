@@ -212,14 +212,8 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
     
   bool no_error = (args_length == 2) && ! NILP(CADR(args));
 
-  if (! file_path) {
-    if (no_error) {
-      RETURN(NIL);
-    }
-    else {
-      RETURN(NEW_ERROR("could not find file for '%s", load_target_string));
-    }
-  }
+  if (! file_path)
+    RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
   
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
