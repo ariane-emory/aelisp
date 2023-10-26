@@ -203,7 +203,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   const char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
   char * file_path                      = find_file(env,
-                                                    mode == LOAD, 
+                                                    mode != LOAD, 
                                                     load_target_string);
     
   if (! file_path)
