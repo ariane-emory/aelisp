@@ -1368,6 +1368,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
+
+(report-time-us "def plist-keys/plist-values    " 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun plist-keys (lst)
+ "Extracts the keys from a plist LST."
+ (letrec
+  ((helper
+    (lambda (lst acc)
+     (if (nil? lst)
+      (reverse acc)
+      (helper (cddr lst) (cons (car lst) acc))))))
+  (helper lst '())))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-values (lst)
+ "Extracts the values from a plist LST."
+ (letrec
+  ((helper
+    (lambda (lst acc)
+     (if (nil? lst)
+      (reverse acc)
+      (helper (cddr lst) (cons (cadr lst) acc))))))
+  (helper lst '())))
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+)
+
+
 (report-time-us "def scheme compat              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; tiny-clos scheme compat:
