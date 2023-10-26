@@ -1442,7 +1442,7 @@
  (defmacro remove! (prop obj)
   $('prog1
     $('quote $('get prop obj))
-    $('props! obj $('plist-removeq prop $('props obj)))))
+    $('props! obj $('plist-removeql prop $('props obj)))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
