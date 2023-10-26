@@ -306,20 +306,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(put 'a :foo :quux)
-(put 'b :bar :quux)
-(put 'c :baz :quux)
+(writen (put 'a :foo :quux))
+(writen (put 'b :bar :quux))
+(writen (put 'c :baz :quux))
 (writen (props :quux))
-
-
 (writen (plist-remove eq? :foo (props :quux)))
 (writen (plist-remove eq? :bar (props :quux)))
 (writen (plist-remove eq? :baz (props :quux)))
-
 (writen (plist-removeq    :foo (props :quux)))
 (writen (plist-removeq    :bar (props :quux)))
 (writen (plist-removeq    :baz (props :quux)))
-
 (writen (plist-removeql   :foo (props :quux)))
 (writen (plist-removeql   :bar (props :quux)))
 (writen (plist-removeql   :baz (props :quux)))
+i
