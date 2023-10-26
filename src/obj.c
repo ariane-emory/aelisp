@@ -6,7 +6,6 @@
  
 #include "obj.h"
 
-#include "capture.h"
 #include "list.h"
 #include "free_list.h"
 #include "pool.h"

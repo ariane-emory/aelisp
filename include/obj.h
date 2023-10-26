@@ -7,9 +7,10 @@
 #include <string.h>
 #include <assert.h>
 
-#include "pool.h"
 #include "alist.h"
+#include "capture.h"
 #include "plist.h"
+#include "pool.h"
 #include "util.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
