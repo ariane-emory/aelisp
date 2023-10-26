@@ -185,43 +185,44 @@
 
 (nl)
 
-(setq!   lst                                              '(7 5 4 6 3 9 1 6 2 8 6))
-(confirm that (sort!! lst <)                      returns '(1 2 3 4 5 6 6 6 7 8 9))
+(setq!   lst                                        '(7 5 4 6 3 9 1 6 2 8 6))
+(confirm that (sort!! lst <)                returns '(1 2 3 4 5 6 6 6 7 8 9))
 
 (nl)
 
-(confirm that ((reduced   +  ) $(1 2 3 4))        returns 10)
-(confirm that ((reduced   + 4) $(1 2 3  ))        returns 10)
-(confirm that ((rreduced  +  ) $(1 2 3 4))        returns 10)
-(confirm that ((rreduced  + 4) $(1 2 3  ))        returns 10)
-(confirm that ((reduced   +  ) '(1 2 3 4))        returns 10)
-(confirm that ((reduced   + 4) '(1 2 3  ))        returns 10)
-(confirm that ((rreduced  +  ) '(1 2 3 4))        returns 10)
-(confirm that ((rreduced  + 4) '(1 2 3  ))        returns 10)
-(confirm that ((reduced*  +  )   1 2 3 4 )        returns 10)
-(confirm that ((reduced*  + 4)   1 2 3   )        returns 10)
-(confirm that ((rreduced* +  )   1 2 3 4 )        returns 10)
-(confirm that ((rreduced* + 4)   1 2 3   )        returns 10)
+(confirm that ((reduced   +  ) $(1 2 3 4))  returns 10)
+(confirm that ((reduced   + 4) $(1 2 3  ))  returns 10)
+(confirm that ((rreduced  +  ) $(1 2 3 4))  returns 10)
+(confirm that ((rreduced  + 4) $(1 2 3  ))  returns 10)
+(confirm that ((reduced   +  ) '(1 2 3 4))  returns 10)
+(confirm that ((reduced   + 4) '(1 2 3  ))  returns 10)
+(confirm that ((rreduced  +  ) '(1 2 3 4))  returns 10)
+(confirm that ((rreduced  + 4) '(1 2 3  ))  returns 10)
+(confirm that ((reduced*  +  )   1 2 3 4 )  returns 10)
+(confirm that ((reduced*  + 4)   1 2 3   )  returns 10)
+(confirm that ((rreduced* +  )   1 2 3 4 )  returns 10)
+(confirm that ((rreduced* + 4)   1 2 3   )  returns 10)
 
 (nl)
 
 (setq lst '(1 nil 2 3 nil 4 nil))
-(confirm that (delq! nil lst)                     returns '(1 2 3 4))
+(confirm that (delq! nil lst)           returns '(1 2 3 4))
 
 (setq lst '(1 2 3 2 4 2 5))
-(confirm that (delq! 2 lst)                       returns '(1 2 3 2 4 2 5))
+(confirm that (delq! 2 lst)             returns '(1 2 3 2 4 2 5))
 
 (setq lst '(1 2 3 2 4 2 5))
-(confirm that (delql! 2 lst)                      returns '(1 3 4 5))
+(confirm that (delql! 2 lst)            returns '(1 3 4 5))
 
 (setq lst '(1 2 3 2 4 2 5))
-(confirm that (delql! 1 lst)                      returns '(2 3 2 4 2 5))
+(confirm that (delql! 1 lst)            returns '(2 3 2 4 2 5))
 
 (nl)
 
 (setq lst '((1 2) (3 4) (5 6)))
-(defun filter-evens (lst) (delq! nil (mapcar (lambda (x) (when (even? x) x)) lst)))
-(confirm that (mapcan filter-evens lst)           returns '(2 4 6))
+(defun filter-evens (lst)
+ (delq! nil (mapcar (lambda (x) (when (even? x) x)) lst)))
+(confirm that (mapcan filter-evens lst) returns '(2 4 6))
 
 (nl)
 
@@ -257,9 +258,9 @@
 
 (nl)
 
-(confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))) returns '(6 4 2 5 3 1))
+(confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y)))))  returns '(6 4 2 5 3 1))
 (setq!   lst  (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))))
-(confirm that (filter even? lst)                                                     returns '(6 4 2))
+(confirm that (filter even? lst)                                                      returns '(6 4 2))
 
 (nl)
 
