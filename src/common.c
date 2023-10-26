@@ -14,6 +14,7 @@
 #include "list.h"
 #include "log.h"
 #include "obj.h"
+#include "utility.h"
 #include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +269,7 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
 
-    return NEW_ERROR(err_msg, NIL);
+    return MAKE_ERROR(err_msg);
   }
   else if (failed_to_open != NULL) {
     *failed_to_open = false;
