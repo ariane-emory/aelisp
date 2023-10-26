@@ -394,20 +394,21 @@
    (mapcar-internal! fun lst)
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun mapconcat (fun lst delimiter)
-  "Map fun over LST, returning the result of concatenating the resulting
+(defun mapconcat (fun lst . rest)
+ "Map fun over LST, returning the result of concatenating the resulting
    strings."
-  (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (tail? lst)  (error "LST must be a tail"))
+ (unless (fun? fun)     (error "FUN must be a function"))
+ (unless (tail? lst)    (error "LST must be a tail"))
+ (unless (single? rest)
+  (error "MAPCONCAT takes exactly only one optional arguments after LST"))
+ (let ((delimiter (car rest)))
   (unless (or (nil? delimiter) (string? delimiter))
    (error "DELIMITER must be a string or nil"))
   (if lst
    (reduce
-    (lambda (acc item)
-     (concat acc delimiter item))
-    (mapcar fun (cdr lst))
-    (fun (car lst)))
-   ""))
+    (lambda (acc item) (concat acc delimiter item))
+    (mapcar fun lst))
+   "")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."

@@ -281,6 +281,7 @@
  returns "hello               to                  the                 world               ")
 
 (confirm that (mapconcat id '("hello" "to" "the" "world") " ") returns "hello to the world")
+;; (confirm that (mapconcat id '("hello" "to" "the" "world"))     returns "hellototheworld")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
@@ -290,19 +291,6 @@
 
 (ignore (mapconcat* (curry1 ljust 20) "hello" "to" "the" "world"))
 
-(defun mapconcat (fun lst . rest)
- "Map fun over LST, returning the result of concatenating the resulting
-   strings."
- (unless (fun? fun)     (error "FUN must be a function"))
- (unless (tail? lst)    (error "LST must be a tail"))
- (unless (single? rest) (error "MAPCONCAT takes exactly only one optional arguments after LST"))
- (let ((delimiter (car rest)))
-  (unless (or (nil? delimiter) (string? delimiter)) (error "DELIMITER must be a string or nil"))
-  (if lst
-   (reduce
-    (lambda (acc item) (concat acc delimiter item))
-    (mapcar fun lst))
-   "")))
 
 ;;(log-eval t)
-(write (mapconcat id '("hello" "to" "the" "world") " "))
+(write (mapconcat id '("hello" "to" "the" "world")))
