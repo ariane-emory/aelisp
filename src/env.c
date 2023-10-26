@@ -369,27 +369,25 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("*load-path*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
-  const char * const stdlib_rel_path = "/../lib/stdlib.lisp";
-  char * const       stdlib_path     = free_list_malloc(PATH_MAX);
+  const char * const libdir_rel_path = "../lib";
+  char * const       libdir_path     = free_list_malloc(PATH_MAX);
   uint32_t           size            = PATH_MAX;
   
-  if (_NSGetExecutablePath(stdlib_path, &size) == 0) {
-    char * const tmp = free_list_malloc(strlen(dirname(stdlib_path))+1);
-
-    strcpy(tmp, dirname(stdlib_path));
-    strcpy(stdlib_path, tmp);
-    strcat(stdlib_path, stdlib_rel_path);
-    
-    free_list_free(tmp);
-
-    PR("Loading stdlib from %s... ", stdlib_path);
-  } else {
-    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
-    
+  if (_NSGetExecutablePath(libdir_path, &size) != 0) {
+    FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
     exit(1);
-  }
+  } 
+
+  char * const tmp = free_list_malloc(strlen(dirname(libdir_path))+1);
+
+  strcpy(tmp, dirname(libdir_path));
+  snprintf(libdir_path, PATH_MAX, "%s/%s", tmp, libdir_rel_path);
+    
+  free_list_free(tmp);
+
+  PR("Adding libdir '%s' to *load-path*.\n", libdir_path);
   
-  free_list_free(stdlib_path);
+  free_list_free(libdir_path);
   
   return env;
 }
