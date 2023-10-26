@@ -310,6 +310,15 @@
 (defmacro printn exprs $('progn (cons 'print exprs) $('nl)))
 (defmacro putn   exprs $('progn (cons 'put  exprs)  $('nl)))
 
+(defmacro writeni (delim . exprs) $('apply 'writen $('intercalate delim $('quote exprs))))
+(defmacro princni (delim . exprs) $('apply 'princn $('intercalate delim $('quote exprs))))
+(defmacro printi  (delim . exprs) $('apply 'print  $('intercalate delim $('quote exprs))))
+(defmacro putni   (delim . exprs) $('apply 'putn   $('intercalate delim $('quote exprs))))
+
 (log-macro t)
 
-(writen 1 2 3)
+(princni ", " 1 2 3)
+
+(log-macro nil)
+
+(princni ", " 1 2 3)
