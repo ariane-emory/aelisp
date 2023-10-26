@@ -108,22 +108,22 @@
 (confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (ignore
-;;  "No tests written for this one yet."
-;;  (defmacro defun (name params . docs-and-body)
-;;   (let* ((split (split-list string? docs-and-body))
-;;          (docs  (apply concat (intercalate " " (car split))))
-;;          (body  (cadr split)))
-;;    $('progn 
-;;      $('setq! name $('lambda params . body))
-;;      $('put! docs ':doc name))))
-;;  (defun somefun (x y)
-;;   "Multiply two"
-;;   "numbers."
-;;   (* x y))
-;;  (write (get :doc somefun)) (nl)
-;;  (write (doc somefun))      (nl)
-;;  (write (doc write))        (nl))
+(ignore
+ "No tests written for this one yet."
+ (defmacro defun (name params . docs-and-body)
+  (let* ((split (split-list string? docs-and-body))
+         (docs  (apply concat (intercalate " " (car split))))
+         (body  (cadr split)))
+   $('progn 
+     $('setq! name $('lambda params . body))
+     $('put! docs ':doc name))))
+ (defun somefun (x y)
+  "Multiply two"
+  "numbers."
+  (* x y))
+ (write (get :doc somefun)) (nl)
+ (write (doc somefun))      (nl)
+ (write (doc write))        (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (nl)
