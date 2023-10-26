@@ -640,30 +640,33 @@ void env_basics(void) {
   T(LENGTH(ENV_SYMS(this)) == 3);
   T(LENGTH(ENV_VALS(this)) == 3);
   T(MEMBERP(ENV_SYMS(this), SYM("baz")));
-  T(INT_VAL(ENV_GET(this, SYM("foo"))) == 12);
-  T(INT_VAL(ENV_GET(this, SYM("bar"))) == 24);
-  T(INT_VAL(ENV_GET(this, SYM("baz"))) == 36);
+
+  bool ignored = false;
+  
+  T(INT_VAL(ENV_GET(this, SYM("foo"), &ignored)) == 12);
+  T(INT_VAL(ENV_GET(this, SYM("bar"), &ignored)) == 24);
+  T(INT_VAL(ENV_GET(this, SYM("baz"), &ignored)) == 36);
 
   that = NEW_ENV(NIL, NIL, NIL); // not yet linked to.
 
   ENV_ADD(that, SYM("quux"), NEW_INT(48));
 
-  T(NILP(ENV_GET(this, SYM("quux"))));
+  T(NILP(ENV_GET(this, SYM("quux"), &ignored)));
 
-  ENV_PARENT(this) = that; // link this to that.
+  ENV_PARENT(this) = that; // link this to that,.
 
-  T(INT_VAL(ENV_GET(this, SYM("quux"))) == 48);
-  T(ENV_GET(this, SYM("quux")) == ENV_GET(that, SYM("quux")));
-  T(NILP(ENV_GET(this, SYM("zot"))));
-  T(NILP(ENV_GET(that, SYM("foo"))));
+  T(INT_VAL(ENV_GET(this, SYM("quux"), &ignored)) == 48);
+  T(ENV_GET(this, SYM("quux"), &ignored) == ENV_GET(that, SYM("quux"), &ignored));
+  T(NILP(ENV_GET(this, SYM("zot"), &ignored)));
+  T(NILP(ENV_GET(that, SYM("foo"), &ignored)));
 
   ENV_SET(this, SYM("bar"), NEW_INT(99));
 
-  T(INT_VAL(ENV_GET(this, SYM("bar"))) == 99);
+  T(INT_VAL(ENV_GET(this, SYM("bar"), &ignored)) == 99);
 
   ENV_SET(this, SYM("zot"), NEW_INT(66));
 
-  T(INT_VAL(ENV_GET(this, SYM("zot"))) == 66);
+  T(INT_VAL(ENV_GET(this, SYM("zot"), &ignored)) == 66);
 
 #ifdef AE_LOG_ENV_TEST
   pool_print();
@@ -716,38 +719,40 @@ void fun_specialness(void) {
   SETUP_TEST;
   ae_obj_t * env   = ENV_NEW_ROOT();
 
-  T(COREP(ENV_GET(env, SYM("progn"))));
-  T(SPECIALP(ENV_GET(env, SYM("progn"))));
+  bool ignored = false;
+  
+  T(COREP(ENV_GET(env, SYM("progn"), &ignored)));
+  T(SPECIALP(ENV_GET(env, SYM("progn"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("if"))));
-  T(SPECIALP(ENV_GET(env, SYM("if"))));
+  T(COREP(ENV_GET(env, SYM("if"), &ignored)));
+  T(SPECIALP(ENV_GET(env, SYM("if"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("cond"))));
-  T(SPECIALP(ENV_GET(env, SYM("cond"))));
+  T(COREP(ENV_GET(env, SYM("cond"), &ignored)));
+  T(SPECIALP(ENV_GET(env, SYM("cond"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("lambda"))));
-  T(SPECIALP(ENV_GET(env, SYM("lambda"))));
+  T(COREP(ENV_GET(env, SYM("lambda"), &ignored)));
+  T(SPECIALP(ENV_GET(env, SYM("lambda"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("let"))));
-  T(SPECIALP(ENV_GET(env, SYM("let"))));
+  T(COREP(ENV_GET(env, SYM("let"), &ignored)));
+  T(SPECIALP(ENV_GET(env, SYM("let"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("print"))));
-  T(! SPECIALP(ENV_GET(env, SYM("print"))));
+  T(COREP(ENV_GET(env, SYM("print"), &ignored)));
+  T(! SPECIALP(ENV_GET(env, SYM("print"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("cons"))));
-  T(! SPECIALP(ENV_GET(env, SYM("cons"))));
+  T(COREP(ENV_GET(env, SYM("cons"), &ignored)));
+  T(! SPECIALP(ENV_GET(env, SYM("cons"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("car"))));
-  T(! SPECIALP(ENV_GET(env, SYM("car"))));
+  T(COREP(ENV_GET(env, SYM("car"), &ignored)));
+  T(! SPECIALP(ENV_GET(env, SYM("car"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("cdr"))));
-  T(! SPECIALP(ENV_GET(env, SYM("cdr"))));
+  T(COREP(ENV_GET(env, SYM("cdr"), &ignored)));
+  T(! SPECIALP(ENV_GET(env, SYM("cdr"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("+"))));
-  T(! SPECIALP(ENV_GET(env, SYM("+"))));
+  T(COREP(ENV_GET(env, SYM("+"), &ignored)));
+  T(! SPECIALP(ENV_GET(env, SYM("+"), &ignored)));
 
-  T(COREP(ENV_GET(env, SYM("=="))));
-  T(! SPECIALP(ENV_GET(env, SYM("=="))));
+  T(COREP(ENV_GET(env, SYM("=="), &ignored)));
+  T(! SPECIALP(ENV_GET(env, SYM("=="), &ignored)));
 }
 
 void core_cons_car_cdr(void) {
@@ -1114,8 +1119,9 @@ void root_env_and_eval(void) {
 void list_fun(void) {
   SETUP_TEST;
 
+  bool       ignored       = false;
   ae_obj_t * env           = ENV_NEW_ROOT();
-  ae_obj_t * list_fun      = ENV_GET(env, SYM("list"));
+  ae_obj_t * list_fun      = ENV_GET(env, SYM("list"), &ignored);
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))));
   ae_obj_t * ret           = EVAL(env, list_fun_call);
 
@@ -1404,14 +1410,15 @@ void env_with_a_dot(void) {
                                        CONS(NEW_INT(4),
                                             CONS(NEW_INT(5), NIL)))));
     ae_obj_t * env    = NEW_ENV(root, syms, values );
-
+        
     // OLOG(env);
     /* LOG(ENV_SYMS(env), "with syms"); */
     /* LOG(ENV_VALS(env), "and  vals"); */
     
-    ae_obj_t * found = ENV_GET(env, SYM("third"));
-
+    bool ignored     = false;
+    ae_obj_t * found = ENV_GET(env, SYM("third"), &ignored);
     // OLOG(found);
+    
 
     T(ENV_BOUNDP(env, SYM("third")));
     
@@ -1432,19 +1439,20 @@ void env_with_a_dot(void) {
   {
     SETUP_TEST;
   
-    ae_obj_t * root   = ENV_NEW_ROOT();
-    ae_obj_t * syms   = SYM("args");
-    ae_obj_t * values = CONS(NEW_INT(3),
-                             CONS(NEW_INT(4),
-                                  CONS(NEW_INT(5), NIL)));
+    ae_obj_t * root    = ENV_NEW_ROOT();
+    ae_obj_t * syms    = SYM("args");
+    ae_obj_t * values  = CONS(NEW_INT(3),
+                              CONS(NEW_INT(4),
+                                   CONS(NEW_INT(5), NIL)));
 
-    ae_obj_t * env    = NEW_ENV(root, syms, values );
+    ae_obj_t * env     = NEW_ENV(root, syms, values );
 
     // OLOG(env);
     // LOG(ENV_SYMS(env), "with syms");
     // LOG(ENV_VALS(env), "and  vals");
-  
-    ae_obj_t * found = ENV_GET(env, SYM("args"));
+
+    bool       ignored = false;
+    ae_obj_t * found   = ENV_GET(env, SYM("args"), &ignored);
 
     // OLOG(found);
 

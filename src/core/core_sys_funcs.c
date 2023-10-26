@@ -131,7 +131,13 @@ end:
 char * find_file(ae_obj_t * const env,
                  bool add_extension,
                  const char * const name) {
-  FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
+   bool load_path_found = false;
+  ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
+
+  assert(load_path_found);
+  assert(load_path);
+  
+  FOR_EACH(dir, load_path) {
     char * const possible_path = add_extension
       ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 7)
       : free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 2);
@@ -159,9 +165,11 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
   assert(SYMBOLP(sym) && (! KEYWORDP(sym)));
   assert(env);
   assert(ENVP(env));
-  
-  ae_obj_t * const features = ENV_GET(env, SYM("*features*"));
 
+  bool features_found = false;
+  ae_obj_t * const features = ENV_GET(env, SYM("*features*"), &features_found);
+
+  assert(features_found);
   assert(features);
   assert(TAILP(features));
   

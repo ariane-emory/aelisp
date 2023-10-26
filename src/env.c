@@ -352,21 +352,29 @@ ae_obj_t * ae_env_new_root(void) {
 
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
 
+  {
+    bool found = false;
+    
 #if AE_PREFER_ALIST
-  ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("ahas?")));
-  ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("aset")));
-  ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("aget")));
-#else
-  ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("phas?")));
-  ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("pset")));
-  ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("pget")));
+    ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("ahas?")), &found);
+    ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("aset")), &found);
+    ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("aget")), &found);
+#el, &foundse
+    ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("phas?")), &found);
+    ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("pset")), &found);
+    ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("pget")), &found);
 #endif
-
+  }
+  
   FOR_EACH_CORE_FUN_GROUP_3(load_fun);
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
   FOR_EACH_CORE_CMP_OP(add_core_op);
-  ENV_SET(env, SYM("="), ENV_GET(env, SYM("==")));
+
+  bool equal_found = false;
+  ENV_SET(env, SYM("="), ENV_GET(env, SYM("=="), &equal_found));
+  assert(equal_found);
+  
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
 
   PUT_PROP(TRUE, "constant", SYM("*program*"));

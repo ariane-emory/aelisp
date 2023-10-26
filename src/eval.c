@@ -538,7 +538,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   bool found = false;
 
-  ret = ENV_GET3(env, sym, &found);
+  ret = ENV_GET(env, sym, &found);
   
   if (! found) {
     ae_obj_t * const err = NEW_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));

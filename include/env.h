@@ -31,14 +31,14 @@ typedef enum {
 #define    ENV_SET_G(env, sym, val)          (ae_env_set(    GLOBAL, (env), (sym), (val)))                                           //
 #define    ENV_SET_L(env, sym, val)          (ae_env_set(     LOCAL, (env), (sym), (val)))                                           //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_GET3(env, sym, found)         (ae_env_lookup(NEAREST, (env), (sym), (found)))                                         //
-#define    ENV_GET(env, sym)                 (ae_env_lookup(NEAREST, (env), (sym), NULL))                                            //
-#define    ENV_GET_G(env, sym)               (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                            //
-#define    ENV_GET_L(env, sym)               (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                            //
+#define    ENV_GET(env, sym, found)          (ae_env_lookup(NEAREST, (env), (sym), (found)))                                         //
+#define    ENV_GET_G(env, sym, found)        (ae_env_lookup( GLOBAL, (env), (sym), (found)))                                         //
+#define    ENV_GET_L(env, sym, found)        (ae_env_lookup(  LOCAL, (env), (sym), (found)))                                         //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_PUSH(env, val, sym)                                                                                                       \
   ({                                                                                                                                  \
-    ae_obj_t * list = ENV_GET((env), (sym));                                                                                          \
+    bool found##__LINE__ = false;                                                                                                     \
+    ae_obj_t * list = ENV_GET((env), (sym), &found##__LINE__);                                                                        \
     PUSH((val), list);                                                                                                                \
     ENV_SET((env), (sym), list);                                                                                                      \
     list;                                                                                                                             \
