@@ -208,10 +208,6 @@ extern ae_obj_t * symbols_list;
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EMSG(obj)                        ((obj)->error_message)
-#define EOBJ(obj)                        ((obj)->object)
-#define EHAS(obj, key)                   (KHAS(EOBJ((obj)), KW(key)))
-#define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
-#define ESET(obj, key, val)              ({ CAPTURE((obj)); EOBJ(CAPTURED) = (KSET(EOBJ(CAPTURED), KW(key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSIGN_PROPS(props, obj)         ((obj)->properties = (props))
 #define PROPS(obj)                       ((obj)->properties)
