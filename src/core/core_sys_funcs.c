@@ -126,14 +126,36 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _load_or_require
+// have_feature
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * ae_core_load_or_require(bool check_feature,
-                                          bool add_extension,
-                                          ae_obj_t * const env,
-                                          ae_obj_t * const args,
-                                          __attribute__((unused)) int args_length) {
+static bool have_feature(ae_obj_t * const sym, ae_obj_t * const env) {
+  assert(sym);
+  assert(SYMBOLP(sym));
+  assert(env);
+  assert(ENVP(env));
+  
+  ae_obj_t * const features = ENV_GET(env, SYM("*features*"));
+
+  assert(features);
+  assert(TAILP(features));
+  
+  FOR_EACH(feature, features)
+    if (EQL(feature, sym))
+      return true;
+  
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// load_or_require
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static ae_obj_t * load_or_require(bool check_feature,
+                                  bool add_extension,
+                                  ae_obj_t * const env,
+                                  ae_obj_t * const args,
+                                  __attribute__((unused)) int args_length) {
   CORE_BEGIN("load_or_require");
 
   ae_obj_t * const load_target  = CAR(args);
@@ -206,18 +228,7 @@ static ae_obj_t * ae_core_load_or_require(bool check_feature,
   if (! check_feature)
     RETURN(ret);
 
-  bool feature_found           = false;
-  ae_obj_t * const features    = ENV_GET(env, SYM("*features*"));
-  
-  FOR_EACH(feature, features) {
-    if (EQL(feature, load_target)) {
-      feature_found = true;
-      
-      break;
-    }
-  }
-
-  if (!feature_found) {
+  if (! have_feature(env, load_target)) {
     char * const tmp = free_list_malloc(256);
     snprintf(tmp, 256, "required file did not provide '%s", load_target_string);
     char * const err_msg = free_list_malloc(strlen(tmp) + 1);
@@ -242,7 +253,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("load");
   REQUIRE(env, args, STRINGP(CAR(args)));
-  CORE_RETURN("load", ae_core_load_or_require(false, false, env, args, args_length));
+  CORE_RETURN("load", load_or_require(false, false, env, args, args_length));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,6 +265,6 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("require");
   REQUIRE(env, args, SYMBOLP(CAR(args)));
-  CORE_RETURN("require", ae_core_load_or_require(true, true, env, args, args_length));
+  CORE_RETURN("require", load_or_require(true, true, env, args, args_length));
 }
    

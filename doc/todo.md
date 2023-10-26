@@ -1,5 +1,4 @@
 To Do:
-- [ ] load: should accept strings (not just symbols) and should not add file extension.
 - [ ] require: add :no-error and :force arguments.
 - [ ] require: when feature?, only reload if :force.
 - [ ] revise startup to (provide :stdblib).
@@ -32,6 +31,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] load: should accept strings (not symbols) and should not add file extension.
 - [x] require: check feature? after eval.
 - [x] remove! macro for plists / properties.
 - [x] Features should be normal symbols (instead of keywords)?
