@@ -1,11 +1,11 @@
 To Do:
+- [ ] Special variables should skip local lookup for set/get.
 - [ ] require: add :no-error and :force arguments.
 - [ ] require: when feature?, only reload if :force.
 - [ ] revise startup to (provide :stdblib).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
 - [ ] Refactor: CORE_RETURN should be unary.
-- [ ] Special variables should skip local lookup for set/get.
 - [ ] AE_FILE type.
 - [ ] Review correctness environments used for macro expansion/evaluation.
 - [ ] Review correctness of unwinding indentation.
