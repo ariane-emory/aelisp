@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
 
   bool failed_to_open = false;
 
-  load_file("data/unit-tests.lisp", &failed_to_open);
+  load_file("data/tests.lisp", &failed_to_open);
 
   if (failed_to_open) {
     FPR(stderr, "ERROR: Failed to open file!\n");
