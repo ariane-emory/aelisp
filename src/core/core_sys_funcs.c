@@ -8,6 +8,20 @@
 #include "free_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Macros
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define MAKE_ERROR(fmt, ...)                                                                       \
+  ({                                                                                               \
+    char * const tmp = free_list_malloc(256);                                                      \
+    snprintf(tmp, 256, fmt, __VA_ARGS__);                                                          \
+    char * const err_msg = free_list_malloc(strlen(tmp) + 1);                                      \
+    strcpy(err_msg, tmp);                                                                          \
+    free_list_free(tmp);                                                                           \
+    NEW_ERROR(err_msg, NIL);                                                                       \
+  })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _program
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -177,7 +191,7 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
 // load_or_require
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * load_or_require(bool check_feature,
+static ae_obj_t * load_or_require(bool verify_feature,
                                   bool add_extension,
                                   ae_obj_t * const env,
                                   ae_obj_t * const args,
@@ -186,23 +200,14 @@ static ae_obj_t * load_or_require(bool check_feature,
 
   ae_obj_t * const load_target = CAR(args);
 
-  REQUIRE(env, args, (SYMBOLP(load_target) || (! KEYWORDP(load_target))) || STRINGP(load_target));
+  // Args will have already been checked by the caller, so don't bother doing this:
+  // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
 
-  const char * const load_target_string = SYMBOLP(load_target)
-    ? SYM_VAL(load_target)
-    : STR_VAL(load_target);
-
-  char * file_path = find_file(env, add_extension, load_target_string);
+  const char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
+  char * file_path                      = find_file(env, add_extension, load_target_string);
     
-  if (!file_path) {
-    char * const tmp = free_list_malloc(256);
-    snprintf(tmp, 256, "could not find file for '%s", load_target_string);
-    char * const err_msg = free_list_malloc(strlen(tmp) + 1);
-    strcpy(err_msg, tmp);
-    free_list_free(tmp);
-
-    RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
-  }
+  if (! file_path)
+    RETURN(MAKE_ERROR("could not find file for '%s", load_target_string));
 
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
   const bool old_log_macro     = log_macro;
@@ -216,15 +221,8 @@ static ae_obj_t * load_or_require(bool check_feature,
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
 
-  if (check_feature && (! have_feature(env, load_target))) {
-    char * const tmp = free_list_malloc(256);
-    snprintf(tmp, 256, "required file did not provide '%s", load_target_string);
-    char * const err_msg = free_list_malloc(strlen(tmp) + 1);
-    strcpy(err_msg, tmp);
-    free_list_free(tmp);
-
-    RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
-  }
+  if (verify_feature && ! have_feature(env, load_target))
+    RETURN(MAKE_ERROR("required file did not provide '%s", load_target_string));
   
 end:
   
