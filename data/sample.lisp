@@ -280,6 +280,8 @@
 (confirm that (apply concat (mapcar* (curry1 ljust 20) "hello" "to" "the" "world"))
  returns "hello               to                  the                 world               ")
 
+(confirm that (mapconcat id '("hello" "to" "the" "world") " ") returns "hello to the world")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -298,11 +300,10 @@
   (unless (or (nil? delimiter) (string? delimiter))
    (write "rest:      " rest) (nl)
    (write "delimiter: " delimiter) (nl)
-   (error "DELIMITE must be a string or nil"))
+   (error "DELIMITER must be a string or nil"))
   (if lst
    (reduce
-    (lambda (acc item)
-     (concat acc delimiter item))
+    (lambda (acc item) (concat acc delimiter item))
     (mapcar fun (cdr lst))
     (fun (car lst)))
    "")))
