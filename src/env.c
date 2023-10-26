@@ -1,11 +1,14 @@
 #include <stdarg.h>
+#include <mach-o/dyld.h>
+#include <libgen.h>
 
 #include "env.h"
 
-#include "eval.h"
 #include "core.h"
-#include "log.h"
+#include "eval.h"
 #include "free_list.h"
+#include "list.h"
+#include "log.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _add
@@ -371,6 +374,9 @@ ae_obj_t * ae_env_new_root(void) {
   ENV_SET(env, SYM("*load-path*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
 
+
+  
+  
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
