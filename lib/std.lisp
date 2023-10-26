@@ -1064,9 +1064,9 @@
     $('put! 't ':constant $('quote sym))
     value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
- (setq! bin-list-to-int  (reduced  (lambda (x y) (+ (<< x 1) y))))
+ (setq! bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! bin-list-to-int* (reduced* (lambda (x y) (+ (<< x 1) y))))
+ (setq! bin-list-to-int* (reduced* (lambda (acc bin) (+ (<< acc 1) bin))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 

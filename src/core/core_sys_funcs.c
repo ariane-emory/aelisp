@@ -210,6 +210,9 @@ static ae_obj_t * load_or_require(bool verify_feature,
     RETURN(MAKE_ERROR("could not find file for '%s", load_target_string));
 
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
+
+  free_list_free(file_path);
+
   const bool old_log_macro     = log_macro;
   const bool old_log_core      = log_core;
   const bool old_log_eval      = log_eval;
@@ -221,6 +224,7 @@ static ae_obj_t * load_or_require(bool verify_feature,
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
 
+  
   if (verify_feature && ! have_feature(env, load_target))
     RETURN(MAKE_ERROR("required file did not provide '%s", load_target_string));
   
