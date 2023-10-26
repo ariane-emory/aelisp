@@ -1411,7 +1411,7 @@
  )
 
 
-(report-time-us "def plist-keys/plist-values    " 
+(report-time-us "def plist funs                 " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-keys (lst)
   "Extracts the keys from a plist LST."
@@ -1422,6 +1422,20 @@
   "Extracts the values from a plist LST."
   (when lst (plist-keys (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun plist-remove (pred? prop plist)
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
+ (when plist
+  (if (pred? prop (car plist))
+   (plist-remove pred? prop (cddr plist))
+   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
+
+(defun plist-removeq (prop plist)
+ (plist-remove eq? prop plist))
+
+(defun plist-removeql (prop plist)
+ (plist-remove eql? prop plist))
+
  )
 
 
