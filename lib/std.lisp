@@ -1443,12 +1443,12 @@
  )
 
 
+(mapc* require 
+ 'plist-funs
+ 'scheme-compat
+ 'elisp-compat
+ 'std-aliases)
 
-
-(require 'plist-funs)
-(require 'scheme-compat)
-(require 'elisp-compat)
-(require 'std-aliases)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (print-load-time-us)
