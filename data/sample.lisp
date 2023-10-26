@@ -286,4 +286,21 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(ignore (mapconcat* (curry1 ljust 20) "hello" "to" "the" "world"))
 
+(defun mapconcat (fun lst . delimiter)
+ "Map fun over LST, returning the result of concatenating the resulting
+   strings."
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (unless (tail? lst)  (error "LST must be a tail"))
+ (unless (or (nil? delimiter) (string? (car delimiter)))
+  (error "DELIMITER must be a string or nil"))
+ (if lst
+  (reduce
+   (lambda (acc item)
+    (concat acc (car delimiter) item))
+   (mapcar fun (cdr lst))
+   (fun (car lst)))
+  ""))
+
+(write (mapconcat id '("hello" "to" "the" "world") " "))

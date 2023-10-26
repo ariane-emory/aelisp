@@ -399,7 +399,8 @@
    strings."
   (unless (fun? fun)   (error "FUN must be a function"))
   (unless (tail? lst)  (error "LST must be a tail"))
-  (unless (string? delimiter) (error "DELIMITER must be a string"))
+  (unless (or (nil? delimiter) (string? delimiter))
+   (error "DELIMITER must be a string or nil"))
   (if lst
    (reduce
     (lambda (acc item)
