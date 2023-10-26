@@ -283,8 +283,14 @@
 (confirm that (mapconcat id '("hello" "to" "the" "world") " ") returns "hello to the world")
 (confirm that (mapconcat id '("hello" "to" "the" "world"))     returns "hellototheworld")
 
+(confirm that (prog1 1 2 3) returns 1)
+(confirm that (prog2 1 2 3) returns 2)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+

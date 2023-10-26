@@ -394,21 +394,21 @@
    (mapcar-internal! fun lst)
    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapconcat (fun lst . rest)
- "Map fun over LST, returning the result of concatenating the resulting
+ (defun mapconcat (fun lst . rest)
+  "Map fun over LST, returning the result of concatenating the resulting
    strings."
- (unless (fun? fun)     (error "FUN must be a function"))
- (unless (tail? lst)    (error "LST must be a tail"))
- (unless (or (nil? rest) (single? rest))
-  (error "MAPCONCAT takes exactly only one optional arguments after LST"))
- (let ((delimiter (car rest)))
-  (unless (or (nil? delimiter) (string? delimiter))
-   (error "DELIMITER must be a string or nil"))
-  (if lst
-   (reduce
-    (lambda (acc item) (concat acc delimiter item))
-    (mapcar fun lst))
-   "")))
+  (unless (fun? fun)     (error "FUN must be a function"))
+  (unless (tail? lst)    (error "LST must be a tail"))
+  (unless (or (nil? rest) (single? rest))
+   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
+  (let ((delimiter (car rest)))
+   (unless (or (nil? delimiter) (string? delimiter))
+    (error "DELIMITER must be a string or nil"))
+   (if lst
+    (reduce
+     (lambda (acc item) (concat acc delimiter item))
+     (mapcar fun lst))
+    "")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
@@ -1403,17 +1403,36 @@
  )
 
 
+(report-time "def prog1/prog2                "
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro prog1 (expr1 . exprs)
+  "Evaluate EXPR1, then evaluate EXPRS in order, and return the value of EXPR1."
+  $('let $($('result $('eval expr1)))
+    $('progn . exprs)
+    'result))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro prog2 (expr1 expr2 . exprs)
+  "Evaluate EXPR1, then evaluate EXPR2, then evaluate EXPRS in order, and return the value of EXPR2."
+  $('progn
+    expr1
+    $('let $($('result2 $('eval expr2)))
+      $('progn . exprs)
+      'result2)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
+
+
 (report-time-us "def plist-keys/plist-values    " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-keys (lst)
- "Extracts the keys from a plist LST."
- (unless (list? lst) (error "LST must be a list"))
- (when lst (cons (car lst) (plist-keys (cddr lst)))))
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-values (lst)
- "Extracts the values from a plist LST."
- (when lst (plist-keys (cdr lst))))
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun plist-keys (lst)
+  "Extracts the keys from a plist LST."
+  (unless (list? lst) (error "LST must be a list"))
+  (when lst (cons (car lst) (plist-keys (cddr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun plist-values (lst)
+  "Extracts the values from a plist LST."
+  (when lst (plist-keys (cdr lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 

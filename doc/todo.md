@@ -1,4 +1,7 @@
 To Do:
+- [ ] require.
+- [ ] provide.
+- [ ] feature?.
 - [ ] load-path.
 - [ ] Special variables should skip local lookup for set/get.
 - [ ] AE_FILE type.
@@ -26,6 +29,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] prog2 (as a macro).
+- [x] prog1 (as a macro).
 - [x] in-language unit tests.
 - [x] String pool and object pool should both have flags causing them to die noisily if allocing fails due to fullness.
 - [x] core_props should probably use some jump returns.
