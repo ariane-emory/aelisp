@@ -5,6 +5,7 @@ To Do:
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
 - [ ] Refactor: CORE_RETURN should be unary.
+- [ ] AE_ERROR: get rid of object field, use error's properties instead.
 - [ ] Special variables should skip local lookup for set/get.
 - [ ] AE_FILE type.
 - [ ] Review correctness environments used for macro expansion/evaluation.

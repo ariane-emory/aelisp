@@ -5,21 +5,7 @@
 #include "common.h"
 #include "env.h"
 #include "time_funcs.h"
-#include "free_list.h"
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// Macros
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define MAKE_ERROR(fmt, ...)                                                                       \
-  ({                                                                                               \
-    char * const tmp = free_list_malloc(256);                                                      \
-    snprintf(tmp, 256, fmt, __VA_ARGS__);                                                          \
-    char * const err_msg = free_list_malloc(strlen(tmp) + 1);                                      \
-    strcpy(err_msg, tmp);                                                                          \
-    free_list_free(tmp);                                                                           \
-    NEW_ERROR(err_msg, NIL);                                                                       \
-  })
+#include "utility.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _program
@@ -128,7 +114,7 @@ ae_obj_t * ae_core_load_file(ae_obj_t * const env,
   bool failed_to_open = false;
 
   if (failed_to_open)
-    RETURN(NEW_ERROR("failed to open file", NIL));
+    RETURN(MAKE_ERROR("failed to open file"));
   
   ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
 
