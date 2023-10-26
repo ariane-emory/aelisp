@@ -914,17 +914,12 @@
 
 (report-time-us "def fancy prints               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; fancy output funs:                                                        ;;
+ ;; fancy output macros:                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; (defmacro princn args       $(progn (cons princ args)                $(nl)))
- ;; (defmacro printn args       $(progn (cons print args)                $(nl)))
- ;; (defmacro putn   args       $(progn (cons put   args)                $(nl)))
- ;; (defmacro writen args       $(progn (cons write args)                $(nl)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun princn  args       (apply princ   args) (nl))
- (defun printn  args       (apply print   args) (nl))
- (defun putn    args       (apply put     args) (nl))
- (defun writen  args       (apply write   args) (nl))
+ (defmacro writen exprs $('progn (cons 'write exprs) $('nl)))
+ (defmacro princn exprs $('progn (cons 'princ exprs) $('nl)))
+ (defmacro printn exprs $('progn (cons 'print exprs) $('nl)))
+ (defmacro putn   exprs $('progn (cons 'put  exprs)  $('nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun princni (i . args) (apply princn  (intercalate i args)))
  (defun printni (i . args) (apply printn  (intercalate i args)))

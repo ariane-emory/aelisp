@@ -305,10 +305,11 @@
 (when (and (bound? 'provide) (fun? provide)) (provide :tests))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro writen exprs
- (cons 'progn (cons 'write exprs)))
+(defmacro writen exprs $('progn (cons 'write exprs) $('nl)))
+(defmacro princn exprs $('progn (cons 'princ exprs) $('nl)))
+(defmacro printn exprs $('progn (cons 'print exprs) $('nl)))
+(defmacro putn   exprs $('progn (cons 'put  exprs)  $('nl)))
 
 (log-macro t)
-;; (log-eval  t)
 
 (writen 1 2 3)
