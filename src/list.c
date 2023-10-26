@@ -189,6 +189,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
   // Return value is the tailtip of the list, so repeated pushes can be performed more performantly
   // by pushing onto the return value of a prior push.
 
+  assert(plist);
   assert(*plist);
   assert(TAILP(*plist));
   assert(member);
@@ -199,7 +200,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 #ifdef AE_LOG_PUSH
   fputs("Pushing          ", stdout);
   PUT(member);
-  fputs(" into ", stdout);
+  fputs(" onto the back of ", stdout);
   PUT(*plist);
   putchar(' ');
   PRINC(*plist);
@@ -222,6 +223,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 ae_obj_t * ae_list_push(ae_obj_t ** const plist, ae_obj_t * const member) {
   // This takes a ** because it's going to mutate the targe ae_obj_t  *.
 
+  assert(plist);
   assert(*plist);
   assert(TAILP(*plist));
   assert(member);
@@ -234,11 +236,11 @@ ae_obj_t * ae_list_push(ae_obj_t ** const plist, ae_obj_t * const member) {
 ae_obj_t * ae_list_pop(ae_obj_t ** const plist) {
   // This takes a ** because it's going to mutate the targe ae_obj_t  *.
 
-  assert(! NILP(*plist)); // don't pop from an empty list!
+  assert(plist);
   assert(*plist);
-  assert(TAILP(*plist));
+  assert(CONSP(*plist)); // don't pop from an empty list!
 
-  ae_obj_t * head = CAR(*plist);
+  ae_obj_t * const head = CAR(*plist);
 
   *plist = CDR(*plist);
 
