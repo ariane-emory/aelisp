@@ -312,10 +312,11 @@
 (writen (props :quux))
 
 (defun plist-remove (prop plist)
- (if (nil? plist)
-  nil
+ (when plist
   (if (eq? prop (car plist))
    (plist-remove prop (cddr plist))
    (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
 
+(writen (plist-remove :foo (props :quux)))
 (writen (plist-remove :bar (props :quux)))
+(writen (plist-remove :baz (props :quux)))
