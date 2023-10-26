@@ -13,7 +13,8 @@
 // _length method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int ae_list_length(const ae_obj_t * const list) {
-  assert(NILP((list)) || (CONSP((list))));
+  assert(list);
+  assert(TAILP(list));
   
   if (NILP(list))
     return 0;
@@ -32,7 +33,9 @@ int ae_list_length(const ae_obj_t * const list) {
 // _each method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
+  assert(list);
   assert(TAILP(list));
+  assert(fun);
 
   if (NILP(list))
     return;
@@ -57,6 +60,10 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 // _map method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
+  assert(list);
+  assert(TAILP(list));
+  assert(fun);
+  
   if (!(PROPERP(list)))
     return NIL;
 
@@ -85,6 +92,7 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
 // _has_member method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
+  assert(list);
   assert(TAILP(list));
   assert(member);
   
@@ -104,6 +112,7 @@ bool ae_list_has_member(const ae_obj_t * const list, ae_obj_t * const member) {
 // _remove_member method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member) {
+  assert(list);
   assert(TAILP(list));
   assert(member);
   
@@ -132,11 +141,13 @@ ae_obj_t * ae_list_remove_member(ae_obj_t * const list, ae_obj_t * const member)
 // _cons
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_cons(ae_obj_t * const head, ae_obj_t * const tail) {
+  assert(head);
+  assert(tail);
+  
   if (!(TAILP(tail)))
     fprintf(stderr, "\nCan't cons onto a %s!\n", GET_TYPE_STR(tail));
   
   assert(TAILP(tail));
-  assert(head);
 
 #ifdef AE_LOG_CONS
   fputs("Cons ", stdout);
@@ -263,6 +274,7 @@ ae_obj_t * ae_list_pop(ae_obj_t ** const plist) {
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const string) {
+  assert(plist);
   assert((! *plist) || TAILP(*plist));
   assert(string);
   assert(strlen(string) != 0);
@@ -334,6 +346,8 @@ ae_obj_t * ae_list_intern_string(ae_obj_t ** const plist, const char * const str
 // _is_proper
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ae_list_is_proper(const ae_obj_t * const list) {
+  assert(list);
+  
   if (! TAILP(list))
     return false;
   
