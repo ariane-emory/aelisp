@@ -16,31 +16,31 @@
 
 (setq!   lst (make-list 6 200))
 
-(confirm that lst                              returns '(200 200 200 200 200 200))
-(confirm that (list-set! lst 0 100)            returns 100)
-(confirm that (list-ref  lst 0)                returns 100)
+(confirm that lst                   returns '(200 200 200 200 200 200))
+(confirm that (list-set! lst 0 100) returns 100)
+(confirm that (list-ref  lst 0)     returns 100)
 
-(confirm that lst                              returns '(100 200 200 200 200 200))
-(confirm that (list-set! lst 1 101)            returns 101)
-(confirm that (list-ref lst 1)                 returns 101)
+(confirm that lst                   returns '(100 200 200 200 200 200))
+(confirm that (list-set! lst 1 101) returns 101)
+(confirm that (list-ref lst 1)      returns 101)
 
-(confirm that lst                              returns '(100 101 200 200 200 200))
-(confirm that (list-set! lst 2 102)            returns 102)
-(confirm that (list-ref lst 2)                 returns 102)
+(confirm that lst                   returns '(100 101 200 200 200 200))
+(confirm that (list-set! lst 2 102) returns 102)
+(confirm that (list-ref lst 2)      returns 102)
 
-(confirm that lst                              returns '(100 101 102 200 200 200))
-(confirm that (list-set! lst 3 103)            returns 103)
-(confirm that (list-ref lst 3)                 returns 103)
+(confirm that lst                   returns '(100 101 102 200 200 200))
+(confirm that (list-set! lst 3 103) returns 103)
+(confirm that (list-ref lst 3)      returns 103)
 
-(confirm that lst                              returns '(100 101 102 103 200 200))
-(confirm that (list-set! lst 4 104)            returns 104)
-(confirm that (list-ref lst 4)                 returns 104)
+(confirm that lst                   returns '(100 101 102 103 200 200))
+(confirm that (list-set! lst 4 104) returns 104)
+(confirm that (list-ref lst 4)      returns 104)
 
-(confirm that lst                              returns '(100 101 102 103 104 200))
-(confirm that (list-set! lst 5 105)            returns 105)
-(confirm that (list-ref lst 5)                 returns 105)
+(confirm that lst                   returns '(100 101 102 103 104 200))
+(confirm that (list-set! lst 5 105) returns 105)
+(confirm that (list-ref lst 5)      returns 105)
 
-(confirm that lst                              returns '(100 101 102 103 104 105))
+(confirm that lst                   returns '(100 101 102 103 104 105))
 
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
@@ -83,8 +83,8 @@
 
 (nl)
 
-(confirm that (pop! lst)  returns 1)
-(confirm that lst         returns '(2 3 4 5 6 7 8 9))
+(confirm that (pop! lst)     returns 1)
+(confirm that lst            returns '(2 3 4 5 6 7 8 9))
 (confirm that (push! 99 lst) returns '(99 2 3 4 5 6 7 8 9))
 
 (ignore
@@ -148,40 +148,40 @@
 
 (nl)
 
-(confirm that (reduce  + '()          )         returns nil)
-(confirm that (reduce  + '(1)         )         returns 1)
-(confirm that (reduce  + '(1 2)       )         returns 3)
-(confirm that (reduce  + '(1 2 3)     )         returns 6)
-(confirm that (reduce  + '(1 2 3 4)   )         returns 10)
+(confirm that (reduce  + '()          ) returns nil)
+(confirm that (reduce  + '(1)         ) returns 1)
+(confirm that (reduce  + '(1 2)       ) returns 3)
+(confirm that (reduce  + '(1 2 3)     ) returns 6)
+(confirm that (reduce  + '(1 2 3 4)   ) returns 10)
 
 (nl)
 
-(confirm that (reduce  + '()         0)         returns 0)
-(confirm that (reduce  + '(1)        0)         returns 1)
-(confirm that (reduce  + '(1 2)      0)         returns 3)
-(confirm that (reduce  + '(1 2 3)    0)         returns 6)
-(confirm that (reduce  + '(1 2 3 4)  0)         returns 10)
+(confirm that (reduce  + '()         0) returns 0)
+(confirm that (reduce  + '(1)        0) returns 1)
+(confirm that (reduce  + '(1 2)      0) returns 3)
+(confirm that (reduce  + '(1 2 3)    0) returns 6)
+(confirm that (reduce  + '(1 2 3 4)  0) returns 10)
 
 (nl)
 
-(confirm that (rreduce + '()          )         returns nil)
-(confirm that (rreduce + '(1)         )         returns 1)
-(confirm that (rreduce + '(1 2)       )         returns 3)
-(confirm that (rreduce + '(1 2 3)     )         returns 6)
-(confirm that (rreduce + '(1 2 3 4)   )         returns 10)
+(confirm that (rreduce + '()          ) returns nil)
+(confirm that (rreduce + '(1)         ) returns 1)
+(confirm that (rreduce + '(1 2)       ) returns 3)
+(confirm that (rreduce + '(1 2 3)     ) returns 6)
+(confirm that (rreduce + '(1 2 3 4)   ) returns 10)
 
 (nl)
 
-(confirm that (rreduce + '()         0)         returns 0)
-(confirm that (rreduce + '(1)        0)         returns 1)
-(confirm that (rreduce + '(1 2)      0)         returns 3)
-(confirm that (rreduce + '(1 2 3)    0)         returns 6)
-(confirm that (rreduce + '(1 2 3 4)  0)         returns 10)
+(confirm that (rreduce + '()         0) returns 0)
+(confirm that (rreduce + '(1)        0) returns 1)
+(confirm that (rreduce + '(1 2)      0) returns 3)
+(confirm that (rreduce + '(1 2 3)    0) returns 6)
+(confirm that (rreduce + '(1 2 3 4)  0) returns 10)
 
 (nl)
 
-(confirm that (zip '(a b c) '(1 2 3))           returns '((a 1) (b 2) (c 3)))
-(confirm that (zip '(a b c) '(1 2 3) '(x y z))  returns '((a 1 x) (b 2 y) (c 3 z)))
+(confirm that (zip '(a b c) '(1 2 3))          returns '((a 1) (b 2) (c 3)))
+(confirm that (zip '(a b c) '(1 2 3) '(x y z)) returns '((a 1 x) (b 2 y) (c 3 z)))
 
 (nl)
 
@@ -190,18 +190,18 @@
 
 (nl)
 
-(confirm that ((reduced   +  ) $(1 2 3 4))  returns 10)
-(confirm that ((reduced   + 4) $(1 2 3  ))  returns 10)
-(confirm that ((rreduced  +  ) $(1 2 3 4))  returns 10)
-(confirm that ((rreduced  + 4) $(1 2 3  ))  returns 10)
-(confirm that ((reduced   +  ) '(1 2 3 4))  returns 10)
-(confirm that ((reduced   + 4) '(1 2 3  ))  returns 10)
-(confirm that ((rreduced  +  ) '(1 2 3 4))  returns 10)
-(confirm that ((rreduced  + 4) '(1 2 3  ))  returns 10)
-(confirm that ((reduced*  +  )   1 2 3 4 )  returns 10)
-(confirm that ((reduced*  + 4)   1 2 3   )  returns 10)
-(confirm that ((rreduced* +  )   1 2 3 4 )  returns 10)
-(confirm that ((rreduced* + 4)   1 2 3   )  returns 10)
+(confirm that ((reduced   +  ) $(1 2 3 4)) returns 10)
+(confirm that ((reduced   + 4) $(1 2 3  )) returns 10)
+(confirm that ((rreduced  +  ) $(1 2 3 4)) returns 10)
+(confirm that ((rreduced  + 4) $(1 2 3  )) returns 10)
+(confirm that ((reduced   +  ) '(1 2 3 4)) returns 10)
+(confirm that ((reduced   + 4) '(1 2 3  )) returns 10)
+(confirm that ((rreduced  +  ) '(1 2 3 4)) returns 10)
+(confirm that ((rreduced  + 4) '(1 2 3  )) returns 10)
+(confirm that ((reduced*  +  )   1 2 3 4 ) returns 10)
+(confirm that ((reduced*  + 4)   1 2 3   ) returns 10)
+(confirm that ((rreduced* +  )   1 2 3 4 ) returns 10)
+(confirm that ((rreduced* + 4)   1 2 3   ) returns 10)
 
 (nl)
 
@@ -226,23 +226,23 @@
 
 (nl)
 
-(confirm that (apply concat (intercalate " " '(These  are words)))   returns "These are words")
-(confirm that (apply concat (intercalate " " '(These "are" words)))  returns "These are words")
-(confirm that (mapconcat string '(These  are  words) " ")            returns "These are words")
-(confirm that (mapconcat string '(These "are" words) " ")            returns "These are words")
+(confirm that (apply concat (intercalate " " '(These  are words)))  returns "These are words")
+(confirm that (apply concat (intercalate " " '(These "are" words))) returns "These are words")
+(confirm that (mapconcat string '(These  are  words) " ")           returns "These are words")
+(confirm that (mapconcat string '(These "are" words) " ")           returns "These are words")
 
 (nl)
 
-(confirm that (append      '(1 2) '(3 4) '(5 6))       returns '(1 2 3 4 5 6))
-(confirm that (append      $(1 2) '(3 4) $(5 6))       returns '(1 2 3 4 5 6))
-(confirm that (mapcan id  '((1 2)  (3 4)  (5 6)))      returns '(1 2 3 4 5 6))
-(confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9)))  returns '(2 3 5 6 8 9))
+(confirm that (append      '(1 2) '(3 4) '(5 6))      returns '(1 2 3 4 5 6))
+(confirm that (append      $(1 2) '(3 4) $(5 6))      returns '(1 2 3 4 5 6))
+(confirm that (mapcan id  '((1 2)  (3 4)  (5 6)))     returns '(1 2 3 4 5 6))
+(confirm that (mapcan cdr '((1 2 3) (4 5 6) (7 8 9))) returns '(2 3 5 6 8 9))
 
 (nl)
 
-(confirm that (prime? 7)  returns t)
-(confirm that (prime? 8)  returns nil)
-(confirm that (primes 8)  returns '(2 3 5 7 11 13 17 19))
+(confirm that (prime? 7) returns t)
+(confirm that (prime? 8) returns nil)
+(confirm that (primes 8) returns '(2 3 5 7 11 13 17 19))
 
 (nl)
 
@@ -251,14 +251,14 @@
 (confirm that lst                  returns '(2 4 6 8))
 
 (setq!   lst  '(a 2 3 (b 4 x (y 5)) (6 nil 7)))
-(confirm that (transform  integer? double lst)  returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
-(confirm that lst                               returns '(a 2 3 (b 4 x (y  5)) (6  nil  7)))
-(confirm that (transform! integer? double lst)  returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
-(confirm that lst                               returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that (transform  integer? double lst) returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that lst                              returns '(a 2 3 (b 4 x (y  5)) (6  nil  7)))
+(confirm that (transform! integer? double lst) returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that lst                              returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 
 (nl)
 
-(confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y)))))  returns '(6 4 2 5 3 1))
+(confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))) returns '(6 4 2 5 3 1))
 (setq!   lst  (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))))
 (confirm that (filter even? lst) returns '(6 4 2))
 
@@ -266,14 +266,16 @@
 
 (confirm that (funcall + 1 2 3 4 5 6) returns 21)
 
+(nl)
+
 (confirm that (make-string      10 "x")         returns "xxxxxxxxxx")
 (confirm that (pad-string-right 10 "x" "hello") returns "helloxxxxx")
 (confirm that (pad-string-left  10 "x" "hello") returns "xxxxxhello")
 
 (nl)
 
-(confirm that (plist-keys   '(a 1 b 2 c 3))  returns '(a b c))
-(confirm that (plist-values '(a 1 b 2 c 3))  returns '(1 2 3))
+(confirm that (plist-keys   '(a 1 b 2 c 3)) returns '(a b c))
+(confirm that (plist-values '(a 1 b 2 c 3)) returns '(1 2 3))
 
 (nl)
 
@@ -283,8 +285,14 @@
 (confirm that (mapconcat id '("hello" "to" "the" "world") " ") returns "hello to the world")
 (confirm that (mapconcat id '("hello" "to" "the" "world"))     returns "hellototheworld")
 
+(nl)
+
 (confirm that (prog1 1 2 3) returns 1)
 (confirm that (prog2 1 2 3) returns 2)
+
+(nl)
+
+(confirm that (feature? :std) returns t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)

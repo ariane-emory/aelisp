@@ -21,19 +21,20 @@ typedef enum {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_PARENT(env)          ((env)->parent)                                                                                  //
-#define    ENV_SYMS(env)            ((env)->symbols)                                                                                 //
-#define    ENV_VALS(env)            ((env)->values)                                                                                  //
+#define    ENV_PARENT(env)                   ((env)->parent)                                                                         //
+#define    ENV_SYMS(env)                     ((env)->symbols)                                                                        //
+#define    ENV_VALS(env)                     ((env)->values)                                                                         //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_ADD(env, sym, val)   (ae_env_add(            (env), (sym), (val)))                                                    //
+#define    ENV_ADD(env, sym, val)            (ae_env_add(            (env), (sym), (val)))                                           //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_SET(env, sym, val)   (ae_env_set(   NEAREST, (env), (sym), (val)))                                                    //
-#define    ENV_SET_G(env, sym, val) (ae_env_set(    GLOBAL, (env), (sym), (val)))                                                    //
-#define    ENV_SET_L(env, sym, val) (ae_env_set(     LOCAL, (env), (sym), (val)))                                                    //
+#define    ENV_SET(env, sym, val)            (ae_env_set(   NEAREST, (env), (sym), (val)))                                           //
+#define    ENV_SET_G(env, sym, val)          (ae_env_set(    GLOBAL, (env), (sym), (val)))                                           //
+#define    ENV_SET_L(env, sym, val)          (ae_env_set(     LOCAL, (env), (sym), (val)))                                           //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_GET(env, sym)        (ae_env_lookup(NEAREST, (env), (sym), NULL))                                                     //
-#define    ENV_GET_G(env, sym)      (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                                     //
-#define    ENV_GET_L(env, sym)      (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                                     //
+#define    ENV_GET3(env, sym, found)         (ae_env_lookup(NEAREST, (env), (sym), (found)))                                         //
+#define    ENV_GET(env, sym)                 (ae_env_lookup(NEAREST, (env), (sym), NULL))                                            //
+#define    ENV_GET_G(env, sym)               (ae_env_lookup( GLOBAL, (env), (sym), NULL))                                            //
+#define    ENV_GET_L(env, sym)               (ae_env_lookup(  LOCAL, (env), (sym), NULL))                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ENV_PUSH(env, val, sym)                                                                                                       \
   ({                                                                                                                                  \
