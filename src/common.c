@@ -152,7 +152,7 @@ ae_obj_t * setup_root_env(void) {
 
     bool failed_to_load = false;
   
-    ae_obj_t * program = load_file(stdlib_path, &failed_to_load);
+    ae_obj_t * const program  = load_file(stdlib_path, &failed_to_load);
 
     free_list_free(stdlib_path);
 
@@ -161,7 +161,7 @@ ae_obj_t * setup_root_env(void) {
     else
       PR("loaded.\n");
 
-    ae_obj_t * ret     = EVAL(root_env, program);
+    ae_obj_t * const ret = EVAL(root_env, program);
 
     if (ERRORP(ret)) {
       FPR(stderr, "WARNING: Error evaluating stdlib: ");
