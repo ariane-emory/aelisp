@@ -91,6 +91,7 @@
  (setq! ¬       not)          
  (setq! ∨       or )           
  (setq! ∧       and)
+ (setq! list?   tail?)
  (setq! setcdr! rplacd!)
  (setq! setcar! rplaca!)
  (setq! λ       lambda)

@@ -280,5 +280,18 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun plist-keys (lst)
+ "Extracts the keys from a plist LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst (cons (car lst) (plist-keys (cddr lst)))))
 
+(defun plist-values (lst)
+ "Extracts the values from a plist LST."
+ (when lst (plist-keys (cdr lst))))
 
+;; (log-eval t)
+
+(write (plist-keys   '(a 1 b 2 c 3)))
+(nl)
+(write (plist-values '(a 1 b 2 c 3)))
+(nl)
