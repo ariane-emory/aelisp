@@ -16,10 +16,16 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
   // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
 
-  FOR_EACH(varlist_item, varlist)
+  FOR_EACH(varlist_item, varlist) {
     REQUIRE(env, args,
             SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
             "varlist items must be symbols or lists with two elements");
+
+    ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
+
+    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let form cannot bind to special symbols");
+
+  }
   
   ae_obj_t * const body    = CDR(args);
 
@@ -86,11 +92,17 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
   // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
 
-  FOR_EACH(varlist_item, varlist)
+  FOR_EACH(varlist_item, varlist) {
     REQUIRE(env, args,
             SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
             "varlist items must be symbols or lists with two elements");
-  
+
+    ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
+
+    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let form cannot bind to special symbols");
+
+  }
+
   ae_obj_t * const body    = CDR(args);
 
   REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
@@ -161,10 +173,16 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
   // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
  
-  FOR_EACH(varlist_item, varlist)
+  FOR_EACH(varlist_item, varlist) {
     REQUIRE(env, args,
             SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
             "varlist items must be symbols or lists with two elements");
+
+    ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
+
+    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let form cannot bind to special symbols");
+
+  }
   
   ae_obj_t * const body    = CDR(args);
 
