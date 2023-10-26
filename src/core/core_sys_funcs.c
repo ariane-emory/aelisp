@@ -198,6 +198,9 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   ae_obj_t * const load_target = CAR(args);
 
+  if ((mode == REQUIRE) && have_feature(env, load_target))
+    RETURN(load_target);
+
   // Args will have already been checked by the caller, so don't bother doing this:
   // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
 
