@@ -268,6 +268,7 @@
 
 (confirm that (make-string      10 "x")         returns "xxxxxxxxxx")
 (confirm that (pad-string-right 10 "x" "hello") returns "helloxxxxx")
+(confirm that (pad-string-left  10 "x" "hello") returns "xxxxxhello")
 
 (nl)
 
@@ -280,7 +281,6 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(s lj (curry1 ljust 20))
-(defun mapcar* (fun . args) (apply mapcar fun (list args)))
+(confirm that (apply concat (mapcar* (curry1 ljust 20) "hello" "to" "the" "world"))
+ returns "hello               to                  the                 world               ")
 
-(apply princ (mapcar* lj "hello" "to" "the" "world"))

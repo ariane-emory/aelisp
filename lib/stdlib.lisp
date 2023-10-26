@@ -408,6 +408,8 @@
     (fun (car lst)))
    ""))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun mapconcat* (fun . args) (apply mapconcat fun (list args)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
   (unless (fun? fun)   (error "FUN must be a function"))
