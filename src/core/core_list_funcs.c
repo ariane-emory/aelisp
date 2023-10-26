@@ -148,7 +148,7 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t * lst  = RETURN_IF_ERRORP(EVAL(env, sym));
 
-  REQUIRE(env, args, TAILP(lst));
+  REQUIRE(env, args, CONSP(lst));
   
   ret = CAR(lst);
   
