@@ -11,6 +11,7 @@
 #include "env.h"
 #include "eval.h"
 #include "free_list.h"
+#include "list.h"
 #include "log.h"
 #include "obj.h"
 #include "write.h"
@@ -271,8 +272,11 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   
   strcpy(file_basename_str, file_basename);
 
-  ae_obj_t * loaded_file = NEW_STRING(file_basename_str);
-  file_stack = loaded_file;
+  ae_obj_t * loaded_file         = NEW_STRING(file_basename_str);
+
+  PUSH(loaded_file, file_stack);
+  
+  // file_stack = loaded_file;
   
   yylineno = 0;
   yyrestart(yyin);
@@ -284,7 +288,7 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   yyin = original_yyin;
 
-  file_stack = NIL;
+  POP(file_stack);
 
   PUT_PROP(TRUE, "constant", SYM("*program*"));
   PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
