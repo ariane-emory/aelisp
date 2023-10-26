@@ -379,6 +379,8 @@
   (when lst
    (cons (fun (car lst)) (mapcar fun (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun mapcar* (fun . args) (apply mapcar fun (list args)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar! (fun lst)
   "Map fun over LST, altering the list."
   (unless (fun? fun)   (error "FUN must be a function"))
@@ -426,6 +428,8 @@
     (fun (car current))
     (setq! current (cdr current)))
    lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun mapc* (fun . args) (apply mapc fun (list args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1359,13 +1363,25 @@
   (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
   (apply concat (make-list size init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun pad-string (size init-val str)
+ (defun pad-string-right (size init-val str)
   "Pad STR to SIZE with INIT-VAL."
   (unless (integer? size)         (error "SIZE must be an integer."))
   (unless (string? init-val)      (error "INIT-VAL must be a string."))
   (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
   (let ((pad (make-string (- size (length str)) init-val)))
    (concat str pad)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun pad-string-left (size init-val str)
+  "Pad STR to SIZE with INIT-VAL."
+  (unless (integer? size)         (error "SIZE must be an integer."))
+  (unless (string? init-val)      (error "INIT-VAL must be a string."))
+  (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
+  (let ((pad (make-string (- size (length str)) init-val)))
+   (concat pad str)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun left-justify  (size str) (pad-string-right size " " str))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun right-justify (size str) (pad-string-left size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -1436,6 +1452,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! pkeys   plist-keys)
  (setq! pvals   plist-values)
+ (setq! ljust   left-justify)
+ (setq! rjust   right-justify)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 

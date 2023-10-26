@@ -260,14 +260,14 @@
 
 (confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y)))))  returns '(6 4 2 5 3 1))
 (setq!   lst  (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))))
-(confirm that (filter even? lst)             returns '(6 4 2))
+(confirm that (filter even? lst) returns '(6 4 2))
 
 (nl)
 
-(confirm that (funcall + 1 2 3 4 5 6)        returns 21)
+(confirm that (funcall + 1 2 3 4 5 6) returns 21)
 
-(confirm that (make-string 10 "x")           returns "xxxxxxxxxx")
-(confirm that (pad-string  10 "x" "hello")   returns "helloxxxxx")
+(confirm that (make-string      10 "x")         returns "xxxxxxxxxx")
+(confirm that (pad-string-right 10 "x" "hello") returns "helloxxxxx")
 
 (nl)
 
@@ -280,3 +280,7 @@
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(s lj (curry1 ljust 20))
+(defun mapcar* (fun . args) (apply mapcar fun (list args)))
+
+(apply princ (mapcar* lj "hello" "to" "the" "world"))
