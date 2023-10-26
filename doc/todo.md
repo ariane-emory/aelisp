@@ -1,4 +1,5 @@
 To Do:
+- [ ] load-path.
 - [ ] review correctness environments used for macro expansion/evaluation.
 - [ ] review correctness of unwinding indentation.
 - [ ] try incremental bubble sorting env syms/vals?
@@ -7,6 +8,7 @@ To Do:
 - [ ] Implement math for non-integer types.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
+- [ ] GC.
 
 Under Consideration:
 - [ ] core_concat could be simplified using strcat? Maybe not.
