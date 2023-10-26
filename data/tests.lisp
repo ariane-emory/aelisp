@@ -1,5 +1,9 @@
 (nl)
 
+(confirm that (feature? :std) returns t)
+
+(nl)
+
 (setq!   lst  (unionql '(1 2 3) '(4 5 6)))
 
 (confirm that lst                              returns '(6 5 4 3 2 1))
@@ -292,7 +296,19 @@
 
 (nl)
 
-(confirm that (feature? :std) returns t)
+(confirm that (put 'a :foo :quux)                   returns 'a)
+(confirm that (put 'b :bar :quux)                   returns 'b)
+(confirm that (put 'c :baz :quux)                   returns 'c)
+(confirm that (props :quux)                         returns '(:baz c :bar b :foo a))
+(confirm that (plist-remove eq? :foo (props :quux)) returns '(:baz c :bar b))
+(confirm that (plist-remove eq? :bar (props :quux)) returns '(:baz c :foo a))
+(confirm that (plist-remove eq? :baz (props :quux)) returns '(:bar b :foo a))
+(confirm that (plist-removeq    :foo (props :quux)) returns '(:baz c :bar b))
+(confirm that (plist-removeq    :bar (props :quux)) returns '(:baz c :foo a))
+(confirm that (plist-removeq    :baz (props :quux)) returns '(:bar b :foo a))
+(confirm that (plist-removeql   :foo (props :quux)) returns '(:baz c :bar b))
+(confirm that (plist-removeql   :bar (props :quux)) returns '(:baz c :foo a))
+(confirm that (plist-removeql   :baz (props :quux)) returns '(:bar b :foo a))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
@@ -306,17 +322,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(writen (put 'a :foo :quux))
-(writen (put 'b :bar :quux))
-(writen (put 'c :baz :quux))
-(writen (props :quux))
-(writen (plist-remove eq? :foo (props :quux)))
-(writen (plist-remove eq? :bar (props :quux)))
-(writen (plist-remove eq? :baz (props :quux)))
-(writen (plist-removeq    :foo (props :quux)))
-(writen (plist-removeq    :bar (props :quux)))
-(writen (plist-removeq    :baz (props :quux)))
-(writen (plist-removeql   :foo (props :quux)))
-(writen (plist-removeql   :bar (props :quux)))
-(writen (plist-removeql   :baz (props :quux)))
 
