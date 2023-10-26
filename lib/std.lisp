@@ -1415,7 +1415,7 @@
  )
 
 
-(report-time-us "def remove!                    "
+(report-time-us "def prop remove!               "
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro remove! (prop obj)
   $('prog1
@@ -1445,6 +1445,7 @@
 
 (mapc* require 
  'plist-funs
+ 'prop-removeb
  'scheme-compat
  'elisp-compat
  'std-aliases)
