@@ -11,7 +11,6 @@
 #include "env.h"
 #include "jump_return.h"
 #include "time_funcs.h"
-#include "utility.h"
 #include "write.h"
 
 
@@ -537,17 +536,18 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   assert(sym);
   assert(SYMBOLP(sym));
 
-  if (! ENV_BOUNDP(env, sym)) {
+  bool found = false;
+
+  ret = ENV_GET3(env, sym, &found);
+  
+  if (! found) {
     ae_obj_t * const err = NEW_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
 
     PUT_PROP(env, "error-env",             err);
     PUT_PROP(sym, "errror-unbound-symbol", err);
-
     
     RETURN(err);
   }
-
-  ret = ENV_GET(env, sym);
 
 end:
 
