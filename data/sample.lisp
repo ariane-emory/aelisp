@@ -275,12 +275,15 @@
 (confirm that (plist-keys   '(a 1 b 2 c 3))  returns '(a b c))
 (confirm that (plist-values '(a 1 b 2 c 3))  returns '(1 2 3))
 
+(nl)
+
+(confirm that (apply concat (mapcar* (curry1 ljust 20) "hello" "to" "the" "world"))
+ returns "hello               to                  the                 world               ")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(confirm that (apply concat (mapcar* (curry1 ljust 20) "hello" "to" "the" "world"))
- returns "hello               to                  the                 world               ")
 
