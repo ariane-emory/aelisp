@@ -305,15 +305,21 @@
 (when (and (bound? 'provide) (fun? provide)) (provide :tests))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro writen exprs $('progn (cons 'write exprs) $('nl)))
-(defmacro princn exprs $('progn (cons 'princ exprs) $('nl)))
-(defmacro printn exprs $('progn (cons 'print exprs) $('nl)))
-(defmacro putn   exprs $('progn (cons 'put  exprs)  $('nl)))
+(defmacro princn  exprs           $('progn (cons 'princ exprs) $('nl)))
+(defmacro printn  exprs           $('progn (cons 'print exprs) $('nl)))
+(defmacro putn    exprs           $('progn (cons 'put  exprs)  $('nl)))
+(defmacro writen  exprs           $('progn (cons 'write exprs) $('nl)))
 
-(defmacro writeni (delim . exprs) $('apply 'writen $('intercalate delim $('quote exprs))))
 (defmacro princni (delim . exprs) $('apply 'princn $('intercalate delim $('quote exprs))))
 (defmacro printi  (delim . exprs) $('apply 'print  $('intercalate delim $('quote exprs))))
 (defmacro putni   (delim . exprs) $('apply 'putn   $('intercalate delim $('quote exprs))))
+(defmacro writeni (delim . exprs) $('apply 'writen $('intercalate delim $('quote exprs))))
+
+(defmacro princns exprs           $('apply 'princn $('intercalate delim $('quote exprs))))
+(defmacro prints  exprs           $('apply 'print  $('intercalate delim $('quote exprs))))
+(defmacro putns   exprs           $('apply 'putn   $('intercalate delim $('quote exprs))))
+(defmacro writens exprs           $('apply 'writen $('intercalate delim $('quote exprs))))
+
 
 (log-macro t)
 
