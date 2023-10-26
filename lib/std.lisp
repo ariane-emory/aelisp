@@ -1458,7 +1458,7 @@
   "Add FEATURE to *features* if it is not already present."
   (unless (keyword? feature)  (error "FEATURE must be a keyword."))
   (unless (feature? feature)  (push! feature *features*))
-  )
+  feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
