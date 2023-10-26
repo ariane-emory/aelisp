@@ -160,7 +160,7 @@ static ae_obj_t * load_or_require(bool check_feature,
 
   ae_obj_t * const load_target  = CAR(args);
 
-  REQUIRE(env, args, SYMBOLP(load_target) || STRINGP(load_target));
+  REQUIRE(env, args, (SYMBOLP(load_target) && ! KEYWORDP(load_target)) || STRINGP(load_target));
 
   const char * load_target_string = NULL;
   
