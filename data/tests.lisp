@@ -1,6 +1,6 @@
 (nl)
 
-(confirm that (feature? :std) returns t)
+(confirm that (feature? 'std) returns t)
 
 (nl)
 
@@ -328,5 +328,5 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (and (bound? 'provide) (fun? provide)) (provide :tests))
+(when (and (bound? 'provide) (fun? provide)) (provide 'tests))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

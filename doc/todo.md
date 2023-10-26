@@ -1,8 +1,6 @@
 To Do:
-- [ ] remove! fun for plists / properties.
-- [ ] Maybe features should be normal symbols (instead of keywords)?
 - [ ] require: add :no-error and :force arguments.
-- [ ] require: if feature?, only reload if :force.
+- [ ] require: when feature?, only reload if :force.
 - [ ] require: check feature? after eval.
 - [ ] revise startup to (provide :stdblib).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
@@ -34,6 +32,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] remove! macro for plists / properties.
+- [x] Features should be normal symbols (instead of keywords)?
 - [x] require.
 - [x] load-path.
 - [x] provide.

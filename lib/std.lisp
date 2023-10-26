@@ -1451,12 +1451,14 @@
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun feature? (feature)
   "t if FEATURE is present in *features*."
-  (unless (keyword? feature) (error "FEATURE must be a keyword."))
+  (unless (and (symbol? feature) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
   (memq? feature *features*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun provide (feature)
-  "Add FEATURE to *features* if it is not already present."
-  (unless (keyword? feature)  (error "FEATURE must be a keyword."))
+  "Add FEATURE to *features* if it is not already present"
+  (unless (and (symbol? feature) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
   (unless (feature? feature)  (push! feature *features*))
   feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1527,5 +1529,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (print-load-time-us)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (and (bound? 'provide) (fun? provide)) (provide :std))
+(when (and (bound? 'provide) (fun? provide)) (provide 'std))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
