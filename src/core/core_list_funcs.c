@@ -79,8 +79,8 @@ ae_obj_t * ae_core_cons(
   __attribute__((unused)) int args_length) {
   CORE_BEGIN("cons");
 
-  ae_obj_t * head = CAR(args);
-  ae_obj_t * tail = CADR(args);
+  ae_obj_t * const head = CAR(args);
+  ae_obj_t * const tail = CADR(args);
 
   CORE_RETURN("cons", NEW_CONS(head, tail));
 }
