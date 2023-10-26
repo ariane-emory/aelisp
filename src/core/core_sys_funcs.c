@@ -172,26 +172,22 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     strcpy(err_msg, tmp);
     free_list_free(tmp);
 
-    RETURN(NEW_ERROR(err_msg, NIL));
+    RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
   }
 
   ae_obj_t * new_program        = RETURN_IF_ERRORP(load_file(found, NULL));
-
   bool old_log_macro            = log_macro;
   bool old_log_core             = log_core;
   bool old_log_eval             = log_eval;
   log_macro                     = false;
   log_core                      = false;
   log_eval                      = false;
-  
-  ret = RETURN_IF_ERRORP(EVAL(env, new_program));
-
+  ret                           = RETURN_IF_ERRORP(EVAL(env, new_program));
   log_macro                     = old_log_macro;
   log_core                      = old_log_core;
   log_eval                      = old_log_eval;
-
-  ae_obj_t * const features     = ENV_GET(env, SYM("*features*"));
   bool found_feature            = false;
+  ae_obj_t * const features     = ENV_GET(env, SYM("*features*"));
   
   FOR_EACH(feature, features) {
     if (EQL(feature, new_feature)) {
@@ -208,7 +204,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
     strcpy(err_msg, tmp);
     free_list_free(tmp);
 
-    RETURN(NEW_ERROR(err_msg, NIL));
+    RETURN_IF_ERRORP(NEW_ERROR(err_msg, NIL));
   }
   
 end:
