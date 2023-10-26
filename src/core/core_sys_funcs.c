@@ -143,14 +143,14 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
   char * found = NULL;
   
   FOR_EACH(dir, ENV_GET(env, SYM("*load-path*"))) {
-    PR("\nLooking in %s...\n", STR_VAL(dir));
+    // PR("\nLooking in %s...\n", STR_VAL(dir));
 
     char * const possible_path = free_list_malloc(strlen(STR_VAL(dir)) + strlen(SYM_VAL(CAR(args))) + 7);
     
     sprintf(possible_path, "%s/%s.lisp", STR_VAL(dir), SYM_VAL(CAR(args)));
 
-    PR("Trying %s... ", possible_path);
-
+    // PR("Trying %s... ", possible_path);
+    
     if (access(possible_path, F_OK) != -1) {
       PR("found it.\n");
       found = possible_path;
@@ -175,7 +175,18 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
 
   ae_obj_t * new_program = RETURN_IF_ERRORP(load_file(found, NULL));
 
+  bool old_log_macro     = log_macro;
+  bool old_log_core      = log_core;
+  bool old_log_eval      = log_eval;
+  log_macro              = false;
+  log_core               = false;
+  log_eval               = false;
+  
   ret = RETURN_IF_ERRORP(EVAL(env, new_program));
+
+  log_macro              = old_log_macro;
+  log_core               = old_log_core;
+  log_eval               = old_log_eval;
 
 end:
   

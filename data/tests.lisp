@@ -306,9 +306,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmacro writen exprs
- (cons 'progn exprs))
+ (cons 'progn (cons 'write exprs)))
 
 (log-macro t)
-(log-eval  t)
+;; (log-eval  t)
 
 (writen 1 2 3)
