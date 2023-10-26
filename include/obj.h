@@ -80,6 +80,7 @@ typedef struct ae_obj_t {
   union {
     ae_string_t               str_val;
     ae_string_t               sym_val;
+    ae_string_t               error_message;
     char                      char_val;
     long long int             int_val;
     double                    float_val;
@@ -92,10 +93,6 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       tail;
     }; // when metadata is marked with type AE_CONS
     struct {
-      ae_string_t      message;
-      struct ae_obj_t *       object;
-    }; // when metadata is marked with type AE_ERROR
-    struct {
       struct ae_obj_t *       symbols;
       struct ae_obj_t *       values;
       struct ae_obj_t *       parent;
@@ -106,7 +103,6 @@ typedef struct ae_obj_t {
       struct ae_obj_t *       env;
     }; // when metadata is marked with type AE_LAMBDA / AE_MACRO
     struct {
-      //char                  name[8]; // this name is just for printing purposes.
       ae_string_t             name;
       bool                    special;
       ae_core_fun             fun_val;
@@ -211,7 +207,7 @@ extern ae_obj_t * symbols_list;
 #  define KSET(obj, key, val)            (PSET((obj), (key), (val)))
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EMSG(obj)                        ((obj)->message)
+#define EMSG(obj)                        ((obj)->error_message)
 #define EOBJ(obj)                        ((obj)->object)
 #define EHAS(obj, key)                   (KHAS(EOBJ((obj)), KW(key)))
 #define EGET(obj, key)                   (KGET(EOBJ((obj)), KW(key)))
@@ -307,11 +303,10 @@ extern ae_obj_t * symbols_list;
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define NEW_ERROR(msg, obj)                                                                                            \
+#define NEW_ERROR(msg)                                                                                                 \
   ({                                                                                                                   \
   ae_obj_t * _obj  = NEW(AE_ERROR);                                                                                    \
   EMSG   (_obj) = (msg);                                                                                               \
-  EOBJ   (_obj) = (obj);                                                                                               \
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

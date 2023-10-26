@@ -195,13 +195,12 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
     
-    ae_obj_t * const err_data = NIL;
 
-    KSET(err_data, KW("env"),  env);
-    KSET(err_data, KW("args"), args);
-    KSET(err_data, KW("fun"),  fun);
+    ae_obj_t * err = NEW_ERROR(err_msg); 
 
-    ae_obj_t * err = NEW_ERROR(err_msg, err_data); 
+    PUT(env,  "error-env",  err);
+    PUT(args, "error-args", err);
+    PUT(fun,  "error-fun",  err);
 
     RETURN_IF_ERRORP(err);
   }
