@@ -369,6 +369,16 @@
     (setq! lst (cdr lst))))
   (if found idx nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun removeq (elem lst)
+ "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((result nil))
+  (while lst
+   (unless (eq? elem (car lst))
+    (setq! result (cons (car lst) result)))
+   (setq! lst (cdr lst)))
+  (reverse result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeql (elem lst)
  "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
@@ -378,7 +388,7 @@
     (setq! result (cons (car lst) result)))
    (setq! lst (cdr lst)))
   (reverse result)))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse (lst)
   "Return a new list that is the reverse of the input list LST."
   (unless (list? lst) (error "LST must be a list"))
@@ -387,6 +397,7 @@
       (setq! result (cons (car lst) result))
       (setq! lst (cdr lst)))
     result))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (write (indexql 3  '(1 2 3 4 5 6))) (nl)
 (write (indexql 9  '(1 2 3 4 5 6))) (nl)
