@@ -1,3 +1,7 @@
+(require 'std-minimal)
+(require 'measure-time)
+(require 'strings)
+
 (report-time-us "def aliases for std funs       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; simple aliases:                                                                      ;;

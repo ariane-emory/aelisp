@@ -1,4 +1,5 @@
 (require 'std-minimal)
+(require 'measure-time)
 
 (report-time-us "def reduction functions        "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,4 +1,5 @@
 (require 'std-minimal)
+(require 'measure-time)
 (require 'nconc)
 
 (report-time-us "def push functions             "
