@@ -183,7 +183,12 @@
      (error "PARAMS must be a list or symbol"))
     (unless (eq? :CONS (type body))
      (error "BODY must be a cons"))
-    $('setq! name $('macro params . body))))
+    $('progn
+      $('setq! 'before $('now-us))
+      $('setq! name $('macro params . body))
+      $('nl)
+      $('princ "defmacrod " $('quote name) " in " $('elapsed-us 'before) " us.")
+      )))
 
   (defmacro defun (name params . body)
    (unless (eq? :SYMBOL (type name))
