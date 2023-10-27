@@ -16,10 +16,10 @@
 
 (require 'std-minimal)
 (require 'measure-time)
-(require 'core-aliases)
 (require 'map)
 
 (mapc* require
+ 'core-aliases
  'compound-cars-and-cdrs
  'quasiquote
  'numbered-access
