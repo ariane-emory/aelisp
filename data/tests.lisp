@@ -328,7 +328,7 @@
    (setq! nums (cons ctr nums))
    (setq! ctr (- ctr 1)))))
 
-(write nums)
+;; (write nums)
 
 (defun r-mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
@@ -348,7 +348,4 @@
    (reverse result)))
 
 (write (time (mapcar (lambda (n) (* n n)) nums))) (nl)
-(log-eval t)
-(log-core t)
-(non-recursive-mapcar (lambda (n) (* n n)) nums)
-;;(write (time (non-recursive-mapcar (lambda (n) (* n n)) nums))) (nl)
+(write (time (non-recursive-mapcar (lambda (n) (* n n)) nums))) (nl)
