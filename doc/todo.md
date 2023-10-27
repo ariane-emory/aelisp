@@ -1,4 +1,5 @@
 To Do:
+- [ ] audit free_list_malloc/free.
 - [ ] revise startup to (require 'std).
 - [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.

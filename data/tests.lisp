@@ -330,9 +330,25 @@
 
 (write nums)
 
-(defun mapcar (fun lst)
+(defun r-mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
   (unless (fun? fun)   (error "FUN must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
   (when lst
-   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
+   (cons (fun (car lst)) (r-mapcar fun (cdr lst)))))
+
+(defun non-recursive-mapcar (fun lst)
+  "Map fun over LST, returning the resulting list."
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (list? lst)  (error "LST must be a list"))
+  (let ((result '()))
+   (while lst
+    (setq! result (cons (fun (car lst)) result))
+    (setq! lst    (cdr lst)))
+   (reverse result)))
+
+(write (time (mapcar (lambda (n) (* n n)) nums))) (nl)
+(log-eval t)
+(log-core t)
+(non-recursive-mapcar (lambda (n) (* n n)) nums)
+;;(write (time (non-recursive-mapcar (lambda (n) (* n n)) nums))) (nl)
