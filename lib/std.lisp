@@ -883,7 +883,21 @@
     (setq! result (cons (car lst) result))
     (setq! lst (cdr lst)))
    (reverse result)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun min (lst)
+ (let ((current-min (first lst)))
+  (mapc (lambda (x) 
+         (when (< x current-min) 
+          (setq! current-min x)))
+   lst)
+  current-min))
+
+(defun max (lst)
+ (let ((current-max (first lst)))
+  (mapc (lambda (x) 
+         (when (> x current-max) 
+          (setq! current-max x)))
+   lst)
+  current-max));;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'list-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1113,13 +1127,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun spc    ()    (princ " "))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun max(a b)
+ (defun max2 (a b)
   "Return the larger of A and B."
   (unless (integer? a) (error "A must be an integer"))
   (unless (integer? b) (error "B must be an integer"))
   (if (> a b) a b))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun min(a b)
+ (defun min2 (a b)
   "Return the smaller of A and B."
   (unless (integer? a) (error "A must be an integer"))
   (unless (integer? b) (error "B must be an integer"))
