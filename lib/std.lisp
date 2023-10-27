@@ -18,12 +18,12 @@
 
 (require 'std-minimal)
 (require 'measure-time)
+(require 'map)
 (require 'core-aliases)
 (require 'compound-cars-and-cdrs)
 (require 'quasiquote)
 (require 'numbered-access)
 (require 'reduce)
-(require 'map)
 (require 'append)
 (require 'nconc)
 (require 'push-funs)
