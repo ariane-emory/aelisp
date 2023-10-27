@@ -319,6 +319,10 @@
 (confirm that (removeql 3 '(1 2 3 4 5 6)) returns '(1 2 4 5 6))
 (confirm that (removeql 9 '(1 2 3 4 5 6)) returns '(1 2 3 4 5 6)) 
 
+(nl)
+
+(confirm that (depth '(1 2 (3 4 (5)) (6 7))) returns 3)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -330,22 +334,3 @@
 (provide 'tests)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-
-(setq! l (make-list 10 10)) ;; l is now '(10 10 10 10 10 10 10 10 10 10)
-
-(list-set! l 0  'zero)
-(list-set! l 1  'one)
-(list-set! l 9  'nine)
-
-(write (list-ref l 0)) (nl)
-(write (list-ref l 1)) (nl)
-(write (list-ref l 9)) (nl)
-
-
-
-
-
-;;(log-eval t)
-(write (depth '(1 2 (3 4 (5)) (6 7)))) (nl)
