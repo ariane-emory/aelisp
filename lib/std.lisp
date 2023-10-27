@@ -177,7 +177,11 @@
   (error "PARAMS must be a list or symbol"))
  (unless (eq? :CONS (type body))
   (error "BODY must be a cons"))
- $('setq! name $('lambda params . body)))
+ $('progn
+   $('setq! 'before $('now-us))
+   $('setq! name $('lambda params . body))
+   $('nl)
+   $('princ "defined " name " in " $('elapsed-us 'before) " us.")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'measure-time))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -213,7 +217,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (report-time-us "def compound car/cdrs          "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun caar     (lst)               (car (car lst)))
+ (timed-defun caar     (lst)               (car (car lst)))
  (defun cadr     (lst)               (car (cdr lst)))
  (defun cdar     (lst)               (cdr (car lst)))
  (defun cddr     (lst)               (cdr (cdr lst)))
