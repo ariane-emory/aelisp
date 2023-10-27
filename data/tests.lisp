@@ -39,14 +39,14 @@
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
 
-(confirm that 
- (body lshift4)
- returns '(progn
-           (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
-           (nl)
-           (let ((result (progn (<< n 4))))
-            (princ "Result of applying " 'lshift4 " was " result ".") (nl)
-            result)))
+(confirm that (body lshift4)
+ returns
+ '(progn
+   (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
+   (nl)
+   (let ((result (progn (<< n 4))))
+    (princ "Result of applying " 'lshift4 " was " result ".") (nl)
+    result)))
 
 (confirm that (lshift4 4) returns 64)
 
