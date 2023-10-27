@@ -241,7 +241,7 @@ end:
   if (log_core)
     SLOG("left while");
   
-  CORE_RETURN("while", NIL);
+  CORE_RETURN("while", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,7 +273,7 @@ end:
   if (log_core)
     SLOG("left until");
   
-  CORE_RETURN("until", NIL);
+  CORE_RETURN("until", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,6 +294,6 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("repeat", NIL);
+  CORE_RETURN("repeat", ret);
 }
 
