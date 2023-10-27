@@ -14,6 +14,9 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     ? NIL
     : CADR(args);
 
+  if (! SETTABLEP(sym))
+    LOG(sym, "not SETTABLEP:");
+
   REQUIRE(env, args, SETTABLEP(sym), "sym is not a settable symbol");
 
   if (log_core) {
