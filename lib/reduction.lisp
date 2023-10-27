@@ -1,3 +1,5 @@
+(require 'std-minimal)
+
 (report-time-us "def reduction functions        "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (reduction):                                                               ;;
