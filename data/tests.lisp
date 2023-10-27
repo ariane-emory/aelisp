@@ -359,5 +359,5 @@
 (write (time (mapconcat         (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
 (write (time (mapconcat-reduced (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
 
-;; (init-list) (write (mapcan-1 (lambda (x) (when (odd? x) x)) nums)) (nl)
+(init-list) (write (mapcan-1 (lambda (x) (when (odd? x) x)) nums)) (nl)
 ;; (init-list) (write (mapcan-2 (lambda (x) (when (odd? x) x)) nums)) (nl)
