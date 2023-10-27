@@ -79,34 +79,38 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; some basic funs/macros:
+(progn
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro ignore args
- "Ignores ARGS and do nothing."
- nil)
+ ;; some basic funs/macros:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro funcall (fun . args)
- "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
- (unless (fun? (eval fun)) (error "FUN must be a function"))
- (cons fun args))
+ (defmacro ignore args
+  "Ignores ARGS and do nothing."
+  nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun root-env ()
- "Get the root environment."
- (setq! pos (env))
- (while (env pos)
-  (write pos) (nl)
-  (setq! pos (env pos)))
- pos) 
+ (defmacro funcall (fun . args)
+  "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
+  (unless (fun? (eval fun)) (error "FUN must be a function"))
+  (cons fun args))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defconstant (sym value)
- "Set SYM to VALUE and mark it as constant."
- (unless (symbol? sym) (error "SYM must be a symbol"))
- $('progn
-   $('setq! sym value)
-   $('put! 't ':constant $('quote sym))
-   value))
+ (defun root-env ()
+  "Get the root environment."
+  (setq! pos (env))
+  (while (env pos)
+   (write pos) (nl)
+   (setq! pos (env pos)))
+  pos) 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro defconstant (sym value)
+  "Set SYM to VALUE and mark it as constant."
+  (unless (symbol? sym) (error "SYM must be a symbol"))
+  $('progn
+    $('setq! sym value)
+    $('put! 't ':constant $('quote sym))
+    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-(defun id (o) o)
+ (defun id (o) o)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (provide 'basic-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -126,41 +130,41 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (progn
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; measure evaluation time:
+ ;; measure evaluation time:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro time exprs
- "Return how long it takes to evaluate EXPRS in milliseconds."
- $('let $($('begin $('now)))
-   (cons 'progn exprs)
-   $('elapsed 'begin)))
+ (defmacro time exprs
+  "Return how long it takes to evaluate EXPRS in milliseconds."
+  $('let $($('begin $('now)))
+    (cons 'progn exprs)
+    $('elapsed 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro report-time (msg . exprs)
- (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
- $('progn
-   $('princ msg)
-   $('let $($('time-taken (cons 'time exprs)))
-     $('princ '" in ")
-     $('princ 'time-taken)
-     $('princ '" us.")
-     $('nl))))
+ (defmacro report-time (msg . exprs)
+  (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
+  $('progn
+    $('princ msg)
+    $('let $($('time-taken (cons 'time exprs)))
+      $('princ '" in ")
+      $('princ 'time-taken)
+      $('princ '" us.")
+      $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro time-us exprs
- "Return how long it takes to evaluate EXPRS in microseconds."
- $('let $($('begin $('now-us)))
-   (cons 'progn exprs)
-   $('elapsed-us 'begin)))
+ (defmacro time-us exprs
+  "Return how long it takes to evaluate EXPRS in microseconds."
+  $('let $($('begin $('now-us)))
+    (cons 'progn exprs)
+    $('elapsed-us 'begin)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro report-time-us (msg . exprs)
- (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
- $('progn
-   $('princ msg)
-   $('let $($('time-taken (cons 'time-us exprs)))
-     $('princ '" in ")
-     $('princ 'time-taken)
-     $('princ '" us.")
-     $('nl))))
+ (defmacro report-time-us (msg . exprs)
+  (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
+  $('progn
+    $('princ msg)
+    $('let $($('time-taken (cons 'time-us exprs)))
+      $('princ '" in ")
+      $('princ 'time-taken)
+      $('princ '" us.")
+      $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'measure-time))
+ (provide 'measure-time))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -423,7 +427,7 @@
           (chase-internal ,user-param (cdr position) . rest))))
        (chase-internal ,user-param position . rest))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'tail-chaser-macros))
+ (provide 'tail-chaser-macros))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -623,7 +627,7 @@
  ;;      $('setq! list-sym $('cdr list-sym))
  ;;      'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'push-pop-funs))
+ (provide 'push-pop-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -739,7 +743,7 @@
    (lambda (x) (eval x))
    expr))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'transform))
+ (provide 'transform))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -784,7 +788,7 @@
      (merge (sort!!  left pred?)
       (sort!!  right pred?) pred?)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'sort))
+ (provide 'sort))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -901,7 +905,7 @@
   (unless (list? lst) (error "LST must be a list"))
   (when lst (cons (car lst) (copy-list (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'list-funs))
+ (provide 'list-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -932,7 +936,7 @@
  (setq! unionql
   (reduced* union2ql))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'union))
+ (provide 'union))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
