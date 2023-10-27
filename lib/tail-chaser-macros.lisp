@@ -1,5 +1,6 @@
 (require 'std-minimal)
 (require 'measure-time)
+(require 'quasiquote)
 
 (report-time-us "def tail-chaser macros         "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
