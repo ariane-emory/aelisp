@@ -315,3 +315,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'tests)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+ (defun mapc (fun lst)
+  "Apply FUN to each element of LST for side effects only and return LST."
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (list? lst)  (error "LST must be a list"))
+  (while lst
+   (fun (car lst))
+   (setq lst (cdr lst))))
+  
+
+(mapc write '(1 2 3 4 5 6 7 8 9 10))
