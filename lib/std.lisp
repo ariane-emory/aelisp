@@ -70,10 +70,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide! (feature)
  "Add FEATURE to *features*."
- (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
-  (error "FEATURE must be a non-keyword symbol"))
- (push! feature *features*)
- feature)
+ (push! feature *features*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! provide (if *use-safe-provide* safe-provide provide!))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -92,16 +89,18 @@
   (macro (name params . body)
    $('progn
      $('setq! '*microbench-before* $('now-us))
-     $('defmacro-base name params . body)
-     $('nl)
-     $('princ "defmacrod  " $('quote name) " in " $('elapsed-us '*microbench-before*) " us."))))
+     $('let $($('result $('defmacro-base name params . body)))
+       $('nl)
+       $('princ "defmacrod  " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")
+       'result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun (name params . body)
   $('progn
     $('setq! '*microbench-before* $('now-us))
-    $('defun-base name params . body)
-    $('nl)
-    $('princ "defunned   " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")))
+    $('let $($('result $('defun-base name params . body)))
+      $('nl)
+      $('princ "defunned   " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")
+      'result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun provide (feature)
   (setq! *microbench-before* (now-us))
