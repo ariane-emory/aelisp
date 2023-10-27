@@ -49,10 +49,11 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun memq? (elem lst)
+(setq! memq?
+ (lambda (elem lst)
   (cond
     ((eq? elem (car lst)) t)
-    (lst (memq? elem (cdr lst)))))
+    (lst (memq? elem (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun feature? (feature)
  "t if FEATURE is present in *features*."
