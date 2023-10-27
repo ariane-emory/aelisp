@@ -1,3 +1,5 @@
+(require 'measure-time)
+
 (report-time-us "def delq!/delql!               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun delq! (item lst)

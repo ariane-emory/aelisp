@@ -1,3 +1,5 @@
+(require 'measure-time)
+
 (report-time "def prog1/prog2                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro prog1 (expr1 . exprs)

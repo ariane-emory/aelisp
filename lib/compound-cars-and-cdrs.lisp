@@ -1,3 +1,5 @@
+(require 'measure-time)
+
 (report-time-us "def compound car/cdrs          "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; compound car/cdrs:                                                                   ;;

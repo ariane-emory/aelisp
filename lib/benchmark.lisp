@@ -1,3 +1,5 @@
+(require 'measure-time)
+
 (report-time-us "def benchmark                  "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun benchmark (repetitions print-interval qexpr)

@@ -1,3 +1,5 @@
+(require 'measure-time)
+
 (report-time-us "def aliases for builtins       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; simple aliases:                                                                      ;;

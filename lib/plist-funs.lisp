@@ -1,3 +1,6 @@
+(require 'std-minimal)
+(require 'measure-time)
+
 (report-time-us "def plist funs                 " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-keys (plist)

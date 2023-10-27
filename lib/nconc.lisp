@@ -1,4 +1,5 @@
 (require 'std-minimal)
+(require 'measure-time)
 (require 'reduce)
 
 (report-time-us "def append/nconc variants      "

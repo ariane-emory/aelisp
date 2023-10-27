@@ -1,3 +1,5 @@
+(require 'std-minimal)
+(require 'measure-time)
 (require 'compound-cars-and-cdrs)
 
 (report-time-us "get numbered access            "

@@ -1,4 +1,5 @@
 (require 'prog-macros)
+(require 'plist-funs)
 
 (report-time-us "def prop remove!               "
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
