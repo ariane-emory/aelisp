@@ -343,22 +343,46 @@
   found))
 
 
-;s(log-eval t)
+;; (log-eval t)
 (write (memql? 3 '(1 2 3 4 5 6))) (nl)
 
 
 (defun indexql (elem lst)
  "Return the zero-based index of the first occurrence of ELEM in LST, or nil if ELEM does not appear in the list. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
- (let ((idx 0)
-       (found nil))
+ (let ((found nil)
+       (idx 0))
   (while (and lst (not found))
    (if (eql? elem (car lst))
     (setq! found t)
-    (progn
-     (setq! idx (+ idx 1))
-     (setq! lst (cdr lst)))))
+    (setq! idx (+ 1 idx))
+    (setq! lst (cdr lst))))
   (if found idx nil)))
+
+(defun indexq (elem lst)
+ "Return the zero-based index of the first occurrence of ELEM in LST, or nil if ELEM does not appear in the list. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil)
+       (idx 0))
+  (while (and lst (not found))
+   (if (eq? elem (car lst))
+    (setq! found t)
+    (setq! idx (+ 1 idx))
+    (setq! lst (cdr lst))))
+  (if found idx nil)))
+
+
+;; (defun removeq (elem lst)
+;;   "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
+;;   (unless (list? lst) (error "LST must be a list"))
+;;   (let ((result '())  ; A list to collect the results.
+;;         (current lst))
+;;     (while current
+;;       (unless (eq? elem (car current))
+;;         (setq! result (cons (car current) result)))
+;;       (setq! current (cdr current)))
+;;     ;; Since we built the result list in reverse order, reverse it again.
+;;     (reverse result)))
 
 (write (indexql 3 '(1 2 3 4 5 6))) (nl)
 (write (indexql 9 '(1 2 3 4 5 6))) (nl)
