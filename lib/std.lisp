@@ -55,13 +55,17 @@
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (require 'core-aliases)
 (require 'compound-cars-and-cdrs)
 (require 'quasiquote)
-
-
 (require 'numbered-access)
+(require 'reduce)
+(require 'map)
+(require 'append)
+(require 'nconc)
+(require 'push-funs)
+(require 'flatten)
+(require 'zip)
 
 (report-time-us "def tail-chaser macros         "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -101,16 +105,6 @@
  )
 
 
-(require 'reduce)
-(require 'map)
-(require 'append)
-(require 'nconc)
-(require 'push-funs)
-(require 'flatten)
-
-
-
-(require 'zip)
 
 (report-time-us "def transform                  "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
