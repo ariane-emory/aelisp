@@ -380,6 +380,16 @@
    (setq! current (cdr current)))
   (reverse result)))
 
+(defun reverse (lst)
+  "Return a new list that is the reverse of the input list LST."
+  (unless (list? lst) (error "LST must be a list"))
+  (let ((result nil)
+        (current lst))
+    (while current
+      (setq! result (cons (car current) result))
+      (setq! current (cdr current)))
+    result))
+
 (write (indexql 3  '(1 2 3 4 5 6))) (nl)
 (write (indexql 9  '(1 2 3 4 5 6))) (nl)
 (write (removeql 3 '(1 2 3 4 5 6))) (nl)
