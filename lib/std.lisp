@@ -14,8 +14,6 @@
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'std-minimal)
-(require 'measure-time)
 (require 'map)
 
 (mapc* require
