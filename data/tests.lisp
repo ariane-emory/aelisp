@@ -316,17 +316,10 @@
 (provide 'tests)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  
-
-(mapc write '(1 2 3 4 5 6 7 8 9 10))
-
-;;(log-eval t)
 ;;(mapcar (lambda (n) (progn (setq! ctr (1+ ctr)) ctr)) nums)
 
 (s nums nil)
 (s ctr 1000)
-
-;; (log-eval t)
 
 (setq! time-taken
  (time
@@ -335,4 +328,4 @@
    (setq! nums (cons ctr nums))
    (setq! ctr (- ctr 1)))))
 
-nums
+
