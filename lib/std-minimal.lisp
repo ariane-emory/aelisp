@@ -65,9 +65,8 @@
      (cond
       ((eq? elem (car lst)) t)
       (lst (private-memq? elem (cdr lst))))))
-   (memq? private-memq?)
-   )
- (memq? feature *features*)))
+   (mem? private-memq?))
+ (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide (feature)
  "Add FEATURE to *features* if it is not already present"
