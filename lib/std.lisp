@@ -1,10 +1,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 'standard library', such as it is:                                                    ;;
+;; 'standard library', such as it is:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; crucial macros, without which nothing else in std will even work:                     ;;
+;; crucial macros, without which nothing else in std will even work:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! defmacro
  (macro (name params . body)
@@ -28,7 +28,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; type predicates:                                                                      ;;
+;; type predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun type?     (typ o) (eq? typ       (type           o)))
 (defun atom?     (o)     (not (type?    :CONS           o)))
@@ -111,7 +111,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; time evaluation:                                                                      ;;
+;; time evaluation:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time exprs
  "Return how long it takes to evaluate EXPRS in milliseconds."
@@ -148,7 +148,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; simpler-version of std load time measuerement:                                        ;;
+;; simpler-version of std load time measuerement:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! before (now-us))
 (setq! print-load-time-us
@@ -162,7 +162,7 @@
 
 (report-time-us "def aliases for builtins       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; simple aliases:                                                                      ;;
+ ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! s       setq!)
  (setq! setcar! rplaca!)
@@ -184,7 +184,7 @@
 
 (report-time-us "def compound car/cdrs          "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; compound car/cdrs:                                                                   ;;
+ ;; compound car/cdrs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun caar     (lst)               (car (car lst)))
  (defun cadr     (lst)               (car (cdr lst)))
@@ -220,7 +220,7 @@
 
 (report-time-us "def append/nconc variants      "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; list funs (append/nconc variants):                                                   ;;
+ ;; list funs (append/nconc variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun append2 (lst1 lst2)
   "Append LST1 and LST2."
@@ -249,16 +249,14 @@
   (let ((result nil)
         (last-cell nil)
         (current-lists lists))
-   ;; Outer loop for iterating over the lists in the input 'lists'
    (while current-lists
     (let ((current-list (car current-lists)))
      (unless (list? current-list) (error "Every argument must be a list"))
-     ;; Inner loop for iterating over elements of 'current-list'
      (while current-list
       (let ((new-cell (cons (car current-list) nil)))
        (if (nil? result)
-        (setq! result new-cell)    ; Initialize result if it's the first element
-        (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
+        (setq! result new-cell)
+        (rplacd! last-cell new-cell))
        (setq! last-cell new-cell)
        (setq! current-list (cdr current-list))))
      (setq! current-lists (cdr current-lists))))
