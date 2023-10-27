@@ -150,7 +150,7 @@
      $('setq! 'before $('now-us))
      $('setq! name $('macro params . body))
      $('nl)
-     $('princ "defmacrod " $('quote name) " in " $('elapsed-us 'before) " us."))))
+     $('princ "defmacrod  " $('quote name) " in " $('elapsed-us 'before) " us."))))
  (defmacro defun (name params . body)
   (unless (eq? :SYMBOL (type name))
    (error "NAME must be a symbol"))
@@ -162,7 +162,7 @@
     $('setq! 'before $('now-us))
     $('setq! name $('lambda params . body))
     $('nl)
-    $('princ "defunned  " $('quote name) " in " $('elapsed-us 'before) " us."))))
+    $('princ "defunned   " $('quote name) " in " $('elapsed-us 'before) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'measure-time)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
