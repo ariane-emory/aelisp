@@ -59,7 +59,13 @@
  "t if FEATURE is present in *features*."
  (unless (and (symbol? feature) (not (keyword? feature)))
   (error "FEATURE must be a non-keyword symbol"))
- (memq? feature *features*))
+ (letrec
+  ((memq?
+    (lambda (elem lst)
+     (cond
+      ((eq? elem (car lst)) t)
+    (lst (memq? elem (cdr lst)))))))
+ (memq? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide (feature)
  "Add FEATURE to *features* if it is not already present"
