@@ -814,12 +814,22 @@
 		   (t                 (cons (car args) (chase (cdr args))))))))
    (chase args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun depth (lst)
-  "Get the depth of a nested list structure. This one is untested."
-  (unless (list? lst) (error "LST must be a list"))
-  (if (atom? lst)
-   0
-   (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
+(defun depth (lst)
+ "Get the depth of a nested list structure."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((stack (list (cons lst 1))) ; Stack with initial list and depth of 1
+       (max-depth 0))
+  (while stack
+   (let* ((current (pop! stack))
+          (current-list (car current))
+          (current-depth (cdr current)))
+    (if (> current-depth max-depth)
+     (setq! max-depth current-depth))
+    (mapc (lambda (item)
+           (when (list? item)
+            (push! (cons item (1+ current-depth)) stack)))
+     current-list)))
+  max-depth))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
