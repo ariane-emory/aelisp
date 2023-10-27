@@ -61,8 +61,7 @@
   (error "FEATURE must be a non-keyword symbol"))
  (letrec
   ((private-memq?
-    (if (bound? 'memq)
-     memq?
+    (unless (bound? 'memq)
      (lambda (elem lst)
       (cond
        ((eq? elem (car lst)) t)
