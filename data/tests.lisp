@@ -334,7 +334,21 @@
 (provide 'tests)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun min (lst)
+ (let ((current-min (first lst)))
+  (mapc (lambda (x) 
+         (when (< x current-min) 
+          (setq! current-min x)))
+   lst)
+  current-min))
 
+(defun max (lst)
+ (let ((current-max (first lst)))
+  (mapc (lambda (x) 
+         (when (> x current-max) 
+          (setq! current-max x)))
+   lst)
+  current-max))
 
 (confirm that (min '(2 3 1 4 9 8 1 7)) returns 1)
 (confirm that (max '(2 3 1 4 9 8 1 7)) returns 9)
