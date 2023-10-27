@@ -305,6 +305,8 @@
 (confirm that (remove! :corge   :quux)              returns 'd)
 (confirm that (props   :quux)                       returns nil)
 
+(nl)
+
 (confirm that (nconc! '(1 2 3) '(4 5 6) '(7 8 9)) returns '(1 2 3 4 5 6 7 8 9))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
