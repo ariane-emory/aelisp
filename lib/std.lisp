@@ -61,6 +61,13 @@
  (unless (feature? feature) (push! feature *features*))
  feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun provide! (feature)
+ "Add FEATURE to *features*."
+ (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (push! feature *features*)
+ feature)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -70,9 +77,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when *microbench*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! defmacro-base defmacro)
- (setq! defun-base    defun)
- (setq! provide-base  provide)
+ (setq! defmacro-base   defmacro)
+ (setq! defun-base      defun)
+ (setq! provide-base    provide)
+ (setq! provide-base!  provide!)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! defmacro
   (macro (name params . body)
@@ -88,6 +96,12 @@
     $('defun-base name params . body)
     $('nl)
     $('princ "defunned   " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun provide (feature)
+  (setq! *microbench-before* (now-us))
+  (provide-base feature)
+  (nl)
+  (princ "provide    '" feature " in " (elapsed-us *microbench-before*) " us."))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun provide (feature)
   (setq! *microbench-before* (now-us))
