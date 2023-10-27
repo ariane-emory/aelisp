@@ -23,7 +23,7 @@ extern int main(int argc, char ** argv);
 
 void yyerror(const char *str) {
     if (!NILP(filename_stack))
-        ERR("Error on line %d of %s: %s\n", yylineno + 1, STR_VAL(filename_stack), str);
+        ERR("Error on line %d of %s: %s\n", yylineno + 1, STR_VAL(CAR(filename_stack)), str);
     else
         ERR("Error on line %d: %s\n", yylineno + 1, str);
 

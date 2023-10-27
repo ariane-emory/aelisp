@@ -1061,7 +1061,7 @@
     (position (chase obj (if rest (1+ (car rest)) 1)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! indexq   (make-index-fun   eq?))
-;;  (setq! memq?    (make-member-pred eq?))
+ (setq! memq?    (make-member-pred eq?))
  (setq! removeq  (make-remove-fun  eq?))
  (setq! indexql  (make-index-fun   eql?))
  (setq! memql?   (make-member-pred eql?))

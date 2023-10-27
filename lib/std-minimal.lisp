@@ -65,7 +65,7 @@
      (cond
       ((eq? elem (car lst)) t)
       (lst (private-memq? elem (cdr lst))))))
-   (mem? private-memq?))
+   (mem? (if (bound? 'memq?) memq? private-memq?)))
  (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide (feature)
