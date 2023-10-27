@@ -310,6 +310,15 @@
 (confirm that (nconc! '(1 2 3) '(4 5 6) '(7 8 9)) returns '(1 2 3 4 5 6 7 8 9))
 (confirm that (append '(1 2 3) '(4 5 6) '(7 8 9)) returns '(1 2 3 4 5 6 7 8 9))
 
+(nl)
+
+(confirm that (memql?   3 '(1 2 3 4 5 6)) returns t)
+(confirm that (memql?   9 '(1 2 3 4 5 6)) returns nil)
+(confirm that (indexql  3 '(1 2 3 4 5 6)) returns 2)
+(confirm that (indexql  9 '(1 2 3 4 5 6)) returns nil)
+(confirm that (removeql 3 '(1 2 3 4 5 6)) returns '(1 2 4 5 6))
+(confirm that (removeql 9 '(1 2 3 4 5 6)) returns '(1 2 3 4 5 6)) 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -390,9 +399,3 @@
   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(confirm that (memql?   3 '(1 2 3 4 5 6)) returns t)
-(confirm that (memql?   9 '(1 2 3 4 5 6)) returns nil)
-(confirm that (indexql  3 '(1 2 3 4 5 6)) returns 2)
-(confirm that (indexql  9 '(1 2 3 4 5 6)) returns nil)
-(confirm that (removeql 3 '(1 2 3 4 5 6)) returns '(1 2 4 5 6))
-(confirm that (removeql 9 '(1 2 3 4 5 6)) returns '(1 2 3 4 5 6)) 
