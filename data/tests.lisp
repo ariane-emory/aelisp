@@ -372,12 +372,11 @@
 (defun removeql (elem lst)
  "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
- (let ((result nil)
-       (current lst))
-  (while current
-   (unless (eql? elem (car current))
-    (setq! result (cons (car current) result)))
-   (setq! current (cdr current)))
+ (let ((result nil))
+  (while lst
+   (unless (eql? elem (car lst))
+    (setq! result (cons (car lst) result)))
+   (setq! lst (cdr lst)))
   (reverse result)))
 
 (defun reverse (lst)
