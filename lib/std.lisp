@@ -814,44 +814,44 @@
 		   (t                 (cons (car args) (chase (cdr args))))))))
    (chase args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun depth (lst)
- "Get the depth of a nested list structure."
- (unless (list? lst) (error "LST must be a list"))
- (let ((stack (list (cons lst 1))) ; Stack with initial list and depth of 1
-       (max-depth 0))
-  (while stack
-   (let* ((current (pop! stack))
-          (current-list (car current))
-          (current-depth (cdr current)))
-    (if (> current-depth max-depth)
-     (setq! max-depth current-depth))
-    (mapc (lambda (item)
-           (when (list? item)
-            (push! (cons item (1+ current-depth)) stack)))
-     current-list)))
-  max-depth))
+ (defun depth (lst)
+  "Get the depth of a nested list structure."
+  (unless (list? lst) (error "LST must be a list"))
+  (let ((stack (list (cons lst 1))) ; Stack with initial list and depth of 1
+        (max-depth 0))
+   (while stack
+    (let* ((current (pop! stack))
+           (current-list (car current))
+           (current-depth (cdr current)))
+     (if (> current-depth max-depth)
+      (setq! max-depth current-depth))
+     (mapc (lambda (item)
+            (when (list? item)
+             (push! (cons item (1+ current-depth)) stack)))
+      current-list)))
+   max-depth))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun filter (pred? lst)
+ (defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
   (unless (fun? pred?) (error "PRED? must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
   (let ((result nil))
-    (while lst
-      (if (pred? (car lst))
-          (setq! result (cons (car lst) result)))
-      (setq! lst (cdr lst)))
-    (reverse result)))
+   (while lst
+    (if (pred? (car lst))
+     (setq! result (cons (car lst) result)))
+    (setq! lst (cdr lst)))
+   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun intercalate (intercalated lst)
+ (defun intercalate (intercalated lst)
   "Intercalate INTERCALATED between items in LST."
   (unless (list? lst) (error "LST must be a list"))
   (let ((result nil))
-    (while (cdr lst)
-      (setq! result (cons (car lst) result))
-      (setq! result (cons intercalated result))
-      (setq! lst (cdr lst)))
-    (if lst (setq! result (cons (car lst) result)))
-    (reverse result)))
+   (while (cdr lst)
+    (setq! result (cons (car lst) result))
+    (setq! result (cons intercalated result))
+    (setq! lst (cdr lst)))
+   (if lst (setq! result (cons (car lst) result)))
+   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Return a new list that is the reverse of the input list LST."
@@ -1124,6 +1124,26 @@
   (unless (integer? a) (error "A must be an integer"))
   (unless (integer? b) (error "B must be an integer"))
   (if (< a b) a b))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun min (lst)
+  "Get the least element in LST."
+  (let ((current-min (first lst)))
+   (mapc
+    (lambda (x) 
+     (when (< x current-min) 
+      (setq! current-min x)))
+    lst)
+   current-min))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun max (lst)
+  "Get the greatest element in LST."
+  (let ((current-max (first lst)))
+   (mapc
+    (lambda (x) 
+     (when (> x current-max) 
+      (setq! current-max x)))
+    lst)
+   current-max))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun 1+(n)
   "Return N + 1."
