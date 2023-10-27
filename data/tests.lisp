@@ -323,9 +323,44 @@
 
 
 
+(defun indexql (item lst)
+ "Return the zero-based index of the first occurrence of ITEM in LST, or nil if ITEM does not appear in the list. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((idx 0)
+       (found nil)
+       (current lst))
+  (while (and current (not found))
+   (if (eql? item (car current))
+    (setq! found t)
+    (progn
+     (setq! idx (+ idx 1))
+     (setq! current (cdr current)))))
+  (if found idx nil)))
+
+(defun memql? (item lst)
+ "Return non-nil if ITEM is an element of LST. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil)
+       (current lst))
+  (while (and current (not found))
+   (if (eql? item (car current))
+    (setq! found t)
+    (setq! current (cdr current))))
+  found))
+
+
+(write (memql? 3 '(1 2 3 4 5 6))) (nl)
+
+(defun memql? (item lst)
+ "Return non-nil if ITEM is an element of LST. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil))
+  (while (and lst (not found))
+   (if (eql? item (car lst))
+    (setq! found t)
+    (setq! lst (cdr lst))))
+  found))
 
 
 
-
-
-
+(write (memql? 3 '(1 2 3 4 5 6))) (nl)
