@@ -345,7 +345,16 @@
    (while lst
     (setq! result (cons (fun (car lst)) result))
     (setq! lst    (cdr lst)))
-   (reverse result)))
+   (reverse-non-recursive result)))
+
+(defun reverse-non-recursive (lst)
+  "Returns a new list that is the reverse of the input list."
+  (unless (list? lst) (error "LST must be a list"))
+  (let ((acc nil))
+    (while lst
+      (setq acc (cons (car lst) acc))
+      (setq lst (cdr lst)))
+    acc))
 
 (write (time (mapcar (lambda (n) (* n n)) nums))) (nl)
 (write (time (non-recursive-mapcar (lambda (n) (* n n)) nums))) (nl)
