@@ -383,11 +383,10 @@
 (defun reverse (lst)
   "Return a new list that is the reverse of the input list LST."
   (unless (list? lst) (error "LST must be a list"))
-  (let ((result nil)
-        (current lst))
-    (while current
-      (setq! result (cons (car current) result))
-      (setq! current (cdr current)))
+  (let ((result nil))
+    (while lst
+      (setq! result (cons (car lst) result))
+      (setq! lst (cdr lst)))
     result))
 
 (write (indexql 3  '(1 2 3 4 5 6))) (nl)
