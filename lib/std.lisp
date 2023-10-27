@@ -218,12 +218,34 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! append2
   (lambda (lst1 lst2)
-   "Append two LST1 and LST2."
+   "Append LST1 and LST2."
    (unless (list? lst1) (error "LST1 must be a list"))
    (unless (list? lst2) (error "LST2 must be a list"))
    (if (nil? lst1)
     lst2
     (cons (car lst1) (append2 (cdr lst1) lst2)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun append2 (lst1 lst2)
+  "Append LST1 and LST2."
+  (unless (list? lst1) (error "LST1 must be a list"))
+  (unless (list? lst2) (error "LST2 must be a list"))
+  (let ((result nil)          ; Initialize the result list as empty
+        (last-cell nil)       ; Track the last cell in the result
+        (current lst1))
+    ;; Iterate over lst1 and copy elements to result
+    (while current
+      (let ((new-cell (cons (car current) nil)))
+        (if (nil? result)
+            (setq! result new-cell)    ; Initialize result if it's the first element
+            (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
+        (setq! last-cell new-cell)
+        (setq! current (cdr current))))
+    ;; Attach lst2 to the end of result
+    (if (nil? result)
+        lst2
+        (progn
+          (rplacd! last-cell lst2)
+          result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro expand-quasiquoted (expr)
   "Expand a quasiquoted expression and resolve unquotes and"
