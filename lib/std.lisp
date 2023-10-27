@@ -1272,8 +1272,6 @@
  'std-aliases)
 
 
-;(log-eval t)
-(log-core t)
 
 (mapc* require
  'delq
