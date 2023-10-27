@@ -174,6 +174,17 @@
       )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (when t
+
+  (setq! defmacro
+   (macro (name params . body)
+    (unless (eq? :SYMBOL (type name))
+     (error "NAME must be a symbol"))
+    (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
+     (error "PARAMS must be a list or symbol"))
+    (unless (eq? :CONS (type body))
+     (error "BODY must be a cons"))
+    $('setq! name $('macro params . body))))
+
   (defmacro defun (name params . body)
    (unless (eq? :SYMBOL (type name))
     (error "NAME must be a symbol"))
