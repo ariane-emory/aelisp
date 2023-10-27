@@ -163,15 +163,16 @@
  (defmacro report-time-us (msg . exprs)
   (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
   $('progn
-    $('princ msg)
+;;    $('princ msg)
     $('let $($('time-taken (cons 'time-us exprs)))
-      $('princ '" in ")
-      $('princ 'time-taken)
-      $('princ '" us.")
-      $('nl))))
+;;      $('princ '" in ")
+;;      $('princ 'time-taken)
+;;      $('princ '" us.")
+;;      $('nl)
+      )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (when t
-  (defmacro timed-defun (name params . body)
+  (defmacro defun (name params . body)
    (unless (eq? :SYMBOL (type name))
     (error "NAME must be a symbol"))
    (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
@@ -218,7 +219,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (report-time-us "def compound car/cdrs          "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (timed-defun caar     (lst)               (car (car lst)))
+ (defun caar     (lst)               (car (car lst)))
  (defun cadr     (lst)               (car (cdr lst)))
  (defun cdar     (lst)               (cdr (car lst)))
  (defun cddr     (lst)               (cdr (cdr lst)))
@@ -1286,7 +1287,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list mem funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(report-time "def mem funs                   "
+(report-time-us "def mem funs                   "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun memq? (elem lst)
   "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
@@ -1315,7 +1316,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list index funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(report-time "def index funs                 "
+(report-time-us "def index funs                 "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun indexq (elem lst)
   "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
@@ -1697,7 +1698,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; prog macros:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(report-time "def prog1/prog2                "
+(report-time-us "def prog1/prog2                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro prog1 (expr1 . exprs)
   "Evaluate EXPR1, then evaluate EXPRS in order, and return the value of EXPR1."
@@ -1831,6 +1832,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(nl)
 (print-load-time-us)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'std)
