@@ -77,6 +77,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(report-time-us "def feature?/provide           "
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun feature? (feature)
+  "t if FEATURE is present in *features*."
+  (unless (and (symbol? feature) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
+  (memq? feature *features*))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun provide (feature)
+  "Add FEATURE to *features* if it is not already present"
+  (unless (and (symbol? feature) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
+  (unless (feature? feature)  (push! feature *features*))
+  feature)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
+
+
 (report-time-us "def aliases for builtins       "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; simple aliases:                                                                      ;;
@@ -1198,26 +1216,6 @@
      (rplaca! lst obj)
      (rplacd! lst new-tail)
      obj))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
-
-
-
-
-(report-time-us "def feature?/provide           "
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun feature? (feature)
-  "t if FEATURE is present in *features*."
-  (unless (and (symbol? feature) (not (keyword? feature)))
-   (error "FEATURE must be a non-keyword symbol"))
-  (memq? feature *features*))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun provide (feature)
-  "Add FEATURE to *features* if it is not already present"
-  (unless (and (symbol? feature) (not (keyword? feature)))
-   (error "FEATURE must be a non-keyword symbol"))
-  (unless (feature? feature)  (push! feature *features*))
-  feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
