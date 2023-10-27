@@ -91,7 +91,8 @@
      $('setq! '*microbench-before* $('now-us))
      $('let $($('result $('defmacro-base name params . body)))
        $('nl)
-       $('princ "defmacrod  " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")
+       $('princ "defmacrod  " $('quote name) " in "
+         $('elapsed-us '*microbench-before*) " us.")
        'result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun (name params . body)
@@ -99,14 +100,15 @@
     $('setq! '*microbench-before* $('now-us))
     $('let $($('result $('defun-base name params . body)))
       $('nl)
-      $('princ "defunned   " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")
+      $('princ "defunned   " $('quote name) " in "
+        $('elapsed-us '*microbench-before*) " us.")
       'result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun provide (feature)
   (setq! *microbench-before* (now-us))
-  (provide-base feature)
-  (nl)
-  (princ "provide    '" feature " in " (elapsed-us *microbench-before*) " us.")))
+  (let ((result (provide-base feature)))
+   (nl)
+   (princ "provide    '" feature " in " (elapsed-us *microbench-before*) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
