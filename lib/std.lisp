@@ -58,15 +58,9 @@
      $('princ "defmacrod  " $('quote name) " in " $('elapsed-us 'before) " us."))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun (name params . body)
-  (unless (eq? :SYMBOL (type name))
-   (error "NAME must be a symbol"))
-  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
-   (error "PARAMS must be a list or symbol"))
-  (unless (eq? :CONS (type body))
-   (error "BODY must be a cons"))
   $('progn
     $('setq! 'before $('now-us))
-    $('setq! name $('lambda params . body))
+    $('defun-base name params . body)
     $('nl)
     $('princ "defunned   " $('quote name) " in " $('elapsed-us 'before) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
