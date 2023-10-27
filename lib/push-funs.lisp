@@ -1,3 +1,6 @@
+(require 'std-minimal)
+(require 'nconc)
+
 (report-time-us "def push functions             "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (push/push-back):                                                          ;;
