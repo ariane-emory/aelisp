@@ -331,21 +331,6 @@
 (init-list) (write (time (mapcar!   (lambda (n) (* n n)) nums))) (nl)
 (init-list) (write (time (mapcar-r! (lambda (n) (* n n)) nums))) (nl)
 
-(defun mapconcat (fun lst . rest)
-  "Map fun over LST, returning the result of concatenating the resulting strings."
-  (unless (fun? fun)     (error "FUN must be a function"))
-  (unless (list? lst)    (error "LST must be a list"))
-  (unless (or (nil? rest) (single? rest))
-   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
-  (let ((delimiter (car rest))
-        (acc (if lst (fun (car lst)) ""))
-        (current (cdr lst)))
-    (unless (or (nil? delimiter) (string? delimiter))
-      (error "DELIMITER must be a string or nil"))
-    (while current
-      (setq acc (concat acc (or delimiter "") (fun (car current))))
-      (setq current (cdr current)))
-    acc))
 
 (defun mapcan (fun lst)
   "Map fun over LST and concatenate the results by altering them."
@@ -359,3 +344,6 @@
           (setq results (if results (nconc! results result) result))))
       (setq current (cdr current)))
     results))
+
+(write (time (mapconcat         (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
+(write (time (mapconcat-reduced (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)

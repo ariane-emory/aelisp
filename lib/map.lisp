@@ -48,7 +48,23 @@
       (setq! current (cdr current)))
     lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun mapconcat (fun lst . rest)
+(defun mapconcat (fun lst . rest)
+  "Map fun over LST, returning the result of concatenating the resulting strings."
+  (unless (fun? fun)     (error "FUN must be a function"))
+  (unless (list? lst)    (error "LST must be a list"))
+  (unless (or (nil? rest) (single? rest))
+   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
+  (let ((delimiter (car rest))
+        (acc (if lst (fun (car lst)) ""))
+        (current (cdr lst)))
+    (unless (or (nil? delimiter) (string? delimiter))
+      (error "DELIMITER must be a string or nil"))
+    (while current
+      (setq acc (concat acc (or delimiter "") (fun (car current))))
+      (setq current (cdr current)))
+    acc))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun mapconcat-reduced (fun lst . rest)
   "Map fun over LST, returning the result of concatenating the resulting
    strings."
   (unless (fun? fun)     (error "FUN must be a function"))
