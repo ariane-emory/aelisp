@@ -216,15 +216,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; quasiquotation:                                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! append2
-  (lambda (lst1 lst2)
-   "Append LST1 and LST2."
-   (unless (list? lst1) (error "LST1 must be a list"))
-   (unless (list? lst2) (error "LST2 must be a list"))
-   (if (nil? lst1)
-    lst2
-    (cons (car lst1) (append2 (cdr lst1) lst2)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun append2 (lst1 lst2)
   "Append LST1 and LST2."
   (unless (list? lst1) (error "LST1 must be a list"))
@@ -515,7 +506,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (append/nconc variants):                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! append (reduced* append2))
+(defun append lists
+ "Append any number of lists."
+ (let ((result nil)
+       (last-cell nil)
+       (current-lists lists))
+  ;; Outer loop for iterating over the lists in the input 'lists'
+  (while current-lists
+   (let ((current-list (car current-lists)))
+    (unless (list? current-list) (error "Every argument must be a list"))
+    ;; Inner loop for iterating over elements of 'current-list'
+    (while current-list
+     (let ((new-cell (cons (car current-list) nil)))
+      (if (nil? result)
+       (setq! result new-cell)    ; Initialize result if it's the first element
+       (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
+      (setq! last-cell new-cell)
+      (setq! current-list (cdr current-list))))
+    (setq! current-lists (cdr current-lists))))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
