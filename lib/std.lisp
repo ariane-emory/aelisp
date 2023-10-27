@@ -28,6 +28,83 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; type predicates:                                                                      ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun type?     (typ o) (eq? typ       (type           o)))
+(defun atom?     (o)     (not (type?    :CONS           o)))
+(defun char?     (o)          (type?    :CHAR           o))
+(defun cons?     (o)          (type?    :CONS           o))
+(defun core?     (o)          (type?    :CORE           o))
+(defun env?      (o)          (type?    :ENV            o))
+(defun error?    (o)          (type?    :ERROR          o))
+(defun float?    (o)          (type?    :FLOAT          o))
+(defun integer?  (o)          (type?    :INTEGER        o))
+(defun lambda?   (o)          (type?    :LAMBDA         o))
+(defun λ?        (o)          (type?    :LAMBDA         o))
+(defun macro?    (o)          (type?    :MACRO          o))
+(defun rational? (o)          (type?    :RATIONAL       o))
+(defun string?   (o)          (type?    :STRING         o))
+(defun symbol?   (o)          (type?    :SYMBOL         o))
+(defun improper? (o)     (and (list? o) (not (proper?   o))))
+(defun fun?      (o)     (or  (core? o) (lambda? o) (macro? o)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! list? tail?)
+(setq! pair? cons?) ;; scheme compatability
+(setq! null? nil?)  ;; scheme compatability
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun feature? (feature)
+ "t if FEATURE is present in *features*."
+ (unless (and (symbol? feature) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (letrec
+  ((private-memq?
+    (unless (bound? 'memq)
+     (lambda (elem lst)
+      (cond
+       ((eq? elem (car lst)) t)
+       (lst (private-memq? elem (cdr lst)))))))
+   (mem? (or private-memq? memq)))
+  (mem? feature *features*)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun provide (feature)
+ "Add FEATURE to *features* if it is not already present"
+ (unless (and (symbol? feature) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (unless (feature? feature)  (push! feature *features*))
+ feature)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro funcall (fun . args)
+ "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
+ (unless (fun? (eval fun)) (error "FUN must be a function"))
+ (cons fun args))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun root-env ()
+ "Get the root environment."
+ (setq! pos (env))
+ (while (env pos)
+  (write pos) (nl)
+  (setq! pos (env pos)))
+ pos) 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro defconstant (sym value)
+ "Set SYM to VALUE and mark it as constant."
+ (unless (symbol? sym) (error "SYM must be a symbol"))
+ $('progn
+   $('setq! sym value)
+   $('put! 't ':constant $('quote sym))
+   value))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+(defun id (o) o)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; time evaluation:                                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro time exprs
@@ -95,34 +172,6 @@
  (setq! gte     >=)
  (setq! lt      <)
  (setq! gt      >)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
-
-
-(report-time-us "def type preds                 "
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; type predicates:                                                                     ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun type?     (typ o) (eq? typ       (type           o)))
- (defun atom?     (o)     (not (type?    :CONS           o)))
- (defun char?     (o)          (type?    :CHAR           o))
- (defun cons?     (o)          (type?    :CONS           o))
- (defun core?     (o)          (type?    :CORE           o))
- (defun env?      (o)          (type?    :ENV            o))
- (defun error?    (o)          (type?    :ERROR          o))
- (defun float?    (o)          (type?    :FLOAT          o))
- (defun integer?  (o)          (type?    :INTEGER        o))
- (defun lambda?   (o)          (type?    :LAMBDA         o))
- (defun λ?        (o)          (type?    :LAMBDA         o))
- (defun macro?    (o)          (type?    :MACRO          o))
- (defun rational? (o)          (type?    :RATIONAL       o))
- (defun string?   (o)          (type?    :STRING         o))
- (defun symbol?   (o)          (type?    :SYMBOL         o))
- (defun improper? (o)     (and (list? o) (not (proper?   o))))
- (defun fun?      (o)     (or  (core? o) (lambda? o) (macro? o)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! pair? cons?) ;; scheme compatability
- (setq! null? nil?)  ;; scheme compatability
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
@@ -996,8 +1045,6 @@
   (lambda args
    (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun id     (o)   o)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun spc    ()    (princ " "))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun max(a b)
@@ -1089,27 +1136,6 @@
     (rplacd! (body fun) new-body))
    (put! t :added-logging fun) (nl)
    fun))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro funcall (fun . args)
-  "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
-  (unless (fun? (eval fun)) (error "FUN must be a function"))
-  (cons fun args))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun root-env ()
-  "Get the root environment."
-  (setq! pos (env))
-  (while (env pos)
-   (write pos) (nl)
-   (setq! pos (env pos)))
-  pos) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro defconstant (sym value)
-  "Set SYM to VALUE and mark it as constant."
-  (unless (symbol? sym) (error "SYM must be a symbol"))
-  $('progn
-    $('setq! sym value)
-    $('put! 't ':constant $('quote sym))
-    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
  (setq! bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1491,28 +1517,11 @@
 (report-time-us "def remove!                    "
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro remove! (prop obj)
+  "Remove a property PROP from OBJ."
   $('prog1
     $('quote $('get prop obj))
     $('props! obj $('plist-removeql prop $('props obj)))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
-
-
-(report-time-us "def feature?/provide           "
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun feature? (feature)
-  "t if FEATURE is present in *features*."
-  (unless (and (symbol? feature) (not (keyword? feature)))
-   (error "FEATURE must be a non-keyword symbol"))
-  (memq? feature *features*))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun provide (feature)
-  "Add FEATURE to *features* if it is not already present"
-  (unless (and (symbol? feature) (not (keyword? feature)))
-   (error "FEATURE must be a non-keyword symbol"))
-  (unless (feature? feature)  (push! feature *features*))
-  feature)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
 
