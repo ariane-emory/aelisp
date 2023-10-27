@@ -52,8 +52,8 @@
 (setq! memq?
  (lambda (elem lst)
   (cond
-    ((eq? elem (car lst)) t)
-    (lst (memq? elem (cdr lst))))))
+   ((eq? elem (car lst)) t)
+   (lst (memq? elem (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun feature? (feature)
  "t if FEATURE is present in *features*."
@@ -61,12 +61,14 @@
   (error "FEATURE must be a non-keyword symbol"))
  (letrec
   ((private-memq?
-    (lambda (elem lst)
-     (cond
-      ((eq? elem (car lst)) t)
-      (lst (private-memq? elem (cdr lst))))))
+    (if (bound? 'memq)
+     memq?
+     (lambda (elem lst)
+      (cond
+       ((eq? elem (car lst)) t)
+       (lst (private-memq? elem (cdr lst)))))))
    (mem? (if (bound? 'memq?) memq? private-memq?)))
- (mem? feature *features*)))
+  (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide (feature)
  "Add FEATURE to *features* if it is not already present"
