@@ -67,4 +67,21 @@
 (setq! append (reduced* append2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; list funs (deprecated reverse):                                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun reverse (lst)
+  "Returns a new list that is the reverse of the input list."
+  (unless (list? lst) (error "LST must be a list"))
+  (letrec
+   ((reverse-internal
+     (lambda (lst acc)
+      (if (nil? lst)
+       acc
+       (reverse-internal (cdr lst) (cons (car lst) acc))))))
+   (reverse-internal lst nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (provide 'deprecated)
