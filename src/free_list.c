@@ -4,6 +4,9 @@
 #include <stddef.h>
 #include <assert.h>
 
+#include "common.h"
+#include "log.h"
+
 long long int free_list_allocated = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,6 +158,9 @@ void * free_list_malloc(size_t size) {
     assert(0);
   }
 
+  if (log_eval)
+    SLOGF("free_list alloc'd: %lld bytes", size);
+  
   free_list_allocated += size;
   
   return ptr;
@@ -206,9 +212,13 @@ void free_list_free(void * ptr) {
 #ifdef AE_LOG_FREE_LIST
   printf("with node     %p\n", node);
 #endif
+
+  if (log_eval) 
+    SLOGF("free_list freed: %lld bytes", node->size);
   
   free_list_allocated -= node->size;
-
+  assert(free_list_allocated >= 0);
+  
   ae_alloc_node_t * free_node;
 
   AE_NODE_FOR_EACH(free_node, &free_list) {

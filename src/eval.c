@@ -403,7 +403,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
 
   INDENT;
-
+  
   if (log_eval) {
     LOG(env,  "in env");
 
@@ -411,6 +411,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
       LOG(ENV_SYMS(env), "with syms");
       LOG(ENV_VALS(env), "and  vals");
     }
+
+    SLOGF("free_list_allocated on enter: %lld", free_list_allocated);
   }
 
   ae_obj_t * fun = EVAL_AND_RETURN_IF_ERRORP(env, head);
@@ -499,6 +501,9 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
 
 end:
 
+  if (log_eval)
+    SLOGF("free_list_allocated on exit: %lld", free_list_allocated);
+  
   OUTDENT;
 
   if (log_eval)
