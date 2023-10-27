@@ -18,6 +18,7 @@ To Do:
 - [ ] GC.
 
 Under Consideration:
+- [ ] Maybe pretty-print s-exps?
 - [ ] core_concat could be simplified using strcat? Maybe not.
 - [ ] eval could take an optional env param?
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
