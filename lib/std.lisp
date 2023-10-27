@@ -7,12 +7,6 @@
 ;; simpler-version of std load time measuerement:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! before (now-us))
-(setq! print-load-time-us
- (lambda ()
-  (princ "Loaded in ")
-  (princ (elapsed-us before))
-  (princ " us.")
-  (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -37,32 +31,6 @@
  (unless (eq? :CONS (type body))
   (error "BODY must be a cons"))
  $('setq! name $('lambda params . body)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; feature? and provide:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun feature? (feature)
- "t if FEATURE is present in *features*."
- (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
-  (error "FEATURE must be a non-keyword symbol"))
- (letrec
-  ((private-memq?
-    (unless (bound? 'memq?)
-     (lambda (elem lst)
-      (cond
-       ((eq? elem (car lst)) t)
-       (lst (private-memq? elem (cdr lst)))))))
-   (mem? (or private-memq? memq?)))
-  (mem? feature *features*)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun provide (feature)
- "Add FEATURE to *features* if it is not already present"
- (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
-  (error "FEATURE must be a non-keyword symbol"))
- (unless (feature? feature)  (push! feature *features*))
- feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -100,6 +68,34 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; feature? and provide:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun feature? (feature)
+ "t if FEATURE is present in *features*."
+ (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (letrec
+  ((private-memq?
+    (unless (bound? 'memq?)
+     (lambda (elem lst)
+      (cond
+       ((eq? elem (car lst)) t)
+       (lst (private-memq? elem (cdr lst)))))))
+   (mem? (or private-memq? memq?)))
+  (mem? feature *features*)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun provide (feature)
+ "Add FEATURE to *features* if it is not already present"
+ (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (unless (feature? feature)  (push! feature *features*))
+ feature)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; already defined above:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'feature-and-provide)
 (provide 'microbench)
@@ -1735,7 +1731,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-(print-load-time-us)
+(princ "Loaded in ")
+(princ (elapsed-us before))
+(princ " us.")
+(nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'std)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
