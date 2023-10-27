@@ -103,11 +103,11 @@
   (nl)
   (princ "provide    '" feature " in " (elapsed-us *microbench-before*) " us."))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun provide (feature)
+ (defun provide! (feature)
   (setq! *microbench-before* (now-us))
-  (provide-base feature)
+  (provide-base! feature)
   (nl)
-  (princ "provide    '" feature " in " (elapsed-us *microbench-before*) " us.")))
+  (princ "provide!   '" feature " in " (elapsed-us *microbench-before*) " us.")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
