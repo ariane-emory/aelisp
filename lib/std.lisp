@@ -54,11 +54,16 @@
    (mem? (or private-memq? memq?)))
   (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun provide (feature)
- "Add FEATURE to *features* if it is not already present"
+(defun provide! (feature)
+ "Add FEATURE to *features*."
  (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
   (error "FEATURE must be a non-keyword symbol"))
  (unless (feature? feature) (push! feature *features*))
+ feature)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun provide (feature)
+ "Add FEATURE to *features* if it is not already present."
+ (unless (feature? feature) (provide! feature))
  feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
