@@ -332,18 +332,32 @@
 (init-list) (write (time (mapcar-r! (lambda (n) (* n n)) nums))) (nl)
 
 
-(defun mapcan (fun lst)
-  "Map fun over LST and concatenate the results by altering them."
-  (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (list? lst)  (error "LST must be a list"))
-  (let ((results '())
-        (current lst))
-    (while current
-      (let ((result (fun (car current))))
-        (when result
-          (setq results (if results (nconc! results result) result))))
-      (setq current (cdr current)))
-    results))
+(defun mapcan-1 (fun lst)
+ "Map fun over LST and concatenate the results by altering them."
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (unless (list? lst)  (error "LST must be a list"))
+ (let ((results '())
+       (current lst))
+  (while current
+   (let ((result (fun (car current))))
+    (when result
+     (setq results (if results (nconc! results result) result))))
+   (setq current (cdr current)))
+  results))
+
+(defun mapcan-2 (fun lst)
+ "Map fun over LST and concatenate the results by altering them."
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (unless (list? lst)  (error "LST must be a list"))
+ (when lst
+  (let ((result (fun (car lst)))
+        (rest   (mapcan-2 fun (cdr lst))))
+   (if result
+    (nconc! result rest)
+    rest))))
 
 (write (time (mapconcat         (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
 (write (time (mapconcat-reduced (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
+
+;; (init-list) (write (mapcan-1 (lambda (x) (when (odd? x) x)) nums)) (nl)
+;; (init-list) (write (mapcan-2 (lambda (x) (when (odd? x) x)) nums)) (nl)
