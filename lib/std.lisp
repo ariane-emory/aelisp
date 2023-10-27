@@ -875,8 +875,8 @@
                (next (cdr lst)))
           (cond
            ((eq? obj head) (progn (rplacd! prev next) obj))
-           (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "OBJ was not found in LST"))
+           (next           (progn (setq! prev lst) (chase next)))
+           (t              (error "OBJ was not found in LST"))
            )))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
