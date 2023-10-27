@@ -74,7 +74,7 @@
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun feature? (feature)
   "t if FEATURE is present in *features*."
-  (unless (and (symbol? feature) (not (keyword? feature)))
+  (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
    (error "FEATURE must be a non-keyword symbol"))
   (letrec
    ((private-memq?
