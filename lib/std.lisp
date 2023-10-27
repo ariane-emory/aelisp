@@ -170,18 +170,19 @@
       $('princ '" us.")
       $('nl))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro timed-defun (name params . body)
- (unless (eq? :SYMBOL (type name))
-  (error "NAME must be a symbol"))
- (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
-  (error "PARAMS must be a list or symbol"))
- (unless (eq? :CONS (type body))
-  (error "BODY must be a cons"))
- $('progn
-   $('setq! 'before $('now-us))
-   $('setq! name $('lambda params . body))
-   $('nl)
-   $('princ "defined " name " in " $('elapsed-us 'before) " us.")))
+ (when t
+  (defmacro timed-defun (name params . body)
+   (unless (eq? :SYMBOL (type name))
+    (error "NAME must be a symbol"))
+   (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
+    (error "PARAMS must be a list or symbol"))
+   (unless (eq? :CONS (type body))
+    (error "BODY must be a cons"))
+   $('progn
+     $('setq! 'before $('now-us))
+     $('setq! name $('lambda params . body))
+     $('nl)
+     $('princ "defined " name " in " $('elapsed-us 'before) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'measure-time))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
