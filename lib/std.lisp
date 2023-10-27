@@ -163,12 +163,14 @@
  (defmacro report-time-us (msg . exprs)
   (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
   $('progn
-;;    $('princ msg)
     $('let $($('time-taken (cons 'time-us exprs)))
-;;      $('princ '" in ")
-;;      $('princ 'time-taken)
-;;      $('princ '" us.")
-;;      $('nl)
+      $('nl)
+      $('princ '"Completed ")
+      $('princ msg)
+      $('princ '" in ")
+      $('princ 'time-taken)
+      $('princ '" us.")
+      $('nl)
       )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (when t
@@ -183,7 +185,7 @@
      $('setq! 'before $('now-us))
      $('setq! name $('lambda params . body))
      $('nl)
-     $('princ "defined " $('quote name) " in " $('elapsed-us 'before) " us."))))
+     $('princ "defunned " $('quote name) " in " $('elapsed-us 'before) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'measure-time))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
