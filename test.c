@@ -1607,7 +1607,12 @@ void push_and_pop(void) {
   T(LENGTH(lst) == 0);
   T(NILP(lst));
   
-  // NL;
+  /* NL; */
+  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
+  /* char * const tmp = free_list_malloc(256); */
+  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
+  /* free_list_free(tmp); */
+  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
 }
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////

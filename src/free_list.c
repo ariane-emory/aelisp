@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <assert.h>
 
+long long int free_list_allocated = 0;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +155,8 @@ void * free_list_malloc(size_t size) {
     assert(0);
   }
 
+  free_list_allocated += size;
+  
   return ptr;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,6 +207,8 @@ void free_list_free(void * ptr) {
   printf("with node     %p\n", node);
 #endif
   
+  free_list_allocated -= node->size;
+
   ae_alloc_node_t * free_node;
 
   AE_NODE_FOR_EACH(free_node, &free_list) {
@@ -216,6 +222,7 @@ void free_list_free(void * ptr) {
   ae_alloc_node_insert(free_list.prev, node, &free_list);
 
 end:
+  
   free_list_coalesce();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
