@@ -60,12 +60,14 @@
  (unless (and (symbol? feature) (not (keyword? feature)))
   (error "FEATURE must be a non-keyword symbol"))
  (letrec
-  ((mem?
+  ((private-memq?
     (lambda (elem lst)
      (cond
       ((eq? elem (car lst)) t)
-    (lst (mem? elem (cdr lst)))))))
- (mem? feature *features*)))
+      (lst (private-memq? elem (cdr lst))))))
+   (memq? private-memq?)
+   )
+ (memq? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide (feature)
  "Add FEATURE to *features* if it is not already present"
