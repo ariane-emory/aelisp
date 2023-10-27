@@ -1378,8 +1378,7 @@
           (cond
            ((eq? obj head) (progn (rplacd! prev next) obj))
            (next           (progn (setq! prev lst) (chase next)))
-           (t              (error "OBJ was not found in LST"))
-           )))))
+           (t              (error "OBJ was not found in LST")))))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun removeql! (obj lst)
@@ -1402,8 +1401,7 @@
           (cond
            ((eql? obj head) (progn (rplacd! prev next) obj))
            (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "OBJ was not found in LST"))
-           )))))
+           (t               (error "OBJ was not found in LST")))))))
       (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'remove-funs))
