@@ -7,14 +7,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-set!
   (make-chase-fun (lst index)
-   ((zero? index) (rplaca! position (car rest)))
-   (position (chase (1- index) (car rest)))
+   ((= 0 index) (rplaca! position (car rest)))
+   (position (chase (- index 1) (car rest)))
    (t (error "INDEX out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-ref
   (make-chase-fun (lst index)
-   ((zero? index) head)
-   (position (chase (1- index)))
+   ((= 0 index) head)
+   (position (chase (- index 1)))
    (t (error "INDEX out of range"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! list-length length)
@@ -23,8 +23,8 @@
   "Make a new list of length SIZE with it's cars set to INIT-VAL."
   (unless (integer? size) (error "SIZE must be an integer"))
   (cond
-   ((zero? size)  nil)
-   (t            (cons init-val (make-list (1- size) init-val)))))
+   ((= 0 size)  nil)
+   (t            (cons init-val (make-list (- size 1) init-val)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
