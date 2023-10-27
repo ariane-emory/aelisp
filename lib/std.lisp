@@ -1256,31 +1256,71 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(report-time-us "def tail chasers               "
+(defun memq? (elem lst)
+ "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil))
+  (while (and lst (not found))
+   (if (eq? elem (car lst))
+    (setq! found t)
+    (setq! lst (cdr lst))))
+  found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro make-member-pred (pred?)
-  `(make-chase-fun (obj lst)
-    ((,pred? obj head) t)
-    (position (chase obj))))
+(defun memql? (elem lst)
+ "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil))
+  (while (and lst (not found))
+   (if (eql? elem (car lst))
+    (setq! found t)
+    (setq! lst (cdr lst))))
+  found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro make-remove-fun (pred?)
-  `(make-chase-fun (obj lst)
-    ((,pred? obj head) tail)
-    (position (cons head (chase obj)))))
+(defun indexq (elem lst)
+ "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
+ "ELEM does not appear in the list. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((idx 0)
+       (found nil))
+  (while (and lst (not found))
+   (if (eq? elem (car lst))
+    (setq! found idx)
+    (setq! idx (+ 1 idx))
+    (setq! lst (cdr lst))))
+  found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro make-index-fun (pred?)
-  `(make-chase-fun (obj lst)
-    ((,pred? obj head) (car rest))
-    (position (chase obj (if rest (1+ (car rest)) 1)))))
+(defun indexql (elem lst)
+ "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
+ "ELEM does not appear in the list. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((idx 0)
+       (found nil))
+  (while (and lst (not found))
+   (if (eql? elem (car lst))
+    (setq! found idx)
+    (setq! idx (+ 1 idx))
+    (setq! lst (cdr lst))))
+  found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! indexq   (make-index-fun   eq?))
- (setq! memq?    (make-member-pred eq?))
- (setq! removeq  (make-remove-fun  eq?))
- (setq! indexql  (make-index-fun   eql?))
- (setq! memql?   (make-member-pred eql?))
- (setq! removeql (make-remove-fun  eql?))
+(defun removeq (elem lst)
+ "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((result nil))
+  (while lst
+   (unless (eq? elem (car lst))
+    (setq! result (cons (car lst) result)))
+   (setq! lst (cdr lst)))
+  (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (provide 'tail-chaser-funs))
+(defun removeql (elem lst)
+ "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((result nil))
+  (while lst
+   (unless (eql? elem (car lst))
+    (setq! result (cons (car lst) result)))
+   (setq! lst (cdr lst)))
+  (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
