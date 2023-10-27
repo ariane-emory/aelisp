@@ -850,17 +850,26 @@
    result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun butlast (lst)
-  "Returns a new list that contains all the elements of the input list except"
-  "last one."
+  "Returns a new list that contains all the elements of the input list except the last one."
   (unless (list? lst) (error "LST must be a list"))
-  (if (or (nil? lst) (nil? (cdr lst)))
-   nil
-   (cons (car lst) (butlast (cdr lst)))))
+  (let ((result nil)
+        (prev nil))
+   (while (cdr lst)
+    (setq! prev (cons (car lst) prev))
+    (setq! lst (cdr lst)))
+   (while prev
+    (setq! result (cons (car prev) result))
+    (setq! prev (cdr prev)))
+   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun copy-list (lst)
-  "Take shallow copy of LST."
+  "Take a shallow copy of LST."
   (unless (list? lst) (error "LST must be a list"))
-  (when lst (cons (car lst) (copy-list (cdr lst)))))
+  (let ((result nil))
+   (while lst
+    (setq! result (cons (car lst) result))
+    (setq! lst (cdr lst)))
+   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'list-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
