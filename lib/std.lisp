@@ -40,6 +40,9 @@
 (setq! *microbench* t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when *microbench*
+ (setq! defmacro-base defmacro)
+ (setq! defun-base defun)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! defmacro
   (macro (name params . body)
    (unless (eq? :SYMBOL (type name))
@@ -53,6 +56,7 @@
      $('setq! name $('macro params . body))
      $('nl)
      $('princ "defmacrod  " $('quote name) " in " $('elapsed-us 'before) " us."))))
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun (name params . body)
   (unless (eq? :SYMBOL (type name))
    (error "NAME must be a symbol"))
