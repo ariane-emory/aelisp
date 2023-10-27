@@ -77,23 +77,23 @@
  (setq! defmacro
   (macro (name params . body)
    $('progn
-     $('setq! 'before $('now-us))
+     $('setq! '*microbench-before* $('now-us))
      $('defmacro-base name params . body)
      $('nl)
-     $('princ "defmacrod  " $('quote name) " in " $('elapsed-us 'before) " us."))))
+     $('princ "defmacrod  " $('quote name) " in " $('elapsed-us '*microbench-before*) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro defun (name params . body)
   $('progn
-    $('setq! 'before $('now-us))
+    $('setq! '*microbench-before* $('now-us))
     $('defun-base name params . body)
     $('nl)
-    $('princ "defunned   " $('quote name) " in " $('elapsed-us 'before) " us.")))
+    $('princ "defunned   " $('quote name) " in " $('elapsed-us '*microbench-before*) " us.")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun provide (feature)
-  (setq! before (now-us))
+  (setq! *microbench-before* (now-us))
   (provide-base feature)
   (nl)
-  (princ "provide    " (quote feature) " in " (elapsed-us before) " us.")))
+  (princ "provide    '" feature " in " (elapsed-us *microbench-before*) " us.")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
