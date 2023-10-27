@@ -325,5 +325,7 @@
    (setq! nums (cons ctr nums))
    (setq! ctr (- ctr 1)))))
 
-(write (time (mapcar   (lambda (n) (* n n)) nums))) (nl)
-(write (time (mapcar-r (lambda (n) (* n n)) nums))) (nl)
+(write (time (mapcar    (lambda (n) (* n n)) nums))) (nl)
+(write (time (mapcar-r  (lambda (n) (* n n)) nums))) (nl)
+(write (time (mapcar!   (lambda (n) (* n n)) nums))) (nl)
+(write (time (mapcar-r! (lambda (n) (* n n)) nums))) (nl)

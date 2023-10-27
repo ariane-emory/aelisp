@@ -17,15 +17,15 @@
   "Map fun over LST, returning the resulting list."
   (unless (fun? fun)   (error "FUN must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
-  (let ((result '()))
+  (let ((acc nil))
    (while lst
-    (setq! result (cons (fun (car lst)) result))
+    (setq! acc (cons (fun (car lst)) acc))
     (setq! lst    (cdr lst)))
-   (reverse result)))
+   (reverse acc)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar* (fun . args) (apply mapcar fun (list args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun mapcar! (fun lst)
+ (defun mapcar-r! (fun lst)
   "Map fun over LST, altering the list."
   (unless (fun? fun)   (error "FUN must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
@@ -34,9 +34,19 @@
      (lambda (fun lst)
       (when lst
        (rplaca! lst (fun (car lst)))
-       (mapcar! fun (cdr lst))))))
+       (mapcar-r! fun (cdr lst))))))
    (mapcar-internal! fun lst)
    lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun mapcar! (fun lst)
+  "Map fun over LST, altering the list."
+  (unless (fun? fun)  (error "FUN must be a function"))
+  (unless (list? lst) (error "LST must be a list"))
+  (let ((current lst))
+    (while current
+      (setcar! current (fun (car current)))
+      (setq! current (cdr current)))
+    lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapconcat (fun lst . rest)
   "Map fun over LST, returning the result of concatenating the resulting
