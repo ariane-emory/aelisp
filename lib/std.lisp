@@ -101,7 +101,7 @@
  )
 
 
-(require 'reduction)
+(require 'reduce)
 
 
 (report-time-us "def map variants               "
