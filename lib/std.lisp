@@ -137,43 +137,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; measure evaluation time:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;;  (defmacro time exprs
- ;;   "Return how long it takes to evaluate EXPRS in milliseconds."
- ;;   $('let $($('begin $('now)))
- ;;     (cons 'progn exprs)
- ;;     $('elapsed 'begin)))
- ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;;  (defmacro report-time (msg . exprs)
- ;;   (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
- ;;   $('progn
- ;;     $('princ msg)
- ;;     $('let $($('time-taken (cons 'time exprs)))
- ;;       $('princ '" in ")
- ;;       $('princ 'time-taken)
- ;;       $('princ '" us.")
- ;;       $('nl))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro time-us exprs
-  "Return how long it takes to evaluate EXPRS in microseconds."
-  $('let $($('begin $('now-us)))
-    (cons 'progn exprs)
-    $('elapsed-us 'begin)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defmacro report-time-us (msg . exprs)
-  (unless (eq? :STRING (type msg)) (error "MSG must be a string"))
-  $('progn
-    $('let $($('time-taken (cons 'time-us exprs)))
-      ;; $('nl)
-      ;; $('princ '"Completed ")
-      ;; $('princ msg)
-      ;; $('princ '" in ")
-      ;; $('princ 'time-taken)
-      ;; $('princ '" us.")
-      ;; $('nl)
-      )))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (when *microbench*
-
   (setq! defmacro
    (macro (name params . body)
     (unless (eq? :SYMBOL (type name))
@@ -186,9 +150,7 @@
       $('setq! 'before $('now-us))
       $('setq! name $('macro params . body))
       $('nl)
-      $('princ "defmacrod '" $('quote name) " in " $('elapsed-us 'before) " us.")
-      )))
-
+      $('princ "defmacrod " $('quote name) " in " $('elapsed-us 'before) " us."))))
   (defmacro defun (name params . body)
    (unless (eq? :SYMBOL (type name))
     (error "NAME must be a symbol"))
@@ -200,7 +162,7 @@
      $('setq! 'before $('now-us))
      $('setq! name $('lambda params . body))
      $('nl)
-     $('princ "defunned  '" $('quote name) " in " $('elapsed-us 'before) " us."))))
+     $('princ "defunned  " $('quote name) " in " $('elapsed-us 'before) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'measure-time)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
