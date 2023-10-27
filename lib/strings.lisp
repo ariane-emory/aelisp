@@ -1,3 +1,7 @@
+(require 'std-minimal)
+(require 'measure-time)
+(require 'vector-lists)
+
 (report-time-us "def string funs                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun make-string (size init-val)
