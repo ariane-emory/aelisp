@@ -503,7 +503,14 @@
    ((nil? lst1) lst2)
    (t           (rplacd! (last lst1) lst2) lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! nconc! (reduced* nconc2!))
+ (defun nconc! lists
+  "Destructively concatenate multiple lists."
+  (let ((result (car lists))
+        (rest-lists (cdr lists)))
+    (while rest-lists
+      (setq! result (nconc2! result (car rest-lists)))
+      (setq! rest-lists (cdr rest-lists)))
+   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
