@@ -2,7 +2,6 @@
 ;; 'standard library', such as it is:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simple std load time measuerement:                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -15,35 +14,33 @@
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (require 'std-minimal)
 (require 'measure-time)
 (require 'map)
-(require 'core-aliases)
-(require 'compound-cars-and-cdrs)
-(require 'quasiquote)
-(require 'numbered-access)
-(require 'reduce)
-(require 'append)
-(require 'nconc)
-(require 'push-funs)
-(require 'flatten)
-(require 'zip)
-(require 'tail-chaser-macros)
-(require 'transform)
-(require 'sort)
-(require 'list-funs)
-(require 'union)
-(require 'predicates)
-(require 'log-toggle)
-(require 'vector-lists)
-(require 'split-list)
-(require 'print-macros)
-(require 'std-misc)
-(require 'tail-chaser-funs)
-
 
 (mapc* require
+ 'core-aliases
+ 'compound-cars-and-cdrs
+ 'quasiquote
+ 'numbered-access
+ 'reduce
+ 'append
+ 'nconc
+ 'push-funs
+ 'flatten
+ 'zip
+ 'tail-chaser-macros
+ 'transform
+ 'sort
+ 'list-funs
+ 'union
+ 'predicates
+ 'log-toggle
+ 'vector-lists
+ 'split-list
+ 'print-macros
+ 'std-misc
+ 'tail-chaser-funs
  'selection-sort
  'delq
  'doc-strings
@@ -58,7 +55,6 @@
  'scheme-compat
  'elisp-compat
  'std-aliases)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (print-load-time-us)
