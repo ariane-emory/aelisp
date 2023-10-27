@@ -1,4 +1,5 @@
 (require 'std-minimal)
+(require 'nconc)
 
 (report-time-us "def map variants               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
