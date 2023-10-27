@@ -363,7 +363,7 @@
  "Map fun over LST and concatenate the results by altering them."
  (unless (fun? fun)   (error "FUN must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
- (let ((results '())
+ (let ((results nil)
        (tail nil)
        (current lst))
   (while current
@@ -373,9 +373,8 @@
       (progn
        (setq! tail (nconc! tail result))
        (setq! tail (last tail)))
-      (progn
-       (setq! results result)
-       (setq! tail results)))))
+      (setq! results result)
+      (setq! tail results))))
    (setq! current (cdr current)))
   results))
 
