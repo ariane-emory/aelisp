@@ -1,4 +1,4 @@
-(report-time-us "def benchmark                          "
+(report-time-us "def benchmark                  "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun benchmark (repetitions print-interval qexpr)
   "Benchmark QEXPR by running it REPETITIONS times and returning the"
