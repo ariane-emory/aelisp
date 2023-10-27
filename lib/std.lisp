@@ -37,17 +37,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; feature? and provide:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 (defun feature? (feature)
  "t if FEATURE is present in *features*."
  (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
   (error "FEATURE must be a non-keyword symbol"))
- (letrec
+ (let*
   ((private-memq?
     (unless (bound? 'memq?)
      (lambda (elem lst)
-      (cond
-       ((eq? elem (car lst)) t)
-       (lst (private-memq? elem (cdr lst)))))))
+      (let ((found nil))
+       (while (and lst (not found))
+        (if (eq? elem (car lst))
+         (setq! found t)
+         (setq! lst (cdr lst))))
+       found))))
    (mem? (or private-memq? memq?)))
   (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1210,15 +1216,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list mem funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun memq? (elem lst)
- "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((found nil))
-  (while (and lst (not found))
-   (if (eq? elem (car lst))
-    (setq! found t)
-    (setq! lst (cdr lst))))
-  found))
+;; (defun memq? (elem lst)
+;;  "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((found nil))
+;;   (while (and lst (not found))
+;;    (if (eq? elem (car lst))
+;;     (setq! found t)
+;;     (setq! lst (cdr lst))))
+;;   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun memql? (elem lst)
  "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
