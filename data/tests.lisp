@@ -399,7 +399,9 @@
     result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(write (indexql 3  '(1 2 3 4 5 6))) (nl)
-(write (indexql 9  '(1 2 3 4 5 6))) (nl)
-(write (removeql 3 '(1 2 3 4 5 6))) (nl)
-(write (removeql 9 '(1 2 3 4 5 6))) (nl)
+(confirm that (memql?   3 '(1 2 3 4 5 6)) returns t)
+(confirm that (memql?   9 '(1 2 3 4 5 6)) returns nil)
+(confirm that (indexql  3 '(1 2 3 4 5 6)) returns 2)
+(confirm that (indexql  9 '(1 2 3 4 5 6)) returns nil)
+(confirm that (removeql 3 '(1 2 3 4 5 6)) returns '(1 2 4 5 6))
+(confirm that (removeql 9 '(1 2 3 4 5 6)) returns '(1 2 3 4 5 6)) 
