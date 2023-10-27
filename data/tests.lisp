@@ -329,3 +329,10 @@
    (setq! ctr (- ctr 1)))))
 
 (write nums)
+
+(defun mapcar (fun lst)
+  "Map fun over LST, returning the resulting list."
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (list? lst)  (error "LST must be a list"))
+  (when lst
+   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
