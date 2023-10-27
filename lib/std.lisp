@@ -82,7 +82,7 @@
 ;; microbenchmark:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when *microbench-defmacro*
- (setq! defmacro-base   defmacro)
+ (setq! defmacro-base defmacro)
  (setq! defmacro
   (macro (name params . body)
    $('progn
@@ -94,7 +94,7 @@
        'result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when *microbench-defun*
- (setq! defun-base      defun)
+ (setq! defun-base defun)
  (defmacro defun (name params . body)
   $('progn
     $('setq! '*microbench-before* $('now-us))
@@ -105,7 +105,7 @@
       'result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when *microbench-provide*
- (setq! provide-base    provide)
+ (setq! provide-base provide)
  (defun provide (feature)
   (setq! *microbench-before* (now-us))
   (let ((result (provide-base feature)))
