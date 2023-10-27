@@ -70,30 +70,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; feature? and provide:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(progn
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun feature? (feature)
-  "t if FEATURE is present in *features*."
-  (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
-   (error "FEATURE must be a non-keyword symbol"))
-  (letrec
-   ((private-memq?
-     (unless (bound? 'memq?)
-      (lambda (elem lst)
-       (cond
-        ((eq? elem (car lst)) t)
-        (lst (private-memq? elem (cdr lst)))))))
-    (mem? (or private-memq? memq?)))
-   (mem? feature *features*)))
+(defun feature? (feature)
+ "t if FEATURE is present in *features*."
+ (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (letrec
+  ((private-memq?
+    (unless (bound? 'memq?)
+     (lambda (elem lst)
+      (cond
+       ((eq? elem (car lst)) t)
+       (lst (private-memq? elem (cdr lst)))))))
+   (mem? (or private-memq? memq?)))
+  (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun provide (feature)
-  "Add FEATURE to *features* if it is not already present"
-  (unless (and (symbol? feature) (not (keyword? feature)))
-   (error "FEATURE must be a non-keyword symbol"))
-  (unless (feature? feature)  (push! feature *features*))
-  feature)
+(defun provide (feature)
+ "Add FEATURE to *features* if it is not already present"
+ (unless (and (symbol? feature) (not (keyword? feature)))
+  (error "FEATURE must be a non-keyword symbol"))
+ (unless (feature? feature)  (push! feature *features*))
+ feature)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (provide 'feature-and-provide))
+(provide 'feature-and-provide)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
