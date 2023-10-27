@@ -55,33 +55,38 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun feature? (feature)
- "t if FEATURE is present in *features*."
- (unless (and (symbol? feature) (not (keyword? feature)))
-  (error "FEATURE must be a non-keyword symbol"))
- (letrec
-  ((private-memq?
-    (unless (bound? 'memq)
-     (lambda (elem lst)
-      (cond
-       ((eq? elem (car lst)) t)
-       (lst (private-memq? elem (cdr lst)))))))
-   (mem? (or private-memq? memq)))
-  (mem? feature *features*)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun provide (feature)
- "Add FEATURE to *features* if it is not already present"
- (unless (and (symbol? feature) (not (keyword? feature)))
-  (error "FEATURE must be a non-keyword symbol"))
- (unless (feature? feature)  (push! feature *features*))
- feature)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
+;; feature? and provideo
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (progn
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun feature? (feature)
+  "t if FEATURE is present in *features*."
+  (unless (and (symbol? feature) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
+  (letrec
+   ((private-memq?
+     (unless (bound? 'memq)
+      (lambda (elem lst)
+       (cond
+        ((eq? elem (car lst)) t)
+        (lst (private-memq? elem (cdr lst)))))))
+    (mem? (or private-memq? memq)))
+   (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; some basic funs/macros:
+ (defun provide (feature)
+  "Add FEATURE to *features* if it is not already present"
+  (unless (and (symbol? feature) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
+  (unless (feature? feature)  (push! feature *features*))
+  feature)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (provide 'feature-and-provide))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; some basic funs/macros:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(progn
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro ignore args
   "Ignores ARGS and do nothing."
