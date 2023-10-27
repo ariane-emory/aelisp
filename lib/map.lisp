@@ -6,12 +6,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (map variants):                                                            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun mapcar (fun lst)
+(defun mapcar-r (fun lst)
+ "Map fun over LST, returning the resulting list."
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (unless (list? lst)  (error "LST must be a list"))
+ (when lst
+  (cons (fun (car lst)) (mapcar-r fun (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
   (unless (fun? fun)   (error "FUN must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
-  (when lst
-   (cons (fun (car lst)) (mapcar fun (cdr lst)))))
+  (let ((result '()))
+   (while lst
+    (setq! result (cons (fun (car lst)) result))
+    (setq! lst    (cdr lst)))
+   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcar* (fun . args) (apply mapcar fun (list args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

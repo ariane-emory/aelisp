@@ -316,45 +316,14 @@
 (provide 'tests)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(mapcar (lambda (n) (progn (setq! ctr (1+ ctr)) ctr)) nums)
-
 (s nums nil)
 (s ctr 999)
 
 (setq! time-taken
  (time
   (while (>= ctr 0)
-   ;; (write ctr) (nl)
    (setq! nums (cons ctr nums))
    (setq! ctr (- ctr 1)))))
 
-;; (write nums)
-
-(defun r-mapcar (fun lst)
-  "Map fun over LST, returning the resulting list."
-  (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (list? lst)  (error "LST must be a list"))
-  (when lst
-   (cons (fun (car lst)) (r-mapcar fun (cdr lst)))))
-
-(defun non-recursive-mapcar (fun lst)
-  "Map fun over LST, returning the resulting list."
-  (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (list? lst)  (error "LST must be a list"))
-  (let ((result '()))
-   (while lst
-    (setq! result (cons (fun (car lst)) result))
-    (setq! lst    (cdr lst)))
-   (reverse-non-recursive result)))
-
-(defun reverse-non-recursive (lst)
-  "Returns a new list that is the reverse of the input list."
-  (unless (list? lst) (error "LST must be a list"))
-  (let ((acc nil))
-    (while lst
-      (setq acc (cons (car lst) acc))
-      (setq lst (cdr lst)))
-    acc))
-
-(write (time (mapcar (lambda (n) (* n n)) nums))) (nl)
-(write (time (non-recursive-mapcar (lambda (n) (* n n)) nums))) (nl)
+(write (time (mapcar   (lambda (n) (* n n)) nums))) (nl)
+(write (time (mapcar-r (lambda (n) (* n n)) nums))) (nl)
