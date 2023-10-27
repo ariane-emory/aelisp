@@ -884,22 +884,6 @@
     (setq! lst (cdr lst)))
    (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun min (lst)
- (let ((current-min (first lst)))
-  (mapc (lambda (x) 
-         (when (< x current-min) 
-          (setq! current-min x)))
-   lst)
-  current-min))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun max (lst)
- (let ((current-max (first lst)))
-  (mapc (lambda (x) 
-         (when (> x current-max) 
-          (setq! current-max x)))
-   lst)
-  current-max))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'list-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
