@@ -1,3 +1,5 @@
+(require 'compound-cars-and-cdrs)
+
 (report-time-us "get numbered access            "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (retrieving by position):                                                  ;;
@@ -30,13 +32,6 @@
   (if (= 0 n)
    lst
    (nthcdr (1- n) (cdr lst))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun last (lst)
-  "Get last item in a LST."
-  (unless (list? lst) (error "LST must be a list"))
-  (cond
-   ((nil? (cdr lst)) lst)
-   (lst              (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
 
