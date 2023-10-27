@@ -153,5 +153,25 @@
   (unless (list? lst) (error "LST must be a list"))
   (when lst (cons (car lst) (copy-list (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun intercalate (intercalated lst)
+  "Intercalate INTERCALATED between items in LST."
+  (unless (list? lst) (error "LST must be a list"))
+  (if (or (nil? lst) (nil? (cdr lst)))
+   lst
+   (cons (car lst)
+    (cons intercalated
+     (intercalate intercalated (cdr lst))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun filter (pred? lst)
+  "Return a list containing those members of lst satisfying pred?."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (list? lst)  (error "LST must be a list"))
+  (cond
+   ((nil? lst) nil)
+   ((pred? (car lst))
+    (cons (car lst) (filter pred? (cdr lst))))
+   (t (filter pred? (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (provide 'deprecated)

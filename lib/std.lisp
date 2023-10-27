@@ -821,24 +821,27 @@
    0
    (max 1 (+ (depth (car lst)) (depth (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun filter (pred? lst)
+(defun filter (pred? lst)
   "Return a list containing those members of lst satisfying pred?."
   (unless (fun? pred?) (error "PRED? must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
-  (cond
-   ((nil? lst) nil)
-   ((pred? (car lst))
-    (cons (car lst) (filter pred? (cdr lst))))
-   (t (filter pred? (cdr lst)))))
+  (let ((result nil))
+    (while lst
+      (if (pred? (car lst))
+          (setq! result (cons (car lst) result)))
+      (setq! lst (cdr lst)))
+    (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun intercalate (intercalated lst)
-  "Intercalate intercalated between items."
+(defun intercalate (intercalated lst)
+  "Intercalate INTERCALATED between items in LST."
   (unless (list? lst) (error "LST must be a list"))
-  (if (or (nil? lst) (nil? (cdr lst)))
-   lst
-   (cons (car lst)
-    (cons intercalated
-     (intercalate intercalated (cdr lst))))))
+  (let ((result nil))
+    (while (cdr lst)
+      (setq! result (cons (car lst) result))
+      (setq! result (cons intercalated result))
+      (setq! lst (cdr lst)))
+    (if lst (setq! result (cons (car lst) result)))
+    (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Return a new list that is the reverse of the input list LST."
