@@ -87,6 +87,7 @@
 
 
 (require 'vector-lists)
+(require 'split-list)
 
 
 (report-time-us "def tail chasers               "
@@ -116,7 +117,6 @@
  )
 
 
-(require 'split-list)
 
 
 (report-time-us "def selection sort parts       "
