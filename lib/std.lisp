@@ -1125,7 +1125,7 @@
   (unless (integer? b) (error "B must be an integer"))
   (if (< a b) a b))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun min (lst)
+ (defun min lst
   "Get the least element in LST."
   (let ((current-min (first lst)))
    (mapc
@@ -1135,7 +1135,7 @@
     lst)
    current-min))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun max (lst)
+ (defun max lst
   "Get the greatest element in LST."
   (let ((current-max (first lst)))
    (mapc
