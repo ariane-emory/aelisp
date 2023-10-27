@@ -223,40 +223,40 @@
   (let ((result nil)          ; Initialize the result list as empty
         (last-cell nil)       ; Track the last cell in the result
         (current lst1))
-    ;; Iterate over lst1 and copy elements to result
-    (while current
-      (let ((new-cell (cons (car current) nil)))
-        (if (nil? result)
-            (setq! result new-cell)    ; Initialize result if it's the first element
-            (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
-        (setq! last-cell new-cell)
-        (setq! current (cdr current))))
-    ;; Attach lst2 to the end of result
-    (if (nil? result)
-        lst2
-        (progn
-          (rplacd! last-cell lst2)
-          result))))
+   ;; Iterate over lst1 and copy elements to result
+   (while current
+    (let ((new-cell (cons (car current) nil)))
+     (if (nil? result)
+      (setq! result new-cell)    ; Initialize result if it's the first element
+      (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
+     (setq! last-cell new-cell)
+     (setq! current (cdr current))))
+   ;; Attach lst2 to the end of result
+   (if (nil? result)
+    lst2
+    (progn
+     (rplacd! last-cell lst2)
+     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun append lists
- "Append any number of LISTS."
- (let ((result nil)
-       (last-cell nil)
-       (current-lists lists))
-  ;; Outer loop for iterating over the lists in the input 'lists'
-  (while current-lists
-   (let ((current-list (car current-lists)))
-    (unless (list? current-list) (error "Every argument must be a list"))
-    ;; Inner loop for iterating over elements of 'current-list'
-    (while current-list
-     (let ((new-cell (cons (car current-list) nil)))
-      (if (nil? result)
-       (setq! result new-cell)    ; Initialize result if it's the first element
-       (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
-      (setq! last-cell new-cell)
-      (setq! current-list (cdr current-list))))
-    (setq! current-lists (cdr current-lists))))
-  result))
+ (defun append lists
+  "Append any number of LISTS."
+  (let ((result nil)
+        (last-cell nil)
+        (current-lists lists))
+   ;; Outer loop for iterating over the lists in the input 'lists'
+   (while current-lists
+    (let ((current-list (car current-lists)))
+     (unless (list? current-list) (error "Every argument must be a list"))
+     ;; Inner loop for iterating over elements of 'current-list'
+     (while current-list
+      (let ((new-cell (cons (car current-list) nil)))
+       (if (nil? result)
+        (setq! result new-cell)    ; Initialize result if it's the first element
+        (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
+       (setq! last-cell new-cell)
+       (setq! current-list (cdr current-list))))
+     (setq! current-lists (cdr current-lists))))
+   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun nconc2! (lst1 lst2)
   "Destructively join LST1 an LST2."
@@ -270,9 +270,9 @@
   "Destructively concatenate multiple lists."
   (let ((result (car lists))
         (rest-lists (cdr lists)))
-    (while rest-lists
-      (setq! result (nconc2! result (car rest-lists)))
-      (setq! rest-lists (cdr rest-lists)))
+   (while rest-lists
+    (setq! result (nconc2! result (car rest-lists)))
+    (setq! rest-lists (cdr rest-lists)))
    result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  )
@@ -474,7 +474,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; list funs (map variants):                                                            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapcar (fun lst)
+ (defun mapcar (fun lst)
   "Map fun over LST, returning the resulting list."
   (unless (fun? fun)   (error "FUN must be a function"))
   (unless (list? lst)  (error "LST must be a list"))
@@ -491,12 +491,12 @@
   (unless (fun? fun)  (error "FUN must be a function"))
   (unless (list? lst) (error "LST must be a list"))
   (let ((current lst))
-    (while current
-      (setcar! current (fun (car current)))
-      (setq! current (cdr current)))
-    lst))
+   (while current
+    (setcar! current (fun (car current)))
+    (setq! current (cdr current)))
+   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapconcat (fun lst . rest)
+ (defun mapconcat (fun lst . rest)
   "Map fun over LST, returning the result of concatenating the resulting strings."
   (unless (fun? fun)     (error "FUN must be a function"))
   (unless (list? lst)    (error "LST must be a list"))
@@ -505,31 +505,31 @@
   (let ((delimiter (car rest))
         (acc (if lst (fun (car lst)) ""))
         (current (cdr lst)))
-    (unless (or (nil? delimiter) (string? delimiter))
-      (error "DELIMITER must be a string or nil"))
-    (while current
-      (setq acc (concat acc (or delimiter "") (fun (car current))))
-      (setq current (cdr current)))
-    acc))
+   (unless (or (nil? delimiter) (string? delimiter))
+    (error "DELIMITER must be a string or nil"))
+   (while current
+    (setq acc (concat acc (or delimiter "") (fun (car current))))
+    (setq current (cdr current)))
+   acc))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapcan (fun lst)
- "Map fun over LST and concatenate the results by altering them."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
- (let ((results nil)
-       (tail nil)
-       (current lst))
-  (while current
-   (let ((result (fun (car current))))
-    (when result
-     (if results
-      (progn
-       (setq! tail (nconc! tail result))
-       (setq! tail (last tail)))
-      (setq! results result)
-      (setq! tail results))))
-   (setq! current (cdr current)))
-  results))
+  "Map fun over LST and concatenate the results by altering them."
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (list? lst)  (error "LST must be a list"))
+  (let ((results nil)
+        (tail nil)
+        (current lst))
+   (while current
+    (let ((result (fun (car current))))
+     (when result
+      (if results
+       (progn
+        (setq! tail (nconc! tail result))
+        (setq! tail (last tail)))
+       (setq! results result)
+       (setq! tail results))))
+    (setq! current (cdr current)))
+   results))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun mapc (fun lst)
   "Apply FUN to each element of LST for side effects only and return LST."
@@ -1479,6 +1479,7 @@
  )
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (report-time-us "def plist funs                 " 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-keys (plist)
@@ -1502,23 +1503,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-removeql (prop plist) (plist-remove eql? prop plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
+ (provide 'plist-funs))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (report-time-us "def remove!                    "
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro remove! (prop obj)
   "Remove a property PROP from OBJ."
   $('prog1
     $('quote $('get prop obj))
     $('props! obj $('plist-removeql prop $('props obj)))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
+ (provide 'remove-prop-macro))
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(report-time-us "def scheme compat              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; tiny-clos scheme compat:
+;; tiny-clos scheme compat:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(report-time-us "def scheme compat              "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! #f            nil)
  (setq! #t            t)
@@ -1542,13 +1547,15 @@
  (setq! vector-ref    list-ref)
  (setq! vector-set!   list-set!)
  (setq! null?         nil?)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- )
-
-
-(report-time-us "def elisp compat               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; tiny-clos scheme compat:
+ (provide 'scheme-compat-aliases))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; tiny-clos scheme compat:                                                              ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(report-time-us "def elisp compat               "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! nreverse reverse)
  (setq! put      put!)
@@ -1560,11 +1567,13 @@
  (setq! identity id)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'elisp-compat-aliases))
-
-
-(report-time-us "def aliases for std funs   "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; simple aliases:                                                                      ;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; simple aliases:                                                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(report-time-us "def aliases for std funs   "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! pkeys     plist-keys)
  (setq! pvals     plist-values)
@@ -1574,7 +1583,8 @@
  (setq! ljust     left-justify)
  (setq! rjust     right-justify)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (provide 'elisp-compat-aliases))
+ (provide 'std-aliases))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
