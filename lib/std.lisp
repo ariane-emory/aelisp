@@ -65,12 +65,12 @@
    (error "FEATURE must be a non-keyword symbol"))
   (letrec
    ((private-memq?
-     (unless (bound? 'memq)
+     (unless (bound? 'memq?)
       (lambda (elem lst)
        (cond
         ((eq? elem (car lst)) t)
         (lst (private-memq? elem (cdr lst)))))))
-    (mem? (or private-memq? memq)))
+    (mem? (or private-memq? memq?)))
    (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun provide (feature)
