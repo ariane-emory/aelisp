@@ -49,11 +49,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! memq?
- (lambda (elem lst)
+(defun memq? (elem lst)
   (cond
-   (lst (memq? elem (cdr lst)))
-  ((eq? elem (car lst)) t))))
+    ((null? lst) nil)               ; If the list is empty, return nil.
+    ((eq? elem (car lst)) t)       ; If the first element of the list is the one we're looking for, return t.
+    (t (memq? elem (cdr lst)))))  ; Otherwise, check the rest of the list.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun feature? (feature)
  "t if FEATURE is present in *features*."
