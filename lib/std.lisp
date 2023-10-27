@@ -182,7 +182,7 @@
      $('setq! 'before $('now-us))
      $('setq! name $('lambda params . body))
      $('nl)
-     $('princ "defined " name " in " $('elapsed-us 'before) " us."))))
+     $('princ "defined " $('quote name) " in " $('elapsed-us 'before) " us."))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'measure-time))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
