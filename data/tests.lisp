@@ -334,55 +334,10 @@
 (write (time (mapconcat         (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
 (write (time (mapconcat-reduced (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
 
-(defun mapcan-1 (fun lst)
- "Map fun over LST and concatenate the results by altering them."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
- (when lst
-  (let ((result (fun (car lst)))
-        (rest   (mapcan-1 fun (cdr lst))))
-   (if result
-    (nconc! result rest)
-    rest))))
-
-(defun mapcan-2(fun lst)
- "Map fun over LST and concatenate the results by altering them."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
- (let ((results '())
-       (current lst))
-  (while current
-   (let ((result (fun (car current))))
-    (when result
-     (setq! results (if results (nconc! results result) result))))
-   (setq! current (cdr current)))
-  results))
-
-
-(defun mapcan-3 (fun lst)
- "Map fun over LST and concatenate the results by altering them."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
- (let ((results nil)
-       (tail nil)
-       (current lst))
-  (while current
-   (let ((result (fun (car current))))
-    (when result
-     (if results
-      (progn
-       (setq! tail (nconc! tail result))
-       (setq! tail (last tail)))
-      (setq! results result)
-      (setq! tail results))))
-   (setq! current (cdr current)))
-  results))
-
 ;; init-list builds a list of the numbers 0 through 99 in nums.
 
-(init-list) (write (time (mapcan-1 (lambda (x) (when (odd? x) (list x))) nums))) (nl)
-(init-list) (write (time (mapcan-2 (lambda (x) (when (odd? x) (list x))) nums))) (nl)
-(init-list) (write (time (mapcan-3 (lambda (x) (when (odd? x) (list x))) nums))) (nl)
+(init-list) (write (time (mapcan   (lambda (x) (when (odd? x) (list x))) nums))) (nl)
+(init-list) (write (time (mapcan-r (lambda (x) (when (odd? x) (list x))) nums))) (nl)
 
 ;; Output, both in milliseconds:
 ;; 727
