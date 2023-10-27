@@ -69,6 +69,42 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; microbenchmark:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! *microbench* t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when *microbench*
+ (setq! defmacro
+  (macro (name params . body)
+   (unless (eq? :SYMBOL (type name))
+    (error "NAME must be a symbol"))
+   (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
+    (error "PARAMS must be a list or symbol"))
+   (unless (eq? :CONS (type body))
+    (error "BODY must be a cons"))
+   $('progn
+     $('setq! 'before $('now-us))
+     $('setq! name $('macro params . body))
+     $('nl)
+     $('princ "defmacrod  " $('quote name) " in " $('elapsed-us 'before) " us."))))
+ (defmacro defun (name params . body)
+  (unless (eq? :SYMBOL (type name))
+   (error "NAME must be a symbol"))
+  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
+   (error "PARAMS must be a list or symbol"))
+  (unless (eq? :CONS (type body))
+   (error "BODY must be a cons"))
+  $('progn
+    $('setq! 'before $('now-us))
+    $('setq! name $('lambda params . body))
+    $('nl)
+    $('princ "defunned   " $('quote name) " in " $('elapsed-us 'before) " us."))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'microbench)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; type predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun type?     (typ o) (eq? typ       (type           o)))
@@ -126,42 +162,6 @@
 (defun id (o) o)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'basic-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; microbenchmark:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *microbench* t)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench*
- (setq! defmacro
-  (macro (name params . body)
-   (unless (eq? :SYMBOL (type name))
-    (error "NAME must be a symbol"))
-   (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
-    (error "PARAMS must be a list or symbol"))
-   (unless (eq? :CONS (type body))
-    (error "BODY must be a cons"))
-   $('progn
-     $('setq! 'before $('now-us))
-     $('setq! name $('macro params . body))
-     $('nl)
-     $('princ "defmacrod  " $('quote name) " in " $('elapsed-us 'before) " us."))))
- (defmacro defun (name params . body)
-  (unless (eq? :SYMBOL (type name))
-   (error "NAME must be a symbol"))
-  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
-   (error "PARAMS must be a list or symbol"))
-  (unless (eq? :CONS (type body))
-   (error "BODY must be a cons"))
-  $('progn
-    $('setq! 'before $('now-us))
-    $('setq! name $('lambda params . body))
-    $('nl)
-    $('princ "defunned   " $('quote name) " in " $('elapsed-us 'before) " us."))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'microbench)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
