@@ -316,16 +316,17 @@
 (provide 'tests)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(s nums nil)
-(s ctr 999)
 
-(setq! time-taken
- (time
-  (while (>= ctr 0)
-   (setq! nums (cons ctr nums))
-   (setq! ctr (- ctr 1)))))
+(defun init-list ()
+ (setq! nums nil)
+ (setq! ctr 999)
+ (setq! time-taken
+  (time
+   (while (>= ctr 0)
+    (setq! nums (cons ctr nums))
+    (setq! ctr (- ctr 1))))))
 
-(write (time (mapcar    (lambda (n) (* n n)) nums))) (nl)
-(write (time (mapcar-r  (lambda (n) (* n n)) nums))) (nl)
-(write (time (mapcar!   (lambda (n) (* n n)) nums))) (nl)
-(write (time (mapcar-r! (lambda (n) (* n n)) nums))) (nl)
+(init-list) (write (time (mapcar    (lambda (n) (* n n)) nums))) (nl)
+(init-list) (write (time (mapcar-r  (lambda (n) (* n n)) nums))) (nl)
+(init-list) (write (time (mapcar!   (lambda (n) (* n n)) nums))) (nl)
+(init-list) (write (time (mapcar-r! (lambda (n) (* n n)) nums))) (nl)
