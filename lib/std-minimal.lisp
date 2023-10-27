@@ -50,10 +50,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun memq? (elem lst)
-  (cond
-    ((nil? lst) nil)
-    ((eq? elem (car lst)) t)
-    (t (memq? elem (cdr lst)))))
+ (cond
+  (lst (memq? elem (cdr lst)))
+  ((eq? elem (car lst)) t)))
 (defun feature? (feature)
  "t if FEATURE is present in *features*."
  (unless (and (symbol? feature) (not (keyword? feature)))
