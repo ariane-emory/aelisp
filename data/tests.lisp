@@ -331,8 +331,21 @@
 (init-list) (write (time (mapcar!   (lambda (n) (* n n)) nums))) (nl)
 (init-list) (write (time (mapcar-r! (lambda (n) (* n n)) nums))) (nl)
 
+(write (time (mapconcat         (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
+(write (time (mapconcat-reduced (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
 
 (defun mapcan-1 (fun lst)
+ "Map fun over LST and concatenate the results by altering them."
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (unless (list? lst)  (error "LST must be a list"))
+ (when lst
+  (let ((result (fun (car lst)))
+        (rest   (mapcan-1 fun (cdr lst))))
+   (if result
+    (nconc! result rest)
+    rest))))
+
+(defun mapcan-2(fun lst)
  "Map fun over LST and concatenate the results by altering them."
  (unless (fun? fun)   (error "FUN must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
@@ -341,23 +354,37 @@
   (while current
    (let ((result (fun (car current))))
     (when result
-     (setq results (if results (nconc! results result) result))))
-   (setq current (cdr current)))
+     (setq! results (if results (nconc! results result) result))))
+   (setq! current (cdr current)))
   results))
 
-(defun mapcan-2 (fun lst)
+
+(defun mapcan-3 (fun lst)
  "Map fun over LST and concatenate the results by altering them."
  (unless (fun? fun)   (error "FUN must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
- (when lst
-  (let ((result (fun (car lst)))
-        (rest   (mapcan-2 fun (cdr lst))))
-   (if result
-    (nconc! result rest)
-    rest))))
+ (let ((results '())
+       (tail nil)
+       (current lst))
+  (while current
+   (let ((result (fun (car current))))
+    (when result
+     (if results
+      (progn
+       (setq! tail (nconc! tail result))
+       (setq! tail (last tail)))
+      (progn
+       (setq! results result)
+       (setq! tail results)))))
+   (setq! current (cdr current)))
+  results))
 
-(write (time (mapconcat         (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
-(write (time (mapconcat-reduced (lambda (x) (concat x x x x x x)) '("hello" "to" "the" "world")))) (nl)
+;; init-list builds a list of the numbers 0 through 99 in nums.
 
-(init-list) (write (mapcan-1 (lambda (x) (when (odd? x) x)) nums)) (nl)
-;; (init-list) (write (mapcan-2 (lambda (x) (when (odd? x) x)) nums)) (nl)
+(init-list) (write (time (mapcan-1 (lambda (x) (when (odd? x) (list x))) nums))) (nl)
+(init-list) (write (time (mapcan-2 (lambda (x) (when (odd? x) (list x))) nums))) (nl)
+(init-list) (write (time (mapcan-3 (lambda (x) (when (odd? x) (list x))) nums))) (nl)
+
+;; Output, both in milliseconds:
+;; 727
+;; 10303
