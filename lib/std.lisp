@@ -857,54 +857,6 @@
     (setq! lst (cdr lst)))
    result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun removeq! (obj lst)
-  "Remove the first item eq? to OBJ from LST."
-  (unless (list? lst) (error "LST must be a list"))
-  (let ((head (car lst))
-        (tail (cdr lst)))
-   (if (eq? obj head)
-    (if (nil? tail)
-     (error "can't remove last item from LST")
-     (rplaca! lst (second lst))
-     (rplacd! lst (cddr   lst)))
-    (let ((prev     lst)
-          (current  (cdr lst)))
-     (letrec
-      ((chase
-        (lambda (lst)
-         (let ((head (car lst))
-               (next (cdr lst)))
-          (cond
-           ((eq? obj head) (progn (rplacd! prev next) obj))
-           (next           (progn (setq! prev lst) (chase next)))
-           (t              (error "OBJ was not found in LST"))
-           )))))
-      (chase current))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun removeql! (obj lst)
-  "Remove the first item eql? to OBJ from LST."
-  (unless (list? lst) (error "LST must be a list"))
-  (let ((head (car lst))
-        (tail (cdr lst)))
-   (if (eql? obj head)
-    (if (nil? tail)
-     (error "can't remove last item from LST")
-     (rplaca! lst (second lst))
-     (rplacd! lst (cddr   lst)))
-    (let ((prev     lst)
-          (current  (cdr lst)))
-     (letrec
-      ((chase
-        (lambda (lst)
-         (let ((head (car lst))
-               (next (cdr lst)))
-          (cond
-           ((eql? obj head) (progn (rplacd! prev next) obj))
-           (next            (progn (setq! prev lst) (chase next)))
-           (t               (error "OBJ was not found in LST"))
-           )))))
-      (chase current))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun copy-list (lst)
   "Take shallow copy of LST."
   (unless (list? lst) (error "LST must be a list"))
@@ -1363,6 +1315,54 @@
      (setq! result (cons (car lst) result)))
     (setq! lst (cdr lst)))
    (reverse result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun removeq! (obj lst)
+  "Remove the first item eq? to OBJ from LST."
+  (unless (list? lst) (error "LST must be a list"))
+  (let ((head (car lst))
+        (tail (cdr lst)))
+   (if (eq? obj head)
+    (if (nil? tail)
+     (error "can't remove last item from LST")
+     (rplaca! lst (second lst))
+     (rplacd! lst (cddr   lst)))
+    (let ((prev     lst)
+          (current  (cdr lst)))
+     (letrec
+      ((chase
+        (lambda (lst)
+         (let ((head (car lst))
+               (next (cdr lst)))
+          (cond
+           ((eq? obj head) (progn (rplacd! prev next) obj))
+           (next           (progn (setq! prev lst) (chase next)))
+           (t              (error "OBJ was not found in LST"))
+           )))))
+      (chase current))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun removeql! (obj lst)
+  "Remove the first item eql? to OBJ from LST."
+  (unless (list? lst) (error "LST must be a list"))
+  (let ((head (car lst))
+        (tail (cdr lst)))
+   (if (eql? obj head)
+    (if (nil? tail)
+     (error "can't remove last item from LST")
+     (rplaca! lst (second lst))
+     (rplacd! lst (cddr   lst)))
+    (let ((prev     lst)
+          (current  (cdr lst)))
+     (letrec
+      ((chase
+        (lambda (lst)
+         (let ((head (car lst))
+               (next (cdr lst)))
+          (cond
+           ((eql? obj head) (progn (rplacd! prev next) obj))
+           (next            (progn (setq! prev lst) (chase next)))
+           (t               (error "OBJ was not found in LST"))
+           )))))
+      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'remove-funs))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
