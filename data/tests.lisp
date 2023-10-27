@@ -322,35 +322,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
-(defun indexql (elem lst)
- "Return the zero-based index of the first occurrence of ELEM in LST, or nil if ELEM does not appear in the list. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((idx 0)
-       (found nil)
-       (current lst))
-  (while (and current (not found))
-   (if (eql? elem (car current))
-    (setq! found t)
-    (progn
-     (setq! idx (+ idx 1))
-     (setq! current (cdr current)))))
-  (if found idx nil)))
-
-(defun memql? (elem lst)
- "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((found nil)
-       (current lst))
-  (while (and current (not found))
-   (if (eql? elem (car current))
-    (setq! found t)
-    (setq! current (cdr current))))
-  found))
-
-
-(write (memql? 3 '(1 2 3 4 5 6))) (nl)
-
 (defun memql? (elem lst)
  "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
@@ -361,6 +332,33 @@
     (setq! lst (cdr lst))))
   found))
 
+(defun memq? (elem lst)
+ "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil))
+  (while (and lst (not found))
+   (if (eq? elem (car lst))
+    (setq! found t)
+    (setq! lst (cdr lst))))
+  found))
 
 
+;s(log-eval t)
 (write (memql? 3 '(1 2 3 4 5 6))) (nl)
+
+
+(defun indexql (elem lst)
+ "Return the zero-based index of the first occurrence of ELEM in LST, or nil if ELEM does not appear in the list. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((idx 0)
+       (found nil))
+  (while (and lst (not found))
+   (if (eql? elem (car lst))
+    (setq! found t)
+    (progn
+     (setq! idx (+ idx 1))
+     (setq! lst (cdr lst)))))
+  (if found idx nil)))
+
+(write (indexql 3 '(1 2 3 4 5 6))) (nl)
+(write (indexql 9 '(1 2 3 4 5 6))) (nl)
