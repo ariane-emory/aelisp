@@ -12,7 +12,7 @@
   (unless (list? lst1) (error "LST1 must be a list"))
   (unless (list? lst2) (error "LST2 must be a list"))
   (cond
-   ((∨ (nil? lst1) (nil? lst2)) nil)
+   ((or (nil? lst1) (nil? lst2)) nil)
    (t  (cons    (list (car lst1) (car lst2))
         (zip2   (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
