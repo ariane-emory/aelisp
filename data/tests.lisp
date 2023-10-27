@@ -319,13 +319,13 @@
 ;;(mapcar (lambda (n) (progn (setq! ctr (1+ ctr)) ctr)) nums)
 
 (s nums nil)
-(s ctr 1000)
+(s ctr 999)
 
 (setq! time-taken
  (time
-  (while (> ctr 0)
-   (write ctr) (nl)
+  (while (>= ctr 0)
+   ;; (write ctr) (nl)
    (setq! nums (cons ctr nums))
    (setq! ctr (- ctr 1)))))
 
-
+(write nums)
