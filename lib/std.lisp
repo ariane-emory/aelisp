@@ -1748,7 +1748,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
-(princ "Loaded in ")
+(princ "Loaded in   ")
 (princ (elapsed-us *before-std*))
 (princ " us.")
 (nl)
