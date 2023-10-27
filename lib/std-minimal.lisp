@@ -49,12 +49,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! memq?
- (lambda (elem lst)
-  (cond
-   ((eq? elem (car lst)) t)
-   (lst (memq? elem (cdr lst))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun feature? (feature)
  "t if FEATURE is present in *features*."
  (unless (and (symbol? feature) (not (keyword? feature)))
@@ -66,7 +60,7 @@
       (cond
        ((eq? elem (car lst)) t)
        (lst (private-memq? elem (cdr lst)))))))
-   (mem? (if (bound? 'memq?) memq? private-memq?)))
+   (mem? (or private-memq? memq)))
   (mem? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun provide (feature)
