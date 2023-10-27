@@ -322,16 +322,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(defun memql? (elem lst)
- "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((found nil))
-  (while (and lst (not found))
-   (if (eql? elem (car lst))
-    (setq! found t)
-    (setq! lst (cdr lst))))
-  found))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun memq? (elem lst)
  "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
  (unless (list? lst) (error "LST must be a list"))
@@ -341,26 +332,20 @@
     (setq! found t)
     (setq! lst (cdr lst))))
   found))
-
-
-;; (log-eval t)
-(write (memql? 3 '(1 2 3 4 5 6))) (nl)
-
-
-(defun indexql (elem lst)
- "Return the zero-based index of the first occurrence of ELEM in LST, or nil if ELEM does not appear in the list. Comparison done with 'eql?'."
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun memql? (elem lst)
+ "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
- (let ((found nil)
-       (idx 0))
+ (let ((found nil))
   (while (and lst (not found))
    (if (eql? elem (car lst))
     (setq! found t)
-    (setq! idx (+ 1 idx))
     (setq! lst (cdr lst))))
-  (if found idx nil)))
-
+  found))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun indexq (elem lst)
- "Return the zero-based index of the first occurrence of ELEM in LST, or nil if ELEM does not appear in the list. Comparison done with 'eq?'."
+ "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
+ "ELEM does not appear in the list. Comparison done with 'eq?'."
  (unless (list? lst) (error "LST must be a list"))
  (let ((found nil)
        (idx 0))
@@ -370,7 +355,20 @@
     (setq! idx (+ 1 idx))
     (setq! lst (cdr lst))))
   (if found idx nil)))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun indexql (elem lst)
+ "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
+ "ELEM does not appear in the list. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let ((found nil)
+       (idx 0))
+  (while (and lst (not found))
+   (if (eql? elem (car lst))
+    (setq! found t)
+    (setq! idx (+ 1 idx))
+    (setq! lst (cdr lst))))
+  (if found idx nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (defun removeq (elem lst)
 ;;   "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
