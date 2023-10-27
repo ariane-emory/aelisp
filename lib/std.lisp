@@ -5,7 +5,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *use-safe-provide* t)
+(setq! *use-safe-provide* nil)
 (setq! *microbench*       t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -44,22 +44,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; feature? and provide:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! feature-memq?
- (if (bound? 'memq?)
-  memq?
-  (lambda (elem lst)
-   (let ((found nil))
-    (while (and lst (not found))
-     (if (eq? elem (car lst))
-      (setq! found t)
-      (setq! lst (cdr lst))))
-    found))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun feature? (feature)
- "t if FEATURE is present in *features*."
- (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
-  (error "FEATURE must be a non-keyword symbol"))
- (feature-memq? feature *features*))
+(let
+ ((feature-memq?
+   (if (bound? 'memq?)
+    memq?
+    (lambda (elem lst)
+     (let ((found nil))
+      (while (and lst (not found))
+       (if (eq? elem (car lst))
+        (setq! found t)
+        (setq! lst (cdr lst))))
+      found)))))
+ (defun feature? (feature)
+  "t if FEATURE is present in *features*."
+  (unless (and (eq? :SYMBOL (type feature)) (not (keyword? feature)))
+   (error "FEATURE must be a non-keyword symbol"))
+  (feature-memq? feature *features*)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun safe-provide (feature)
  "Add FEATURE to *features* if it is not already present."
