@@ -840,14 +840,6 @@
     (cons intercalated
      (intercalate intercalated (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (defun butlast (lst)
-  "Returns a new list that contains all the elements of the input list except"
-  "last one."
-  (unless (list? lst) (error "LST must be a list"))
-  (if (or (nil? lst) (nil? (cdr lst)))
-   nil
-   (cons (car lst) (butlast (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun reverse (lst)
   "Return a new list that is the reverse of the input list LST."
   (unless (list? lst) (error "LST must be a list"))
@@ -856,6 +848,14 @@
     (setq! result (cons (car lst) result))
     (setq! lst (cdr lst)))
    result))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun butlast (lst)
+  "Returns a new list that contains all the elements of the input list except"
+  "last one."
+  (unless (list? lst) (error "LST must be a list"))
+  (if (or (nil? lst) (nil? (cdr lst)))
+   nil
+   (cons (car lst) (butlast (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun copy-list (lst)
   "Take shallow copy of LST."
