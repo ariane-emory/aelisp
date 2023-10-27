@@ -1,3 +1,6 @@
+(require 'std-minimal)
+(require 'append)
+
 (report-time-us "def quasiquoted                "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; quasiquotation:                                                                      ;;

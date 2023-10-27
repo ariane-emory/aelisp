@@ -103,6 +103,7 @@
 
 (require 'reduce)
 (require 'map)
+(require 'append)
 (require 'nconc)
 (require 'push-funs)
 (require 'flatten)
