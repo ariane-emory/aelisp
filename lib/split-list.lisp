@@ -1,3 +1,5 @@
+(require 'misc-list-funs)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; split lists:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -39,8 +41,8 @@
  (let ((front nil)
        (current lst))
   (while (and current (pred? (car current)))
-   (setq front (cons (car current) front))
-   (setq current (cdr current)))
+   (setq! front (cons (car current) front))
+   (setq! current (cdr current)))
   $((reverse front) current)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'split-list)
