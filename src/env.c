@@ -447,7 +447,7 @@ ae_obj_t * ae_env_new_root() {
   bool ignored = false;
   /* PUT_PROP(TRUE, "constant", NIL); */
   /* PUT_PROP(TRUE, "constant", TRUE); */
-//  PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
+  /* PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored)); */
     
   return env;
 }
