@@ -1,4 +1,5 @@
 To Do:
+- [ ] new_root_env and setup_root_env should be combined.
 - [ ] audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
