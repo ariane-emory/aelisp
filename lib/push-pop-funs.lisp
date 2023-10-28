@@ -6,7 +6,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (append lst (cons elem nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun push (elem lst)
+(defun pop (elem lst)
  "Non-destructively pop ELEM from the head of LST."
  "The only difference from car is tha an empty LST may not be popped."
  (unless (cons? lst) (error "LST must be a list"))
