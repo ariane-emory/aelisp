@@ -180,7 +180,7 @@ int main(int argc, char **argv) {
 // setup root env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  root_env = setup_root_env();
+  root_env = ENV_NEW_ROOT;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // setup bestline stuff
@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
       exit(0);
     }
     else if (! strncmp(line, ";r", 2)) {
-      root_env = setup_root_env();
+      root_env = ENV_NEW_ROOT;
     }
     else if (! strncmp(line, ";s", 2)) {
       WRITE(ENV_SYMS(root_env));

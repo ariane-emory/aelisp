@@ -33,7 +33,6 @@ extern ae_obj_t * line_stack;
 // functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void       preface(void); 
-ae_obj_t * setup_root_env(void);
 void       paint_parsed(void);
 bool       setopts(int argc, char * argv[]);
 ae_obj_t * load_file(const char * filename, bool * const failed_to_open);

@@ -337,6 +337,14 @@ static void load_fun_helper(
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root() {
+  bool old_log_core  = log_core;
+  bool old_log_eval  = log_eval;
+  bool old_log_macro = log_macro;
+
+  log_core  = false;
+  log_eval  = false;
+  log_macro = false;
+  
   symbols_list = NIL;
   pool_clear();
   free_list_reset();
@@ -475,6 +483,10 @@ ae_obj_t * ae_env_new_root() {
     }
   }
 
+  log_core  = old_log_core;
+  log_eval  = old_log_eval;
+  log_macro = old_log_macro;
+  
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
