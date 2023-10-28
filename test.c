@@ -1671,9 +1671,11 @@ void put_prop(void) {
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(env_with_a_dot)                                                                               \
+
+#define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
   DO(put_prop)                                                                                     \
   DO(tailp)                                                                                        \
   DO(test_setup_is_okay)                                                                           \
@@ -1708,7 +1710,6 @@ void put_prop(void) {
   DO(kvp_list)                                                                                     \
   DO(root_env_and_eval)                                                                            \
   DO(fun_specialness)                                                                              \
-  DO(env_with_a_dot)                                                                               \
   DO(eval_args_test)                                                                               \
   DO(push_and_pop)                                                                                 \
 
