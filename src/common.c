@@ -295,8 +295,6 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
   POP(filename_stack);
   yylineno = INT_VAL(POP(line_stack));
   
-  // PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
-  
   return program; 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,9 +1,8 @@
 To Do:
 - [ ] audit free_list_malloc/free.
-- [ ] revise startup to (require 'std).
-- [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] makunbound.
 - [ ] AE_FILE type.
+- [ ] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [ ] Refactor: CORE_RETURN should be unary.
 - [ ] DRY up core_funs.c.
 - [ ] DRY up core_let.c.
@@ -32,6 +31,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] revise startup to (require 'std).
 - [x] require: add no-error argument
 - [x] require: use require! to force reload.
 - [x] fun args must not be special syms.
