@@ -153,29 +153,29 @@
 
 
 (setq! *std-modules*
- $(
-   'append-and-nconc
+ $( 
    'basic-funs
+   'benchmark
    'compound-cars-and-cdrs
    'core-aliases
    'flatten
    'list-access-funs
+   'log-toggle
    'map
    'merge-sort
    'misc-list-funs
+   'misc-predicates
    'push-pop-funs
    'quasiquote
    'reduce
    'remove-prop-macro
    'transform
    'union
-   'zip
-
-   'misc-predicates
-   'log-toggle
-   'benchmark
    'unsorted-funs
    'vector-list
+   'zip
+   
+   'append-and-nconc
    'list-member
    'list-index
    'list-remove
