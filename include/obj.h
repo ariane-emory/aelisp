@@ -219,7 +219,18 @@ extern ae_obj_t * symbols_list;
 #define HAS_PROP_RAW(key, obj)           (KHAS(PROPS((obj)), (key)))
 #define GET_PROP(key, obj)               (KGET(PROPS((obj)), KW(key)))
 #define GET_PROP_RAW(key, obj)           (KGET(PROPS((obj)), (key)))
-#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), KW(key), (val))); })
+#define PUT_PROP(val, key, obj)                                                                                        \
+  ({                                                                                                                   \
+  NL;                                                                                                                  \
+  NL;                                                                                                                  \
+  PR("Set key " #key);                                                                                                 \
+  PR(" of obj " #obj);                                                                                                 \
+  PR(" to val " #val);                                                                                                 \
+  PR(" at line %d", __LINE__);                                                                                         \
+  PR(" of file %s", __FILE__);                                                                                         \
+  CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), KW(key), (val)));                                             \
+  })
+
 #define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), (key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))

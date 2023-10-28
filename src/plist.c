@@ -16,8 +16,6 @@ ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
   LOG(value, "to value");
 #endif
 
-  NL;
-
   SLOGF("nil   is at %8p", NIL);
   
   SLOGF("list  is at %8p", list);
