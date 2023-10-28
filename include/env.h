@@ -4,6 +4,7 @@
 
 #include <stdbool.h>
 
+#include "common.h"
 #include "obj.h"
 #include "list.h"
 
@@ -65,7 +66,7 @@ typedef enum {
 #define    ENV_BOUNDP_G(env, sym)   (ENV_BOUND_IN( GLOBAL, env, sym))                                                                //
 #define    ENV_BOUNDP_L(env, sym)   (ENV_BOUND_IN(  LOCAL, env, sym))                                                                //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_NEW_ROOT(no_std)     (ae_env_new_root(no_std))                                                                        //
+#define    ENV_NEW_ROOT(std_mode)   (ae_env_new_root(std_mode))                                                                      //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ROOTP(env)               (ae_env_rootp((env)))                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,5 +80,5 @@ void       ae_env_add     (                              ae_obj_t * const env,  
 void       ae_env_set     (ae_env_lookup_mode_t mode,    ae_obj_t * const env,       ae_obj_t * const symbol, ae_obj_t * const value );
 ae_obj_t * ae_env_lookup  (ae_env_lookup_mode_t mode,    ae_obj_t * const env, const ae_obj_t * const symbol, bool *     const found );
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(bool no_std                                                                                                );
+ae_obj_t * ae_env_new_root(std_mode_t std_mode                                                                                        );
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

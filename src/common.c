@@ -31,7 +31,7 @@ extern int yylineno;
 bool       log_core            = false;
 bool       log_eval            = false;
 bool       log_macro           = false;
-bool       no_std              = false;
+std_mode_t std_mode            = SPLIT_STD;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
 ae_obj_t * filename_stack      = NIL;
@@ -87,8 +87,7 @@ ae_obj_t * setup_root_env(void) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
-  ae_obj_t * root_env = ENV_NEW_ROOT(no_std);
-
+  ae_obj_t * root_env = ENV_NEW_ROOT(std_mode);
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS
@@ -180,7 +179,8 @@ void paint_parsed(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool setopts(int argc, char *argv[]) {
   int opt;
-
+  bool got_std_mode = false;
+  
   while ((opt = getopt(argc, argv, "l:n")) != -1) {
     switch (opt) {
     case 'l':
@@ -202,7 +202,18 @@ bool setopts(int argc, char *argv[]) {
       }
       break;
     case 'n':
-      no_std = true;
+      if (got_std_mode) {
+        fprintf(stderr, "Usage: %s [-lce] [-n|m]\n", argv[0]);
+        return false;
+      }
+      std_mode = NO_STD;
+      break;
+    case 's':
+      if (got_std_mode) {
+        fprintf(stderr, "Usage: %s [-lce] [-n|m]\n", argv[0]);
+        return false;
+      }
+      std_mode = SPLIT_STD;
       break;
     default:
       fprintf(stderr, "Usage: %s [-lcem] [-n]\n", argv[0]);

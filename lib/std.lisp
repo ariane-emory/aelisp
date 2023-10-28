@@ -159,7 +159,7 @@
  (log-eval t)
  (log-core t))
 
-(when *std-modules*
+(when *std-mode*
  (let ((module
         (list
          'basic-funs
