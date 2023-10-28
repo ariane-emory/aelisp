@@ -454,6 +454,27 @@ ae_obj_t * ae_env_new_root() {
   /* PUT_PROP(TRUE, "constant", TRUE); */
   /* PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored)); */
     
+  bool             std_name_found = false;
+  ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
+
+  assert(std_name_found);
+  assert(std_name);
+  assert(NILP(std_name) || SYMBOLP(std_name));
+  assert(! NILP(std_name)); // temporarily disallowed.
+  
+  if (! NILP(std_name)) {
+    ae_obj_t const * std_return = ae_core_require(env, CONS(std_name, NIL), 1);
+
+    NL;
+    NL;
+    
+    if (ERRORP(std_return)) {
+      FPR(stderr, "\nWARNING: Failed to load std: ");
+      WRITE(std_return);
+      NL;
+    }
+  }
+
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
