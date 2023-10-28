@@ -417,36 +417,39 @@ ae_obj_t * ae_env_new_root(std_mode_t std_mode) {
     ENV_PUSH(env, NEW_STRING(home_path),     SYM("*load-path*"));
     ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*")); 
     ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
-
-    switch (std_mode) {
-    case NO_STD:
-    {
-      ENV_SET(env, SYM("*std-mode*"), NIL);
-      ENV_SET(env, SYM("*std-lib-name*"), NIL);
-      break;
-    }
-    case SPLIT_STD:
-    {
-      ENV_SET(env, SYM("*std-mode*"), KW("split"));
-      ENV_SET(env, SYM("*std-lib-name*"), SYM("std"));
-      break;
-    }
-    case MONO_STD:
-    {
-      ENV_SET(env, SYM("*std-mode*"), KW("mono"));
-      ENV_SET(env, SYM("*std-lib-name*"), SYM("mono-std"));
-      break;
-    }
-    default:
-      assert(false); // this shouldn't be able to happen.
-    }
-    
-    PUT_PROP(TRUE, "constant", SYM("*std-mode*"));
-    PUT_PROP(TRUE, "constant", SYM("*std-lib-name*"));
   }
+
+  switch (std_mode) {
+  case NO_STD:
+  {
+    ENV_SET(env, SYM("*std-mode*"), NIL);
+    ENV_SET(env, SYM("*std-name*"), NIL);
+    break;
+  }
+  case SPLIT_STD:
+  {
+    ENV_SET(env, SYM("*std-mode*"), KW("split"));
+    ENV_SET(env, SYM("*std-name*"), SYM("std"));
+    break;
+  }
+  case MONO_STD:
+  {
+    ENV_SET(env, SYM("*std-mode*"), KW("mono"));
+    ENV_SET(env, SYM("*std-name*"), SYM("mono-std"));
+    break;
+  }
+  default:
+    assert(false); // this shouldn't be able to happen.
+  }
+    
+  PUT_PROP(TRUE, "constant", SYM("*std-mode*"));
+  PUT_PROP(TRUE, "constant", SYM("*std-name*"));
 
   // *features* should always be ENV_BOUNDP:
   ENV_SET(env, SYM("*features*"), NIL);
+
+  PUT_PROP(TRUE, "constant", NIL);
+  PUT_PROP(TRUE, "constant", TRUE);
   
   return env;
 }

@@ -17,7 +17,11 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if (! SETTABLEP(sym))
     LOG(sym, "not SETTABLEP:");
 
-  REQUIRE(env, args, SETTABLEP(sym), "sym is not a settable symbol");
+  REQUIRE(env, args, SYMBOLP(sym), "sym is not a symbol");
+  REQUIRE(env, args, ! KEYWORDP(sym), "keyword symbols may not be set");
+  REQUIRE(env, args, ! HAS_PROP("constant", sym), "constant symbols may not be set");
+
+  // REQUIRE(env, args, SETTABLEP(sym), "sym is not a settable symbol");
 
   if (log_core) {
     LOG(sym, "setting symbol");
