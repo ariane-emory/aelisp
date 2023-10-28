@@ -12,10 +12,12 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
     if (ENVP(CAR(args))) {
-      if (ROOTP(CAR(args)))
+      if (ROOTP(CAR(args))) {
         RETURN(CAR(args));
-      else
+      }
+      else {
         RETURN(ENV_PARENT(CAR(args)));
+      }
     }
     else {
       RETURN(FUN_ENV(CAR(args)));
