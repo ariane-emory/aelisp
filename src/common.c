@@ -32,6 +32,7 @@ bool       log_core            = false;
 bool       log_eval            = false;
 bool       log_macro           = false;
 bool       log_loading_std     = true;
+bool       enable_microbench   = true;
 std_mode_t std_mode            = MONO_STD;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
@@ -67,8 +68,8 @@ void preface(void) {
 // setup_root_env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * setup_root_env(void) {
-  bool old_log_core = log_core;
-  bool old_log_eval = log_eval;
+  bool old_log_core  = log_core;
+  bool old_log_eval  = log_eval;
   bool old_log_macro = log_macro;
 
   log_core  = false;
