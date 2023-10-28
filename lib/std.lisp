@@ -153,13 +153,17 @@
 
 
 (setq! *std-modules*
- $( 
+ $(    
+   'append-and-nconc
    'basic-funs
    'benchmark
    'compound-cars-and-cdrs
    'core-aliases
    'flatten
    'list-access-funs
+   'list-index
+   'list-member
+   'list-remove
    'log-toggle
    'map
    'merge-sort
@@ -174,11 +178,7 @@
    'unsorted-funs
    'vector-list
    'zip
-   
-   'append-and-nconc
-   'list-member
-   'list-index
-   'list-remove
+
    'split-list
    'delq
    'prime-funs
