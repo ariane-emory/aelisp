@@ -30,13 +30,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun vals args
  (when (cdr args) (error "VALS takes only one argument"))
- (when (and (car args) (not (list? (car args))))
-  (error "If vals is called with an argument, that argument must be a plist"))
- (if (nil? (car args))
-  (vals-base (env (env (env))))
-  (let ((lst (car args)))
-   (unless (even? (length lst)) (error "The plist must have an even number of elements"))
-   (plist-values lst))))
+ (let ((arg (car args)))
+  (cond
+   ((null arg)  (vals-base (env (env (env (env))))))
+   ((list? arg) (plist-values arg))
+   ((env? arg)  (vals-base arg))
+   (t           (error "VALS takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
