@@ -89,44 +89,9 @@ ae_obj_t * setup_root_env(void) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
-  ae_obj_t * env = ENV_NEW_ROOT(std_mode);
-  
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef AE_PAINT_EARLY_OBJECTS
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//==================================================================================================
-// set up the read_origin and promordial_origin objects
-//==================================================================================================
- 
-  NL;
-  
-  ae_obj_t * primordial_origin = NIL;
-  KSET(primordial_origin, KW("origin"), KW("primordial"));
-  
-  ae_obj_t * read_origin = NIL;
-  KSET(read_origin, KW("origin"), KW("read"));
-
-//==================================================================================================
-// paint the objects populating the root env with origin = primordial
-//==================================================================================================
-
-  PR("Painting objects populating the root env with origin = primordial...");
-  NL;
-  
-  for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
-    if (! FREEP(pool_get_object(ix)))      
-      PROPS(pool_get_object(ix)) = primordial_origin;
-
-  PR("Done painting objects populating the root env with origin = primordial.");
-  NL;
-  
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  bool std_name_found = false;
-  ae_obj_t * const std_name = ENV_GET(env, SYM("*std-name*"), &std_name_found);
+  ae_obj_t * const env            = ENV_NEW_ROOT(std_mode);
+  bool             std_name_found = false;
+  ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
 
   assert(std_name_found);
   assert(std_name);
