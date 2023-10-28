@@ -88,11 +88,12 @@
   (macro (name params . body)
    $('progn
      $('setq! '*microbench-before* $('now-us))
-     $('let $($('result $('defmacro-base name params . body)))
+     $('let $($('microbenced-macro's-result $('defmacro-base name params . body)))
        $('nl)
        $('princ "defmacrod  " $('quote name) " in "
          $('elapsed-us '*microbench-before*) " us.")
-       'result)))))
+       $('setq! name name) ;; re-assign to fix :last-bound-to
+       'microbenced-macro's-result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench* *microbench-defuns*)
  (setq! defun-base defun)
@@ -103,6 +104,7 @@
       $('nl)
       $('princ "defunned   " $('quote name) " in "
         $('elapsed-us '*microbench-before*) " us.")
+      $('setq! name name) ;; re-assign to fix :last-bound-to
       'microbenched-fun's-result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench* *microbench-provides*)
@@ -1671,6 +1673,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun plist-removeql (prop plist) (plist-remove eql? prop plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! keys      plist-keys)
+ (setq! vals-base vals)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun vals args
+  (when (cdr args) (error "VALS takes only one argument"))
+  (let ((arg (car args)))
+   (cond
+    ((nil? arg)  (vals-base (env (env (env)))))
+    ((list? arg) (plist-values arg))
+    ((env? arg)  (vals-base arg))
+    (t           (error "VALS takes a plist or an environment")))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1737,8 +1751,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! pkeys     plist-keys)
- (setq! pvals     plist-values)
  (setq! premove   plist-remove)
  (setq! premoveq  plist-removeq)
  (setq! premoveql plist-removeql)
@@ -1749,17 +1761,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
  (provide 'std-modules)
-) ;; end of (when *std-modules*
+ ) ;; end of (when *std-modules*
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (provide 'std)
+(provide 'std)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (nl)
- (princ "Loaded in   ")
- (princ (elapsed-us *before-std*))
- (princ " us.")
- (nl)
+(nl)
+(princ "Loaded in   ")
+(princ (elapsed-us *before-std*))
+(princ " us.")
+(nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
