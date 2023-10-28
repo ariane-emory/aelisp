@@ -25,6 +25,7 @@
 
 extern const struct ae_obj_t * const pool_first;
 extern const struct ae_obj_t * const pool_last;
+extern long long int                 pool_allocated;
 
 struct ae_obj_t * pool_alloc_ae_obj      (void);
 void              pool_free_ae_obj       (struct ae_obj_t * const this);
