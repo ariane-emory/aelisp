@@ -9,4 +9,6 @@ for i in $(seq 1 $TIMES); do
     (echo "1" | time ./bin/repl > /dev/null) 2>> $TIMEFILE
 done
 
-awk '/user/ { sum += $2 } END { print "Average user time:", sum/NR }' $TIMEFILE
+
+awk '/user/ { sum += $2 } END { printf "Average user time: %.2f\n", sum/NR }' $TIMEFILE
+

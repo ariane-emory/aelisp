@@ -5,10 +5,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *use-safe-provide*     nil)
-(setq! *microbench-defmacro*  t)
-(setq! *microbench-defun*     t)
-(setq! *microbench-provide*   t)
+(setq! *use-safe-provide*      nil)
+(setq! *microbench*            t)
+(setq! *microbench-defmacros*  t)
+(setq! *microbench-defuns*     t)
+(setq! *microbench-provides*   t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -81,7 +82,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; microbenchmark:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench-defmacro*
+(when (and *microbench* *microbench-defmacros*)
  (setq! defmacro-base defmacro)
  (setq! defmacro
   (macro (name params . body)
@@ -93,7 +94,7 @@
          $('elapsed-us '*microbench-before*) " us.")
        'result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench-defun*
+(when (and *microbench* *microbench-defuns*)
  (setq! defun-base defun)
  (defmacro defun (name params . body)
   $('progn
@@ -104,7 +105,7 @@
         $('elapsed-us '*microbench-before*) " us.")
       'result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench-provide*
+(when (and *microbench* *microbench-provides*)
  (setq! provide-base provide)
  (defun provide (feature)
   (setq! *microbench-before* (now-us))
@@ -1647,33 +1648,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; plist funs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-keys (plist)
- "Extracts the keys from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (when plist (cons (car plist) (plist-keys (cddr plist)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-values (plist)
- "Extracts the values from a plist PLIST."
- (when plist (plist-keys (cdr plist))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-remove (pred? prop plist)
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist
-  (if (pred? prop (car plist))
-   (plist-remove pred? prop (cddr plist))
-   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeq  (prop plist) (plist-remove eq?  prop plist))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeql (prop plist) (plist-remove eql? prop plist))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'plist-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(require 'plist-funs)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; remove! property macro:
@@ -1685,69 +1660,11 @@
    $('props! obj $('plist-removeql prop $('props obj)))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'remove-prop-macro)
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; tiny-clos scheme compat aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! #f            nil)
-(setq! #t            t)
-(setq! ???           'unspecified-result)
-(setq! assoc         ahas?) 
-(setq! assq          aget) 
-(setq! collect-if    filter)
-(setq! define        setq!)
-(setq! display       write)
-(setq! else          t)
-(setq! every         all?)
-(setq! getl          pget)
-(setq! gsort         sort!!)
-(setq! make-vector   make-list)
-(setq! map           mapcar)
-(setq! map-append    mapcan)
-(setq! position-of   indexq)
-(setq! remove        removeq)
-(setq! set!          setq!) ;should should be a macro that avoids re-defining what-scheme-implementation
-(setq! vector-length list-length)
-(setq! vector-ref    list-ref)
-(setq! vector-set!   list-set!)
-(setq! null?         nil?)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'scheme-compat-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; elisp compat aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! nreverse reverse)
-(setq! put      put!)
-(setq! setq     setq!)
-(setq! rplaca   rplaca!)
-(setq! rplacd   rplacd!)
-(setq! nconc    nconc!)
-(setq! null     nil?)
-(setq! identity id)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'elisp-compat-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; simple aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! pkeys     plist-keys)
-(setq! pvals     plist-values)
-(setq! premove   plist-remove)
-(setq! premoveq  plist-removeq)
-(setq! premoveql plist-removeql)
-(setq! ljust     left-justify)
-(setq! rjust     right-justify)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'std-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(require 'std-aliases)
+(require 'scheme-compat-aliases)
+(require 'elisp-compat-aliases)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'std)
