@@ -52,7 +52,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       : RETURN_IF_ERRORP(EVAL(env, CADR(varlist_item)));
 
     // let only sets the last-bound-to property if it's not already set.
-    if (LAMBDAP(val) || MACROP(val) && ! HAS_PROP("last-bound-to", CAR(varlist_item)))
+    if ((LAMBDAP(val) || MACROP(val)) && ! HAS_PROP("last-bound-to", CAR(varlist_item)))
       PUT_PROP(CAR(varlist_item), "last-bound-to", val);
 
     if (log_core) {
@@ -129,7 +129,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
       : RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)));
 
     // let only sets the last-bound-to property if it's not already set.
-    if (LAMBDAP(val) || MACROP(val) && ! HAS_PROP("last-bound-to", CAR(varlist_item)))
+    if ((LAMBDAP(val) || MACROP(val)) && ! HAS_PROP("last-bound-to", CAR(varlist_item)))
       PUT_PROP(CAR(varlist_item), "last-bound-to", val);
 
     if (log_core) {
@@ -210,7 +210,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
       : RETURN_IF_ERRORP(EVAL(new_env, CADR(varlist_item)));
 
     // let only sets the last-bound-to property if it's not already set.
-    if (LAMBDAP(val) || MACROP(val) && ! HAS_PROP("last-bound-to", CAR(varlist_item)))
+    if ((LAMBDAP(val) || MACROP(val)) && ! HAS_PROP("last-bound-to", CAR(varlist_item)))
       PUT_PROP(CAR(varlist_item), "last-bound-to", val);
 
     if (log_core) {
