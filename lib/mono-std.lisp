@@ -5,7 +5,7 @@
 (princ "Loading monolithic std...")
 (nl)
 
-(require 'fundamental)
+(require 'std-fundamental)
 
 (when *log-loading-std-enabled*
  (log-eval t)
