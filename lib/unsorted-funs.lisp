@@ -1,3 +1,6 @@
+(require 'map)
+(require 'reduce)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; random unsorted stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -31,6 +34,7 @@
  (let ((current-min (first lst)))
   (mapc
    (lambda (x) 
+    (unless (integer? x) (error "All items in LST must be integers"))
     (when (< x current-min) 
      (setq! current-min x)))
    lst)
@@ -40,7 +44,8 @@
  "Get the greatest element in LST."
  (let ((current-max (first lst)))
   (mapc
-   (lambda (x) 
+   (lambda (x)
+    (unless (integer? x) (error "All items in LST must be integers"))
     (when (> x current-max) 
      (setq! current-max x)))
    lst)
