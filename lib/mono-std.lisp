@@ -6,7 +6,7 @@
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! *use-safe-provide*      nil)
-(setq! *microbench*            t)
+(setq! *microbench-enabled*    t)
 (setq! *microbench-defmacros*  t)
 (setq! *microbench-defuns*     t)
 (setq! *microbench-provides*   t)
@@ -82,7 +82,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; microbenchmark:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (and *microbench* *microbench-defmacros*)
+(when (and *microbench-enabled* *microbench-defmacros*)
  (setq! defmacro-base defmacro)
  (setq! defmacro
   (macro (name params . body)
@@ -95,7 +95,7 @@
        $('setq! name name) ;; re-assign to fix :last-bound-to
        'microbenced-macro's-result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (and *microbench* *microbench-defuns*)
+(when (and *microbench-enabled* *microbench-defuns*)
  (setq! defun-base defun)
  (defmacro defun (name params . body)
   $('progn
@@ -107,7 +107,7 @@
       $('setq! name name) ;; re-assign to fix :last-bound-to
       'microbenched-fun's-result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (and *microbench* *microbench-provides*)
+(when (and *microbench-enabled* *microbench-provides*)
  (setq! provide-base provide)
  (defun provide (feature)
   (setq! *microbench-before* (now-us))
