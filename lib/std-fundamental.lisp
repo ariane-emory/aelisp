@@ -2,12 +2,16 @@
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! *use-safe-provide*        nil)
-(setq! *microbench-enabled*      t)
+
 (setq! *microbench-defmacros*    t)
 (setq! *microbench-defuns*       t)
 (setq! *microbench-provides*     t)
-(if (not (bound? 'log-loading-std-enabled))
- (setq! *log-loading-std-enabled* nil))
+
+;; (if (not (bound? '*microbench-enabled*))
+;;  (setq! *microbench-enabled*     t))
+
+;; (if (not (bound? 'log-loading-std-enabled))
+;;  (setq! *log-loading-std-enabled* nil))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 

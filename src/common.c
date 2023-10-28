@@ -31,7 +31,7 @@ extern int yylineno;
 bool       log_core            = false;
 bool       log_eval            = false;
 bool       log_macro           = false;
-bool       log_loading_std     = true;
+bool       log_loading_std     = false;;
 bool       enable_microbench   = true;
 std_mode_t std_mode            = MONO_STD;
 bool       read_error          = false;
@@ -215,8 +215,8 @@ bool setopts(int argc, char *argv[]) {
       if (got_std_opt)
         goto fail;
 
-      if (strcmp(optarg, "n") == 0) {
-        std_mode = NO_STD;
+      if (strcmp(optarg, "f") == 0) {
+        std_mode = STD_FUNDAMENTAL_ONLY;
         got_std_opt = true;
       } else if (strcmp(optarg, "s") == 0) {
         std_mode = SPLIT_STD;
@@ -236,7 +236,7 @@ bool setopts(int argc, char *argv[]) {
   return true;
 
 fail:
-  fprintf(stderr, "Usage: %s [-l c|e|m] [-s n|s|m]\n", argv[0]);
+  fprintf(stderr, "Usage: %s [-l c|e|m] [-s f|s|m]\n", argv[0]);
   return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

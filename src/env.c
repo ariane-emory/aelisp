@@ -420,7 +420,7 @@ ae_obj_t * ae_env_new_root() {
   }
 
   switch (std_mode) {
-  case NO_STD:
+  case STD_FUNDAMENTAL_ONLY:
   {
     ENV_SET(env, SYM("*std-name*"), SYM("std-fundamental"));
     break;
