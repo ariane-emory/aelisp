@@ -1604,13 +1604,18 @@
 (provide 'test-macros)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq! *std-modules*
+ $('string-funs
+   'prog-macros
+   'plist-funs
+   'std-aliases
+   'scheme-compat-aliases
+   'elisp-compat-aliases))
 
-(require 'string-funs) 
-(require 'prog-macros)
-(require 'plist-funs)
-(require 'std-aliases)
-(require 'scheme-compat-aliases)
-(require 'elisp-compat-aliases)
+(let ((module *std-modules*))
+ (while module
+  (require (car module))
+  (setq! module (cdr module))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'std)
