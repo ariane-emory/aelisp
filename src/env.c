@@ -357,11 +357,11 @@ ae_obj_t * ae_env_new_root(bool no_std) {
     
 #if AE_PREFER_ALIST
     ENV_SET(env, SYM("khas?"), ENV_GET(env, SYM("ahas?"), &found));
-    ENV_SET(env, SYM("kput"),  ENV_GET(env, SYM("aset"), &found));
+    ENV_SET(env, SYM("kset"),  ENV_GET(env, SYM("aset"), &found));
     ENV_SET(env, SYM("kget"),  ENV_GET(env, SYM("aget"), &found));
 #else
     ENV_SET(env, SYM("khas?"), ENV_GET(env, SYM("phas?"), &found));
-    ENV_SET(env, SYM("kput"),  ENV_GET(env, SYM("pset"), &found));
+    ENV_SET(env, SYM("kset"),  ENV_GET(env, SYM("pset"), &found));
     ENV_SET(env, SYM("kget"),  ENV_GET(env, SYM("pget"), &found));
 #endif
   }
