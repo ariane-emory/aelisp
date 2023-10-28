@@ -242,10 +242,16 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
 
-  PUT_PROP_RAW(new_program, CAR(args), SYM("*program*"));
-    
   if ((mode == REQUIRE || mode == REREQUIRE) && ! have_feature(env, load_target))
     RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
+
+  bool sprograms_found = false;
+  ae_obj_t * sprograms = ENV_GET(env, SYM("*program*"), &sprograms_found);
+  assert(sprograms_found);
+  assert(sprograms);
+  assert(TAILP(sprograms));
+  sprograms = KSET(sprograms, load_target, new_program);
+  ENV_SET_G(env, SYM("*program*"), sprograms);
   
 end:
   

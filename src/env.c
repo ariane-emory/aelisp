@@ -372,12 +372,15 @@ ae_obj_t * ae_env_new_root(bool no_std) {
   FOR_EACH_CORE_CMP_OP(add_core_op);
 
   bool equal_found = false;
-  ENV_SET(env, SYM("="), ENV_GET(env, SYM("=="), &equal_found));
+  ae_obj_t * const equal = ENV_GET(env, SYM("=="), &equal_found);
   assert(equal_found);
+  ENV_SET(env, SYM("="), equal);
   
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
 
+  ENV_SET(env, SYM("*program*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
+  PUT_PROP(TRUE, "read-only", SYM("*program*"));
   
   {
     /* Do a little song and dance to put the home dir, lib dir and data dir in *load-path*. */
