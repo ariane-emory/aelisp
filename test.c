@@ -1616,9 +1616,23 @@ void put_prop(void) {
 
   bool ignored = false;
 
-  PUT_PROP(SYM("yes"), "set", SYM("random"));
-  PUT_PROP(SYM("yes"), "set", SYM("random"));
-  PUT_PROP(SYM("yes"), "set", SYM("*log-loading-std-enabled*"));
+  WRITE(PUT_PROP(SYM("yes"), "set", SYM("random")));
+  NL;
+  WRITE(PROPS(SYM("random")));
+  NL;
+  WRITE(PUT_PROP(SYM("yes"), "set", SYM("random")));
+  NL;
+  WRITE(PROPS(SYM("random")));
+  NL;
+  WRITE(PUT_PROP(SYM("yes"), "set", SYM("*log-loading-std-enabled*")));
+  NL;
+  WRITE(PROPS(SYM("*log-loading-std-enabled*")));
+  NL;
+  WRITE(PUT_PROP(SYM("yes"), "set", NIL));
+  WRITE(PUT_PROP(NIL,        "set", NIL));
+  /* PUT_PROP(TRUE, "constant", NIL);  */
+  /* PUT_PROP(TRUE, "constant", TRUE);  */
+
   // PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
 }
 
