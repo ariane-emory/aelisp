@@ -129,45 +129,47 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const char * const std_rel_path = "/../lib/std.lisp";
-  char * const       std_path     = free_list_malloc(PATH_MAX);
-  uint32_t           size         = PATH_MAX;
+  ae_core_require(root_env, CONS(SYM("std"), NIL), 1);
   
-  if (_NSGetExecutablePath(std_path, &size) == 0) {
-    char * const tmp = free_list_malloc(strlen(dirname(std_path))+1);
-
-    strcpy(tmp, dirname(std_path));
-    strcpy(std_path, tmp);
-    strcat(std_path, std_rel_path);
-    
-    free_list_free(tmp);
-
-    PR("Loading std from %s... ", std_path);
-  } else {
-    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
-    
-    exit(1);
-  }
-
-  bool failed_to_load = false;
+  /* const char * const std_rel_path = "/../lib/std.lisp"; */
+  /* char * const       std_path     = free_list_malloc(PATH_MAX); */
+  /* uint32_t           size         = PATH_MAX; */
   
-  ae_obj_t * const program  = load_file(std_path, &failed_to_load);
+  /* if (_NSGetExecutablePath(std_path, &size) == 0) { */
+  /*   char * const tmp = free_list_malloc(strlen(dirname(std_path))+1); */
 
-  free_list_free(std_path);
+  /*   strcpy(tmp, dirname(std_path)); */
+  /*   strcpy(std_path, tmp); */
+  /*   strcat(std_path, std_rel_path); */
+    
+  /*   free_list_free(tmp); */
 
-  if (failed_to_load)
-    FPR(stderr, "WARNING: Failed to load std!\n");
-  else
-    PR("loaded.\n");
+  /*   PR("Loading std from %s... ", std_path); */
+  /* } else { */
+  /*   FPR(stderr, "Buffer too small, need %d bytes!\n", size); */
+    
+  /*   exit(1); */
+  /* } */
 
-  ae_obj_t * const ret = EVAL(root_env, program);
+  /* bool failed_to_load = false; */
+  
+  /* ae_obj_t * const program  = load_file(std_path, &failed_to_load); */
 
-  if (ERRORP(ret)) {
-    FPR(stderr, "WARNING: Error evaluating std: ");
-    WRITE(ret);
-    putchar('!');
-    NL;
-  }
+  /* free_list_free(std_path); */
+
+  /* if (failed_to_load) */
+  /*   FPR(stderr, "WARNING: Failed to load std!\n"); */
+  /* else */
+  /*   PR("loaded.\n"); */
+
+  /* ae_obj_t * const ret = EVAL(root_env, program); */
+
+  /* if (ERRORP(ret)) { */
+  /*   FPR(stderr, "WARNING: Error evaluating std: "); */
+  /*   WRITE(ret); */
+  /*   putchar('!'); */
+  /*   NL; */
+  /* } */
 
   log_core = old_log_core;
   log_eval = old_log_eval;
@@ -292,8 +294,6 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   POP(filename_stack);
   yylineno = INT_VAL(POP(line_stack));
-  
-  // PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
   
   return program; 
 }
