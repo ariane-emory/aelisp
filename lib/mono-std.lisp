@@ -2,8 +2,9 @@
 ;; 'standard library', such as it is:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(princ "Loading monolithic std...")
-(nl)
+(when *log-loading-std-enabled*
+ (princ "Loading monolithic std...")
+ (nl))
 
 (require 'std-fundamental)
 
@@ -1621,8 +1622,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(nl)
-(princ "Loaded in   ")
-(princ (elapsed-us *time-before-loading-std*))
-(princ " us.")
+(when *log-loading-std-enabled*
+ (nl)
+ (princ "Loaded in   ")
+ (princ (elapsed-us *time-before-loading-std*))
+ (princ " us."))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
