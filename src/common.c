@@ -134,13 +134,15 @@ ae_obj_t * setup_root_env(void) {
   assert(std_name_found);
   assert(std_name);
   assert(NILP(std_name) || SYMBOLP(std_name));
-  
-  ae_obj_t const * std_return = ae_core_require(root_env, CONS(SYM("std"), NIL), 1);
 
-  if (ERRORP(std_return)) {
-    FPR(stderr, "\nWARNING: Failed to load std: ");
-    WRITE(std_return);
-    NL;
+  if (! NILP(std_name)) {
+    ae_obj_t const * std_return = ae_core_require(root_env, CONS(std_name, NIL), 1);
+
+    if (ERRORP(std_return)) {
+      FPR(stderr, "\nWARNING: Failed to load std: ");
+      WRITE(std_return);
+      NL;
+    }
   }
   
   log_core = old_log_core;
@@ -219,6 +221,9 @@ bool setopts(int argc, char *argv[]) {
       } else if (strcmp(optarg, "s") == 0) {
         std_mode = SPLIT_STD;
         got_std_opt = true;
+      } else if (strcmp(optarg, "s") == 0) {
+        std_mode = MONO_STD;
+        got_std_opt = true;
       } else {
         goto fail;
       }
@@ -231,7 +236,7 @@ bool setopts(int argc, char *argv[]) {
   return true;
 
 fail:
-  fprintf(stderr, "Usage: %s [-l c|e|m] [-s n|s]\n", argv[0]);
+  fprintf(stderr, "Usage: %s [-l c|e|m] [-s n|s|m]\n", argv[0]);
   return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
