@@ -155,55 +155,55 @@
 
 (let ((module
        (list
-         'append-and-nconc
-         'basic-funs
-         'benchmark
-         'compound-cars-and-cdrs
-         'core-aliases
-         'delq
-         'elisp-compat-aliases
-         'flatten
-         'list-access-funs
-         'list-index
-         'list-member
-         'list-remove
-         'log-toggle
-         'map
-         'merge-sort
-         'misc-list-funs
-         'misc-predicates
-         'plist-funs
-         'prime-funs
-         'prog-macros
-         'push-pop-funs
-         'quasiquote
-         'reduce
-         'remove-prop-macro
-         'scheme-compat-aliases
-         'selection-sort
-         'split-list
-         'std-aliases
-         'string-funs
-         'test-macros
-         'transform
-         'union
-         'unsorted-funs
-         'vector-list
-         'zip)))
- (while module
-  (require (car module))
-  (setq! module (cdr module))))
+        'basic-funs
+        'core-aliases
+        'compound-cars-and-cdrs
+        'remove-prop-macro
+        'append-and-nconc
+        'quasiquote
+        'list-access-funs
+        'reduce
+        'map
+        'zip
+        'push-pop-funs
+        'flatten
+        'transform
+        'merge-sort
+        'union
+        'misc-list-funs
+        'misc-predicates
+        'log-toggle
+        'benchmark
+        'unsorted-funs
+        'vector-list
+        'list-member
+        'list-index
+        'list-remove
+        'split-list
+        'delq
+        'prime-funs
+        'selection-sort
+        'test-macros
+        'string-funs
+        'prog-macros
+        'plist-funs
+        'std-aliases
+        'scheme-compat-aliases
+        'elisp-compat-aliases)))
+      (while module
+       (require (car module))
+       (setq! module (cdr module))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'std)
+ (provide 'std)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(nl)
-(princ "Loaded in   ")
-(princ (elapsed-us *before-std*))
-(princ " us.")
-(nl)
+ (nl)
+ (princ "Loaded in   ")
+ (princ (elapsed-us *before-std*))
+ (princ " us.")
+ (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
