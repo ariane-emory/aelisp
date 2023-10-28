@@ -1274,113 +1274,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list index funs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun indexq (elem lst)
- "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
- "ELEM does not appear in the list. Comparison done with 'eq?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((idx 0)
-       (found nil))
-  (while (and lst (not found))
-   (if (eq? elem (car lst))
-    (setq! found idx)
-    (setq! idx (+ 1 idx))
-    (setq! lst (cdr lst))))
-  found))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun indexql (elem lst)
- "Return the zero-based index of the first occurrence of ELEM in LST, or nil if"
- "ELEM does not appear in the list. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((idx 0)
-       (found nil))
-  (while (and lst (not found))
-   (if (eql? elem (car lst))
-    (setq! found idx)
-    (setq! idx (+ 1 idx))
-    (setq! lst (cdr lst))))
-  found))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'index-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list remove funs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeq (elem lst)
- "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while lst
-   (unless (eq? elem (car lst))
-    (setq! result (cons (car lst) result)))
-   (setq! lst (cdr lst)))
-  (reverse result)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeql (elem lst)
- "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while lst
-   (unless (eql? elem (car lst))
-    (setq! result (cons (car lst) result)))
-   (setq! lst (cdr lst)))
-  (reverse result)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeq! (obj lst)
- "Remove the first item eq? to OBJ from LST."
- (unless (list? lst) (error "LST must be a list"))
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (eq? obj head)
-   (if (nil? tail)
-    (error "can't remove last item from LST")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (current  (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (next (cdr lst)))
-         (cond
-          ((eq? obj head) (progn (rplacd! prev next) obj))
-          (next           (progn (setq! prev lst) (chase next)))
-          (t              (error "OBJ was not found in LST")))))))
-     (chase current))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeql! (obj lst)
- "Remove the first item eql? to OBJ from LST."
- (unless (list? lst) (error "LST must be a list"))
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (eql? obj head)
-   (if (nil? tail)
-    (error "can't remove last item from LST")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (current  (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (next (cdr lst)))
-         (cond
-          ((eql? obj head) (progn (rplacd! prev next) obj))
-          (next            (progn (setq! prev lst) (chase next)))
-          (t               (error "OBJ was not found in LST")))))))
-     (chase current))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'remove-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! *std-modules*
  $(
+   'list-index-funs
+   'list-remove-funs
    'split-list
    'delq
    'prime-funs
