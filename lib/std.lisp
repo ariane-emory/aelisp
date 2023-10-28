@@ -150,119 +150,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; some basic funs/macros:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro ignore args
- "Ignores ARGS and do nothing."
- nil)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro funcall (fun . args)
- "Apply FUN to ARGS. This only exists to make porting code from other Lisps easier."
- (unless (fun? (eval fun)) (error "FUN must be a function"))
- (cons fun args))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun root-env ()
- "Get the root environment."
- (setq! pos (env))
- (while (env pos)
-  (write pos) (nl)
-  (setq! pos (env pos)))
- pos) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defconstant (sym value)
- "Set SYM to VALUE and mark it as constant."
- (unless (symbol? sym) (error "SYM must be a symbol"))
- $('progn
-   $('setq! sym value)
-   $('put! 't ':constant $('quote sym))
-   value))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-(defun id (o) o)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'basic-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; simple aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! s       setq!)
-(setq! setcar! rplaca!)
-(setq! setcdr! rplacd!)
-(setq! ¬       not)          
-(setq! ∨       or )           
-(setq! ∧       and)
-(setq! list?   tail?)
-(setq! setcdr! rplacd!)
-(setq! setcar! rplaca!)
-(setq! λ       lambda)
-(setq! lte     <=)
-(setq! gte     >=)
-(setq! lt      <)
-(setq! gt      >)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'core-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; compound car/cdrs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun caar     (lst)               (car (car lst)))
-(defun cadr     (lst)               (car (cdr lst)))
-(defun cdar     (lst)               (cdr (car lst)))
-(defun cddr     (lst)               (cdr (cdr lst)))
-(defun caaar    (lst)          (car (car (car lst))))
-(defun caadr    (lst)          (car (car (cdr lst))))
-(defun cadar    (lst)          (car (cdr (car lst))))
-(defun caddr    (lst)          (car (cdr (cdr lst))))
-(defun cdaar    (lst)          (cdr (car (car lst))))
-(defun cdadr    (lst)          (cdr (car (cdr lst))))
-(defun cddar    (lst)          (cdr (cdr (car lst))))
-(defun cdddr    (lst)          (cdr (cdr (cdr lst))))
-(defun caaaar   (lst)     (car (car (car (car lst)))))
-(defun caaadr   (lst)     (car (car (car (cdr lst)))))
-(defun caadar   (lst)     (car (car (cdr (car lst)))))
-(defun caaddr   (lst)     (car (car (cdr (cdr lst)))))
-(defun cadaar   (lst)     (car (cdr (car (car lst)))))
-(defun cadadr   (lst)     (car (cdr (car (cdr lst)))))
-(defun caddar   (lst)     (car (cdr (cdr (car lst)))))
-(defun cadddr   (lst)     (car (cdr (cdr (cdr lst)))))
-(defun cdaaar   (lst)     (cdr (car (car (car lst)))))
-(defun cdaadr   (lst)     (cdr (car (car (cdr lst)))))
-(defun cdadar   (lst)     (cdr (car (cdr (car lst)))))
-(defun cdaddr   (lst)     (cdr (car (cdr (cdr lst)))))
-(defun cddaar   (lst)     (cdr (cdr (car (car lst)))))
-(defun cddadr   (lst)     (cdr (cdr (car (cdr lst)))))
-(defun cdddar   (lst)     (cdr (cdr (cdr (car lst)))))
-(defun cddddr   (lst)     (cdr (cdr (cdr (cdr lst)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'compound-cars-and-cdrs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; remove! property macro:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro remove! (prop obj)
- "Remove a property PROP from OBJ."
- $('prog1
-   $('quote $('get prop obj))
-   $('props! obj $('plist-removeql prop $('props obj)))))
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'remove-prop-macro)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
 
 
 
 
 (setq! *std-modules*
  $(
+   'basic-funs
+   'core-aliases
+   'compound-cars-and-cdrs
+   'remove-prop-macro
    'append-and-nconc
    'quasiquote
    'list-access-funs
