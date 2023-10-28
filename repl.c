@@ -208,15 +208,7 @@ int main(int argc, char **argv) {
    * bestline, so the user needs to free() it. */
     
   while((line = bestline("Æ> ")) != NULL) {
-    if (! strncmp(line, ";l ", 3)) {
-      add_to_history(line);
-      load_file_cmd(line, ";l %255s", 255);
-    }
-    /* else if (! strncmp(line, "(load", 5)) { */
-    /*   add_to_history(line); */
-    /*   load_file_cmd(line, "(load \"%255[^\"]\")", 255); */
-    /* } */
-    else if (line[0] != '\0' && line[0] != ';') {
+    if (line[0] != '\0' && line[0] != ';') {
       add_to_history(line);
       program = NIL;
       parse_line(line);
