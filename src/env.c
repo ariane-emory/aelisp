@@ -356,13 +356,13 @@ ae_obj_t * ae_env_new_root(bool no_std) {
     bool found = false;
     
 #if AE_PREFER_ALIST
-    ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("ahas?")), &found);
-    ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("aset")), &found);
-    ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("aget")), &found);
-#el, &foundse
-    ENV_SET(env, SYM("has-key?"), ENV_GET(env, SYM("phas?")), &found);
-    ENV_SET(env, SYM("put-key"),  ENV_GET(env, SYM("pset")), &found);
-    ENV_SET(env, SYM("get-key"),  ENV_GET(env, SYM("pget")), &found);
+    ENV_SET(env, SYM("khas?"), ENV_GET(env, SYM("ahas?"), &found));
+    ENV_SET(env, SYM("kset"),  ENV_GET(env, SYM("aset"), &found));
+    ENV_SET(env, SYM("kget"),  ENV_GET(env, SYM("aget"), &found));
+#else
+    ENV_SET(env, SYM("khas?"), ENV_GET(env, SYM("phas?"), &found));
+    ENV_SET(env, SYM("kset"),  ENV_GET(env, SYM("pset"), &found));
+    ENV_SET(env, SYM("kget"),  ENV_GET(env, SYM("pget"), &found));
 #endif
   }
   
@@ -372,12 +372,15 @@ ae_obj_t * ae_env_new_root(bool no_std) {
   FOR_EACH_CORE_CMP_OP(add_core_op);
 
   bool equal_found = false;
-  ENV_SET(env, SYM("="), ENV_GET(env, SYM("=="), &equal_found));
+  ae_obj_t * const equal = ENV_GET(env, SYM("=="), &equal_found);
   assert(equal_found);
+  ENV_SET(env, SYM("="), equal);
   
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
 
+  ENV_SET(env, SYM("*program*"), NIL);
   PUT_PROP(TRUE, "constant", SYM("*program*"));
+  PUT_PROP(TRUE, "read-only", SYM("*program*"));
   
   {
     /* Do a little song and dance to put the home dir, lib dir and data dir in *load-path*. */
