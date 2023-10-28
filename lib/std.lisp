@@ -183,14 +183,16 @@
         'delq
         'prime-funs
         'selection-sort
+        'doc
         'test-macros
         'string-funs
         'prog-macros
         'plist-funs
-        'std-aliases
-        'scheme-compat-aliases
         'remove-prop-macro
-        'elisp-compat-aliases)))
+        'scheme-compat-aliases
+        'elisp-compat-aliases
+        'std-aliases
+        )))
       (while module
        (require (car module))
        (setq! module (cdr module))))
