@@ -896,12 +896,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(require 'log-toggle-funs)
-
-
 
 (setq! *std-modules*
- $('print-macros
+ $('log-toggle-funs
    'benchmark
    'unsorted-funs
    'vector-list-funs
