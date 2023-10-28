@@ -314,8 +314,8 @@ extern ae_obj_t * symbols_list;
   free_list_free(tmp);                                                                                                 \
   ae_obj_t * _obj = NEW(AE_ERROR);                                                                                     \
   EMSG(_obj) = err_msg;                                                                                                \
-  log_eval = true;                                                                                                     \
-  log_core = true;                                                                                                     \
+  /* log_eval = true; */                                                                                               \
+  /* log_core = true; */                                                                                               \
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
