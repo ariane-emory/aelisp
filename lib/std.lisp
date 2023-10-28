@@ -10,7 +10,7 @@
 (setq! *microbench-defmacros*  t)
 (setq! *microbench-defuns*     t)
 (setq! *microbench-provides*   t)
-(setq! *log-std-load*          t)
+(setq! *log-std-load*          nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
