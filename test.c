@@ -1614,26 +1614,47 @@ void push_and_pop(void) {
 void put_prop(void) {
   SETUP_TEST;
 
-  bool ignored = false;
+  ae_obj_t * env = ENV_NEW_ROOT();
+  bool ignored   = false;
 
   WRITE(PUT_PROP(SYM("yes"), "set", SYM("random")));
   NL;
   WRITE(PROPS(SYM("random")));
   NL;
+
   WRITE(PUT_PROP(SYM("yes"), "set", SYM("random")));
   NL;
   WRITE(PROPS(SYM("random")));
   NL;
+
   WRITE(PUT_PROP(SYM("yes"), "set", SYM("*log-loading-std-enabled*")));
   NL;
   WRITE(PROPS(SYM("*log-loading-std-enabled*")));
   NL;
-  WRITE(PUT_PROP(SYM("yes"), "set", NIL));
-  WRITE(PUT_PROP(NIL,        "set", NIL));
-  /* PUT_PROP(TRUE, "constant", NIL);  */
-  /* PUT_PROP(TRUE, "constant", TRUE);  */
 
-  // PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
+  WRITE(PUT_PROP(SYM("yes"), "set", NIL));
+  NL;
+  WRITE(PROPS(NIL));
+  NL;
+
+  WRITE(PUT_PROP(NIL,        "set", NIL));
+  NL;
+  WRITE(PROPS(NIL));
+  NL;
+
+  WRITE(PUT_PROP(TRUE, "constant", NIL));
+  NL;
+  WRITE(PROPS(NIL));
+  NL;
+
+  WRITE(PUT_PROP(TRUE, "constant", TRUE));
+  NL;
+  WRITE(PROPS(TRUE));
+  NL;
+  
+  PUT_PROP(TRUE, "constant", NIL);
+  PUT_PROP(TRUE, "constant", TRUE);
+  PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
