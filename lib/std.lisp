@@ -88,11 +88,12 @@
   (macro (name params . body)
    $('progn
      $('setq! '*microbench-before* $('now-us))
-     $('let $($('result $('defmacro-base name params . body)))
+     $('let $($('microbenced-macro's-result $('defmacro-base name params . body)))
        $('nl)
        $('princ "defmacrod  " $('quote name) " in "
          $('elapsed-us '*microbench-before*) " us.")
-       'result)))))
+       $('setq! name name) ;; re-assign to fix :last-bound-to
+       'microbenced-macro's-result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench* *microbench-defuns*)
  (setq! defun-base defun)
@@ -103,6 +104,7 @@
       $('nl)
       $('princ "defunned   " $('quote name) " in "
         $('elapsed-us '*microbench-before*) " us.")
+      $('setq! name name) ;; re-assign to fix :last-bound-to
       'microbenched-fun's-result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench* *microbench-provides*)
