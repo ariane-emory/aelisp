@@ -128,6 +128,13 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  bool std_name_found = false;
+  ae_obj_t * const std_name = ENV_GET(root_env, SYM("*std-name*"), &std_name_found);
+
+  assert(std_name_found);
+  assert(std_name);
+  assert(NILP(std_name) || SYMBOLP(std_name));
+  
   ae_obj_t const * std_return = ae_core_require(root_env, CONS(SYM("std"), NIL), 1);
 
   if (ERRORP(std_return)) {
