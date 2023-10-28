@@ -250,7 +250,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   assert(sprograms_found);
   assert(sprograms);
   assert(TAILP(sprograms));
-  sprograms = KSET(sprograms, load_target, new_program);
+  // sprograms = KSET(sprograms, load_target, new_program); // temporarily disabled
   ENV_SET_G(env, SYM("*program*"), sprograms);
   
 end:
