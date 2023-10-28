@@ -8,6 +8,7 @@
 #include "obj.h"
 #include "log.h"
 #include "write.h"
+#include "env.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // pool data
@@ -15,6 +16,7 @@
 /* */ ae_obj_t         pool[AE_OBJ_POOL_SIZE] = { 0 };
 const ae_obj_t * const pool_first             = &pool[0];
 const ae_obj_t * const pool_last              = &pool[AE_OBJ_POOL_SIZE - 1];
+long long int          pool_allocated         = 0;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -37,7 +39,9 @@ ae_obj_t * pool_alloc_ae_obj() {
     PUT(obj);
     putchar('\n');
 #endif
-  
+
+    pool_allocated++;
+    
     return obj;
   }
     

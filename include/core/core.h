@@ -9,6 +9,7 @@
 #define FOR_EACH_CORE_FUN_GROUP_2(DO)                                                                                     \
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
+  DO(allocated,    false,          0,          1,                              FUNDEF_END)                                \
   DO(load_file,    false,          1,          1, "load-file",                 FUNDEF_END)                                \
   DO(load,         false,          1,          2,                              FUNDEF_END)                                \
   DO(requireb,     false,          1,          2, "require!",                  FUNDEF_END)                                \

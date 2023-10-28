@@ -4,4 +4,3 @@ tmp/*
 .DS_Store
 out*
 *history.txt
-time_results.txt
