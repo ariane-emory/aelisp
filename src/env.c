@@ -438,15 +438,17 @@ ae_obj_t * ae_env_new_root() {
   default:
     assert(false); // this shouldn't be able to happen.
   }
-    
   PUT_PROP(TRUE, "constant", SYM("*std-name*"));
 
-  // *features* should always be ENV_BOUNDP:
-  ENV_SET(env, SYM("*features*"), NIL);
+  ENV_SET(env, SYM("*features*"), NIL); // *features* should always be ENV_BOUNDP.
+  ENV_SET(env, SYM("*log-loading-std-enabled*"), TRUTH(log_loading_std));
+  ENV_SET(env, SYM("*microbench-enabled*"),      TRUTH(enable_microbench));
 
+  bool ignored = false;
   PUT_PROP(TRUE, "constant", NIL);
   PUT_PROP(TRUE, "constant", TRUE);
-  
+  PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
+    
   return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
