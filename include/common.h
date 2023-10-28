@@ -21,7 +21,7 @@ extern bool       log_core;
 extern bool       log_eval;
 extern bool       log_macro;
 extern bool       log_loading_std;
-extern bool       enable_microbench;
+//extern bool       enable_microbench;
 extern std_mode_t std_mode;
 extern bool       read_error;
 extern ae_obj_t * filename_stack;
