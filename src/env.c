@@ -422,16 +422,19 @@ ae_obj_t * ae_env_new_root(std_mode_t std_mode) {
     case NO_STD:
     {
       ENV_SET(env, SYM("*std-mode*"), NIL);
+      ENV_SET(env, SYM("*std-lib-name*"), NIL);
       break;
     }
     case SPLIT_STD:
     {
       ENV_SET(env, SYM("*std-mode*"), KW("split"));
+      ENV_SET(env, SYM("*std-lib-name*"), SYM("std"));
       break;
     }
     case MONO_STD:
     {
       ENV_SET(env, SYM("*std-mode*"), KW("mono"));
+      ENV_SET(env, SYM("*std-lib-name*"), SYM("mono-std"));
       break;
     }
     default:
@@ -439,6 +442,7 @@ ae_obj_t * ae_env_new_root(std_mode_t std_mode) {
     }
     
     PUT_PROP(TRUE, "constant", SYM("*std-mode*"));
+    PUT_PROP(TRUE, "constant", SYM("*std-lib-name*"));
   }
 
   // *features* should always be ENV_BOUNDP:
