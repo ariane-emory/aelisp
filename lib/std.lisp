@@ -159,9 +159,9 @@
         'core-aliases
         'compound-cars-and-cdrs
         'append-and-nconc
-        'remove-prop-macro
         'quasiquote
         'list-access-funs
+        'tail-chaser-macros
         'reduce
         'map
         'zip
@@ -189,6 +189,7 @@
         'plist-funs
         'std-aliases
         'scheme-compat-aliases
+        'remove-prop-macro
         'elisp-compat-aliases)))
       (while module
        (require (car module))
