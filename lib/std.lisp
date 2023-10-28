@@ -176,6 +176,7 @@
         'misc-list-funs
         'misc-predicates
         'log-toggle
+        'print-macros
         'benchmark
         'unsorted-funs
         'vector-list
