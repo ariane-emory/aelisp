@@ -1174,109 +1174,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list funs (more unsorted):
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-list-pred-fun (name combiner base-case)
- `(defun ,name (pred? lst)
-   (if lst
-    (,combiner
-     (pred? (car lst))
-     (,name pred? (cdr lst)))
-    ,base-case)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-list-pred-fun any? or  nil)
-(defun-list-pred-fun all? and t)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-list-transform-fun (name transformer)
- `(defun ,name (lsts)
-   (when lsts
-    (cons (,transformer (car lsts)) (,name (cdr lsts))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-list-transform-fun heads caar)
-(defun-list-transform-fun tails cdar)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'list-misc-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list funs (vector-style list API):
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun list-set! (lst index obj)
- "Destructively set the element at INDEX of LST to OBJ."
- (unless (list? lst) (error "LST must be a list"))
- (unless (and (integer? index) (>= index 0)) (error "INDEX must be a non-negative integer"))
- (let ((current-index 0)
-       (done nil))
-  (while (and lst (not done))
-   (if (= current-index index) ; <- changed eq? to =
-    (progn
-     (rplaca! lst obj)
-     (setq! done t))
-    (setq! lst (cdr lst))
-    (setq! current-index (+ 1 current-index))))
-  (unless done (error "INDEX out of bounds")))
- obj) ; return the set object for convenience, similar to setq!
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun list-ref (lst index)
- "Return the element at INDEX of LST."
- (unless (list? lst) (error "LST must be a list"))
- (unless (and (integer? index) (>= index 0)) (error "INDEX must be a non-negative integer"))
- (let ((current-index 0))
-  (while (and lst (not (= current-index index)))
-   (setq! lst (cdr lst))
-   (setq! current-index (+ 1 current-index)))
-  (if lst
-   (car lst)
-   (error "INDEX out of bounds"))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! list-length length)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun make-list (size init-val)
- "Make a new list of length SIZE with its cars set to INIT-VAL."
- (unless (integer? size) (error "SIZE must be an integer"))
- (let ((result nil)
-       (current-index 0))
-  (while (< current-index size)
-   (setq! result (cons init-val result))
-   (setq! current-index (+ 1 current-index)))
-  result))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'vector-lists)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list mem funs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun memq? (elem lst)
-;;  "Return non-nil if ELEM is an element of LST. Comparison done with 'eq?'."
-;;  (unless (list? lst) (error "LST must be a list"))
-;;  (let ((found nil))
-;;   (while (and lst (not found))
-;;    (if (eq? elem (car lst))
-;;     (setq! found t)
-;;     (setq! lst (cdr lst))))
-;;   found))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun memql? (elem lst)
- "Return non-nil if ELEM is an element of LST. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((found nil))
-  (while (and lst (not found))
-   (if (eql? elem (car lst))
-    (setq! found t)
-    (setq! lst (cdr lst))))
-  found))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'mem-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
 (setq! *std-modules*
  $(
+   'misc-list-funs
+   'vector-list-funs
+   'list-member-funs
    'list-index-funs
    'list-remove-funs
    'split-list
