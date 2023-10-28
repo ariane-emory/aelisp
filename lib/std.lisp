@@ -154,22 +154,23 @@
 
 (setq! *std-modules*
  $(
-   'basic-funs
-   'core-aliases
-   'compound-cars-and-cdrs
-   'remove-prop-macro
    'append-and-nconc
-   'quasiquote
-   'list-access-funs
-   'reduce
-   'map
-   'zip
-   'push-pop-funs
+   'basic-funs
+   'compound-cars-and-cdrs
+   'core-aliases
    'flatten
-   'transform
+   'list-access-funs
+   'map
    'merge-sort
-   'union
    'misc-list-funs
+   'push-pop-funs
+   'quasiquote
+   'reduce
+   'remove-prop-macro
+   'transform
+   'union
+   'zip
+
    'misc-predicates
    'log-toggle
    'benchmark

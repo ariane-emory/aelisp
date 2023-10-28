@@ -1,5 +1,6 @@
 (require 'map)
 (require 'misc-predicates)
+(require 'quasiquote)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (unsorted):
