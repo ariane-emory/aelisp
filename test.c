@@ -1614,6 +1614,12 @@ void push_and_pop(void) {
 void put_prop(void) {
   SETUP_TEST;
 
+  bool ignored = false;
+
+  PUT_PROP(SYM("yes"), "set", SYM("random"));
+  PUT_PROP(SYM("yes"), "set", SYM("random"));
+  PUT_PROP(SYM("yes"), "set", SYM("*log-loading-std-enabled*"));
+  // PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
