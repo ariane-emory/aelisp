@@ -31,7 +31,7 @@ extern int yylineno;
 bool       log_core            = false;
 bool       log_eval            = false;
 bool       log_macro           = false;
-std_mode_t std_mode            = SPLIT_STD;
+std_mode_t std_mode            = MONO_STD;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
 ae_obj_t * filename_stack      = NIL;
