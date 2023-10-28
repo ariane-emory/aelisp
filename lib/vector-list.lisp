@@ -8,14 +8,14 @@
  (let ((current-index 0)
        (done nil))
   (while (and lst (not done))
-   (if (= current-index index) ; <- changed eq? to =
+   (if (= current-index index)
     (progn
      (rplaca! lst obj)
      (setq! done t))
     (setq! lst (cdr lst))
     (setq! current-index (+ 1 current-index))))
   (unless done (error "INDEX out of bounds")))
- obj) ; return the set object for convenience, similar to setq!
+ obj)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list-ref (lst index)
  "Return the element at INDEX of LST."
