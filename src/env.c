@@ -419,21 +419,23 @@ ae_obj_t * ae_env_new_root(std_mode_t std_mode) {
     ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
 
     switch (std_mode) {
-      case NO_STD:
-      {
-        ENV_SET(env, SYM("*std-mode*"), NIL);
-        break;
-      }
-      case SPLIT_STD:
-      {
-        ENV_SET(env, SYM("*std-mode*"), KW("split"));
-        break;
-      }
-      case MONO_STD:
-      {
-        ENV_SET(env, SYM("*std-mode*"), KW("mono"));
-        break;
-      }   
+    case NO_STD:
+    {
+      ENV_SET(env, SYM("*std-mode*"), NIL);
+      break;
+    }
+    case SPLIT_STD:
+    {
+      ENV_SET(env, SYM("*std-mode*"), KW("split"));
+      break;
+    }
+    case MONO_STD:
+    {
+      ENV_SET(env, SYM("*std-mode*"), KW("mono"));
+      break;
+    }
+    default:
+      assert(false); // this shouldn't be able to happen.
     }
     
     PUT_PROP(TRUE, "constant", SYM("*std-mode*"));
