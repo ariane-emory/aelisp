@@ -1496,69 +1496,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; selection sort parts;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun remove-first! (pred? lst)
- "Destructively remove the first item matching PRED? from LST."
- (unless (fun? pred?) (error "PRED? must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
- (if (pred? (car lst))
-  (if (cdr lst)
-   (progn 
-    (rplaca! lst (cadr lst))
-    (rplacd! lst (cddr lst)))
-   (error "can't remove last item"))
-  (let ((prev lst) (current (cdr lst)))
-   (while (and current (not (pred? (car current))))
-    (setq! prev current)
-    (setq! current (cdr current)))
-   (if current
-    (progn
-     (rplacd! prev (cdr current))
-     (car current))
-    (error "obj was not in lst")))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun select-and-move-to-front! (pred? lst)
- "Move the first item in LST matching PRED? to its head."
- (unless (fun? pred?) (error "PRED? must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
- (let ((head (car lst)))
-  (if (pred? head)
-   head
-   (let ((obj      (remove-first! pred? lst))
-         (new-tail (cons (car lst) (cdr lst))))
-    (rplaca! lst obj)
-    (rplacd! lst new-tail)
-    obj))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'selection-sort-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; documentation funss
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun doc (obj)
- "Get an object OBJ's documentation."
- (let* ((doc       (or (get :doc obj) "This object has no documentation."))
-        (binding   (get :last-bound-to obj))
-        (is-fun    (or (lambda? obj) (macro? obj)))
-        (name      (or binding (string obj)))
-        (params    (when is-fun
-                    (string (cons name (params obj)))))
-        (docstring (if is-fun
-                    (concat params ": " doc)
-                    (concat name   ": " doc))))
-  docstring))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'doc-funs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
 (setq! *std-modules*
  $(
+   'selection-sort-funs
    'test-macros
    'string-funs
    'prog-macros
