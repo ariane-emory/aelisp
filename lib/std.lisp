@@ -170,7 +170,7 @@
    'merge-sort
    'union
    'misc-list-funs
-   'misc-predicate
+   'misc-predicates
    'log-toggle
    'benchmark
    'unsorted-funs
