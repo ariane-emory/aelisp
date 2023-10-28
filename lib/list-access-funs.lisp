@@ -18,17 +18,39 @@
  "Get the nth item in LST."
  (unless (integer? index) (error "INDEX must be an integer"))
  (unless (list? lst)      (error "LST must be a list"))
- (cond
-  ((zero? index) (car lst))
-  (lst          (nth (- index 1) (cdr lst)))))
+ (let ((current lst))
+   (while (and (> index 0) current)
+     (setq current (cdr current))
+     (setq index (1- index)))
+   (if current
+       (car current)
+     nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nthcdr (n lst)
  "Get the nth cdr of LST."
  (unless (integer? n) (error "N must be an integer"))
  (unless (list? lst)  (error "LST must be a list"))
- (if (zero? n)
-  lst
-  (nthcdr (1- n) (cdr lst))))
+ (let ((current lst))
+   (while (and (> n 0) current)
+     (setq current (cdr current))
+     (setq n (1- n)))
+   current))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun nth (index lst)
+;;  "Get the nth item in LST."
+;;  (unless (integer? index) (error "INDEX must be an integer"))
+;;  (unless (list? lst)      (error "LST must be a list"))
+;;  (cond
+;;   ((zero? index) (car lst))
+;;   (lst          (nth (- index 1) (cdr lst)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun nthcdr (n lst)
+;;  "Get the nth cdr of LST."
+;;  (unless (integer? n) (error "N must be an integer"))
+;;  (unless (list? lst)  (error "LST must be a list"))
+;;  (if (zero? n)
+;;   lst
+;;   (nthcdr (1- n) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun last (lst)
  "Get last item in a LST."

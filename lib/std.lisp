@@ -163,6 +163,7 @@
    'list-access-funs
    'reduce
    'map
+   'zip
    'push-pop-funs
    'flatten
    'transform
