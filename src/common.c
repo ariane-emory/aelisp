@@ -221,7 +221,7 @@ bool setopts(int argc, char *argv[]) {
       } else if (strcmp(optarg, "s") == 0) {
         std_mode = SPLIT_STD;
         got_std_opt = true;
-      } else if (strcmp(optarg, "s") == 0) {
+      } else if (strcmp(optarg, "m") == 0) {
         std_mode = MONO_STD;
         got_std_opt = true;
       } else {
