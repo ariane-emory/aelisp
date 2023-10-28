@@ -6,7 +6,7 @@
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! *use-safe-provide*      nil)
-(setq! *microbench*            t)
+(setq! *microbench*            nil)
 (setq! *microbench-defmacros*  t)
 (setq! *microbench-defuns*     t)
 (setq! *microbench-provides*   t)
