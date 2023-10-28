@@ -138,6 +138,9 @@ ae_obj_t * setup_root_env(void) {
   if (! NILP(std_name)) {
     ae_obj_t const * std_return = ae_core_require(root_env, CONS(std_name, NIL), 1);
 
+    NL;
+    NL;
+    
     if (ERRORP(std_return)) {
       FPR(stderr, "\nWARNING: Failed to load std: ");
       WRITE(std_return);
