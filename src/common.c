@@ -115,13 +115,8 @@ ae_obj_t * setup_root_env(void) {
   NL;
   
   for (int ix = 0; ix < AE_OBJ_POOL_SIZE; ix++)
-    if (! FREEP(pool_get_object(ix))) {
-#ifdef AE_LOG_KVP_SET_GET
-      //LOG(pool_get_object(ix), "#%d: Setting origin to 'primordial'", ix);
-#endif
-      
+    if (! FREEP(pool_get_object(ix)))      
       PROPS(pool_get_object(ix)) = primordial_origin;
-    }
 
   PR("Done painting objects populating the root env with origin = primordial.");
   NL;
