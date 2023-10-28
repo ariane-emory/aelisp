@@ -337,6 +337,11 @@ static void load_fun_helper(
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root() {
+  symbols_list = NIL;
+  pool_clear();
+  free_list_reset();
+  free_list_add_block(&mem[0], free_list_size);
+
   ae_obj_t * const env = NEW_ENV(NIL, NIL, NIL);
   
 #define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1)
