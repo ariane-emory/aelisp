@@ -15,8 +15,7 @@
 ;; load modules
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when *std-mode*
- (let ((module
+(let ((module
         (list
          'basic-funs
          'core-aliases
@@ -59,7 +58,7 @@
          )))
   (while module
    (require (car module))
-   (setq! module (cdr module)))))
+   (setq! module (cdr module))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'std)
