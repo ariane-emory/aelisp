@@ -3,6 +3,7 @@
 (require 'map)
 (require 'list-index)
 (require 'list-remove)
+(require 'vector-list)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos scheme compat aliases:
