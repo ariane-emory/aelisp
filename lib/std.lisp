@@ -158,8 +158,8 @@
         'basic-funs
         'core-aliases
         'compound-cars-and-cdrs
-        'remove-prop-macro
         'append-and-nconc
+        'remove-prop-macro
         'quasiquote
         'list-access-funs
         'reduce
