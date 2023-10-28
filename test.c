@@ -1627,6 +1627,16 @@ void put_prop(void) {
   WRITE(PROPS(SYM("random")));
   NL;
 
+  WRITE(PUT_PROP(SYM("yes"), "set", KW("random")));
+  NL;
+  WRITE(PROPS(KW("random")));
+  NL;
+
+  WRITE(PUT_PROP(SYM("yes"), "set", KW("random")));
+  NL;
+  WRITE(PROPS(KW("random")));
+  NL;
+
   WRITE(PUT_PROP(SYM("yes"), "set", SYM("*log-loading-std-enabled*")));
   NL;
   WRITE(PROPS(SYM("*log-loading-std-enabled*")));
