@@ -89,7 +89,7 @@ ae_obj_t * setup_root_env(void) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
-  ae_obj_t * root_env = ENV_NEW_ROOT(std_mode);
+  ae_obj_t * env = ENV_NEW_ROOT(std_mode);
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_PAINT_EARLY_OBJECTS
@@ -126,14 +126,14 @@ ae_obj_t * setup_root_env(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   bool std_name_found = false;
-  ae_obj_t * const std_name = ENV_GET(root_env, SYM("*std-name*"), &std_name_found);
+  ae_obj_t * const std_name = ENV_GET(env, SYM("*std-name*"), &std_name_found);
 
   assert(std_name_found);
   assert(std_name);
   assert(NILP(std_name) || SYMBOLP(std_name));
 
   if (! NILP(std_name)) {
-    ae_obj_t const * std_return = ae_core_require(root_env, CONS(std_name, NIL), 1);
+    ae_obj_t const * std_return = ae_core_require(env, CONS(std_name, NIL), 1);
 
     NL;
     NL;
@@ -149,7 +149,7 @@ ae_obj_t * setup_root_env(void) {
   log_eval  = old_log_eval;
   log_macro = old_log_macro;
   
-  return root_env;
+  return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
