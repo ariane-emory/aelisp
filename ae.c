@@ -92,51 +92,13 @@ int main(int argc, char **argv) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // read and parse file
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  bool failed_to_open = false;
-
-  load_file("data/tests.lisp", &failed_to_open);
-
-  if (failed_to_open) {
-    FPR(stderr, "ERROR: Failed to open file!\n");
-    exit(1);
-  }
-
-  if (read_error) {
-    FPR(stderr, "ERROR: Read error!\n");
-    exit(2);
-  }
-
-  paint_parsed();
+  ae_obj_t * const result = ae_core_require(root_env, CONS(NEW_SYMBOL("tests"), NIL), 1);
   
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// dump the pool, eval the program, dump the pool again
-////////////////////////////////////////////////////////////////////////////////////////////////////  
-
-#ifdef AE_DUMP_POOL_BEFORE
-  pool_print();
-#endif
-
-  /* puts("Writing program obj."); */
-  /* WRITE(program); */
-  /* NL; */
-  /* puts("Wrote program obj."); */
-  /* NL; */
-  
-  /* SLOG("Evaluating program..."); */
-  
-  ae_obj_t * result = EVAL(root_env, program);
-
   if (ERRORP(result)) {
     PR("\nERROR: "); WRITE(result); NL;
 
     exit(4);
   }
-  /* else { */
-  /*   PR("Result: "); WRITE(result); NL; */
-  /* } */
-  
-  /* SLOG("\nDone evaluating program.\n"); */
   
 #ifdef AE_DUMP_POOL_AFTER
   pool_print();
