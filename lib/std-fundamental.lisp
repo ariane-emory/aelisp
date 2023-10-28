@@ -147,9 +147,9 @@
 (defun one?      (n)   (= n 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when *log-loading-std-enabled*
- (log-eval t)
- (log-core t))
+;; (when *log-loading-std-enabled*
+;;  (log-eval t)
+;;  (log-core t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'std-fundamental)

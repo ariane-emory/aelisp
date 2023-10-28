@@ -473,8 +473,8 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   if (! NILP(std_name)) {
     ae_obj_t const * std_return = ae_core_require(env, CONS(std_name, NIL), 1);
 
-    NL;
-    NL;
+    /* NL; */
+    /* NL; */
     
     if (ERRORP(std_return)) {
       FPR(stderr, "\nWARNING: Failed to load std: ");
