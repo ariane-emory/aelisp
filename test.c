@@ -1662,9 +1662,9 @@ void put_prop(void) {
   WRITE(PROPS(TRUE));
   NL;
   
-  PUT_PROP(TRUE, "constant", NIL);
-  PUT_PROP(TRUE, "constant", TRUE);
-  PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
+  /* PUT_PROP(TRUE, "constant", NIL); */
+  /* PUT_PROP(TRUE, "constant", TRUE); */
+  /* PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored)); */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
