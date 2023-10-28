@@ -10,6 +10,7 @@
 (setq! *microbench-defmacros*  t)
 (setq! *microbench-defuns*     t)
 (setq! *microbench-provides*   t)
+(setq! *log-std-load*          t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -154,6 +155,9 @@
 (setq! null? nil?)  ;; scheme compatability
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(when *log-std-load*
+ (log-eval t)
+ (log-core t))
 
 (when *std-modules*
  (let ((module
