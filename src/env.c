@@ -446,8 +446,8 @@ ae_obj_t * ae_env_new_root(std_mode_t std_mode) {
   }
 
   ENV_SET(env, SYM("*features*"), NIL);   // *features* should always be ENV_BOUNDP.
-  PUT_PROP(TRUE, "constant", NIL);       // NIL is constant.
-  PUT_PROP(TRUE, "constant", TRUE);      // TRUE is constant.
+  PUT_PROP(TRUE, "constant", NIL);        // NIL is constant.
+  PUT_PROP(TRUE, "constant", TRUE);       // TRUE is constant.
   
   return env;
 }

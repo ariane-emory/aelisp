@@ -15,6 +15,12 @@ ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
   LOG(list,  "in list");
   LOG(value, "to value");
 #endif
+
+
+  if (list)
+    LOG(list, "list is");
+  else
+    SLOG("list is NULL");
   
   assert(!list || (TAILP(list) && ! (LENGTH(list) % 2)));
   
