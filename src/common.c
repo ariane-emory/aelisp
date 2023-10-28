@@ -70,8 +70,8 @@ ae_obj_t * setup_root_env(void) {
   bool old_log_eval = log_eval;
   bool old_log_macro = log_macro;
 
-  log_core = false;
-  log_eval = false;
+  log_core  = false;
+  log_eval  = false;
   log_macro = false;
   
 #ifdef AE_PREFACE
