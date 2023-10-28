@@ -5,6 +5,7 @@
 #include "common.h"
 #include "env.h"
 #include "time_funcs.h"
+#include "pool.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _program
@@ -15,6 +16,17 @@ ae_obj_t * ae_core_program(__attribute__((unused)) ae_obj_t * const env,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("program");
   CORE_RETURN("program", program);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _now
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_allocated(__attribute__((unused)) ae_obj_t * const env,
+                       __attribute__((unused)) ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
+  CORE_BEGIN("allocated");
+  CORE_RETURN("allocated", NEW_INT(pool_allocated));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
