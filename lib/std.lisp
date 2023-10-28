@@ -68,5 +68,6 @@
  (nl)
  (princ "Loaded in   ")
  (princ (elapsed-us *time-before-loading-std*))
- (princ " us."))
+ (princ " us.")
+ (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
