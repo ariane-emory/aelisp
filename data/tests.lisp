@@ -262,3 +262,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;; (defun reduce (func lst &optional initial-value)
+;;   "Reduce LST using FUNC starting with INITIAL-VALUE."
+;;   (unless (list? lst) (error "LST must be a list"))
+  
+;;   ;; If there's an initial value, start with it. Otherwise, start with the first element of the list.
+;;   (let ((acc (if initial-value
+;;                  initial-value
+;;                  (pop! lst))))
+;;     ;; Iterate over the rest of the list, updating the accumulator.
+;;     (while lst
+;;       (setq! acc (funcall func acc (pop! lst)))
+;;     ;; Return the accumulated result.
+;;     acc)))
