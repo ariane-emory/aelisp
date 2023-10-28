@@ -23,9 +23,9 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       RETURN(FUN_ENV(CAR(args)));
     }
   }
-  else {
-    RETURN(env);
-  }
+
+  RETURN(env);
+
 
 end:
   
