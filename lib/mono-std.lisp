@@ -5,18 +5,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *use-safe-provide*      nil)
-(setq! *microbench-enabled*    t)
-(setq! *microbench-defmacros*  t)
-(setq! *microbench-defuns*     t)
-(setq! *microbench-provides*   t)
+(setq! *use-safe-provide*        nil)
+(setq! *microbench-enabled*      t)
+(setq! *microbench-defmacros*    t)
+(setq! *microbench-defuns*       t)
+(setq! *microbench-provides*     t)
+(setq! *log-loading-std-enabled* nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simpler-version of std load time measuerement:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *before-std* (now-us))
+(setq! *time-before-loading-std* (now-us))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -154,9 +155,11 @@
 (setq! null? nil?)  ;; scheme compatability
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(when *log-loading-std-enabled*
+ (log-eval t)
+ (log-core t))
 
 (when *std-mode*
-
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; some basic funs/macros:
@@ -1573,7 +1576,7 @@
           '" ≠ "
           $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (setq! *confirm-2nd-column* 70)
+ (setq! *confirm's-2nd-column* 70)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defmacro confirm (that expr returns expected)
   "Test whether EXPR evaluates to EXPECTED."
@@ -1581,7 +1584,7 @@
   (unless (eq? 'returns returns) (error "expected 'returns as 4th argument"))
   $('progn
     $('let $($('printed $('princ $('string $('quote expr)))))
-      $('while $('< 'printed *confirm-2nd-column*)
+      $('while $('< 'printed *confirm's-2nd-column*)
         $('princ '" ")
         $('setq! 'printed $('+ 1 'printed)))
       $('princ '" ⇒ ")
@@ -1774,7 +1777,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "Loaded in   ")
-(princ (elapsed-us *before-std*))
+(princ (elapsed-us *time-before-loading-std*))
 (princ " us.")
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
