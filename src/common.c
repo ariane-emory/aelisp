@@ -76,10 +76,6 @@ ae_obj_t * setup_root_env(void) {
   log_eval  = false;
   log_macro = false;
   
-#ifdef AE_PREFACE
-  preface();
-#endif
-  
 //==================================================================================================
 // set up the free list and populate the root env
 //==================================================================================================
