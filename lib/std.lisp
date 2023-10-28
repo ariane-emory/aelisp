@@ -152,25 +152,25 @@
 
 (setq! *std-modules*
  $(
-   'basic
+   'basic-funs
    'core-aliases
    'compound-cars-and-cdrs
    'remove-prop-macro
    'append-and-nconc
    'quasiquote
-   'list-access
+   'list-access-funs
    'reduce
    'map
-   'push-pop
+   'push-pop-funs
    'flatten
    'transform
    'merge-sort
    'union
-   'misc-list
+   'misc-list-funs
    'misc-predicate
    'log-toggle
    'benchmark
-   'unsorted
+   'unsorted-funs
    'vector-list
    'list-member
    'list-index
@@ -180,7 +180,7 @@
    'prime-funs
    'selection-sort
    'test-macros
-   'string
+   'string-funs
    'prog-macros
    'plist-funs
    'std-aliases
