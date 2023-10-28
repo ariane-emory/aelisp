@@ -920,15 +920,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(require 'benchmark)
-
-
-
-
-
-
 (setq! *std-modules*
  $(
+   'benchmark
    'unsorted-funs
    'vector-list-funs
    'list-member-funs
