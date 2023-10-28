@@ -226,9 +226,9 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   if (! file_path)
     RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
-  
-  ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
+  RETURN_IF_ERRORP(load_file(file_path, NULL));
+  
   free_list_free(file_path);
 
   const bool old_log_macro     = log_macro;
@@ -237,7 +237,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   log_macro                    = false;
   log_core                     = false;
   log_eval                     = false;
-  ret                          = RETURN_IF_ERRORP(EVAL(env, new_program));
+  ret                          = RETURN_IF_ERRORP(EVAL(env, program));
   log_macro                    = old_log_macro;
   log_core                     = old_log_core;
   log_eval                     = old_log_eval;
@@ -250,7 +250,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   assert(sprograms_found);
   assert(sprograms);
   assert(TAILP(sprograms));
-  sprograms = KSET(sprograms, load_target, new_program);
+  sprograms = KSET(sprograms, load_target, program);
   ENV_SET_G(env, SYM("*program*"), sprograms);
   
 end:
