@@ -87,7 +87,7 @@ ae_obj_t * setup_root_env(void) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
-  ae_obj_t * root_env = ENV_NEW_ROOT(no_std);
+  ae_obj_t * env = ENV_NEW_ROOT(no_std);
 
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,19 +129,59 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  ae_obj_t const * std_return = ae_core_require(root_env, CONS(SYM("std"), NIL), 1);
+  const char * const std_rel_path = "/../lib/std.lisp";
+  char * const       std_path     = free_list_malloc(PATH_MAX);
+  uint32_t           size         = PATH_MAX;
+  
+  if (_NSGetExecutablePath(std_path, &size) == 0) {
+    char * const tmp = free_list_malloc(strlen(dirname(std_path))+1);
 
-  if (ERRORP(std_return)) {
-    FPR(stderr, "\nWARNING: Failed to load std: ");
-    WRITE(std_return);
+    strcpy(tmp, dirname(std_path));
+    strcpy(std_path, tmp);
+    strcat(std_path, std_rel_path);
+    
+    free_list_free(tmp);
+
+    PR("Loading std from %s... ", std_path);
+  } else {
+    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
+    
+    exit(1);
+  }
+
+  bool failed_to_load = false;
+  
+  ae_obj_t * const program  = load_file(std_path, &failed_to_load);
+
+  free_list_free(std_path);
+
+  if (failed_to_load)
+    FPR(stderr, "WARNING: Failed to load std!\n");
+  else
+    PR("loaded.\n");
+
+  bool sprograms_found = false;
+  ae_obj_t * sprograms = ENV_GET(env, SYM("*program*"), &sprograms_found);
+  assert(sprograms_found);
+  assert(sprograms);
+  assert(TAILP(sprograms));
+  sprograms = KSET(sprograms, SYM("std"), program);
+  ENV_SET_G(env, SYM("*program*"), sprograms);
+
+  ae_obj_t * const ret = EVAL(env, program);
+
+  if (ERRORP(ret)) {
+    FPR(stderr, "WARNING: Error evaluating std: ");
+    WRITE(ret);
+    putchar('!');
     NL;
   }
-  
+
   log_core = old_log_core;
   log_eval = old_log_eval;
   log_macro = old_log_macro;
   
-  return root_env;
+  return env;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -260,6 +300,8 @@ ae_obj_t * load_file(const char * filename, bool * const failed_to_open) {
 
   POP(filename_stack);
   yylineno = INT_VAL(POP(line_stack));
+  
+  // PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
   
   return program; 
 }
