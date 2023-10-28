@@ -148,8 +148,8 @@ ae_obj_t * setup_root_env(void) {
     }
   }
   
-  log_core = old_log_core;
-  log_eval = old_log_eval;
+  log_core  = old_log_core;
+  log_eval  = old_log_eval;
   log_macro = old_log_macro;
   
   return root_env;
