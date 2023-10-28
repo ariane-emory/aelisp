@@ -85,7 +85,7 @@ ae_obj_t * setup_root_env(void) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
-  ae_obj_t * const env            = ENV_NEW_ROOT(std_mode);
+  ae_obj_t * const env            = ENV_NEW_ROOT;
   bool             std_name_found = false;
   ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
 
