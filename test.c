@@ -1674,6 +1674,7 @@ void put_prop(void) {
 #define FOR_EACH_DISABLED_TEST_FUN(DO)                                                             \
 
 #define FOR_EACH_TEST_FUN(DO)                                                                      \
+  DO(put_prop)                                                                                     \
   DO(tailp)                                                                                        \
   DO(test_setup_is_okay)                                                                           \
   DO(newly_allocated_ae_obj_is_inside_pool)                                                        \
@@ -1710,7 +1711,6 @@ void put_prop(void) {
   DO(env_with_a_dot)                                                                               \
   DO(eval_args_test)                                                                               \
   DO(push_and_pop)                                                                                 \
-  DO(put_prop)
 
 // DO(bubble_list) 
 

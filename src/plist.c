@@ -15,7 +15,29 @@ ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
   LOG(list,  "in list");
   LOG(value, "to value");
 #endif
+
+  NL;
+
+  SLOGF("nil   is at %8p", NIL);
   
+  SLOGF("list  is at %8p", list);
+  if (list)
+    LOG(list, "list  is");
+  else
+    SLOG("list  is NULL");
+
+  SLOGF("key   is at %8p", key);
+  if (key)
+    LOG(key, "key   is");
+  else
+    SLOG("key   is NULL");
+
+  SLOGF("value is at %8p", value);
+  if (value)
+    LOG(value, "value is");
+  else
+    SLOG("value is NULL");
+
   assert(!list || (TAILP(list) && ! (LENGTH(list) % 2)));
   
   if (list == NULL)
