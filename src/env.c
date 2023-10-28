@@ -377,8 +377,7 @@ ae_obj_t * ae_env_new_root(bool no_std) {
   
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
 
-  PUT_PROP(TRUE, "constant",  SYM("*program*"));
-  PUT_PROP(TRUE, "read-only", SYM("*program*"));
+  PUT_PROP(TRUE, "constant", SYM("*program*"));
   
   {
     /* Do a little song and dance to put the home dir, lib dir and data dir in *load-path*. */

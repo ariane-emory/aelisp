@@ -29,18 +29,20 @@
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define RETURN(obj)                                                                                \
-  {                                                                                                \
-    CAPTURE(obj);                                                                                  \
+  ({                                                                                               \
+  CAPTURE(obj);                                                                                    \
                                                                                                    \
-    /* if (local_indents != 0) */                                                                  \
-    /* PR("RETURN at %s:%d\n", __FILE__, __LINE__); */                                             \
+  /* if (local_indents != 0) */                                                                    \
+  /* PR("RETURN at %s:%d\n", __FILE__, __LINE__); */                                               \
                                                                                                    \
-    OUTDENTS(local_indents, 0);                                                                    \
+  OUTDENTS(local_indents, 0);                                                                      \
                                                                                                    \
-    ret = CAPTURED;                                                                                \
+  ret = CAPTURED;                                                                                  \
                                                                                                    \
-    goto end;                                                                                      \
-  }
+  goto end;                                                                                        \
+                                                                                                   \
+  obj;                                                                                             \
+  })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define RETURN_IF_ERRORP(obj)                                                                      \
   ({                                                                                               \

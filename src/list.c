@@ -232,7 +232,7 @@ ae_obj_t * ae_list_push_back(ae_obj_t ** const plist, ae_obj_t * const member) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_push(ae_obj_t ** const plist, ae_obj_t * const member) {
-  // This takes a ** because it's going to mutate the target ae_obj_t  *.
+  // This takes a ** because it's going to mutate the targe ae_obj_t  *.
 
   assert(plist);
   assert(*plist);
