@@ -129,46 +129,46 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  if (! no_std) {
-    const char * const std_rel_path = "/../lib/std.lisp";
-    char * const       std_path     = free_list_malloc(PATH_MAX);
-    uint32_t           size            = PATH_MAX;
+  ENV_SET(root_env, SYM("*std-modules*"), ae_obj_truth(! no_std));
+
+  const char * const std_rel_path = "/../lib/std.lisp";
+  char * const       std_path     = free_list_malloc(PATH_MAX);
+  uint32_t           size            = PATH_MAX;
   
-    if (_NSGetExecutablePath(std_path, &size) == 0) {
-      char * const tmp = free_list_malloc(strlen(dirname(std_path))+1);
+  if (_NSGetExecutablePath(std_path, &size) == 0) {
+    char * const tmp = free_list_malloc(strlen(dirname(std_path))+1);
 
-      strcpy(tmp, dirname(std_path));
-      strcpy(std_path, tmp);
-      strcat(std_path, std_rel_path);
+    strcpy(tmp, dirname(std_path));
+    strcpy(std_path, tmp);
+    strcat(std_path, std_rel_path);
     
-      free_list_free(tmp);
+    free_list_free(tmp);
 
-      PR("Loading std from %s... ", std_path);
-    } else {
-      FPR(stderr, "Buffer too small, need %d bytes!\n", size);
+    PR("Loading std from %s... ", std_path);
+  } else {
+    FPR(stderr, "Buffer too small, need %d bytes!\n", size);
     
-      exit(1);
-    }
+    exit(1);
+  }
 
-    bool failed_to_load = false;
+  bool failed_to_load = false;
   
-    ae_obj_t * const program  = load_file(std_path, &failed_to_load);
+  ae_obj_t * const program  = load_file(std_path, &failed_to_load);
 
-    free_list_free(std_path);
+  free_list_free(std_path);
 
-    if (failed_to_load)
-      FPR(stderr, "WARNING: Failed to load std!\n");
-    else
-      PR("loaded.\n");
+  if (failed_to_load)
+    FPR(stderr, "WARNING: Failed to load std!\n");
+  else
+    PR("loaded.\n");
 
-    ae_obj_t * const ret = EVAL(root_env, program);
+  ae_obj_t * const ret = EVAL(root_env, program);
 
-    if (ERRORP(ret)) {
-      FPR(stderr, "WARNING: Error evaluating std: ");
-      WRITE(ret);
-      putchar('!');
-      NL;
-    }
+  if (ERRORP(ret)) {
+    FPR(stderr, "WARNING: Error evaluating std: ");
+    WRITE(ret);
+    putchar('!');
+    NL;
   }
 
   log_core = old_log_core;
