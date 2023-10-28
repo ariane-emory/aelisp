@@ -177,11 +177,13 @@ void paint_parsed(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // setopts
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <string.h>  // include this for strcmp()
+
 bool setopts(int argc, char *argv[]) {
   int opt;
-  bool got_std_mode = false;
-  
-  while ((opt = getopt(argc, argv, "l:n")) != -1) {
+  bool got_std_opt = false;
+
+  while ((opt = getopt(argc, argv, "l:s:")) != -1) {
     switch (opt) {
     case 'l':
       for (int i = 0; optarg && optarg[i]; i++) {
@@ -196,32 +198,34 @@ bool setopts(int argc, char *argv[]) {
           log_macro = true;
           break;
         default:
-          fprintf(stderr, "Usage: %s [-lcem] [-n]\n", argv[0]);
-          return false;
+          goto fail;
         }
       }
       break;
-    case 'n':
-      if (got_std_mode) {
-        fprintf(stderr, "Usage: %s [-lce] [-n|m]\n", argv[0]);
-        return false;
-      }
-      std_mode = NO_STD;
-      break;
     case 's':
-      if (got_std_mode) {
-        fprintf(stderr, "Usage: %s [-lce] [-n|m]\n", argv[0]);
-        return false;
+      if (got_std_opt)
+        goto fail;
+
+      if (strcmp(optarg, "n") == 0) {
+        std_mode = NO_STD;
+        got_std_opt = true;
+      } else if (strcmp(optarg, "s") == 0) {
+        std_mode = SPLIT_STD;
+        got_std_opt = true;
+      } else {
+        goto fail;
       }
-      std_mode = SPLIT_STD;
       break;
     default:
-      fprintf(stderr, "Usage: %s [-lcem] [-n]\n", argv[0]);
-      return false;
+      goto fail;
     }
   }
 
   return true;
+
+fail:
+  fprintf(stderr, "Usage: %s [-l c|e|m] [-s n|s]\n", argv[0]);
+  return false;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
