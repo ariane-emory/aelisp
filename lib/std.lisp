@@ -5,10 +5,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *use-safe-provide*     nil)
-(setq! *microbench-defmacro*  t)
-(setq! *microbench-defun*     t)
-(setq! *microbench-provide*   t)
+(setq! *use-safe-provide*      nil)
+(setq! *microbench*            t)
+(setq! *microbench-defmacros*  t)
+(setq! *microbench-defuns*     t)
+(setq! *microbench-provides*   t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -81,7 +82,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; microbenchmark:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench-defmacro*
+(when (and *microbench* *microbench-defmacros*)
  (setq! defmacro-base defmacro)
  (setq! defmacro
   (macro (name params . body)
@@ -93,18 +94,18 @@
          $('elapsed-us '*microbench-before*) " us.")
        'result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench-defun*
+(when (and *microbench* *microbench-defuns*)
  (setq! defun-base defun)
  (defmacro defun (name params . body)
   $('progn
     $('setq! '*microbench-before* $('now-us))
-    $('let $($('result $('defun-base name params . body)))
+    $('let $($('microbenched-fun's-result $('defun-base name params . body)))
       $('nl)
       $('princ "defunned   " $('quote name) " in "
         $('elapsed-us '*microbench-before*) " us.")
-      'result))))
+      'microbenched-fun's-result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *microbench-provide*
+(when (and *microbench* *microbench-provides*)
  (setq! provide-base provide)
  (defun provide (feature)
   (setq! *microbench-before* (now-us))

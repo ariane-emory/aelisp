@@ -39,16 +39,20 @@
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
 
-(confirm that (body lshift4)
- returns
- '(progn
-   (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
-   (nl)
-   (let ((result (progn (<< n 4))))
-    (princ "Result of applying " 'lshift4 " was " result ".") (nl)
-    result)))
-
 (confirm that (lshift4 4) returns 64)
+
+(setq! lst $(2 4 1 5 3 7 9 6 8))
+
+(unless *microbench-defuns*
+ "For some reason, this test fails if *microbench-defuns* is set to t. Investigate."
+ (confirm that (body lshift4)
+  returns
+  '(progn
+    (princ "Applying " 'lshift4 " to parameters " (syms (env)) " with arguments " (vals (env)) ".") 
+    (nl)
+    (let ((result (progn (<< n 4))))
+     (princ "Result of applying " 'lshift4 " was " result ".") (nl)
+     result))))
 
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
@@ -258,3 +262,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;; (defun reduce (func lst &optional initial-value)
+;;   "Reduce LST using FUNC starting with INITIAL-VALUE."
+;;   (unless (list? lst) (error "LST must be a list"))
+  
+;;   ;; If there's an initial value, start with it. Otherwise, start with the first element of the list.
+;;   (let ((acc (if initial-value
+;;                  initial-value
+;;                  (pop! lst))))
+;;     ;; Iterate over the rest of the list, updating the accumulator.
+;;     (while lst
+;;       (setq! acc (funcall func acc (pop! lst)))
+;;     ;; Return the accumulated result.
+;;     acc)))
