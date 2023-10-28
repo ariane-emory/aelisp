@@ -169,6 +169,9 @@
         'flatten
         'transform
         'merge-sort
+        'list-member
+        'list-index
+        'list-remove
         'union
         'misc-list-funs
         'misc-predicates
@@ -176,9 +179,6 @@
         'benchmark
         'unsorted-funs
         'vector-list
-        'list-member
-        'list-index
-        'list-remove
         'split-list
         'delq
         'prime-funs
