@@ -152,46 +152,44 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(setq! *std-modules*
- $(    
-   'append-and-nconc
-   'basic-funs
-   'benchmark
-   'compound-cars-and-cdrs
-   'core-aliases
-   'flatten
-   'list-access-funs
-   'list-index
-   'list-member
-   'list-remove
-   'log-toggle
-   'map
-   'merge-sort
-   'misc-list-funs
-   'misc-predicates
-   'push-pop-funs
-   'quasiquote
-   'reduce
-   'remove-prop-macro
-   'transform
-   'union
-   'unsorted-funs
-   'vector-list
-   'zip
 
-   'split-list
-   'delq
-   'prime-funs
-   'selection-sort
-   'test-macros
-   'string-funs
-   'prog-macros
-   'plist-funs
-   'std-aliases
-   'scheme-compat-aliases
-   'elisp-compat-aliases))
-
-(let ((module *std-modules*))
+(let ((module
+       $(
+         'append-and-nconc
+         'basic-funs
+         'benchmark
+         'compound-cars-and-cdrs
+         'core-aliases
+         'delq
+         'elisp-compat-aliases
+         'flatten
+         'list-access-funs
+         'list-index
+         'list-member
+         'list-remove
+         'log-toggle
+         'map
+         'merge-sort
+         'misc-list-funs
+         'misc-predicates
+         'plist-funs
+         'prime-funs
+         'prog-macros
+         'push-pop-funs
+         'quasiquote
+         'reduce
+         'remove-prop-macro
+         'scheme-compat-aliases
+         'selection-sort
+         'split-list
+         'std-aliases
+         'string-funs
+         'test-macros
+         'transform
+         'union
+         'unsorted-funs
+         'vector-list
+         'zip)))
  (while module
   (require (car module))
   (setq! module (cdr module))))
