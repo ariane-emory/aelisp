@@ -6,7 +6,8 @@
 (setq! *microbench-defmacros*    t)
 (setq! *microbench-defuns*       t)
 (setq! *microbench-provides*     t)
-(setq! *log-loading-std-enabled* nil)
+(if (not (bound? 'log-loading-std-enabled))
+ (setq! *log-loading-std-enabled* nil))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
