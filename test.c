@@ -1611,6 +1611,11 @@ void push_and_pop(void) {
   /* printf("free_list_allocated: %lld\n", free_list_allocated); */
 }
   
+void put_prop(void) {
+  SETUP_TEST;
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST_LIST
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1653,7 +1658,8 @@ void push_and_pop(void) {
   DO(fun_specialness)                                                                              \
   DO(env_with_a_dot)                                                                               \
   DO(eval_args_test)                                                                               \
-  DO(push_and_pop)
+  DO(push_and_pop)                                                                                 \
+  DO(put_prop)
 
 // DO(bubble_list) 
 
