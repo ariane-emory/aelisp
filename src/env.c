@@ -416,6 +416,7 @@ ae_obj_t * ae_env_new_root(bool no_std) {
     ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
 
     ENV_SET(env, SYM("*std-modules*"), ae_obj_truth(! no_std));
+    PUT_PROP(TRUE, "constant", SYM("*std-modules*"));
   }
 
   // *features* should always be ENV_BOUNDP:
