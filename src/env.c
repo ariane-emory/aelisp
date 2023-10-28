@@ -336,7 +336,7 @@ static void load_fun_helper(
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(void) {
+ae_obj_t * ae_env_new_root(bool no_std) {
   ae_obj_t * const env = NEW_ENV(NIL, NIL, NIL);
   
 #define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1)
@@ -414,6 +414,8 @@ ae_obj_t * ae_env_new_root(void) {
     ENV_PUSH(env, NEW_STRING(home_path),     SYM("*load-path*"));
     ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*")); 
     ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
+
+    ENV_SET(env, SYM("*std-modules*"), ae_obj_truth(! no_std));
   }
 
   // *features* should always be ENV_BOUNDP:

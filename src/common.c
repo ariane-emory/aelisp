@@ -87,7 +87,7 @@ ae_obj_t * setup_root_env(void) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
-  ae_obj_t * root_env = ENV_NEW_ROOT();
+  ae_obj_t * root_env = ENV_NEW_ROOT(no_std);
 
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,11 +129,9 @@ ae_obj_t * setup_root_env(void) {
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  ENV_SET(root_env, SYM("*std-modules*"), ae_obj_truth(! no_std));
-
   const char * const std_rel_path = "/../lib/std.lisp";
   char * const       std_path     = free_list_malloc(PATH_MAX);
-  uint32_t           size            = PATH_MAX;
+  uint32_t           size         = PATH_MAX;
   
   if (_NSGetExecutablePath(std_path, &size) == 0) {
     char * const tmp = free_list_malloc(strlen(dirname(std_path))+1);
