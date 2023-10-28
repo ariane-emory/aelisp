@@ -92,7 +92,8 @@ ae_obj_t * setup_root_env(void) {
   assert(std_name_found);
   assert(std_name);
   assert(NILP(std_name) || SYMBOLP(std_name));
-
+  assert(! NILP(std_name)); // temporarily disallowed.
+  
   if (! NILP(std_name)) {
     ae_obj_t const * std_return = ae_core_require(env, CONS(std_name, NIL), 1);
 
