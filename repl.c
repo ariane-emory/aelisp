@@ -127,35 +127,6 @@ char *hints(const char * buf, const char ** ansi1, const char ** ansi2) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool load_file_cmd(const char * const line,
-                   const char * const scanpat,
-                   const int len) {
-  char filename[len + 1];
-  bool failed_to_open = false;
-  
-  if (sscanf(line, scanpat, filename) == 1) {
-    ae_obj_t * program = load_file(filename, &failed_to_open);
-    ae_obj_t * ret = EVAL(root_env, program);
-
-    if (ERRORP(ret)) {
-      NL;
-      fprintf(stderr, "\nError evaluating '%s': ", filename);
-      WRITE(ret);
-      NL;
-    }
-  }
-  else {
-    printf("Error: Malformed load command.\n");
-  }
-  
-  if (failed_to_open)
-    fprintf(stderr, "Failed to open file '%s'.\n", filename);
-  
-  return failed_to_open;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void add_to_history(const char * const line) {
   bestlineHistoryAdd(line);
   bestlineHistorySave(HISTORY);
@@ -208,15 +179,7 @@ int main(int argc, char **argv) {
    * bestline, so the user needs to free() it. */
     
   while((line = bestline("Æ> ")) != NULL) {
-    if (! strncmp(line, ";l ", 3)) {
-      add_to_history(line);
-      load_file_cmd(line, ";l %255s", 255);
-    }
-    /* else if (! strncmp(line, "(load", 5)) { */
-    /*   add_to_history(line); */
-    /*   load_file_cmd(line, "(load \"%255[^\"]\")", 255); */
-    /* } */
-    else if (line[0] != '\0' && line[0] != ';') {
+    if (line[0] != '\0' && line[0] != ';') {
       add_to_history(line);
       program = NIL;
       parse_line(line);

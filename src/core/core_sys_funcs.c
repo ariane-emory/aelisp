@@ -112,31 +112,6 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _load
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_load_file(ae_obj_t * const env,
-                             ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("load-file");
-  
-  REQUIRE(env, args, STRINGP(CAR(args)));
-
-  bool failed_to_open = false;
-
-  if (failed_to_open)
-    RETURN(NEW_ERROR("failed to open file"));
-  
-  ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
-
-  ret = RETURN_IF_ERRORP(EVAL(env, new_program));
-
-end:
-  
-  CORE_RETURN("load-file", ret);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // find_file
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -227,7 +202,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   if (! file_path)
     RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
 
-  RETURN_IF_ERRORP(load_file(file_path, NULL));
+  load_file(file_path, NULL);
   
   free_list_free(file_path);
 

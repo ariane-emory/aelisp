@@ -151,14 +151,22 @@ ae_obj_t * setup_root_env(void) {
 
   bool failed_to_load = false;
   
-  ae_obj_t * const program  = load_file(std_path, &failed_to_load);
+  load_file(std_path, &failed_to_load);
 
   free_list_free(std_path);
 
-  if (failed_to_load)
-    FPR(stderr, "WARNING: Failed to load std!\n");
-  else
+  if (failed_to_load) {
+    char * const err_msg_tmp = free_list_malloc(256);
+    sprintf(err_msg_tmp, "Failed to open file '%s'.", std_path);
+    char * const err_msg     = free_list_malloc(strlen(err_msg_tmp) + 1);
+    strcpy(err_msg, err_msg_tmp);
+    free_list_free(err_msg_tmp);
+    
+    return NEW_ERROR(err_msg);
+  }
+  else {
     PR("loaded.\n");
+  }
 
   bool sprograms_found = false;
   ae_obj_t * sprograms = ENV_GET(env, SYM("*program*"), &sprograms_found);
@@ -292,9 +300,5 @@ void load_file(const char * filename, bool * const failed_to_open) {
 
   POP(filename_stack);
   yylineno = INT_VAL(POP(line_stack));
-  
-  // PUT_PROP_RAW(program, loaded_file, SYM("*program*"));
-  
-  return program; 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
