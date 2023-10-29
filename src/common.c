@@ -101,7 +101,7 @@ int setopts(int argc, char *argv[]) {
   int opt;
   bool got_std_opt = false;
 
-  while ((opt = getopt(argc, argv, "el:s:")) != -1) {
+  while ((opt = getopt(argc, argv, "mel:s:")) != -1) {
     switch (opt) {
     case 'm':
       result |= MICROBENCH_ENABLED;
