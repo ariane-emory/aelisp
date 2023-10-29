@@ -319,26 +319,11 @@
   (else "Other")))
 
 (confirm that (case-test-fun 1) returns "One")
+(confirm that (case-test-fun (+ 1 1)) returns "Two")
+(confirm that (case-test-fun 4) returns "Other")
+(confirm that (case-test-fun 'a) returns "Other")
 
-(confirm that 
- (case (+ 1 1)
-  ((1) (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (nil "Nil 1")
-  ((nil) "Nil 2")
-  (else "Other"))
- returns "Two")
 
-(confirm that 
- (case 4
-  ((1) (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (nil "Nil 1")
-  ((nil) "Nil 2")
-  (else "Other"))
- returns "Other")
 
 (confirm that 
  (case 'a
