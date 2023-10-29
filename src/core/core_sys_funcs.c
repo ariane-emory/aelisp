@@ -94,8 +94,8 @@ ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   int exit = WEXITSTATUS(status);
 
   return CONS(NEW_INT(exit),
-              CONS(NEW_STRING(stdout_output),
-                   CONS(NEW_STRING(stderr_output),
+              CONS(stdout_output ? NEW_STRING(stdout_output) : NIL,
+                   CONS(stderr_output? NEW_STRING(stderr_output) : NIL,
                         NIL)));
 
 }
