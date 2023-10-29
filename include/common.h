@@ -7,10 +7,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // types
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-typedef enum { STD_FUNDAMENTAL_ONLY, SPLIT_STD, MONO_STD } std_mode_t;
+typedef enum {
+  MONO_STD,
+  STD_FUNDAMENTAL_ONLY,
+  SPLIT_STD,
+} std_mode_t;
 
 typedef struct setopts_result_t {
-  bool ;
+  bool opts_ok;
   bool log_core;
   bool log_eval;
   bool log_macro;

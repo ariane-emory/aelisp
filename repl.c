@@ -24,6 +24,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * root_env = NIL;
+setopts_result_t setopts_result = { 0 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -172,16 +173,22 @@ int main(int argc, char **argv) {
 // setops
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  if (! setopts(argc, argv)) {
+  setopts_result = setopts(argc, argv);
+  
+  if (! setopts_result.opts_ok) {
     FPR(stderr, "ERROR: Bad opts!\n");
     exit(1);
   }
+
+  log_eval  = setopts_result.log_eval;
+  log_core  = setopts_result.log_core;
+  log_macro = setopts_result.log_macro;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // setup root env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  root_env = ENV_NEW_ROOT(true, true, std_mode);
+  root_env = ENV_NEW_ROOT(true, true, setopts_result.std_mode);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // setup bestline stuff
@@ -234,7 +241,7 @@ int main(int argc, char **argv) {
       exit(0);
     }
     else if (! strncmp(line, ";r", 2)) {
-      root_env = ENV_NEW_ROOT(true, true, std_mode);
+      root_env = ENV_NEW_ROOT(true, true, setopts_result.std_mode);
     }
     else if (! strncmp(line, ";s", 2)) {
       WRITE(ENV_SYMS(root_env));

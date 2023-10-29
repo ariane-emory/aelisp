@@ -142,7 +142,7 @@ setopts_result_t setopts(int argc, char *argv[]) {
     }
   }
 
-  result. = true;
+  result.opts_ok = true;
   
   return result;
 
