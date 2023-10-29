@@ -487,8 +487,8 @@
 (setq! left-nested-zip (reduced* zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro zip lists
- "Zip many lists. This might not flatten properly if the zipped elements are
-  themselves lists."
+ "Zip many lists. This might not flatten properly if the zipped elements are"
+ "themselves lists."
  (unless (list? lists) (error "LISTS must be a list"))
  (if (cdr lists)
   $('mapcar 'flatten (cons 'left-nested-zip lists))
