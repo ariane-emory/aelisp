@@ -12,7 +12,7 @@
 (setq! nconc            nconc!)
 (setq! null             nil?)
 (setq! identity         id)
-(setq! expand-file-name realpath)
+(setq! expand-file-name expand-path) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'elisp-compat-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
