@@ -44,21 +44,26 @@ static char * read_from_fd(int fd, size_t * const size) {
   return output;
 }
 
-int capture_command_output(const char *command, char **stdout_output, char **stderr_output) {
+ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
+  if (! STRINGP(command_obj))
+    return NEW_ERROR("command must be a string");
+
+  char * const command = STR_VAL(command_obj);
+
   int stdout_pipe[2];
   int stderr_pipe[2];
   pid_t pid;
   size_t stdout_size;
   size_t stderr_size;
+  char ** stdout_output = NULL;
+  char ** stderr_output = NULL;
 
-  if (pipe(stdout_pipe) != 0 || pipe(stderr_pipe) != 0) {
-    return -1; // Pipe creation failed.
-  }
+  if (pipe(stdout_pipe) || pipe(stderr_pipe))
+    return NEW_ERROR("Pipe creation failed");
 
-  if ((pid = fork()) == -1) {
-    return -1; // Fork failed.
-  }
-
+  if ((pid = fork()) == -1)
+      return NEW_ERROR("Fork failed");
+ 
   if (pid == 0) { // Child process.
     close(stdout_pipe[0]);
     close(stderr_pipe[0]);
@@ -86,7 +91,12 @@ int capture_command_output(const char *command, char **stdout_output, char **std
   int status;
   waitpid(pid, &status, 0);
 
-  return WEXITSTATUS(status);
+  int exit = WEXITSTATUS(status);
+
+  return CONS(NEW_INT(exit),
+              CONS(NEW_STRING(*stdout_output),
+                   CONS(NEW_STRING(*stderr_output),
+                        NIL)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
