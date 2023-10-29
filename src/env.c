@@ -454,22 +454,16 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   // Set *std-name* based on the std_mode passed from the command line:
   switch (std_mode) {
   case STD_FUNDAMENTAL_ONLY:
-  {
     ENV_SET(env, SYM("*std-name*"), SYM("std-fundamental"));
     break;
-  }
   case SPLIT_STD:
-  {
     ENV_SET(env, SYM("*std-name*"), SYM("std"));
     break;
-  }
   case MONO_STD:
-  {
     ENV_SET(env, SYM("*std-name*"), SYM("mono-std"));
     break;
-  }
   default:
-    assert(false); // this shouldn't be able to happen.
+    assert(false); // This should be impossible.
   }
 
   // This is constant because it's set by the command line on startup and chang it wouldn't do anything anyhow:
