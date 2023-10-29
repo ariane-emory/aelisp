@@ -68,6 +68,9 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
     FOR_EACH(case_form_car_elem, case_form_car) {
       LOG(case_form_car_elem, "case case_form_car_elem");
+
+      if (EQL(key_form, case_form_car_elem))
+        RETURN(RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
     }
 
     OUTDENT;
