@@ -14,7 +14,8 @@ typedef enum {
   LOG_EVAL             = 4,
   LOG_CORE             = 8,
   LOG_MACRO            = 16,
-  OPTS_OK              = 32,
+  EARLY_LOGGING        = 32,
+  OPTS_OK              = 64
 } setopts_flag_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
