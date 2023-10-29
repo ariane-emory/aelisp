@@ -81,12 +81,14 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
       INDENT;
 
       FOR_EACH(case_form_car_elem, case_form_car) {
-        LOG(case_form_car_elem, "case_form_car_elem");
+        if (log_core)
+          LOG(case_form_car_elem, "case_form_car_elem");
 
         if (EQL(key_form, case_form_car_elem)) {
-          SLOG("matches");
+          if (log_core)
+            SLOG("matches");
           CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
-        } else {
+        } else if (log_core) {
           SLOG("doesn't match");
         }
       }
