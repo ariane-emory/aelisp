@@ -35,8 +35,8 @@
   /*================================================================================================================*/    \
   DO(string,       false,          1,          1,                              FUNDEF_END) /* stringifier           */    \
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */    \
-  DO(set_props,    true,           2,          2, "props!",                    FUNDEF_END) /* props accessor        */    \
-  DO(props,        true,           1,          1,                              FUNDEF_END) /* props accessor        */    \
+  DO(set_props,    false,          2,          2, "props!",                    FUNDEF_END) /* props accessor        */    \
+  DO(props,        false,          1,          1,                              FUNDEF_END) /* props accessor        */    \
   DO(message,      false,          1,          1,                              FUNDEF_END) /* error accessor        */    \
   DO(name,         false,          1,          1, "symbol-name",               FUNDEF_END) /* symbol accessor       */    \
   DO(denom,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \
@@ -81,9 +81,9 @@
   DO(push,         true,           2,          2, "push!",                     FUNDEF_END)                                \
   DO(pop,          true,           1,          1, "pop!",                      FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(has_prop,     true,           2,          2, "has?",                      FUNDEF_END)                                \
-  DO(put_prop,     true,           3,          3, "put!",                      FUNDEF_END)                                \
-  DO(get_prop,     true,           2,          2, "get",                       FUNDEF_END)                                \
+  DO(has_prop,     false,          2,          2, "has?",                      FUNDEF_END)                                \
+  DO(put_prop,     false,          3,          3, "put!",                      FUNDEF_END)                                \
+  DO(get_prop,     false,          2,          2, "get",                       FUNDEF_END)                                \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

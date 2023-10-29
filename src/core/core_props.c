@@ -3,7 +3,7 @@
 #include "capture.h"
 #include "env.h"
 
-#define MAYBE_EVAL(o) ({ CAPTURE((o)); (SYMBOLP(CAPTURED) && (! ENV_BOUNDP(env, CAPTURED))) ? CAPTURED : EVAL(env, CAPTURED); })
+// #define MAYBE_EVAL(o) ({ CAPTURE((o)); (SYMBOLP(CAPTURED) && (! ENV_BOUNDP(env, CAPTURED))) ? CAPTURED : EVAL(env, CAPTURED); })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_props
@@ -14,8 +14,8 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
                              __attribute__((unused)) int args_length) {
   CORE_BEGIN("props!");
 
-  ae_obj_t * obj            = RETURN_IF_ERRORP(MAYBE_EVAL(CAR(args)));
-  ae_obj_t * new_props_list = RETURN_IF_ERRORP(EVAL(env, CADR(args)));
+  ae_obj_t * obj            = CAR(args);
+  ae_obj_t * new_props_list = CADR(args);
   PROPS(obj)                = new_props_list;
   ret                       = new_props_list;
 
@@ -33,7 +33,7 @@ ae_obj_t * ae_core_props(ae_obj_t * const env,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("props");
 
-  ae_obj_t * obj       = RETURN_IF_ERRORP(MAYBE_EVAL(CAR(args)));
+  ae_obj_t * obj       = CAR(args);
   ae_obj_t * prop_list = PROPS(obj);
   ret                  = prop_list;               
 
@@ -51,9 +51,9 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("put!");
 
-  ae_obj_t * value         = RETURN_IF_ERRORP(EVAL(env, CAR(args))); // this could be unsafe if value is NIL, maybe?
-  ae_obj_t * key           = RETURN_IF_ERRORP(EVAL(env, CADR(args)));
-  ae_obj_t * obj           = RETURN_IF_ERRORP(MAYBE_EVAL(CADDR(args)));
+  ae_obj_t * value         = CAR(args); // this could be unsafe if value is NIL, mayb?
+  ae_obj_t * key           = CADR(args);
+  ae_obj_t * obj           = CADDR(args);
   ae_obj_t * prop_list     = PROPS(obj);
   ae_obj_t * new_prop_list = KSET(prop_list, key, value);
   PROPS(obj)               = new_prop_list;
@@ -73,8 +73,8 @@ ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("get");
 
-  ae_obj_t * key       = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
-  ae_obj_t * obj       = RETURN_IF_ERRORP(MAYBE_EVAL(CADR(args))); 
+  ae_obj_t * key       = CAR(args);
+  ae_obj_t * obj       = CADR(args);
   ae_obj_t * prop_list = PROPS(obj);
   ret                  = KGET(prop_list, key);
 
@@ -92,8 +92,8 @@ ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("has?");
 
-  ae_obj_t * key       = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
-  ae_obj_t * obj       = RETURN_IF_ERRORP(MAYBE_EVAL(CADR(args)));
+  ae_obj_t * key       = CAR(args);
+  ae_obj_t * obj       = CADR(args);
   ae_obj_t * prop_list = PROPS(obj);
   ret                  = TRUTH(KHAS(prop_list, key));
 
