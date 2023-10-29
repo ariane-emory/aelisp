@@ -162,9 +162,13 @@ void parse_line(const char * const line) {
 
 %option never-interactive
 %option yylineno
+%x COMMENT
 
 %%
 
+"#|"   { BEGIN(COMMENT); }
+<COMMENT>"|#" { BEGIN(INITIAL); }
+<COMMENT>.|\n { /* consume everything inside multiline comments */ }
 nil                                                                        |
 \([\f\n\t\v\ ]*\)                                                          TOKENIZE(NILTOK,      AE_SYMBOL  );
 \'                                                                         TOKENIZE(QUOTE,       AE_INVALID );

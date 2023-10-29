@@ -49,7 +49,18 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
       LOG(item_cdr, "cond item's cdr");
     }
 
-    if (! NILP(RETURN_IF_ERRORP(EVAL(env, item_car)))) {
+    ae_obj_t * cond_test_result = NIL;
+    
+    if (item_car == SYM("else")) {
+      REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a cond expression");
+      
+      cond_test_result = TRUE;
+    }
+    else {
+      cond_test_result = RETURN_IF_ERRORP(EVAL(env, item_car));
+    }
+    
+    if (! NILP(cond_test_result)) {
       ret = RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)));
       break;
     }

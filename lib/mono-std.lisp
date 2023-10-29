@@ -1573,7 +1573,6 @@
 (setq! collect-if    filter)
 (setq! define        setq!)
 (setq! display       write)
-(setq! else          t)
 (setq! every         all?)
 (setq! getl          pget)
 (setq! gsort         sort!!)

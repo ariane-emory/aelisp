@@ -51,11 +51,11 @@
                     ;for sort-list to be defined.
 
 
-;; #|
-;;(case what-scheme-implementation
-;;  ((scm)
-;;   (require 'sort)))
-;;|#
+#|
+(case what-scheme-implementation
+  ((scm)
+   (require 'sort)))
+|#
 
 ;; (define gsort
 ;;   (case what-scheme-implementation

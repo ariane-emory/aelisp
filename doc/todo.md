@@ -1,7 +1,6 @@
 To Do:
 - [ ] case macro.
 - [ ] Maybe let loop?
-- [ ] Multiline comment grammar rules.
 - [ ] Audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
@@ -35,6 +34,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Multiline comment grammar rules.
 - [x] Maybe nil/t init should happen in ENV_NEW_ROOT? ('fixed' in ENV_NEW_ROOt but not completely reinitialized.)
 - [x] concat might glitch sometimes? (fixed)
 - [x] new_root_env and setup_root_env should be combined.
