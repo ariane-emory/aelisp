@@ -52,11 +52,11 @@ static char * read_from_fd(int fd, size_t * const size) {
 // capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
-  if (! STRINGP(command_obj))
-    return NEW_ERROR("command must be a string");
+static ae_obj_t * capture_command_output(char * const command) {
+  /* if (! STRINGP(command_obj)) */
+  /*   return NEW_ERROR("command must be a string"); */
 
-  char * const command = STR_VAL(command_obj);
+  /* char * const command = STR_VAL(command_obj); */
 
   int stdout_pipe[2];
   int stderr_pipe[2];
@@ -119,14 +119,29 @@ static ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
 ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("system");
 
-  if (! STRINGP(CAR(args)))
-    LOG(CAR(args), "not a string");
-  
-  REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)) || SYMBOLP(CAR(args)), "system's arg must be a string or symbol");
 
-  ret = capture_command_output(CAR(args));
+  char * cmd = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
+  
+  ret = capture_command_output(cmd);
   
   CORE_RETURN("system", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _cd
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("cd");
+
+  REQUIRE(env, args, STRINGP(CAR(args)) || SYMBOLP(CAR(args)), "cd's arg must be a string or symbol");
+
+  char * const dst = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
+  
+  ret = TRUTH(chdir(dst) == 0);
+  
+  CORE_RETURN("cd", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
