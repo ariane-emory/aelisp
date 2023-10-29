@@ -101,7 +101,7 @@ int setopts(int argc, char *argv[]) {
   int opt;
   bool got_std_opt = false;
 
-  while ((opt = getopt(argc, argv, "l:s:")) != -1) {
+  while ((opt = getopt(argc, argv, "el:s:")) != -1) {
     switch (opt) {
     case 'e':
       result |= EARLY_LOGGING;
@@ -149,7 +149,7 @@ int setopts(int argc, char *argv[]) {
   return result;
 
 fail:
-  fprintf(stderr, "Usage: %s [-l c|e|m] [-s f|s|m]\n", argv[0]);
+  fprintf(stderr, "Usage: %s [-e] [-l c|e|m] [-s f|s|m]\n", argv[0]);
 
   return result;
 }
