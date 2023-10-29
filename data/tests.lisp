@@ -288,15 +288,4 @@
  (princ (stdout (sys* 'echo 'these "are" '(4 words)))) (sleep 500))
 
 
-(defmacro add-to-list (lst-sym elem)
- ;;(unless (symbol? lst-sym) (error "LST-SYM must be a symbol"))
- $('setq! lst-sym (cons elem lst-sym)))
 
-(defun add-to-list (lst elem)
- (let ((new-tail (cons (car lst) (cdr lst))))
-  (rplaca! lst elem)
-  (rplacd! lst new-tail)))
-
-(setq! lst '(1 2 3))
-(add-to-list lst 4)
-(princ lst) (nl)

@@ -450,8 +450,11 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   snprintf(data_dir_path, data_dir_len, "%s/%s", home_path, data_dir_rel_path);
 
   ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
-  ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*")); 
-  ENV_PUSH(env, NEW_STRING(home_path),     SYM("*load-path*"));
+  ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*"));
+
+  ae_obj_t * const home = NEW_STRING(home_path);
+  ENV_PUSH(env, home,                      SYM("*load-path*"));
+  ENV_SET(env,  SYM("*ae-home*"),          home);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 6: Set some system variables and mark some of them as constant and/or read-only:

@@ -9,7 +9,8 @@
  "Add ELEM to the head of LST."
  (let ((new-tail (cons (car lst) (cdr lst))))
   (rplaca! lst elem)
-  (rplacd! lst new-tail)))
+  (rplacd! lst new-tail))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list* args
  (let*

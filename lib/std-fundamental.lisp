@@ -87,7 +87,7 @@
        $('princ "defmacrod  " $('quote name) " in "
          $('elapsed-us '*microbench-before*) " us.")
        $('nl)
-       $('setq! name name)
+       ;;$('setq! name name)
        ;; ^ re-assign to fix :last-bound-to, this is probably not needed anymore.
        'microbenced-macro's-result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -100,7 +100,7 @@
       $('princ "defunned   " $('quote name) " in "
         $('elapsed-us '*microbench-before*) " us.")
       $('nl)
-      $('setq! name name)
+      ;;$('setq! name name)
       ;; ^ re-assign to fix :last-bound-to, this is probably not needed anymore.
       'microbenched-fun's-result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
