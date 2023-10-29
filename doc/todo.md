@@ -1,4 +1,5 @@
 To Do:
+- [ ] concat might glitch sometimes?
 - [ ] audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
