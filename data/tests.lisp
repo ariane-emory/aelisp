@@ -304,7 +304,8 @@
   (1 (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
-  (nil "Nil")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
   (else "Other"))
  returns "One")
 
@@ -313,7 +314,8 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
-  (nil "Nil")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
   (else "Other"))
  returns "Two")
 
@@ -322,7 +324,8 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
-  (nil "Nil")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
   (else "Other"))
  returns "Other")
 
@@ -331,7 +334,8 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
-  (nil "Nil")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
   (else "Other"))
  returns "Other")
 
@@ -340,8 +344,8 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
-  ((nil) "Nil 1")
-  (nil "Nil 2")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
   (else "Other"))
  returns "Nil 1")
 
