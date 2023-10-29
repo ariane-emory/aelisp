@@ -307,15 +307,7 @@
   ((nil) "Nil 2")
   (else "Other")))
 
-(confirm that 
- (case 1
-  (1 (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (nil "Nil 1")
-  ((nil) "Nil 2")
-  (else "Other"))
- returns "One")
+(confirm that (case-test-fun 1) returns "One")
 
 (confirm that 
  (case (+ 1 1)
