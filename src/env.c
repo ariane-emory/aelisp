@@ -352,7 +352,7 @@ static void load_fun_helper(
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root: This function is huge, maybe it shoul be moved into common?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
+ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, std_mode_t mode) {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 1: Stash the old values of the log flags, we'll restore them later:
@@ -461,7 +461,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Set *std-name* based on the std_mode passed from the command line:
-  switch (std_mode) {
+  switch (mode) {
   case STD_FUNDAMENTAL_ONLY:
     ENV_SET(env, SYM("*std-name*"), SYM("std-fundamental"));
     break;

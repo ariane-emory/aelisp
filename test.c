@@ -535,7 +535,7 @@ void truth(void) {
 }
 
 #define ENV_TRIO                                                                                   \
-  ae_obj_t * root   = ENV_NEW_ROOT(false, false);                                                  \
+  ae_obj_t * root   = ENV_NEW_ROOT(false, false, false);                                                  \
   ae_obj_t * parent = NEW_ENV(root,   NIL, NIL);                                                   \
   ae_obj_t * child  = NEW_ENV(parent, NIL, NIL);
   
@@ -713,7 +713,7 @@ ae_obj_t * make_args_for_cons(void) {
 
 void fun_specialness(void) {
   SETUP_TEST;
-  ae_obj_t * env = ENV_NEW_ROOT(false, false);
+  ae_obj_t * env = ENV_NEW_ROOT(false, false, false);
 
   bool ignored = false;
   
@@ -754,7 +754,7 @@ void fun_specialness(void) {
 void core_cons_car_cdr(void) {
   SETUP_TEST;
 
-  ae_obj_t * const env  = ENV_NEW_ROOT(false, false);
+  ae_obj_t * const env  = ENV_NEW_ROOT(false, false, false);
   ae_obj_t *       args = make_args_containing_one_list();
 
   T(ae_core_car(env, args, LENGTH(args)) == SYM("a"));
@@ -785,7 +785,7 @@ void core_cons_car_cdr(void) {
 void core_eq_eql_not(void) {
   SETUP_TEST;
   
-  ae_obj_t * const env = ENV_NEW_ROOT(false, false);
+  ae_obj_t * const env = ENV_NEW_ROOT(false, false, false);
 
   this = CONS(NEW_INT(1), NEW_CONS(NEW_INT(2), NIL));
   that = CONS(NEW_INT(1), NEW_CONS(NEW_INT(2), NIL));
@@ -836,7 +836,7 @@ void core_eq_eql_not(void) {
 
 void core_print_princ_write(void) {
   SETUP_TEST;
-  ae_obj_t * const env = ENV_NEW_ROOT(false, false);
+  ae_obj_t * const env = ENV_NEW_ROOT(false, false, false);
 
   NL;
   
@@ -884,7 +884,7 @@ void core_print_princ_write(void) {
 
 void core_math(void) {
   SETUP_TEST;
-  ae_obj_t * const env  = ENV_NEW_ROOT(false, false);
+  ae_obj_t * const env  = ENV_NEW_ROOT(false, false, false);
   ae_obj_t *       args = NIL;
   
   args = CONS(NEW_INT(24), CONS(NEW_INT(4), NEW_CONS(NEW_INT(3) , NIL)));
@@ -911,7 +911,7 @@ void core_math(void) {
 void core_cmp(void) {
   SETUP_TEST;
   
-  ae_obj_t * const env  = ENV_NEW_ROOT(false, false);
+  ae_obj_t * const env  = ENV_NEW_ROOT(false, false, false);
   ae_obj_t *       args = NIL;
   
   args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL)));
@@ -947,7 +947,7 @@ void core_cmp(void) {
 
 void core_sleep(void) {
   SETUP_TEST;
-  ae_obj_t * env    = ENV_NEW_ROOT(false, false);
+  ae_obj_t * env    = ENV_NEW_ROOT(false, false, false);
 
   ENV_SET(env, SYM("xx"), NEW_INT(0));
   
@@ -979,7 +979,7 @@ void root_env_and_eval(void) {
 
   NL;
 
-  ae_obj_t * env    = ENV_NEW_ROOT(false, false);
+  ae_obj_t * env    = ENV_NEW_ROOT(false, false, false);
   ae_obj_t * listf  = EVAL(env, SYM("list"));
 
   // OLOG(listf);
@@ -1120,7 +1120,7 @@ void list_fun(void) {
   SETUP_TEST;
 
   bool       ignored       = false;
-  ae_obj_t * env           = ENV_NEW_ROOT(false, false);
+  ae_obj_t * env           = ENV_NEW_ROOT(false, false, false);
   ae_obj_t * list_fun      = ENV_GET(env, SYM("list"), &ignored);
   ae_obj_t * list_fun_call = CONS(list_fun, CONS(NEW_INT(1), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))));
   ae_obj_t * ret           = EVAL(env, list_fun_call);
@@ -1150,7 +1150,7 @@ void macro_expand(void) {
   SETUP_TEST;
 
   // PR("\n\nPopulating root env...");
-  ae_obj_t * env = ENV_NEW_ROOT(false, false);
+  ae_obj_t * env = ENV_NEW_ROOT(false, false, false);
   // PR("\nDone populating root env.\n");
 
   GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list 'setq! name (list 'macro params . body))))");
@@ -1402,7 +1402,7 @@ void env_with_a_dot(void) {
   {
     SETUP_TEST;
   
-    ae_obj_t * root   = ENV_NEW_ROOT(false, false);
+    ae_obj_t * root   = ENV_NEW_ROOT(false, false, false);
     ae_obj_t * syms   = CONS(SYM("first"), NEW_CONS(SYM("second"), SYM("third")));
     ae_obj_t * values = CONS(NEW_INT(1),
                              CONS(NEW_INT(2),
@@ -1439,7 +1439,7 @@ void env_with_a_dot(void) {
   {
     SETUP_TEST;
   
-    ae_obj_t * root    = ENV_NEW_ROOT(false, false);
+    ae_obj_t * root    = ENV_NEW_ROOT(false, false, false);
     ae_obj_t * syms    = SYM("args");
     ae_obj_t * values  = CONS(NEW_INT(3),
                               CONS(NEW_INT(4),
@@ -1476,7 +1476,7 @@ void env_with_a_dot(void) {
 void eval_args_test(void) {
   SETUP_TEST;
 
-  ae_obj_t * env = ENV_NEW_ROOT(false, false);
+  ae_obj_t * env = ENV_NEW_ROOT(false, false, false);
 
   ENV_SET(env, SYM("foo"), NEW_INT(10));
   ENV_SET(env, SYM("bar"), NEW_INT(20));

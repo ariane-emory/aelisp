@@ -429,16 +429,16 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   if (mode != READ) free_list_free(file_path);
 
-  const bool old_log_macro     = log_macro;
-  const bool old_log_core      = log_core;
-  const bool old_log_eval      = log_eval;
-  log_macro                    = false;
-  log_core                     = false;
-  log_eval                     = false;
+  /* const bool old_log_macro     = log_macro; */
+  /* const bool old_log_core      = log_core; */
+  /* const bool old_log_eval      = log_eval; */
+  /* log_macro                    = false; */
+  /* log_core                     = false; */
+  /* log_eval                     = false; */
   ret                          = mode == READ ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
-  log_macro                    = old_log_macro;
-  log_core                     = old_log_core;
-  log_eval                     = old_log_eval;
+  /* log_macro                    = old_log_macro; */
+  /* log_core                     = old_log_core; */
+  /* log_eval                     = old_log_eval; */
 
   if ((mode == REQUIRE || mode == REREQUIRE) && ! have_feature(env, load_target))
     RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
