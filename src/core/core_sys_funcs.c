@@ -189,20 +189,26 @@ ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  char * path_tmp = free_list_malloc(PATH_MAX);
-  realpath(STR_VAL(CAR(args)), path_tmp);
-  char * path = free_list_malloc(strlen(path_tmp) + 1);
-  strcpy(path, path_tmp);
-  free_list_free(path_tmp);
-
+  char * path = STR_VAL(CAR(args));
+  
   char * expanded_tilde_path = NULL;
-  bool expanded_tilde = expand_tilde(path, &expanded_tilde_path);
+  bool   expanded_tilde      = expand_tilde(path, &expanded_tilde_path);
 
-  if (expanded_tilde) {
-    free(path);
+  if (expanded_tilde)
     path = expanded_tilde_path;
-  }
- 
+  
+  char * realpath_tmp = free_list_malloc(PATH_MAX);
+  realpath(path, realpath_tmp);
+  
+  char * tmp = free_list_malloc(strlen(realpath_tmp) + 1);
+  strcpy(tmp, realpath_tmp);
+  free_list_free(realpath_tmp);
+  
+  if (expanded_tilde)
+    free_list_free(expanded_tilde_path);
+
+  path = tmp;
+  
   ret = NEW_STRING(path);
   CORE_RETURN("expand_path", ret);
 }
