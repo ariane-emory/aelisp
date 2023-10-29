@@ -1639,10 +1639,12 @@
   (error "NAME must be a string"))
  (unless (or (nil? rest) (nil? (cdr rest)))
   (error "If present, REST must contain a single element"))
- (let ((default-directory (car rest)))
-  (unless (string? default-directory)
-   (error "If present, the first element of REST must be a string"))
-  (expand-path (concat default-directory "/" name))))
+ (if (nil? rest)
+  (expand-path name)
+  (let ((default-directory (car rest)))
+   (unless (string? default-directory)
+    (error "If present, the first element of REST must be a string"))
+   (expand-path (concat default-directory "/" name)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
