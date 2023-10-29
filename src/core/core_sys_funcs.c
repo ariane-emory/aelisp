@@ -1,11 +1,29 @@
-#include <unistd.h>
+#include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "core_includes.h"
 #include "common.h"
 #include "env.h"
 #include "time_funcs.h"
 #include "pool.h"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _system
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("system");
+
+  if (! STRINGP(CAR(args)))
+    LOG(CAR(args), "not a string");
+  
+  REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
+
+  ret = SYM(STR_VAL(CAR(args)));
+  
+  CORE_RETURN("system", ret);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _allocated
@@ -299,4 +317,3 @@ ae_obj_t * ae_core_requireb(ae_obj_t * const env,
   CORE_RETURN("requireb", load_or_require(REREQUIRE, env, args, args_length));
 }
 
-   
