@@ -375,6 +375,12 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   free_list_reset();
   free_list_add_block(&mem[0], free_list_size);
 
+  // Reset the properties of nil and t: this is is only really necessary if we're going to build
+  // the root env more than once (such as is done by, for example, the unit tests): since we just
+  // cleared the pool, whatever plist they referred to is gone.
+  PROPS(NIL)  = NIL;
+  PROPS(TRUE) = NIL;
+
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 3: Create the root environment:
   //////////////////////////////////////////////////////////////////////////////////////////////////
