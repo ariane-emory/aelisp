@@ -25,22 +25,27 @@ static char * read_from_fd(int fd, size_t * const size) {
   size_t total_read = 0;
 
   while (true) {
-    int bytes_read = read(fd, buffer, sizeof(buffer));
+    int bytes_read = read(fd, buffer, sizeof(buffer) - 1); // -1 to leave space for null terminator
     
     if (bytes_read <= 0) // Nothing more to read or an error occurred
       break;
 
-    char * const new_output = free_list_malloc(total_read + bytes_read);
+    buffer[bytes_read] = '\0'; // Null-terminate the buffer
+
+    char * const new_output = free_list_malloc(total_read + bytes_read + 1); // +1 for null terminator
     
     if (output) {
       memcpy(new_output, output, total_read);
-
       free_list_free(output);
     }
 
     memcpy(new_output + total_read, buffer, bytes_read);
     output      = new_output;
     total_read += bytes_read;
+  }
+
+  if (output) {
+    output[total_read] = '\0'; // Ensure null-termination
   }
 
   *size = total_read;
@@ -70,7 +75,7 @@ static ae_obj_t * capture_command_output(char * const command) {
     return NEW_ERROR("Pipe creation failed");
 
   if ((pid = fork()) == -1)
-      return NEW_ERROR("Fork failed");
+    return NEW_ERROR("Fork failed");
  
   if (pid == 0) { // Child process.
     close(stdout_pipe[0]);
@@ -242,24 +247,24 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_load_file(ae_obj_t * const env,
-                             ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
+ ae_obj_t * const args,
+ __attribute__((unused)) int args_length) {
   CORE_BEGIN("load-file");
   
-  REQUIRE(env, args, STRINGP(CAR(args)));
+ REQUIRE(env, args, STRINGP(CAR(args)));
 
-  bool failed_to_open = false;
+ bool failed_to_open = false;
 
-  if (failed_to_open)
-    RETURN(NEW_ERROR("failed to open file"));
+ if (failed_to_open)
+   RETURN(NEW_ERROR("failed to open file"));
   
-  ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
+ ae_obj_t * new_program = load_file(STR_VAL(CAR(args)), &failed_to_open);
 
-  ret = RETURN_IF_ERRORP(EVAL(env, new_program));
+ ret = RETURN_IF_ERRORP(EVAL(env, new_program));
 
 end:
   
-  CORE_RETURN("load-file", ret);
+ CORE_RETURN("load-file", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,30 +272,30 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char * find_file(ae_obj_t * const env,
-                 bool add_extension,
-                 const char * const name) {
+ bool add_extension,
+ const char * const name) {
   bool load_path_found = false;
-  ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
+ ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
 
-  assert(load_path_found);
-  assert(load_path);
+ assert(load_path_found);
+ assert(load_path);
   
-  FOR_EACH(dir, load_path) {
-    char * const possible_path = add_extension
-      ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 7)
-      : free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 2);
+ FOR_EACH(dir, load_path) {
+   char * const possible_path = add_extension
+   ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 7)
+   : free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 2);
     
-    sprintf(possible_path,
-            add_extension ? "%s/%s.lisp" : "%s/%s",
-            STR_VAL(dir), name);
+ sprintf(possible_path,
+ add_extension ? "%s/%s.lisp" : "%s/%s",
+ STR_VAL(dir), name);
 
-    if (access(possible_path, F_OK) != -1)
-      return possible_path;
-    else
-      free_list_free(possible_path);
-  }
+ if (access(possible_path, F_OK) != -1)
+   return possible_path;
+ else
+   free_list_free(possible_path);
+ }
 
-  return NULL;
+ return NULL;
 }
 
 
@@ -300,22 +305,22 @@ char * find_file(ae_obj_t * const env,
 
 static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
   assert(sym);
-  assert(SYMBOLP(sym) && (! KEYWORDP(sym)));
-  assert(env);
-  assert(ENVP(env));
+ assert(SYMBOLP(sym) && (! KEYWORDP(sym)));
+ assert(env);
+ assert(ENVP(env));
 
-  bool features_found = false;
-  ae_obj_t * const features = ENV_GET(env, SYM("*features*"), &features_found);
+ bool features_found = false;
+ ae_obj_t * const features = ENV_GET(env, SYM("*features*"), &features_found);
 
-  assert(features_found);
-  assert(features);
-  assert(TAILP(features));
+ assert(features_found);
+ assert(features);
+ assert(TAILP(features));
   
-  FOR_EACH(feature, features)
-    if (EQL(feature, sym))
-      return true;
+ FOR_EACH(feature, features)
+   if (EQL(feature, sym))
+   return true;
   
-  return false;
+ return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,67 +329,67 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
 
 typedef enum {
   READ,
-  LOAD,
-  REQUIRE,
-  REREQUIRE
+ LOAD,
+ REQUIRE,
+ REREQUIRE
 } load_or_require_mode_t;
 
 static ae_obj_t * load_or_require(load_or_require_mode_t mode,
-                                  ae_obj_t * const env,
-                                  ae_obj_t * const args,
-                                  __attribute__((unused)) int args_length) {
+ ae_obj_t * const env,
+ ae_obj_t * const args,
+ __attribute__((unused)) int args_length) {
   CORE_BEGIN("load_or_require");
 
-  ae_obj_t * const load_target = CAR(args);
+ ae_obj_t * const load_target = CAR(args);
   
-  if ((mode == REQUIRE) && have_feature(env, load_target))
-    RETURN(load_target);
+ if ((mode == REQUIRE) && have_feature(env, load_target))
+   RETURN(load_target);
 
-  // Args will have already been checked by the caller, so don't bother doing this:
-  // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
+ // Args will have already been checked by the caller, so don't bother doing this:
+ // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
 
-  char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
-  char * const file_path          =
-    mode == READ
-    ? load_target_string
-    : find_file(env,
-                mode != LOAD, 
-                load_target_string);
+ char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
+ char * const file_path          =
+   mode == READ
+   ? load_target_string
+   : find_file(env,
+ mode != LOAD, 
+ load_target_string);
     
-  bool no_error = (args_length == 2) && ! NILP(CADR(args));
+ bool no_error = (args_length == 2) && ! NILP(CADR(args));
 
-  if (! file_path)
-    RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
+ if (! file_path)
+   RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
   
-  ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
+ ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
-  if (mode != READ) free_list_free(file_path);
+ if (mode != READ) free_list_free(file_path);
 
-  const bool old_log_macro     = log_macro;
-  const bool old_log_core      = log_core;
-  const bool old_log_eval      = log_eval;
-  log_macro                    = false;
-  log_core                     = false;
-  log_eval                     = false;
-  ret                          = mode == READ ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
-  log_macro                    = old_log_macro;
-  log_core                     = old_log_core;
-  log_eval                     = old_log_eval;
+ const bool old_log_macro     = log_macro;
+ const bool old_log_core      = log_core;
+ const bool old_log_eval      = log_eval;
+ log_macro                    = false;
+ log_core                     = false;
+ log_eval                     = false;
+ ret                          = mode == READ ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
+ log_macro                    = old_log_macro;
+ log_core                     = old_log_core;
+ log_eval                     = old_log_eval;
 
-  if ((mode == REQUIRE || mode == REREQUIRE) && ! have_feature(env, load_target))
-    RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
+ if ((mode == REQUIRE || mode == REREQUIRE) && ! have_feature(env, load_target))
+   RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
 
-  bool sprograms_found = false;
-  ae_obj_t * sprograms = ENV_GET(env, SYM("*program*"), &sprograms_found);
-  assert(sprograms_found);
-  assert(sprograms);
-  assert(TAILP(sprograms));
-  // sprograms = KSET(sprograms, load_target, new_program); // temporarily disabled
-  ENV_SET_G(env, SYM("*program*"), sprograms);
+ bool sprograms_found = false;
+ ae_obj_t * sprograms = ENV_GET(env, SYM("*program*"), &sprograms_found);
+ assert(sprograms_found);
+ assert(sprograms);
+ assert(TAILP(sprograms));
+ // sprograms = KSET(sprograms, load_target, new_program); // temporarily disabled
+ ENV_SET_G(env, SYM("*program*"), sprograms);
   
 end:
   
-  CORE_RETURN("load_or_require", ret);
+ CORE_RETURN("load_or_require", ret);
 }
 
 
