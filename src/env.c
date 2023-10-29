@@ -458,9 +458,9 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   ENV_SET(env, SYM("*microbench-enabled*"),      TRUTH(enable_microbench));
 
   bool ignored = false;
-  /* PUT_PROP(TRUE, "constant", NIL); */
-  /* PUT_PROP(TRUE, "constant", TRUE); */
-  /* PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored)); */
+  PUT_PROP(TRUE, "constant", NIL);
+  PUT_PROP(TRUE, "constant", TRUE);
+  PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
     
   bool             std_name_found = false;
   ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
