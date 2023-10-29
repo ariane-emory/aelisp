@@ -308,6 +308,7 @@
  (if (zero? b) a (gcd b (mod a b))))
 
 (defun integer-to-rational (n)
+ (unless (integer? n) (error "N must be an integer."))
  (cons n 1))
 
 (defun rational? (obj)
