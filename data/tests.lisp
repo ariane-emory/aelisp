@@ -299,7 +299,7 @@
 
 (princ
  (case n
-  ((1) "One")
+  ((1) "No" "One")
   ((2) "Two")
   ((3) "Three")
   (else "Other")))
@@ -308,7 +308,7 @@
 
 (princ
  (case n
-  ((1) "One")
+  ((1) "No" "One")
   ((2) "Two")
   ((3) "Three")
  (else "Other")))
