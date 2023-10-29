@@ -14,16 +14,15 @@ typedef enum { STD_FUNDAMENTAL_ONLY, SPLIT_STD, MONO_STD } std_mode_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-extern char       mem[free_list_size];
-extern ae_obj_t * program;
-extern FILE *     yyin;
-extern bool       log_core;
-extern bool       log_eval;
-extern bool       log_macro;
-extern std_mode_t std_mode;
-extern bool       read_error;
-extern ae_obj_t * filename_stack;
-extern ae_obj_t * line_stack;
+extern char       mem[free_list_size]; // the string pool.
+extern ae_obj_t * program;             // bison will put the last parsed program here.
+extern bool       log_core;            // global toggle.
+extern bool       log_eval;            // global toggle.
+extern bool       log_macro;           // global toggle.
+extern std_mode_t std_mode;            // used as storage by setopts.
+extern bool       read_error;          // set by yacc/flex, read by repl.c/ae.c.
+extern ae_obj_t * filename_stack;      // keeps track of the current file being parsed.
+extern ae_obj_t * line_stack;          // keeps track of line in previous file.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
