@@ -1430,7 +1430,7 @@
          '" ≠ "
          $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *confirm's-2nd-column* 115)
+(setq! *confirm's-2nd-column* 80)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro confirm (that expr returns expected)
  "Test whether EXPR evaluates to EXPECTED."
