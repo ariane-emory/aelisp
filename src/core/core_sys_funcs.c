@@ -107,9 +107,10 @@ static ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   
   return CONS(KW("exit"),
               CONS(NEW_INT(exit),
-                   CONS(stdout_output ? NEW_STRING(stdout_output) : NIL,
-                        CONS(stderr_output? NEW_STRING(stderr_output) : NIL,
-                             NIL))));
+                   CONS(KW("stdout"),
+                        CONS(stdout_output ? NEW_STRING(stdout_output) : NIL,
+                             CONS(stderr_output? NEW_STRING(stderr_output) : NIL,
+                                  NIL)))));
 
 }
 
