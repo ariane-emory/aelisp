@@ -363,3 +363,11 @@
 
 (nl)
   
+(set! x 7) (setq! n 8) (* n (+ 1 (/ x  n)))
+
+(defun new-fun (num increment)
+ (* increment (+ 1 (/ num increment))))
+
+
+(princ (new-fun 7 8)) (nl)
+(princ (new-fun 9 8)) (nl)
