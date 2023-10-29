@@ -51,18 +51,18 @@
                     ;for sort-list to be defined.
 
 
-#|
-(case what-scheme-implementation
-  ((scm)
-   (require 'sort)))
-|#
+;; #|
+;;(case what-scheme-implementation
+;;  ((scm)
+;;   (require 'sort)))
+;;|#
 
-(define gsort
-  (case what-scheme-implementation
-    ((mit mzscheme)      (lambda (predicate list) (sort list predicate)))
-    ((chez)     (lambda (predicate list) (sort predicate list)))
-    ((scheme48) (lambda (predicate list) (sort-list predicate list)))
-    ((scm)      (lambda (predicate list) (sort list predicate)))))
+;; (define gsort
+;;   (case what-scheme-implementation
+;;     ((mit mzscheme)      (lambda (predicate list) (sort list predicate)))
+;;     ((chez)     (lambda (predicate list) (sort predicate list)))
+;;     ((scheme48) (lambda (predicate list) (sort-list predicate list)))
+;;     ((scm)      (lambda (predicate list) (sort list predicate)))))
 
 
 

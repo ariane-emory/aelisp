@@ -1,5 +1,6 @@
 To Do:
 - [ ] case macro.
+- [ ] maybe let loop?
 - [ ] multiline comment grammar rules.
 - [ ] audit free_list_malloc/free.
 - [ ] makunbound.
