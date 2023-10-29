@@ -308,6 +308,10 @@
 (defun integer-to-rational (n)
   (cons n 1))
 
+(defun number? (obj)
+ (or
+  (integer? obj)
+  (and (cons? obj) (integer? (car arg)) (integer? (cdr arg)))))
 
 (defun simplify-rational (rat)
   (let* ((num (car rat))
