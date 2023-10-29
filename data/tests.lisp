@@ -366,6 +366,11 @@
 (set! x 7) (setq! n 8) (* n (+ 1 (/ x  n)))
 
 (defun new-fun (num increment)
+ "Round NUM up to the nearest multiple of INCREMENT."
+ (unless (integer? num) (error "NUM must be an integer"))
+ (unless (integer? increment) (error "INCREMENT must be an integer"))
+ (unless (> increment 0) (error "INCREMENT must be greater than zero"))
+ (unless (> num 0) (error "NUM must be greater than zero"))
  (* increment (+ 1 (/ num increment))))
 
 
