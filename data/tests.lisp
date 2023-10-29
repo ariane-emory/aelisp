@@ -266,6 +266,9 @@
 (confirm that (case-test-fun 'a)      returns "Other")
 (confirm that (case-test-fun nil)     returns "Nil 1")
 
+(confirm that (round-up-to-nearest-multiple 7 8) returns  8)
+(confirm that (round-up-to-nearest-multiple 9 8) returns 16)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -299,5 +302,3 @@
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
 
-(confirm that (round-up-to-nearest-multiple 7 8) returns  8)
-(confirm that (round-up-to-nearest-multiple 9 8) returns 16)
