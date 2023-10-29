@@ -48,11 +48,11 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   LOG(case_forms, "case forms");
   
-  FOR_EACH(case_item, args) {
-    REQUIRE(env, args, PROPERP(case_item) && LENGTH(case_item) > 1, "case arguments must be proper lists with at least two elements");
+  FOR_EACH(case_form, case_forms) {
+    REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
 
-    ae_obj_t * const item_car = CAR(case_item);
-    ae_obj_t * const item_cdr = CDR(case_item);
+    ae_obj_t * const item_car = CAR(case_form);
+    ae_obj_t * const item_cdr = CDR(case_form);
   
     if (log_core) {
       LOG(item_car, "case item's car");
