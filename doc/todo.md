@@ -5,7 +5,7 @@ To Do:
 - [ ] Refactor: CORE_RETURN should be unary.
 - [ ] DRY up core_funs.c.
 - [ ] DRY up core_let.c.
-- [ ] Review correctness environments used for macro expansion/evaluation.
+- [ ] Review correctness environments used for macro expansion/evaluation, especially for nested macros.
 - [ ] Review correctness of unwinding indentation.
 - [ ] try incremental bubble sorting env syms/vals?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
