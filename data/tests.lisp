@@ -343,7 +343,7 @@
   ((nil) "Nil 1")
   (nil "Nil 2")
   (else "Other"))
- returns "Nil")
+ returns "Nil 1")
 
 (nl)
 
