@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/syslimits.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <time.h>
@@ -147,6 +148,27 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   ret = TRUTH(chdir(dst) == 0);
   
   CORE_RETURN("cd", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _expand_fn
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_realpath(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("realpath");
+
+  REQUIRE(env, args, STRINGP(CAR(args)));
+
+  char * path_tmp = free_list_malloc(PATH_MAX);
+  realpath(STR_VAL(CAR(args)), path_tmp);
+  char * path = free_list_malloc(strlen(path_tmp) + 1);
+  strcpy(path, path_tmp);
+  free_list_free(path_tmp);
+  ret = NEW_STRING(path);
+  
+  CORE_RETURN("realpath", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1589,14 +1589,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elisp compat aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! nreverse reverse)
-(setq! put      put!)
-(setq! setq     setq!)
-(setq! rplaca   rplaca!)
-(setq! rplacd   rplacd!)
-(setq! nconc    nconc!)
-(setq! null     nil?)
-(setq! identity id)
+(setq! nreverse         reverse)
+(setq! put              put!)
+(setq! setq             setq!)
+(setq! rplaca           rplaca!)
+(setq! rplacd           rplacd!)
+(setq! nconc            nconc!)
+(setq! null             nil?)
+(setq! identity         id)
+(setq! expand-file-name realpath)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'elisp-compat-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
