@@ -353,7 +353,8 @@ static void load_fun_helper(
 // _new_root: This function is huge, maybe it shoul be moved into common?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, int flags) {
-
+  (void)enable_microbench;
+  
   printf("Logging %s / %s / %s.\n",
          log_eval ? "true" : "false",
          log_core ? "true" : "false",
@@ -483,7 +484,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, int fla
   // These two are constant because changing them wouldn't do anything until std is reloaded anyhow:
   ENV_SET(env,                SYM("*log-loading-std-enabled*"),     TRUTH(log_loading_std));
   PUT_PROP(TRUE, "constant",  SYM("*log-loading-std-enabled*"));
-  ENV_SET(env,                SYM("*microbench-enabled*"),          TRUTH(enable_microbench));
+  ENV_SET(env,                SYM("*microbench-enabled*"),          TRUTH(flags & MICROBENCH_ENABLED));
   PUT_PROP(TRUE, "constant",  SYM("*microbench-enable*"));
 
   // *program* should always be bound but is constant, the user probably shouldn't change it anyhow:
