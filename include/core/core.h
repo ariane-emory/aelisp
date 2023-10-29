@@ -137,6 +137,7 @@
   DO(unless,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(when,         true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(if,           true,           2,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(case,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(cond,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(list,         false,  UNLIMITED,  UNLIMITED,                              FUNDEF_END)                                \

@@ -35,6 +35,46 @@ end:
 // _cond
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("case");
+  
+  FOR_EACH(case_item, args) {
+    REQUIRE(env, args, PROPERP(case_item) && LENGTH(case_item) > 1, "case arguments must be proper lists with at least two elements");
+
+    ae_obj_t * const item_car = CAR(case_item);
+    ae_obj_t * const item_cdr = CDR(case_item);
+  
+    if (log_core) {
+      LOG(item_car, "case item's car");
+      LOG(item_cdr, "case item's cdr");
+    }
+
+    ae_obj_t * case_test_result = NIL;
+    
+    if (item_car == SYM("else")) {
+      REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a case expression");
+      
+      case_test_result = TRUE;
+    }
+    else {
+      case_test_result = RETURN_IF_ERRORP(EVAL(env, item_car));
+    }
+    
+    if (! NILP(case_test_result)) {
+      ret = RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)));
+      break;
+    }
+  }
+
+end:
+  
+  CORE_RETURN("cond", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _cond
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("cond");
   
