@@ -1623,11 +1623,26 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; new content that hasn't been merged into split std's modules yet:
+;; new content that hasn't been sorted of merged into split std's modules yet:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sys* args (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun not-nil? (obj) (not (nil? obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun !nil? (obj) (not (nil? obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! compact (curry1 filter not-nil?))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun expand-file-name (name . rest)
+ "Return the absolute file name of NAME, optionally relative to DEFAULT-DIRECTORY."
+ (unless (string? name)
+  (error "NAME must be a string"))
+ (unless (or (nil? rest) (nil? (cdr rest)))
+  (error "If present, REST must contain a single element"))
+ (let ((default-directory (car rest)))
+  (unless (string? default-directory)
+   (error "If present, the first element of REST must be a string"))
+  (expand-path (concat default-directory "/" name))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
