@@ -17,6 +17,7 @@ To Do:
 - [ ] GC.
 
 Under Consideration:
+- [ ] Maybe nil/t init should happen in ENV_NEW_ROOT?
 - [ ] Maybe pretty-print s-exps?
 - [ ] core_concat could be simplified using strcat? Maybe not.
 - [ ] eval could take an optional env param?
