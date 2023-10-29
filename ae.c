@@ -78,7 +78,9 @@ int main(int argc, char **argv) {
 // setops
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const setopts_result_t setopts_result = setopts(argc, argv);
+  setopts_result_t setopts_result = { 0 };
+
+  setopts(argc, argv, &setopts_result);
   
   if (! setopts_result.opts_ok) {
     FPR(stderr, "ERROR: Bad opts!\n");

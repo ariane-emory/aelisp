@@ -18,6 +18,7 @@ typedef struct setopts_result_t {
   bool log_core;
   bool log_eval;
   bool log_macro;
+//  bool early_logging;
   std_mode_t std_mode;
 } setopts_result_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +43,6 @@ extern ae_obj_t * line_stack;          // keeps track of line in previous file.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void            preface(void); 
 void            paint_parsed(void);
-setopts_result_t setopts(int argc, char * argv[]);
+void            setopts(int argc, char * argv[], setopts_result_t * const setopts_result);
 ae_obj_t *      load_file(const char * filename, bool * const failed_to_open);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
