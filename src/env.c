@@ -350,7 +350,7 @@ static void load_fun_helper(
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _new_root
+// _new_root: This function is huge, maybe it shoul be moved into common?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
 
@@ -381,6 +381,9 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   
   ae_obj_t * const env = NEW_ENV(NIL, NIL, NIL);
   
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 4: Load all the core functions and set a few aliases:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
 
@@ -405,49 +408,50 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
 
   bool equal_found = false;
   ae_obj_t * const equal = ENV_GET(env, SYM("=="), &equal_found);
-  assert(equal_found);
+  assert(equal_found); // If this fails, something has gone horribly wrong.
   ENV_SET(env, SYM("="), equal);
   
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
   
-  {
-    /* Do a little song and dance to put the home dir, lib dir and data dir in *load-path*. */
-    
-    /* */ char *       home_path         = NULL;
-    const char * const lib_dir_rel_path  = "lib";
-    const char * const data_dir_rel_path = "data";
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 5: Do a little song and dance to put the home dir, lib dir and data dir into *load-path*:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  /* */ char *       home_path         = NULL;
+  const char * const lib_dir_rel_path  = "lib";
+  const char * const data_dir_rel_path = "data";
   
-    {
-      char * const bin_path = free_list_malloc(PATH_MAX);
-      uint32_t     size     = PATH_MAX;
+  char * const bin_path = free_list_malloc(PATH_MAX);
+  uint32_t     size     = PATH_MAX;
   
-      if (_NSGetExecutablePath(bin_path, &size) != 0) {
-        FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
+  if (_NSGetExecutablePath(bin_path, &size) != 0) {
+    FPR(stderr, "Buffer too small, need %d bytes!\n", size); 
 
-        exit(1);
-      }
-
-      const char * const home_path_tmp = dirname(dirname(bin_path));    
-      home_path = free_list_malloc(strlen(home_path_tmp) + 1);
-      strcpy(home_path, home_path_tmp);
-      free_list_free(bin_path);
-    }
-
-    const int    lib_dir_len   = strlen(home_path) + 1 + strlen(lib_dir_rel_path)  + 1;
-    const int    data_dir_len  = strlen(home_path) + 1 + strlen(data_dir_rel_path) + 1;
-
-    char * const lib_dir_path  = free_list_malloc(lib_dir_len);
-    char * const data_dir_path = free_list_malloc(data_dir_len);
-
-    snprintf(lib_dir_path,  lib_dir_len,  "%s/%s", home_path, lib_dir_rel_path);
-    snprintf(data_dir_path, data_dir_len, "%s/%s", home_path, data_dir_rel_path);
-
-    ENV_PUSH(env, NEW_STRING(home_path),     SYM("*load-path*"));
-    ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*")); 
-    ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
+    exit(1);
   }
 
-  // Set *std-name* based on the std_mode:
+  const char * const home_path_tmp = dirname(dirname(bin_path));    
+  home_path = free_list_malloc(strlen(home_path_tmp) + 1);
+  strcpy(home_path, home_path_tmp);
+  free_list_free(bin_path);
+
+  const int    lib_dir_len   = strlen(home_path) + 1 + strlen(lib_dir_rel_path)  + 1;
+  const int    data_dir_len  = strlen(home_path) + 1 + strlen(data_dir_rel_path) + 1;
+  char * const lib_dir_path  = free_list_malloc(lib_dir_len);
+  char * const data_dir_path = free_list_malloc(data_dir_len);
+
+  snprintf(lib_dir_path,  lib_dir_len,  "%s/%s", home_path, lib_dir_rel_path);
+  snprintf(data_dir_path, data_dir_len, "%s/%s", home_path, data_dir_rel_path);
+
+  ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
+  ENV_PUSH(env, NEW_STRING(data_dir_path), SYM("*load-path*")); 
+  ENV_PUSH(env, NEW_STRING(home_path),     SYM("*load-path*"));
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 6: Set some system variables and mark some of them as constant and/or read-only:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Set *std-name* based on the std_mode passed from the command line:
   switch (std_mode) {
   case STD_FUNDAMENTAL_ONLY:
   {
@@ -467,45 +471,55 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   default:
     assert(false); // this shouldn't be able to happen.
   }
+
+  // This is constant because it's set by the command line on startup and chang it wouldn't do anything anyhow:
+  PUT_PROP(TRUE, "constant", SYM("*std-name*"));
   
   // *features* should always be ENV_BOUNDP.
-  ENV_SET(env,                SYM("*features*"),                 NIL); 
-
-  // This is constant because it's set by the command line on startup:
-  PUT_PROP(TRUE, "constant", SYM("*std-name*"));
+  ENV_SET(env,                SYM("*features*"),                    NIL); 
 
   // These two are constant because changing them wouldn't do anything until std is reloaded anyhow:
-  ENV_SET(env,                SYM("*log-loading-std-enabled*"),  TRUTH(log_loading_std));
+  ENV_SET(env,                SYM("*log-loading-std-enabled*"),     TRUTH(log_loading_std));
   PUT_PROP(TRUE, "constant",  SYM("*log-loading-std-enabled*"));
-  ENV_SET(env,                SYM("*microbench-enabled*"),       TRUTH(enable_microbench));
+  ENV_SET(env,                SYM("*microbench-enabled*"),          TRUTH(enable_microbench));
   PUT_PROP(TRUE, "constant",  SYM("*microbench-enable*"));
 
-  ENV_SET(env, SYM("*program*"), NIL); // *program* should always be bound.
-  PUT_PROP(TRUE, "read-only", SYM("*program*"));
+  // *program* should always be bound but is constant, the user probably shouldn't change it anyhow:
+  bool program_found = false;
+  ENV_SET(env,                SYM("*program*"),                     NIL);
   PUT_PROP(TRUE, "constant",  SYM("*program*"));
+
+  // Of course, nil and t are constants:
   PUT_PROP(TRUE, "constant",  NIL);
   PUT_PROP(TRUE, "constant",  TRUE);
     
-  bool             std_name_found = false;
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 6: Set some system variables and mark some of them as constant and/or read-only:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  bool             std_name_found = false; 
   ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
 
-  assert(std_name_found);
+  assert(std_name_found); // We just set this a page or so back, so if it's not found something is very broken.
   assert(std_name);
-  assert(NILP(std_name) || SYMBOLP(std_name));
-  assert(! NILP(std_name)); // temporarily disallowed.
+  assert(SYMBOLP(std_name));
+  assert(! NILP(std_name)); // We just set it, so it better not be nil.
   
-  if (! NILP(std_name)) {
-    ae_obj_t const * std_return = ae_core_require(env, CONS(std_name, NIL), 1);
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 7: Finally, load whichever version of the stdlib was chosen:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /* NL; */
-    /* NL; */
-    
-    if (ERRORP(std_return)) {
-      FPR(stderr, "\nWARNING: Failed to load std: ");
-      WRITE(std_return);
-      NL;
-    }
+  const ae_obj_t * const std_return = ae_core_require(env, CONS(std_name, NIL), 1);
+
+  if (ERRORP(std_return)) {
+    FPR(stderr, "\nWARNING: Failed to load std: ");
+    WRITE(std_return);
+    NL;
   }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 8: Restore the log flags.
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
   log_core  = old_log_core;
   log_eval  = old_log_eval;

@@ -13,6 +13,7 @@ To Do:
 - [ ] Implement math for non-integer types.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
+- [ ] read-only property isn't well thought out.
 - [ ] GC.
 
 Under Consideration:
