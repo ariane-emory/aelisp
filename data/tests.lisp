@@ -83,7 +83,6 @@
  "It remains here only to serve as an example."
  ;; a deliberate invalid call:
  (nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
- ;; (log-eval t)
  (s x 2 3))
 
 (setq! lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
