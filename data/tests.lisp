@@ -343,3 +343,6 @@
          (den (* (cdr a) (car b))))
     (unless (zero? den)
       (simplify-rational (cons num den)))))
+
+(princ (mul-rational '(2 . 3) 3))
+(nl)
