@@ -15,9 +15,9 @@
 
 #define BUFFER_SIZE 4096
 
-static char* read_from_fd(int fd, size_t* size) {
+static char* read_from_fd(int fd, size_t * const size) {
   char buffer[BUFFER_SIZE];
-  char* output = NULL;
+  char * output = NULL;
   size_t total_read = 0;
 
   while (1) {
