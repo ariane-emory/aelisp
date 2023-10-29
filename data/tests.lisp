@@ -297,12 +297,29 @@
 
 (setq! n 2)
 
-(princ
- (case n
-  ((1) (concat "No" "One"))
-  ((2) "Two")
-  ((3) "Three")
-  (else "Other")))
+(confirm that 
+ (case 1
+  ((1) (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (else "Other"))
+ returns "NumberOne")
+
+(confirm that 
+ (case (+ 1 1)
+  ((1) (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (else "Other"))
+ returns "Two")
+
+(confirm that 
+ (case 4
+  ((1) (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (else "Other"))
+ returns "Other")
 
 (nl)
 
