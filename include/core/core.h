@@ -26,6 +26,12 @@
   /*================================================================================================================*/    \
   DO(error,        false,          1,          2,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
+  DO(ahas,         false,          2,          2, "ahas?",                     FUNDEF_END)                                \
+  DO(aset,         false,          3,          3,                              FUNDEF_END)                                \
+  DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
+  /*================================================================================================================*/    \
+  DO(system,       false,          1,          1, "sys",                       FUNDEF_END)                                \
+  /*================================================================================================================*/    \
   DO(string,       false,          1,          1,                              FUNDEF_END) /* stringifier           */    \
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */    \
   DO(set_props,    true,           2,          2, "props!",                    FUNDEF_END) /* props accessor        */    \
@@ -51,9 +57,6 @@
   DO(phas,         false,          2,          2, "phas?",                     FUNDEF_END)                                \
   DO(pset,         false,          3,          3,                              FUNDEF_END)                                \
   DO(pget,         false,          2,          2,                              FUNDEF_END)                                \
-  DO(ahas,         false,          2,          2, "ahas?",                     FUNDEF_END)                                \
-  DO(aset,         false,          3,          3,                              FUNDEF_END)                                \
-  DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(put,          false,          1,  UNLIMITED, "put-raw",                   FUNDEF_END)                                \
   DO(princ,        false,          1,  UNLIMITED,                              FUNDEF_END)                                \
