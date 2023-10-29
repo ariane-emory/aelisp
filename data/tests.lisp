@@ -301,7 +301,6 @@
 
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
-
 (defun gcd (a b)
  (unless (and (integer? a) (integer? b))
   (error "gcd's arguments must be integers"))
@@ -310,6 +309,14 @@
 (defun integer-to-rational (n)
  (unless (integer? n) (error "N must be an integer."))
  (cons n 1))
+
+(defun denom (rat)
+ (unless (rational? rat) (error "RAT must be a rational"))
+ (cdr rat))
+
+(defun numer (rat)
+ (unless (rational? rat) (error "RAT must be a rational"))
+ (car rat))
 
 (defun rational? (obj)
  (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))

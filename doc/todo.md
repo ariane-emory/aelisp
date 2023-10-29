@@ -1,6 +1,6 @@
 To Do:
+- [ ] rational constructor func.
 - [ ] Some sort of catch.
-- [ ] case macro.
 - [ ] Maybe let loop?
 - [ ] Audit free_list_malloc/free.
 - [ ] makunbound.
@@ -35,6 +35,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] case macro.
 - [x] Multiline comment grammar rules.
 - [x] Maybe nil/t init should happen in ENV_NEW_ROOT? ('fixed' in ENV_NEW_ROOt but not completely reinitialized.)
 - [x] concat might glitch sometimes? (fixed)
