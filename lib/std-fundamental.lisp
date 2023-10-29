@@ -83,24 +83,24 @@
   (macro (name params . body)
    $('progn
      $('setq! '*microbench-before* $('now-us))
-     $('let $($('microbenced-macro's-result $('defmacro-base name params . body)))
+     $('let $($('microbenched-macro $('defmacro-base name params . body)))
        $('princ "defmacrod  " $('quote name) " in "
          $('elapsed-us '*microbench-before*) " us.")
        $('nl)
-       $('put! $('quote name) ':last-bound-to 'microbenched-fun's-result)
-       'microbenced-macro's-result)))))
+      $('put! $('quote name) ':last-bound-to 'microbenched-macro)
+       'microbenched-macro)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench-enabled* *microbench-defuns*)
  (setq! defun-base defun)
  (defmacro defun (name params . body)
   $('progn
     $('setq! '*microbench-before* $('now-us))
-    $('let $($('microbenched-fun's-result $('defun-base name params . body)))
+    $('let $($('microbenched-fun $('defun-base name params . body)))
       $('princ "defunned   " $('quote name) " in "
         $('elapsed-us '*microbench-before*) " us.")
       $('nl)
-      $('put! $('quote name) ':last-bound-to 'microbenched-fun's-result)
-      'microbenched-fun's-result))))
+      $('put! $('quote name) ':last-bound-to 'microbenched-fun)
+      'microbenched-fun))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench-enabled* *microbench-provides*)
  (setq! provide-base provide)
