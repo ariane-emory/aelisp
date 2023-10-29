@@ -13,7 +13,7 @@
 #include "time_funcs.h"
 #include "pool.h"
 
-int capture_command_output(const char *command, char **stdout_str, char **stderr_str) {
+int system2(const char * const command, char **stdout_str, char **stderr_str) {
   int stdout_pipe[2];
   int stderr_pipe[2];
   pid_t pid;
@@ -95,7 +95,7 @@ int not_main() {
     char *stdout_output = NULL;
     char *stderr_output = NULL;
 
-    int exit_code = capture_command_output("ls -l", &stdout_output, &stderr_output);
+    int exit_code = system2("ls -l", &stdout_output, &stderr_output);
 
     if (stdout_output) {
         printf("STDOUT: %s\n", stdout_output);
