@@ -75,25 +75,25 @@ void do_write(ae_obj_t * this) {
 int main(int argc, char **argv) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// setops
+// setopts
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const setopts_result_t setopts_result = setopts(argc, argv);
+  int setopts_result = setopts(argc, argv);
   
-  if (! setopts_result.opts_ok) {
+  if (! (setopts_result & OPTS_OK)) {
     FPR(stderr, "ERROR: Bad opts!\n");
     exit(1);
   }
 
-  log_eval  = setopts_result.log_eval;
-  log_core  = setopts_result.log_core;
-  log_macro = setopts_result.log_macro;
+  log_eval  = setopts_result & LOG_EVAL;
+  log_core  = setopts_result & LOG_CORE;
+  log_macro = setopts_result & LOG_MACRO;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // setup root env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  ae_obj_t * const root_env = ENV_NEW_ROOT(true, true, setopts_result.std_mode);
+  ae_obj_t * const root_env = ENV_NEW_ROOT(true, true, setopts_result);
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // read and parse file

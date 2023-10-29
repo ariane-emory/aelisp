@@ -352,7 +352,7 @@ static void load_fun_helper(
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root: This function is huge, maybe it shoul be moved into common?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, std_mode_t mode) {
+ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, int flags) {
 
   printf("Logging %s / %s / %s.\n",
          log_eval ? "true" : "false",
@@ -466,19 +466,13 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, std_mod
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Set *std-name* based on the std_mode passed from the command line:
-  switch (mode) {
-  case STD_FUNDAMENTAL_ONLY:
+
+  if      (flags & STD_FUNDAMENTAL_ONLY)
     ENV_SET(env, SYM("*std-name*"), SYM("std-fundamental"));
-    break;
-  case SPLIT_STD:
+  else if (flags & SPLIT_STD)
     ENV_SET(env, SYM("*std-name*"), SYM("std"));
-    break;
-  case MONO_STD:
+  else 
     ENV_SET(env, SYM("*std-name*"), SYM("mono-std"));
-    break;
-  default:
-    assert(false); // This should be impossible.
-  }
 
   // This is constant because it's set by the command line on startup and chang it wouldn't do anything anyhow:
   PUT_PROP(TRUE, "constant", SYM("*std-name*"));

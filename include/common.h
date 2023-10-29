@@ -8,18 +8,14 @@
 // types
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-  MONO_STD,
-  STD_FUNDAMENTAL_ONLY,
-  SPLIT_STD,
-} std_mode_t;
-
-typedef struct setopts_result_t {
-  bool opts_ok;
-  bool log_core;
-  bool log_eval;
-  bool log_macro;
-  std_mode_t std_mode;
-} setopts_result_t;
+  // MONO_STD             = 1,
+  STD_FUNDAMENTAL_ONLY = 1,
+  SPLIT_STD            = 2,
+  LOG_EVAL             = 4,
+  LOG_CORE             = 8,
+  LOG_MACRO            = 16,
+  OPTS_OK              = 32,
+} setopts_flag_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,6 +38,6 @@ extern ae_obj_t * line_stack;          // keeps track of line in previous file.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void            preface(void); 
 void            paint_parsed(void);
-setopts_result_t setopts(int argc, char * argv[]);
+int             setopts(int argc, char * argv[]);
 ae_obj_t *      load_file(const char * filename, bool * const failed_to_open);
 ////////////////////////////////////////////////////////////////////////////////////////////////////

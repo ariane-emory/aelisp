@@ -95,8 +95,8 @@ void paint_parsed(void) {
 // setopts
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-setopts_result_t setopts(int argc, char *argv[]) {
-  setopts_result_t result = { 0 };
+int setopts(int argc, char *argv[]) {
+  int result = 0;
   
   int opt;
   bool got_std_opt = false;
@@ -107,13 +107,13 @@ setopts_result_t setopts(int argc, char *argv[]) {
       for (int i = 0; optarg && optarg[i]; i++) {
         switch (optarg[i]) {
         case 'c':
-          result.log_core = true;
+          result |= LOG_CORE;
           break;
         case 'e':
-          result.log_eval = true;
+          result |= LOG_EVAL;
           break;
         case 'm':
-          result.log_macro = true;
+          result |= LOG_MACRO;
           break;
         default:
           goto fail;
@@ -125,13 +125,12 @@ setopts_result_t setopts(int argc, char *argv[]) {
         goto fail;
 
       if (strcmp(optarg, "f") == 0) {
-        result.std_mode = STD_FUNDAMENTAL_ONLY;
+        result |= STD_FUNDAMENTAL_ONLY;
         got_std_opt = true;
       } else if (strcmp(optarg, "s") == 0) {
-        result.std_mode = SPLIT_STD;
+        result |= SPLIT_STD;
         got_std_opt = true;
       } else if (strcmp(optarg, "m") == 0) {
-        result.std_mode = MONO_STD;
         got_std_opt = true;
       } else {
         goto fail;
@@ -142,7 +141,7 @@ setopts_result_t setopts(int argc, char *argv[]) {
     }
   }
 
-  result.opts_ok = true;
+  result |= OPTS_OK;
   
   return result;
 
