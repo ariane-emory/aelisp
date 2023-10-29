@@ -38,6 +38,16 @@ end:
 ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("case");
   
+  ae_obj_t * const key_form = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
+
+  LOG(key_form, "cond key form");
+
+  ae_obj_t * const case_forms = CDR(args);
+
+  REQUIRE(env, args, ! NILP(case_forms), "case requires at least one form after the key form");
+
+  LOG(case_forms, "case forms");
+  
   FOR_EACH(case_item, args) {
     REQUIRE(env, args, PROPERP(case_item) && LENGTH(case_item) > 1, "case arguments must be proper lists with at least two elements");
 
