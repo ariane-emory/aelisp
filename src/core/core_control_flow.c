@@ -32,45 +32,44 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _cond
+// _case
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
     CORE_BEGIN("case");
 
     ae_obj_t * const key_form = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
-
     LOG(key_form, "cond key form");
 
     ae_obj_t * const case_forms = CDR(args);
-
     REQUIRE(env, args, ! NILP(case_forms), "case requires at least one form after the key form");
-
     LOG(case_forms, "case forms");
 
-    ae_obj_t * selected_value_form = NIL;
-    int case_matched = 0;
+    bool else_found = false;
 
+    // First pass: Check for well-formedness and multiple else clauses
     FOR_EACH(case_form, case_forms) {
-        NL;
-
         REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
+        ae_obj_t * const case_form_car = CAR(case_form);
 
+        if (case_form_car == SYM("else")) {
+            REQUIRE(env, args, !else_found, "Only one else clause is allowed in a case expression");
+            else_found = true;
+        }
+    }
+
+    // Second pass: Evaluate which case matches
+    ae_obj_t * selected_value_form = NIL;
+    FOR_EACH(case_form, case_forms) {
         ae_obj_t * const case_form_car = CAR(case_form);
         ae_obj_t * const case_form_cdr = CDR(case_form);
 
         LOG(case_form_car, "case case_form's car");
         LOG(case_form_cdr, "case case_form's cdr");
 
-        REQUIRE(env, args, PROPERP(case_form_car), "case form's car must be a proper list or the symbol 'else");
-        REQUIRE(env, args, PROPERP(case_form_cdr), "case form's cdr must be a proper list");
-
         if (case_form_car == SYM("else")) {
-            REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a case expression");
-
             selected_value_form = case_form_cdr;
-            case_matched = 1;
-            break;
+            continue;
         } else {
             INDENT;
 
@@ -79,33 +78,22 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
                 if (EQL(key_form, case_form_car_elem)) {
                     SLOG("matches");
-                    selected_value_form = case_form_cdr;
-                    case_matched = 1;
-                    break;
+                    CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
                 } else {
                     SLOG("doesn't match");
                 }
             }
 
             OUTDENT;
-
-            if (case_matched) {
-                break;
-            }
         }
     }
 
-end:
-    if (!case_matched) {
-        // Handle the case when no case was matched
-        // e.g., set ret to a default value or handle an error scenario
-        ret = NIL; // Placeholder, adapt as necessary
-    } else {
-        ret = RETURN_IF_ERRORP(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form)));
+    if (selected_value_form) {  // If there's an else clause and no prior match was found
+        CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form))));
     }
 
-    LOG(ret, "case returns");
-    CORE_RETURN("case", ret);
+end:
+    CORE_RETURN("case", NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
