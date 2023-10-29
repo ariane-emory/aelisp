@@ -340,9 +340,10 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
-  (nil "Nil")
+  ((nil) "Nil 1")
+  (nil "Nil 2")
   (else "Other"))
- returns "Other")
+ returns "Nil")
 
 (nl)
 
