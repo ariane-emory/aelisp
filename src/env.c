@@ -353,10 +353,6 @@ static void load_fun_helper(
 // _new_root: This function is huge, maybe it shoul be moved into common?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
-  printf("Logging %s / %s / %s.\n",
-         log_eval ? "true" : "false",
-         log_core ? "true" : "false",
-         log_macro ? "true" : "false");
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 1: Stash the old values of the log flags, we'll restore them later:
@@ -380,8 +376,10 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   free_list_add_block(&mem[0], free_list_size);
 
   // Reset the properties of nil and t: this is is only really necessary if we're going to build
-  // the root env more than once (such as is done by, for example, the unit tests): since we just
-  // cleared the pool, whatever plist they referred to is gone.
+  // the root env more than once (such as is done by, for example, the unit tests, or the REPL's
+  // reset command): since we just cleared the pool, whatever plist they referred to is gone, so
+  // we fix the dangling pointer here.
+  
   PROPS(NIL)  = NIL;
   PROPS(TRUE) = NIL;
 
