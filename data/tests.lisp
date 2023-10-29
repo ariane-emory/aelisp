@@ -321,6 +321,14 @@
   (else "Other"))
  returns "Other")
 
+(confirm that 
+ (case 4
+  ((1) (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (else "Other"))
+ returns "Other")
+
 (nl)
 
 ;; (princ
