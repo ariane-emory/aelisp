@@ -297,19 +297,14 @@
 
 (setq! n 2)
 
-(confirm that 
- (case 1
-  ((1) (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (else "Other"))
- returns "One")
+
 
 (confirm that 
  (case 1
   (1 (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
+  (nil "Nil")
   (else "Other"))
  returns "One")
 
@@ -318,6 +313,7 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
+  (nil "Nil")
   (else "Other"))
  returns "Two")
 
@@ -326,6 +322,7 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
+  (nil "Nil")
   (else "Other"))
  returns "Other")
 
@@ -334,6 +331,16 @@
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
+  (nil "Nil")
+  (else "Other"))
+ returns "Other")
+
+(confirm that 
+ (case nil
+  ((1) (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (nil "Nil")
   (else "Other"))
  returns "Other")
 
