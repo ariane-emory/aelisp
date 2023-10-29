@@ -1437,7 +1437,10 @@
  (unless (eq? 'that   that)     (error "expected 'that as 2nd argument"))
  (unless (eq? 'returns returns) (error "expected 'returns as 4th argument"))
  $('progn  ;; *confirm's-2nd-column*
-   $('let $($('printed $('princ $('string $('quote expr)))))
+   $('let* $(
+             $('printed $('princ $('string $('quote expr))))
+             $('column   'printed)
+             )
      $('while $('< 'printed *confirm's-2nd-column*)
        $('princ '" ")
        $('setq! 'printed $('+ 1 'printed)))
