@@ -292,27 +292,12 @@
 ;;     ;; Return the accumulated result.
 ;;     acc)))
 
-(defun sys* args
- (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
-
-(setq! stdout (curry1 kget :stdout))
-
 (while nil
  (princ (stdout (sys* 'date)))
  (princ (stdout (sys* 'echo 'these "are" '(4 words)))) (sleep 500))
 
-
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
 
-(defun round-up-to-nearest-multiple (num multiple)
- "Round NUM up to the nearest multiple of MULTIPLE."
- (unless (integer? num) (error "NUM must be an integer"))
- (unless (integer? multiple) (error "MULTIPLE must be an integer"))
- (unless (> multiple 0) (error "MULTIPLE must be greater than zero"))
- (unless (> num 0) (error "NUM must be greater than zero"))
- (* multiple (+ 1 (/ num multiple))))
-
-
-(princ (round-up-to-nearest-multiple 7 8)) (nl)
-(princ (round-up-to-nearest-multiple 9 8)) (nl)
+(confirm that (round-up-to-nearest-multiple 7 8) returns  8)
+(confirm that (round-up-to-nearest-multiple 9 8) returns 16)
