@@ -288,4 +288,4 @@
  (princ (stdout (sys* 'echo 'these "are" '(4 words)))) (sleep 500))
 
 
-
+(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")

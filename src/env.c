@@ -358,13 +358,13 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   // Step 1: Stash the old values of the log flags, we'll restore them later:
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
-  bool old_log_core  = log_core;
-  bool old_log_eval  = log_eval;
-  bool old_log_macro = log_macro;
+  /* bool old_log_core  = log_core; */
+  /* bool old_log_eval  = log_eval; */
+  /* bool old_log_macro = log_macro; */
 
-  log_core  = false;
-  log_eval  = false;
-  log_macro = false;
+  /* log_core  = false; */
+  /* log_eval  = false; */
+  /* log_macro = false; */
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 2: Clear out the symbols_list, object pool and string pool/free list:
@@ -524,9 +524,9 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   // Step 8: Restore the log flags.
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  log_core  = old_log_core;
-  log_eval  = old_log_eval;
-  log_macro = old_log_macro;
+  /* log_core  = old_log_core; */
+  /* log_eval  = old_log_eval; */
+  /* log_macro = old_log_macro; */
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // All done!
