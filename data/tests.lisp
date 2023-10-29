@@ -261,8 +261,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'tests)
+(nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;; (defun reduce (func lst &optional initial-value)
 ;;   "Reduce LST using FUNC starting with INITIAL-VALUE."
@@ -277,11 +277,6 @@
 ;;       (setq! acc (funcall func acc (pop! lst)))
 ;;     ;; Return the accumulated result.
 ;;     acc)))
-
-;; (reduce concat (intercalate " " (mapcar string $("echo" 'these 5 'words))))
-(setq! stdout (curry1 kget :stdout)) (while t (princ (stdout (sys* 'date))) (princ (stdout (sys* 'echo 'these "are" '(4 words)))) (sleep 500)) (nl)
-
-
 
 (defun sys* args
  (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
