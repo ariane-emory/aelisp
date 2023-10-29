@@ -334,24 +334,8 @@ static void load_fun_helper(
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _new_root
+// Helper macros we'll use to load the core functions:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
-  bool old_log_core  = log_core;
-  bool old_log_eval  = log_eval;
-  bool old_log_macro = log_macro;
-
-  log_core  = false;
-  log_eval  = false;
-  log_macro = false;
-  
-  symbols_list = NIL;
-  pool_clear();
-  free_list_reset();
-  free_list_add_block(&mem[0], free_list_size);
-
-  ae_obj_t * const env = NEW_ENV(NIL, NIL, NIL);
-  
 #define COUNT_ARGUMENTS(...) COUNT_ARGUMENTS_HELPER(__VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1)
 #define COUNT_ARGUMENTS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, N, ...) N
 #define load_fun(c_name, special, min_args, max_args, ...)                                                                  \
@@ -362,6 +346,41 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
     ENV_SET(env, SYM(#sym),  new_core);                                                            \
     ENV_SET(env, SYM(#name), new_core);                                                            \
   }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _new_root
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 1: Stash the old values of the log flags, we'll restore them later:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  bool old_log_core  = log_core;
+  bool old_log_eval  = log_eval;
+  bool old_log_macro = log_macro;
+
+  log_core  = false;
+  log_eval  = false;
+  log_macro = false;
+  
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 2: Clear out the symbols_list, object pool and string pool/free list:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  symbols_list = NIL;
+  pool_clear();
+  free_list_reset();
+  free_list_add_block(&mem[0], free_list_size);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Step 3: Create the root environment:
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  ae_obj_t * const env = NEW_ENV(NIL, NIL, NIL);
+  
 
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
 
@@ -390,10 +409,6 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   ENV_SET(env, SYM("="), equal);
   
   FOR_EACH_CORE_FUN_GROUP_4(load_fun);
-
-  ENV_SET(env, SYM("*program*"), NIL);
-  PUT_PROP(TRUE, "constant", SYM("*program*"));
-  PUT_PROP(TRUE, "read-only", SYM("*program*"));
   
   {
     /* Do a little song and dance to put the home dir, lib dir and data dir in *load-path*. */
@@ -432,6 +447,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
     ENV_PUSH(env, NEW_STRING(lib_dir_path),  SYM("*load-path*")); 
   }
 
+  // Set *std-name* based on the std_mode:
   switch (std_mode) {
   case STD_FUNDAMENTAL_ONLY:
   {
@@ -451,16 +467,24 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench) {
   default:
     assert(false); // this shouldn't be able to happen.
   }
+  
+  // *features* should always be ENV_BOUNDP.
+  ENV_SET(env,                SYM("*features*"),                 NIL); 
+
+  // This is constant because it's set by the command line on startup:
   PUT_PROP(TRUE, "constant", SYM("*std-name*"));
 
-  ENV_SET(env, SYM("*features*"), NIL); // *features* should always be ENV_BOUNDP.
-  ENV_SET(env, SYM("*log-loading-std-enabled*"), TRUTH(log_loading_std));
-  ENV_SET(env, SYM("*microbench-enabled*"),      TRUTH(enable_microbench));
+  // These two are constant because changing them wouldn't do anything until std is reloaded anyhow:
+  ENV_SET(env,                SYM("*log-loading-std-enabled*"),  TRUTH(log_loading_std));
+  PUT_PROP(TRUE, "constant",  SYM("*log-loading-std-enabled*"));
+  ENV_SET(env,                SYM("*microbench-enabled*"),       TRUTH(enable_microbench));
+  PUT_PROP(TRUE, "constant",  SYM("*microbench-enable*"));
 
-  bool ignored = false;
-  PUT_PROP(TRUE, "constant", NIL);
-  PUT_PROP(TRUE, "constant", TRUE);
-  PUT_PROP(TRUE, "constant", ENV_GET(env, SYM("*log-loading-std-enabled*"), &ignored));
+  ENV_SET(env, SYM("*program*"), NIL); // *program* should always be bound.
+  PUT_PROP(TRUE, "read-only", SYM("*program*"));
+  PUT_PROP(TRUE, "constant",  SYM("*program*"));
+  PUT_PROP(TRUE, "constant",  NIL);
+  PUT_PROP(TRUE, "constant",  TRUE);
     
   bool             std_name_found = false;
   ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
