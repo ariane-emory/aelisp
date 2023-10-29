@@ -20,7 +20,7 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
   REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
 
-  ret = SYM(STR_VAL(CAR(args)));
+  ret = NEW_INT(system(STR_VAL(CAR(args))));
   
   CORE_RETURN("system", ret);
 }
