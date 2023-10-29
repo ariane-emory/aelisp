@@ -15,6 +15,10 @@
 
 #define BUFFER_SIZE 4096
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// read_from_fd
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static char * read_from_fd(int fd, size_t * const size) {
   char buffer[BUFFER_SIZE];
   char * output     = NULL;
@@ -44,7 +48,11 @@ static char * read_from_fd(int fd, size_t * const size) {
   return output;
 }
 
-ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// capture_command_output
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   if (! STRINGP(command_obj))
     return NEW_ERROR("command must be a string");
 
@@ -89,6 +97,7 @@ ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   close(stderr_pipe[0]);
 
   int status;
+  
   waitpid(pid, &status, 0);
 
   int exit = WEXITSTATUS(status);
