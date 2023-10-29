@@ -1,4 +1,6 @@
 To Do:
+- [ ] case macro.
+- [ ] multiline comment grammar rules.
 - [ ] audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
