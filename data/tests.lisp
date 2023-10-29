@@ -295,5 +295,12 @@
 
 (nl)
 
+(princ
+ (case n
+  ((1) "One")
+  ((2) "Two")
+  ((3) "Three")
+ (else "Other")))
 
+(nl)
   
