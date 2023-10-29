@@ -322,7 +322,7 @@
  returns "Other")
 
 (confirm that 
- (case 4
+ (case 'a
   ((1) (concat "O" "ne"))
   ((2 3) "Two")
   ((2) "Three")
