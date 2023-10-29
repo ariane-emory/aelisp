@@ -251,6 +251,21 @@
 (confirm that (min 2 3 1 4 9 8 1 7) returns 1)
 (confirm that (max 2 3 1 4 9 8 1 7) returns 9)
 
+(defun case-test-fun (n)
+ (case n
+  ((1) (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
+  (else "Other")))
+
+(confirm that (case-test-fun 1)       returns "One")
+(confirm that (case-test-fun (+ 1 1)) returns "Two")
+(confirm that (case-test-fun 4)       returns "Other")
+(confirm that (case-test-fun 'a)      returns "Other")
+(confirm that (case-test-fun nil)     returns "Nil 1")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -289,69 +304,6 @@
 
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
-(cond
- (nil  (princ "Don't do th is."))
- (else (princ "Do this.")))
-
-(nl)
-
-(setq! n 2)
-
-
-(defun case-test-fun (n)
- (case 1
-  (1 (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (nil "Nil 1")
-  ((nil) "Nil 2")
-  (else "Other")))
-
-(confirm that (case-test-fun 1) returns "One")
-
-(defun case-test-fun (n)
- (case n
-  ((1) (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (nil "Nil 1")
-  ((nil) "Nil 2")
-  (else "Other")))
-
-(confirm that (case-test-fun 1)       returns "One")
-(confirm that (case-test-fun (+ 1 1)) returns "Two")
-(confirm that (case-test-fun 4)       returns "Other")
-(confirm that (case-test-fun 'a)      returns "Other")
-(confirm that (case-test-fun nil)     returns "Nil 1")
-
-
-
-
-(confirm that 
- (case nil
-  ((1) (concat "O" "ne"))
-  ((2 3) "Two")
-  ((2) "Three")
-  (nil "Nil 1")
-  ((nil) "Nil 2")
-  (else "Other"))
- returns "Nil 1")
-
-(nl)
-
-;; (princ
-;;  (case n
-;;   ((1) (concat "No" "One"))
-;;   ((2) "Two")
-;;   ((3) "Three")
-;;   (else "Other")))
-
-(nl)
-
-
-(nl)
-
-(set! x 7) (setq! n 8) (* n (+ 1 (/ x  n)))
 
 (defun round-up-to-nearest-multiple (num multiple)
  "Round NUM up to the nearest multiple of MULTIPLE."

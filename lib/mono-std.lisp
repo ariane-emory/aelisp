@@ -1626,6 +1626,8 @@
 ;; new content that hasn't been sorted of merged into split std's modules yet:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sys* args (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
+(setq! stdout (curry1 kget :stdout))
+(setq! stderr (curry1 kget :stderr))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun not-nil? (obj) (not (nil? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
