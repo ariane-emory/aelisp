@@ -100,17 +100,15 @@ static ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   
   waitpid(pid, &status, 0);
 
-  int exit = WEXITSTATUS(status);
+  const int exit = WEXITSTATUS(status);
 
-
-
-  
   return CONS(KW("exit"),
               CONS(NEW_INT(exit),
                    CONS(KW("stdout"),
                         CONS(stdout_output ? NEW_STRING(stdout_output) : NIL,
-                             CONS(stderr_output? NEW_STRING(stderr_output) : NIL,
-                                  NIL)))));
+                             CONS(KW("stderr"),
+                                  CONS(stderr_output? NEW_STRING(stderr_output) : NIL,
+                                       NIL))))));
 
 }
 
