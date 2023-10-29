@@ -32,7 +32,6 @@ extern FILE * yyin;
 bool       log_core            = false;
 bool       log_eval            = false;
 bool       log_macro           = false;
-std_mode_t std_mode            = MONO_STD;
 bool       read_error          = false;
 char       mem[free_list_size] = { 0 };
 ae_obj_t * filename_stack      = NIL;
@@ -95,9 +94,10 @@ void paint_parsed(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // setopts
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#include <string.h>  // include this for strcmp()
 
-bool setopts(int argc, char *argv[]) {
+setopts_result_t setopts(int argc, char *argv[]) {
+  setopts_result_t result = { 0 };
+  
   int opt;
   bool got_std_opt = false;
 
@@ -107,13 +107,13 @@ bool setopts(int argc, char *argv[]) {
       for (int i = 0; optarg && optarg[i]; i++) {
         switch (optarg[i]) {
         case 'c':
-          log_core = true;
+          result.log_core = true;
           break;
         case 'e':
-          log_eval = true;
+          result.log_eval = true;
           break;
         case 'm':
-          log_macro = true;
+          result.log_macro = true;
           break;
         default:
           goto fail;
@@ -125,13 +125,13 @@ bool setopts(int argc, char *argv[]) {
         goto fail;
 
       if (strcmp(optarg, "f") == 0) {
-        std_mode = STD_FUNDAMENTAL_ONLY;
+        result.std_mode = STD_FUNDAMENTAL_ONLY;
         got_std_opt = true;
       } else if (strcmp(optarg, "s") == 0) {
-        std_mode = SPLIT_STD;
+        result.std_mode = SPLIT_STD;
         got_std_opt = true;
       } else if (strcmp(optarg, "m") == 0) {
-        std_mode = MONO_STD;
+        result.std_mode = MONO_STD;
         got_std_opt = true;
       } else {
         goto fail;
@@ -142,11 +142,14 @@ bool setopts(int argc, char *argv[]) {
     }
   }
 
-  return true;
+  result. = true;
+  
+  return result;
 
 fail:
   fprintf(stderr, "Usage: %s [-l c|e|m] [-s f|s|m]\n", argv[0]);
-  return false;
+
+  return result;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -8,6 +8,14 @@
 // types
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef enum { STD_FUNDAMENTAL_ONLY, SPLIT_STD, MONO_STD } std_mode_t;
+
+typedef struct setopts_result_t {
+  bool ;
+  bool log_core;
+  bool log_eval;
+  bool log_macro;
+  std_mode_t std_mode;
+} setopts_result_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -19,7 +27,6 @@ extern ae_obj_t * program;             // bison will put the last parsed program
 extern bool       log_core;            // global toggle.
 extern bool       log_eval;            // global toggle.
 extern bool       log_macro;           // global toggle.
-extern std_mode_t std_mode;            // used as storage by setopts.
 extern bool       read_error;          // set by yacc/flex, read by repl.c/ae.c.
 extern ae_obj_t * filename_stack;      // keeps track of the current file being parsed.
 extern ae_obj_t * line_stack;          // keeps track of line in previous file.
@@ -29,8 +36,8 @@ extern ae_obj_t * line_stack;          // keeps track of line in previous file.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void       preface(void); 
-void       paint_parsed(void);
-bool       setopts(int argc, char * argv[]);
-ae_obj_t * load_file(const char * filename, bool * const failed_to_open);
+void            preface(void); 
+void            paint_parsed(void);
+setopts_result_t setopts(int argc, char * argv[]);
+ae_obj_t *      load_file(const char * filename, bool * const failed_to_open);
 ////////////////////////////////////////////////////////////////////////////////////////////////////

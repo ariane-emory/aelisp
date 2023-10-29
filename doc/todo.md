@@ -1,8 +1,8 @@
 To Do:
 - [ ] case macro.
-- [ ] maybe let loop?
-- [ ] multiline comment grammar rules.
-- [ ] audit free_list_malloc/free.
+- [ ] Maybe let loop?
+- [ ] Multiline comment grammar rules.
+- [ ] Audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
 - [ ] Refactor: CORE_RETURN should be unary.
@@ -20,7 +20,7 @@ To Do:
 - [ ] GC.
 
 Under Consideration:
-- [ ] Maybe nil/t init should happen in ENV_NEW_ROOT?
+- [ ] Maybe move load_file?
 - [ ] Maybe pretty-print s-exps?
 - [ ] core_concat could be simplified using strcat? Maybe not.
 - [ ] eval could take an optional env param?
@@ -35,6 +35,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Maybe nil/t init should happen in ENV_NEW_ROOT? ('fixed' in ENV_NEW_ROOt but not completely reinitialized.)
 - [x] concat might glitch sometimes? (fixed)
 - [x] new_root_env and setup_root_env should be combined.
 - [x] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
