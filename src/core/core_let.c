@@ -23,7 +23,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
     ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
 
-    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let form cannot bind to special symbols");
+    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
 
   }
   
@@ -100,7 +100,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
 
     ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
 
-    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let form cannot bind to special symbols");
+    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
 
   }
 
@@ -182,7 +182,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
     ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
 
-    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let form cannot bind to special symbols");
+    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
 
   }
   
