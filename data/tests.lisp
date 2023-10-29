@@ -303,7 +303,7 @@
   ((2 3) "Two")
   ((2) "Three")
   (else "Other"))
- returns "NumberOne")
+ returns "One")
 
 (confirm that 
  (case (+ 1 1)
