@@ -69,31 +69,37 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     FOR_EACH(case_form_car_elem, case_form_car) {
       LOG(case_form_car_elem, "case case_form_car_elem");
 
-      if (EQL(key_form, case_form_car_elem))
+      if (EQL(key_form, case_form_car_elem)) {
+        SLOG("matches");
         RETURN(RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
+      }
+      else {
+        SLOG("doesn't match");
+      }
     }
 
     OUTDENT;
     
-    ae_obj_t * case_test_result = NIL;
+
     
-    if (case_form_car == SYM("else")) {
-      REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a case expression");
+    /* if (case_form_car == SYM("else")) { */
+    /*   REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a case expression"); */
       
-      case_test_result = TRUE;
-    }
-    else {
-      case_test_result = RETURN_IF_ERRORP(EVAL(env, case_form_car));
-    }
+    /*   case_test_result = TRUE; */
+    /* } */
+    /* else { */
+    /*   case_test_result = RETURN_IF_ERRORP(EVAL(env, case_form_car)); */
+    /* } */
     
-    if (! NILP(case_test_result)) {
-      ret = RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr)));
-      break;
-    }
+    /* if (! NILP(case_test_result)) { */
+    /*   ret = RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))); */
+    /*   break; */
+    /* } */
   }
 
 end:
-  
+
+  LOG(ret, "case returns");
   CORE_RETURN("case", ret);
 }
 
