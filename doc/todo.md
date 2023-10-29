@@ -1,5 +1,4 @@
 To Do:
-- [ ] concat might glitch sometimes?
 - [ ] audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
@@ -32,6 +31,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] concat might glitch sometimes? (fixed)
 - [x] new_root_env and setup_root_env should be combined.
 - [x] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
 - [x] revise startup to (require 'std).

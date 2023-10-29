@@ -41,14 +41,15 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
       : STR_VAL(elem);
 
     int len = strlen(str);
-    
-    strcpy(string + pos, str);
+
+    // Use memcpy instead of strcpy, safer when we know the length.
+    memcpy(string + pos, str, len);
 
     pos += len;
   }
 
   // Terminate it.
-  string[total_length - 1] = '\0';
-  
+  string[pos] = '\0';
+
   CORE_RETURN("concat", NEW_STRING(string));
 }
