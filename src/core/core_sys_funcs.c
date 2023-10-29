@@ -15,30 +15,32 @@
 
 #define BUFFER_SIZE 4096
 
-static char* read_from_fd(int fd, size_t * const size) {
+static char * read_from_fd(int fd, size_t * const size) {
   char buffer[BUFFER_SIZE];
-  char * output = NULL;
+  char * output     = NULL;
   size_t total_read = 0;
 
-  while (1) {
+  while (true) {
     int bytes_read = read(fd, buffer, sizeof(buffer));
-    if (bytes_read <= 0) {
-      // Nothing more to read or an error occurred
+    
+    if (bytes_read <= 0) // Nothing more to read or an error occurred
       break;
-    }
 
-    char* new_output = free_list_malloc(total_read + bytes_read);
-    if (output != NULL) {
+    char * const new_output = free_list_malloc(total_read + bytes_read);
+    
+    if (output) {
       memcpy(new_output, output, total_read);
+
       free_list_free(output);
     }
 
     memcpy(new_output + total_read, buffer, bytes_read);
-    output = new_output;
+    output      = new_output;
     total_read += bytes_read;
   }
 
   *size = total_read;
+  
   return output;
 }
 
@@ -46,7 +48,8 @@ int capture_command_output(const char *command, char **stdout_output, char **std
   int stdout_pipe[2];
   int stderr_pipe[2];
   pid_t pid;
-  size_t stdout_size, stderr_size;
+  size_t stdout_size;
+  size_t stderr_size;
 
   if (pipe(stdout_pipe) != 0 || pipe(stderr_pipe) != 0) {
     return -1; // Pipe creation failed.
