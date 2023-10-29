@@ -328,9 +328,6 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
   /*   LOG(ENV_VALS(env), "new env's vals:"); */
   /* } */
 
-  /* if (log_eval) */
-  /*   LOG(args, "applying user fun %s to %d arg%s:", fun_name_part, LENGTH(args), s_or_blank(LENGTH(args))); */
-  
   INDENT;
 
   ae_obj_t * body = FUN_BODY(fun);
