@@ -1619,6 +1619,8 @@
 ;; new content that hasn't been merged into split std's modules yet:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sys* args (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
+(defun not-nil? (obj) (not (nil? obj)))
+(setq! compact (curry1 filter not-nil?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
