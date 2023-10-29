@@ -76,7 +76,8 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
     if (case_form_car == SYM("else")) {
       selected_value_form = case_form_cdr;
-      continue;
+      
+      break; // there shouldn't be any more cases after an else anyhow.
     } else {
       INDENT;
 
