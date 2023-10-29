@@ -87,7 +87,8 @@
        $('nl)
        $('princ "defmacrod  " $('quote name) " in "
          $('elapsed-us '*microbench-before*) " us.")
-       $('setq! name name) ;; re-assign to fix :last-bound-to
+       $('setq! name name)
+       ;; ^ re-assign to fix :last-bound-to, this is probably not needed anymore.
        'microbenced-macro's-result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench-enabled* *microbench-defuns*)
@@ -99,7 +100,8 @@
       $('nl)
       $('princ "defunned   " $('quote name) " in "
         $('elapsed-us '*microbench-before*) " us.")
-      $('setq! name name) ;; re-assign to fix :last-bound-to
+      $('setq! name name)
+      ;; ^ re-assign to fix :last-bound-to, this is probably not needed anymore.
       'microbenched-fun's-result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (and *microbench-enabled* *microbench-provides*)
@@ -138,7 +140,8 @@
 (defun rational? (o)          (type?    :RATIONAL       o))
 (defun string?   (o)          (type?    :STRING         o))
 (defun symbol?   (o)          (type?    :SYMBOL         o))
-(defun improper? (o)     (and (list? o) (not (proper?   o))))
+(defun !nil?     (o)     (not (nil?  o)))
+(defun improper? (o)     (and (list? o) (not (proper? o))))
 (defun fun?      (o)     (or  (core? o) (lambda? o) (macro? o)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! list?     tail?)
