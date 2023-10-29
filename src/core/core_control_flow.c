@@ -51,34 +51,37 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
   FOR_EACH(case_form, case_forms) {
     REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
 
-    ae_obj_t * const item_car = CAR(case_form);
-    ae_obj_t * const item_cdr = CDR(case_form);
-  
-    if (log_core) {
-      LOG(item_car, "case item's car");
-      LOG(item_cdr, "case item's cdr");
-    }
+    ae_obj_t * const case_form_car = CAR(case_form);
+    ae_obj_t * const case_form_cdr = CDR(case_form);
 
+    // if (log_core) {
+      LOG(case_form_car, "case case_form's car");
+      LOG(case_form_cdr, "case case_form's cdr");
+    // }
+
+    REQUIRE(env, args, PROPERP(case_form_car), "case form's car must be a proper list");
+    REQUIRE(env, args, PROPERP(case_form_cdr), "case form's cdr must be a proper list");
+      
     ae_obj_t * case_test_result = NIL;
     
-    if (item_car == SYM("else")) {
+    if (case_form_car == SYM("else")) {
       REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a case expression");
       
       case_test_result = TRUE;
     }
     else {
-      case_test_result = RETURN_IF_ERRORP(EVAL(env, item_car));
+      case_test_result = RETURN_IF_ERRORP(EVAL(env, case_form_car));
     }
     
     if (! NILP(case_test_result)) {
-      ret = RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)));
+      ret = RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr)));
       break;
     }
   }
 
 end:
   
-  CORE_RETURN("cond", ret);
+  CORE_RETURN("case", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
