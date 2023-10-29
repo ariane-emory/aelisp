@@ -13,102 +13,83 @@
 #include "time_funcs.h"
 #include "pool.h"
 
-int system2(const char * const command, char ** stdout_str, char ** stderr_str) {
-  int stdout_pipe[2];
-  int stderr_pipe[2];
-  pid_t pid;
+#define BUFFER_SIZE 4096
 
-  *stdout_str = NULL;
-  *stderr_str = NULL;
+char* read_from_fd(int fd, size_t *length, void* (*custom_malloc)(size_t), void (*custom_free)(void*)) {
+    char buffer[BUFFER_SIZE];
+    size_t total_size = 0;
+    char *result = NULL;
+    ssize_t bytes_read;
 
-  if (pipe(stdout_pipe) != 0) {
-    perror("Failed to create pipe for stdout");
-    return -1;
-  }
+    while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
+        char *new_result = (char*)custom_malloc(total_size + bytes_read);
+        if (!new_result) {
+            if (result) custom_free(result);
+            return NULL; // Allocation failed.
+        }
 
-  if (pipe(stderr_pipe) != 0) {
-    perror("Failed to create pipe for stderr");
-    close(stdout_pipe[0]);
-    close(stdout_pipe[1]);
-    return -1;
-  }
+        memcpy(new_result, result, total_size);
+        memcpy(new_result + total_size, buffer, bytes_read);
 
-  if ((pid = fork()) == -1) {
-    perror("Failed to fork");
-    return -1;
-  }
+        if (result) custom_free(result);
+        result = new_result;
+        total_size += bytes_read;
+    }
 
-  if (pid == 0) { // Child
-    close(stdout_pipe[0]);
-    close(stderr_pipe[0]);
+    if (bytes_read < 0) {
+        if (result) custom_free(result);
+        return NULL; // Read error.
+    }
 
-    dup2(stdout_pipe[1], STDOUT_FILENO);
-    dup2(stderr_pipe[1], STDERR_FILENO);
+    if (length) {
+        *length = total_size;
+    }
 
-    execl("/bin/sh", "sh", "-c", command, NULL);
-    _exit(EXIT_FAILURE);  // If we get here, exec failed
-  } else { // Parent
+    return result;
+}
+
+int capture_command_output(const char *command, char **stdout_output, char **stderr_output) {
+    int stdout_pipe[2];
+    int stderr_pipe[2];
+    pid_t pid;
+    size_t stdout_size, stderr_size;
+
+    if (pipe(stdout_pipe) != 0 || pipe(stderr_pipe) != 0) {
+        return -1; // Pipe creation failed.
+    }
+
+    if ((pid = fork()) == -1) {
+        return -1; // Fork failed.
+    }
+
+    if (pid == 0) { // Child process.
+        close(stdout_pipe[0]);
+        close(stderr_pipe[0]);
+        
+        dup2(stdout_pipe[1], STDOUT_FILENO);
+        dup2(stderr_pipe[1], STDERR_FILENO);
+        
+        close(stdout_pipe[1]);
+        close(stderr_pipe[1]);
+
+        execl("/bin/bash", "bash", "-c", command, (char *)NULL);
+        // If execl() fails.
+        _exit(1);
+    }
+
     close(stdout_pipe[1]);
     close(stderr_pipe[1]);
+
+    *stdout_output = read_from_fd(stdout_pipe[0], &stdout_size, free_list_malloc, free_list_free);
+    *stderr_output = read_from_fd(stderr_pipe[0], &stderr_size, free_list_malloc, free_list_free);
+
+    close(stdout_pipe[0]);
+    close(stderr_pipe[0]);
 
     int status;
     waitpid(pid, &status, 0);
 
-    char buffer[4096];
-    int nbytes;
-
-    nbytes = read(stdout_pipe[0], buffer, sizeof(buffer));
-    if (nbytes > 0) {
-      *stdout_str = free_list_malloc(nbytes + 1);
-      if (!*stdout_str) {
-        perror("Memory allocation error for stdout");
-        close(stdout_pipe[0]);
-        close(stderr_pipe[0]);
-        return -1;
-      }
-      memcpy(*stdout_str, buffer, nbytes);
-      (*stdout_str)[nbytes] = '\0';
-    }
-
-    nbytes = read(stderr_pipe[0], buffer, sizeof(buffer));
-    if (nbytes > 0) {
-      *stderr_str = free_list_malloc(nbytes + 1);
-      if (!*stderr_str) {
-        perror("Memory allocation error for stderr");
-        close(stdout_pipe[0]);
-        close(stderr_pipe[0]);
-        return -1;
-      }
-      memcpy(*stderr_str, buffer, nbytes);
-      (*stderr_str)[nbytes] = '\0';
-    }
-
-    close(stdout_pipe[0]);
-    close(stderr_pipe[0]);
-
     return WEXITSTATUS(status);
-  }
-}
-
-
-int not_main() {
-    char *stdout_output = NULL;
-    char *stderr_output = NULL;
-
-    int exit_code = system2("ls -l", &stdout_output, &stderr_output);
-
-    if (stdout_output) {
-        printf("STDOUT: %s\n", stdout_output);
-        free_list_free(stdout_output);
-    }
-
-    if (stderr_output) {
-        printf("STDERR: %s\n", stderr_output);
-        free_list_free(stderr_output);
-    }
-
-    printf("Exit Code: %d\n", exit_code);
-    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
