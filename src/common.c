@@ -103,6 +103,9 @@ int setopts(int argc, char *argv[]) {
 
   while ((opt = getopt(argc, argv, "l:s:")) != -1) {
     switch (opt) {
+    case 'e':
+      result |= EARLY_LOGGING;
+      break;
     case 'l':
       for (int i = 0; optarg && optarg[i]; i++) {
         switch (optarg[i]) {
