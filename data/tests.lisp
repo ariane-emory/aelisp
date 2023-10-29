@@ -306,6 +306,14 @@
  returns "One")
 
 (confirm that 
+ (case 1
+  (1 (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (else "Other"))
+ returns "One")
+
+(confirm that 
  (case (+ 1 1)
   ((1) (concat "O" "ne"))
   ((2 3) "Two")

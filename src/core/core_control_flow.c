@@ -76,12 +76,12 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
     if (case_form_car == SYM("else")) {
       selected_value_form = case_form_cdr;
-      
-      break; // there shouldn't be any more cases after an else anyhow.
     } else {
       INDENT;
 
-      FOR_EACH(case_form_car_elem, case_form_car) {
+      ae_obj_t * elements_to_check = CONSP(case_form_car) ? case_form_car : CONS(case_form_car, NIL);  // Single values wrapped in a list
+
+      FOR_EACH(case_form_car_elem, elements_to_check) {
         if (log_core)
           LOG(case_form_car_elem, "case_form_car_elem");
 
