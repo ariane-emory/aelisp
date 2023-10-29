@@ -70,8 +70,8 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     ae_obj_t * const case_form_cdr = CDR(case_form);
 
     if (log_core) {
-      LOG(case_form_car, "case case_form's car");
-      LOG(case_form_cdr, "case case_form's cdr");
+      LOG(case_form_car, "case_form's car");
+      LOG(case_form_cdr, "case_form's cdr");
     }
 
     if (case_form_car == SYM("else")) {
