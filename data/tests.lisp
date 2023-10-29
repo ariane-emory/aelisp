@@ -322,6 +322,7 @@
  (let* ((num (car rat))
         (den (cdr rat))
         (common-divisor (gcd num den)))
+  (if (zero? den) (error "Denominator is 0, something has gone awry"))
   (cons (/ num common-divisor) (/ den common-divisor))))
 
 (defun add-rational (a b)
