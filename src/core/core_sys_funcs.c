@@ -13,7 +13,7 @@
 #include "time_funcs.h"
 #include "pool.h"
 
-int system2(const char * const command, char **stdout_str, char **stderr_str) {
+int system2(const char * const command, char ** stdout_str, char ** stderr_str) {
   int stdout_pipe[2];
   int stderr_pipe[2];
   pid_t pid;
