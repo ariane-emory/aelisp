@@ -38,11 +38,12 @@ end:
 ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
     CORE_BEGIN("case");
 
-    ae_obj_t * const key_form = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
-    LOG(key_form, "cond key form");
-
+    ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
     ae_obj_t * const case_forms = CDR(args);
+
     REQUIRE(env, args, ! NILP(case_forms), "case requires at least one form after the key form");
+
+    LOG(key_form,   "cond key form");
     LOG(case_forms, "case forms");
 
     bool else_found = false;
@@ -50,6 +51,7 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     // First pass: Check for well-formedness and multiple else clauses
     FOR_EACH(case_form, case_forms) {
         REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
+
         ae_obj_t * const case_form_car = CAR(case_form);
 
         if (case_form_car == SYM("else")) {
