@@ -66,8 +66,7 @@ typedef enum {
 #define    ENV_BOUNDP_G(env, sym)                           (ENV_BOUND_IN( GLOBAL, env, sym))                                        //
 #define    ENV_BOUNDP_L(env, sym)                           (ENV_BOUND_IN(  LOCAL, env, sym))                                        //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define    ENV_NEW_ROOT(log_loading_std, enable_microbench, std_mode)                                                                 \
-  /**/ ae_env_new_root((log_loading_std), (enable_microbench), (std_mode))
+#define    ENV_NEW_ROOT(log_loading_std, flags) ae_env_new_root((log_loading_std), (flags))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ROOTP(env)                      (ae_env_rootp((env)))                                                                     //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,5 +80,5 @@ void       ae_env_add     (                              ae_obj_t * const env,  
 void       ae_env_set     (ae_env_lookup_mode_t mode,    ae_obj_t * const env,       ae_obj_t * const symbol, ae_obj_t * const value );
 ae_obj_t * ae_env_lookup  (ae_env_lookup_mode_t mode,    ae_obj_t * const env, const ae_obj_t * const symbol, bool *     const found );
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, int flags                                                   );
+ae_obj_t * ae_env_new_root(bool log_loading_std, int flags                                                                           );
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

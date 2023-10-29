@@ -352,9 +352,7 @@ static void load_fun_helper(
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _new_root: This function is huge, maybe it shoul be moved into common?
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_env_new_root(bool log_loading_std, bool enable_microbench, int flags) {
-  (void)enable_microbench;
-  
+ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   printf("Logging %s / %s / %s.\n",
          log_eval ? "true" : "false",
          log_core ? "true" : "false",
