@@ -306,22 +306,15 @@
 
 (nl)
 
-(princ
- (case n
-  ((1) (concat "No" "One"))
-  ((2) "Two")
-  ((3) "Three")
-  (else "Other")))
+;; (princ
+;;  (case n
+;;   ((1) (concat "No" "One"))
+;;   ((2) "Two")
+;;   ((3) "Three")
+;;   (else "Other")))
 
 (nl)
 
-(princ
- (case n
-  ((1) (concat "No" "One"))
-  ((2) "Two")
-  ((3) "Three")
-  (else "Other")
-  (else "Other")))
 
 (nl)
   

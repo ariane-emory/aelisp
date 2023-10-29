@@ -1,4 +1,5 @@
 To Do:
+- [ ] Some sort of catch.
 - [ ] case macro.
 - [ ] Maybe let loop?
 - [ ] Audit free_list_malloc/free.

@@ -36,66 +36,71 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-    CORE_BEGIN("case");
+  CORE_BEGIN("case");
 
-    ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
-    ae_obj_t * const case_forms = CDR(args);
+  ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
+  ae_obj_t * const case_forms = CDR(args);
 
-    REQUIRE(env, args, ! NILP(case_forms), "case requires at least one form after the key form");
+  REQUIRE(env, args, ! NILP(case_forms), "case requires at least one form after the key form");
 
-    LOG(key_form,   "cond key form");
-    LOG(case_forms, "case forms");
+  if (log_core) {
+    LOG(key_form,   "key_form");
+    LOG(case_forms, "case_forms");
+  }
 
-    bool else_found = false;
+  bool else_found = false;
 
-    // First pass: Check for well-formedness and multiple else clauses
-    FOR_EACH(case_form, case_forms) {
-        REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
+  // First pass: Check for well-formedness and multiple else clauses
+  FOR_EACH(case_form, case_forms) {
+    REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
 
-        ae_obj_t * const case_form_car = CAR(case_form);
+    ae_obj_t * const case_form_car = CAR(case_form);
 
-        if (case_form_car == SYM("else")) {
-            REQUIRE(env, args, !else_found, "Only one else clause is allowed in a case expression");
-            else_found = true;
-        }
+    if (case_form_car == SYM("else")) {
+      REQUIRE(env, args, !else_found, "Only one else clause is allowed in a case expression");
+      else_found = true;
+    }
+  }
+
+  // Second pass: Evaluate which case matches
+  ae_obj_t * selected_value_form = NIL;
+
+  FOR_EACH(case_form, case_forms) {
+    ae_obj_t * const case_form_car = CAR(case_form);
+    ae_obj_t * const case_form_cdr = CDR(case_form);
+
+    if (log_core) {
+      LOG(case_form_car, "case case_form's car");
+      LOG(case_form_cdr, "case case_form's cdr");
     }
 
-    // Second pass: Evaluate which case matches
-    ae_obj_t * selected_value_form = NIL;
-    FOR_EACH(case_form, case_forms) {
-        ae_obj_t * const case_form_car = CAR(case_form);
-        ae_obj_t * const case_form_cdr = CDR(case_form);
+    if (case_form_car == SYM("else")) {
+      selected_value_form = case_form_cdr;
+      continue;
+    } else {
+      INDENT;
 
-        LOG(case_form_car, "case case_form's car");
-        LOG(case_form_cdr, "case case_form's cdr");
+      FOR_EACH(case_form_car_elem, case_form_car) {
+        LOG(case_form_car_elem, "case case_form_car_elem");
 
-        if (case_form_car == SYM("else")) {
-            selected_value_form = case_form_cdr;
-            continue;
+        if (EQL(key_form, case_form_car_elem)) {
+          SLOG("matches");
+          CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
         } else {
-            INDENT;
-
-            FOR_EACH(case_form_car_elem, case_form_car) {
-                LOG(case_form_car_elem, "case case_form_car_elem");
-
-                if (EQL(key_form, case_form_car_elem)) {
-                    SLOG("matches");
-                    CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
-                } else {
-                    SLOG("doesn't match");
-                }
-            }
-
-            OUTDENT;
+          SLOG("doesn't match");
         }
-    }
+      }
 
-    if (selected_value_form) {  // If there's an else clause and no prior match was found
-        CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form))));
+      OUTDENT;
     }
+  }
+
+  if (selected_value_form) {  // If there's an else clause and no prior match was found
+    CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form))));
+  }
 
 end:
-    CORE_RETURN("case", NIL);
+  CORE_RETURN("case", NIL);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,29 +109,35 @@ end:
 
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("cond");
-  
+
+  bool else_found = false;
+    
+  // First pass: Ensure no duplicate 'else' clauses and validate structure
   FOR_EACH(cond_item, args) {
     REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1, "cond arguments must be proper lists with at least two elements");
 
     ae_obj_t * const item_car = CAR(cond_item);
-    ae_obj_t * const item_cdr = CDR(cond_item);
-  
-    if (log_core) {
-      LOG(item_car, "cond item's car");
-      LOG(item_cdr, "cond item's cdr");
+
+    if (item_car == SYM("else")) {
+      REQUIRE(env, args, !else_found, "Only one else clause is allowed in a cond expression");
+      else_found = true;
+      REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a cond expression");
     }
+  }
+
+  // Second pass: Evaluate the conditions
+  FOR_EACH(cond_item, args) {
+    ae_obj_t * const item_car = CAR(cond_item);
+    ae_obj_t * const item_cdr = CDR(cond_item);
 
     ae_obj_t * cond_test_result = NIL;
-    
+
     if (item_car == SYM("else")) {
-      REQUIRE(env, args, NILP(CDR(position)), "If used, else clause must be the last clause in a cond expression");
-      
       cond_test_result = TRUE;
-    }
-    else {
+    } else {
       cond_test_result = RETURN_IF_ERRORP(EVAL(env, item_car));
     }
-    
+
     if (! NILP(cond_test_result)) {
       ret = RETURN_IF_ERRORP(ae_core_progn(env, item_cdr, LENGTH(item_cdr)));
       break;
@@ -134,7 +145,6 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
   }
 
 end:
-  
   CORE_RETURN("cond", ret);
 }
 
