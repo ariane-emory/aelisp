@@ -1,3 +1,5 @@
+(sys "ls")
+
 (nl)
 
 (confirm that (feature? 'std) returns t)

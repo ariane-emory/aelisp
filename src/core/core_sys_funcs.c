@@ -55,8 +55,8 @@ ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   pid_t pid;
   size_t stdout_size;
   size_t stderr_size;
-  char ** stdout_output = NULL;
-  char ** stderr_output = NULL;
+  char * stdout_output = NULL;
+  char * stderr_output = NULL;
 
   if (pipe(stdout_pipe) || pipe(stderr_pipe))
     return NEW_ERROR("Pipe creation failed");
@@ -82,8 +82,8 @@ ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   close(stdout_pipe[1]);
   close(stderr_pipe[1]);
 
-  *stdout_output = read_from_fd(stdout_pipe[0], &stdout_size);
-  *stderr_output = read_from_fd(stderr_pipe[0], &stderr_size);
+  stdout_output = read_from_fd(stdout_pipe[0], &stdout_size);
+  stderr_output = read_from_fd(stderr_pipe[0], &stderr_size);
 
   close(stdout_pipe[0]);
   close(stderr_pipe[0]);
@@ -94,9 +94,10 @@ ae_obj_t * capture_command_output(ae_obj_t * const command_obj) {
   int exit = WEXITSTATUS(status);
 
   return CONS(NEW_INT(exit),
-              CONS(NEW_STRING(*stdout_output),
-                   CONS(NEW_STRING(*stderr_output),
+              CONS(NEW_STRING(stdout_output),
+                   CONS(NEW_STRING(stderr_output),
                         NIL)));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +112,7 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
   REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
 
-  ret = NEW_INT(system(STR_VAL(CAR(args))));
+  ret = capture_command_output(CAR(args));
   
   CORE_RETURN("system", ret);
 }
