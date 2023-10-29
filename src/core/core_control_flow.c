@@ -64,9 +64,13 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     REQUIRE(env, args, PROPERP(case_form_car), "case form's car must be a proper list");
     REQUIRE(env, args, PROPERP(case_form_cdr), "case form's cdr must be a proper list");
 
+    INDENT;
+
     FOR_EACH(case_form_car_elem, case_form_car) {
       LOG(case_form_car_elem, "case case_form_car_elem");
     }
+
+    OUTDENT;
     
     ae_obj_t * case_test_result = NIL;
     
