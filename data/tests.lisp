@@ -266,7 +266,7 @@
 ;; (defun reduce (func lst &optional initial-value)
 ;;   "Reduce LST using FUNC starting with INITIAL-VALUE."
 ;;   (unless (list? lst) (error "LST must be a list"))
-  
+
 ;;   ;; If there's an initial value, start with it. Otherwise, start with the first element of the list.
 ;;   (let ((acc (if initial-value
 ;;                  initial-value
@@ -298,6 +298,14 @@
 (setq! n 2)
 
 
+(defun case-test-fun (n)
+ (case 1
+  (1 (concat "O" "ne"))
+  ((2 3) "Two")
+  ((2) "Three")
+  (nil "Nil 1")
+  ((nil) "Nil 2")
+  (else "Other")))
 
 (confirm that 
  (case 1
@@ -362,7 +370,7 @@
 
 
 (nl)
-  
+
 (set! x 7) (setq! n 8) (* n (+ 1 (/ x  n)))
 
 (defun round-up-to-nearest-multiple (num multiple)
