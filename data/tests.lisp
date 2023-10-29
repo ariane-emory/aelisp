@@ -302,3 +302,43 @@
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
 
+(defun gcd (a b)
+  (if (zero? b) a (gcd b (mod a b))))
+
+(defun to-rational (n &optional (d 1))
+  (cons n d))
+
+(defun simplify-rational (rat)
+  (let* ((num (car rat))
+         (den (cdr rat))
+         (common-divisor (gcd num den)))
+    (cons (/ num common-divisor) (/ den common-divisor))))
+
+(defun add-rational (a b)
+  (if (integer? a) (setq! a (to-rational a)))
+  (if (integer? b) (setq! b (to-rational b)))
+  (let* ((num (+ (* (car a) (cdr b)) (* (car b) (cdr a))))
+         (den (* (cdr a) (cdr b))))
+    (simplify-rational (cons num den))))
+
+(defun sub-rational (a b)
+  (if (integer? a) (setq! a (to-rational a)))
+  (if (integer? b) (setq! b (to-rational b)))
+  (let* ((num (- (* (car a) (cdr b)) (* (car b) (cdr a))))
+         (den (* (cdr a) (cdr b))))
+    (simplify-rational (cons num den))))
+
+(defun mul-rational (a b)
+  (if (integer? a) (setq! a (to-rational a)))
+  (if (integer? b) (setq! b (to-rational b)))
+  (let* ((num (* (car a) (car b)))
+         (den (* (cdr a) (cdr b))))
+    (simplify-rational (cons num den))))
+
+(defun div-rational (a b)
+  (if (integer? a) (setq! a (to-rational a)))
+  (if (integer? b) (setq! b (to-rational b)))
+  (let* ((num (* (car a) (cdr b)))
+         (den (* (cdr a) (car b))))
+    (unless (zero? den)
+      (simplify-rational (cons num den)))))
