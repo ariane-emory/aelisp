@@ -306,7 +306,7 @@
 ;; prototype rational math
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! *soft-rationals* nil)
+(setq! *soft-rationals* t)
 
 (if *soft-rationals*
  (progn
@@ -413,7 +413,7 @@
  (progn
   (confirm that (mul-rational 3   (rational 2 3)) returns 2)
   (confirm that (mul-rational 212 (rational 3 4)) returns 159)
-  (confirm that (mul-rational 217 (rational 3 4)) returns (651 . 4)))
+  (confirm that (mul-rational 217 (rational 3 4)) returns '(651 . 4)))
  (progn
   (confirm that (mul-rational 3 2/3) returns 2)
   (confirm that (mul-rational 212 3/4) returns 159)
