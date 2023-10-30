@@ -535,10 +535,10 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
 
   bool found = false;
 
-  ae_env_lookup_mode_t mode = NEAREST;
-  /* ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym) */
-  /*   ? GLOBAL */
-  /*   : NEAREST; */
+  /* ae_env_lookup_mode_t mode = NEAREST; */
+  ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym)
+    ? GLOBAL
+    : NEAREST;
   
   ret = ENV_GET_4(mode, env, sym, &found);
   
