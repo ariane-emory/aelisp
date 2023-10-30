@@ -323,7 +323,7 @@
 
   (defun denom (num)
    "Get NUM's denominator"
-   (unless (numional? num) (error "NUM must be a rational"))
+   (unless (rational? num) (error "NUM must be a rational"))
    (cdr num))
 
   (defun numer (num)
