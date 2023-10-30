@@ -306,54 +306,57 @@
 ;; prototype rational math
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! *soft-rationals* t)
+(setq! *use-soft-rationals* t)
 
-(if *soft-rationals*
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; rational math:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if *use-soft-rationals*
  (progn
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (defun rational (n d)
    "Construct a rational number from numerator N and denominator D."
    (unless (integer? n) (error "N must be an integer."))
    (unless (integer? d) (error "D must be an integer."))
    (cons n d))
-  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
   (defun integer-to-rational (n)
    "Construct a rational number from integer N."
    (unless (integer? n) (error "N must be an integer."))
    (cons n 1))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (defun numer (num)
    "Get NUM's numerator"
    (unless (number? num) (error "NUM must be a number"))
    (if (integer? num)
     num
     (car num)))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (defun denom (num)
    "Get NUM's denominator"
    (unless (number? num) (error "NUM must be a number"))
    (if (integer? num)
     1
     (cdr num)))
-  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (defun rational? (obj)
    "t if OBJ is a rational number."
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
-
- ;; when not *soft-rationals*:
-  "When (not *soft-rationals*), integer-to-rational can just be id since the"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
   "built-in numer and denom functions already handle integers correctly."
  (setq! integer-to-rational id))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun number? (obj)
  "t if OBJ is a number."
  (or (integer? obj) (rational? obj)))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun gcd (a b)
  "Get the greatest common divisor of A and B."
  (unless (and (integer? a) (integer? b))
   (error "gcd's arguments must be integers"))
  (if (zero? b) a (gcd b (mod a b))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun simplify-number (number)
  "Simplify a rational number NUMBER."
  (unless (number? number) (error "NUMBER must be a number"))
@@ -367,7 +370,7 @@
     (if (one? (denom rat))
      (numer rat)
      rat)))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun add-rational (a b)
  "Add the number B to the number A."
  (unless (number? a) (error "A must be a number"))
@@ -377,7 +380,7 @@
  (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sub-rational (a b)
  "Subtract the number B from the number A."
  (unless (number? a) (error "A must be a number"))
@@ -387,7 +390,7 @@
  (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mul-rational (a b)
  "Multiply the number A by the number B."
  (unless (number? a) (error "A must be a number"))
@@ -397,7 +400,7 @@
  (let* ((num (* (numer a) (numer b)))
         (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun div-rational (a b)
  "Divide the number A by the number B."
  (unless (number? a) (error "A must be a number"))
@@ -408,8 +411,11 @@
         (den (* (denom a) (numer b))))
   (unless (zero? den)
    (simplify-number (rational num den)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'rational-math)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(if *soft-rationals*
+(if *use-soft-rationals*
  (progn
   (confirm that (mul-rational 3   (rational 2 3)) returns 2)
   (confirm that (mul-rational 212 (rational 3 4)) returns 159)
