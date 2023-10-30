@@ -1628,6 +1628,14 @@
      (numer rat)
      rat)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun round-to-nearest (num)
+ "If the number NUM is a rational number, round it to the nearest integer."
+ "Otherwise, just return it."
+ (unless (number? num) (error "NUM must be a number"))
+ (if (integer? num)
+  num
+  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun add-rational (a b)
  "Add the number B to the number A."
  (unless (number? a) (error "A must be a number"))
