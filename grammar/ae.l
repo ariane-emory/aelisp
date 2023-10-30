@@ -113,6 +113,8 @@ void parse_line(const char * const line) {
       // yylval->str_val = malloc(strlen(yytext) - 1);
       yylval->str_val = free_list_malloc(strlen(yytext) - 1);
       strncpy(STR_VAL(yylval), yytext + 1, strlen(yytext) - 2);
+      STR_VAL(yylval)[strlen(yytext) - 2] = '\0';  // Null-terminate the string
+
       goto end;
     case AE_CHAR:
       char tmp[3];
