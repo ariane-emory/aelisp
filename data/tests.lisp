@@ -364,10 +364,11 @@
 
 
 
-(write (let* ((rat 9/8)
-              (new-numer (* (denom rat) (/ (+ (numer rat) (>> (denom rat) 1)) (denom rat)))))
-        (simplify-number (rational new-numer (denom rat)))))
 
-(write (let* ((rat 16/8)
-              (new-numer (* (denom rat) (/ (+ (numer rat) (>> (denom rat) 1)) (denom rat)))))
-        (simplify-number (rational new-numer (denom rat)))))
+
+(defun round-rational (rat)
+(let* ((new-numer (* (denom rat) (/ (+ (numer rat) (>> (denom rat) 1)) (denom rat)))))
+ (simplify-number (rational new-numer (denom rat)))))
+
+(princ "One: ") (princ (round-rational 7/8)) (nl)
+(princ "Two: ") (princ (round-rational 14/8)) (nl)
