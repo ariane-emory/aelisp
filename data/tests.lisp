@@ -269,16 +269,25 @@
 (confirm that (round-up-to-nearest-multiple 7 8) returns  8)
 (confirm that (round-up-to-nearest-multiple 9 8) returns 16)
 
+(if *use-soft-rationals*
+ (progn
+  (confirm that (mul-rational 3   (rational 2 3)) returns 2)
+  (confirm that (mul-rational 212 (rational 3 4)) returns 159)
+  (confirm that (mul-rational 217 (rational 3 4)) returns '(651 . 4)))
+ (progn
+  (confirm that (mul-rational 3 2/3) returns 2)
+  (confirm that (mul-rational 212 3/4) returns 159)
+  (confirm that (mul-rational 217 3/4) returns 651/4)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
-(nl)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'tests)
 (nl)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (defun reduce (func lst &optional initial-value)
@@ -306,12 +315,3 @@
 
 
 
-(if *use-soft-rationals*
- (progn
-  (confirm that (mul-rational 3   (rational 2 3)) returns 2)
-  (confirm that (mul-rational 212 (rational 3 4)) returns 159)
-  (confirm that (mul-rational 217 (rational 3 4)) returns '(651 . 4)))
- (progn
-  (confirm that (mul-rational 3 2/3) returns 2)
-  (confirm that (mul-rational 212 3/4) returns 159)
-  (confirm that (mul-rational 217 3/4) returns 651/4)))
