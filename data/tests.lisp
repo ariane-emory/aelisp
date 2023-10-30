@@ -355,11 +355,11 @@
   (error "gcd's arguments must be integers"))
  (if (zero? b) a (gcd b (mod a b))))
 
-(defun simplify-number (rat)
- "Simplify a rational number RAT."
- (unless (rational? rat) (error "RAT must be a rational"))
- (let* ((num (numer rat))
-        (den (denom rat))
+(defun simplify-number (number)
+ "Simplify a rational number NUMBER."
+ (unless (rational? number) (error "NUMBER must be a rational"))
+ (let* ((num (numer number))
+        (den (denom number))
         (common-divisor (gcd num den)))
   (if (zero? den) (error "Denominator is 0, something has gone awry"))
   (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
