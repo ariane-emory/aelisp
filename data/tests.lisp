@@ -228,8 +228,7 @@
   (confirm that (mul-rational 212             (rational 3 4)) returns 159)
   (confirm that (mul-rational 217             (rational 3 4)) returns '(651 . 4))
   (confirm that (mul-rational (rational 21 2) (rational 3 4)) returns '(63  . 8))
-  (confirm that (mul-rational (rational 21 7) (rational 3 4)) returns '(9   . 4))
-  )
+  (confirm that (mul-rational (rational 21 7) (rational 3 4)) returns '(9   . 4)))
  (progn
   (confirm that (mul-rational 3    2/3) returns 2)
   (confirm that (mul-rational 212  3/4) returns 159)
