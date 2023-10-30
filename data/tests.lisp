@@ -290,7 +290,8 @@
 
 #|
 
-Write some tests for bitwise operators
+Write some tests for bitwise operators.
+Write some tests for random.
 
 |#
 
