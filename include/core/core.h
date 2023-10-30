@@ -40,6 +40,7 @@
   DO(props,        false,          1,          1,                              FUNDEF_END) /* props accessor        */    \
   DO(message,      false,          1,          1,                              FUNDEF_END) /* error accessor        */    \
   DO(name,         false,          1,          1, "symbol-name",               FUNDEF_END) /* symbol accessor       */    \
+  DO(rational,     false,          2,          2,                              FUNDEF_END) /* rational constructor  */    \
   DO(denom,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \
   DO(numer,        false,          1,          1,                              FUNDEF_END) /* rational/int accessor */    \
   DO(body,         false,          1,          1,                              FUNDEF_END) /* fun accessor          */    \
