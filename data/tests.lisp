@@ -226,11 +226,6 @@
 (confirm that (round-up-to-nearest-multiple 9 8) returns 16)
 (if *use-soft-rationals*
  (progn
-  (confirm that (mul-rational     3                 (rational 2 3)) returns 2)
-  (confirm that (mul-rational     212               (rational 3 4)) returns 159)
-  (confirm that (mul-rational     217               (rational 3 4)) returns '(651 . 4))
-  (confirm that (mul-rational     (rational 21 2)   (rational 3 4)) returns '(63  . 8))
-  (confirm that (mul-rational     (rational 21 7)   (rational 3 4)) returns '(9   . 4))
   (confirm that (add-rational     3                 (rational 2 3)) returns '(11 . 3))
   (confirm that (add-rational     212               (rational 3 4)) returns '(851 . 4))
   (confirm that (add-rational     217               (rational 3 4)) returns '(871 . 4))
@@ -241,17 +236,17 @@
   (confirm that (sub-rational     217               (rational 3 4)) returns '(865 . 4))
   (confirm that (sub-rational     (rational 21 2)   (rational 3 4)) returns '(39  . 4))
   (confirm that (sub-rational     (rational 21 7)   (rational 3 4)) returns '(9 . 4))
+  (confirm that (mul-rational     3                 (rational 2 3)) returns 2)
+  (confirm that (mul-rational     212               (rational 3 4)) returns 159)
+  (confirm that (mul-rational     217               (rational 3 4)) returns '(651 . 4))
+  (confirm that (mul-rational     (rational 21 2)   (rational 3 4)) returns '(63  . 8))
+  (confirm that (mul-rational     (rational 21 7)   (rational 3 4)) returns '(9   . 4))
   (confirm that (div-rational     3                 (rational 2 3)) returns '(9  . 2))
   (confirm that (div-rational     212               (rational 3 4)) returns '(848 . 3))
   (confirm that (div-rational     217               (rational 3 4)) returns '(868 . 3))
   (confirm that (div-rational     (rational 21 2)   (rational 3 4)) returns 14)
   (confirm that (div-rational     (rational 21 7)   (rational 3 4)) returns 4))
  (progn
-  (confirm that (mul-rational     3                 2/3)            returns 2)
-  (confirm that (mul-rational     212               3/4)            returns 159)
-  (confirm that (mul-rational     217               3/4)            returns 651/4)
-  (confirm that (mul-rational     21/2              3/4)            returns 63/8)
-  (confirm that (mul-rational     21/7              3/4)            returns 9/4)
   (confirm that (add-rational     3                 2/3)            returns 11/3)
   (confirm that (add-rational     212               3/4)            returns 851/4)
   (confirm that (add-rational     217               3/4)            returns 871/4)
@@ -262,6 +257,11 @@
   (confirm that (sub-rational     217               3/4)            returns 865/4)
   (confirm that (sub-rational     21/2              3/4)            returns 39/4)
   (confirm that (sub-rational     21/7              3/4)            returns 9/4)
+  (confirm that (mul-rational     3                 2/3)            returns 2)
+  (confirm that (mul-rational     212               3/4)            returns 159)
+  (confirm that (mul-rational     217               3/4)            returns 651/4)
+  (confirm that (mul-rational     21/2              3/4)            returns 63/8)
+  (confirm that (mul-rational     21/7              3/4)            returns 9/4)
   (confirm that (div-rational     3                 2/3)            returns 9/2)
   (confirm that (div-rational     212               3/4)            returns 848/3)
   (confirm that (div-rational     217               3/4)            returns 868/3)
@@ -280,6 +280,12 @@
 (confirm that (is-square? 36)                                     returns t)
 (confirm that (round-up-to-square 35)                             returns 36)
 (confirm that (round-up-to-square 36)                             returns 36)
+
+#|
+
+Write some tests for bitwise operators
+
+|#
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
