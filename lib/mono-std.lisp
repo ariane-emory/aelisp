@@ -1644,7 +1644,7 @@
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
  (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (- (mul (numer a) (denom b)) (mul (numer b) (denom a))))
+ (let* ((num (sub (mul (numer a) (denom b)) (mul (numer b) (denom a))))
         (den (mul (denom a) (denom b))))
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

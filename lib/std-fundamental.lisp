@@ -3,7 +3,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! *use-safe-provide*        nil)
 (setq! *use-soft-rationals*      nil)
-(setq! *use-rational-ops*        t)
 (setq! *microbench-defmacros*    t)
 (setq! *microbench-defuns*       t)
 (setq! *microbench-provides*     t)
