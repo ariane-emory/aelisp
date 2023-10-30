@@ -348,7 +348,7 @@ Write some tests for bitwise operators
 
 (defun random-int-range rest
  "Return a random integer between MIN (inclusive) and MAX (exclusive)."
- (unless (or (nil? rest) (<= (length rest) 2))        i (error "random-int-range takes either 0, 1 or 2 arguments"))
+ (unless (or (nil? rest) (<= (length rest) 2))         (error "random-int-range takes either 0, 1 or 2 arguments"))
  (unless (or (nil? (car rest)) (integer? (car rest)))  (error "if provided, first rest argument must be an integer"))
  (unless (or (nil? (cdr rest)) (integer? (cadr rest))) (error "if provided, second rest argument must be an integer"))
  (if (nil? rest)
@@ -358,6 +358,7 @@ Write some tests for bitwise operators
    (let ((range (- max min)))
     (+ min (mod (abs (random-int)) range))))))
 
-(repeat 10 (princ (random-int-range -10 10)) (nl))
-(repeat 10 (princ (random-int-range 10)) (nl))
-(repeat 10 (princ (random-int-range)) (nl))
+(repeat 10 (princ (random-int-range))         (nl))
+(repeat 10 (princ (random-int-range 10))      (nl))
+(repeat 10 (princ (random-int-range -10 10))  (nl))
+(repeat 10 (princ (random-int-range -10 nil)) (nl))
