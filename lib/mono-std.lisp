@@ -1666,8 +1666,9 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (mul (numer a) (denom b)))
         (den (mul (denom a) (numer b))))
-  (unless (zero? den)
-   (simplify-number (rational num den)))))
+  (if (zero? den)
+      (error "Division by zero!")
+    (simplify-number (rational num den)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! addd add-rational)
 (setq! subr sub-rational)

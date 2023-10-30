@@ -315,14 +315,25 @@
 
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
-(setq! max-denominator (<< 32))
-(setq! max-iterations  100)
 
-(defun approx-sqrt (num)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (setq! denominator-limit (<< 32))
+;; (setq! max-iterations  100)
+
+(defun approx-sqrt (num . rest)
  (unless (integer? num) (error "NUM must be an integer"))
+ (unless (or (nil? (car rest)) (integer? (car rest)))
+  (error "If present, first REST arg must be an integer"))
+ (unless (or (nil? (cadr rest)) (integer? (cadr rest)))
+  (error "If present, second REST arg must be an integer"))
+ (when (caddr rest)
+  (error "approx-sqrt takes no more than three arguments"))
 
  ;; Initial guess
- (let ((guess (integer-to-rational num))
+ (let ((denominator-limit (or (car rest) (<< 32)))
+       (max-iterations    (or (cadr rest) 1000))
+       (guess (integer-to-rational num))
        (last-guess (integer-to-rational 0))
        (iterations 0)
        (continue t))  ;; continue flag
@@ -335,7 +346,7 @@
    (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
    
    ;; Check if the denominator is too large
-   (if (> (denom guess) max-denominator)
+   (if (> (denom guess) denominator-limit)
     (setq! continue nil))
 
    (setq! iterations (+ 1 iterations)))
@@ -344,6 +355,10 @@
 
 ;; (log-eval t)
 ;; (log-core t)
+
+(princ (approx-sqrt 16)) (nl) ;; This will be close to 4
+(princ (approx-sqrt 25)) (nl) ;; This will be close to 5
 (princ (approx-sqrt 36)) (nl) ;; This will be close to 6
-;; (princ (approx-sqrt 25)) (nl) ;; This will be close to 5     
+(princ (approx-sqrt 49)) (nl) ;; This will be close to 7
+(princ (approx-sqrt 64)) (nl) ;; This will be close to 8
 
