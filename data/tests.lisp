@@ -366,9 +366,15 @@
 
 
 
-(defun round-rational (rat)
-(let* ((new-numer (* (denom rat) (/ (+ (numer rat) (>> (denom rat) 1)) (denom rat)))))
- (simplify-number (rational new-numer (denom rat)))))
+(defun round-to-nearest (num)
+ "If the number NUM is a rational number, round it to the nearest integer."
+ "Otherwise, just return it."
+ (unless (number? rat) (error "NUM must be a number"))
+ (if (integer? num)
+  num
+  (let* ((new-numer (* (denom num) (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
+         (rounded-num (rational new-numer (denom num))))
+   (simplify-number rounded-num))))
 
-(princ "One: ") (princ (round-rational 7/8)) (nl)
-(princ "Two: ") (princ (round-rational 14/8)) (nl)
+(princ "One: ") (princ (round-to-nearest 7/8)) (nl)
+(princ "Two: ") (princ (round-to-nearest 14/8)) (nl)
