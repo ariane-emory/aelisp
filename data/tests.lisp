@@ -355,7 +355,7 @@
   (error "gcd's arguments must be integers"))
  (if (zero? b) a (gcd b (mod a b))))
 
-(defun simplify-rational (rat)
+(defun simplify-number (rat)
  "Simplify a rational number RAT."
  (unless (rational? rat) (error "RAT must be a rational"))
  (let* ((num (numer rat))
@@ -375,7 +375,7 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
-  (simplify-rational (rational num den))))
+  (simplify-number (rational num den))))
 
 (defun sub-rational (a b)
  "Subtract the number B from the number A."
@@ -385,7 +385,7 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
-  (simplify-rational (rational num den))))
+  (simplify-number (rational num den))))
 
 (defun mul-rational (a b)
  "Multiply the number A by the number B."
@@ -395,7 +395,7 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (* (numer a) (numer b)))
         (den (* (denom a) (denom b))))
-  (simplify-rational (rational num den))))
+  (simplify-number (rational num den))))
 
 (defun div-rational (a b)
  "Divide the number A by the number B."
@@ -406,7 +406,7 @@
  (let* ((num (* (numer a) (denom b)))
         (den (* (denom a) (numer b))))
   (unless (zero? den)
-   (simplify-rational (rational num den)))))
+   (simplify-number (rational num den)))))
 
 (princ (mul-rational 3   (if *soft-rationals* (rational 2 3) 2/3))) (nl) ;; 2        
 (princ (mul-rational 212 (if *soft-rationals* (rational 3 4) 3/4))) (nl) ;; 159      
