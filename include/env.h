@@ -28,6 +28,7 @@ typedef enum {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define    ENV_ADD(env, sym, val)            (ae_env_add(            (env), (sym), (val)))                                           //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define    ENV_SET_4(mode, env, sym, val)    (ae_env_set(    (mode), (env), (sym), (val)))                                           //
 #define    ENV_SET(env, sym, val)            (ae_env_set(   NEAREST, (env), (sym), (val)))                                           //
 #define    ENV_SET_G(env, sym, val)          (ae_env_set(    GLOBAL, (env), (sym), (val)))                                           //
 #define    ENV_SET_L(env, sym, val)          (ae_env_set(     LOCAL, (env), (sym), (val)))                                           //

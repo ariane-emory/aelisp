@@ -40,7 +40,9 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
       LOG(PROPS(ret), "core setq! val's new properties");
   }
 
-  ENV_SET(env, sym, ret);
+  ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym) ? GLOBAL : NEAREST;
+
+  ENV_SET_4(mode, env, sym, ret);
 
 end:
   
