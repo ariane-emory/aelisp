@@ -288,6 +288,12 @@
 (confirm that (round-up-to-square 35)                               returns 36)
 (confirm that (round-up-to-square 36)                               returns 36)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(ignore
+ "Make some syntax kind of like this work:"
+ (confirm that (random 10) is (and (>= 0 val) (< 10 val))))
+
 #|
 
 Write some tests for bitwise operators.
@@ -320,8 +326,9 @@ Write some tests for random.
 ;;     ;; Return the accumulated result.
 ;;     acc)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+(nl)
 (repeat 10 (princ (random))         (nl))
 (repeat 10 (princ (random 10))      (nl))
 (repeat 10 (princ (random -10 10))  (nl))
