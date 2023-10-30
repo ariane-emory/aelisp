@@ -355,4 +355,4 @@ Write some tests for bitwise operators
 
 
 (repeat 10
- (princ (random-int-range 0 10)) (nl))
+ (princ (random-int-range -10 10)) (nl))
