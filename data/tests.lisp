@@ -321,16 +321,16 @@
    (unless (integer? n) (error "N must be an integer."))
    (cons n 1))
 
-  (defun denom (num)
-   "Get NUM's denominator"
-   (unless (rational? num) (error "NUM must be a rational"))
-   (cdr num))
-
   (defun numer (num)
    "Get NUM's numerator"
    (unless (rational? num) (error "NUM must be a rational"))
    (car num))
 
+  (defun denom (num)
+   "Get NUM's denominator"
+   (unless (rational? num) (error "NUM must be a rational"))
+   (cdr num))
+  
   (defun rational? (obj)
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 
