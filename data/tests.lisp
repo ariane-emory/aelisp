@@ -340,14 +340,14 @@ Write some tests for random.
 
 (defun trav-upp ()
  (let ((attrs '(:std :dex :end :int :edu :soc))
-       (result nil))
+       (upp nil))
   (while attrs
-   (setq! result (kset (+ (random 1 6) (random 1 6)) (car attrs) result))
+   (setq! upp (kset (+ (random 1 6) (random 1 6)) (car attrs) upp))
    (setq! attrs (cdr attrs)))
-  result))
- 
-(princ (trav-upp))
+  upp))
 
-(nl)
+(repeat 30
+ (princ (trav-upp))
+ (nl))
 
  ;; |#
