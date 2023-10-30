@@ -334,13 +334,13 @@ Write some tests for bitwise operators
 
 (defun randomize (new-seed)
  "Set a new seed for the RNG."
+ (unless (integer? new-seed) (error "NEW-SEED must be an integer"))
  (setq! *random-seed* new-seed))
 
 (defun abs (n)
  "Return the absolute value of N."
- (if (< n 0)
-  (- n)
-  n))
+ (unless (integer? n) (error "N must be an integer (until rational support is added)"))
+ (if (> n 0) n (- n)))
 
 (defun random rest
  "Return a random integer between MIN (inclusive) and MAX (exclusive)."
