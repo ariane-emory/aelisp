@@ -1,7 +1,7 @@
 (setq! *random-seed* 1)
 
 (defun bugged rest
- (let ((val  (setq! random-seed 1)))
+ (let ((val  (setq! random-seed nil)))
   random-seed))
 
 (princ (bugged)) (nl)
