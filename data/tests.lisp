@@ -331,7 +331,7 @@
   (error "approx-sqrt takes no more than three arguments"))
 
  ;; Initial guess
- (let ((denominator-limit (or (car rest) (<< 32)))
+ (let ((denominator-limit (or (car rest) (<< 24)))
        (max-iterations    (or (cadr rest) 1000))
        (guess (integer-to-rational num))
        (last-guess (integer-to-rational 0))
@@ -362,3 +362,8 @@
 (princ (approx-sqrt 49)) (nl) ;; This will be close to 7
 (princ (approx-sqrt 64)) (nl) ;; This will be close to 8
 
+
+
+(write (let* ((rat 9/8)
+              (new-numer (* (denom rat) (/ (numer rat) (denom rat) ))))
+        (simplify-number (rational new-numer (denom rat)))))
