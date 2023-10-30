@@ -315,7 +315,7 @@
 
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
-(setq! max-denominator 1000)
+(setq! max-denominator (<< 32))
 (setq! max-iterations  100)
 
 (defun approx-sqrt (num)
