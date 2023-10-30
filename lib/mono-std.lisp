@@ -1676,7 +1676,34 @@
         (den (mul (denom a) (numer b))))
   (if (zero? den)
       (error "Division by zero!")
-    (simplify-number (rational num den)))))
+   (simplify-number (rational num den)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun approx-sqrt (num . rest)
+ (unless (integer? num) (error "NUM must be an integer"))
+ (unless (or (nil? (car rest)) (integer? (car rest)))
+  (error "If present, first REST arg must be an integer"))
+ (unless (or (nil? (cadr rest)) (integer? (cadr rest)))
+  (error "If present, second REST arg must be an integer"))
+ (when (caddr rest)
+  (error "approx-sqrt takes no more than three arguments"))
+ ;; Initial guess
+ (let ((denominator-limit (or (car rest) (<< 24)))
+       (max-iterations    (or (cadr rest) 1000))
+       (guess (integer-to-rational num))
+       (last-guess (integer-to-rational 0))
+       (iterations 0)
+       (continue t))  ;; continue flag
+  ;; Iterative method
+  (while (and continue 
+          (not (eql? guess last-guess))
+          (<= iterations max-iterations))
+   (setq! last-guess guess)
+   (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
+   ;; Check if the denominator is too large
+   (if (> (denom guess) denominator-limit)
+    (setq! continue nil))
+   (setq! iterations (+ 1 iterations)))  
+  guess))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! addd add-rational)
 (setq! subr sub-rational)

@@ -321,37 +321,7 @@
 ;; (setq! denominator-limit (<< 32))
 ;; (setq! max-iterations  100)
 
-(defun approx-sqrt (num . rest)
- (unless (integer? num) (error "NUM must be an integer"))
- (unless (or (nil? (car rest)) (integer? (car rest)))
-  (error "If present, first REST arg must be an integer"))
- (unless (or (nil? (cadr rest)) (integer? (cadr rest)))
-  (error "If present, second REST arg must be an integer"))
- (when (caddr rest)
-  (error "approx-sqrt takes no more than three arguments"))
 
- ;; Initial guess
- (let ((denominator-limit (or (car rest) (<< 24)))
-       (max-iterations    (or (cadr rest) 1000))
-       (guess (integer-to-rational num))
-       (last-guess (integer-to-rational 0))
-       (iterations 0)
-       (continue t))  ;; continue flag
-
-  ;; Iterative method
-  (while (and continue 
-          (not (eql? guess last-guess))
-          (<= iterations max-iterations))
-   (setq! last-guess guess)
-   (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
-   
-   ;; Check if the denominator is too large
-   (if (> (denom guess) denominator-limit)
-    (setq! continue nil))
-
-   (setq! iterations (+ 1 iterations)))
-  
-  guess))
 
 ;; (log-eval t)
 ;; (log-core t)
@@ -362,11 +332,27 @@
 (princ (round-to-nearest (approx-sqrt 49))) (nl) ;; This will be close to 7
 (princ (round-to-nearest (approx-sqrt 64))) (nl) ;; This will be close to 8
 
-
-
-
-
-
-
 (princ "One: ") (princ (round-to-nearest 7/8)) (nl)
 (princ "Two: ") (princ (round-to-nearest 14/8)) (nl)
+
+(defun is-square? (num)
+ "t when NUM is a square number."
+ (unless (integer? num) (error "NUM must be an integer"))
+ (let ((approx (round-to-nearest (approx-sqrt num))))
+  (= (* approx approx) num)))
+
+(defun round-up-to-square (num)
+ "Round NUM up to the next square number."
+ (unless (integer? num) (error "NUM must be an integer"))
+ (if (is-square? num)
+  num
+  (while (not (is-square? num))
+   (setq! num (1+ num)))
+  num))
+
+
+(princ (is-square? 35)) (nl)
+(princ (is-square? 36)) (nl)
+
+(princ (round-up-to-square 35)) (nl)
+(princ (round-up-to-square 36)) (nl)
