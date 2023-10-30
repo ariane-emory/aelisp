@@ -330,16 +330,15 @@ Write some tests for bitwise operators
 (setq! *random-m* 4611686018427387904) ; 2^62
 (setq! *random-a* 1664525)
 (setq! *random-c* 1013904223)
-(setq! seed (now-us))
+(setq! *random-seed* (now-us))
 
 (defun random-int ()
   "Return a random integer."
-  (setq! seed (% (+ (mul *random-a* seed) *random-c*) *random-m*))
-  seed)
+  (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*)))
 
 (defun randomize (new-seed)
  "Set a new seed for the RNG."
- (setq! seed new-seed))
+ (setq! *random-seed* new-seed))
 
 (defun abs (n)
  "Return the absolute value of N."

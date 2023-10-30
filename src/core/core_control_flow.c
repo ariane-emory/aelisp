@@ -324,7 +324,7 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (log_core)
       LOG(do_branch, "do while");
 
-    RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)));
+    ret = RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)));
   }
 
 end:
@@ -356,7 +356,7 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (log_core)
       LOG(do_branch, "do until");
 
-    RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)));
+    ret = RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)));
   }
 
 end:
@@ -381,7 +381,7 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   long long int times = INT_VAL(first_arg);
 
   for (long long int ix = 0; ix < times; ix++)
-    RETURN_IF_ERRORP(ae_core_progn(env, CDR(args), LENGTH(CDR(args))));
+    ret = RETURN_IF_ERRORP(ae_core_progn(env, CDR(args), LENGTH(CDR(args))));
 
 end:
   
