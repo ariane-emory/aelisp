@@ -32,8 +32,7 @@
 (confirm that lst                   returns '(100 101 102 103 104 105))
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
-;; (confirm that (lshift4 4) returns 64)
-(setq! lst $(2 4 1 5 3 7 9 6 8))
+(confirm that (lshift4 4) returns 64)
 
 (unless *microbench-defuns*
  "For some reason, this test fails if *microbench-defuns* is set to t. Investigate."
