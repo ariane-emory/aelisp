@@ -369,12 +369,20 @@
 (defun round-to-nearest (num)
  "If the number NUM is a rational number, round it to the nearest integer."
  "Otherwise, just return it."
- (unless (number? rat) (error "NUM must be a number"))
+ (unless (number? num) (error "NUM must be a number"))
  (if (integer? num)
   num
-  (let* ((new-numer (* (denom num) (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
+  (let* ((new-numer   (* (denom num) (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
          (rounded-num (rational new-numer (denom num))))
    (simplify-number rounded-num))))
+
+(defun round-to-nearest (num)
+ "If the number NUM is a rational number, round it to the nearest integer."
+ "Otherwise, just return it."
+ (unless (number? num) (error "NUM must be a number"))
+ (if (integer? num)
+  num
+  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
 
 (princ "One: ") (princ (round-to-nearest 7/8)) (nl)
 (princ "Two: ") (princ (round-to-nearest 14/8)) (nl)
