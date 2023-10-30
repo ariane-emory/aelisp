@@ -335,20 +335,6 @@
 (princ "One: ") (princ (round-to-nearest 7/8)) (nl)
 (princ "Two: ") (princ (round-to-nearest 14/8)) (nl)
 
-(defun is-square? (num)
- "t when NUM is a square number."
- (unless (integer? num) (error "NUM must be an integer"))
- (let ((approx (round-to-nearest (approx-sqrt num))))
-  (= (* approx approx) num)))
-
-(defun round-up-to-square (num)
- "Round NUM up to the next square number."
- (unless (integer? num) (error "NUM must be an integer"))
- (if (is-square? num)
-  num
-  (while (not (is-square? num))
-   (setq! num (1+ num)))
-  num))
 
 
 (princ (is-square? 35)) (nl)

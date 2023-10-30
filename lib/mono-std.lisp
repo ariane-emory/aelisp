@@ -1705,6 +1705,19 @@
    (setq! iterations (+ 1 iterations)))  
   guess))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun is-square? (num)
+ "t when NUM is a square number."
+ (unless (integer? num) (error "NUM must be an integer"))
+ (let ((approx (round-to-nearest (approx-sqrt num))))
+  (= (* approx approx) num)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun round-up-to-square (num)
+ "Round NUM up to the next square number."
+ (unless (integer? num) (error "NUM must be an integer"))
+ (while (not (is-square? num))
+  (setq! num (1+ num)))
+ num)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! addd add-rational)
 (setq! subr sub-rational)
 (setq! mulr mul-rational)
