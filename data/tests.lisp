@@ -315,8 +315,35 @@
 
 ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
+(setq! max-denominator 1000)
+(setq! max-iterations  100)
 
+(defun approx-sqrt (num)
+ (unless (integer? num) (error "NUM must be an integer"))
 
+ ;; Initial guess
+ (let ((guess (integer-to-rational num))
+       (last-guess (integer-to-rational 0))
+       (iterations 0)
+       (continue t))  ;; continue flag
 
+  ;; Iterative method
+  (while (and continue 
+          (not (eql? guess last-guess))
+          (<= iterations max-iterations))
+   (setq! last-guess guess)
+   (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
+   
+   ;; Check if the denominator is too large
+   (if (> (denom guess) max-denominator)
+    (setq! continue nil))
 
+   (setq! iterations (+ 1 iterations)))
+  
+  guess))
+
+;; (log-eval t)
+;; (log-core t)
+(princ (approx-sqrt 36)) (nl) ;; This will be close to 6
+;; (princ (approx-sqrt 25)) (nl) ;; This will be close to 5     
 
