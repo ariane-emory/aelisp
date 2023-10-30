@@ -1846,19 +1846,19 @@
  (unless (integer? new-seed) (error "NEW-SEED must be an integer"))
  (setq! *random-seed* new-seed))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun random rest
+(defun random args
  "Return a random integer between MIN (inclusive) and MAX (exclusive)."
- (unless (or (nil? rest) (nil? (cddr rest)))
+ (unless (or (nil? args) (nil? (cddr args)))
   (error "random takes either 0, 1 or 2 arguments"))
- (unless (or (nil? (car rest)) (integer? (car rest)))
-  (error "if provided, first rest argument must be an integer"))
- (unless (or (nil? (cdr rest)) (integer? (cadr rest)))j
-  (error "if provided, second rest argument must be an integer"))
+ (unless (or (nil? (car args)) (integer? (car args)))
+  (error "If provided, first argument must be an integer"))
+ (unless (or (nil? (cdr args)) (integer? (cadr args)))j
+  (error "If provided, second argument must be an integer"))
  (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))
- (if (nil? rest)
+ (if (nil? args)
   *random-seed*
-  (let ((min (if (cadr rest) (car  rest) 0))
-        (max (if (cadr rest) (cadr rest) (car rest))))
+  (let ((min (if (cadr args) (car  args) 0))
+        (max (if (cadr args) (cadr args) (car args))))
    (let ((range (- max min)))
     (+ min (mod (abs *random-seed*) range))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
