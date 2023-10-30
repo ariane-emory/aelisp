@@ -1620,6 +1620,14 @@
   (error "gcd's arguments must be integers"))
  (if (zero? b) a (gcd b (mod a b))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun round-to-nearest (num)
+ "If the number NUM is a rational number, round it to the nearest integer."
+ "Otherwise, just return it."
+ (unless (number? num) (error "NUM must be a number"))
+ (if (integer? num)
+  num
+  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun simplify-number (number)
  "Simplify a rational number NUMBER."
  (unless (number? number) (error "NUMBER must be a number"))
@@ -1633,14 +1641,6 @@
     (if (one? (denom rat))
      (numer rat)
      rat)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-to-nearest (num)
- "If the number NUM is a rational number, round it to the nearest integer."
- "Otherwise, just return it."
- (unless (number? num) (error "NUM must be a number"))
- (if (integer? num)
-  num
-  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun add-rational (a b)
  "Add the number B to the number A."
