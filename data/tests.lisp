@@ -365,5 +365,9 @@
 
 
 (write (let* ((rat 9/8)
-              (new-numer (* (denom rat) (/ (numer rat) (denom rat) ))))
+              (new-numer (* (denom rat) (/ (+ (numer rat) (>> (denom rat) 1)) (denom rat)))))
+        (simplify-number (rational new-numer (denom rat)))))
+
+(write (let* ((rat 16/8)
+              (new-numer (* (denom rat) (/ (+ (numer rat) (>> (denom rat) 1)) (denom rat)))))
         (simplify-number (rational new-numer (denom rat)))))
