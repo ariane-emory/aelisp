@@ -306,7 +306,7 @@
 ;; prototype rational math
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! *soft-rationals* nil)
+(setq! *soft-rationals* t)
 
 (if *soft-rationals*
  (progn
@@ -332,8 +332,8 @@
    "Get NUM's denominator"
    (unless (number? num) (error "NUM must be a number"))
    (if (integer? num)
-    num
-    (car num)))
+    1
+    (cdr num)))
   
   (defun rational? (obj)
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
@@ -399,5 +399,9 @@
   (unless (zero? den)
    (simplify-rational (rational num den)))))
 
-(princ (mul-rational (rational 2 3) 3))
+(princ
+ (mul-rational 3
+  (if *soft-rationals*
+   (rational 2 3)
+   2/3)))
 (nl)
