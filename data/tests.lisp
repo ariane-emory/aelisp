@@ -354,3 +354,6 @@ Write some tests for bitwise operators
 
 (repeat 10
  (princ (random-int-range -10 10)) (nl))
+
+
+(setq! x 0) (until (> x 7) (setq! x (random-int-range 1 20)))
