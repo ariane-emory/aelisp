@@ -306,7 +306,7 @@
 ;; prototype rational math
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! *soft-rationals* t)
+(setq! *soft-rationals* nil)
 
 (if *soft-rationals*
  (progn
