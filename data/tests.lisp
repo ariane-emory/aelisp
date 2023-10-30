@@ -339,22 +339,26 @@ Write some tests for random.
  (let ((attrs $(:soc :edu :int :end :dex :str))
        (upp nil))
   (while attrs
-   (setq! upp (kset (+ (random 1 7) (random 1 7)) (car attrs) upp))
+   (setq! upp (kset (car attrs) upp(+ (random 1 7) (random 1 7))))
    (setq! attrs (cdr attrs)))
   upp))
 
-;; (repeat 70
-;;  (princ (trav-upp))
-;;  (nl))
+(repeat 200
+ (princ (trav-upp))
+ (nl))
 
+#|
 (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
 
-(repeat 70
+(repeat 15000
  (let ((roll (random 1 7)))
-  (if (khas? roll *counts*)
-   (setq! *counts* (kset (1+ (kget roll *counts*)) roll *counts*))
-   (setq! *counts* (kset 0 roll *counts*)))))
+  (setq! *counts* (kset roll *counts*
+                   (if (khas? roll *counts*)
+                    (1+ (kget roll *counts*))
+                    1)))))
+
+
 
 (princ *counts*) (nl)
+#|
 
- ;; |#
