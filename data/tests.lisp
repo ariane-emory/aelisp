@@ -336,8 +336,15 @@ Write some tests for random.
 
 (set! result nil)
 
-#|
+;; #|
+
 (let ((attrs '(:std :dex :end :int :edu :soc)))
  (while attrs
-(kset
-|#
+  (setq! result (kset t (car attrs) result))
+  (setq! attrs (cdr attrs))))
+
+(princ result)
+
+(nl)
+
+ ;; |#
