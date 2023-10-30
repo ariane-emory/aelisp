@@ -333,3 +333,11 @@ Write some tests for random.
 (repeat 10 (princ (random 10))      (nl))
 (repeat 10 (princ (random -10 10))  (nl))
 
+
+(set! result nil)
+
+#|
+(let ((attrs '(:std :dex :end :int :edu :soc)))
+ (while attrs
+(kset
+|#
