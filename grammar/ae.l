@@ -10,6 +10,7 @@
 #include "log.h"
 #include "obj.h"
 #include "write.h"
+#include "free_list.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +97,7 @@ void parse_line(const char * const line) {
     case AE_RATIONAL:
       int slash_pos = 0;
       for (; yytext[slash_pos] != '/'; ++slash_pos);
-
+      
       char * tmp2 = malloc(slash_pos + 1);
       strncpy(tmp2, yytext, slash_pos);
       NUMER_VAL(yylval) = atoi(tmp2);
@@ -109,7 +110,8 @@ void parse_line(const char * const line) {
 
       break;
     case AE_STRING:
-      yylval->str_val = malloc(strlen(yytext) - 1);
+      // yylval->str_val = malloc(strlen(yytext) - 1);
+      yylval->str_val = free_list_malloc(strlen(yytext) - 1);
       strncpy(STR_VAL(yylval), yytext + 1, strlen(yytext) - 2);
       goto end;
     case AE_CHAR:
@@ -188,7 +190,7 @@ nil                                                                        |
 \?\?\?                                                                         |
 [\%\#]([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!\*]?              |
 ([1-9][0-9]*)?[\+\-\/\*]                                                       |
-¬|λ\??|∧|∨|⊤|⊥|≤|≥|×|÷|Ø|∈|∉|≠|!|∃|∄|∀|≔|\||&                                  |
+¬|λ\??|∧|∨|⊤|⊥|≤|≥|×|÷|Ø|∈|∉|≠|!|∃|∄|∀|≔|\||&|~|^                              |
 𝑎|𝑏|𝑐|𝑑|𝑒|𝑓|𝑚|𝑛|𝑜|𝑝|𝑞|𝑟|𝑠|𝑡|𝑢|𝑣|𝑤|𝑥|𝑦|𝑧                                        |
 \<([a-zA-Z][a-zA-Z0-9\']*)(((\-+)|\/+)([a-zA-Z0-9\']+))*[\?\!\*]*\>            |
 \*([a-zA-Z][a-zA-Z0-9\']*)(((\-+)|\/+)([a-zA-Z0-9\']+))*[\?\!\*]*\*            |
