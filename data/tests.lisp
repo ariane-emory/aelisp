@@ -414,7 +414,7 @@
   (confirm that (mul-rational 3   (rational 2 3)) returns 2)
   (confirm that (mul-rational 212 (rational 3 4)) returns 159)
   (confirm that (mul-rational 217 (rational 3 4)) returns (651 . 4)))
-
-(princ (mul-rational 3   (if *soft-rationals* (rational 2 3) 2/3)))  ;; 2
-(princ (mul-rational 212 (if *soft-rationals* (rational 3 4) 3/4)))  ;; 159
-(princ (mul-rational 217 (if *soft-rationals* (rational 3 4) 3/4)))  ;; 651/4
+ (progn
+  (confirm that (mul-rational 3 2/3) returns 2)
+  (confirm that (mul-rational 212 3/4) returns 159)
+  (confirm that (mul-rational 217 3/4) returns 651/4)))
