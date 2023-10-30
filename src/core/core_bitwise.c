@@ -1,0 +1,14 @@
+#include "core_includes.h"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _bnot
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_bnot(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("bnot");
+
+  REQUIRE(env, args, INTEGERP(CAR(args)));
+
+  CORE_RETURN("bnot", NEW_INT(~INT_VAL(CAR(args))));
+}
+
