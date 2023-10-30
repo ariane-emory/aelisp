@@ -285,7 +285,7 @@
 (confirm that (is-square? 36)                                       returns t)
 (confirm that (round-up-to-square 35)                               returns 36)
 (confirm that (round-up-to-square 36)                               returns 36)
- 
+
 #|
 
 Write some tests for bitwise operators
@@ -327,5 +327,32 @@ Write some tests for bitwise operators
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(flatten '("A" ('deeply (:nested list)) (of (:many "elements"))))
-(flatten '("A" ('deeply (:nested list)) (of (:many "elements"))))
+(setq! m 4611686018427387904) ; 2^62
+(setq! a 1664525)
+(setq! c 1013904223)
+(setq! seed (now-us))
+
+(defun randomize (new-seed)
+ "Set a new seed for the RNG."
+ (setq! seed new-seed))
+
+
+(defun random-int ()
+  "Return a random integer."
+  (setq! seed (mod (+ (mul a seed) c) m))
+  seed)
+
+
+(defun abs (n)
+ (if (< n 0)
+  (- n)
+  n))
+
+(defun random-int-range (min max)
+  "Return a random integer between min (inclusive) and max (exclusive)."
+  (let ((range (- max min)))
+    (+ min (mod (abs (random-int)) range))))
+
+
+(repeat 10
+ (princ (random-int-range 0 10)) (nl))
