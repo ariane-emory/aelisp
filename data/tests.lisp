@@ -23,7 +23,7 @@
  ;; (unless (or (nil? rest) (<= (length rest) 2))         (error "random-int-range takes either 0, 1 or 2 arguments"))
  ;; (unless (or (nil? (car rest)) (integer? (car rest)))  (error "if provided, first rest argument must be an integer"))
  ;; (unless (or (nil? (cdr rest)) (integer? (cadr rest))) (error "if provided, second rest argument must be an integer"))
- (let ((val  (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))))
+ (let ((val  (setq! *random-seed* 1)))
   *random-seed*))
  ;; (if (nil? rest)
  ;;  (random-inner)
