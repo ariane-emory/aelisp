@@ -342,8 +342,10 @@
  ;; when not *soft-rationals*:
  (defun integer-to-rational (n)
   "Convert an integer N to a rational."
+  "When (not *soft-rationals*), we don't actually need to do anything since"
+  "the build-in numer and denom functions already handle integers correctly."
   (unless (integer? n) (error "N must be an integer."))
-  (rational n 1)))
+  n))
 
 (defun number? (obj)
  "t if OBJ is a number."
