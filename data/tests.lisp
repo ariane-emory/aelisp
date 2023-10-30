@@ -357,15 +357,17 @@
 
 (defun simplify-number (number)
  "Simplify a rational number NUMBER."
- (unless (rational? number) (error "NUMBER must be a rational"))
- (let* ((num (numer number))
-        (den (denom number))
-        (common-divisor (gcd num den)))
-  (if (zero? den) (error "Denominator is 0, something has gone awry"))
-  (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
-   (if (one? (denom rat))
-    (numer rat)
-    rat))))
+ (unless (number? number) (error "NUMBER must be a number"))
+ (if (integer? number)
+  number
+  (let* ((num (numer number))
+         (den (denom number))
+         (common-divisor (gcd num den)))
+   (if (zero? den) (error "Denominator is 0, something has gone awry"))
+   (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
+    (if (one? (denom rat))
+     (numer rat)
+     rat)))))
 
 (defun add-rational (a b)
  "Add the number B to the number A."
