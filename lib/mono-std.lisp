@@ -1623,7 +1623,7 @@
          (den (denom number))
          (common-divisor (gcd num den)))
    (if (zero? den) (error "Denominator is 0, something has gone awry"))
-   (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
+   (let ((rat (rational (div num common-divisor) (div den common-divisor))))
     (if (one? (denom rat))
      (numer rat)
      rat)))))
