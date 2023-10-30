@@ -1669,10 +1669,10 @@
   (unless (zero? den)
    (simplify-number (rational num den)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq! add add-rational)
-;; (setq! sub sub-rational)
-;; (setq! mul mul-rational)
-;; (setq! div div-rational)
+(setq! addd add-rational)
+(setq! subr sub-rational)
+(setq! mulr mul-rational)
+(setq! divr div-rational)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'rational-math)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
