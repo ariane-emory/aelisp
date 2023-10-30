@@ -306,32 +306,37 @@
 ;; prototype rational math
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! *soft-rationals* t)
+(setq! *soft-rationals* nil)
 
-(when *soft-rationals*
-
- (defun rational (n d)
-  (unless (integer? n) (error "N must be an integer."))
-  (unless (integer? d) (error "D must be an integer."))
-  (cons n d))
+(if *soft-rationals*
+ (progn
+  (defun rational (n d)
+   (unless (integer? n) (error "N must be an integer."))
+   (unless (integer? d) (error "D must be an integer."))
+   (cons n d))
   
- (defun integer-to-rational (n)
-  (unless (integer? n) (error "N must be an integer."))
-  (cons n 1))
+  (defun integer-to-rational (n)
+   (unless (integer? n) (error "N must be an integer."))
+   (cons n 1))
 
- (defun denom (rat)
-  (unless (rational? rat) (error "RAT must be a rational"))
-  (cdr rat))
+  (defun denom (rat)
+   (unless (rational? rat) (error "RAT must be a rational"))
+   (cdr rat))
 
- (defun numer (rat)
-  (unless (rational? rat) (error "RAT must be a rational"))
-  (car rat))
+  (defun numer (rat)
+   (unless (rational? rat) (error "RAT must be a rational"))
+   (car rat))
 
- (defun rational? (obj)
-  (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))
+  (defun rational? (obj)
+   (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 
- (defun number? (obj)
-  (or (integer? obj) (rational? obj))))
+ (progn ;; when not *soft-rationals*
+  (defun integer-to-rational (n)
+   (unless (integer? n) (error "N must be an integer."))
+   (rational n 1))))
+
+(defun number? (obj)
+ (or (integer? obj) (rational? obj)))
 
 (defun gcd (a b)
  (unless (and (integer? a) (integer? b))
@@ -344,7 +349,9 @@
         (den (denom rat))
         (common-divisor (gcd num den)))
   (if (zero? den) (error "Denominator is 0, something has gone awry"))
-  (rational (/ num common-divisor) (/ den common-divisor))))
+  (if (one? den)
+   num
+   (rational (/ num common-divisor) (/ den common-divisor)))))
 
 (defun add-rational (a b)
  (unless (number? a) (error "A must be a number"))
