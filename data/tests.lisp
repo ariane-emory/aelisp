@@ -333,8 +333,8 @@ Write some tests for bitwise operators
 (setq! *random-seed* (now-us))
 
 (defun random-int ()
-  "Return a random integer."
-  (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*)))
+ "Return a random integer."
+ (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*)))
 
 (defun randomize (new-seed)
  "Set a new seed for the RNG."
@@ -346,14 +346,15 @@ Write some tests for bitwise operators
   (- n)
   n))
 
-(defun random-int-range (min max)
- "Return a random integer between min (inclusive) and max (exclusive)."
-  "Return a random integer between min (inclusive) and max (exclusive)."
-  (let ((range (- max min)))
-    (+ min (mod (abs (random-int)) range))))
+(defun random-int-range rest
+ "Return a random integer between MIN (inclusive) and MAX (exclusive)."
+ (unless (or (nil? rest) (= 2 (length rest))) (error "random-int-range takes either 0 or 2 arguments"))
+ (if (nil? rest)
+  (random-int)
+  (let ((min (car  rest))
+        (max (cadr rest)))
+   (let ((range (- max min)))
+    (+ min (mod (abs (random-int)) range))))))
 
 (repeat 10
  (princ (random-int-range -10 10)) (nl))
-
-
-(setq! x 0) (until (> x 7) (setq! x (random-int-range 1 20)))
