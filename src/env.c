@@ -31,14 +31,14 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   
   // INDENT;
 
-#ifdef AE_LOG_ENG
+#ifdef AE_LOG_ENV
   LOG(value,   "with value");
   LOG(env,     "to env");
 #endif
   
   // OUTDENT;
 
-#ifdef AE_LOG_ENG
+#ifdef AE_LOG_ENV
   LOG(symbol,  "[done adding]");
 #endif
 }
@@ -192,91 +192,61 @@ end:
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ae_env_set(
-  ae_env_lookup_mode_t mode,
-  ae_obj_t * const env,
-  ae_obj_t * const symbol,
-  ae_obj_t * const value) {
-  assert(ENVP(env));
+    ae_env_lookup_mode_t mode,
+    ae_obj_t * const env,
+    ae_obj_t * const symbol,
+    ae_obj_t * const value) {
 
-  if (! SYMBOLP(symbol))
-    LOG(symbol, "NOT A SYMBOL");
-  
-  assert(SYMBOLP(symbol));
-  assert(! KEYWORDP(symbol));
-  assert(value);
+    assert(ENVP(env));
+    assert(SYMBOLP(symbol));
+    assert(! KEYWORDP(symbol));
+    assert(value);
 
-  int local_indents = 0;
-  
+    ae_obj_t * pos = env;
+
+    // If GLOBAL, dive right to the top:
+    if (mode == GLOBAL)
+        while (! NILP(ENV_PARENT(pos)))
+            pos = ENV_PARENT(pos);
+
+    while (! NILP(pos)) {
+        ae_obj_t * syms = ENV_SYMS(pos);
+        ae_obj_t * vals = ENV_VALS(pos);
+
+        // Loop through proper or improper list
+        while (CONSP(syms) && !NILP(vals)) {
+            if (symbol == CAR(syms)) {
 #ifdef AE_LOG_ENV
-  LOG(symbol,    "[setting]");
-
-  // INDENT;
-
-  LOG(value,   "to value");
+                LOG(value, "setting value ->");
 #endif
+                CAR(vals) = value;
+                return;
+            }
+            syms = CDR(syms);
+            vals = CDR(vals);
+        }
 
-  ae_obj_t * pos     = env;
-
-  // If GLOBAL, dive right to the top:
-  if (mode == GLOBAL)
-    while (! NILP(ENV_PARENT(pos)))
-      pos = ENV_PARENT(pos);
-
-  while (! NILP(pos)) { // loop through envs
-    ae_obj_t * syms = ENV_SYMS(pos);
-    ae_obj_t * vals = ENV_VALS(pos);
-
+        // Special case for symbols being one symbol:
+        if (symbol == syms) {
 #ifdef AE_LOG_ENV
-    LOG(pos,  "in env");
-    LOG(syms, "containing syms");
+            LOG(value, "setting value (single symbol) ->");
 #endif
+            ENV_VALS(pos) = value;
+            return;
+        }
 
-    while (! NILP(syms) && ! NILP(vals)) { // loop through syms/vals
-      ae_obj_t * sym = CAR(syms);
-
-      if (symbol == sym) {
-
+        // If the symbol wasn't found and mode is LOCAL or we're at the topmost environment
+        if (mode == LOCAL || NILP(ENV_PARENT(pos))) {
 #ifdef AE_LOG_ENV
-        LOG(syms, "found it in ->");
+            LOG(value, "adding to environment ->");
 #endif
-
-        CAR(vals) = value;
-
-#ifdef AE_LOG_ENV
-        LOG(syms, "syms after");
-        LOG(vals, "values after");
-#endif
-
-        goto end;
-      }
-
-      syms = CDR(syms);
-      vals = CDR(vals);
-    } // end loop through syms/vals
-
-    if (mode == LOCAL || NILP(ENV_PARENT(pos))) {
-      ENV_ADD(pos, symbol, value);
-
-      goto end;
-    } else {
-
-    go_up:
-#ifdef AE_LOG_ENV
-      SLOG("going up");
-#endif
-      
-      pos = ENV_PARENT(pos);
+            ENV_ADD(pos, symbol, value);
+            return;
+        } 
+        else {
+            pos = ENV_PARENT(pos);
+        }
     }
-  } // end loop through envs
-
-end:
-  
-#ifdef AE_LOG_ENV
-  // OUTDENT;
-
-  SLOG("[done setting]");
-#endif
-  
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
