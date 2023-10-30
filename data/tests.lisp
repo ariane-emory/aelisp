@@ -328,13 +328,10 @@ Write some tests for random.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(nl)
-(repeat 10 (princ (random))         (nl))
-(repeat 10 (princ (random 10))      (nl))
-(repeat 10 (princ (random -10 10))  (nl))
-
-
-(set! result nil)
+;; (nl)
+;; (repeat 10 (princ (random))         (nl))
+;; (repeat 10 (princ (random 10))      (nl))
+;; (repeat 10 (princ (random -10 10))  (nl))
 
 ;; #|
 
@@ -346,12 +343,18 @@ Write some tests for random.
    (setq! attrs (cdr attrs)))
   upp))
 
-(repeat 70
- (princ (trav-upp))
- (nl))
+;; (repeat 70
+;;  (princ (trav-upp))
+;;  (nl))
+
+(setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
 
 (repeat 70
- (princ (random 1 7))
- (nl))
+ (let ((roll (random 1 7)))
+  (if (khas? roll *counts*)
+   (setq! *counts* (kset (1+ (kget roll *counts*)) roll *counts*))
+   (setq! *counts* (kset 0 roll *counts*)))))
+
+(princ *counts*) (nl)
 
  ;; |#
