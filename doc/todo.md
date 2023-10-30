@@ -1,4 +1,6 @@
 To Do:
+- [ ] Function parameters should be forbidden from being *special* symbols.
+- [ ] Better version of return.
 - [ ] Some sort of catch.
 - [ ] Maybe let loop?
 - [ ] Audit free_list_malloc/free.
