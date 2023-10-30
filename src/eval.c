@@ -485,11 +485,10 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     free(fun_tmp);
     free(ret_tmp);
     
-    if (HAS_PROP("error-fun", ret)) // this is probably going to double the first fun in the list but I can't be bothered fixing it yet.
-      PUT_PROP(CONS(fun, GET_PROP("error-fun", ret)), "error-fun", ret);
-    else
-      PUT_PROP(CONS(fun, NIL), "error-fun", ret);
-
+    /* if (HAS_PROP("error-fun", ret)) // this is probably going to double the first fun in the list but I can't be bothered fixing it yet. */
+    /*   PUT_PROP(CONS(fun, GET_PROP("error-fun", ret)), "error-fun", ret); */
+    /* else */
+    /*   PUT_PROP(CONS(fun, NIL), "error-fun", ret); */
         
     RETURN_IF_ERRORP(ret);
   }
