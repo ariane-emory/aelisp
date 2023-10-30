@@ -1,5 +1,4 @@
 To Do:
-- [ ] Function parameters should be forbidden from being *special* symbols.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
 - [ ] Maybe let loop?
@@ -36,6 +35,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Function parameters should be forbidden from being *special* symbols. (Oh, they already were.)
 - [x] rational constructor func.
 - [x] case macro.
 - [x] Multiline comment grammar rules.
