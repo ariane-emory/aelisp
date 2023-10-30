@@ -158,7 +158,7 @@
 ;; run with m && lldb ./bin/repl -- -sf -le -lc -e and AE_LOG_ENV on.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun bugged rest
- (let ((val (setq! bang nil)))
+ (let ((val (setq! bang 7)))
   bang))
 
 (defun not-bugged (x y)
@@ -169,8 +169,8 @@
  (let ((val rest))
   rest))
 
-(defun bugged rest
- (let ((val (setq! bang nil)))
+(defun bugged rest ;; fixed?
+ (let ((val (setq! bang 7)))
   bang))
 
 (princ (bugged -10 10)) (nl)
