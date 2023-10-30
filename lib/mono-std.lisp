@@ -262,10 +262,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-chase-fun (params . cond-clauses)
  "Creates a function for recursive traversal and processing of lists."
-  
+ 
  "This macro is a generalized version that allows customization of"
  "the parameter order through the PARAMS parameter."
-  
+ 
  "PARAMS:       A list of length 2 that specifies the parameter order."
  "              One parameter must be the symbol 'lst."
  "COND-CLAUSES: The conditions to process the list."
@@ -1612,8 +1612,8 @@
    "t if OBJ is a rational number."
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
-  "built-in numer and denom functions already handle integers correctly."
+ "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
+ "built-in numer and denom functions already handle integers correctly."
  (setq! integer-to-rational id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun number? (obj)
@@ -1687,7 +1687,7 @@
  (let* ((num (* (numer a) (denom b)))
         (den (* (denom a) (numer b))))
   (if (zero? den)
-      (error "Division by zero!")
+   (error "Division by zero!")
    (simplify-number (rational num den)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun approx-sqrt (num . rest)
@@ -1854,13 +1854,13 @@
   (error "if provided, first rest argument must be an integer"))
  (unless (or (nil? (cdr rest)) (integer? (cadr rest)))j
   (error "if provided, second rest argument must be an integer"))
- (let ((random-integer (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))))
-  (if (nil? rest)
-   random-integer
-   (let ((min (if (cadr rest) (car  rest) 0))
-         (max (if (cadr rest) (cadr rest) (car rest))))
-    (let ((range (- max min)))
-     (+ min (mod (abs random-integer) range)))))))
+ (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))
+ (if (nil? rest)
+  *random-seed*
+  (let ((min (if (cadr rest) (car  rest) 0))
+        (max (if (cadr rest) (cadr rest) (car rest))))
+   (let ((range (- max min)))
+    (+ min (mod (abs *random-seed*) range))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'random)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
