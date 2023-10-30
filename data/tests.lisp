@@ -344,11 +344,13 @@ Write some tests for bitwise operators
 
 
 (defun abs (n)
+ "Return the absolute value of N."
  (if (< n 0)
   (- n)
   n))
 
 (defun random-int-range (min max)
+ "Return a random integer between min (inclusive) and max (exclusive)."
   "Return a random integer between min (inclusive) and max (exclusive)."
   (let ((range (- max min)))
     (+ min (mod (abs (random-int)) range))))
