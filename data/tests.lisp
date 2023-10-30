@@ -336,22 +336,27 @@
     (cdr num)))
   
   (defun rational? (obj)
+   "t if OBJ is a rational number."
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 
  ;; when not *soft-rationals*:
  (defun integer-to-rational (n)
-   (unless (integer? n) (error "N must be an integer."))
-   (rational n 1)))
+  "Convert an integer N to a rational."
+  (unless (integer? n) (error "N must be an integer."))
+  (rational n 1)))
 
 (defun number? (obj)
+ "t if OBJ is a number."
  (or (integer? obj) (rational? obj)))
 
 (defun gcd (a b)
+ "Get the greatest common divisor of A and B."
  (unless (and (integer? a) (integer? b))
   (error "gcd's arguments must be integers"))
  (if (zero? b) a (gcd b (mod a b))))
 
 (defun simplify-rational (rat)
+ "Simplify a rational number RAT."
  (unless (rational? rat) (error "RAT must be a rational"))
  (let* ((num (numer rat))
         (den (denom rat))
@@ -363,6 +368,7 @@
     rat))))
 
 (defun add-rational (a b)
+ "Add the number B to the number A."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
@@ -372,6 +378,7 @@
   (simplify-rational (rational num den))))
 
 (defun sub-rational (a b)
+ "Subtract the number B from the number A."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
@@ -381,6 +388,7 @@
   (simplify-rational (rational num den))))
 
 (defun mul-rational (a b)
+ "Multiply the number A by the number B."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
@@ -390,6 +398,7 @@
   (simplify-rational (rational num den))))
 
 (defun div-rational (a b)
+ "Divide the number A by the number B."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
