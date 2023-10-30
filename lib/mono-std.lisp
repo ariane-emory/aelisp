@@ -1155,6 +1155,11 @@
  (unless (integer? n) (error "N must be an integer"))
  (<< n 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun abs (n)
+ "Return the absolute value of N."
+ (unless (integer? n) (error "N must be an integer (until rational support is added)"))
+ (if (> n 0) n (- n)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! 2* double)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun add-logging-to (fun)
@@ -1825,6 +1830,39 @@
  (unless (> multiple 0) (error "MULTIPLE must be greater than zero"))
  (unless (> num 0) (error "NUM must be greater than zero"))
  (* multiple (+ 1 (/ num multiple))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; random number generator:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! *random-m* 4611686018427387904) ; 2^62
+(setq! *random-a* 1664525)
+(setq! *random-c* 1013904223)
+(setq! *random-seed* (now-us))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun randomize (new-seed)
+ "Set a new seed for the RNG."
+ (unless (integer? new-seed) (error "NEW-SEED must be an integer"))
+ (setq! *random-seed* new-seed))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun random rest
+ "Return a random integer between MIN (inclusive) and MAX (exclusive)."
+ (unless (or (nil? rest) (<= (length rest) 2))
+  (error "random takes either 0, 1 or 2 arguments"))
+ (unless (or (nil? (car rest)) (integer? (car rest)))
+  (error "if provided, first rest argument must be an integer"))
+ (unless (or (nil? (cdr rest)) (integer? (cadr rest)))j
+  (error "if provided, second rest argument must be an integer"))
+ (let ((random-integer (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))))
+  (if (nil? rest)
+   random-integer
+   (let ((min (if (cadr rest) (car  rest) 0))
+         (max (if (cadr rest) (cadr rest) (car rest))))
+    (let ((range (- max min)))
+     (+ min (mod (abs random-integer) range)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'random)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
