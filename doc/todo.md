@@ -1,5 +1,4 @@
 To Do:
-- [ ] rational constructor func.
 - [ ] Some sort of catch.
 - [ ] Maybe let loop?
 - [ ] Audit free_list_malloc/free.
@@ -35,6 +34,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] rational constructor func.
 - [x] case macro.
 - [x] Multiline comment grammar rules.
 - [x] Maybe nil/t init should happen in ENV_NEW_ROOT? ('fixed' in ENV_NEW_ROOt but not completely reinitialized.)
