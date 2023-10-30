@@ -338,10 +338,10 @@
   (defun rational? (obj)
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 
- (progn ;; when not *soft-rationals*
-  (defun integer-to-rational (n)
+ ;; when not *soft-rationals*:
+ (defun integer-to-rational (n)
    (unless (integer? n) (error "N must be an integer."))
-   (rational n 1))))
+   (rational n 1)))
 
 (defun number? (obj)
  (or (integer? obj) (rational? obj)))
