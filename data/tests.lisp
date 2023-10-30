@@ -343,9 +343,9 @@ Write some tests for random.
    (setq! attrs (cdr attrs)))
   upp))
 
-(repeat 200
- (princ (trav-upp))
- (nl))
+;; (repeat 200
+;;  (princ (trav-upp))
+;;  (nl))
 
 #|
 (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
@@ -357,8 +357,19 @@ Write some tests for random.
                     (1+ (kget roll *counts*))
                     1)))))
 
+(princ *counts*) (nl)
+|#
 
+
+(setq! *counts* '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0))
+
+(repeat 15000
+ (let ((roll (+ (random 1 7) (random 1 7))))
+  (setq! *counts* (kset roll *counts*
+                   (if (khas? roll *counts*)
+                    (1+ (kget roll *counts*))
+                    1)))))
 
 (princ *counts*) (nl)
-#|
+
 
