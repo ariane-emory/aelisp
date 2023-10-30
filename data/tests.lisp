@@ -284,6 +284,20 @@
   (confirm that (mul-rational 21/2 3/4) returns 63/8)
   (confirm that (mul-rational 21/7 3/4) returns 9/4)))
 
+(confirm that (round-to-nearest (approx-sqrt 14)) returns 4)
+(confirm that (round-to-nearest (approx-sqrt 16)) returns 4)
+(confirm that (round-to-nearest (approx-sqrt 25)) returns 5)
+(confirm that (round-to-nearest (approx-sqrt 36)) returns 6)
+(confirm that (round-to-nearest (approx-sqrt 49)) returns 7)
+(confirm that (round-to-nearest (approx-sqrt 60)) returns 8)
+(confirm that (round-to-nearest (approx-sqrt 64)) returns 8)
+(confirm that (round-to-nearest (rational  7 8))  returns 1)
+(confirm that (round-to-nearest (rational 14 8))  returns 2)
+(confirm that (is-square? 35) returns nil)
+(confirm that (is-square? 36) returns t)
+(confirm that (round-up-to-square 35) returns 36)
+(confirm that (round-up-to-square 36) returns 36)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
@@ -318,29 +332,3 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (setq! denominator-limit (<< 32))
-;; (setq! max-iterations  100)
-
-
-
-;; (log-eval t)
-;; (log-core t)
-
-(princ (round-to-nearest (approx-sqrt 16))) (nl) ;; This will be close to 4
-(princ (round-to-nearest (approx-sqrt 25))) (nl) ;; This will be close to 5
-(princ (round-to-nearest (approx-sqrt 36))) (nl) ;; This will be close to 6
-(princ (round-to-nearest (approx-sqrt 49))) (nl) ;; This will be close to 7
-(princ (round-to-nearest (approx-sqrt 64))) (nl) ;; This will be close to 8
-
-(princ "One: ") (princ (round-to-nearest 7/8)) (nl)
-(princ "Two: ") (princ (round-to-nearest 14/8)) (nl)
-
-
-
-(princ (is-square? 35)) (nl)
-(princ (is-square? 36)) (nl)
-
-(princ (round-up-to-square 35)) (nl)
-(princ (round-up-to-square 36)) (nl)
-
-(setq! num 0) (while (< num 500) (princ (& num (- (<< 8) 1))) (nl) (setq! num (1+ num)))
