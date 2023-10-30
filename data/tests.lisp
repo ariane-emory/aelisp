@@ -238,10 +238,6 @@
   (confirm that (round-to-nearest (approx-sqrt 64))                 returns 8)
   (confirm that (round-to-nearest (rational  7 8))                  returns 1)
   (confirm that (round-to-nearest (rational 14 8))                  returns 2)
-  (confirm that (is-square? 35)                                     returns nil)
-  (confirm that (is-square? 36)                                     returns t)
-  (confirm that (round-up-to-square 35)                             returns 36)
-  (confirm that (round-up-to-square 36)                             returns 36)
   (confirm that (add-rational     3                 (rational 2 3)) returns '(11 . 3))
   (confirm that (add-rational     212               (rational 3 4)) returns '(851 . 4))
   (confirm that (add-rational     217               (rational 3 4)) returns '(871 . 4))
@@ -257,7 +253,7 @@
   (confirm that (div-rational     217               (rational 3 4)) returns '(868 . 3))
   (confirm that (div-rational     (rational 21 2)   (rational 3 4)) returns 14)
   (confirm that (div-rational     (rational 21 7)   (rational 3 4)) returns 4))
-  (progn
+ (progn
   (confirm that (mul-rational     3                 2/3)            returns 2)
   (confirm that (mul-rational     212               3/4)            returns 159)
   (confirm that (mul-rational     217               3/4)            returns 651/4)
@@ -272,10 +268,6 @@
   (confirm that (round-to-nearest (approx-sqrt 64))                 returns 8)
   (confirm that (round-to-nearest (rational  7 8))                  returns 1)
   (confirm that (round-to-nearest (rational 14 8))                  returns 2)
-  (confirm that (is-square? 35)                                     returns nil)
-  (confirm that (is-square? 36)                                     returns t)
-  (confirm that (round-up-to-square 35)                             returns 36)
-  (confirm that (round-up-to-square 36)                             returns 36)
   (confirm that (add-rational     3                 2/3)            returns 11/3)
   (confirm that (add-rational     212               3/4)            returns 851/4)
   (confirm that (add-rational     217               3/4)            returns 871/4)
@@ -291,37 +283,41 @@
   (confirm that (div-rational     217               3/4)            returns 868/3)
   (confirm that (div-rational     21/2              3/4)            returns 14)
   (confirm that (div-rational     21/7              3/4)            returns 4)))
+(confirm that (is-square? 35)                                     returns nil)
+(confirm that (is-square? 36)                                     returns t)
+(confirm that (round-up-to-square 35)                             returns 36)
+(confirm that (round-up-to-square 36)                             returns 36)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- (nl)
- (princ "All tests passed.")
- (provide 'tests)
- (nl)
+(nl)
+(princ "All tests passed.")
+(provide 'tests)
+(nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
- ;; (defun reduce (func lst &optional initial-value)
- ;;   "Reduce LST using FUNC starting with INITIAL-VALUE."
- ;;   (unless (list? lst) (error "LST must be a list"))
+;; (defun reduce (func lst &optional initial-value)
+;;   "Reduce LST using FUNC starting with INITIAL-VALUE."
+;;   (unless (list? lst) (error "LST must be a list"))
 
- ;;   ;; If there's an initial value, start with it. Otherwise, start with the first element of the list.
- ;;   (let ((acc (if initial-value
- ;;                  initial-value
- ;;                  (pop! lst))))
- ;;     ;; Iterate over the rest of the list, updating the accumulator.
- ;;     (while lst
- ;;       (setq! acc (funcall func acc (pop! lst)))
- ;;     ;; Return the accumulated result.
- ;;     acc)))
+;;   ;; If there's an initial value, start with it. Otherwise, start with the first element of the list.
+;;   (let ((acc (if initial-value
+;;                  initial-value
+;;                  (pop! lst))))
+;;     ;; Iterate over the rest of the list, updating the accumulator.
+;;     (while lst
+;;       (setq! acc (funcall func acc (pop! lst)))
+;;     ;; Return the accumulated result.
+;;     acc)))
 
- (while nil
-  (princ (stdout (sys* 'date)))
-  (princ (stdout (sys* 'echo 'these "are" '(4 words)))) (sleep 500))
+(while nil
+ (princ (stdout (sys* 'date)))
+ (princ (stdout (sys* 'echo 'these "are" '(4 words)))) (sleep 500))
 
- ;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
+;;(add-to-list *load-path* (concat *ae-home* "/3p/tinyclos")) (load "support.scm")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
