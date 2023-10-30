@@ -72,7 +72,7 @@
 (confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
- "No tests written for this one yet."
+ "Defun with support for stashing docstrings in a property. No tests written for this one yet."
  (defmacro defun (name params . docs-and-body)
   (let* ((split (split-list string? docs-and-body))
          (docs  (apply concat (intercalate " " (car split))))
