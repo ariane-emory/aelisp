@@ -10,7 +10,7 @@ POOL_SIZE   := $(shell echo "$$(( 1 << 24))" )
 COMMON_CFLAGS = \
 	$(INCLUDE_DIRS) \
 	-ggdb \
-	-O3 \
+	-O0 \
 	-Wno-misleading-indentation \
 	-Wno-unused-label \
 	-DAE_OBJ_POOL_SIZE=$(POOL_SIZE) \
@@ -19,12 +19,12 @@ COMMON_CFLAGS = \
 	-DCOUNT_ALLOCATIONS \
 
 UNUSED_CFLAGS = \
+	-DAE_LOG_ENV \
 	-DAE_LOG_FREE_LIST \
 	-DAE_DUMP_SYMS \
 	-DAE_LOG_ALLOC \
 	-DAE_LOG_CLONE \
 	-DAE_LOG_CONS \
-	-DAE_LOG_ENV \
 	-DAE_LOG_INIT \
 	-DAE_LOG_KVP_SET_GET \
 	-DAE_LOG_LEX \

@@ -1,12 +1,15 @@
 ;; run with -sf and AE_LOG_ENV.
 
-(defun bugged rest
+(defun bugged ()
  (let ((val (setq! bang nil)))
-  bang))
+  val))
+
+(defun bugged ()
+ (let ((val nil))
+  val))
+
 
 (princ (bugged)) (nl)
-(princ (bugged 10)) (nl)
-(princ (bugged -10 10)) (nl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'tests)
