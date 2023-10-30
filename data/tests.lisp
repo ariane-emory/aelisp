@@ -383,5 +383,5 @@
   (unless (zero? den)
    (simplify-rational (rational num den)))))
 
-(princ (mul-rational '(2 . 3) 3))
+(princ (mul-rational (rational 2 3) 3))
 (nl)
