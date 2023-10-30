@@ -306,28 +306,37 @@
 ;; prototype rational math
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq! *soft-rationals* t)
+
+(when *soft-rationals*
+
+ (defun rational (n d)
+  (unless (integer? n) (error "N must be an integer."))
+  (unless (integer? d) (error "D must be an integer."))
+  (cons n d))
+  
+ (defun integer-to-rational (n)
+  (unless (integer? n) (error "N must be an integer."))
+  (cons n 1))
+
+ (defun denom (rat)
+  (unless (rational? rat) (error "RAT must be a rational"))
+  (cdr rat))
+
+ (defun numer (rat)
+  (unless (rational? rat) (error "RAT must be a rational"))
+  (car rat))
+
+ (defun rational? (obj)
+  (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))
+
+ (defun number? (obj)
+  (or (integer? obj) (rational? obj))))
+
 (defun gcd (a b)
  (unless (and (integer? a) (integer? b))
   (error "gcd's arguments must be integers"))
  (if (zero? b) a (gcd b (mod a b))))
-
-(defun integer-to-rational (n)
- (unless (integer? n) (error "N must be an integer."))
- (cons n 1))
-
-(defun denom (rat)
- (unless (rational? rat) (error "RAT must be a rational"))
- (cdr rat))
-
-(defun numer (rat)
- (unless (rational? rat) (error "RAT must be a rational"))
- (car rat))
-
-(defun rational? (obj)
- (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))
-
-(defun number? (obj)
- (or (integer? obj) (rational? obj)))
 
 (defun simplify-rational (rat)
  (unless (rational? rat) (error "RAT must be a rational"))
@@ -335,7 +344,7 @@
         (den (denom rat))
         (common-divisor (gcd num den)))
   (if (zero? den) (error "Denominator is 0, something has gone awry"))
-  (cons (/ num common-divisor) (/ den common-divisor))))
+  (rational (/ num common-divisor) (/ den common-divisor))))
 
 (defun add-rational (a b)
  (unless (number? a) (error "A must be a number"))
@@ -344,7 +353,7 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
-  (simplify-rational (cons num den))))
+  (simplify-rational (rational num den))))
 
 (defun sub-rational (a b)
  (unless (number? a) (error "A must be a number"))
@@ -353,7 +362,7 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
-  (simplify-rational (cons num den))))
+  (simplify-rational (rational num den))))
 
 (defun mul-rational (a b)
  (unless (number? a) (error "A must be a number"))
@@ -362,7 +371,7 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (* (numer a) (numer b)))
         (den (* (denom a) (denom b))))
-  (simplify-rational (cons num den))))
+  (simplify-rational (rational num den))))
 
 (defun div-rational (a b)
  (unless (number? a) (error "A must be a number"))
@@ -372,7 +381,7 @@
  (let* ((num (* (numer a) (denom b)))
         (den (* (denom a) (numer b))))
   (unless (zero? den)
-   (simplify-rational (cons num den)))))
+   (simplify-rational (rational num den)))))
 
 (princ (mul-rational '(2 . 3) 3))
 (nl)
