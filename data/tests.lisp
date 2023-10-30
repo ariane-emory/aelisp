@@ -310,22 +310,27 @@
  (unless (integer? n) (error "N must be an integer."))
  (cons n 1))
 
-(defun denom (rat)
- (unless (rational? rat) (error "RAT must be a rational"))
- (cdr rat))
+(setq *soft-rationals* t)
 
-(defun numer (rat)
- (unless (rational? rat) (error "RAT must be a rational"))
- (car rat))
-
-(defun rational? (obj)
- (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))
+(unless *soft-rationals*
+ (defun denom (rat)
+  (unless (rational? rat) (error "RAT must be a rational"))
+  (cdr rat))
+ 
+ (defun numer (rat)
+  (unless (rational? rat) (error "RAT must be a rational"))
+  (car rat))
+ 
+ (defun rational? (obj)
+  (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 
 (defun number? (obj)
  (or (integer? obj) (rational? obj)))
 
 (defun simplify-rational (rat)
- (unless (rational? rat) (error "RAT must be a rational"))
+ (unless (rational? rat)
+  (write rat) (nl)
+  (error "RAT must be a rational"))
  (let* ((num (numer rat))
         (den (denom rat))
         (common-divisor (gcd num den)))
@@ -369,5 +374,6 @@
   (unless (zero? den)
    (simplify-rational (cons num den)))))
 
-(princ (mul-rational '(2 . 3) 3))
+(log-eval t)
+(princ (mul-rational 2/3 3/1))
 (nl)
