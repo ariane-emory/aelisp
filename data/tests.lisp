@@ -334,7 +334,7 @@ Write some tests for bitwise operators
 
 (defun random-int ()
   "Return a random integer."
-  (setq! seed (mod (+ (mul *random-a* seed) *random-c*) *random-m*))
+  (setq! seed (% (+ (mul *random-a* seed) *random-c*) *random-m*))
   seed)
 
 (defun randomize (new-seed)
