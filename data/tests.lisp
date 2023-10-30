@@ -311,21 +311,25 @@
 (if *soft-rationals*
  (progn
   (defun rational (n d)
+   "Construct a rational number from numerator N and denominator D."
    (unless (integer? n) (error "N must be an integer."))
    (unless (integer? d) (error "D must be an integer."))
    (cons n d))
   
   (defun integer-to-rational (n)
+   "Construct a rational number from integer N."
    (unless (integer? n) (error "N must be an integer."))
    (cons n 1))
 
-  (defun denom (rat)
-   (unless (rational? rat) (error "RAT must be a rational"))
-   (cdr rat))
+  (defun denom (num)
+   "Get NUM's denominator"
+   (unless (numional? num) (error "NUM must be a rational"))
+   (cdr num))
 
-  (defun numer (rat)
-   (unless (rational? rat) (error "RAT must be a rational"))
-   (car rat))
+  (defun numer (num)
+   "Get NUM's numerator"
+   (unless (rational? num) (error "NUM must be a rational"))
+   (car num))
 
   (defun rational? (obj)
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
