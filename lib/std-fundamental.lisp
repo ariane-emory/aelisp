@@ -161,6 +161,14 @@
  (let ((val (setq! bang nil)))
   bang))
 
+(defun not-bugged (x y)
+ (let ((val (setq! bang nil)))
+  bang))
+
+(defun bugged rest
+ (let ((val rest))
+  rest))
+
 (princ (bugged -10 10)) (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'tests)
