@@ -580,7 +580,8 @@
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (fun? fun?)  (error "FUN must be a function"))
  (cond
-  ((and (atom? obj) (pred? obj)) (fun obj))
+  ;; ((and (atom? obj) (pred? obj)) (fun obj))
+  ((pred? obj) (fun obj))
   ((atom? obj) obj)
   (t
    (cons
