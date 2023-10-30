@@ -1848,7 +1848,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun random rest
  "Return a random integer between MIN (inclusive) and MAX (exclusive)."
- (unless (or (nil? rest) (<= (length rest) 2))
+ (unless (or (nil? rest) (nil? (cddr rest)))
   (error "random takes either 0, 1 or 2 arguments"))
  (unless (or (nil? (car rest)) (integer? (car rest)))
   (error "if provided, first rest argument must be an integer"))
