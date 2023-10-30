@@ -340,12 +340,9 @@
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
 
  ;; when not *soft-rationals*:
- (defun integer-to-rational (n)
-  "Convert an integer N to a rational."
-  "When (not *soft-rationals*), we don't actually need to do anything since"
-  "the build-in numer and denom functions already handle integers correctly."
-  (unless (integer? n) (error "N must be an integer."))
-  n))
+  "When (not *soft-rationals*), integer-to-rational can just be id since the"
+  "built-in numer and denom functions already handle integers correctly."
+ (setq! integer-to-rational id))
 
 (defun number? (obj)
  "t if OBJ is a number."
@@ -412,6 +409,12 @@
   (unless (zero? den)
    (simplify-number (rational num den)))))
 
-(princ (mul-rational 3   (if *soft-rationals* (rational 2 3) 2/3))) (nl) ;; 2        
-(princ (mul-rational 212 (if *soft-rationals* (rational 3 4) 3/4))) (nl) ;; 159      
-(princ (mul-rational 217 (if *soft-rationals* (rational 3 4) 3/4))) (nl) ;; (651 . 4)
+(if *soft-rationals*
+ (progn
+  (confirm that (mul-rational 3   (rational 2 3)) returns 2)
+  (confirm that (mul-rational 212 (rational 3 4)) returns 159)
+  (confirm that (mul-rational 217 (rational 3 4)) returns (651 . 4)))
+
+(princ (mul-rational 3   (if *soft-rationals* (rational 2 3) 2/3)))  ;; 2
+(princ (mul-rational 212 (if *soft-rationals* (rational 3 4) 3/4)))  ;; 159
+(princ (mul-rational 217 (if *soft-rationals* (rational 3 4) 3/4)))  ;; 651/4
