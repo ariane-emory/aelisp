@@ -356,33 +356,17 @@
 ;; (log-eval t)
 ;; (log-core t)
 
-(princ (approx-sqrt 16)) (nl) ;; This will be close to 4
-(princ (approx-sqrt 25)) (nl) ;; This will be close to 5
-(princ (approx-sqrt 36)) (nl) ;; This will be close to 6
-(princ (approx-sqrt 49)) (nl) ;; This will be close to 7
-(princ (approx-sqrt 64)) (nl) ;; This will be close to 8
+(princ (round-to-nearest (approx-sqrt 16))) (nl) ;; This will be close to 4
+(princ (round-to-nearest (approx-sqrt 25))) (nl) ;; This will be close to 5
+(princ (round-to-nearest (approx-sqrt 36))) (nl) ;; This will be close to 6
+(princ (round-to-nearest (approx-sqrt 49))) (nl) ;; This will be close to 7
+(princ (round-to-nearest (approx-sqrt 64))) (nl) ;; This will be close to 8
 
 
 
 
 
-(defun round-to-nearest (num)
- "If the number NUM is a rational number, round it to the nearest integer."
- "Otherwise, just return it."
- (unless (number? num) (error "NUM must be a number"))
- (if (integer? num)
-  num
-  (let* ((new-numer   (* (denom num) (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
-         (rounded-num (rational new-numer (denom num))))
-   (simplify-number rounded-num))))
 
-(defun round-to-nearest (num)
- "If the number NUM is a rational number, round it to the nearest integer."
- "Otherwise, just return it."
- (unless (number? num) (error "NUM must be a number"))
- (if (integer? num)
-  num
-  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
 
 (princ "One: ") (princ (round-to-nearest 7/8)) (nl)
 (princ "Two: ") (princ (round-to-nearest 14/8)) (nl)
