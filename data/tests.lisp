@@ -399,9 +399,6 @@
   (unless (zero? den)
    (simplify-rational (rational num den)))))
 
-(princ
- (mul-rational 3
-  (if *soft-rationals*
-   (rational 2 3)
-   2/3)))
-(nl)
+(princ (mul-rational 3   (if *soft-rationals* (rational 2 3) 2/3))) (nl) ;; 2        
+(princ (mul-rational 212 (if *soft-rationals* (rational 3 4) 3/4))) (nl) ;; 159      
+(princ (mul-rational 217 (if *soft-rationals* (rational 3 4) 3/4))) (nl) ;; (651 . 4)
