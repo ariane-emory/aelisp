@@ -327,21 +327,19 @@ Write some tests for bitwise operators
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(setq! m 4611686018427387904) ; 2^62
-(setq! a 1664525)
-(setq! c 1013904223)
+(setq! *random-m* 4611686018427387904) ; 2^62
+(setq! *random-a* 1664525)
+(setq! *random-c* 1013904223)
 (setq! seed (now-us))
+
+(defun random-int ()
+  "Return a random integer."
+  (setq! seed (mod (+ (mul *random-a* seed) *random-c*) *random-m*))
+  seed)
 
 (defun randomize (new-seed)
  "Set a new seed for the RNG."
  (setq! seed new-seed))
-
-
-(defun random-int ()
-  "Return a random integer."
-  (setq! seed (mod (+ (mul a seed) c) m))
-  seed)
-
 
 (defun abs (n)
  "Return the absolute value of N."
@@ -354,7 +352,6 @@ Write some tests for bitwise operators
   "Return a random integer between min (inclusive) and max (exclusive)."
   (let ((range (- max min)))
     (+ min (mod (abs (random-int)) range))))
-
 
 (repeat 10
  (princ (random-int-range -10 10)) (nl))
