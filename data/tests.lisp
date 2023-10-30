@@ -339,15 +339,19 @@ Write some tests for random.
 ;; #|
 
 (defun trav-upp ()
- (let ((attrs '(:std :dex :end :int :edu :soc))
+ (let ((attrs $(:soc :edu :int :end :dex :str))
        (upp nil))
   (while attrs
-   (setq! upp (kset (+ (random 1 6) (random 1 6)) (car attrs) upp))
+   (setq! upp (kset (+ (random 1 7) (random 1 7)) (car attrs) upp))
    (setq! attrs (cdr attrs)))
   upp))
 
-(repeat 30
+(repeat 70
  (princ (trav-upp))
+ (nl))
+
+(repeat 70
+ (princ (random 1 7))
  (nl))
 
  ;; |#
