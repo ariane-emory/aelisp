@@ -349,9 +349,10 @@
         (den (denom rat))
         (common-divisor (gcd num den)))
   (if (zero? den) (error "Denominator is 0, something has gone awry"))
-  (if (one? den)
-   num
-   (rational (/ num common-divisor) (/ den common-divisor)))))
+  (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
+   (if (one? (denom rat))
+    (numer rat)
+    rat))))
 
 (defun add-rational (a b)
  (unless (number? a) (error "A must be a number"))
