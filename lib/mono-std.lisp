@@ -1431,9 +1431,9 @@
      'val
      $('error
        $('concat
-         '"require-equal failed: "
+         '"require-equal failed: expected "
          $('string test-val)
-         '" ≠ "
+         '" ≠ actual "
          $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! *confirm's-2nd-column* 72)
@@ -1629,7 +1629,7 @@
          (den (denom number))
          (common-divisor (gcd num den)))
    (if (zero? den) (error "Denominator is 0, something has gone awry"))
-   (let ((rat (rational (div num common-divisor) (div den common-divisor))))
+   (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
     (if (one? (denom rat))
      (numer rat)
      rat)))))
@@ -1648,8 +1648,8 @@
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
  (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (add (mul (numer a) (denom b)) (mul (numer b) (denom a))))
-        (den (mul (denom a) (denom b))))
+ (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
+        (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sub-rational (a b)
@@ -1658,8 +1658,8 @@
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
  (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (sub (mul (numer a) (denom b)) (mul (numer b) (denom a))))
-        (den (mul (denom a) (denom b))))
+ (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
+        (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mul-rational (a b)
@@ -1668,8 +1668,8 @@
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
  (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (mul (numer a) (numer b)))
-        (den (mul (denom a) (denom b))))
+ (let* ((num (* (numer a) (numer b)))
+        (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun div-rational (a b)
@@ -1678,8 +1678,8 @@
  (unless (number? b) (error "B must be a number")) 
  (if (integer? a) (setq! a (integer-to-rational a)))
  (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (mul (numer a) (denom b)))
-        (den (mul (denom a) (numer b))))
+ (let* ((num (* (numer a) (denom b)))
+        (den (* (denom a) (numer b))))
   (if (zero? den)
       (error "Division by zero!")
    (simplify-number (rational num den)))))
