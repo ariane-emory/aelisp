@@ -1,8 +1,4 @@
-(setq! *random-seed* (now-us))
-
-(defun random-inner ()
- "Return a random integer."
- (setq! *random-seed* (% (+ (mul *random-a* *random-seed*) *random-c*) *random-m*)))
+(setq! *random-seed* 1)
 
 (defun random-int-range rest
  (let ((val  (setq! *random-seed* 1)))
