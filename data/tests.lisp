@@ -1,8 +1,8 @@
 ;; run with -sf and AE_LOG_ENV.
 
 (defun bugged rest
- (let ((val (setq! random-seed nil)))
-  random-seed))
+ (let ((val (setq! bang nil)))
+  bang))
 
 (princ (bugged)) (nl)
 (princ (bugged 10)) (nl)
