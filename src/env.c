@@ -31,14 +31,14 @@ void ae_env_add(ae_obj_t * const env, ae_obj_t * const symbol, ae_obj_t * const 
   
   // INDENT;
 
-#ifdef AE_LOG_ENG
+#ifdef AE_LOG_ENV
   LOG(value,   "with value");
   LOG(env,     "to env");
 #endif
   
   // OUTDENT;
 
-#ifdef AE_LOG_ENG
+#ifdef AE_LOG_ENV
   LOG(symbol,  "[done adding]");
 #endif
 }
