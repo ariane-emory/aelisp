@@ -323,13 +323,17 @@
 
   (defun numer (num)
    "Get NUM's numerator"
-   (unless (rational? num) (error "NUM must be a rational"))
-   (car num))
+   (unless (number? num) (error "NUM must be a number"))
+   (if (integer? num)
+    num
+    (car num)))
 
   (defun denom (num)
    "Get NUM's denominator"
-   (unless (rational? num) (error "NUM must be a rational"))
-   (cdr num))
+   (unless (number? num) (error "NUM must be a number"))
+   (if (integer? num)
+    num
+    (car num)))
   
   (defun rational? (obj)
    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
