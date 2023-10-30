@@ -1,11 +1,6 @@
-(sys "ls")
-
 (nl)
-
 (confirm that (feature? 'std) returns t)
-
 (setq!   lst  (unionql '(1 2 3) '(4 5 6)))
-
 (confirm that lst                              returns '(6 5 4 3 2 1))
 (confirm that (memql?   3 lst)                 returns t)
 (confirm that (removeql 4 lst)                 returns '(6 5 3 2 1))
@@ -15,9 +10,7 @@
 (confirm that (reverse '(1 2 3 4 5))           returns '(5 4 3 2 1))
 (confirm that (reverse (butlast '(1 2 3 4 5))) returns '(4 3 2 1))
 (confirm that (unionql '(1 2 3) '(4 5 6))      returns '(6 5 4 3 2 1))
-
 (setq!   lst (make-list 6 200))
-
 (confirm that lst                   returns '(200 200 200 200 200 200))
 (confirm that (list-set! lst 0 100) returns 100)
 (confirm that (list-ref  lst 0)     returns 100)
@@ -37,12 +30,9 @@
 (confirm that (list-set! lst 5 105) returns 105)
 (confirm that (list-ref lst 5)      returns 105)
 (confirm that lst                   returns '(100 101 102 103 104 105))
-
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
-
 (confirm that (lshift4 4) returns 64)
-
 (setq! lst $(2 4 1 5 3 7 9 6 8))
 
 (unless *microbench-defuns*
@@ -70,31 +60,18 @@
 (confirm that (nthcdr 0 lst) returns '(1 2 3 4 5 6 7 8 9))
 (confirm that (nthcdr 1 lst) returns '(2 3 4 5 6 7 8 9))
 (confirm that (nthcdr 2 lst) returns '(3 4 5 6 7 8 9))
-
 (setq! c (curry1 nthcdr 3))
-
 (confirm that (c lst) returns '(4 5 6 7 8 9))
 (confirm that (pop! lst)     returns 1)
 (confirm that lst            returns '(2 3 4 5 6 7 8 9))
 (confirm that (push! 99 lst) returns '(99 2 3 4 5 6 7 8 9))
-
-(ignore
- "This would result (deliberately) in an invalid call, so we ignore it for now."
- "It remains here only to serve as an example."
- ;; a deliberate invalid call:
- (nl) (princ "AN ERROR WILL FOLLOW: ") (nl)
- (s x 2 3))
-
 (setq! lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 (setq! split (split-list string? lst))
-
 (ignore
  "This test cannot work until handling of strings containing escaped double quotes is fixed,"
  "and so for now we will ignore it."
  (confirm that (apply concat (intercalate " " (car split))) returns "\"asdw erer rerw\""))
-
 (confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (ignore
  "No tests written for this one yet."
@@ -113,7 +90,6 @@
  (write (doc somefun))      (nl)
  (write (doc write))        (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (confirm that (bin-list-to-int  '(1 0 1 0 1 0 1)) returns 85)
 (confirm that (bin-list-to-int*   1 0 1 0 1 0 1)  returns 85)
 (confirm that (reduce  + '()          ) returns nil)
@@ -138,9 +114,7 @@
 (confirm that (rreduce + '(1 2 3 4)  0) returns 10)
 (confirm that (zip '(a b c) '(1 2 3))          returns '((a 1) (b 2) (c 3)))
 (confirm that (zip '(a b c) '(1 2 3) '(x y z)) returns '((a 1 x) (b 2 y) (c 3 z)))
-
 (setq!   lst                         '(7 5 4 6 3 9 1 6 2 8 6))
-
 (confirm that (sort!! lst <) returns '(1 2 3 4 5 6 6 6 7 8 9))
 (confirm that ((reduced   +  ) $(1 2 3 4)) returns 10)
 (confirm that ((reduced   + 4) $(1 2 3  )) returns 10)
@@ -154,27 +128,16 @@
 (confirm that ((reduced*  + 4)   1 2 3   ) returns 10)
 (confirm that ((rreduced* +  )   1 2 3 4 ) returns 10)
 (confirm that ((rreduced* + 4)   1 2 3   ) returns 10)
-
 (setq! lst '(1 nil 2 3 nil 4 nil))
-
 (confirm that (delq! nil lst) returns '(1 2 3 4))
 (setq! lst '(1 2 3 2 4 2 5))
-
 (confirm that (delq! 2 lst)   returns '(1 2 3 2 4 2 5))
-
 (setq! lst '(1 2 3 2 4 2 5))
-
 (confirm that (delql! 2 lst)  returns '(1 3 4 5))
-
 (setq! lst '(1 2 3 2 4 2 5))
-
 (confirm that (delql! 1 lst)  returns '(2 3 2 4 2 5))
-
 (setq! lst '((1 2) (3 4) (5 6)))
-
-(defun filter-evens (lst)
- (delq! nil (mapcar (lambda (x) (when (even? x) x)) lst)))
-
+(defun filter-evens (lst) (delq! nil (mapcar (lambda (x) (when (even? x) x)) lst)))
 (confirm that (mapcan filter-evens lst) returns '(2 4 6))
 (confirm that (apply concat (intercalate " " '(These  are words)))  returns "These are words")
 (confirm that (apply concat (intercalate " " '(These "are" words))) returns "These are words")
@@ -188,22 +151,16 @@
 (confirm that (prime? 7) returns t)
 (confirm that (prime? 8) returns nil)
 (confirm that (primes 8) returns '(2 3 5 7 11 13 17 19))
-
 (setq! lst '(1 2 3 4))
-
 (confirm that (mapcar! double lst) returns '(2 4 6 8))
 (confirm that lst                  returns '(2 4 6 8))
-
 (setq!   lst  '(a 2 3 (b 4 x (y 5)) (6 nil 7)))
-
 (confirm that (transform  integer? double lst) returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that lst                              returns '(a 2 3 (b 4 x (y  5)) (6  nil  7)))
 (confirm that (transform! integer? double lst) returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that lst                              returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))) returns '(6 4 2 5 3 1))
-
 (setq!   lst  (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))))
-
 (confirm that (filter even? lst) returns '(6 4 2))
 (confirm that (funcall + 1 2 3 4 5 6) returns 21)
 (confirm that (make-string      10 "x")         returns "xxxxxxxxxx")
@@ -250,7 +207,6 @@
 (confirm that (depth '(1 2 (3 4 (5)) (6 7))) returns 3)
 (confirm that (min 2 3 1 4 9 8 1 7) returns 1)
 (confirm that (max 2 3 1 4 9 8 1 7) returns 9)
-
 (defun case-test-fun (n)
  (case n
   ((1) (concat "O" "ne"))
@@ -259,23 +215,20 @@
   (nil "Nil 1")
   ((nil) "Nil 2")
   (else "Other")))
-
 (confirm that (case-test-fun 1)       returns "One")
 (confirm that (case-test-fun (+ 1 1)) returns "Two")
 (confirm that (case-test-fun 4)       returns "Other")
 (confirm that (case-test-fun 'a)      returns "Other")
 (confirm that (case-test-fun nil)     returns "Nil 1")
-
 (confirm that (round-up-to-nearest-multiple 7 8) returns  8)
 (confirm that (round-up-to-nearest-multiple 9 8) returns 16)
-
 (if *use-soft-rationals*
  (progn
   (confirm that (mul-rational 3               (rational 2 3)) returns 2)
   (confirm that (mul-rational 212             (rational 3 4)) returns 159)
   (confirm that (mul-rational 217             (rational 3 4)) returns '(651 . 4))
-  (confirm that (mul-rational (rational 21 2) (rational 3 4)) returns '(63 . 8))
-  (confirm that (mul-rational (rational 21 7) (rational 3 4)) returns '(9 . 4))
+  (confirm that (mul-rational (rational 21 2) (rational 3 4)) returns '(63  . 8))
+  (confirm that (mul-rational (rational 21 7) (rational 3 4)) returns '(9   . 4))
   )
  (progn
   (confirm that (mul-rational 3    2/3) returns 2)
@@ -283,7 +236,6 @@
   (confirm that (mul-rational 217  3/4) returns 651/4)
   (confirm that (mul-rational 21/2 3/4) returns 63/8)
   (confirm that (mul-rational 21/7 3/4) returns 9/4)))
-
 (confirm that (round-to-nearest (approx-sqrt 14)) returns 4)
 (confirm that (round-to-nearest (approx-sqrt 16)) returns 4)
 (confirm that (round-to-nearest (approx-sqrt 25)) returns 5)
