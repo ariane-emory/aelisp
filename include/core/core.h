@@ -17,6 +17,7 @@
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed,      false,          1,          1,                              FUNDEF_END)                                \
   DO(elapsed_us,   false,          1,          1, "elapsed-us",                FUNDEF_END)                                \
+  DO(bnot,         false,          1,          1, "~",                         FUNDEF_END)                                \
   DO(now,          false,          0,          0,                              FUNDEF_END)                                \
   DO(now_us,       false,          0,          0, "now-us",                    FUNDEF_END)                                \
   /*================================================================================================================*/    \

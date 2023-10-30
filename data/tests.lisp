@@ -342,3 +342,5 @@
 
 (princ (round-up-to-square 35)) (nl)
 (princ (round-up-to-square 36)) (nl)
+
+(setq! num 0) (while (< num 500) (princ (& num (- (<< 8) 1))) (nl) (setq! num (1+ num)))
