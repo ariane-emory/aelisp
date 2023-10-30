@@ -18,15 +18,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
     if (log_core)
       LOG(elem, "eval progn arg  #%d/%d", ctr, args_length);
 
-    if (CAR(elem) == SYM("return")) {
-      REQUIRE(env, args, LENGTH(elem) == 2, "return requires exactly one argument");
-      
-      RETURN(EVAL(env, CADR(elem)));
-    }
-    
-    ret = EVAL(env, elem);
-    
-    RETURN_IF_ERRORP(ret);
+    ret = RETURN_IF_ERRORP(EVAL(env, elem));
         
     if (log_core)
       LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);
