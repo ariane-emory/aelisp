@@ -270,7 +270,8 @@
        (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
        )
   $('defun constructor-name 'field-values
-    $('build-plist (cons 'list field-kws) 'field-values))))
+    $('let $($('struct $('build-plist (cons 'list field-kws) 'field-values)))
+      struct))))
 
                                         ;(log-macro t)
 (make-struct-constructor dog name age spots)
