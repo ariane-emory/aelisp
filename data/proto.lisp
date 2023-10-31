@@ -144,16 +144,16 @@
  (mapcar reverse matrix))
 
 (defun consistent-matrix? (matrix)
-  (let ((first-row-length (length (car matrix))))
-    (every (lambda (row) (= (length row) first-row-length)) matrix)))
+ (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
+ (let ((first-row-length (length (car matrix))))
+  (all? (lambda (row) (= (length row) first-row-length)) matrix)))
 
 (defun rotate-right-90 (matrix)
-  (unless (consistent-matrix? matrix)
-    (error "Matrix is inconsistent. All rows must have the same number of columns."))
-  (reverse-rows (transpose matrix)))
-
-(defun rotate-right-90 (matrix)
+ (unless (consistent-matrix? matrix)
+  (error "MATRIX is inconsistent. All rows must have the same number of columns."))
  (reverse-rows (transpose matrix)))
+
+
 
 (ignore
  (let ((test-matrix '((1 2 3) (4 5 6) (7 8 9))))
