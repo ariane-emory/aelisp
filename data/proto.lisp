@@ -242,11 +242,6 @@
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set field-kw 'obj 'val))))
 
-(defmacro make-struct-predicate (struct-type)
- (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
-  $('defun predicate-name $('obk)
-    $('eq? (get ':struct-type 'obj) $('quote struct-type)))))
-
 (defun build-plist (keys vals)
  "Build a plist from KEYS and VALS."
  (unless (list? keys) (error "KEYS must be a list."))
@@ -277,7 +272,6 @@
 
 ;; (log-macro t)
 
-(make-struct-predicate dog)
 (make-struct-getter dog name)
 (make-struct-setter dog name)
 (make-struct-getter dod age)
@@ -301,4 +295,14 @@
 
 (nl)
 (princ (build-plist '(:foo :bar :baz) '(1))) (nl)
+
+
+
+(defmacro make-struct-predicate (struct-type)
+ (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
+  $('defun predicate-name $('obk)
+    $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
+
+(make-struct-predicate dog)
+
 (princ (dog? fido)) (nl)
