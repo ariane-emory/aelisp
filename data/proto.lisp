@@ -105,44 +105,11 @@
    (list 0 0 0 0 0 0)
    (list 0 0 0 0 0 0)))
 
- (repeat 10000
-  (let ((roll1 (random 1 6))
-        (roll2 (random 1 6)))
-   (unless (and (>= roll1 1) (<= roll1 6) (>= roll2 1) (<= roll2 6))
-    (princ "Unexpected rolls: roll1=" roll1 " roll2=" roll2) (nl))
-   (let* ((sublist (nth (- roll1 1) *matrix*))
-          (current-val (nth (- roll2 1) sublist))
-          (new-val (1+ current-val)))
-    (list-set! sublist (- roll2 1) new-val)
-    )))
-
  (princ *matrix*) (nl)
 
  (repeat 100 (princ (random 1 6)) (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;; Hmm.. I could use a function that rotates a 'matrix' structure right by 90 degrees. So, if given: 
-
-'((1 2 3)
-  (4 5 6)
-  (7 8 9))
-
-;; ... it should return:
-
-'((7 4 1)
-  (8 5 2)
-  (9 6 3))
-
-
-
-
-(ignore
- (let ((test-matrix '((1 2 3) (4 5 6) (7 8 9))))
-  (princ (rotate-right-90 test-matrix)))
- (nl))
-
-;;((7 4 1) (8 5 2) (9 6 3))
 
 (setq! data (rotate-right-90 (mapcar vals (set! data (cdr (read "results.lisp"))))))
 
