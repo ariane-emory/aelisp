@@ -250,6 +250,10 @@
  (let (plist)
   (let ((rkeys (reverse keys))
         (rvals (reverse vals)))
+   (while (< (length rkeys) (length rvals))
+    (setq! rvals (cons nil rvals)))
+   (princ rkeys) (nl)
+   (princ rvals) (nl)
    (while rkeys 
     (setq! plist (plist-set (car rkeys) plist (car rvals)))
     (setq! rkeys (cdr rkeys))
