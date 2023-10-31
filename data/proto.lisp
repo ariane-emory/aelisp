@@ -36,7 +36,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Count results of rolling 2d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when t
+(when nil
  (setq! *counts* '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0))
  (repeat 10000
   (let ((roll (+ (random 1 6) (random 1 6))))
@@ -121,3 +121,34 @@
 (provide 'proto)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;; Hmm.. I could use a function that rotates a 'matrix' structure right by 90 degrees. So, if given: 
+
+'((1 2 3)
+  (4 5 6)
+  (7 8 9))
+
+;; ... it should return:
+
+'((7 4 1)
+  (8 5 2)
+  (9 6 3))
+
+
+(defun transpose (matrix)
+  (if (null (car matrix))
+      '()
+      (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
+
+(defun reverse-rows (matrix)
+  (mapcar reverse matrix))
+
+(defun rotate-right-90 (matrix)
+  (reverse-rows (transpose matrix)))
+
+(let ((test-matrix '((1 2 3) (4 5 6) (7 8 9))))
+ (princ (rotate-right-90 test-matrix)))
+
+(nl)
+
+;;((7 4 1) (8 5 2) (9 6 3))
