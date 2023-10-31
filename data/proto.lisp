@@ -271,7 +271,7 @@
        )
   $('defun constructor-name 'field-values
     $('let $($('struct $('build-plist (cons 'list field-kws) 'field-values)))
-      struct))))
+      'struct))))
 
                                         ;(log-macro t)
 (make-struct-constructor dog name age spots)
