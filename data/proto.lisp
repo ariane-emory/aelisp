@@ -122,15 +122,9 @@
  (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun floor-rational (n)
- "Round N down to the nearest integral value."
- (let ((num (numer n))
-       (den (denom n)))
-  (while (not (zero? (mod num den)))
-   (setq! num (- num 1)))
-  (simplify-number (rational num den))))
 
 
+(log-eval t)
 
 (princ "In.") (nl)
 (princ (floor-rational 17/8)) (nl)
@@ -144,3 +138,21 @@
  ;; (if (integer? n)
  ;;  n
   
+(defun continued-fractions (num den limit)
+  "Generate the continued fraction representation of NUM/DEN."
+  (let ((whole (floor num den)))
+    (cons whole
+          (when (and (> limit 0) (not (zerop (- num (* whole den)))))
+            (continued-fractions den (- num (* whole den)) (1- limit))))))
+
+(defun cf-to-rational (cfs)
+  "Convert a continued fraction representation to a rational number."
+  (if (null (cdr cfs))
+      (cons (car cfs) 1)
+      (let ((recursion (cf-to-rational (cdr cfs))))
+        (cons (+ (* (car cfs) (car recursion)) (cdr recursion)) 
+              (car recursion)))))
+
+(defun simpler-fraction (num den &optional (limit 15))
+  "Get a simpler fraction approximation for NUM/DEN."
+  (cf-to-rational (butlast (continued-fractions num den limit) 1)))
