@@ -230,6 +230,11 @@
 (put 'dog :class fido)
 
 (defmacro make-struct-getter (struct field)
- (intern (concat (symbol-name struct) "-" (symbol-name ))))
+ (let ((getter-name (intern (concat (symbol-name struct) "-" (symbol-name field))))
+       (field-kw (intern (concat ":" (symbol-name field)))))
+  $('defun getter-name $('obj)
+    $('plist-get field-kw 'obj))))
 
-;(princ (make-struct-getter dog name)) (nl)
+(log-macro t)
+(princ (make-struct-getter dog name)) (nl)
+(princ (dog-name fido)) (nl)
