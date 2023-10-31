@@ -1908,7 +1908,10 @@
  (unless (integer? multiple) (error "MULTIPLE must be an integer"))
  (unless (> multiple 0) (error "MULTIPLE must be greater than zero"))
  (unless (> num 0) (error "NUM must be greater than zero"))
- (* multiple (+ 1 (/ num multiple))))
+ (let ((div-result (/ num multiple)))
+  (if (one? div-result)
+   num
+   (* multiple (+ 1 div-result)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
