@@ -300,7 +300,7 @@
 
 (defmacro make-struct-predicate (struct-type)
  (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
-  $('defun predicate-name $('obk)
+  $('defun predicate-name $('obj)
     $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
 
 (make-struct-predicate dog)
