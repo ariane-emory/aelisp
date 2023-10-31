@@ -246,10 +246,19 @@
     $('plist-set field-kw 'obj 'val))))
 
 (make-struct-getter dog name) (nl)
-(log-macro t)
 (make-struct-setter dog name) (nl) 
 (princ (dog-name fido)) (nl)
 (set-dog-name fido "Rover")
 (princ (dog-name fido)) (nl)
 
-;;(princ (dog-name 1)) (nl)
+(defmacro make-struct-constructor (struct-type . fields)
+ (let ((constructor-name (intern (concat "make-" (symbol-name struct-type)))))
+  $('defun constructor-name $('field-values)
+    $('mapcar ('lambda (field)
+               $($(intern (concat ":" (symbol-name field))) field))
+      fields)
+    
+    )))
+
+(log-macro t)
+(make-struct-constructor dog name age spots)
