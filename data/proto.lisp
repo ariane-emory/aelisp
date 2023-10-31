@@ -234,7 +234,7 @@
        (field-kw (intern (concat ":" (symbol-name field)))))
   $('defun getter-name $('obj)
     $('unless $('get ':struct-type 'obj)
-     $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-get field-kw 'obj))))
 
 (defmacro make-struct-setter (struct-type field)
@@ -242,7 +242,7 @@
        (field-kw (intern (concat ":" (symbol-name field)))))
   $('defun setter-name $('obj 'val)
     $('unless $('get ':struct-type 'obj)
-     $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set field-kw 'obj 'val))))
 
 (make-struct-getter dog name) (nl)
@@ -255,20 +255,25 @@
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
        )
-  $('defun constructor-name $('field-values)
-    $('let $($('field-kws field-kws))
-    $('mapcar $('lambda $('field)
-                'field)
-      'fields-kws)
-    
-      ))))
+  $('defun constructor-name 'field-values
+    $('let $($('struct nil)
+             $('field-kws (cons 'list field-kws)))
+      $('while 'field-kws
+        $('setq! 'struct $('plist-set $('car 'field-values) $('car 'field-kws) 'struct))
+        $('setq! 'field-kws    $('cdr 'field-kws))
+        $('setq! 'field-values $('cdr 'field-values)))))))
 
 (log-macro t)
 (make-struct-constructor dog name age spots)
 
-
-(defun make-dog (field-values)
- (let ((field-kws (:name :age :spots)))
+(defun make-dog field-values
+ (let ((struct nil) (field-kws (list :name :age :spots)))
   (while field-kws
-   (plist-set (car field-kws) field-values (pop! field-values))
-   (setq! field-kws (cdr field-kws)))))
+   (log-eval t)
+   (log-core t)
+   (setq! struct (plist-set (car field-kws) struct (car field-values)))
+   (setq! field-kws (cdr field-kws))
+   (setq! field-values (cdr field-values)))))
+
+
+(princ (make-dog "spot" 2 t)) (nl)
