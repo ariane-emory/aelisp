@@ -1890,6 +1890,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; random number generator functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; uint64_t xorshift64(struct xorshift64_state *state)
+;; {
+;; 	uint64_t x = state->a;
+;; 	x ^= x << 13;
+;; 	x ^= x >> 7;
+;; 	x ^= x << 17;
+;; 	return state->a = x;
+;; }
+
 (let ((seed (now-us)))
  (defun xorshift64 ()
   "Generate a pseudo-random positive integer."
