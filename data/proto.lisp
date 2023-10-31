@@ -147,9 +147,10 @@
  "t if the rows in MATRIX all have the same length."
  (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
  (let ((first-row-length (length (car matrix))))
-  (all? (lambda (row)
-         (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
-         (= (length row) first-row-length))
+  (all?
+   (lambda (row)
+    (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
+    (= (length row) first-row-length))
    (cdr matrix))))
 
 (defun rotate-right-90 (matrix)
