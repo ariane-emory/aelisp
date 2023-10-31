@@ -230,7 +230,7 @@
  (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name field))))
        (field-kw (intern (concat ":" (symbol-name field)))))
   $('defun getter-name $('obj)
-    $('unless $('get ':struct-type 'obj)
+    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-get field-kw 'obj))))
 
@@ -238,29 +238,10 @@
  (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name field))))
        (field-kw (intern (concat ":" (symbol-name field)))))
   $('defun setter-name $('obj 'val)
-    $('unless $('get ':struct-type 'obj)
+    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set field-kw 'obj 'val))))
 
-(defun build-plist (keys vals)
- "Build a plist from KEYS and VALS."
- (unless (list? keys) (error "KEYS must be a list."))
- (unless (list? vals) (error "VALS must be a list."))
- (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
- ;; (while (not (= (length keys) (length vals)))
- ;;  (setq! vals (append vals (list 'nil))))
- (let (plist
-       (rkeys (reverse keys))
-       (rvals (reverse vals)))
-  (while (not (= (length rkeys) (length rvals)))
-   (setq! rvals (cons nil rvals)))
-  ;; (princ "ks: " rkeys) (nl)
-  ;; (princ "vs: " rvals) (nl)
-  (while rkeys 
-   (setq! plist (plist-set (car rkeys) plist (car rvals)))
-   (setq! rkeys (cdr rkeys))
-   (setq! rvals (cdr rvals)))
-  plist))
 
 (defmacro make-struct-constructor (struct-type . fields)
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
@@ -270,7 +251,13 @@
       $('put! $('quote struct-type) ':struct-type 'struct)
       'struct))))
 
-;; (log-macro t)
+(defmacro make-struct-predicate (struct-type)
+ (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
+  $('defun predicate-name $('obj)
+    $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
+
+(make-struct-predicate dog)
+
 
 (make-struct-getter dog name)
 (make-struct-setter dog name)
@@ -296,13 +283,5 @@
 (nl)
 (princ (build-plist '(:foo :bar :baz) '(1))) (nl)
 
-
-
-(defmacro make-struct-predicate (struct-type)
- (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
-  $('defun predicate-name $('obj)
-    $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
-
-(make-struct-predicate dog)
-
 (princ (dog? fido)) (nl)
+
