@@ -237,7 +237,19 @@
      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-get field-kw 'obj))))
 
+(defmacro make-struct-setter (struct-type field)
+ (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name field))))
+       (field-kw (intern (concat ":" (symbol-name field)))))
+  $('defun setter-name $('obj 'val)
+    $('unless $('get ':struct-type 'obj)
+     $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+    $('plist-set field-kw 'obj 'val))))
+
 ;; (log-macro t)
-(princ (make-struct-getter dog name)) (nl)
+(make-struct-getter dog name) (nl)
+(make-struct-setter dog name) (nl) 
 (princ (dog-name fido)) (nl)
-(princ (dog-name 1)) (nl)
+(princ (dog-name fido)) (nl)
+(set-name fido "Rover")
+
+;;(princ (dog-name 1)) (nl)
