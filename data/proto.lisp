@@ -252,13 +252,23 @@
 (princ (dog-name fido)) (nl)
 
 (defmacro make-struct-constructor (struct-type . fields)
- (let ((constructor-name (intern (concat "make-" (symbol-name struct-type)))))
+ (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
+       (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
+       )
   $('defun constructor-name $('field-values)
-    $('mapcar ('lambda (field)
-               $($(intern (concat ":" (symbol-name field))) field))
-      fields)
+    $('let $($('field-kws field-kws))
+    $('mapcar $('lambda $('field)
+                'field)
+      'fields-kws)
     
-    )))
+      ))))
 
 (log-macro t)
 (make-struct-constructor dog name age spots)
+
+
+(defun make-dog (field-values)
+ (let ((field-kws (:name :age :spots)))
+  (while field-kws
+   (plist-set (car field-kws) field-values (pop! field-values))
+   (setq! field-kws (cdr field-kws)))))
