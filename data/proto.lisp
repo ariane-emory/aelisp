@@ -255,6 +255,14 @@
   $('defun predicate-name $('obj)
     $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
 
+(defmacro defstruct (struct-type . fields)
+ (let ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields)))
+  $('progn
+    $('make-struct-predicate struct-type)
+    $('make-struct-constructor struct-type . fields)
+    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) (cons 'list field-kws))
+    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws)))))
+
 
 (make-struct-predicate dog)
 (make-struct-getter dog name)
@@ -283,3 +291,6 @@
 
 (princ (dog? fido)) (nl)
 
+(log-macro t)
+(log-eval t)
+(defstruct dog name age spots)
