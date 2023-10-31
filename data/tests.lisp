@@ -394,14 +394,7 @@ Write some tests for random.
 ;; (princ *counts*) (nl)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! *matrix*
- (list
-  (list 0 0 0 0 0 0)
-  (list 0 0 0 0 0 0)
-  (list 0 0 0 0 0 0)
-  (list 0 0 0 0 0 0)
-  (list 0 0 0 0 0 0)
-  (list 0 0 0 0 0 0)))
+
 
 ;; (repeat 50000
 ;;  (let ((roll1 (random 1 7))
@@ -414,30 +407,30 @@ Write some tests for random.
 ;; (princ *matrix*) (nl)
 
 
-;; (repeat 100
-;;   (let* ((roll-1 (random 1 7))
-;;          (roll-2 (random 1 7))
-;;          (i (- roll-1 1))
-;;          (j (- roll-2 1))
-;;          (current (nth (nth *matrix* i) j))
-;;          (updated (+ 1 current)))
-;;     (princ (format "Roll-1: %d, Roll-2: %d, i: %d, j: %d, Current: %d, Updated: %d" roll-1 roll-2 i j current updated)) (nl)
-;;     (list-set! (nth *matrix* i) j updated)
-;;     (princ (format "Matrix after update: %s" *matrix*)) (nl)))
-
-
 ;; (princ *matrix*) (nl)
 
 
 (setq! *counter* 0)
+(setq! *matrix*
+ (list
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)))
 
+(defun set-next-int (row)
+ (list-set! row (mod *counter* 6) (setq! *counter* (+ *counter* 1))))
+
+;;(log-eval t)
 (repeat 6
-  (lambda (i)
-    (repeat 6
-      (lambda (j)
-        (list-set! (nth *matrix* i) j *counter*)
-        (setq! *counter* (+ *counter* 1))
-        (princ (format "Setting *matrix*[%d][%d] to %d" i j *counter*)) (nl)))))
+ (let ((current-row (nth (/ *counter* 6) *matrix*)))
+  (set-next-int current-row)
+  (set-next-int current-row)
+  (set-next-int current-row)
+  (set-next-int current-row)
+  (set-next-int current-row)
+  (set-next-int current-row)))
 
-(princ "Final Matrix:") (nl)
 (princ *matrix*) (nl)
