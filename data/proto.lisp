@@ -297,9 +297,13 @@
 
 (defmacro defstruct (struct-type . fields)
  (let* ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
-        (getter-progn (mapcar id fields))
+        (getter-progn
+         (mapcar
+          (lambda (field)
+           $('make-struct-getter struct-type field))
+          fields)))
 
-       )
+       
 ;; $('progn
   $('quote getter-progn)
 ;;    $('make-struct-predicate struct-type)
