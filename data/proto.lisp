@@ -255,9 +255,8 @@
   $('defun predicate-name $('obj)
     $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
 
+
 (make-struct-predicate dog)
-
-
 (make-struct-getter dog name)
 (make-struct-setter dog name)
 (make-struct-getter dod age)
