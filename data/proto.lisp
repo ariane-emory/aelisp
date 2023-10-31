@@ -41,7 +41,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Count results of rolling 2d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when t
+(when nil
  (setq! *counts* '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0))
  (repeat 10000
   (let ((roll (+ (random 1 6) (random 1 6))))
@@ -114,7 +114,11 @@
 
 (setq! data (rotate-right-90 (mapcar vals (set! data (cdr (read "results.lisp"))))))
 
-(when nil
+(when t
  (setq! ctr 1)
- (princ (mapcar (lambda (x) (cons (setq! ctr (+ 1 ctr)) (list x))) (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
+ (princ
+  (mapcar
+   (lambda (x)
+    (cons (setq! ctr (+ 1 ctr)) (list x)))
+   (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
  (nl))
