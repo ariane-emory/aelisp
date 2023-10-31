@@ -246,11 +246,11 @@
  "Build a plist from KEYS and VALS."
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
- (unless (= (length keys) (length vals)) (error "KEYS and VALS must be the same length."))
+ (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
  (let (plist)
   (let ((rkeys (reverse keys))
         (rvals (reverse vals)))
-   (while rkeys
+   (while rvals
     (setq! plist (plist-set (car rkeys) plist (car rvals)))
     (setq! rkeys (cdr rkeys))
     (setq! rvals (cdr rvals)))
