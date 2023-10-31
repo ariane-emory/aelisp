@@ -301,22 +301,15 @@
          (cons 'progn
           (mapcar
            (lambda (field)
-            $('make-struct-getter struct-type field))
-           fields)))
-        (setter-progn
-         (cons 'progn
-          (mapcar
-           (lambda (field)
-            $('make-struct-setter struct-type field))
+            $('progn
+             $('make-struct-getter struct-type field)
+             $('make-struct-setter struct-type field))
+            )
            fields))))
   $('progn
     $('make-struct-predicate struct-type)
     $('make-struct-constructor struct-type . fields)
-    $(getter-progn)
-    $(setter-progn)
-    ;;    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) $('quote fields))
-    ;;    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) $('quote (list fields)))
-    )))
+    getter-progn)))
 
 ;; (log-macro t)
 ;; (log-eval t)
