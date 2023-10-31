@@ -45,23 +45,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! s       setq!)
-(setq! setcar! rplaca!)
-(setq! setcdr! rplacd!)
-(setq! ¬       not)          
-(setq! ∨       or )           
-(setq! ∧       and)
-(setq! list?   tail?)
-(setq! setcdr! rplacd!)
-(setq! setcar! rplaca!)
-(setq! λ       lambda)
-(setq! lte     <=)
-(setq! gte     >=)
-(setq! lt      <)
-(setq! gt      >)
-(setq! has-key? khas?)
-(setq! get-key  kget)
-(setq! set-key  kset)
+(setq! s          setq!)
+(setq! setcar!    rplaca!)
+(setq! setcdr!    rplacd!)
+(setq! ¬          not)          
+(setq! ∨          or )           
+(setq! ∧          and)
+(setq! list?      tail?)
+(setq! setcdr!    rplacd!)
+(setq! setcar!    rplaca!)
+(setq! λ          lambda)
+(setq! lte        <=)
+(setq! gte        >=)
+(setq! lt         <)
+(setq! gt         >)
+(setq! has-key?   khas?)
+(setq! get-key    kget)
+(setq! set-key    kset)
+(setq! plist-has? phas?)
+(setq! plist-set  pset)
+(setq! plist-get  pget)
+(setq! alist-has? ahas?)
+(setq! alist-set  aset)
+(setq! alist-get  aget)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -234,17 +241,22 @@
  "Get the nth item in LST."
  (unless (integer? index) (error "INDEX must be an integer"))
  (unless (list? lst)      (error "LST must be a list"))
- (cond
-  ((zero? index) (car lst))
-  (lst          (nth (- index 1) (cdr lst)))))
+ (unless (>= index 0)     (error "INDEX must be non-negative"))
+ (let ((len (length lst)))
+  (if (>= index len)
+   (error "INDEX is out of range")
+   (cond
+    ((zero? index) (car lst))
+    (lst           (nth (- index 1) (cdr lst)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun nthcdr (n lst)
- "Get the nth cdr of LST."
- (unless (integer? n) (error "N must be an integer"))
- (unless (list? lst)  (error "LST must be a list"))
- (if (zero? n)
+(defun nthcdr (index lst)
+ "Get the INDEXh cdr of LST."
+ (unless (integer? index) (error "N must be an integer"))
+ (unless (list? lst)      (error "LST must be a list"))
+ (unless (>= index 0)     (error "INDEX must be non-negative"))
+ (if (zero? index)
   lst
-  (nthcdr (1- n) (cdr lst))))
+  (nthcdr (1- index) (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun last (lst)
  "Get last item in a LST."

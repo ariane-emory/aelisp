@@ -351,25 +351,93 @@ Write some tests for random.
 (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
 
 (repeat 15000
- (let ((roll (random 1 7)))
-  (setq! *counts* (kset roll *counts*
-                   (if (khas? roll *counts*)
-                    (1+ (kget roll *counts*))
-                    1)))))
+(let ((roll (random 1 7)))
+(setq! *counts* (kset roll *counts*
+(if (khas? roll *counts*)
+(1+ (kget roll *counts*))
+1)))))
 
 (princ *counts*) (nl)
 |#
 
 
-(setq! *counts* '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0))
+;; Using the random function we came up with, I tried to simulate rolling 2d6 50,000 times.
 
-(repeat 15000
- (let ((roll (+ (random 1 7) (random 1 7))))
-  (setq! *counts* (kset roll *counts*
-                   (if (khas? roll *counts*)
-                    (1+ (kget roll *counts*))
-                    1)))))
+;; (setq! *counts* '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0))
 
-(princ *counts*) (nl)
+;; (repeat 50000
+;;  (let ((roll (+ (random 1 7) (random 1 7))))
+;;   (setq! *counts*
+;;    (plist-set roll *counts*
+;;     (if (plist-has? roll *counts*)
+;;      (1+ (plist-get roll *counts*))
+;;      1)))))
+
+;; (princ *counts*) (nl)
+
+;; Output: (2 0 3 5495 4 0 5 11329 6 0 7 16435 8 0 9 11149 10 0 11 5592 12 0)
+
+;; It seems surprising that, in 50,000 rolls, totals of 2 and 12 never came up.
 
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
+
+;; (repeat 50000
+;;  (let ((roll (random 1 7)))
+;;   (setq! *counts*
+;;    (plist-set roll *counts*
+;;     (if (plist-has? roll *counts*)
+;;      (1+ (plist-get roll *counts*))
+;;      1)))))
+
+;; (princ *counts*) (nl)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq! *matrix*
+ (list
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)))
+
+;; (repeat 50000
+;;  (let ((roll1 (random 1 7))
+;;        (roll2 (random 1 7)))
+;;   (list-set! (nth *matrix* (- roll1 1)) ; get the sublist for roll1
+;;    (- roll2 1)                ; get the index for roll2
+;;    (1+ (nth (nth *matrix* (- roll1 1)) (- roll2 1))) ; increment the count
+;;    )))
+
+;; (princ *matrix*) (nl)
+
+
+;; (repeat 100
+;;   (let* ((roll-1 (random 1 7))
+;;          (roll-2 (random 1 7))
+;;          (i (- roll-1 1))
+;;          (j (- roll-2 1))
+;;          (current (nth (nth *matrix* i) j))
+;;          (updated (+ 1 current)))
+;;     (princ (format "Roll-1: %d, Roll-2: %d, i: %d, j: %d, Current: %d, Updated: %d" roll-1 roll-2 i j current updated)) (nl)
+;;     (list-set! (nth *matrix* i) j updated)
+;;     (princ (format "Matrix after update: %s" *matrix*)) (nl)))
+
+
+;; (princ *matrix*) (nl)
+
+
+(setq! *counter* 0)
+
+(repeat 6
+  (lambda (i)
+    (repeat 6
+      (lambda (j)
+        (list-set! (nth *matrix* i) j *counter*)
+        (setq! *counter* (+ *counter* 1))
+        (princ (format "Setting *matrix*[%d][%d] to %d" i j *counter*)) (nl)))))
+
+(princ "Final Matrix:") (nl)
+(princ *matrix*) (nl)
