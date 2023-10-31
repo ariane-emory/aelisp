@@ -226,9 +226,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! fido '(:name "Fido" :age 2 :spots t))
-(put 'dog :struct-type fido)
-
 (defmacro make-struct-getter (struct-type field)
  (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name field))))
        (field-kw (intern (concat ":" (symbol-name field)))))
@@ -244,12 +241,6 @@
     $('unless $('get ':struct-type 'obj)
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set field-kw 'obj 'val))))
-
-(make-struct-getter dog name) (nl)
-(make-struct-setter dog name) (nl) 
-(princ (dog-name fido)) (nl)
-(set-dog-name fido "Rover")
-(princ (dog-name fido)) (nl)
 
 (defun build-plist (keys vals)
  "Build a plist from KEYS and VALS."
@@ -267,16 +258,22 @@
 
 (defmacro make-struct-constructor (struct-type . fields)
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
-       (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
-       )
+       (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields)))
   $('defun constructor-name 'field-values
     $('let $($('struct $('build-plist (cons 'list field-kws) 'field-values)))
       $('put! $('quote struct-type) ':struct-type 'struct)
       'struct))))
 
 ;; (log-macro t)
+(make-struct-getter dog name) (nl)
+(make-struct-setter dog name) (nl) 
 (make-struct-constructor dog name age spots)
 
+(setq! fido '(:name "Fido" :age 2 :spots t))
+(put 'dog :struct-type fido)
+(princ (dog-name fido)) (nl)
+(princ (dog-name fido)) (nl)
+(set-dog-name fido "Rover")
 
 ;;(princ (make-dog "spot" 2 t)) (nl)
 
