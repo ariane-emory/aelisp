@@ -899,6 +899,7 @@
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list* args
+ "Come up with a docstring for this!"
  (let*
   ((chase
 	  (lambda (args)
@@ -1112,13 +1113,24 @@
  (lambda args
   (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun spc ()  (princ " "))
+(defun spc ()
+ "Print a space character."
+ (princ " "))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun u8  (n) (& n (- (<<  8) 1)))
+(defun u8  (n)
+ "Trunctate N to an 8 bit value."
+ (unless (integer? n) (error "N must be an integer"))
+ (& n (- (<<  8) 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun u16 (n) (& n (- (<< 16) 1)))
+(defun u16 (n)
+ "Trunctate N to a 16 bit value."
+ (unless (integer? n) (error "N must be an integer"))
+ (& n (- (<< 16) 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun u32 (n) (& n (- (<< 32) 1)))
+(defun u32 (n)
+ "Trunctate N to a 32 bit value."
+ (unless (integer? n) (error "N must be an integer"))
+ (& n (- (<< 32) 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun max2 (a b)
  "Return the larger of A and B."
@@ -1175,8 +1187,10 @@
 (setq! 2* double)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sum (lst)
+ "Get the sum of the numbers in LST."
  (let ((total 0))
   (while lst
+   (unless (number? (car list)) (error "The elements of LST must be numbers."))
    (setq! total (+ total (car lst)))
    (setq! lst (cdr lst)))
   total))
@@ -1513,9 +1527,15 @@
  (let ((pad (make-string (- size (length str)) init-val)))
   (concat pad str)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun left-justify  (size str) (pad-string-right size " " str))
+(defun left-justify  (size str)
+ "Left justify a string STR."
+ (unless (string? str)      (error "STR must be a string."))
+ (pad-string-right size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun right-justify (size str) (pad-string-left size " " str))
+(defun right-justify (size str)
+ "Right justify a string STR."
+ (unless (string? str)      (error "STR must be a string."))
+ (pad-string-left size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'string-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1553,9 +1573,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-values (plist)
  "Extracts the values from a plist PLIST."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (pred? prop plist)
+ "Non-destructively remove PROP from PLIST, testing equality with PRED?."
  (unless (list? plist)          (error "PLIST must be a list"))
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist
@@ -1563,14 +1586,19 @@
    (plist-remove pred? prop (cddr plist))
    (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeq  (prop plist) (plist-remove eq?  prop plist))
+(defun plist-removeq  (prop plist)
+ "Non-destructively remove PROP from PLIST, testing equality with eq?."
+ (plist-remove eq?  prop plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeql (prop plist) (plist-remove eql? prop plist))
+(defun plist-removeql (prop plist)
+ "Non-destructively remove PROP from PLIST, testing equality with eql?."
+ (plist-remove eql? prop plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! keys      plist-keys)
 (setq! vals-base vals)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun vals args
+ "Retrieve the values from a plist or environment."
  (when (cdr args) (error "VALS takes only one argument"))
  (let ((arg (car args)))
   (cond
@@ -1821,11 +1849,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; new content that hasn't been sorted of merged into split std's modules yet:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun sys* args (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
-(setq! stdout (curry1 kget :stdout))
-(setq! stderr (curry1 kget :stderr))
+(defun sys* args
+ "A splat version of sys that flattens and stringifies ARGS."
+ (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun not-nil? (o) (not (nil? o)))
+(setq! stdout    (curry1 pget :stdout))
+(setq! stderr    (curry1 pget :stderr))
+(setq! exit-code (curry1 pget :exit))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun not-nil? (o)
+ "t when O."
+ (not (nil? o)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! compact (curry1 filter not-nil?))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1853,7 +1887,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; random number generator:
+;; random number generator functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (let ((seed (now-us)))
  (defun xorshift64 ()
@@ -1887,14 +1921,14 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; matrix rotation:
+;; matrix rotation functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transpose (matrix)
-  "Convert the rows of MATRIX into columns."
-  (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
-  (unless (consistent-matrix? matrix) (error "MATRIX is inconsistent. All rows must have the same number of columns."))
-  (when (car matrix)
-    (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
+ "Convert the rows of MATRIX into columns."
+ (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
+ (unless (consistent-matrix? matrix) (error "MATRIX is inconsistent. All rows must have the same number of columns."))
+ (when (car matrix)
+  (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse-rows (matrix)
  "Reverse each row in MATRIX."
