@@ -265,8 +265,13 @@
       'struct))))
 
 ;; (log-macro t)
-(make-struct-getter dog name) (nl)
-(make-struct-setter dog name) (nl) 
+
+(make-struct-getter dog name)  (nl)
+(make-struct-setter dog name)  (nl) 
+(make-struct-getter dod age)   (nl)
+(make-struct-setter dog age)   (nl) 
+(make-struct-getter dog spots) (nl)
+(make-struct-setter dog spots) (nl) 
 (make-struct-constructor dog name age spots)
 
 (setq! fido '(:name "Fido" :age 2 :spots t))
@@ -276,7 +281,6 @@
 (set-dog-name fido "Rover")
 
 ;;(princ (make-dog "spot" 2 t)) (nl)
-
 
 (princ (make-dog "spot" 2 t)) (nl)
 (princ (get :struct-type (make-dog "spot" 2 t))) (nl)
