@@ -146,8 +146,8 @@
         (cons (+ (* (car cfs) (car recursion)) (cdr recursion)) 
               (car recursion)))))
 
-;; (defun simpler-fraction (num den &optional (limit 15))
-;;   "Get a simpler fraction approximation for NUM/DEN."
-;;   (cf-to-rational (butlast (continued-fractions num den limit) 1)))
+(defun simpler-fraction (num den limit)
+  "Get a simpler fraction approximation for NUM/DEN."
+  (cf-to-rational (butlast (continued-fractions num den limit) 1)))
 
-(princ (continued-fractions 408 500 8)) (nl)
+(princ (cf-to-rational (continued-fractions 408 500 8))) (nl)
