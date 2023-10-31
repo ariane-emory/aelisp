@@ -263,34 +263,60 @@
     $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) (cons 'list field-kws))    ;; cons 'progn?
     $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws))))) ;; cons 'progn?
 
-
-(make-struct-predicate dog)
-(make-struct-getter dog name)
-(make-struct-setter dog name)
-(make-struct-getter dod age)
-(make-struct-setter dog age)
-(make-struct-getter dog spots)
-(make-struct-setter dog spots)
-(make-struct-constructor dog name age spots)
-
-(setq! fido '(:name "Fido" :age 2 :spots t))
-(put 'dog :struct-type fido)
-(princ (dog-name fido)) (nl)
-(princ (dog-name fido)) (nl)
-(set-dog-name fido "Rover")
-
-;;(princ (make-dog "spot" 2 t)) (nl)
-
-(princ (make-dog "spot" 2 t)) (nl)
-(princ (get :struct-type (make-dog "spot" 2 t))) (nl)
-(princ (build-plist '(:name :age :spots) '("spot" 2 t))) (nl)
-
-
-(nl)
-(princ (build-plist '(:foo :bar :baz) '(1))) (nl)
-
-(princ (dog? fido)) (nl)
+(defmacro defstruct (struct-type . fields)
+ (let ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields)))
+  $('progn
+    $('make-struct-predicate struct-type)
+    $('make-struct-constructor struct-type . fields)
+    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) (cons 'list fields))
+    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list fields))))) 
 
 (log-macro t)
 (log-eval t)
-(defstruct dog name age spots)
+(defstruct cat name legs whiskers)
+(log-eval nil)
+(log-macro nil)
+
+;;(exit)
+
+
+
+
+
+
+
+
+
+
+
+(ignore
+ (make-struct-predicate dog)
+ (make-struct-getter dog name)
+ (make-struct-setter dog name)
+ (make-struct-getter dod age)
+ (make-struct-setter dog age)
+ (make-struct-getter dog spots)
+ (make-struct-setter dog spots)
+ (make-struct-constructor dog name age spots)
+
+ (setq! fido '(:name "Fido" :age 2 :spots t))
+ (put 'dog :struct-type fido)
+ (princ (dog-name fido)) (nl)
+ (princ (dog-name fido)) (nl)
+ (set-dog-name fido "Rover")
+
+ ;;(princ (make-dog "spot" 2 t)) (nl)
+
+ (princ (make-dog "spot" 2 t)) (nl)
+ (princ (get :struct-type (make-dog "spot" 2 t))) (nl)
+ (princ (build-plist '(:name :age :spots) '("spot" 2 t))) (nl)
+
+
+ (nl)
+ (princ (build-plist '(:foo :bar :baz) '(1))) (nl)
+
+ (princ (dog? fido)) (nl)
+
+ ;; (make-cat "Higgy" 4 t)
+ ;; (princ (cat-whiskers (make-cat "Higgy" 4 t))) (nl)
+ )
