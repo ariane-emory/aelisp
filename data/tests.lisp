@@ -396,15 +396,6 @@ Write some tests for random.
 
 
 
-;; (repeat 50000
-;;  (let ((roll1 (random 1 7))
-;;        (roll2 (random 1 7)))
-;;   (list-set! (nth *matrix* (- roll1 1)) ; get the sublist for roll1
-;;    (- roll2 1)                ; get the index for roll2
-;;    (1+ (nth (nth *matrix* (- roll1 1)) (- roll2 1))) ; increment the count
-;;    )))
-
-;; (princ *matrix*) (nl)
 
 
 ;; (princ *matrix*) (nl)
@@ -432,5 +423,31 @@ Write some tests for random.
   (set-next-int current-row)
   (set-next-int current-row)
   (set-next-int current-row)))
+
+(princ *matrix*) (nl)
+
+
+(setq! *counter* 0)
+(setq! *matrix*
+ (list
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)))
+
+(repeat 10000
+ (let ((roll1 (random 1 7))
+       (roll2 (random 1 7)))
+   (unless (and (>= roll1 1) (<= roll1 6) (>= roll2 1) (<= roll2 6))
+     (princ "Unexpected rolls: roll1=" roll1 " roll2=" roll2) (nl))
+   
+   ;; Let's break it down step-by-step
+   (let* ((sublist (nth (- roll1 1) *matrix*))
+          (current-val (nth (- roll2 1) sublist))
+          (new-val (1+ current-val)))
+     (list-set! sublist (- roll2 1) new-val)
+   )))
 
 (princ *matrix*) (nl)
