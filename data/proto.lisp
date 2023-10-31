@@ -155,27 +155,21 @@
 
 
 
-; Initialize the seed (any non-zero value will do)
-
-(setq! *xorshift-seed* (now-us))
-
-(defun xorshift64 ()
- "Generate a pseudo-random positive integer."
-  (when (zero? *xorshift-seed*)
-    (setq! *xorshift-seed* (now-us)))
+(let ((seed (now-us)))
+ (defun xorshift64 ()
+  "Generate a pseudo-random positive integer."
+  (when (zero? seed)
+   (setq! seed (now-us)))
   
-  ; Xorshift algorithm
-  (setq! *xorshift-seed* (^ *xorshift-seed* (<< *xorshift-seed* 13)))
-  (setq! *xorshift-seed* (^ *xorshift-seed* (>> *xorshift-seed* 7)))
-  (setq! *xorshift-seed* (^ *xorshift-seed* (<< *xorshift-seed* 17)))
+  (setq! seed (^ seed (<< seed 13)))
+  (setq! seed (^ seed (>> seed 7)))
+  (setq! seed (^ seed (<< seed 17)))
   
-  (if (< *xorshift-seed* 0)
-      (- *xorshift-seed*)
-      *xorshift-seed*))
+  (abs seed)))
 
 
 (defun random args
- "Return a random integer between MIN and MAX inclusive."
+ "Return a psuedo-random integer between MIN and MAX inclusive."
  (unless (or (nil? args) (nil? (cddr args)))
   (error "random takes either 0, 1 or 2 arguments"))
  (unless (or (nil? (car args)) (integer? (car args)))
