@@ -1,4 +1,5 @@
 To Do:
+- [ ] Improve butlast to take optional N.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
