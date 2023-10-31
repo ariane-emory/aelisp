@@ -1181,7 +1181,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun abs (n)
  "Return the absolute value of N."
- (unless (integer? n) (error "N must be an integer (until rational support is added)"))
+ (unless (integer? n) (error "N must be an integer."))
  (if (> n 0) n (- n)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! 2* double)
@@ -1777,6 +1777,15 @@
  (while (not (is-square? num))
   (setq! num (1+ num)))
  num)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun floor (n)
+ "Round N down to the nearest integral value."
+ (unless (number? n) (error "N must be a number."))
+ (let ((num (numer n))
+       (den (denom n)))
+  (while (not (zero? (mod num den)))
+   (setq! num (- num 1)))
+  (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! addd add-rational)
 (setq! subr sub-rational)

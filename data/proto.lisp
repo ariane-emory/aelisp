@@ -131,10 +131,15 @@
   (simplify-number (rational num den))))
 
 
+
 (princ "In.") (nl)
 (princ (floor-rational 17/8)) (nl)
 (princ "Out.") (nl)
- 
+
+(princ "In.") (nl)
+(princ (floor-rational 2)) (nl)
+(princ "Out.") (nl)
+
  ;; (unless (number? n) (error "N must be a number."))
  ;; (if (integer? n)
  ;;  n
