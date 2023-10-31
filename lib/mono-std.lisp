@@ -1190,9 +1190,7 @@
  "Get the sum of the numbers in LST."
  (let ((total 0))
   (while lst
-   (princ "lst:  " lst) (nl)
-   (unless (number? (car list))
-    (princ "this: " (car list) (nl))
+   (unless (number? (car lst))
     (error "The elements of LST must be numbers."))
    (setq! total (+ total (car lst)))
    (setq! lst (cdr lst)))
