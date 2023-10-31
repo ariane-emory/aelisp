@@ -136,19 +136,19 @@
 
 
 (defun transpose (matrix)
-  (if (null (car matrix))
-      '()
-      (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
+ (if (null (car matrix))
+  '()
+  (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
 
 (defun reverse-rows (matrix)
-  (mapcar reverse matrix))
+ (mapcar reverse matrix))
 
 (defun rotate-right-90 (matrix)
-  (reverse-rows (transpose matrix)))
+ (reverse-rows (transpose matrix)))
 
 (ignore
  (let ((test-matrix '((1 2 3) (4 5 6) (7 8 9))))
- (princ (rotate-right-90 test-matrix))))
+  (princ (rotate-right-90 test-matrix))))
 
 (nl)
 
@@ -156,9 +156,7 @@
 
 (setq! data (rotate-right-90 (mapcar vals (set! data (cdr (read "results.lisp"))))))
 
-
-(setq! ctr 1)
-(princ (mapcar (lambda (x) (cons (setq! ctr (+ 1 ctr)) (list x))) (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
-
-
-(nl)
+(when nil
+ (setq! ctr 1)
+ (princ (mapcar (lambda (x) (cons (setq! ctr (+ 1 ctr)) (list x))) (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
+ (nl))
