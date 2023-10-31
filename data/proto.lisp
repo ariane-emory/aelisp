@@ -127,7 +127,7 @@
 (log-eval t)
 
 (princ "In.") (nl)
-(princ (floor-rational 17/8)) (nl)
+(princ (floor-rational (rational 17 8))) (nl)
 (princ "Out.") (nl)
 
 (princ "In.") (nl)

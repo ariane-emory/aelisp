@@ -1657,7 +1657,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (defun rational? (obj)
    "t if OBJ is a rational number."
-   (and (cons? obj) (integer? (car obj)) (integer? (cdr obj)))))
+   (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))) ;; end when *use-soft-rationals*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
  "built-in numer and denom functions already handle integers correctly."
