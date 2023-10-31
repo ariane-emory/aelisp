@@ -154,6 +154,7 @@
    (cdr matrix))))
 
 (defun rotate-right-90 (matrix)
+ "Rotate MATRIX right by 90 degrees."
  (unless (consistent-matrix? matrix)
   (error "MATRIX is inconsistent. All rows must have the same number of columns."))
  (reverse-rows (transpose matrix)))
