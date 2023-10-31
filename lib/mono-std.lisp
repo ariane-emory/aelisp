@@ -3,8 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (when *log-loading-std-enabled*
- (princ "Loading monolithic std...")
- (nl))
+ (princ "Loading monolithic std..."))
 
 (require 'std-fundamental)
 
@@ -1786,6 +1785,14 @@
   (while (not (zero? (mod num den)))
    (setq! num (- num 1)))
   (simplify-number (rational num den))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun abs (n)
+ "Return the absolute value of N."
+ (unless (number? n) (error "N must be a number."))
+ (if (integer? n)
+  n
+  (let ((num (numer n)))
+   (rational (if (> num 0) num (- num)) (denom n)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! addd add-rational)
 (setq! subr sub-rational)
