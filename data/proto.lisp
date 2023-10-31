@@ -2,7 +2,6 @@
 (provide 'proto)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Non-recursive reduce I haven't tested yet.
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -113,9 +112,7 @@
  (repeat 100 (princ (random 1 6)) (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! data (rotate-right-90 (mapcar vals (set! data (cdr (read "results.lisp"))))))
-
-(when t
+(when nil
  (setq! ctr 1)
  (princ
   (mapcar
@@ -123,3 +120,22 @@
     (cons (setq! ctr (+ 1 ctr)) (list x)))
    (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
  (nl))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun floor-rational (n)
+ "Round N down to the nearest integral value."
+ (let ((num (numer n))
+       (den (denom n)))
+  (while (not (zero? (mod num den)))
+   (setq! num (- num 1)))
+  (simplify-number (rational num den))))
+
+
+(princ "In.") (nl)
+(princ (floor-rational 17/8)) (nl)
+(princ "Out.") (nl)
+ 
+ ;; (unless (number? n) (error "N must be a number."))
+ ;; (if (integer? n)
+ ;;  n
+  
