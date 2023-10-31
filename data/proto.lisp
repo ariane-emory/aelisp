@@ -310,10 +310,10 @@
             $('make-struct-setter struct-type field))
            fields))))
   $('progn
-    $('quote getter-progn)
-    $('quote setter-progn)
-    ;;    $('make-struct-predicate struct-type)
-    ;;    $('make-struct-constructor struct-type . fields)
+    $('make-struct-predicate struct-type)
+    $('make-struct-constructor struct-type . fields)
+    $(getter-progn)
+    $(setter-progn)
     ;;    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) $('quote fields))
     ;;    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) $('quote (list fields)))
     )))
@@ -325,14 +325,3 @@
 ;; (log-macro nil)
 
 ;;(exit)
-
-(progn
- '(progn
-   (make-struct-getter cat name)
-   (make-struct-getter cat legs)
-   (make-struct-getter cat whiskers))
- '(progn
-   (make-struct-setter cat name)
-   (make-struct-setter cat legs)
-   (make-struct-setter cat whiskers)))
-
