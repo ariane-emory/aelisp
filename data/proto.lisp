@@ -143,20 +143,31 @@
 (defun reverse-rows (matrix)
  (mapcar reverse matrix))
 
+(defun consistent-matrix? (matrix)
+  (let ((first-row-length (length (car matrix))))
+    (every (lambda (row) (= (length row) first-row-length)) matrix)))
+
+(defun rotate-right-90 (matrix)
+  (unless (consistent-matrix? matrix)
+    (error "Matrix is inconsistent. All rows must have the same number of columns."))
+  (reverse-rows (transpose matrix)))
+
 (defun rotate-right-90 (matrix)
  (reverse-rows (transpose matrix)))
 
 (ignore
  (let ((test-matrix '((1 2 3) (4 5 6) (7 8 9))))
-  (princ (rotate-right-90 test-matrix))))
-
-(nl)
+  (princ (rotate-right-90 test-matrix)))
+ (nl))
 
 ;;((7 4 1) (8 5 2) (9 6 3))
 
 (setq! data (rotate-right-90 (mapcar vals (set! data (cdr (read "results.lisp"))))))
 
-(when nil
+(when t
  (setq! ctr 1)
  (princ (mapcar (lambda (x) (cons (setq! ctr (+ 1 ctr)) (list x))) (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
  (nl))
+
+
+
