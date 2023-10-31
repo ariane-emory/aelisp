@@ -250,7 +250,7 @@
  (let (plist)
   (let ((rkeys (reverse keys))
         (rvals (reverse vals)))
-   (while rkeys
+   (while rkeys 
     (setq! plist (plist-set (car rkeys) plist (car rvals)))
     (setq! rkeys (cdr rkeys))
     (setq! rvals (cdr rvals)))
