@@ -271,9 +271,10 @@
        )
   $('defun constructor-name 'field-values
     $('let $($('struct $('build-plist (cons 'list field-kws) 'field-values)))
+      $('put! $('quote struct-type) ':struct-type 'struct)
       'struct))))
 
-                                        ;(log-macro t)
+;; (log-macro t)
 (make-struct-constructor dog name age spots)
 
 
@@ -281,4 +282,8 @@
 
 
 (princ (make-dog "spot" 2 t)) (nl)
-(princ (build-plist '(:name :age :spots) '("spot" 2 t)))
+(princ (get :struct-type (make-dog "spot" 2 t))) (nl)
+(princ (build-plist '(:name :age :spots) '("spot" 2 t))) (nl)
+
+
+
