@@ -242,7 +242,6 @@
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set field-kw 'obj 'val))))
 
-
 (defmacro make-struct-constructor (struct-type . fields)
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields)))
