@@ -1787,12 +1787,13 @@
    (setq! num (- num 1)))
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round (n)
- "Round N to the nearest integral value."
- (unless (number? n) (error "N must be a number."))
- (if (integer? n)
-  n
-  (floor (rational (+ (numer n) (>> (denom n) 1)) (denom n)))))
+(defun round (num)
+ "Round NUM to the nearest integral value. This overhaps heavily with 'round-to-nearest, one"
+ "of them should go."
+ (unless (number? num) (error "NUM must be a number."))
+ (if (integer? num)
+  num
+  (floor (rational (+ (numer num) (>> (denom num) 1)) (denom num)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun abs (n)
  "Return the absolute value of N."
@@ -1914,7 +1915,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; random number generator functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; uint64_t xorshift64(struct xorshift64_state *state)
 ;; {
 ;; 	uint64_t x = state->a;
@@ -1923,7 +1923,6 @@
 ;; 	x ^= x << 17;
 ;; 	return state->a = x;
 ;; }
-
 (let ((seed (now-us)))
  (defun xorshift64 ()
   "Generate a pseudo-random positive integer."
