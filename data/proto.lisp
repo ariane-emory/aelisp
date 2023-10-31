@@ -178,8 +178,10 @@
 
  (let ((randval (xorshift64)))
   (if args
-   (let* ((min (if (cadr args) (car  args) 0))
-          (max (if (cadr args) (cadr args) (car args)))
+   (let* ((arg1 (if (cadr args) (car  args) 0))
+          (arg2 (if (cadr args) (cadr args) (car args)))
+          (min (min arg1 arg2))
+          (max (max arg1 arg2))
           (range (+ 1 (- max min))))
     (+ min (mod (xorshift64) range)))
    randval)))
