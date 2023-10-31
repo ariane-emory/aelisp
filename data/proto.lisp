@@ -299,9 +299,9 @@
  (let* ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
         (getter-progn
          (cons 'progn
-          (mapcar
+          (mapcan
            (lambda (field)
-            $('progn
+            $(
              $('make-struct-getter struct-type field)
              $('make-struct-setter struct-type field))
             )
@@ -318,3 +318,14 @@
 ;; (log-macro nil)
 
 ;;(exit)
+
+(progn
+ (make-struct-predicate cat)
+ (make-struct-constructor cat name legs whiskers)
+ (progn
+  (make-struct-getter cat name)
+  (make-struct-setter cat name)
+  (make-struct-getter cat legs)
+  (make-struct-setter cat legs)
+  (make-struct-getter cat whiskers)
+  (make-struct-setter cat whiskers)))
