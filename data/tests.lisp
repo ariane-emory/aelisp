@@ -442,14 +442,15 @@ Write some tests for random.
 (repeat 20000
  (let ((roll1 (random 1 7))
        (roll2 (random 1 7)))
-   (unless (and (>= roll1 1) (<= roll1 6) (>= roll2 1) (<= roll2 6))
-     (princ "Unexpected rolls: roll1=" roll1 " roll2=" roll2) (nl))
-   
-   ;; Let's break it down step-by-step
-   (let* ((sublist (nth (- roll1 1) *matrix*))
-          (current-val (nth (- roll2 1) sublist))
-          (new-val (1+ current-val)))
-     (list-set! sublist (- roll2 1) new-val)
+  (unless (and (>= roll1 1) (<= roll1 6) (>= roll2 1) (<= roll2 6))
+   (princ "Unexpected rolls: roll1=" roll1 " roll2=" roll2) (nl))
+
+  ;;(princ roll1 " " roll2) (nl)
+  ;; Let's break it down step-by-step
+  (let* ((sublist (nth (- roll1 1) *matrix*))
+         (current-val (nth (- roll2 1) sublist))
+         (new-val (1+ current-val)))
+   (list-set! sublist (- roll2 1) new-val)
    )))
 
 (princ *matrix*) (nl)
@@ -458,3 +459,10 @@ Write some tests for random.
 ;; it's only setting odd rows and even columns.
 
 ;; Maybe, now that we have that working example of setting matrix cells, we can fix it.
+
+;;(repeat 100 (princ (random)) (nl))
+
+
+
+
+(defun massaged-random (min max) (let ((substitute-max (- (<< max 1) 1))) (>> (+ (random min substitute-max) 1) 1))) (repeat 100 (princ (massaged-random 1 7)) (nl))
