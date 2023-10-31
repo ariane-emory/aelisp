@@ -247,13 +247,13 @@
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
+ (while (not (= (length keys) (length vals)))
+  (setq! vals (append vals (list 'nil))))
+ (princ "ks: " keys) (nl)
+ (princ "vs: " vals) (nl)
  (let (plist)
   (let ((rkeys (reverse keys))
         (rvals (reverse vals)))
-   (while (< (length rkeys) (length rvals))
-    (setq! rvals (cons nil rvals)))
-   (princ rkeys) (nl)
-   (princ rvals) (nl)
    (while rkeys 
     (setq! plist (plist-set (car rkeys) plist (car rvals)))
     (setq! rkeys (cdr rkeys))
@@ -291,5 +291,5 @@
 (princ (build-plist '(:name :age :spots) '("spot" 2 t))) (nl)
 
 
-
+(nl)
 (princ (build-plist '(:foo :bar :baz) '(1))) (nl)
