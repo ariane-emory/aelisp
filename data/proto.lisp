@@ -266,15 +266,6 @@
 ;;(log-macro t)
 (make-struct-constructor dog name age spots)
 
-(defun make-dog field-values
- (let ((struct nil) (field-kws (list :name :age :spots)))
-  (while field-kws
-   ;; (log-eval t)
-   ;; (log-core t)
-   (setq! struct (plist-set (car field-kws) struct (car field-values)))
-   (setq! field-kws (cdr field-kws))
-   (setq! field-values (cdr field-values)))))
-
 
 ;;(princ (make-dog "spot" 2 t)) (nl)
 
