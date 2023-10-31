@@ -437,7 +437,9 @@ Write some tests for random.
   (list 0 0 0 0 0 0)
   (list 0 0 0 0 0 0)))
 
-(repeat 10000
+
+;; Well, we were working towards making this work, to test whether randomness is maintained properly between successive die rolls:
+(repeat 20000
  (let ((roll1 (random 1 7))
        (roll2 (random 1 7)))
    (unless (and (>= roll1 1) (<= roll1 6) (>= roll2 1) (<= roll2 6))
@@ -451,3 +453,8 @@ Write some tests for random.
    )))
 
 (princ *matrix*) (nl)
+
+;; But currently, it prints ((0 0 0 0 0 0) (2195 0 2200 0 2173 0) (0 0 0 0 0 0) (2238 0 2265 0 2237 0) (0 0 0 0 0 0) (2187 0 2175 0 2330 0)),
+;; it's only setting odd rows and even columns.
+
+;; Maybe, now that we have that working example of setting matrix cells, we can fix it.
