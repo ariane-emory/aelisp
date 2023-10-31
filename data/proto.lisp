@@ -266,12 +266,12 @@
 
 ;; (log-macro t)
 
-(make-struct-getter dog name)  (nl)
-(make-struct-setter dog name)  (nl) 
-(make-struct-getter dod age)   (nl)
-(make-struct-setter dog age)   (nl) 
-(make-struct-getter dog spots) (nl)
-(make-struct-setter dog spots) (nl) 
+(make-struct-getter dog name)
+(make-struct-setter dog name)
+(make-struct-getter dod age)
+(make-struct-setter dog age)
+(make-struct-getter dog spots)
+(make-struct-setter dog spots)
 (make-struct-constructor dog name age spots)
 
 (setq! fido '(:name "Fido" :age 2 :spots t))
