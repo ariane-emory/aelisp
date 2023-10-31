@@ -263,17 +263,30 @@
         $('setq! 'field-kws    $('cdr 'field-kws))
         $('setq! 'field-values $('cdr 'field-values)))))))
 
-(log-macro t)
+;;(log-macro t)
 (make-struct-constructor dog name age spots)
 
 (defun make-dog field-values
  (let ((struct nil) (field-kws (list :name :age :spots)))
   (while field-kws
-   (log-eval t)
-   (log-core t)
+   ;; (log-eval t)
+   ;; (log-core t)
    (setq! struct (plist-set (car field-kws) struct (car field-values)))
    (setq! field-kws (cdr field-kws))
    (setq! field-values (cdr field-values)))))
 
 
-(princ (make-dog "spot" 2 t)) (nl)
+;;(princ (make-dog "spot" 2 t)) (nl)
+
+(defun build-plist (keys vals)
+ (unless (list? keys) (error "KEYS must be a list."))
+ (unless (list? vals) (error "VALS must be a list."))
+ (unless (= (length keys) (length vals)) (error "KEYS and VALS must be the same length."))
+ (let (plist)
+  (while keys
+   (setq! plist (plist-set (car keys) plist (car vals)))
+   (setq! keys (cdr keys))
+   (setq! vals (cdr vals)))
+  plist))
+
+(princ (build-plist '(:name :age :spots) '("spot" 2 t)))
