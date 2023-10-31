@@ -27,7 +27,6 @@
     (setq! upp (kset (car attrs) upp(+ (random 1 6) (random 1 6))))
     (setq! attrs (cdr attrs)))
    upp))
-
  (repeat 200
   (princ (trav-upp))
   (nl)))
