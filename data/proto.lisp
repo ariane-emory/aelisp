@@ -135,29 +135,6 @@
   (9 6 3))
 
 
-(defun transpose (matrix)
- (when (car matrix)
-  (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
-
-(defun reverse-rows (matrix)
- (mapcar reverse matrix))
-
-(defun consistent-matrix? (matrix)
- "t if the rows in MATRIX all have the same length."
- (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
- (let ((first-row-length (length (car matrix))))
-  (all?
-   (lambda (row)
-    (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
-    (= (length row) first-row-length))
-   (cdr matrix))))
-
-(defun rotate-right-90 (matrix)
- "Rotate MATRIX right by 90 degrees."
- (unless (consistent-matrix? matrix)
-  (error "MATRIX is inconsistent. All rows must have the same number of columns."))
- (reverse-rows (transpose matrix)))
-
 
 
 (ignore
