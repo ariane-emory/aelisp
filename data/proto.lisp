@@ -133,9 +133,9 @@
   
 (defun continued-fractions (num den limit)
   "Generate the continued fraction representation of NUM/DEN."
-  (let ((whole (floor num den)))
+  (let ((whole (floor (rational num den))))
     (cons whole
-          (when (and (> limit 0) (not (zerop (- num (* whole den)))))
+          (when (and (> limit 0) (not (zero? (- num (* whole den)))))
             (continued-fractions den (- num (* whole den)) (1- limit))))))
 
 (defun cf-to-rational (cfs)
@@ -149,3 +149,5 @@
 ;; (defun simpler-fraction (num den &optional (limit 15))
 ;;   "Get a simpler fraction approximation for NUM/DEN."
 ;;   (cf-to-rational (butlast (continued-fractions num den limit) 1)))
+
+(princ (continued-fractions 408 500 8)) (nl)
