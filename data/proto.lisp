@@ -227,14 +227,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq! fido '(:name "Fido" :age 2 :spots t))
-(put 'dog :class fido)
+(put 'dog :struct-type fido)
 
-(defmacro make-struct-getter (struct field)
- (let ((getter-name (intern (concat (symbol-name struct) "-" (symbol-name field))))
+(defmacro make-struct-getter (struct-type field)
+ (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name field))))
        (field-kw (intern (concat ":" (symbol-name field)))))
   $('defun getter-name $('obj)
+    $('unless $('get ':struct-type 'obj)
+     $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-get field-kw 'obj))))
 
-(log-macro t)
+;; (log-macro t)
 (princ (make-struct-getter dog name)) (nl)
 (princ (dog-name fido)) (nl)
+(princ (dog-name 1)) (nl)
