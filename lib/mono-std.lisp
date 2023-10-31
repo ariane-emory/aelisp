@@ -1612,15 +1612,11 @@
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
- ;; (while (not (= (length keys) (length vals)))
- ;;  (setq! vals (append vals (list 'nil))))
  (let (plist
        (rkeys (reverse keys))
        (rvals (reverse vals)))
   (while (not (= (length rkeys) (length rvals)))
    (setq! rvals (cons nil rvals)))
-  ;; (princ "ks: " rkeys) (nl)
-  ;; (princ "vs: " rvals) (nl)
   (while rkeys 
    (setq! plist (plist-set (car rkeys) plist (car rvals)))
    (setq! rkeys (cdr rkeys))
