@@ -260,8 +260,8 @@
   $('progn
     $('make-struct-predicate struct-type)
     $('make-struct-constructor struct-type . fields)
-    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) (cons 'list field-kws))
-    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws)))))
+    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) (cons 'list field-kws))    ;; cons 'progn?
+    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws))))) ;; cons 'progn?
 
 
 (make-struct-predicate dog)
