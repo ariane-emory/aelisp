@@ -252,15 +252,18 @@
 (princ (dog-name fido)) (nl)
 
 (defun build-plist (keys vals)
+ "Build a plist from KEYS and VALS."
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
  (unless (= (length keys) (length vals)) (error "KEYS and VALS must be the same length."))
  (let (plist)
-  (while keys
-   (setq! plist (plist-set (car keys) plist (car vals)))
-   (setq! keys (cdr keys))
-   (setq! vals (cdr vals)))
-  plist))
+  (let ((rkeys (reverse keys))
+        (rvals (reverse vals)))
+   (while rkeys
+    (setq! plist (plist-set (car rkeys) plist (car rvals)))
+    (setq! rkeys (cdr rkeys))
+    (setq! rvals (cdr rvals)))
+   plist)))
 
 (defmacro make-struct-constructor (struct-type . fields)
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
@@ -269,7 +272,7 @@
   $('defun constructor-name 'field-values
     $('build-plist (cons 'list field-kws) 'field-values))))
 
-;(log-macro t)
+                                        ;(log-macro t)
 (make-struct-constructor dog name age spots)
 
 
