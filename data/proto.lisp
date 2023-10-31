@@ -167,7 +167,6 @@
   
   (abs seed)))
 
-
 (defun random args
  "Return a psuedo-random integer between MIN and MAX inclusive."
  (unless (or (nil? args) (nil? (cddr args)))
@@ -177,10 +176,13 @@
  (unless (or (nil? (cdr args)) (integer? (cadr args)))
   (error "If provided, second argument must be an integer"))
 
-  (let* ((min (if (cadr args) (car  args) 0))
-        (max (if (cadr args) (cadr args) (car args)))
-        (range (+ 1 (- max min))))
-    (+ min (mod (xorshift64) range))))
+ (let ((randval (xorshift64)))
+  (if args
+   (let* ((min (if (cadr args) (car  args) 0))
+          (max (if (cadr args) (cadr args) (car args)))
+          (range (+ 1 (- max min))))
+    (+ min (mod (xorshift64) range)))
+   randval)))
 
 (repeat 100 (princ (random 1 6)) (nl))
 
