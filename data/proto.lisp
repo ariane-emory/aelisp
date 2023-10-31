@@ -136,8 +136,7 @@
 
 
 (defun transpose (matrix)
- (if (null (car matrix))
-  '()
+ (when (car matrix)
   (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
 
 (defun reverse-rows (matrix)
