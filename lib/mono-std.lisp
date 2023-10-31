@@ -1848,48 +1848,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; random number generator:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *random-m* 4294967296)  ; 2^32
-(setq! *random-a* 1664525)
-(setq! *random-c* 1013904222) ; Change to an even number
-(setq! *random-seed* (now-us))
-(setq! *random-mask* (- (<< 1 32) 1))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun randomize (new-seed)
- "Set a new seed for the RNG."
- (unless (integer? new-seed) (error "NEW-SEED must be an integer"))
- (setq! *random-seed* new-seed))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun positive-mod (x m)
-  (% (% x m) m))
+(let ((seed (now-us)))
+ (defun xorshift64 ()
+  "Generate a pseudo-random positive integer."
+  (when (zero? seed) (setq! seed (now-us)))  
+  (setq! seed (^ seed (<< seed 13)))
+  (setq! seed (^ seed (>> seed 7)))
+  (setq! seed (^ seed (<< seed 17)))
+  (abs seed)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun random args
- "Return a random integer between MIN (inclusive) and MAX (exclusive)."
+ "Return a psuedo-random integer between MIN and MAX inclusive."
  (unless (or (nil? args) (nil? (cddr args)))
   (error "random takes either 0, 1 or 2 arguments"))
  (unless (or (nil? (car args)) (integer? (car args)))
   (error "If provided, first argument must be an integer"))
  (unless (or (nil? (cdr args)) (integer? (cadr args)))
   (error "If provided, second argument must be an integer"))
-
- ;; Use positive-mod to ensure a positive seed value.
- (setq! *random-seed* (positive-mod (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))
-
- ;; Mask the random seed to 32 bits.
- (setq! *random-seed* (& *random-seed* *random-mask*))
-
- (if (nil? args)
-  *random-seed*
-  (let ((min (if (cadr args) (car  args) 0))
-        (max (if (cadr args) (cadr args) (car args))))
-   (let ((range (- max min)))
-    (+ min (mod *random-seed* range))))))
-
-
-
-
-
-
-
+ (let ((randval (xorshift64)))
+  (if args
+   (let* ((arg1 (if (cadr args) (car  args) 0))
+          (arg2 (if (cadr args) (cadr args) (car args)))
+          (min (min arg1 arg2))
+          (max (max arg1 arg2))
+          (range (+ 1 (- max min))))
+    (+ min (mod (xorshift64) range)))
+   randval)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'random)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

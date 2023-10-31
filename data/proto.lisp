@@ -155,36 +155,7 @@
 
 
 
-(let ((seed (now-us)))
- (defun xorshift64 ()
-  "Generate a pseudo-random positive integer."
-  (when (zero? seed)
-   (setq! seed (now-us)))
-  
-  (setq! seed (^ seed (<< seed 13)))
-  (setq! seed (^ seed (>> seed 7)))
-  (setq! seed (^ seed (<< seed 17)))
-  
-  (abs seed)))
 
-(defun random args
- "Return a psuedo-random integer between MIN and MAX inclusive."
- (unless (or (nil? args) (nil? (cddr args)))
-  (error "random takes either 0, 1 or 2 arguments"))
- (unless (or (nil? (car args)) (integer? (car args)))
-  (error "If provided, first argument must be an integer"))
- (unless (or (nil? (cdr args)) (integer? (cadr args)))
-  (error "If provided, second argument must be an integer"))
-
- (let ((randval (xorshift64)))
-  (if args
-   (let* ((arg1 (if (cadr args) (car  args) 0))
-          (arg2 (if (cadr args) (cadr args) (car args)))
-          (min (min arg1 arg2))
-          (max (max arg1 arg2))
-          (range (+ 1 (- max min))))
-    (+ min (mod (xorshift64) range)))
-   randval)))
 
 (repeat 100 (princ (random 1 6)) (nl))
 
