@@ -143,11 +143,12 @@
   (if (null (cdr cfs))
       (cons (car cfs) 1)
       (let ((recursion (cf-to-rational (cdr cfs))))
-        (cons (+ (* (car cfs) (car recursion)) (cdr recursion)) 
+        (rational (+ (* (car cfs) (car recursion)) (cdr recursion)) 
               (car recursion)))))
 
 (defun simpler-fraction (num den limit)
   "Get a simpler fraction approximation for NUM/DEN."
-  (cf-to-rational (butlast (continued-fractions num den limit) 1)))
+  (cf-to-rational (butlast (continued-fractions num den limit))))
 
-(princ (cf-to-rational (continued-fractions 408 500 8))) (nl)
+(let ((rat (cf-to-rational (continued-fractions 408 500 10))))
+ (princ (simpler-fraction (numer rat) (denom rat) 10)) (nl))
