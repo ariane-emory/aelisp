@@ -146,7 +146,10 @@
 (defun consistent-matrix? (matrix)
  (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
  (let ((first-row-length (length (car matrix))))
-  (all? (lambda (row) (= (length row) first-row-length)) matrix)))
+  (all? (lambda (row)
+         (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
+         (= (length row) first-row-length))
+   matrix)))
 
 (defun rotate-right-90 (matrix)
  (unless (consistent-matrix? matrix)
