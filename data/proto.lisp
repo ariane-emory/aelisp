@@ -245,11 +245,11 @@
      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set field-kw 'obj 'val))))
 
-;; (log-macro t)
 (make-struct-getter dog name) (nl)
+(log-macro t)
 (make-struct-setter dog name) (nl) 
 (princ (dog-name fido)) (nl)
+(set-dog-name fido "Rover")
 (princ (dog-name fido)) (nl)
-(set-name fido "Rover")
 
 ;;(princ (dog-name 1)) (nl)
