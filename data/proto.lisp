@@ -173,22 +173,8 @@
       (- *xorshift-seed*)
       *xorshift-seed*))
 
+
 (defun random args
-
- ;; Use positive-mod to ensure a positive seed value.
- (setq! *random-seed* (positive-mod (+ (mul *random-a* *random-seed*) *random-c*) *random-m*))
-
- ;; Mask the random seed to 32 bits.
- (setq! *random-seed* (& *random-seed* *random-mask*))
-
- (if (nil? args)
-  *random-seed*
-  (let ((min (if (cadr args) (car  args) 0))
-        (max (if (cadr args) (cadr args) (car args))))
-   (let ((range (- max min)))
-    (+ min (mod *random-seed* range))))))
-
-(defun random-range args
  "Return a random integer between MIN and MAX inclusive."
  (unless (or (nil? args) (nil? (cddr args)))
   (error "random takes either 0, 1 or 2 arguments"))
@@ -197,12 +183,12 @@
  (unless (or (nil? (cdr args)) (integer? (cadr args)))
   (error "If provided, second argument must be an integer"))
 
-  (let ((min (if (cadr args) (car  args) 0))
-        (max (if (cadr args) (cadr args) (car args))))
-   (let ((range (+ 1 (- max min))))
-    (+ min (mod (xorshift64) range)))))
+  (let* ((min (if (cadr args) (car  args) 0))
+        (max (if (cadr args) (cadr args) (car args)))
+        (range (+ 1 (- max min))))
+    (+ min (mod (xorshift64) range))))
 
-(repeat 100 (princ (random-range 1 6)) (nl))
+(repeat 100 (princ (random 1 6)) (nl))
 
 
 
