@@ -122,17 +122,10 @@
  (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; (log-eval t)
 
-
-(log-eval t)
-
-(princ "In.") (nl)
-(princ (floor-rational (rational 17 8))) (nl)
-(princ "Out.") (nl)
-
-(princ "In.") (nl)
-(princ (floor-rational 2)) (nl)
-(princ "Out.") (nl)
+(princ (floor (rational 17 8))) (nl)
+(princ (floor 2)) (nl)
 
  ;; (unless (number? n) (error "N must be a number."))
  ;; (if (integer? n)
@@ -153,6 +146,6 @@
         (cons (+ (* (car cfs) (car recursion)) (cdr recursion)) 
               (car recursion)))))
 
-(defun simpler-fraction (num den &optional (limit 15))
-  "Get a simpler fraction approximation for NUM/DEN."
-  (cf-to-rational (butlast (continued-fractions num den limit) 1)))
+;; (defun simpler-fraction (num den &optional (limit 15))
+;;   "Get a simpler fraction approximation for NUM/DEN."
+;;   (cf-to-rational (butlast (continued-fractions num den limit) 1)))
