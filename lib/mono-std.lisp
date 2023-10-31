@@ -1792,7 +1792,7 @@
  (if (integer? n)
   n
   (let ((num (numer n)))
-   (rational (if (> num 0) num (- num)) (denom n)))))
+   (simplify-number (rational (if (> num 0) num (- num)) (denom n))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! addd add-rational)
 (setq! subr sub-rational)
