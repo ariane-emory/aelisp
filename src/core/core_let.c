@@ -38,7 +38,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   
   FOR_EACH(varlist_item, varlist) {
     ctr++;
-    
+
     if (log_core) 
       LOG(varlist_item, "let varlist item #%d/%d", ctr, LENGTH(varlist));
     
@@ -64,7 +64,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       LOG(val,               "to value");   
     }
 
-    ENV_SET_L(new_env, CAR(varlist_item), val);
+    ENV_SET_L(new_env, SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item), val);
 
     OUTDENT;
   }
@@ -141,7 +141,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
       LOG(val,               "to value");   
     }
     
-    ENV_SET_L(new_env, CAR(varlist_item), val);
+    ENV_SET_L(new_env, SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item), val);
 
     OUTDENT;
   }
@@ -222,7 +222,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
       LOG(val, "to value");   
     }
     
-    ENV_SET_L(new_env, CAR(varlist_item), val); 
+    ENV_SET_L(new_env, SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item), val);
 
     OUTDENT;
   }

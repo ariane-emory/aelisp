@@ -127,28 +127,104 @@
 (princ (floor (rational 17 8))) (nl)
 (princ (floor 2)) (nl)
 
- ;; (unless (number? n) (error "N must be a number."))
- ;; (if (integer? n)
- ;;  n
-  
+;; (unless (number? n) (error "N must be a number."))
+;; (if (integer? n)
+;;  n
+
 (defun continued-fractions (num den limit)
-  "Generate the continued fraction representation of NUM/DEN."
-  (let ((whole (floor (rational num den))))
-    (cons whole
-          (when (and (> limit 0) (not (zero? (- num (* whole den)))))
-            (continued-fractions den (- num (* whole den)) (1- limit))))))
+ "Generate the continued fraction representation of NUM/DEN."
+ (let ((whole (floor (rational num den))))
+  (cons whole
+   (when (and (> limit 0) (not (zero? (- num (* whole den)))))
+    (continued-fractions den (- num (* whole den)) (1- limit))))))
 
 (defun cf-to-rational (cfs)
-  "Convert a continued fraction representation to a rational number."
-  (if (null (cdr cfs))
-      (cons (car cfs) 1)
-      (let ((recursion (cf-to-rational (cdr cfs))))
-        (rational (+ (* (car cfs) (car recursion)) (cdr recursion)) 
-              (car recursion)))))
+ "Convert a continued fraction representation to a rational number."
+ (if (null (cdr cfs))
+  (cons (car cfs) 1)
+  (let ((recursion (cf-to-rational (cdr cfs))))
+   (rational (+ (* (car cfs) (car recursion)) (cdr recursion)) 
+    (car recursion)))))
 
 (defun simpler-fraction (num den limit)
-  "Get a simpler fraction approximation for NUM/DEN."
-  (cf-to-rational (butlast (continued-fractions num den limit))))
+ "Get a simpler fraction approximation for NUM/DEN."
+ (cf-to-rational (butlast (continued-fractions num den limit))))
+
+(defun find-closest-approximation (num den max-denominator max-depth)
+  "Find the closest rational approximation with a denominator less than MAX-DENOMINATOR."
+  (let ((approx-depth 1)
+        (best-num num)
+        (best-den den)
+        (best-error (abs (- num den)))  ; Set to the difference between num and den as the initial error
+        current-rat current-error) 
+    (while (<= approx-depth max-depth)
+      (setq! current-rat (simpler-fraction num den approx-depth))
+      (setq! current-error (abs (- (* num (cdr current-rat)) (* den (car current-rat)))))  ; Calculate the difference without division
+      (when (< current-error best-error)
+        (setq! best-error current-error)
+        (setq! best-num (car current-rat))
+        (setq! best-den (cdr current-rat)))
+      (setq! approx-depth (1+ approx-depth)))
+    (rational best-num best-den)))
+
+
+;;(log-core t)
+(defun brute-force-approximation (num den max-denominator)
+  "Find a simpler approximation by brute force."
+  (let ((best-num num)
+        (best-den den)
+        (best-error (abs (sub-rational (mul-rational num max-denominator) den))) ; Initial error
+        (d 1)
+        current-error)
+    (while (<= d max-denominator)
+      (when (not (zero? d))
+        (let* ((n (round  (rational-to-float (rational-div num den))))
+               (approx (rational-mul n d))
+               (error (abs (sub-rational approx (cons num den)))))
+          (when (< (rational-to-float error) (rational-to-float best-error))
+            (setq best-error error)
+            (setq best-num n)
+            (setq best-den d))))
+      (setq d (1+ d)))
+    (cons best-num best-den)))
+
 
 (let ((rat (cf-to-rational (continued-fractions 408 500 10))))
- (princ (simpler-fraction (numer rat) (denom rat) 10)) (nl))
+ (princ (brute-force-approximation (numer rat) (denom rat) 32)) (nl))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Untested material.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun rational-round (rational)
+  "Round a rational number to the nearest integer."
+  (floor (rational-add rational (cons 1 2))))
+
+(defun rational-less? (a b)
+  "Return t if rational a is less than rational b."
+  (let* ((cross1 (* (car a) (cdr b)))
+         (cross2 (* (cdr a) (car b))))
+    (< cross1 cross2)))
+
+(defun approximate-rational (num den max-denom max-error)
+  "Find a simple rational approximation to the fraction num/den."
+  (let ((best-approximation (rational num den))
+        (best-error (rational-sub (rational num den) (rational 1 1))) ;; start with max error
+        (current-denom 1))
+    ;; For each denominator up to max-denom
+    (while (<= current-denom max-denom)
+      (let* ((multiplier (rational-div num current-denom))
+             ;; simulate rounding using floor
+             (approx-num (floor (rational-add multiplier (rational-div current-denom 2))))
+             (approximation (rational approx-num current-denom))
+             (current-error (rational-sub (rational num den) approximation)))
+        ;; Check if this approximation is closer than the best found so far
+        (when (rational-less? (abs current-error) (abs best-error))
+          (setq! best-approximation approximation)
+          (setq! best-error current-error)))
+      ;; Increase the current denominator for the next iteration
+      (setq! current-denom (1+ current-denom)))
+    ;; Return the best approximation found
+    best-approximation))
+
+

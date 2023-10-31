@@ -2,7 +2,7 @@
 ;; std config:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! *use-safe-provide*        nil)
-(setq! *use-soft-rationals*      t)
+(setq! *use-soft-rationals*      nil)
 (setq! *microbench-defmacros*    t)
 (setq! *microbench-defuns*       t)
 (setq! *microbench-provides*     t)

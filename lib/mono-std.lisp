@@ -1778,7 +1778,8 @@
  num)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun floor (n)
- "Round N down to the nearest integral value."
+ "Round N down to the nearest integral value. This is probably more complex than it needs"
+ "to be and could just be replaced with (div num den)..."
  (unless (number? n) (error "N must be a number."))
  (let ((num (numer n))
        (den (denom n)))
@@ -1786,11 +1787,18 @@
    (setq! num (- num 1)))
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun round (n)
+ "Round N to the nearest integral value."
+ (unless (number? n) (error "N must be a number."))
+ (if (integer? n)
+  n
+  (floor (rational (+ (numer n) (>> (denom n) 1)) (denom n)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun abs (n)
  "Return the absolute value of N."
  (unless (number? n) (error "N must be a number."))
  (if (integer? n)
-  n
+  (if (> n 0) n (- n))
   (let ((num (numer n)))
    (simplify-number (rational (if (> num 0) num (- num)) (denom n))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
