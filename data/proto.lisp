@@ -251,24 +251,6 @@
 (set-dog-name fido "Rover")
 (princ (dog-name fido)) (nl)
 
-(defmacro make-struct-constructor (struct-type . fields)
- (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
-       (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
-       )
-  $('defun constructor-name 'field-values
-    $('let $($('struct nil)
-             $('field-kws (cons 'list field-kws)))
-      $('while 'field-kws
-        $('setq! 'struct $('plist-set $('car 'field-values) $('car 'field-kws) 'struct))
-        $('setq! 'field-kws    $('cdr 'field-kws))
-        $('setq! 'field-values $('cdr 'field-values)))))))
-
-;;(log-macro t)
-(make-struct-constructor dog name age spots)
-
-
-;;(princ (make-dog "spot" 2 t)) (nl)
-
 (defun build-plist (keys vals)
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
@@ -280,4 +262,19 @@
    (setq! vals (cdr vals)))
   plist))
 
+(defmacro make-struct-constructor (struct-type . fields)
+ (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
+       (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
+       )
+  $('defun constructor-name 'field-values
+    $('build-plist (cons 'list field-kws) 'field-values))))
+
+;(log-macro t)
+(make-struct-constructor dog name age spots)
+
+
+;;(princ (make-dog "spot" 2 t)) (nl)
+
+
+(princ (make-dog "spot" 2 t)) (nl)
 (princ (build-plist '(:name :age :spots) '("spot" 2 t)))
