@@ -62,10 +62,10 @@
 (setq! get-key    kget)
 (setq! set-key    kset)
 (setq! plist-has? phas?)
-(setq! plist-set  pset)
+(setq! plist-set! pset!)
 (setq! plist-get  pget)
 (setq! alist-has? ahas?)
-(setq! alist-set  aset)
+(setq! alist-set! aset!)
 (setq! alist-get  aget)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

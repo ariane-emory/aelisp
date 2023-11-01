@@ -45,7 +45,7 @@
  (repeat 10000
   (let ((roll (+ (random 1 6) (random 1 6))))
    (setq! *counts*
-    (plist-set roll *counts*
+    (plist-set! roll *counts*
      (if (plist-has? roll *counts*)
       (1+ (plist-get roll *counts*))
       1)))))
@@ -62,7 +62,7 @@
  (repeat 10000
   (let ((roll (random 1 7)))
    (setq! *counts*
-    (plist-set roll *counts*
+    (plist-set! roll *counts*
      (if (plist-has? roll *counts*)
       (1+ (plist-get roll *counts*))
       1)))))
@@ -257,7 +257,7 @@
 
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
-   (setq! counts (plist-set roll counts (1+ (plist-get roll counts))))
+   (setq! counts (plist-set! roll counts (1+ (plist-get roll counts))))
    ))
 
  (princ "This cycle's counts:    " (vals counts)) (nl)
