@@ -238,17 +238,6 @@
 
 
 
-(defun max-delta (lst)
- "Given a list of integers LST, find the maximum difference between any two of them."
- (unless (cons? lst) (error "LST must not be empty."))
- (unless (all? integer? lst) (error "LST's elements must be integers."))
- (let ((min-val (car lst))
-       (max-val (car lst)))
-  (while lst
-   (let ((current (car lst)))
-    (setq! min-val (min min-val current))
-    (setq! max-val (max max-val current)))
-   (setq! lst (cdr lst)))
-  (- max-val min-val)))
+
 
 (princ (max-delta '(1 3 7))) (nl)

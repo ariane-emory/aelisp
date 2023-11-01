@@ -1216,6 +1216,19 @@
    (rplacd! (body fun) new-body))
   (put! t :added-logging fun) (nl)
   fun))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun max-delta (lst)
+ "Find the maximum delte between elements in a list of integers LST."
+ (unless (cons? lst)         (error "LST must not be empty."))
+ (unless (all? integer? lst) (error "LST's elements must be integers."))
+ (let ((min-val (car lst))
+       (max-val (car lst)))
+  (while lst
+   (let ((current (car lst)))
+    (setq! min-val (min min-val current))
+    (setq! max-val (max max-val current)))
+   (setq! lst (cdr lst)))
+  (- max-val min-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 (setq! bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
