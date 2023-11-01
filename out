@@ -15069,3 +15069,25 @@ This cycle's max delta: 20
 Deltas so far:          (20 5 24 13 11 17)
 
 Iter #7
+This cycle's counts:    (42 43 42 44 39 40)
+This cycle's max delta: 5
+Deltas so far:          (5 20 5 24 13 11 17)
+
+Iter #8
+This cycle's counts:    (40 40 42 46 32 50)
+This cycle's max delta: 18
+Deltas so far:          (18 5 20 5 24 13 11 17)
+
+Iter #9
+This cycle's counts:    (43 34 42 49 55 27)
+This cycle's max delta: 28
+Deltas so far:          (28 18 5 20 5 24 13 11 17)
+
+Iter #10
+This cycle's counts:    (33 50 36 47 46 38)
+This cycle's max delta: 17
+Deltas so far:          (17 28 18 5 20 5 24 13 11 17)
+
+Max delta: 28
+⇒ nil
+Iter #1
