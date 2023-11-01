@@ -219,66 +219,67 @@
 (defstruct cat name legs whiskers)
 (setq! higgs (make-cat "higgy" 4 t))
 
+(defun matrix-set! (matrix row col value)
+ "Destructively set the value in the cell at ROW and COL of MATRIX to VALUE."
+ (let ((target-row (list-ref matrix row))) 
+  (list-set! target-row col value))) 
+
+(defun matrix-set! (matrix row col value)
+ "Destructively set the value in the cell at ROW and COL of MATRIX to VALUE."
+ (let ((target-row (copy-list (list-ref matrix row))))
+  (list-set! target-row col value)
+  (list-set! matrix row target-row)))
 
 
 (defun mutate-matrix (matrix height width ternary-func)
-  "Modify each cell of the MATRIX using the TERNARY-FUNC.
+ "Modify each cell of the MATRIX using the TERNARY-FUNC.
 TERNARY-FUNC takes three arguments: row, column, and current value of the cell.
 The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
-  (unless (and (integer? height) (integer? width))
-    (error "Both HEIGHT and WIDTH must be integers"))
+ (unless (and (integer? height) (integer? width))
+  (error "Both HEIGHT and WIDTH must be integers"))
 
-  ;; Variables to keep track of current row and column
-  (let ((current-row 0)
-        (current-col 0))
+ ;; Variables to keep track of current row and column
+ (let ((current-row 0)
+       (current-col 0))
 
-    ;; Iterate over rows
-    (while (< current-row height)
-      ;; Reset column counter for each row
-      (setq! current-col 0)
-      ;; Iterate over columns
-      (while (< current-col width)
-        ;; Get the current value of the cell
-        (let ((current-value (matrix-ref matrix current-row current-col)))
-          ;; Compute the new value using the ternary function
-          (let ((new-value (ternary-func current-row current-col current-value)))
-            ;; Set the new value to the cell
-            (matrix-set! matrix current-row current-col new-value)
-            ;; Move to the next column
-            (setq! current-col (+ current-col 1))))
-      ;; Move to the next row
-      (setq! current-row (+ current-row 1))))
+  ;; Iterate over rows
+  (while (< current-row height)
+   ;; Reset column counter for each row
+   (setq! current-col 0)
+   ;; Iterate over columns
+   (while (< current-col width)
+    ;; Get the current value of the cell
+    (let ((current-value (matrix-ref matrix current-row current-col)))
+     ;; Compute the new value using the ternary function
+     (let ((new-value (ternary-func current-row current-col current-value)))
+      ;; Set the new value to the cell
+      (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
+      (matrix-set! matrix current-row current-col new-value)))
+    ;; Move to the next column
+    (setq! current-col (+ current-col 1)))
+   ;; Move to the next row
+   (setq! current-row (+ current-row 1))))
 
-  matrix))
+  matrix)
 
-;; (nl)
 
-;; (setq! *matrix*
-;;  (list
-;;   (list 0 0 0 0 0 0)
-;;   (list 0 1 0 0 0 0)
-;;   (list 0 0 2 0 0 0)
-;;   (list 1 0 0 3 0 0)
-;;   (list 1 0 0 0 4 0)
-;;   (list 0 0 0 0 0 5)))
-
-(defun matrix-set! (matrix row col value)
-  "Destructively set the value in the cell at ROW and COL of MATRIX to VALUE."
-  (let ((target-row (list-ref matrix row))) 
-    (list-set! target-row col value))) 
-
-(defun matrix-set! (matrix row col value)
-  "Destructively set the value in the cell at ROW and COL of MATRIX to VALUE."
-  (let ((target-row (copy-list (list-ref matrix row))))
-    (list-set! target-row col value)
-    (list-set! matrix row target-row)))
-
-;; (mutate-matrix *matrix* 6 6 (lambda (row col val) (+ val (* 10 row) col)))
-
-;; (write-matrix *matrix*)
-
-(nl)
-(nl)
 (setq! *matrix2* (make-matrix 6 6 0))
 (mutate-matrix *matrix2* 6 6 (lambda (row col val) (+ val (* 10 row) col)))
 (write-matrix *matrix2*)
+
+#|
+Output:
+
+Setting row 0 column 0 to 0
+Setting row 1 column 1 to 11
+Setting row 2 column 2 to 22
+Setting row 3 column 3 to 33
+Setting row 4 column 4 to 44
+Setting row 5 column 5 to 55
+(0 0 0 0 0 0)
+(0 11 0 0 0 0)
+(0 0 22 0 0 0)
+(0 0 0 33 0 0)
+(0 0 0 0 44 0)
+(0 0 0 0 0 55)
+|#
