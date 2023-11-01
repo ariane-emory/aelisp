@@ -310,44 +310,12 @@
 
 ;; (log-macro t)
 ;; (log-eval t)
-;;(defstruct cat name legs whiskers)
+(defstruct cat name legs whiskers)
 ;; (log-eval nil)
 ;; (log-macro nil)
 
-;;(exit)
-
+;; expans)n is:
 (progn
- (make-struct-predicate cat)
- (make-struct-constructor cat name legs whiskers)
- (progn
-  (make-struct-getter cat name)
-  (make-struct-setter cat name)
-  (make-struct-getter cat legs)
-  (make-struct-setter cat legs)
-  (make-struct-getter cat whiskers)
-  (make-struct-setter cat whiskers)))
-
-(list
- (make-struct-predicate cat)
- (make-struct-constructor cat name legs whiskers)
- (list
-  (make-struct-getter cat name)
-  (make-struct-setter cat name)
-  (make-struct-getter cat legs)
-  (make-struct-setter cat legs)
-  (make-struct-getter cat whiskers)
-  (make-struct-setter cat whiskers)))
-
-(list (make-struct-predicate cat)
- (make-struct-constructor cat name legs whiskers)
- list (make-struct-getter cat name)
- (make-struct-setter cat name)
- (make-struct-getter cat legs)
- (make-struct-setter cat legs)
- (make-struct-getter cat whiskers)
- (make-struct-setter cat whiskers))
-
-(list
  (make-struct-predicate cat)
  (make-struct-constructor cat name legs whiskers)
  (make-struct-getter cat name)
