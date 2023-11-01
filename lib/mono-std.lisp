@@ -1596,19 +1596,6 @@
    (plist-remove prop (cddr plist))
    (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! keys      plist-keys)
-(setq! vals-base vals)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun vals args
- "Retrieve the values from a plist or environment."
- (when (cdr args) (error "VALS takes only one argument"))
- (let ((arg (car args)))
-  (cond
-   ((nil? arg)  (vals-base (env (env (env)))))
-   ((list? arg) (plist-values arg))
-   ((env? arg)  (vals-base arg))
-   (t           (error "VALS takes a plist or an environment")))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun build-plist (keys vals)
  "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
  (unless (list? keys) (error "KEYS must be a list."))
@@ -1643,6 +1630,19 @@
    (setq! plist (cons (car alist) (cons (cadr alist) plist)))
    (setq! alist (cddr alist)))
   plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! keys      plist-keys)
+(setq! vals-base vals)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun vals args
+ "Retrieve the values from a plist or environment."
+ (when (cdr args) (error "VALS takes only one argument"))
+ (let ((arg (car args)))
+  (cond
+   ((nil? arg)  (vals-base (env (env (env)))))
+   ((list? arg) (plist-values arg))
+   ((env? arg)  (vals-base arg))
+   (t           (error "VALS takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
