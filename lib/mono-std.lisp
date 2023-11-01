@@ -1588,6 +1588,16 @@
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-to-alist (plist)
+ "Convert a plist to an alist."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
+ (let (alist (plist plist))
+  (while plist
+   (setq! alist (cons (cons (car plist) (cadr plist)) alist))
+   (setq! plist (cddr plist)))
+  (reverse alist)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (pred? prop plist)
  "Non-destructively remove PROP from PLIST, testing equality with PRED?."
  (unless (list? plist)          (error "PLIST must be a list"))

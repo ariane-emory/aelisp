@@ -242,7 +242,7 @@
 (setq! deltas nil)
 (setq! ctr 0)
 
-(repeat 500
+(repeat 10
  (setq! *xorshift64-seed* (now-us))
  (sleep (random 2 20))
  (setq! *xorshift64-seed* (now-us))
@@ -252,15 +252,22 @@
  ;; Initialize/reset the counts for this cycle.
  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
- (repeat 500
+ (repeat 250
+  (sleep 2)
+
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
    (setq! counts (plist-set roll counts (1+ (plist-get roll counts))))
    ))
 
  (princ "This cycle's counts:    " (vals counts)) (nl)
- (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
+ ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
  (princ "This cycle's max delta: " (max-delta (plist-values counts))) (nl)
  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
  (princ "Deltas so far:          " deltas) (nl)
  (nl))
+
+(princ "Max delta: " (apply max deltas)) (nl)
+
+;; Okay, back to lisp code... let's say I want to count unique elements in a list (using eql? to test uniqueness) and return the reults as a plist..
+;; So, (countql `(1 2 a a 3 1 1)) a should be something like '(1 3 2 1 3 1 a 2) - the ordering of the pairs in the resulting plist isn't really important - how would I do that?

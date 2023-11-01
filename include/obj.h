@@ -364,6 +364,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                   \
   ae_obj_t * _obj  = NEW(AE_STRING);                                                                                   \
   STR_VAL   (_obj) = (val);                                                                                            \
+  /* printf("new string: %s\n", STR_VAL(_obj)); */                                                                     \
   _obj;                                                                                                                \
   })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
