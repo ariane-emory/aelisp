@@ -302,10 +302,11 @@
             $($('make-struct-getter struct-type field)
               $('make-struct-setter struct-type field)))
            fields)))
-  (append $('progn
-    $('make-struct-predicate struct-type)
-    $('make-struct-constructor struct-type . fields))
-    getters-and-setters)))
+  (cons 'progn
+   (append
+    $($('make-struct-predicate struct-type))
+    $($('make-struct-constructor struct-type . fields))
+    getters-and-setters))))
 
 ;; (log-macro t)
 ;; (log-eval t)
@@ -313,9 +314,7 @@
 ;; (log-eval nil)
 ;; (log-macro nil)
 
-;; expans)n is:
-(progn
- (make-struct-predicate cat)
+(progn (make-struct-predicate cat)
  (make-struct-constructor cat name legs whiskers)
  (make-struct-getter cat name)
  (make-struct-setter cat name)
