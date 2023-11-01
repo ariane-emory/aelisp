@@ -296,8 +296,7 @@
     $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws))))) ;; cons 'progn?
 
 (defmacro defstruct (struct-type . fields)
- (let* ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
-        (getters-and-setters
+ (let* ((getters-and-setters
          (mapcan
            (lambda (field)
             $($('make-struct-getter struct-type field)
