@@ -1984,7 +1984,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix? (obj)
  "t when OBJ is a matrix (list of lists)."
- (and (cons? obj) (all? cons? obj)))
+ (and (list? obj) (all? list? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-transpose (matrix)
  "Convert the rows of MATRIX into columns."
