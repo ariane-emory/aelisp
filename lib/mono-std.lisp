@@ -1577,6 +1577,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; plist funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-remove! (prop plist)
+  "Destructively remove key PROP from plist PLIST."
+  (unless (list? plist) (error "PLIST must be a list"))
+  ;; Handle the case when the prop is at the head of plist.
+  (while (and plist (eql? prop (car plist)))
+    (setq! plist (cddr plist)))
+  ;; Now handle the case when the prop is in the middle or end.
+  (let ((current plist)
+        (prev nil))
+    (while current
+      (if (eql? prop (car current))
+          (if prev
+              ;; Skip the next pair by linking previous cdr to the next's next.
+              (rplacd! (cdr prev) (cddr current))
+            ;; If we're at the head, we should just move plist forward.
+            (setq! plist (cddr plist)))
+        ;; Otherwise, just move prev forward.
+        (setq! prev current))
+      ;; Move current forward by two places.
+      (setq! current (cddr current)))
+    plist))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (prop plist)
  "Non-destructively remove key PROP from plist PLIST."
  (unless (list? plist) (error "PLIST must be a list"))
@@ -1649,7 +1672,7 @@
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-values (plist)
+(defun plist-vals (plist)
  "Extracts the values from a plist PLIST."
  (unless (list? plist)          (error "PLIST must be a list"))
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
@@ -1664,7 +1687,7 @@
  (let ((arg (car args)))
   (cond
    ((nil? arg)  (vals-base (env (env (env)))))
-   ((list? arg) (plist-values arg))
+   ((list? arg) (plist-vals arg))
    ((env? arg)  (vals-base arg))
    (t           (error "VALS takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
