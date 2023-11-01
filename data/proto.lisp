@@ -223,14 +223,6 @@
  (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
  (write-matrix matrix))
 
-(defun matrix-set! (matrix row col value)
- "Destructively set the element at ROW and COL of MATRIX to VALUE."
- (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- (princ "Set row " row " col " col " to " value) (nl)
- (let ((target-row (list-ref matrix row)))
-  (list-set! target-row col value)))
 
 (setq! matrix      (make-matrix 6 6 0))
 
@@ -254,7 +246,7 @@
    (0 41 0 0 44 0)
    (0 0 52 0 0 0)))
 
-|# test fails if matrix-set! is old-matrix-set!:
+#| test fails if matrix-set! is old-matrix-set!:
 
 expected
 ((0 0 0 3 0 5)
@@ -272,3 +264,22 @@ actual
  (20 41 52 3 44 15))>
 
 |#
+
+
+(ignore
+ (defun matrix-rotate-right (matrix)
+  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+  (unless (rectangular-matrix? matrix)
+    (error "MATRIX is not rectangular. All rows must have the same number of columns."))
+  (let ((new-matrix (make-matrix (length (car matrix)) (length matrix) nil)))
+    (dotimes (i (length matrix))
+      (dotimes (j (length (car matrix)))
+        (matrix-set! new-matrix j ((- (length matrix) 1) i) (matrix-ref matrix i j))))
+    new-matrix)))
+
+(write-matrix
+ (matrix-rotate-right
+  '((1 2 3)
+    (4 5 6)
+    (7 8 9))))
+     

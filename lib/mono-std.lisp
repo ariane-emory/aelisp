@@ -1988,7 +1988,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-transpose (matrix)
  "Convert the rows of MATRIX into columns."
- (unless (consistent-matrix? matrix) (error "MATRIX must be a consistent matrix (all rows must have the same number of columns)."))
+ (unless (rectangular-matrix? matrix) (error "MATRIX must be a rectangular matrix (all rows must have the same number of columns)."))
  (when (car matrix)
   (cons (mapcar car matrix) (matrix-transpose (mapcar cdr matrix)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1997,7 +1997,7 @@
  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  (mapcar reverse matrix))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun consistent-matrix? (matrix)
+(defun rectangular-matrix? (matrix)
  "t if the rows in MATRIX all have the same length."
  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  (let ((first-row-length (length (car matrix))))
@@ -2008,10 +2008,10 @@
    (cdr matrix))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-rotate-right (matrix)
- (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  "Rotate MATRIX right by 90 degrees."
- (unless (consistent-matrix? matrix)
-  (error "MATRIX is inconsistent. All rows must have the same number of columns."))
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+ (unless (rectangular-matrix? matrix)
+  (error "MATRIX is not rectangular. All rows must have the same number of columns."))
  (matrix-reverse-rows (matrix-transpose matrix)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-set! (matrix row col value)
@@ -2019,7 +2019,7 @@
  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
  (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- (princ "Set row " row " col " col " to " value) (nl)
+ ;;(princ "Set row " row " col " col " to " value) (nl)
  (let ((target-row (list-ref matrix row)))
   (list-set! target-row col value)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2080,7 +2080,7 @@
    (setq! current-row (+ current-row 1))))
  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'matrix-rotate)
+(provide 'matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
