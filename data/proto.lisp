@@ -222,22 +222,26 @@
  (setq! matrix (make-matrix 6 6 0))
  (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
  (write-matrix matrix))
-
-(ignore
- (defun matrix-rotate-right (matrix)
-  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
-  (unless (rectangular-matrix? matrix)
-   (error "MATRIX is not rectangular. All rows must have the same number of columns."))
-  (let ((new-matrix (make-matrix (length (car matrix)) (length matrix) nil)))
-   (dotimes (i (length matrix))
-    (dotimes (j (length (car matrix)))
-     (matrix-set! new-matrix j ((- (length matrix) 1) i) (matrix-ref matrix i j))))
-   new-matrix)))
-
 ;; (log-eval t)
 
+;; (princ (max-delta '(1 3 7))) (nl)
 
 
 
+(setq! *deltas* nil)
 
-(princ (max-delta '(1 3 7))) (nl)
+(repeat 100
+ (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
+ (repeat 1000
+  (let ((roll (random 1 7)))
+   (setq! *counts*
+    (plist-set roll *counts*
+     (if (plist-has? roll *counts*)
+      (1+ (plist-get roll *counts*))
+      1)))))
+ (princ (vals *counts*)) (nl)
+ (princ (max-delta (vals *counts*))) (nl)
+ (setq! *deltas* (cons (max-delta (vals *counts*)) *deltas*)) 
+ (princ *deltas*) (nl)
+ (nl))
+ 
