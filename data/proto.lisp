@@ -54,7 +54,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Count results of rolling 1d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -121,14 +120,6 @@
    (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
  (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (log-eval t)
-(princ (floor (rational 17 8))) (nl)
-(princ (floor 2)) (nl)
-
-;; (unless (number? n) (error "N must be a number."))
-;; (if (integer? n)
-;;  n
 
 (defun continued-fractions (num den limit)
  "Generate the continued fraction representation of NUM/DEN."
@@ -225,94 +216,59 @@
    best-approximation)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(ignore
- (make-struct-predicate dog)
- (make-struct-getter dog name)
- (make-struct-setter dog name)
- (make-struct-getter dod age)
- (make-struct-setter dog age)
- (make-struct-getter dog spots)
- (make-struct-setter dog spots)
- (make-struct-constructor dog name age spots)
-
- (setq! fido '(:name "Fido" :age 2 :spots t))
- (put 'dog :struct-type fido)
- (princ (dog-name fido)) (nl)
- (princ (dog-name fido)) (nl)
- (set-dog-name fido "Rover")
-
- ;;(princ (make-dog "spot" 2 t)) (nl)
-
- (princ (make-dog "spot" 2 t)) (nl)
- (princ (get :struct-type (make-dog "spot" 2 t))) (nl)
- (princ (build-plist '(:name :age :spots) '("spot" 2 t))) (nl)
-
-
- (nl)
- (princ (build-plist '(:foo :bar :baz) '(1))) (nl)
-
- (princ (dog? fido)) (nl)
-
- ;; (make-cat "Higgy" 4 t)
- ;; (princ (cat-whiskers (make-cat "Higgy" 4 t))) (nl)
- )
-
-(defmacro make-struct-getter (struct-type field)
- (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name field))))
-       (field-kw (intern (concat ":" (symbol-name field)))))
+;; struct-related macros/funs:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-getter (struct-type slot)
+ "Generate a getter function for STRUCT-TYPE's slot SLOT."
+ (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name slot))))
+       (slot-kw (intern (concat ":" (symbol-name slot)))))
   $('defun getter-name $('obj)
     $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
-    $('plist-get field-kw 'obj))))
-
-(defmacro make-struct-setter (struct-type field)
- (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name field))))
-       (field-kw (intern (concat ":" (symbol-name field)))))
+    $('plist-get slot-kw 'obj))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-setter (struct-type slot)
+ "Generate a setter function for STRUCT-TYPE's slot SLOT."
+ (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
+       (slot-kw (intern (concat ":" (symbol-name slot)))))
   $('defun setter-name $('obj 'val)
     $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
-    $('plist-set field-kw 'obj 'val))))
-
-(defmacro make-struct-constructor (struct-type . fields)
+    $('plist-set slot-kw 'obj 'val))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-constructor (struct-type . slots)
+ "Generate a constructor function for STRUCT-TYPE with SLOTS."
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
-       (field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields)))
-  $('defun constructor-name 'field-values
-    $('let $($('struct $('build-plist (cons 'list field-kws) 'field-values)))
+       (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
+  $('defun constructor-name 'slot-values
+    $('let $($('struct $('build-plist (cons 'list slot-kws) 'slot-values)))
       $('put! $('quote struct-type) ':struct-type 'struct)
       'struct))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-predicate (struct-type)
+ "Generate a predicate function for STRUCT-TYPE."
  (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
   $('defun predicate-name $('obj)
     $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
-
-(defmacro defstruct (struct-type . fields)
- (let ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields)))
-  $('progn
-    $('make-struct-predicate struct-type)
-    $('make-struct-constructor struct-type . fields)
-    $('mapcar $('lambda $('field) $('make-struct-getter struct-type 'field)) (cons 'list field-kws))    ;; cons 'progn?
-    $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws))))) ;; cons 'progn?
-
-(defmacro defstruct (struct-type . fields)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun struct? (obj)
+ "t when OBJ is a struct."
+ (and (cons? obj) (plist-has? ':struct-type obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro defstruct (struct-type . slots)
+ "Define a new struct type STRUCT type with slots SLOTS."
  (let
-  ((getters
-    (mapcan
-     (lambda (field)
-      $($('make-struct-getter struct-type field)))
-     fields))
-   (setters
-    (mapcan
-     (lambda (field)
-      $($('make-struct-setter struct-type field)))
-     fields)))
+  ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
+   (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
   (cons 'list
    (append
+    $($('make-struct-constructor struct-type . slots))
     $($('make-struct-predicate struct-type))
-    $($('make-struct-constructor struct-type . fields))
     getters
     setters))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'struct)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (log-macro t)
 ;; (log-eval t)
@@ -327,4 +283,14 @@
  (make-struct-getter cat legs)
  (make-struct-setter cat legs)
  (make-struct-getter cat whiskers)
+ (make-struct-setter cat whiskers))
+
+(list
+ (make-struct-predicate cat)
+ (make-struct-constructor cat name legs whiskers)
+ (make-struct-getter cat name)
+ (make-struct-getter cat legs)
+ (make-struct-getter cat whiskers)
+ (make-struct-setter cat name)
+ (make-struct-setter cat legs)
  (make-struct-setter cat whiskers))
