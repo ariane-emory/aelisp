@@ -32,9 +32,9 @@
   /*================================================================================================================*/    \
   DO(error,        false,          1,          2,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(ahas,         false,          2,          2, "ahas?",                     FUNDEF_END)                                \
-  DO(aset,         false,          3,          3, "aset!",                     FUNDEF_END)                                \
-  DO(aget,         false,          2,          2,                              FUNDEF_END)                                \
+  DO(ahas,         false,          2,          2, "alist-has?",                FUNDEF_END)                                \
+  DO(aset,         false,          3,          3, "alist-set!",                FUNDEF_END)                                \
+  DO(aget,         false,          2,          2, "alist-get",                 FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(expand_path,  false,          1,          1, "expand-path",               FUNDEF_END)                                \
   DO(system,       false,          1,          1, "sys",                       FUNDEF_END)                                \
@@ -63,9 +63,9 @@
   DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
   DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(phas,         false,          2,          2, "phas?",                     FUNDEF_END)                                \
-  DO(pset,         false,          3,          3, "pset!",                     FUNDEF_END)                                \
-  DO(pget,         false,          2,          2,                              FUNDEF_END)                                \
+  DO(phas,         false,          2,          2, "plist-has?",                FUNDEF_END)                                \
+  DO(pset,         false,          3,          3, "plist-set!",                FUNDEF_END)                                \
+  DO(pget,         false,          2,          2, "plist-get",                 FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(put,          false,          1,  UNLIMITED, "put-raw",                   FUNDEF_END)                                \
   DO(princ,        false,          1,  UNLIMITED,                              FUNDEF_END)                                \

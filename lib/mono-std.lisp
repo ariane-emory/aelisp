@@ -61,12 +61,12 @@
 ;; (setq! has-key?   khas?)
 ;; (setq! get-key    kget)
 ;; (setq! set-key    kset)
-(setq! plist-has? phas?)
-(setq! plist-set! pset!)
-(setq! plist-get  pget)
-(setq! alist-has? ahas?)
-(setq! alist-set! aset!)
-(setq! alist-get  aget)
+(setq! phas? plist-has?)
+(setq! pset! plist-set!)
+(setq! pget  plist-get)
+(setq! ahas? alist-has?)
+(setq! aset! alist-set!)
+(setq! aget  alist-get)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-aliases)
