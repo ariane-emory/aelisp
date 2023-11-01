@@ -229,37 +229,20 @@
 
 
 (setq! deltas nil)
+(setq! ctr 0)
+(repeat 50
+ (setq! ctr (+ 1 ctr))
+ (princ "Iter #" ctr) (nl)
+ (setq! counts '(1 0 2 0 3 0 4 0 5 0 6 0)) ; Reset counts for each outer cycle.
 
-(ignore
- (repeat 500
- (repeat 500
-  (setq! counts '(1 0 2 0 3 0 4 0 5 0 6 0))
+ (repeat 50
   (let ((roll (random 1 6)))
-   (setq! counts
-    (plist-set  roll counts
-     (if (plist-has? roll counts)
-      (1+ (plist-get roll counts))
-      1)))))
+   ;; Increment the count for the generated roll.
+   (setq! counts (plist-set roll counts (1+ (plist-get roll counts))))
+   ))
+
  (princ "This cycle's counts:    " (vals counts)) (nl)
  (princ "This cycle's max delta: " (max-delta (plist-values counts))) (nl)
  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
  (princ "Deltas so far:          " deltas) (nl)
- (nl)))
- 
-
-(setq! *deltas* nil)
-
-(repeat 500
-  ;; Reset counts for each outer cycle.
-  (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
-
-  (repeat 500
-    (let ((roll (random 1 6)))
-      ;; Increment the count for the generated roll.
-      (setq! *counts* (plist-set roll *counts* (1+ (plist-get roll *counts*)))))
-
-  (princ "This cycle's counts:    " (vals *counts*)) (nl)
-  (princ "This cycle's max delta: " (max-delta (plist-values *counts*))) (nl)
-  (setq! *deltas* (cons (max-delta (vals *counts*)) *deltas*)) 
-  (princ "Deltas so far:          " *deltas*) (nl)
-  (nl)))
+ (nl))
