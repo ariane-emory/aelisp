@@ -2048,7 +2048,7 @@
   (unless (integer? cols) (error "COLS must be an integer"))
   ;; Create the matrix using make-list
   (make-list rows (make-list cols init-val)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
 (defun mutate-matrix (matrix height width ternary-func)
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."

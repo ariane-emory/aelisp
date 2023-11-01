@@ -231,24 +231,6 @@
   (list-set! matrix row target-row)))
 
 
-(defun mutate-matrix (matrix height width ternary-func)
- "Modify each cell of the MATRIX using the TERNARY-FUNC."
- "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
- "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
- (unless (and (integer? height) (integer? width))
-  (error "Both HEIGHT and WIDTH must be integers"))
- (let ((current-row 0)
-       (current-col 0))
-  (while (< current-row height)
-   (setq! current-col 0)
-   (while (< current-col width)
-    (let* ((current-value (matrix-ref matrix current-row current-col))
-           (new-value (ternary-func current-row current-col current-value)))
-     ;; (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
-     (matrix-set! matrix current-row current-col new-value)
-     (setq! current-col (+ current-col 1))))
-   (setq! current-row (+ current-row 1))))
- matrix)
 
 
 (setq! *matrix2* (make-matrix 6 6 0))
