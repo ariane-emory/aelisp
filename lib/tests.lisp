@@ -297,7 +297,7 @@
 (matrix-set! matrix 4 4 44)
 (matrix-set! matrix 4 1 41)
 (matrix-set! matrix 5 2 52)
-(write-matrix matrix)
+;;(write-matrix matrix)
 (confirm that matrix returns
  '((0 0 0 3 0 5)
    (0 11 0 0 0 15)
