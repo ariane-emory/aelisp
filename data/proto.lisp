@@ -252,22 +252,13 @@
   (list 0 0 0 0 0 0)))
 
 
-(defun matrix-ref (matrix row col)
- "Destructively set the element at ROW and COL of MATRIX to VALUE."
- (unless (list? matrix)                  (error "MATRIX must be a list of lists"))
- (unless (all? list? matrix)             (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0)) (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0)) (error "COL must be a non-negative integer"))
- (let ((target-row (list-ref matrix row)))
-  (unless target-row (error "ROW index out of bounds"))
-  (list-ref target-row col)))
-
 (setq! ctr 0)
 (while (< ctr 6)
  (matrix-set! *matrix* ctr ctr ctr)
  (princ (matrix-ref *matrix* ctr ctr)) (nl)
  (setq! ctr (1+ ctr)))
 
-(mapc (lambda (r) (write r) (nl)) *matrix*) 
+(write-matrix *matrix*)
+;; (mapc (lambda (r) (write r) (nl)) *matrix*) 
 
 

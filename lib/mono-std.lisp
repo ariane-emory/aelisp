@@ -1982,21 +1982,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; matrix-related functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix? (obj)
+ "t when OBJ is a matrix (list of lists)."
+ (and (cons? obj) (all? cons? obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transpose (matrix)
  "Convert the rows of MATRIX into columns."
- (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
- (unless (consistent-matrix? matrix) (error "MATRIX is inconsistent. All rows must have the same number of columns."))
+ (unless (consistent-matrix? matrix) (error "MATRIX must be a consistent matrix (all rows must have the same number of columns)."))
  (when (car matrix)
   (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse-rows (matrix)
  "Reverse each row in MATRIX."
- (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  (mapcar reverse matrix))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun consistent-matrix? (matrix)
  "t if the rows in MATRIX all have the same length."
- (unless (cons? matrix) (error "MATRIX must be a non-empty list"))
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  (let ((first-row-length (length (car matrix))))
   (all?
    (lambda (row)
@@ -2005,6 +2008,7 @@
    (cdr matrix))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun rotate-right-90 (matrix)
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  "Rotate MATRIX right by 90 degrees."
  (unless (consistent-matrix? matrix)
   (error "MATRIX is inconsistent. All rows must have the same number of columns."))
@@ -2012,21 +2016,38 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-set! (matrix row col value)
  "Destructively set the element at ROW and COL of MATRIX to VALUE."
- (unless (and (cons? matrix) (all? cons? matrix)) (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0))          (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0))          (error "COL must be a non-negative integer"))
+ (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
  (let ((target-row (list-ref matrix row)))
-  (unless target-row (error "ROW index out of bounds"))
+  (unless target-row                       (error "ROW index out of bounds"))
   (list-set! target-row col value)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-ref (matrix row col)
  "Retrieve the element at ROW and COL in MATRIX."
- (unless (and (cons? matrix) (all? cons? matrix)) (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0))          (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0))          (error "COL must be a non-negative integer"))
+ (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
  (let ((target-row (list-ref matrix row)))
-  (unless target-row (error "ROW index out of bounds"))
+  (unless target-row                       (error "ROW index out of bounds"))
   (list-ref target-row col)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun write-matrix (matrix)
+ "Display a matrix MATRIX by applying write to each row."
+ (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+ (let ((row-count (length matrix))
+       (current-row 0))
+  (while (< current-row row-count)
+   (write (list-ref *matrix* current-row))
+   (nl)
+   (setq! current-row (+ 1 current-row)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun make-matrix (rows cols init-val)
+  "Make a new matrix of size ROWS x COLS with each element set to INIT-VAL."
+  (unless (integer? rows) (error "ROWS must be an integer"))
+  (unless (integer? cols) (error "COLS must be an integer"))
+  ;; Create the matrix using make-list
+  (make-list rows (make-list cols init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix-rotate)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
