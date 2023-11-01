@@ -2038,7 +2038,7 @@
  (let ((row-count (length matrix))
        (current-row 0))
   (while (< current-row row-count)
-   (write (list-ref *matrix* current-row))
+   (write (list-ref matrix current-row))
    (nl)
    (setq! current-row (+ 1 current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
