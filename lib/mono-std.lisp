@@ -2019,9 +2019,9 @@
  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
  (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- (let ((target-row (list-ref matrix row)))
-  (unless target-row                       (error "ROW index out of bounds"))
-  (list-set! target-row col value)))
+ (let ((target-row (copy-list (list-ref matrix row))))
+  (list-set! target-row col value)
+  (list-set! matrix row target-row)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-ref (matrix row col)
  "Retrieve the element at ROW and COL in MATRIX."

@@ -219,16 +219,6 @@
 (defstruct cat name legs whiskers)
 (setq! higgs (make-cat "higgy" 4 t))
 
-(defun matrix-set! (matrix row col value)
- "Destructively set the value in the cell at ROW and COL of MATRIX to VALUE."
- (let ((target-row (list-ref matrix row))) 
-  (list-set! target-row col value))) 
-
-(defun matrix-set! (matrix row col value)
- "Destructively set the value in the cell at ROW and COL of MATRIX to VALUE."
- (let ((target-row (copy-list (list-ref matrix row))))
-  (list-set! target-row col value)
-  (list-set! matrix row target-row)))
 
 
 
