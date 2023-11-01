@@ -248,7 +248,9 @@
  (setq! *xorshift64-seed* (now-us))
  (setq! ctr (+ 1 ctr))
  (princ "Iter #" ctr) (nl)
- (setq! counts '(1 0 2 0 3 0 4 0 5 0 6 0)) ; Reset counts for each outer cycle.
+ 
+ ;; Initialize/reset the counts for this cycle.
+ (setq! counts '(1 0 2 0 3 0 4 0 5 0 6 0))
 
  (repeat 5000
   (let ((roll (random 1 6)))
