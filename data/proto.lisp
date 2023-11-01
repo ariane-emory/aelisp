@@ -296,13 +296,14 @@
     $('mapcar $('lambda $('field) $('make-struct-setter struct-type 'field)) (cons 'list field-kws))))) ;; cons 'progn?
 
 (defmacro defstruct (struct-type . fields)
- (let* ((getters-and-setters
-         (mapcan
-           (lambda (field)
-            $($('make-struct-getter struct-type field)
-              $('make-struct-setter struct-type field)))
-           fields)))
-  (cons 'progn
+ (let
+  ((getters-and-setters
+    (mapcan
+     (lambda (field)
+      $($('make-struct-getter struct-type field)
+        $('make-struct-setter struct-type field)))
+     fields)))
+  (cons 'list
    (append
     $($('make-struct-predicate struct-type))
     $($('make-struct-constructor struct-type . fields))
@@ -310,7 +311,7 @@
 
 ;; (log-macro t)
 ;; (log-eval t)
-(defstruct cat name legs whiskers)
+;; (defstruct cat name legs whiskers)
 ;; (log-eval nil)
 ;; (log-macro nil)
 
