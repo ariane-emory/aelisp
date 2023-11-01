@@ -1588,22 +1588,13 @@
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-remove (pred? prop plist)
+(defun plist-remove (prop plist)
  "Non-destructively remove PROP from PLIST, testing equality with PRED?."
  (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist
-  (if (pred? prop (car plist))
-   (plist-remove pred? prop (cddr plist))
-   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeq  (prop plist)
- "Non-destructively remove PROP from PLIST, testing equality with eq?."
- (plist-remove eq?  prop plist))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeql (prop plist)
- "Non-destructively remove PROP from PLIST, testing equality with eql?."
- (plist-remove eql? prop plist))
+  (if (eql? prop (car plist))
+   (plist-remove prop (cddr plist))
+   (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! keys      plist-keys)
 (setq! vals-base vals)
