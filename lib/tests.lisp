@@ -287,7 +287,24 @@
 (confirm that (is-square? 36)                                       returns t)
 (confirm that (round-up-to-square 35)                               returns 36)
 (confirm that (round-up-to-square 36)                               returns 36)
-
+(setq! matrix (make-matrix 6 6 0))
+(matrix-set! matrix 0 3 3)
+(matrix-set! matrix 0 5 5)
+(matrix-set! matrix 1 1 11)
+(matrix-set! matrix 1 5 15)
+(matrix-set! matrix 2 0 20)
+(matrix-set! matrix 2 4 24)
+(matrix-set! matrix 4 4 44)
+(matrix-set! matrix 4 1 41)
+(matrix-set! matrix 5 2 52)
+(write-matrix matrix)
+(confirm that matrix returns
+ '((0 0 0 3 0 5)
+   (0 11 0 0 0 15)
+   (20 0 0 0 24 0)
+   (0 0 0 0 0 0)
+   (0 41 0 0 44 0)
+   (0 0 52 0 0 0)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
