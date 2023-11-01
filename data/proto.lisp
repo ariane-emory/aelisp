@@ -297,17 +297,22 @@
 
 (defmacro defstruct (struct-type . fields)
  (let
-  ((getters-and-setters
+  ((getters
     (mapcan
      (lambda (field)
-      $($('make-struct-getter struct-type field)
-        $('make-struct-setter struct-type field)))
+      $($('make-struct-getter struct-type field)))
+     fields))
+   (setters
+    (mapcan
+     (lambda (field)
+      $($('make-struct-setter struct-type field)))
      fields)))
   (cons 'list
    (append
     $($('make-struct-predicate struct-type))
     $($('make-struct-constructor struct-type . fields))
-    getters-and-setters))))
+    getters
+    setters))))
 
 ;; (log-macro t)
 ;; (log-eval t)
