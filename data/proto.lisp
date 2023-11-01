@@ -242,7 +242,7 @@
 (setq! deltas nil)
 (setq! ctr 0)
 
-(repeat 5000
+(repeat 500
  (setq! *xorshift64-seed* (now-us))
  (sleep (random 2 20))
  (setq! *xorshift64-seed* (now-us))
@@ -250,9 +250,9 @@
  (princ "Iter #" ctr) (nl)
  
  ;; Initialize/reset the counts for this cycle.
- (setq! counts '(1 0 2 0 3 0 4 0 5 0 6 0))
+ (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
- (repeat 5000
+ (repeat 500
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
    (setq! counts (plist-set roll counts (1+ (plist-get roll counts))))
