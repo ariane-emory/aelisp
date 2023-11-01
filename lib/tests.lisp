@@ -181,6 +181,7 @@
 (confirm that (plist-remove     :foo (props :quux))    returns '(:baz c :bar b))
 (confirm that (plist-remove     :bar (props :quux))    returns '(:baz c :foo a))
 (confirm that (plist-remove     :baz (props :quux))    returns '(:bar b :foo a))
+(confirm that (plist-set 'b '(a 1 b 2 c 3) 99)         returns (a 1 b 99 c 3))
 (confirm that (props!  :quux  '(:corge d))             returns '(:corge d))
 (confirm that (put 'a  :foo     :quux)                 returns 'a)
 (confirm that (put 'b  :bar     :quux)                 returns 'b)
