@@ -111,6 +111,9 @@
  (repeat 100 (princ (random 1 6)) (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sum up the test results in results.lisp.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
  (setq! ctr 1)
  (princ
@@ -119,8 +122,12 @@
     (cons (setq! ctr (+ 1 ctr)) (list x)))
    (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
  (nl))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Try to approximate a rational number with a simpler fraction. This isn't working yet.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun continued-fractions (num den limit)
  "Generate the continued fraction representation of NUM/DEN."
  (let ((whole (floor (rational num den))))
@@ -181,40 +188,32 @@
 ;;  (princ (brute-force-approximation (numer rat) (denom rat) 32)) (nl))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Untested material.
+;; Untested alternate approach to approximating a rational number with a simpler fraction.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(ignore
- (defun rational-round (rational)
-  "Round a rational number to the nearest integer."
-  (floor (rational-add rational (cons 1 2))))
+(defun approximate-rational (num den max-denom max-error)
+ "Find a simple rational approximation to the fraction num/den."
+ (let ((best-approximation (rational num den))
+       (best-error (rational-sub (rational num den) (rational 1 1))) ;; start with max error
+       (current-denom 1))
+  ;; For each denominator up to max-denom
+  (while (<= current-denom max-denom)
+   (let* ((multiplier (rational-div num current-denom))
+          ;; simulate rounding using floor
+          (approx-num (floor (rational-add multiplier (rational-div current-denom 2))))
+          (approximation (rational approx-num current-denom))
+          (current-error (rational-sub (rational num den) approximation)))
+    ;; Check if this approximation is closer than the best found so far
+    (when (rational-less-than? (abs current-error) (abs best-error))
+     (setq! best-approximation approximation)
+     (setq! best-error current-error)))
+   ;; Increase the current denominator for the next iteration
+   (setq! current-denom (1+ current-denom)))
+  ;; Return the best approximation found
+  best-approximation))
 
- (defun rational-less? (a b)
-  "Return t if rational a is less than rational b."
-  (let* ((cross1 (* (car a) (cdr b)))
-         (cross2 (* (cdr a) (car b))))
-   (< cross1 cross2)))
-
- (defun approximate-rational (num den max-denom max-error)
-  "Find a simple rational approximation to the fraction num/den."
-  (let ((best-approximation (rational num den))
-        (best-error (rational-sub (rational num den) (rational 1 1))) ;; start with max error
-        (current-denom 1))
-   ;; For each denominator up to max-denom
-   (while (<= current-denom max-denom)
-    (let* ((multiplier (rational-div num current-denom))
-           ;; simulate rounding using floor
-           (approx-num (floor (rational-add multiplier (rational-div current-denom 2))))
-           (approximation (rational approx-num current-denom))
-           (current-error (rational-sub (rational num den) approximation)))
-     ;; Check if this approximation is closer than the best found so far
-     (when (rational-less? (abs current-error) (abs best-error))
-      (setq! best-approximation approximation)
-      (setq! best-error current-error)))
-    ;; Increase the current denominator for the next iteration
-    (setq! current-denom (1+ current-denom)))
-   ;; Return the best approximation found
-   best-approximation)))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Wild west:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (log-macro t)
 ;; (log-eval t)
@@ -242,3 +241,23 @@
  (make-struct-setter cat name)
  (make-struct-setter cat legs)
  (make-struct-setter cat whiskers))
+
+
+
+
+
+(setq! *matrix*
+ (list
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)
+  (list 0 0 0 0 0 0)))
+
+(setq! ctr 0)
+(while (< ctr 6)
+ (matrix-set! *matrix* ctr ctr ctr)
+ (setq! ctr (1+ ctr)))
+
+(mapc (lambda (r) (write r) (nl)) *matrix*) 

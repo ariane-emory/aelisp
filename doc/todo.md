@@ -12,7 +12,7 @@ To Do:
 - [ ] DRY up core_let.c.
 - [ ] Review correctness environments used for macro expansion/evaluation, especially for nested macros.
 - [ ] Review correctness of unwinding indentation.
-- [ ] try incremental bubble sorting env syms/vals?
+- [ ] try incremental selection sorting env syms/vals?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
 - [ ] Implement math for non-integer types.

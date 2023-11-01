@@ -298,6 +298,7 @@
 
 Write some tests for bitwise operators.
 Write some tests for random.
+Write some tests for matrix rotation and other matrix funs.
 Write some tests for structs.
 
 |#

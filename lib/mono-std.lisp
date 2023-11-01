@@ -1225,8 +1225,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (vector-style list API):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1753,6 +1751,14 @@
    (error "Division by zero!")
    (simplify-number (rational num den)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun rational-less-than? (a b)
+ "t whdn rational A is less than rational B."
+ (unless (rational? a) (error "A must be a rational."))
+ (unless (rational? b) (error "B must be a rational."))
+ (let* ((cross1 (* (car a) (cdr b)))
+        (cross2 (* (cdr a) (car b))))
+  (< cross1 cross2)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun approx-sqrt (num . rest)
  (unless (integer? num) (error "NUM must be an integer"))
  (unless (or (nil? (car rest)) (integer? (car rest)))
@@ -1974,7 +1980,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; matrix rotation functions:
+;; matrix-related functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transpose (matrix)
  "Convert the rows of MATRIX into columns."
@@ -2003,6 +2009,16 @@
  (unless (consistent-matrix? matrix)
   (error "MATRIX is inconsistent. All rows must have the same number of columns."))
  (reverse-rows (transpose matrix)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix-set! (matrix row col value)
+ "Destructively set the element at ROW and COL of MATRIX to VALUE."
+ (unless (list? matrix)                  (error "MATRIX must be a list of lists"))
+ (unless (all? list? matrix)             (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0)) (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0)) (error "COL must be a non-negative integer"))
+ (let ((target-row (list-ref matrix row)))
+  (unless target-row (error "ROW index out of bounds"))
+  (list-set! target-row col value)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix-rotate)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
