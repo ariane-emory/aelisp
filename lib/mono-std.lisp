@@ -1577,17 +1577,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; plist funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-keys (plist)
- "Extracts the keys from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (when plist (cons (car plist) (plist-keys (cddr plist)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-values (plist)
- "Extracts the values from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist (plist-keys (cdr plist))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (prop plist)
  "Non-destructively remove key PROP from plist PLIST."
  (unless (list? plist)          (error "PLIST must be a list"))
@@ -1638,6 +1627,17 @@
    (setq! plist (cons (car alist) (cons (cadr alist) plist)))
    (setq! alist (cddr alist)))
   plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-keys (plist)
+ "Extracts the keys from a plist PLIST."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (when plist (cons (car plist) (plist-keys (cddr plist)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-values (plist)
+ "Extracts the values from a plist PLIST."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
+ (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! keys      plist-keys)
 (setq! vals-base vals)
