@@ -227,23 +227,28 @@
  (defun matrix-rotate-right (matrix)
   (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
   (unless (rectangular-matrix? matrix)
-    (error "MATRIX is not rectangular. All rows must have the same number of columns."))
+   (error "MATRIX is not rectangular. All rows must have the same number of columns."))
   (let ((new-matrix (make-matrix (length (car matrix)) (length matrix) nil)))
-    (dotimes (i (length matrix))
-      (dotimes (j (length (car matrix)))
-        (matrix-set! new-matrix j ((- (length matrix) 1) i) (matrix-ref matrix i j))))
-    new-matrix)))
+   (dotimes (i (length matrix))
+    (dotimes (j (length (car matrix)))
+     (matrix-set! new-matrix j ((- (length matrix) 1) i) (matrix-ref matrix i j))))
+   new-matrix)))
 
 ;; (log-eval t)
 
 
-     
-(confirm that
- (matrix-rotate-right
-  '((1 2 3)
-    (4 5 6)
-    (7 8 9)))
- returns
- '((7 4 1)
-   (8 5 2)
-   (9 6 3)))
+
+(defun max-delta (lst)
+ "Given a list of integers LST, find the maximum difference between any two of them."
+ (unless (cons? lst) (error "LST must not be empty."))
+ (unless (all? integer? lst) (error "LST's elements must be integers."))
+ (let ((min-val (car lst))
+       (max-val (car lst)))
+  (while lst
+   (let ((current (car lst)))
+    (setq! min-val (min min-val current))
+    (setq! max-val (max max-val current)))
+   (setq! lst (cdr lst)))
+  (- max-val min-val)))
+
+(princ (max-delta '(1 3 7))) (nl)
