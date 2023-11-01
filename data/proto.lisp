@@ -301,12 +301,10 @@
          (cons 'progn
           (mapcan
            (lambda (field)
-            $(
-             $('make-struct-getter struct-type field)
-             $('make-struct-setter struct-type field))
-            )
+            $($('make-struct-getter struct-type field)
+              $('make-struct-setter struct-type field)))
            fields))))
-  $('progn
+  $('list
     $('make-struct-predicate struct-type)
     $('make-struct-constructor struct-type . fields)
     getter-progn)))
