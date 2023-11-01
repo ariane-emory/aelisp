@@ -10973,3 +10973,554 @@ This cycle's max delta: 18
 Deltas so far:          (18 15 11 24 16 18 16 10 16 20)
 
 
+Iter #1
+This cycle's counts:    (51 38 44 36 43 38)
+This cycle's max delta: 15
+Deltas so far:          (15)
+
+Iter #2
+This cycle's counts:    (37 51 43 35 37 47)
+This cycle's max delta: 16
+Deltas so far:          (16 15)
+
+Iter #3
+This cycle's counts:    (50 40 46 42 39 33)
+This cycle's max delta: 17
+Deltas so far:          (17 16 15)
+
+Iter #4
+This cycle's counts:    (43 50 43 31 49 34)
+This cycle's max delta: 19
+Deltas so far:          (19 17 16 15)
+
+Iter #5
+This cycle's counts:    (42 39 43 54 38 34)
+This cycle's max delta: 20
+Deltas so far:          (20 19 17 16 15)
+
+Iter #6
+This cycle's counts:    (37 40 44 43 37 49)
+This cycle's max delta: 12
+Deltas so far:          (12 20 19 17 16 15)
+
+Iter #7
+This cycle's counts:    (36 44 45 35 45 45)
+This cycle's max delta: 10
+Deltas so far:          (10 12 20 19 17 16 15)
+
+Iter #8
+This cycle's counts:    (40 45 34 43 43 45)
+This cycle's max delta: 11
+Deltas so far:          (11 10 12 20 19 17 16 15)
+
+Iter #9
+This cycle's counts:    (47 48 43 43 39 30)
+This cycle's max delta: 18
+Deltas so far:          (18 11 10 12 20 19 17 16 15)
+
+Iter #10
+This cycle's counts:    (39 45 38 47 41 40)
+This cycle's max delta: 9
+Deltas so far:          (9 18 11 10 12 20 19 17 16 15)
+
+Max delta: 20
+⇒ nil
+Iter #1
+This cycle's counts:    (40 38 34 40 58 40)
+This cycle's max delta: 24
+Deltas so far:          (24)
+
+Iter #2
+This cycle's counts:    (35 44 38 45 49 39)
+This cycle's max delta: 14
+Deltas so far:          (14 24)
+
+Iter #3
+This cycle's counts:    (41 40 45 37 40 47)
+This cycle's max delta: 10
+Deltas so far:          (10 14 24)
+
+Iter #4
+This cycle's counts:    (45 49 37 46 38 35)
+This cycle's max delta: 14
+Deltas so far:          (14 10 14 24)
+
+Iter #5
+This cycle's counts:    (41 38 47 39 43 42)
+This cycle's max delta: 9
+Deltas so far:          (9 14 10 14 24)
+
+Iter #6
+This cycle's counts:    (44 49 48 32 31 46)
+This cycle's max delta: 18
+Deltas so far:          (18 9 14 10 14 24)
+
+Iter #7
+This cycle's counts:    (49 39 37 41 37 47)
+This cycle's max delta: 12
+Deltas so far:          (12 18 9 14 10 14 24)
+
+Iter #8
+This cycle's counts:    (50 28 39 48 42 43)
+This cycle's max delta: 22
+Deltas so far:          (22 12 18 9 14 10 14 24)
+
+Iter #9
+This cycle's counts:    (51 33 44 37 39 46)
+This cycle's max delta: 18
+Deltas so far:          (18 22 12 18 9 14 10 14 24)
+
+Iter #10
+This cycle's counts:    (38 38 44 41 34 55)
+This cycle's max delta: 21
+Deltas so far:          (21 18 22 12 18 9 14 10 14 24)
+
+Max delta: 24
+⇒ nil
+Iter #1
+This cycle's counts:    (43 42 33 55 46 31)
+This cycle's max delta: 24
+Deltas so far:          (24)
+
+Iter #2
+This cycle's counts:    (50 44 44 35 45 32)
+This cycle's max delta: 18
+Deltas so far:          (18 24)
+
+Iter #3
+This cycle's counts:    (39 48 41 35 41 46)
+This cycle's max delta: 13
+Deltas so far:          (13 18 24)
+
+Iter #4
+This cycle's counts:    (35 42 43 44 43 43)
+This cycle's max delta: 9
+Deltas so far:          (9 13 18 24)
+
+Iter #5
+This cycle's counts:    (39 32 35 47 50 47)
+This cycle's max delta: 18
+Deltas so far:          (18 9 13 18 24)
+
+Iter #6
+This cycle's counts:    (40 47 39 44 41 39)
+This cycle's max delta: 8
+Deltas so far:          (8 18 9 13 18 24)
+
+Iter #7
+This cycle's counts:    (41 36 57 36 38 42)
+This cycle's max delta: 21
+Deltas so far:          (21 8 18 9 13 18 24)
+
+Iter #8
+This cycle's counts:    (46 39 51 41 46 27)
+This cycle's max delta: 24
+Deltas so far:          (24 21 8 18 9 13 18 24)
+
+Iter #9
+This cycle's counts:    (41 34 46 45 39 45)
+This cycle's max delta: 12
+Deltas so far:          (12 24 21 8 18 9 13 18 24)
+
+Iter #10
+This cycle's counts:    (51 38 39 42 41 39)
+This cycle's max delta: 13
+Deltas so far:          (13 12 24 21 8 18 9 13 18 24)
+
+Max delta: 24
+⇒ nil
+Iter #1
+This cycle's counts:    (51 34 34 44 47 40)
+This cycle's max delta: 17
+Deltas so far:          (17)
+
+Iter #2
+This cycle's counts:    (38 49 43 40 42 38)
+This cycle's max delta: 11
+Deltas so far:          (11 17)
+
+Iter #3
+This cycle's counts:    (37 48 47 35 38 45)
+This cycle's max delta: 13
+Deltas so far:          (13 11 17)
+
+Iter #4
+This cycle's counts:    (35 39 41 41 52 42)
+This cycle's max delta: 17
+Deltas so far:          (17 13 11 17)
+
+Iter #5
+This cycle's counts:    (45 47 38 42 39 39)
+This cycle's max delta: 9
+Deltas so far:          (9 17 13 11 17)
+
+Iter #6
+This cycle's counts:    (43 34 50 41 38 44)
+This cycle's max delta: 16
+Deltas so far:          (16 9 17 13 11 17)
+
+Iter #7
+This cycle's counts:    (44 49 46 45 26 40)
+This cycle's max delta: 23
+Deltas so far:          (23 16 9 17 13 11 17)
+
+Iter #8
+This cycle's counts:    (34 44 47 34 43 48)
+This cycle's max delta: 14
+Deltas so far:          (14 23 16 9 17 13 11 17)
+
+Iter #9
+This cycle's counts:    (39 43 41 48 35 44)
+This cycle's max delta: 13
+Deltas so far:          (13 14 23 16 9 17 13 11 17)
+
+Iter #10
+This cycle's counts:    (43 45 35 35 44 48)
+This cycle's max delta: 13
+Deltas so far:          (13 13 14 23 16 9 17 13 11 17)
+
+Max delta: 23
+⇒ nil
+Iter #1
+This cycle's counts:    (41 37 43 40 43 46)
+This cycle's max delta: 9
+Deltas so far:          (9)
+
+Iter #2
+This cycle's counts:    (50 46 41 36 38 39)
+This cycle's max delta: 14
+Deltas so far:          (14 9)
+
+Iter #3
+This cycle's counts:    (41 42 36 52 51 28)
+This cycle's max delta: 24
+Deltas so far:          (24 14 9)
+
+Iter #4
+This cycle's counts:    (36 38 58 30 50 38)
+This cycle's max delta: 28
+Deltas so far:          (28 24 14 9)
+
+Iter #5
+This cycle's counts:    (36 54 27 42 53 38)
+This cycle's max delta: 27
+Deltas so far:          (27 28 24 14 9)
+
+Iter #6
+This cycle's counts:    (46 37 47 36 28 56)
+This cycle's max delta: 28
+Deltas so far:          (28 27 28 24 14 9)
+
+Iter #7
+This cycle's counts:    (43 38 42 39 45 43)
+This cycle's max delta: 7
+Deltas so far:          (7 28 27 28 24 14 9)
+
+Iter #8
+This cycle's counts:    (49 40 47 40 39 35)
+This cycle's max delta: 14
+Deltas so far:          (14 7 28 27 28 24 14 9)
+
+Iter #9
+This cycle's counts:    (46 45 38 47 43 31)
+This cycle's max delta: 16
+Deltas so far:          (16 14 7 28 27 28 24 14 9)
+
+Iter #10
+This cycle's counts:    (51 33 39 40 48 39)
+This cycle's max delta: 18
+Deltas so far:          (18 16 14 7 28 27 28 24 14 9)
+
+Max delta: 28
+⇒ nil
+Iter #1
+This cycle's counts:    (50 43 50 41 30 36)
+This cycle's max delta: 20
+Deltas so far:          (20)
+
+Iter #2
+This cycle's counts:    (45 47 44 39 42 33)
+This cycle's max delta: 14
+Deltas so far:          (14 20)
+
+Iter #3
+This cycle's counts:    (46 45 43 35 42 39)
+This cycle's max delta: 11
+Deltas so far:          (11 14 20)
+
+Iter #4
+This cycle's counts:    (47 41 50 49 31 32)
+This cycle's max delta: 19
+Deltas so far:          (19 11 14 20)
+
+Iter #5
+This cycle's counts:    (38 50 42 40 34 46)
+This cycle's max delta: 16
+Deltas so far:          (16 19 11 14 20)
+
+Iter #6
+This cycle's counts:    (42 37 42 50 41 38)
+This cycle's max delta: 13
+Deltas so far:          (13 16 19 11 14 20)
+
+Iter #7
+This cycle's counts:    (38 40 45 37 48 42)
+This cycle's max delta: 11
+Deltas so far:          (11 13 16 19 11 14 20)
+
+Iter #8
+This cycle's counts:    (45 30 42 43 48 42)
+This cycle's max delta: 18
+Deltas so far:          (18 11 13 16 19 11 14 20)
+
+Iter #9
+This cycle's counts:    (47 33 30 45 48 47)
+This cycle's max delta: 18
+Deltas so far:          (18 18 11 13 16 19 11 14 20)
+
+Iter #10
+This cycle's counts:    (48 41 32 46 41 42)
+This cycle's max delta: 16
+Deltas so far:          (16 18 18 11 13 16 19 11 14 20)
+
+Max delta: 20
+⇒ nil
+Iter #1
+This cycle's counts:    (42 38 45 44 45 36)
+This cycle's max delta: 9
+Deltas so far:          (9)
+
+Iter #2
+This cycle's counts:    (44 34 50 40 38 44)
+This cycle's max delta: 16
+Deltas so far:          (16 9)
+
+Iter #3
+This cycle's counts:    (46 52 36 37 42 37)
+This cycle's max delta: 16
+Deltas so far:          (16 16 9)
+
+Iter #4
+This cycle's counts:    (38 41 42 50 38 41)
+This cycle's max delta: 12
+Deltas so far:          (12 16 16 9)
+
+Iter #5
+This cycle's counts:    (40 43 42 36 50 39)
+This cycle's max delta: 14
+Deltas so far:          (14 12 16 16 9)
+
+Iter #6
+This cycle's counts:    (45 42 48 31 36 48)
+This cycle's max delta: 17
+Deltas so far:          (17 14 12 16 16 9)
+
+Iter #7
+This cycle's counts:    (41 46 42 35 36 50)
+This cycle's max delta: 15
+Deltas so far:          (15 17 14 12 16 16 9)
+
+Iter #8
+This cycle's counts:    (44 50 35 33 52 36)
+This cycle's max delta: 19
+Deltas so far:          (19 15 17 14 12 16 16 9)
+
+Iter #9
+This cycle's counts:    (42 47 37 52 37 35)
+This cycle's max delta: 17
+Deltas so far:          (17 19 15 17 14 12 16 16 9)
+
+Iter #10
+This cycle's counts:    (45 42 33 38 41 51)
+This cycle's max delta: 18
+Deltas so far:          (18 17 19 15 17 14 12 16 16 9)
+
+Max delta: 19
+⇒ nil
+Iter #1
+This cycle's counts:    (46 42 39 36 47 40)
+This cycle's max delta: 11
+Deltas so far:          (11)
+
+Iter #2
+This cycle's counts:    (41 51 41 47 37 33)
+This cycle's max delta: 18
+Deltas so far:          (18 11)
+
+Iter #3
+This cycle's counts:    (39 41 50 49 37 34)
+This cycle's max delta: 16
+Deltas so far:          (16 18 11)
+
+Iter #4
+This cycle's counts:    (44 55 24 45 43 39)
+This cycle's max delta: 31
+Deltas so far:          (31 16 18 11)
+
+Iter #5
+This cycle's counts:    (47 26 40 43 43 51)
+This cycle's max delta: 25
+Deltas so far:          (25 31 16 18 11)
+
+Iter #6
+This cycle's counts:    (37 45 56 28 53 31)
+This cycle's max delta: 28
+Deltas so far:          (28 25 31 16 18 11)
+
+Iter #7
+This cycle's counts:    (35 36 37 53 36 53)
+This cycle's max delta: 18
+Deltas so far:          (18 28 25 31 16 18 11)
+
+Iter #8
+This cycle's counts:    (41 39 47 42 43 38)
+This cycle's max delta: 9
+Deltas so far:          (9 18 28 25 31 16 18 11)
+
+Iter #9
+This cycle's counts:    (49 46 44 34 40 37)
+This cycle's max delta: 15
+Deltas so far:          (15 9 18 28 25 31 16 18 11)
+
+Iter #10
+This cycle's counts:    (37 44 43 41 35 50)
+This cycle's max delta: 15
+Deltas so far:          (15 15 9 18 28 25 31 16 18 11)
+
+Max delta: 31
+⇒ nil
+Iter #1
+This cycle's counts:    (50 29 47 49 29 46)
+This cycle's max delta: 21
+Deltas so far:          (21)
+
+Iter #2
+This cycle's counts:    (38 45 37 38 44 48)
+This cycle's max delta: 11
+Deltas so far:          (11 21)
+
+Iter #3
+This cycle's counts:    (39 38 48 42 41 42)
+This cycle's max delta: 10
+Deltas so far:          (10 11 21)
+
+Iter #4
+This cycle's counts:    (48 48 36 44 46 28)
+This cycle's max delta: 20
+Deltas so far:          (20 10 11 21)
+
+Iter #5
+This cycle's counts:    (37 53 47 44 38 31)
+This cycle's max delta: 22
+Deltas so far:          (22 20 10 11 21)
+
+Iter #6
+This cycle's counts:    (41 45 52 30 39 43)
+This cycle's max delta: 22
+Deltas so far:          (22 22 20 10 11 21)
+
+Iter #7
+This cycle's counts:    (44 38 40 43 43 42)
+This cycle's max delta: 6
+Deltas so far:          (6 22 22 20 10 11 21)
+
+Iter #8
+This cycle's counts:    (42 38 49 40 43 38)
+This cycle's max delta: 11
+Deltas so far:          (11 6 22 22 20 10 11 21)
+
+Iter #9
+This cycle's counts:    (35 52 47 44 36 36)
+This cycle's max delta: 17
+Deltas so far:          (17 11 6 22 22 20 10 11 21)
+
+Iter #10
+This cycle's counts:    (50 45 32 44 43 36)
+This cycle's max delta: 18
+Deltas so far:          (18 17 11 6 22 22 20 10 11 21)
+
+Max delta: 22
+⇒ nil
+Iter #1
+This cycle's counts:    (48 47 40 34 43 38)
+This cycle's max delta: 14
+Deltas so far:          (14)
+
+Iter #2
+This cycle's counts:    (41 37 44 39 44 45)
+This cycle's max delta: 8
+Deltas so far:          (8 14)
+
+Iter #3
+This cycle's counts:    (42 40 44 39 43 42)
+This cycle's max delta: 5
+Deltas so far:          (5 8 14)
+
+Iter #4
+This cycle's counts:    (37 45 50 42 34 42)
+This cycle's max delta: 16
+Deltas so far:          (16 5 8 14)
+
+Iter #5
+This cycle's counts:    (49 33 45 41 44 38)
+This cycle's max delta: 16
+Deltas so far:          (16 16 5 8 14)
+
+Iter #6
+This cycle's counts:    (48 51 30 42 40 39)
+This cycle's max delta: 21
+Deltas so far:          (21 16 16 5 8 14)
+
+Iter #7
+This cycle's counts:    (41 51 35 37 48 38)
+This cycle's max delta: 16
+Deltas so far:          (16 21 16 16 5 8 14)
+
+Iter #8
+This cycle's counts:    (48 39 56 37 37 33)
+This cycle's max delta: 23
+Deltas so far:          (23 16 21 16 16 5 8 14)
+
+Iter #9
+This cycle's counts:    (49 36 42 39 40 44)
+This cycle's max delta: 13
+Deltas so far:          (13 23 16 21 16 16 5 8 14)
+
+Iter #10
+This cycle's counts:    (38 41 40 40 51 40)
+This cycle's max delta: 13
+Deltas so far:          (13 13 23 16 21 16 16 5 8 14)
+
+Max delta: 23
+⇒ nil
+Iter #1
+This cycle's counts:    (44 41 42 41 41 41)
+This cycle's max delta: 3
+Deltas so far:          (3)
+
+Iter #2
+This cycle's counts:    (36 49 30 35 48 52)
+This cycle's max delta: 22
+Deltas so far:          (22 3)
+
+Iter #3
+This cycle's counts:    (48 41 49 39 32 41)
+This cycle's max delta: 17
+Deltas so far:          (17 22 3)
+
+Iter #4
+This cycle's counts:    (41 39 42 45 47 36)
+This cycle's max delta: 11
+Deltas so far:          (11 17 22 3)
+
+Iter #5
+This cycle's counts:    (50 50 38 43 39 30)
+This cycle's max delta: 20
+Deltas so far:          (20 11 17 22 3)
+
+Iter #6
+This cycle's counts:    (45 45 44 40 34 42)
+This cycle's max delta: 11
+Deltas so far:          (11 20 11 17 22 3)
+
+Iter #7

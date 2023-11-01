@@ -15,7 +15,9 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
-  CORE_RETURN("pset", PSET(plist, key, value));
+  PSET(plist, key, value);
+  
+  CORE_RETURN("pset", value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

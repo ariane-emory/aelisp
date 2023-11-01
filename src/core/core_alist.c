@@ -15,7 +15,9 @@ ae_obj_t * ae_core_aset(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, TAILP(alist), "ALIST must be a list");
 
-  CORE_RETURN("aset", ASET(alist, key, value));
+  ASET(alist, key, value);
+  
+  CORE_RETURN("aset", value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
