@@ -1961,14 +1961,15 @@
 ;; 	x ^= x << 17;
 ;; 	return state->a = x;
 ;; }
-(let ((seed (now-us)))
- (defun xorshift64 ()
-  "Generate a pseudo-random positive integer."
-  (when (zero? seed) (setq! seed (now-us)))  
-  (setq! seed (^ seed (<< seed 13)))
-  (setq! seed (^ seed (>> seed 7)))
-  (setq! seed (^ seed (<< seed 17)))
-  (abs seed)))
+(setq! *xorshift64-seed* (now-us))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun xorshift64 ()
+ "Generate a pseudo-random positive integer."
+ (when (zero? *xorshift64-seed*) (setq! *xorshift64-seed* (now-us)))  
+ (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
+ (setq! *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
+ (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
+ (abs *xorshift64-seed*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun random args
  "Return a psuedo-random integer between MIN and MAX inclusive."

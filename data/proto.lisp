@@ -228,20 +228,36 @@
 
 
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun xorshift64 ()
+ "Generate a pseudo-random positive integer."
+ (when (zero? *xorshift64-seed*) (setq! *xorshift64-seed* (now-us)))  
+ (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
+ (setq! *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
+ (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
+ (abs *xorshift64-seed*))
+
 (setq! deltas nil)
 (setq! ctr 0)
-(repeat 50
+
+(repeat 5000
+ (setq! *xorshift64-seed* (now-us))
+ (sleep (random 2 20))
+ (setq! *xorshift64-seed* (now-us))
  (setq! ctr (+ 1 ctr))
  (princ "Iter #" ctr) (nl)
  (setq! counts '(1 0 2 0 3 0 4 0 5 0 6 0)) ; Reset counts for each outer cycle.
 
- (repeat 50
+ (repeat 5000
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
    (setq! counts (plist-set roll counts (1+ (plist-get roll counts))))
    ))
 
  (princ "This cycle's counts:    " (vals counts)) (nl)
+ (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
  (princ "This cycle's max delta: " (max-delta (plist-values counts))) (nl)
  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
  (princ "Deltas so far:          " deltas) (nl)
