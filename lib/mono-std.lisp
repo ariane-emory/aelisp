@@ -1918,16 +1918,16 @@
     (error "If present, the first element of REST must be a string"))
    (expand-path (concat default-directory "/" name)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-up-to-nearest-multiple (num multiple)
- "Round NUM up to the nearest multiple of MULTIPLE."
- (unless (integer? num) (error "NUM must be an integer"))
- (unless (integer? multiple) (error "MULTIPLE must be an integer"))
- (unless (> multiple 0) (error "MULTIPLE must be greater than zero"))
- (unless (> num 0) (error "NUM must be greater than zero"))
- (let ((div-result (/ num multiple)))
-  (if (one? div-result)
+(defun round-up-to-nearest-multiple (num multiple-of)
+ "Round NUM up to the nearest multiple of MULTIPLE-OF."
+ (unless (integer? num)         (error "NUM must be an integer"))
+ (unless (integer? multiple-of) (error "MULTIPLE-OF must be an integer"))
+ (unless (> multiple-of 0)      (error "MULTIPLE-OF must be greater than zero"))
+ (unless (> num 0)              (error "NUM must be greater than zero"))
+ (let ((remainder (% num multiple-of)))
+  (if (zero? remainder)
    num
-   (* multiple (+ 1 div-result)))))
+   (+ num (- multiple-of remainder)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
