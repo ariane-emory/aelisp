@@ -223,24 +223,8 @@
  (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
  (write-matrix matrix))
 
-(defun list-set! (lst index obj)
- "Destructively set the element at INDEX of LST to OBJ."
- (unless (list? lst) (error "LST must be a list"))
- (unless (and (integer? index) (>= index 0)) (error "INDEX must be a non-negative integer"))
- (let ((current-index 0)
-       (done nil))
-  (while (and lst (not done))
-   (if (= current-index index) ; <- changed eq? to =
-    (progn
-     (rplaca! lst obj)
-     (setq! done t))
-    (setq! lst (cdr lst))
-    (setq! current-index (+ 1 current-index))))
-  (unless done (error "INDEX out of bounds")))
- obj) ; return the set object for convenience, similar to setq!
-
-(defun old-matrix-set! (matrix row col value)
- "Old version. Destructively set the element at ROW and COL of MATRIX to VALUE."
+(defun matrix-set! (matrix row col value)
+ "Destructively set the element at ROW and COL of MATRIX to VALUE."
  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
  (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
@@ -248,18 +232,7 @@
  (let ((target-row (list-ref matrix row)))
   (list-set! target-row col value)))
 
-(defun new-matrix-set! (matrix row col value)
- "Destructively set the element at ROW and COL of MATRIX to VALUE."
- (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- (princ "Set row " row " col " col " to " value) (nl)
- (let ((target-row (copy-list (list-ref matrix row))))
-  (list-set! target-row col value)
-  (list-set! matrix row target-row)))
-
 (setq! matrix      (make-matrix 6 6 0))
-(setq! matrix-set! old-matrix-set!)
 
 (matrix-set! matrix 0 3 3)
 (matrix-set! matrix 0 5 5)
