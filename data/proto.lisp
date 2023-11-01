@@ -250,6 +250,7 @@
 (matrix-set! matrix 2 0 20)
 (matrix-set! matrix 2 4 24)
 (matrix-set! matrix 4 4 44)
+(matrix-set! matrix 4 1 41)
 (matrix-set! matrix 5 2 52)
 
 (write-matrix matrix)
@@ -259,5 +260,5 @@
    (0 11 0 0 0 15)
    (20 0 0 0 24 0)
    (0 0 0 0 0 0)
-   (0 0 0 0 44 0)
+   (0 41 0 0 44 0)
    (0 0 52 0 0 0)))
