@@ -260,7 +260,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun struct? (obj)
  "t when OBJ is a struct."
- (and (cons? obj) (plist-has? ':struct-type obj)))
+ (and (cons? obj) (has? ':struct-type obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defstruct (struct-type . slots)
  "Define a new struct type STRUCT type with slots SLOTS."
