@@ -975,7 +975,7 @@
  (let ((result nil))
   (while lst
    (setq! result (cons (car lst) result))
-   (setq! lst (cdr lst)))
+   (setq! lst    (cdr lst)))
   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun-list-pred-fun (name combiner base-case)
