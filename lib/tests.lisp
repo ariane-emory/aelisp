@@ -305,6 +305,15 @@
    (0 0 0 0 0 0)
    (0 41 0 0 44 0)
    (0 0 52 0 0 0)))
+(confirm that
+ (matrix-rotate-right
+  '((1 2 3)
+    (4 5 6)
+    (7 8 9)))
+ returns
+ '((7 4 1)
+   (8 5 2)
+   (9 6 3)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
@@ -315,7 +324,6 @@
 
 Write some tests for bitwise operators.
 Write some tests for random.
-Write some tests for matrix rotation and other matrix funs.
 Write some tests for structs.
 
 |#
