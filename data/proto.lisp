@@ -233,9 +233,9 @@
 
 
 
-(setq! *matrix2* (make-matrix 6 6 0))
-(mutate-matrix *matrix2* 6 6 (lambda (row col val) (+ val (* 10 row) col)))
-(write-matrix *matrix2*)
+(setq! matrix (make-matrix 6 6 0))
+(mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
+(write-matrix matrix)
 
 #|
 Output:
