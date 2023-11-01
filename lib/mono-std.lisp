@@ -486,7 +486,7 @@
  (cond
   ((∨ (nil? lst1) (nil? lst2)) nil)
   (t  (cons  $((car lst1) (car lst2))
-       (zip2   (cdr lst1) (cdr lst2))))))
+       (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun zip3 (l1 l2 l3)
  "Zip the three lists LST1, LST2 and LST3."
@@ -1588,16 +1588,6 @@
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-to-alist (plist)
- "Convert a plist to an alist."
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (let (alist (plist plist))
-  (while plist
-   (setq! alist (cons (cons (car plist) (cadr plist)) alist))
-   (setq! plist (cddr plist)))
-  (reverse alist)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (pred? prop plist)
  "Non-destructively remove PROP from PLIST, testing equality with PRED?."
  (unless (list? plist)          (error "PLIST must be a list"))
@@ -1629,7 +1619,7 @@
    (t           (error "VALS takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun build-plist (keys vals)
- "Build a plist from KEYS and VALS."
+ "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
@@ -1642,6 +1632,25 @@
    (setq! plist (plist-set (car rkeys) plist (car rvals)))
    (setq! rkeys (cdr rkeys))
    (setq! rvals (cdr rvals)))
+  plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-to-alist (plist)
+ "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
+ "cell in the resulting alist's value cell will be nil."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (let (alist (plist plist))
+  (while plist
+   (setq! alist (cons (cons (car plist) (cadr plist)) alist))
+   (setq! plist (cddr plist)))
+  (reverse alist)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun alist-to-plist (alist)
+ "Convert an alist ALIST to a plist."
+ (unless (list? alist)          (error "ALIST must be a list"))
+ (let (plist (alist alist))
+  (while alist
+   (setq! plist (cons (car alist) (cons (cadr alist) plist)))
+   (setq! alist (cddr alist)))
   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'plist-funs)

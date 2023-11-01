@@ -243,7 +243,7 @@ int main(int argc, char **argv) {
       }
       
       ae_obj_t * const ret = EVAL(root_env, program);
-      printf(" ⇒ ");
+      printf("⇒ ");
       WRITE(ret);
       NL;      
     }
