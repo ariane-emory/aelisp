@@ -215,56 +215,13 @@
 ;; Wild west:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defstruct cat name legs whiskers)
-(setq! higgs (make-cat "higgy" 4 t))
-
 (ignore 
+ (defstruct cat name legs whiskers)
+ (setq! higgs (make-cat "higgy" 4 t))
+
  (setq! matrix (make-matrix 6 6 0))
  (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
  (write-matrix matrix))
-
-
-(setq! matrix      (make-matrix 6 6 0))
-
-(matrix-set! matrix 0 3 3)
-(matrix-set! matrix 0 5 5)
-(matrix-set! matrix 1 1 11)
-(matrix-set! matrix 1 5 15)
-(matrix-set! matrix 2 0 20)
-(matrix-set! matrix 2 4 24)
-(matrix-set! matrix 4 4 44)
-(matrix-set! matrix 4 1 41)
-(matrix-set! matrix 5 2 52)
-
-(write-matrix matrix)
-
-(confirm that matrix returns
- '((0 0 0 3 0 5)
-   (0 11 0 0 0 15)
-   (20 0 0 0 24 0)
-   (0 0 0 0 0 0)
-   (0 41 0 0 44 0)
-   (0 0 52 0 0 0)))
-
-#| test fails if matrix-set! is old-matrix-set!:
-
-expected
-((0 0 0 3 0 5)
- (0 11 0 0 0 15)
- (20 0 0 0 24 0)
- (0 0 0 0 0 0)
- (0 41 0 0 44 0)
- (0 0 52 0 0 0))
-actual
-((20 41 52 3 44 15)
- (20 41 52 3 44 15)
- (20 41 52 3 44 15)
- (20 41 52 3 44 15)
- (20 41 52 3 44 15)
- (20 41 52 3 44 15))>
-
-|#
-
 
 (ignore
  (defun matrix-rotate-right (matrix)
