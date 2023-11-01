@@ -2012,13 +2012,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-set! (matrix row col value)
  "Destructively set the element at ROW and COL of MATRIX to VALUE."
- (unless (list? matrix)                  (error "MATRIX must be a list of lists"))
- (unless (all? list? matrix)             (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0)) (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0)) (error "COL must be a non-negative integer"))
+ (unless (and (cons? matrix) (all? cons? matrix)) (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))          (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))          (error "COL must be a non-negative integer"))
  (let ((target-row (list-ref matrix row)))
   (unless target-row (error "ROW index out of bounds"))
   (list-set! target-row col value)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix-ref (matrix row col)
+ "Retrieve the element at ROW and COL in MATRIX."
+ (unless (and (cons? matrix) (all? cons? matrix)) (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))          (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))          (error "COL must be a non-negative integer"))
+ (let ((target-row (list-ref matrix row)))
+  (unless target-row (error "ROW index out of bounds"))
+  (list-ref target-row col)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix-rotate)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
