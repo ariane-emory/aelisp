@@ -2015,6 +2015,14 @@
  (matrix-reverse-rows (matrix-transpose matrix)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-set! (matrix row col value)
+ "Old version. Destructively set the element at ROW and COL of MATRIX to VALUE."
+ (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
+ (let ((target-row (list-ref matrix row)))
+  (unless target-row                       (error "ROW index out of bounds"))
+  (list-set! target-row col value)))
+(defun matrix-set! (matrix row col value)
  "Destructively set the element at ROW and COL of MATRIX to VALUE."
  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))

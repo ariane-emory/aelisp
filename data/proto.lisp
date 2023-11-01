@@ -215,31 +215,38 @@
 ;; Wild west:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (defstruct cat name legs whiskers)
 (setq! higgs (make-cat "higgy" 4 t))
 
+(ignore 
+ (setq! matrix (make-matrix 6 6 0))
+ (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
+ (write-matrix matrix))
 
+(defun old-matrix-set! (matrix row col value)
+ "Old version. Destructively set the element at ROW and COL of MATRIX to VALUE."
+ (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
+ (let ((target-row (list-ref matrix row)))
+  (list-set! target-row col value)))
 
+(defun new-matrix-set! (matrix row col value)
+ "Destructively set the element at ROW and COL of MATRIX to VALUE."
+ (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+ (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+ (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
+ (let ((target-row (copy-list (list-ref matrix row))))
+  (list-set! target-row col value)
+  (list-set! matrix row target-row)))
 
+(setq! matrix      (make-matrix 6 6 0))
+(setq! matrix-set! new-matrix-set!)
 
-(setq! matrix (make-matrix 6 6 0))
-(mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
+(matrix-set! matrix 1 1 11)
+(matrix-set! matrix 0 3 3)
+(matrix-set! matrix 0 5 5)
+(matrix-set! matrix 2 0 20)
+(matrix-set! matrix 4 4 44)
+
 (write-matrix matrix)
-
-#|
-Output:
-
-Setting row 0 column 0 to 0
-Setting row 1 column 1 to 11
-Setting row 2 column 2 to 22
-Setting row 3 column 3 to 33
-Setting row 4 column 4 to 44
-Setting row 5 column 5 to 55
-(0 0 0 0 0 0)
-(0 11 0 0 0 0)
-(0 0 22 0 0 0)
-(0 0 0 33 0 0)
-(0 0 0 0 44 0)
-(0 0 0 0 0 55)
-|#
