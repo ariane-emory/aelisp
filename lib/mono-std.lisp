@@ -1589,28 +1589,6 @@
    (setq! plist (cddr plist)))  ; Skip to the next pair
   (cdr head)))  ; Return the list after the dummy head.b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-remove! (prop plist)
- "Destructively remove key PROP from plist PLIST."
- (unless (list? plist) (error "PLIST must be a list"))
- (let ((current plist)  ; Current starts at the head of plist.
-       (prev nil))  ; Previous starts as nil.
-  ;; Iterate over plist, with current pointing to the current pair and prev to the previous pair.
-  (while current
-   (if (eql? prop (car current))
-    (if prev
-     ;; If prev is not nil, skip over the current pair in the plist.
-     (rplacd! prev (cddr current))
-     ;; If prev is nil, we're removing the first element.
-     ;; In this case, we can't really destroy it, we just move the head forward.
-     (progn
-      (setq! plist (cddr plist))
-      (setq! current plist)))
-    ;; Not the pair we're looking for, move prev and current forward.
-    (setq! prev current)
-    (setq! current (cddr current))))
-  ;; Return the modified plist.
-  plist))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-set (prop value plist)
  "Non-destructively set key PROP in plist PLIST to VALUE."
  (unless (list? plist) (error "PLIST must be a list"))
@@ -1631,7 +1609,7 @@
    (rplacd! tail (cons prop (cons value nil))))  ; Append the prop-value pair if not found.
   (cdr head)))  ; Return the list after the dummy head.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun build-plist (keys vals)
+(defun make-plist (keys vals)
  "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
@@ -2183,7 +2161,7 @@
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
-    $('let $($('struct $('build-plist (cons 'list slot-kws) 'slot-values)))
+    $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
       $('put! $('quote struct-type) ':struct-type 'struct)
       'struct))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
