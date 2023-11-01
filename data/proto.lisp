@@ -232,7 +232,7 @@
 
 (repeat 100
  (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
- (repeat 1000
+ (repeat 10000
   (let ((roll (random 1 7)))
    (setq! *counts*
     (plist-set roll *counts*
