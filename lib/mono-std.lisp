@@ -1585,7 +1585,7 @@
    (plist-remove prop (cddr plist))
    (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-set (prop plist value)
+(defun plist-set (prop value plist)
  "Non-destructively set key PROP in plist PLIST to VALUE."
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist
