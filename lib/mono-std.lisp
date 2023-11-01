@@ -1986,11 +1986,11 @@
  "t when OBJ is a matrix (list of lists)."
  (and (cons? obj) (all? cons? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transpose (matrix)
+(defun matrix-transpose (matrix)
  "Convert the rows of MATRIX into columns."
  (unless (consistent-matrix? matrix) (error "MATRIX must be a consistent matrix (all rows must have the same number of columns)."))
  (when (car matrix)
-  (cons (mapcar car matrix) (transpose (mapcar cdr matrix)))))
+  (cons (mapcar car matrix) (matrix-transpose (mapcar cdr matrix)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-reverse-rows (matrix)
  "Reverse each row in MATRIX."
@@ -2012,7 +2012,7 @@
  "Rotate MATRIX right by 90 degrees."
  (unless (consistent-matrix? matrix)
   (error "MATRIX is inconsistent. All rows must have the same number of columns."))
- (matrix-reverse-rows (transpose matrix)))
+ (matrix-reverse-rows (matrix-transpose matrix)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-set! (matrix row col value)
  "Destructively set the element at ROW and COL of MATRIX to VALUE."
