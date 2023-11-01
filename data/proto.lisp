@@ -220,6 +220,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-getter (struct-type slot)
  "Generate a getter function for STRUCT-TYPE's slot SLOT."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (symbol? slot)        (error "SLOT must be a symbol"))
  (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name slot))))
        (slot-kw (intern (concat ":" (symbol-name slot)))))
   $('defun getter-name $('obj)
@@ -229,6 +231,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-setter (struct-type slot)
  "Generate a setter function for STRUCT-TYPE's slot SLOT."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (symbol? slot)        (error "SLOT must be a symbol"))
  (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
        (slot-kw (intern (concat ":" (symbol-name slot)))))
   $('defun setter-name $('obj 'val)
@@ -247,6 +251,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-predicate (struct-type)
  "Generate a predicate function for STRUCT-TYPE."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
   $('defun predicate-name $('obj)
     $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
@@ -257,6 +262,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defstruct (struct-type . slots)
  "Define a new struct type STRUCT type with slots SLOTS."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (let
   ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
    (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
