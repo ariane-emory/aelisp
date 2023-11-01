@@ -230,18 +230,18 @@
 
 (setq! *deltas* nil)
 
-(repeat 100
+(repeat 500
  (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
- (repeat 10000
-  (let ((roll (random 1 7)))
+ (repeat 500
+  (let ((roll (random 1 6)))
    (setq! *counts*
-    (plist-set roll *counts*
+    (plist-set  roll *counts*
      (if (plist-has? roll *counts*)
       (1+ (plist-get roll *counts*))
       1)))))
- (princ (vals *counts*)) (nl)
- (princ (max-delta (vals *counts*))) (nl)
+ (princ "This cycle's counts:    " (vals *counts*)) (nl)
+ (princ "This cycle's max delta: " (max-delta (plist-values *counts*))) (nl)
  (setq! *deltas* (cons (max-delta (vals *counts*)) *deltas*)) 
- (princ *deltas*) (nl)
+ (princ "Deltas so far:          " *deltas*) (nl)
  (nl))
  
