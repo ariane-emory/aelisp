@@ -1,11 +1,6 @@
 Iter #1
-This cycle's counts:    (40 39 36 55 39 41)
-This cycle's max delta: 19
-Deltas so far:          (19)
+This cycle's counts:    (35 42 46 35 42 50)
+This cycle's max delta: 15
+Deltas so far:          (15)
 
 Iter #2
-This cycle's counts:    (36 40 43 38 44 49)
-This cycle's max delta: 13
-Deltas so far:          (13 19)
-
-Iter #3

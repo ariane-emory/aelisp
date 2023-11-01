@@ -257,8 +257,7 @@
 
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
-   (setq! counts (plist-set! roll counts (1+ (plist-get roll counts))))
-   ))
+   (plist-set! roll counts (1+ (plist-get roll counts)))))
 
  (princ "This cycle's counts:    " (vals counts)) (nl)
  ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
