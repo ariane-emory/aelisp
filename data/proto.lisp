@@ -297,17 +297,16 @@
 
 (defmacro defstruct (struct-type . fields)
  (let* ((field-kws (mapcar (lambda (field) (intern (concat ":" (symbol-name field)))) fields))
-        (getter-progn
-         (cons 'progn
-          (mapcan
+        (getters-and-setters
+         (mapcan
            (lambda (field)
             $($('make-struct-getter struct-type field)
               $('make-struct-setter struct-type field)))
-           fields))))
-  $('list
+           fields)))
+  (append $('progn
     $('make-struct-predicate struct-type)
-    $('make-struct-constructor struct-type . fields)
-    getter-progn)))
+    $('make-struct-constructor struct-type . fields))
+    getters-and-setters)))
 
 ;; (log-macro t)
 ;; (log-eval t)
@@ -327,3 +326,33 @@
   (make-struct-setter cat legs)
   (make-struct-getter cat whiskers)
   (make-struct-setter cat whiskers)))
+
+(list
+ (make-struct-predicate cat)
+ (make-struct-constructor cat name legs whiskers)
+ (list
+  (make-struct-getter cat name)
+  (make-struct-setter cat name)
+  (make-struct-getter cat legs)
+  (make-struct-setter cat legs)
+  (make-struct-getter cat whiskers)
+  (make-struct-setter cat whiskers)))
+
+(list (make-struct-predicate cat)
+ (make-struct-constructor cat name legs whiskers)
+ list (make-struct-getter cat name)
+ (make-struct-setter cat name)
+ (make-struct-getter cat legs)
+ (make-struct-setter cat legs)
+ (make-struct-getter cat whiskers)
+ (make-struct-setter cat whiskers))
+
+(list
+ (make-struct-predicate cat)
+ (make-struct-constructor cat name legs whiskers)
+ (make-struct-getter cat name)
+ (make-struct-setter cat name)
+ (make-struct-getter cat legs)
+ (make-struct-setter cat legs)
+ (make-struct-getter cat whiskers)
+ (make-struct-setter cat whiskers))
