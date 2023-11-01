@@ -234,6 +234,8 @@
         (matrix-set! new-matrix j ((- (length matrix) 1) i) (matrix-ref matrix i j))))
     new-matrix)))
 
+(log-eval t)
+
 (write-matrix
  (matrix-rotate-right
   '((1 2 3)
