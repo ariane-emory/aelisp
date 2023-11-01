@@ -2008,6 +2008,72 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; struct-related macros/funs:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-getter (struct-type slot)
+ "Generate a getter function for STRUCT-TYPE's slot SLOT."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (symbol? slot)        (error "SLOT must be a symbol"))
+ (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name slot))))
+       (slot-kw (intern (concat ":" (symbol-name slot)))))
+  $('defun getter-name $('obj)
+    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
+      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+    $('plist-get slot-kw 'obj))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-setter (struct-type slot)
+ "Generate a setter function for STRUCT-TYPE's slot SLOT."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (symbol? slot)        (error "SLOT must be a symbol"))
+ (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
+       (slot-kw (intern (concat ":" (symbol-name slot)))))
+  $('defun setter-name $('obj 'val)
+    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
+      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+    $('plist-set slot-kw 'obj 'val))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-constructor (struct-type . slots)
+ "Generate a constructor function for STRUCT-TYPE with SLOTS."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
+ (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
+       (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
+  $('defun constructor-name 'slot-values
+    $('let $($('struct $('build-plist (cons 'list slot-kws) 'slot-values)))
+      $('put! $('quote struct-type) ':struct-type 'struct)
+      'struct))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-predicate (struct-type)
+ "Generate a predicate function for STRUCT-TYPE."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
+  $('defun predicate-name $('obj)
+    $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun struct? (obj)
+ "t when OBJ is a struct."
+ (and (cons? obj) (has? ':struct-type obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro defstruct (struct-type . slots)
+ "Define a new struct type STRUCT type with slots SLOTS."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (list? slots)         (error "SLOTS must be a list"))
+ (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
+ (let
+  ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
+   (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
+  (cons 'list
+   (append
+    $($('make-struct-constructor struct-type . slots))
+    $($('make-struct-predicate struct-type))
+    getters
+    setters))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'struct)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'mono-std)
 (provide 'std) ;; this counts as an implementation of 'std.
