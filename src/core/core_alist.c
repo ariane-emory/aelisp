@@ -17,7 +17,7 @@ ae_obj_t * ae_core_aset(__attribute__((unused)) ae_obj_t * const env,
 
   ASET(alist, key, value);
   
-  CORE_RETURN("aset", value);
+  CORE_RETURN("aset", alist);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

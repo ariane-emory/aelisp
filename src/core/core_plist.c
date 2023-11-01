@@ -17,7 +17,7 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
 
   PSET(plist, key, value);
   
-  CORE_RETURN("pset", value);
+  CORE_RETURN("pset", plist);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

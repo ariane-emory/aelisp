@@ -1589,12 +1589,20 @@
  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (prop plist)
- "Non-destructively remove PROP from PLIST, testing equality with PRED?."
+ "Non-destructively remove key PROP from plist PLIST."
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist
   (if (eql? prop (car plist))
    (plist-remove prop (cddr plist))
    (cons (car plist) (cons (cadr plist) (plist-remove prop (cddr plist)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-set (prop plist value)
+ "Non-destructively set key PROP in plist PLIST to VALUE."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (when plist
+  (if (eql? prop (car plist))
+   (cons prop (cons value (cddr plist)))
+   (cons (car plist) (cons (cadr plist) (plist-set prop (cddr plist) value))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun build-plist (keys vals)
  "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
