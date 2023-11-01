@@ -1587,7 +1587,29 @@
     (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair
     (setq! tail (cddr tail)))  ; Move tail pointer forward
    (setq! plist (cddr plist)))  ; Skip to the next pair
-  (cdr head)))  ; Return the list after the dummy head.
+  (cdr head)))  ; Return the list after the dummy head.b
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-remove! (prop plist)
+ "Destructively remove key PROP from plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ (let ((current plist)  ; Current starts at the head of plist.
+       (prev nil))  ; Previous starts as nil.
+  ;; Iterate over plist, with current pointing to the current pair and prev to the previous pair.
+  (while current
+   (if (eql? prop (car current))
+    (if prev
+     ;; If prev is not nil, skip over the current pair in the plist.
+     (rplacd! prev (cddr current))
+     ;; If prev is nil, we're removing the first element.
+     ;; In this case, we can't really destroy it, we just move the head forward.
+     (progn
+      (setq! plist (cddr plist))
+      (setq! current plist)))
+    ;; Not the pair we're looking for, move prev and current forward.
+    (setq! prev current)
+    (setq! current (cddr current))))
+  ;; Return the modified plist.
+  plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-set (prop value plist)
  "Non-destructively set key PROP in plist PLIST to VALUE."
