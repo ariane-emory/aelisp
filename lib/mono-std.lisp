@@ -1578,39 +1578,36 @@
 ;; plist funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (prop plist)
-  "Non-destructively remove key PROP from plist PLIST."
-  (unless (list? plist) (error "PLIST must be a list"))
-  (let* ((head (cons nil nil))  ; Dummy head
-         (tail head))
-    (while plist
-      (unless (eql? prop (car plist))
-        (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair
-        (setq! tail (cddr tail)))  ; Move tail pointer forward
-      (setq! plist (cddr plist)))  ; Skip to the next pair
-    (cdr head)))  ; Return the list after the dummy head.
-
-
+ "Non-destructively remove key PROP from plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ (let* ((head (cons nil nil))  ; Dummy head
+        (tail head))
+  (while plist
+   (unless (eql? prop (car plist))
+    (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair
+    (setq! tail (cddr tail)))  ; Move tail pointer forward
+   (setq! plist (cddr plist)))  ; Skip to the next pair
+  (cdr head)))  ; Return the list after the dummy head.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-set (prop value plist)
-  "Non-destructively set key PROP in plist PLIST to VALUE."
-  (unless (list? plist) (error "PLIST must be a list"))
-  (let* ((head (cons nil nil))  ; Dummy head
-         (tail head)
-         (found nil))
-    (while plist
-      (if (eql? prop (car plist))
-          (progn
-            (setq! found t)
-            (rplacd! tail (cons prop (cons value (cddr plist))))  ; Set new pair and link rest.
-            (setq! plist nil))  ; End the loop.
-        (progn
-          (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair.
-          (setq! tail (cddr tail))  ; Move tail pointer forward.
-          (setq! plist (cddr plist)))))  ; Move through the plist.
-    (unless found
-      (rplacd! tail (cons prop (cons value nil))))  ; Append the prop-value pair if not found.
-    (cdr head)))  ; Return the list after the dummy head.
-
-
+ "Non-destructively set key PROP in plist PLIST to VALUE."
+ (unless (list? plist) (error "PLIST must be a list"))
+ (let* ((head (cons nil nil))  ; Dummy head
+        (tail head)
+        (found nil))
+  (while plist
+   (if (eql? prop (car plist))
+    (progn
+     (setq! found t)
+     (rplacd! tail (cons prop (cons value (cddr plist))))  ; Set new pair and link rest.
+     (setq! plist nil))  ; End the loop.
+    (progn
+     (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair.
+     (setq! tail (cddr tail))  ; Move tail pointer forward.
+     (setq! plist (cddr plist)))))  ; Move through the plist.
+  (unless found
+   (rplacd! tail (cons prop (cons value nil))))  ; Append the prop-value pair if not found.
+  (cdr head)))  ; Return the list after the dummy head.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun build-plist (keys vals)
  "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
