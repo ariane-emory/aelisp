@@ -242,6 +242,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-constructor (struct-type . slots)
  "Generate a constructor function for STRUCT-TYPE with SLOTS."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
@@ -263,6 +265,8 @@
 (defmacro defstruct (struct-type . slots)
  "Define a new struct type STRUCT type with slots SLOTS."
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (list? slots)         (error "SLOTS must be a list"))
+ (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
  (let
   ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
    (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
@@ -278,7 +282,9 @@
 
 ;; (log-macro t)
 ;; (log-eval t)
-;; (defstruct cat name legs whiskers)
+(defstruct cat name legs whiskers)
+(setq! higgs (make-cat "higgy" 4 t))
+
 ;; (log-eval nil)
 ;; (log-macro nil)
 
