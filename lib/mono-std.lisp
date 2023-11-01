@@ -2050,12 +2050,22 @@
    (nl)
    (setq! current-row (+ 1 current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun make-matrix (rows cols init-val)
+;;   "Make a new matrix of size ROWS x COLS with each element set to INIT-VAL."
+;;   (unless (integer? rows) (error "ROWS must be an integer"))
+;;   (unless (integer? cols) (error "COLS must be an integer"))
+;;   ;; Create the matrix using make-list
+;;  (make-list rows (make-list cols init-val)))
 (defun make-matrix (rows cols init-val)
-  "Make a new matrix of size ROWS x COLS with each element set to INIT-VAL."
-  (unless (integer? rows) (error "ROWS must be an integer"))
-  (unless (integer? cols) (error "COLS must be an integer"))
-  ;; Create the matrix using make-list
-  (make-list rows (make-list cols init-val)))
+ "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
+ (unless (and (integer? rows) (integer? cols))
+  (error "Both ROWS and COLS must be integers"))
+ (let ((result nil)
+       (current-row 0))
+  (while (< current-row rows)
+   (setq! result (cons (make-list cols init-val) result))
+   (setq! current-row (+ 1 current-row)))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
 (defun mutate-matrix (matrix height width ternary-func)
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
