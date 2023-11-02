@@ -13,7 +13,11 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * value = CADR(args); // this could be unsave if value is NIL, maybe.
   ae_obj_t * plist = CADDR(args);
 
-  CORE_RETURN("pset", PSET(plist, key, value));
+  REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
+
+  PSET(plist, key, value);
+  
+  CORE_RETURN("pset", plist);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +31,8 @@ ae_obj_t * ae_core_pget(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t * key   = CAR(args);
   ae_obj_t * plist = CADR(args);
+
+  REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
   CORE_RETURN("pget", PGET(plist, key));
 }
@@ -43,6 +49,8 @@ ae_obj_t * ae_core_phas(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * key   = CAR(args);
   ae_obj_t * plist = CADR(args);
 
+  REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
+    
   CORE_RETURN("phas", TRUTH(PHAS(plist, key)));
 }
 

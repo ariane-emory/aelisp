@@ -11,9 +11,13 @@ ae_obj_t * ae_core_aset(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t * key   = CAR(args);
   ae_obj_t * value = CADR(args); // this could be unsave if value is NIL, maybe.
-  ae_obj_t * alist = CADR(args);
+  ae_obj_t * alist = CADDR(args);
 
-  CORE_RETURN("aset", ASET(alist, key, value));
+  REQUIRE(env, args, TAILP(alist), "ALIST must be a list");
+
+  ASET(alist, key, value);
+  
+  CORE_RETURN("aset", alist);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +31,8 @@ ae_obj_t * ae_core_aget(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t * key   = CAR(args);
   ae_obj_t * alist = CADR(args);
+
+  REQUIRE(env, args, TAILP(alist), "ALIST must be a list");
 
   CORE_RETURN("aget", AGET(alist, key));
 }
@@ -43,6 +49,8 @@ ae_obj_t * ae_core_ahas(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * key   = CAR(args);
   ae_obj_t * alist = CADR(args);
 
+  REQUIRE(env, args, TAILP(alist), "ALIST must be a list");
+    
   CORE_RETURN("ahas", TRUTH(AHAS(alist, key)));
 }
 
