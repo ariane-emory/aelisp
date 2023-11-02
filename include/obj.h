@@ -202,7 +202,6 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EMSG(obj)                        ((obj)->error_message)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define PSET_INTERNAL(plist, key, value) (ae_plist_set_internal((plist), (key), (value)))
 #define ASSIGN_PROPS(props, obj)         ((obj)->properties = (props))
 #define PROPS(obj)                       ((obj)->properties)
 #define HAS_PROP(key, obj)               (PHAS(PROPS((obj)), KW(key)))
