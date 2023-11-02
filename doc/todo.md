@@ -1,4 +1,8 @@
 To Do:
+- [ ] plist_set should do a mutate/new tail swap instead of consing.
+- [ ] core plist-set! should be special and only accept symbols or non-empty lists.
+- [ ] core_put_prop shouldn't allow putting properties on some symbols like t or nil, maybe add a :no-user-properties property?
+- { } core_alist needs to be revised or maybe removed.
 - [ ] Improve butlast to take optional N.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
