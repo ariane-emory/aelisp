@@ -35,7 +35,7 @@ ae_obj_t *clone_list_up_to(ae_obj_t *pos, ae_obj_t *list) {
     return new_list;
 }
 
-ae_obj_t * ae_plist_set_immutable(ae_obj_t *list, ae_obj_t * const key, ae_obj_t * const value) {
+ae_obj_t * ae_plist_set_immutable(ae_obj_t * const list, ae_obj_t * const key, ae_obj_t * const value) {
   if (list == NIL) {
     // If the list is empty, return a new key-value pair.
     return CONS(key, CONS(value, NIL));
