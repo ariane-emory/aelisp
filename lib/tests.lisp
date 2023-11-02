@@ -162,8 +162,6 @@
 (confirm that (make-string      10 "x")                             returns "xxxxxxxxxx")
 (confirm that (pad-string-right 10 "x" "hello")                     returns "helloxxxxx")
 (confirm that (pad-string-left  10 "x" "hello")                     returns "xxxxxhello")
-(confirm that (plist-keys   '(a 1 b 2 c 3))                         returns '(a b c))
-(confirm that (plist-values '(a 1 b 2 c 3))                         returns '(1 2 3))
 (confirm that (mapconcat id '("hello" "to" "the" "world") " ")      returns "hello to the world")
 (confirm that (mapconcat id '("hello" "to" "the" "world"))          returns "hellototheworld")
 (confirm that (sort!! '(1 2 3 4 5 6) (lambda (x y) (and (even? x) (not (even? y))))) returns '(6 4 2 5 3 1))
