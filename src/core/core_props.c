@@ -54,8 +54,10 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   ae_obj_t * value         = CAR(args); // this could be unsafe if value is NIL, mayb?
   ae_obj_t * key           = CADR(args);
   ae_obj_t * obj           = CADDR(args);
-  ae_obj_t * prop_list     = PROPS(obj);
-  PSET(prop_list, key, value);
+
+  LOG(PROPS(obj), "prop_list before");
+  PSET(PROPS(obj), key, value);
+  LOG(PROPS(obj), "prop_list after");
   ret                      = value;
 
 end:
