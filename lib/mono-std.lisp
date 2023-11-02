@@ -1580,23 +1580,29 @@
 (defun plist-remove! (prop plist)
   "Destructively remove key PROP from plist PLIST."
   (unless (list? plist) (error "PLIST must be a list"))
-  ;; Handle the case when the prop is at the head of plist.
+  
+  ;; If PROP is at the head of PLIST, remove it.
   (while (and plist (eql? prop (car plist)))
-    (setq! plist (cddr plist)))
-  ;; Now handle the case when the prop is in the middle or end.
-  (let ((current plist)
-        (prev nil))
-    (while current
+    (rplaca! plist (car (cddr plist)))
+    (rplacd! plist (cddr (cddr plist))))
+  
+  ;; Initialize CURRENT to the second element of PLIST and PREV to the first.
+  (let ((current (cdr plist))
+        (prev plist))
+    (while (and current (cdr current))  ; While there are at least two more elements.
       (if (eql? prop (car current))
-          (if prev
-              ;; Skip the next pair by linking previous cdr to the next's next.
-              (rplacd! (cdr prev) (cddr current))
-            ;; If we're at the head, we should just move plist forward.
-            (setq! plist (cddr plist)))
-        ;; Otherwise, just move prev forward.
-        (setq! prev current))
-      ;; Move current forward by two places.
-      (setq! current (cddr current)))
+          (progn
+            ;; If PROP is CURRENT, remove it by setting the CDR of PREV
+            (rplacd! prev (cddr current))
+            ;; Move current to the new cdr of prev (which is two steps ahead).
+            (setq! current (cdr prev)))
+        (progn
+          ;; If CURRENT is not PROP, move PREV and CURRENT forward.
+          (setq! prev current)
+          (setq! current (cdr current)))))
+    ;; If we reach the end of the list, check if the last property is PROP.
+    (when (and current (eql? prop (car current)))
+      (rplacd! prev nil))  ; Remove the last property if it is PROP.
     plist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
