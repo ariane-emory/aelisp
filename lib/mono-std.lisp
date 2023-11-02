@@ -58,12 +58,15 @@
 (setq! gte        >=)
 (setq! lt         <)
 (setq! gt         >)
-(setq! phas?  plist-has?)
-(setq! pset!  plist-set!)
-(setq! pget   plist-get)
-(setq! ahas?  alist-has?)
-(setq! aset!  alist-set!)
-(setq! aget   alist-get)
+;; (setq! has-key?   khas?)
+;; (setq! get-key    kget)
+;; (setq! set-key    kset)
+(setq! phas? plist-has?)
+(setq! pset! plist-set!)
+(setq! pget  plist-get)
+(setq! ahas? alist-has?)
+(setq! aset! alist-set!)
+(setq! aget  alist-get)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-aliases)
@@ -1574,48 +1577,67 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; plist funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-keys (plist)
- "Extracts the keys from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (when plist (cons (car plist) (plist-keys (cddr plist)))))
+(defun plist-remove! (key plist)
+ "Destructively remove the first occurrence of key PROP from plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ ;; Handle the case when the key is at the head of plist.
+ (if (eql? key (car plist))
+  (progn
+    ;; Replace the head of the plist with the next key-value pair or nil.
+    (rplaca! plist (caddr plist))
+    (rplacd! plist (if (caddr plist) (cdddr plist) (list nil))) ;; special case for removing last element
+    plist)
+  
+  ;; If the key is not at the head, iterate through the plist.
+  (let ((prev plist)
+        (current (cdr plist)))
+   ;; Continue until there are no more pairs.
+   (while current
+    (if (eql? key (car current))
+     (progn
+      ;; Skip the key-value pair by modifying the cdr of the previous pair.
+      (rplacd! prev (cddr current))
+      ;; Exit the loop as we've removed the key-value pair.
+      (setq current nil))
+     ;; Update pointers to move to the next key-value pair.
+     (setq prev current)
+     (setq current (cdr current))))
+   ;; Return the possibly modified plist.
+   plist)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-vals (plist)
- "Extracts the values from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist (plist-keys (cdr plist))))
+(defun plist-remove (prop plist)
+ "Non-destructively remove key PROP from plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ (let* ((head (cons nil nil))  ; Dummy head
+        (tail head))
+  (while plist
+   (unless (eql? prop (car plist))
+    (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair
+    (setq! tail (cddr tail)))  ; Move tail pointer forward
+   (setq! plist (cddr plist)))  ; Skip to the next pair
+  (cdr head)))  ; Return the list after the dummy head.b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-remove (pred? prop plist)
- "Non-destructively remove PROP from PLIST, testing equality with PRED?."
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist
-  (if (pred? prop (car plist))
-   (plist-remove pred? prop (cddr plist))
-   (cons (car plist) (cons (cadr plist) (plist-remove pred? prop (cddr plist)))))))
+(defun plist-set (prop value plist)
+ "Non-destructively set key PROP in plist PLIST to VALUE."
+ (unless (list? plist) (error "PLIST must be a list"))
+ (let* ((head (cons nil nil))  ; Dummy head
+        (tail head)
+        (found nil))
+  (while plist
+   (if (eql? prop (car plist))
+    (progn
+     (setq! found t)
+     (rplacd! tail (cons prop (cons value (cddr plist))))  ; Set new pair and link rest.
+     (setq! plist nil))  ; End the loop.
+    (progn
+     (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair.
+     (setq! tail (cddr tail))  ; Move tail pointer forward.
+     (setq! plist (cddr plist)))))  ; Move through the plist.
+  (unless found
+   (rplacd! tail (cons prop (cons value nil))))  ; Append the prop-value pair if not found.
+  (cdr head)))  ; Return the list after the dummy head.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeq  (prop plist)
- "Non-destructively remove PROP from PLIST, testing equality with eq?."
- (plist-remove eq?  prop plist))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-removeql (prop plist)
- "Non-destructively remove PROP from PLIST, testing equality with eql?."
- (plist-remove eql? prop plist))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! keys      plist-keys)
-(setq! vals-base vals)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun vals args
- "Retrieve the values from a plist or environment."
- (when (cdr args) (error "VALS takes only one argument"))
- (let ((arg (car args)))
-  (cond
-   ((nil? arg)  (vals-base (env (env (env)))))
-   ((list? arg) (plist-vals arg))
-   ((env? arg)  (vals-base arg))
-   (t           (error "VALS takes a plist or an environment")))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun build-plist (keys vals)
+(defun make-plist (keys vals)
  "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
@@ -1650,6 +1672,30 @@
    (setq! alist (cddr alist)))
   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-keys (plist)
+ "Extracts the keys from a plist PLIST."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (when plist (cons (car plist) (plist-keys (cddr plist)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-vals (plist)
+ "Extracts the values from a plist PLIST."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
+ (when plist (plist-keys (cdr plist))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! keys      plist-keys)
+(setq! vals-base vals)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun vals args
+ "Retrieve the values from a plist or environment."
+ (when (cdr args) (error "VALS takes only one argument"))
+ (let ((arg (car args)))
+  (cond
+   ((nil? arg)  (vals-base (env (env (env)))))
+   ((list? arg) (plist-vals arg))
+   ((env? arg)  (vals-base arg))
+   (t           (error "VALS takes a plist or an environment")))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1661,7 +1707,7 @@
  "Remove a property PROP from OBJ."
  $('prog1
    $('quote $('get prop obj))
-   $('props! obj $('plist-removeql prop $('props obj)))))
+   $('props! obj $('plist-remove prop $('props obj)))))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'remove-prop-macro)
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1913,9 +1959,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! premove   plist-remove)
-(setq! premoveq  plist-removeq)
-(setq! premoveql plist-removeql)
 (setq! ljust     left-justify)
 (setq! rjust     right-justify)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2146,7 +2189,7 @@
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
-    $('let $($('struct $('build-plist (cons 'list slot-kws) 'slot-values)))
+    $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
       $('put! $('quote struct-type) ':struct-type 'struct)
       'struct))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
