@@ -1586,7 +1586,7 @@
   (progn
     ;; Replace the head of the plist with the next key-value pair or nil.
     (princ "this case 2") (nl)
-    (rplaca! plist (if (caddr plist) (caddr plist) nil))
+    (rplaca! plist (caddr plist))
     (rplacd! plist (if (caddr plist) (cdddr plist) (list nil)))
     plist)
 
