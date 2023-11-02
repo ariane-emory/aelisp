@@ -241,6 +241,7 @@
 
 (setq! deltas nil)
 (setq! ctr 0)
+(setq! iterations 1000)
 
 (repeat 10
  (setq! *xorshift64-seed* (now-us))
@@ -252,7 +253,8 @@
  ;; Initialize/reset the counts for this cycle.
  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
- (repeat 1000
+ (princ "Performing " iterations " iterations.") (nl)
+ (repeat iterations
   (sleep 4)
 
   (let ((roll (random 1 6)))
