@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * const value) {
+void ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
   LOG(list,  "in list");
@@ -25,7 +25,7 @@ ae_obj_t * ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * c
 
   if (plist != NIL)
     for (ae_obj_t * position = plist; position != NIL; position = CDR(CDR(position))) {
-      LOG(position, "position:");
+      // LOG(position, "position:");
       ae_obj_t    * elem1    = CAR(position);
       ae_obj_t    * elem2    = position ? CADR(position) : NIL;
       
@@ -37,7 +37,7 @@ ae_obj_t * ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * c
     }
 
   plist = CONS(key, CONS(value, plist));
-  LOG(plist, "after consing");
+  // LOG(plist, "after consing");
 
 end:
 
@@ -47,7 +47,7 @@ end:
   NL;
 #endif
 
-  return plist;
+  *plistptr = plist;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
