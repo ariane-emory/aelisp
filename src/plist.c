@@ -10,12 +10,7 @@
 // clone_list_up_to helper
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// clone_list_up_to helper
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t *clone_list_up_to(ae_obj_t *pos, ae_obj_t *list) {
+ae_obj_t *clone_list_up_to(ae_obj_t * const pos, ae_obj_t * const list) {
     ae_obj_t *new_list = NIL, *tail = NIL, *cur;
   
     for (cur = list; cur != pos; cur = CDR(cur)) {
@@ -35,35 +30,39 @@ ae_obj_t *clone_list_up_to(ae_obj_t *pos, ae_obj_t *list) {
     return new_list;
 }
 
-ae_obj_t * ae_plist_set_immutable(ae_obj_t * const list, ae_obj_t * const key, ae_obj_t * const value) {
-  if (list == NIL) {
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_immutable
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
+  if (plist == NIL) {
     // If the list is empty, return a new key-value pair.
     return CONS(key, CONS(value, NIL));
   }
   
-  ae_obj_t *pos, *prev = NIL, *new_list = NIL;
+  ae_obj_t *pos, *prev = NIL, *new_plist = NIL;
   
   // Search for the key in the plist.
-  for (pos = list; pos != NIL; pos = CDR(CDR(pos))) {
+  for (pos = plist; pos != NIL; pos = CDR(CDR(pos))) {
     if (EQL(CAR(pos), key)) {
       // If the key is found, clone the list up to this point and update the value.
-      new_list = clone_list_up_to(pos, list);
+      new_plist = clone_list_up_to(pos, plist);
       // Create a new pair with the updated value.
       ae_obj_t *updated_pair = CONS(key, CONS(value, CDDR(pos)));
       // If prev is NIL, the key was in the first pair.
       if (prev == NIL) {
         return updated_pair;
       } else {
-        // Otherwise, set the cdr of the last pair of new_list to updated_pair.
+        // Otherwise, set the cdr of the last pair of new_plist to updated_pair.
         CDR(prev) = updated_pair;
-        return new_list;
+        return new_plist;
       }
     }
     prev = CDR(pos); // Keep track of the previous pair to be able to link the list.
   }
 
   // The key was not found; create a new list with the key-value pair at the front.
-  return CONS(key, CONS(value, list));
+  return CONS(key, CONS(value, plist));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
