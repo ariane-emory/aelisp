@@ -1598,7 +1598,6 @@
       (setq! prev (cdr current))  ; Move prev to current value
       (setq! current (cdr prev)))))))  ; Move current to next key
  plist)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (prop plist)
  "Non-destructively remove key PROP from plist PLIST."
