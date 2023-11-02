@@ -248,7 +248,7 @@
  (setq! *xorshift64-seed* (now-us))
  (setq! ctr (+ 1 ctr))
  (princ "Iter #" ctr) (nl)
- 
+
  ;; Initialize/reset the counts for this cycle.
  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
@@ -269,5 +269,5 @@
 
 (princ "Max delta: " (apply max deltas)) (nl)
 
-;; Okay, back to lisp code... let's say I want to count unique elements in a list (using eql? to test uniqueness) and return the reults as a plist..
-;; So, (countql `(1 2 a a 3 1 1)) a should be something like '(1 3 2 1 3 1 a 2) - the ordering of the pairs in the resulting plist isn't really important - how would I do that?
+;; (setq! plist '(a 1 b 2))
+;; (setq! key 'z) (setq! value 26) (let ((new-tail (cons (car plist) (cons (cadr plist) (cddr plist))))) (rplaca! plist key) (rplaca! (cdr plist) value) (rplacd! (cdr plist) new-tail)) plist
