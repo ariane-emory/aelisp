@@ -23,6 +23,7 @@ ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
 
   if (list != NIL)
     for (ae_obj_t * position = list; position != NIL; position = CDR(CDR(position))) {
+      LOG(position, "position:");
       ae_obj_t    * elem1    = CAR(position);
       ae_obj_t    * elem2    = position ? CADR(position) : NIL;
       
@@ -34,6 +35,7 @@ ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const 
     }
 
   list = CONS(key, CONS(value, list));
+  LOG(list, "after consing");
 
 end:
 
