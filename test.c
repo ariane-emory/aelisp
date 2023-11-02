@@ -534,12 +534,15 @@ void truth(void) {
   T(NILP(that));
 }
 
+void env_new_root(void) {
+  ae_obj_t * root   = ENV_NEW_ROOT(false, false);
+}
+
 #define ENV_TRIO                                                                                   \
   ae_obj_t * root   = ENV_NEW_ROOT(false, false);                                                  \
   ae_obj_t * parent = NEW_ENV(root,   NIL, NIL);                                                   \
   ae_obj_t * child  = NEW_ENV(parent, NIL, NIL);
   
-
 void env_scoping(void) {
   SETUP_TEST;
   {
@@ -1621,6 +1624,7 @@ void push_and_pop(void) {
   DO(truth)                                                                                        \
   DO(eql)                                                                                          \
   DO(env_basics)                                                                                   \
+  DO(env_new_root)                                                                                 \
   DO(env_scoping)                                                                                  \
   DO(fprinc_fwrite_lengths)                                                                        \
   DO(core_cons_car_cdr)                                                                            \
