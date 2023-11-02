@@ -15,6 +15,9 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
   CORE_BEGIN("props!");
 
   ae_obj_t * obj            = CAR(args);
+
+  REQUIRE(env, args, ! HAS_PROP("no-user-properties", obj), "this object's properties may not be assigned by the user");
+
   ae_obj_t * new_props_list = CADR(args);
   PROPS(obj)                = new_props_list;
   ret                       = new_props_list;
@@ -51,9 +54,12 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("put!");
 
+  ae_obj_t * obj           = CADDR(args);
+
+  REQUIRE(env, args, ! HAS_PROP("no-user-properties", obj), "user properties may not be added to this object");
+  
   ae_obj_t * value         = CAR(args); // this could be unsafe if value is NIL, mayb?
   ae_obj_t * key           = CADR(args);
-  ae_obj_t * obj           = CADDR(args);
   ae_obj_t * prop_list     = PROPS(obj);
   ae_obj_t * new_prop_list = PSET_INTERNAL(prop_list, key, value);
   PROPS(obj)               = new_prop_list;

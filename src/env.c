@@ -450,10 +450,12 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   ENV_SET(env,                SYM("*program*"),                     NIL);
   PUT_PROP(TRUE, "constant",  SYM("*program*"));
 
-  // Of course, nil and t are constants:
-  PUT_PROP(TRUE, "constant",  NIL);
-  PUT_PROP(TRUE, "constant",  TRUE);
-    
+  // Of course, nil and t are constants. They also should not accept user-specified propertiess:
+  PUT_PROP(TRUE, "constant",            NIL);
+  PUT_PROP(TRUE, "no-user-properties",  NIL);
+  PUT_PROP(TRUE, "constant",            TRUE);
+  PUT_PROP(TRUE, "no-user-properties",  TRUE);
+  
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 6: Set some system variables and mark some of them as constant:
   //////////////////////////////////////////////////////////////////////////////////////////////////

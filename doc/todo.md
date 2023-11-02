@@ -1,4 +1,5 @@
 To Do:
+- [ ] Why is :last-bound-to set on nil/t?
 - [ ] core_put_prop shouldn't allow putting properties on some symbols like t or nil, maybe add a :no-user-properties property?
 - { } core_alist needs to be revised or maybe removed.
 - [ ] Improve butlast to take optional N.
