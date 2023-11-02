@@ -1583,19 +1583,12 @@
  ;; Handle the case when the key is at the head of plist.
  (if (eql? key (car plist))
 
-  (if (not (caddr plist)) 
-   (progn
-    ;; Replace the head of the plist with the next key-value pair or nil.
-    (princ "this case 1") (nl)
-    (rplaca! plist nil)
-    (rplacd! plist (list nil))
-    plist)
-   (progn
+  (progn
     ;; Replace the head of the plist with the next key-value pair or nil.
     (princ "this case 2") (nl)
-    (rplaca! plist (caddr plist))
-    (rplacd! plist (cdddr plist))
-    plist))
+    (rplaca! plist (if (caddr plist) (caddr plist) nil))
+    (rplacd! plist (if (caddr plist) (cdddr plist) (list nil)))
+    plist)
 
   
   ;; If the key is not at the head, iterate through the plist.
