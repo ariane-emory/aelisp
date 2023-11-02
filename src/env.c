@@ -371,21 +371,6 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
   FOR_EACH_CORE_FUN_GROUP_2(load_fun);
-
-/*   { */
-/*     bool found = false; */
-    
-/* #if AE_PREFER_ALIST */
-/*     ENV_SET(env, SYM("khas?"), ENV_GET(env, SYM("ahas?"), &found)); */
-/*     ENV_SET(env, SYM("kset"),  ENV_GET(env, SYM("aset"), &found)); */
-/*     ENV_SET(env, SYM("kget"),  ENV_GET(env, SYM("aget"), &found)); */
-/* #else */
-/*     ENV_SET(env, SYM("khas?"), ENV_GET(env, SYM("phas?"), &found)); */
-/*     ENV_SET(env, SYM("kset"),  ENV_GET(env, SYM("pset"), &found)); */
-/*     ENV_SET(env, SYM("kget"),  ENV_GET(env, SYM("pget"), &found)); */
-/* #endif */
-/*   } */
-  
   FOR_EACH_CORE_FUN_GROUP_3(load_fun);
   FOR_EACH_CORE_MATH_OP(add_core_op);
   FOR_EACH_CORE_FUN_GROUP_1(load_fun);
