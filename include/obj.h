@@ -202,14 +202,15 @@ extern ae_obj_t * symbols_list;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EMSG(obj)                        ((obj)->error_message)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define PSET_INTERNAL(plist, key, value) (ae_plist_set_internal((plist), (key), (value)))
 #define ASSIGN_PROPS(props, obj)         ((obj)->properties = (props))
 #define PROPS(obj)                       ((obj)->properties)
 #define HAS_PROP(key, obj)               (PHAS(PROPS((obj)), KW(key)))
 #define HAS_PROP_RAW(key, obj)           (PHAS(PROPS((obj)), (key)))
 #define GET_PROP(key, obj)               (PGET(PROPS((obj)), KW(key)))
 #define GET_PROP_RAW(key, obj)           (PGET(PROPS((obj)), (key)))
-#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET(PROPS(CAPTURED), KW(key), (val))); })
-#define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET(PROPS(CAPTURED), (key), (val))); })
+#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET_INTERNAL(PROPS(CAPTURED), KW(key), (val))); })
+#define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET_INTERNAL(PROPS(CAPTURED), (key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
