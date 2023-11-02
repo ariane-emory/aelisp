@@ -28,8 +28,8 @@ void ae_plist_set_mut(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * c
   // Key wasn't found, so prepend it by mutating in place.
   ae_obj_t *new_tail = CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist))));
   CAR(plist) = key;
-  CADR(plist) = value;
-  CDR(plist) = new_tail;
+  // After setting the new key, we also need to set the new value here.
+  CDR(plist) = CONS(value, new_tail); // This line is changed.
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
