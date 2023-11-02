@@ -45,10 +45,10 @@
  (repeat 10000
   (let ((roll (+ (random 1 6) (random 1 6))))
    (setq! *counts*
-    (plist-set! roll *counts*
-     (if (plist-has? roll *counts*)
+    (plist-set! roll (if (plist-has? roll *counts*)
       (1+ (plist-get roll *counts*))
-      1)))))
+      1)
+     *counts*))))
  (princ *counts*) (nl)
  (exit))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -62,10 +62,10 @@
  (repeat 10000
   (let ((roll (random 1 7)))
    (setq! *counts*
-    (plist-set! roll *counts*
-     (if (plist-has? roll *counts*)
+    (plist-set! roll (if (plist-has? roll *counts*)
       (1+ (plist-get roll *counts*))
-      1)))))
+      1)
+     *counts*))))
  (princ *counts*) (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -257,11 +257,11 @@
 
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
-   (plist-set! roll counts (1+ (plist-get roll counts)))))
+   (plist-set! roll (1+ (plist-get roll counts)) counts)))
 
  (princ "This cycle's counts:    " (vals counts)) (nl)
  ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
- (princ "This cycle's max delta: " (max-delta (plist-values counts))) (nl)
+ (princ "This cycle's max delta: " (max-delta (plist-vals counts))) (nl)
  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
  (princ "Deltas so far:          " deltas) (nl)
  (nl))
