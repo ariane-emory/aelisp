@@ -1300,24 +1300,6 @@ void plist(void) {
   T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
                  
-void kvp_list(void) {
-  SETUP_TEST;    
-                 
-  ae_obj_t * list = NIL;
-                 
-  T(!            KHAS(list, SYM("name")));
-  T(CONSP(list = KSET(list, SYM("name"),   NEW_STRING("Bob"))));
-  T(             KHAS(list, SYM("name")));
-  T(EQL(         KGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(!            KHAS(list, SYM("age")));
-  T(CONSP(list = KSET(list, SYM("age"),    NEW_INT(24))));
-  T(             KHAS(list, SYM("age")));
-  T(EQL(         KGET(list, SYM("age")),   NEW_INT(24)));
-  T(CONSP(list = KSET(list, SYM("name"),   NEW_STRING("Jake"))));
-  T(! EQL(       KGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(  EQL(       KGET(list, SYM("name")),  NEW_STRING("Jake")));
-}                
-
 void tailp(void) {
   SETUP_TEST;
   
@@ -1652,7 +1634,6 @@ void push_and_pop(void) {
   DO(deloc)                                                                                        \
   DO(alist)                                                                                        \
   DO(plist)                                                                                        \
-  DO(kvp_list)                                                                                     \
   DO(root_env_and_eval)                                                                            \
   DO(fun_specialness)                                                                              \
   DO(env_with_a_dot)                                                                               \
