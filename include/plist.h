@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define PSET(alist, key, value)        (ae_plist_set ((alist), (key), (value)))
-#define PGET(alist, key)               (ae_plist_get ((alist), (key)))
-#define PHAS(alist, key)               (ae_plist_contains_key((alist), (key)))
+#define PSET(plist, key, value)        (ae_plist_set (&(plist), (key), (value)))
+#define PGET(plist, key)               (ae_plist_get ((plist), (key)))
+#define PHAS(plist, key)               (ae_plist_contains_key((plist), (key)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
