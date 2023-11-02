@@ -12,6 +12,7 @@
 (confirm that (reverse '(1 2 3 4 5))           returns '(5 4 3 2 1))
 (confirm that (reverse (butlast '(1 2 3 4 5))) returns '(4 3 2 1))
 (confirm that (unionql '(1 2 3) '(4 5 6))      returns '(6 5 4 3 2 1))
+
 (setq!   lst (make-list 6 200))
 (confirm that lst                              returns '(200 200 200 200 200 200))
 (confirm that (list-set! lst 0 100)            returns 100)
@@ -32,6 +33,7 @@
 (confirm that (list-set! lst 5 105)            returns 105)
 (confirm that (list-ref lst 5)                 returns 105)
 (confirm that lst                              returns '(100 101 102 103 104 105))
+
 (defun lshift4 (n) (<< n 4))
 (add-logging-to lshift4)
 (confirm that (lshift4 4) returns 64)
@@ -57,6 +59,7 @@
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 3)) lst) lst) returns '(3 4 5 6 7 8 9 2 1))
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 2)) lst) lst) returns '(2 3 4 5 6 7 8 9 1))
 (confirm that (progn (select-and-move-to-front! (lambda (o) (eql? o 1)) lst) lst) returns '(1 2 3 4 5 6 7 8 9))
+
 (confirm that (nthcdr 0 lst) returns '(1 2 3 4 5 6 7 8 9))
 (confirm that (nthcdr 1 lst) returns '(2 3 4 5 6 7 8 9))
 (confirm that (nthcdr 2 lst) returns '(3 4 5 6 7 8 9))
@@ -92,6 +95,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (confirm that (bin-list-to-int  '(1 0 1 0 1 0 1))  returns 85)
 (confirm that (bin-list-to-int*   1 0 1 0 1 0 1)   returns 85)
+
 (confirm that (reduce  + '()          )            returns nil)
 (confirm that (reduce  + '(1)         )            returns 1)
 (confirm that (reduce  + '(1 2)       )            returns 3)
@@ -112,10 +116,13 @@
 (confirm that (rreduce + '(1 2)      0)            returns 3)
 (confirm that (rreduce + '(1 2 3)    0)            returns 6)
 (confirm that (rreduce + '(1 2 3 4)  0)            returns 10)
+
 (confirm that (zip '(a b c) '(1 2 3))              returns '((a 1) (b 2) (c 3)))
 (confirm that (zip '(a b c) '(1 2 3) '(x y z))     returns '((a 1 x) (b 2 y) (c 3 z)))
+
 (setq!   lst                                               '(7 5 4 6 3 9 1 6 2 8 6))
 (confirm that (sort!! lst <)                       returns '(1 2 3 4 5 6 6 6 7 8 9))
+
 (confirm that ((reduced   +  ) $(1 2 3 4))         returns 10)
 (confirm that ((reduced   + 4) $(1 2 3  ))         returns 10)
 (confirm that ((rreduced  +  ) $(1 2 3 4))         returns 10)
@@ -128,6 +135,7 @@
 (confirm that ((reduced*  + 4)   1 2 3   )         returns 10)
 (confirm that ((rreduced* +  )   1 2 3 4 )         returns 10)
 (confirm that ((rreduced* + 4)   1 2 3   )         returns 10)
+
 (setq! lst '(1 nil 2 3 nil 4 nil))
 (confirm that (delq! nil lst)                      returns '(1 2 3 4))
 (setq! lst '(1 2 3 2 4 2 5))
@@ -172,10 +180,6 @@
  returns "hello               to                  the                 world               ")
 (confirm that (prog1 1 2 3) returns 1)
 (confirm that (prog2 1 2 3) returns 2)
-(confirm that (put 'a :foo :quux)                      returns 'a)
-(confirm that (put 'b :bar :quux)                      returns 'b)
-(confirm that (put 'c :baz :quux)                      returns 'c)
-(confirm that (props :quux)                            returns '(:baz c :bar b :foo a))
 
 (confirm that (setq! pl '(a 10 b 20 c 30 d 40 e 50))   returns '(a 10 b 20 c 30 d 40  e 50))
 
@@ -234,35 +238,49 @@
 (confirm that (plist-remove  'b pl)                    returns nil)
 (confirm that (plist-remove! 'b pl)                    returns '(nil nil))
 
+(confirm that (put 'a :foo :quux)                      returns 'a)
+(confirm that (put 'b :bar :quux)                      returns 'b)
+(confirm that (put 'c :baz :quux)                      returns 'c)
+(confirm that (props :quux)                            returns '(:baz c :bar b :foo a))
+
 (confirm that (props!  :quux  '(:corge d))             returns '(:corge d))
 (confirm that (put 'a  :foo     :quux)                 returns 'a)
 (confirm that (put 'b  :bar     :quux)                 returns 'b)
 (confirm that (put 'c  :baz     :quux)                 returns 'c)
+
 (confirm that (remove! :foo     :quux)                 returns 'a)
 (confirm that (remove! :bar     :quux)                 returns 'b)
 (confirm that (remove! :baz     :quux)                 returns 'c)
 (confirm that (remove! :corge   :quux)                 returns 'd)
+
 (confirm that (props   :quux)                          returns nil)
+
 (confirm that (nconc! '(1 2 3) '(4 5 6) '(7 8 9))      returns '(1 2 3 4 5 6 7 8 9))
 (confirm that (append '(1 2 3) '(4 5 6) '(7 8 9))      returns '(1 2 3 4 5 6 7 8 9))
+
 (confirm that (memql?   3 '(1 2 3 4 5 6))              returns t)
 (confirm that (memql?   9 '(1 2 3 4 5 6))              returns nil)
 (confirm that (indexql  3 '(1 2 3 4 5 6))              returns 2)
 (confirm that (indexql  9 '(1 2 3 4 5 6))              returns nil)
 (confirm that (removeql 3 '(1 2 3 4 5 6))              returns '(1 2 4 5 6))
 (confirm that (removeql 9 '(1 2 3 4 5 6))              returns '(1 2 3 4 5 6))
+
 (confirm that (equal? '(1 . (2 . (3 . nil))) '(1 2 3)) returns t)
 (confirm that (depth '(1 2 (3 4 (5)) (6 7)))           returns 3)
+
 (confirm that (min 2 3 1 4 9 8 1 7)                    returns 1)
 (confirm that (max 2 3 1 4 9 8 1 7)                    returns 9)
+
 (confirm that (equal? '(:a (:nested list) ("containing" 6 :items)) '(:a (:nested list) ("containing" 6 :items)))
  returns t)
 (confirm that (equal? '(:a (:nested list) ("containing" 6 :items)) '(:a (:nested list) ("containing" 6  items)))
  returns nil)
+
 (confirm that (flatten  '("A" (deeply (:nested list)) (of (:many "elements"))))
  returns '("A" deeply  :nested list  of  :many "elements"))
 (confirm that (flatten1 '("A" (deeply (:nested list)) (of (:many "elements"))))
  returns '("A" deeply (:nested list) of (:many "elements")))
+
 (defun case-test-fun (n)
  (case n
   (1     (concat "O" "ne"))
@@ -271,6 +289,7 @@
   (nil   "Nil 1")
   ((nil) "Nil 2")
   (else  "Other")))
+
 (confirm that (case-test-fun 1)                  returns "One")
 (confirm that (case-test-fun (+ 1 1))            returns "Two")
 (confirm that (case-test-fun 4)                  returns "Other")
@@ -278,6 +297,7 @@
 (confirm that (case-test-fun nil)                returns "Nil 1")
 (confirm that (round-up-to-nearest-multiple 7 8) returns  8)
 (confirm that (round-up-to-nearest-multiple 9 8) returns 16)
+
 (if *use-soft-rationals*
  (progn
   (confirm that (add-rational     3                 (rational 2 3)) returns '(11 . 3))
@@ -334,7 +354,9 @@
 (confirm that (is-square? 36)                                       returns t)
 (confirm that (round-up-to-square 35)                               returns 36)
 (confirm that (round-up-to-square 36)                               returns 36)
+
 (setq! matrix (make-matrix 6 6 0))
+
 (matrix-set! matrix 0 3 3)
 (matrix-set! matrix 0 5 5)
 (matrix-set! matrix 1 1 11)
@@ -344,7 +366,7 @@
 (matrix-set! matrix 4 4 44)
 (matrix-set! matrix 4 1 41)
 (matrix-set! matrix 5 2 52)
-;;(write-matrix matrix)
+
 (confirm that matrix returns
  '((0 0 0 3 0 5)
    (0 11 0 0 0 15)
@@ -352,6 +374,7 @@
    (0 0 0 0 0 0)
    (0 41 0 0 44 0)
    (0 0 52 0 0 0)))
+
 (confirm that
  (matrix-rotate-right
   '((1 2 3)
