@@ -218,6 +218,7 @@
 (confirm that (plist-has? 'f pl)                       returns 'nil)
 (confirm that (plist-keys pl)                          returns '(a b c d e))
 (confirm that (plist-vals pl)                          returns '(1 2 3 nil 5))
+
 (confirm that (plist-remove! 'a pl)                    returns '(b 2 c 3 d nil e 5))
 (confirm that (plist-remove! 'd pl)                    returns '(b 2 c 3 e 5))
 (confirm that (plist-remove! 'e pl)                    returns '(b 2 c 3))
