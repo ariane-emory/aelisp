@@ -58,7 +58,8 @@
   DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(phas,         false,          2,          2, "plist-has?",                FUNDEF_END)                                \
-  DO(pset,         false,          3,          3, "plist-set!",                FUNDEF_END)                                \
+  DO(psetb,        false,          3,          3, "plist-set!",                FUNDEF_END)                                \
+  DO(pset,         false,          3,          3, "plist-set",                 FUNDEF_END)                                \
   DO(pget,         false,          2,          2, "plist-get",                 FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(put,          false,          1,  UNLIMITED, "put-raw",                   FUNDEF_END)                                \

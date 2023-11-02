@@ -1,6 +1,26 @@
 #include "core_includes.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _psetb
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_psetb(__attribute__((unused)) ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
+  CORE_BEGIN("pset!");
+
+  ae_obj_t * key   = CAR(args);
+  ae_obj_t * plist = CADR(args);
+  ae_obj_t * value = CADDR(args); // this could be unsave if value is NIL, maybe.
+
+  REQUIRE(env, args, CONSP(plist), "PLIST must be a non-empty list");
+
+  ae_plist_set_mutable(plist, key, value);
+  
+  CORE_RETURN("pset!", plist);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _pset
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -13,9 +33,9 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * plist = CADR(args);
   ae_obj_t * value = CADDR(args); // this could be unsave if value is NIL, maybe.
 
-  REQUIRE(env, args, CONSP(plist), "PLIST must be a non-empy list");
+  REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
-  ae_plist_set_mutable(plist, key, value);
+  ae_plist_set_immutable(plist, key, value);
   
   CORE_RETURN("pset", plist);
 }

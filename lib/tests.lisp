@@ -392,6 +392,7 @@
 
 #|
 
+Write some tests for non-mutating plist-set.
 Write some tests for bitwise operators.
 Write some tests for random.
 Write some tests for structs.
