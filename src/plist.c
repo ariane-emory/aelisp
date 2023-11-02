@@ -9,12 +9,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const value) {
+ae_obj_t * ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
   LOG(list,  "in list");
   LOG(value, "to value");
 #endif
+
+  ae_obj_t * plist = *plistptr;
   
   assert(!list || (TAILP(list) && ! (LENGTH(list) % 2)));
   
