@@ -1584,8 +1584,9 @@
  (if (eql? key (car plist))
   (progn
    ;; Replace the head of the plist with the next key-value pair or nil.
-   (rplaca! plist (cadr (cdr plist)))
-   (rplacd! plist (cddr (cdr plist)))
+   (princ "this case") (nl)
+   (rplaca! plist (caddr plist))
+   (rplacd! plist (cdddr plist))
    plist)
   ;; If the key is not at the head, iterate through the plist.
   (let ((prev plist)
