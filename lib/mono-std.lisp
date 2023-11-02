@@ -1598,6 +1598,64 @@
       (setq! prev (cdr current))  ; Move prev to current value
       (setq! current (cdr prev)))))))  ; Move current to next key
  plist)
+
+(defun plist-remove! (key plist)
+ "SEMI WORKING"
+ "Destructively remove the first occurrence of key PROP from plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ ;; Handle the case when the key is at the head of plist.
+ (if (eql? key (car plist))
+  (progn
+   (rplaca! plist (cadr (cdr plist)))  ; Replace the first element with the third (next key)
+   (rplacd! plist (cddr (cdr plist)))  ; Replace the rest of the list
+   )
+  ;; If the key is not at the head, iterate through the plist
+  (let ((prev plist)  ; Set prev to start of plist
+        (current (cdr plist)))  ; Set current to second element of plist (value of first key)
+   (while current  ; Continue until current is nil
+    (if (and (cdr current) (eql? key (car (cdr current))))
+     (progn
+      (rplacd! prev (cddr current))  ; Skip the key-value pair
+      (setq! current nil))  ; Exit loop
+     (setq! prev (cdr current))  ; Move prev to current value
+     ;; Check if we've reached the last key-value pair
+     (if (cdr current)
+      (setq! current (cdr prev))  ; Move current to next key
+      ;; If current is the last value, break the loop
+      (setq! current nil)))))
+  )
+ plist)
+
+(defun plist-remove! (prop plist)
+ "Destructively remove the first occurrence of key PROP from plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ 
+ ;; Handle the case when the prop is at the head of plist.
+ (while (and plist (eql? prop (car plist)))
+  (rplaca! plist (cadr (cdr plist)))  ; Replace the first element with the third
+  (rplacd! plist (cddr (cdr plist)))) ; Replace the second element with the rest
+ 
+ ;; Set up pointers for traversal
+ (let ((prev plist)
+       (current (cdr plist)))
+  ;; Loop through the plist
+  (while (and current (cdr current))  ; While there are at least two more elements
+   (if (eql? prop (car current))
+    ;; If current is the prop, splice it out
+    (progn
+     (rplacd! prev (cddr current))
+     (setq! current (cdr prev)))  ; Advance current to the element after the spliced pair
+    ;; If not removing, advance prev to current
+    (setq! prev current)
+    ;; Advance current by two steps
+    (setq! current (cddr current))))
+  ;; Check for last property with nil value
+  (when (and (eql? prop (car current)) (not (cdr current)))
+   (rplacd! prev nil)))
+
+ ;; Return the possibly modified plist
+ plist)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-remove (prop plist)
  "Non-destructively remove key PROP from plist PLIST."
