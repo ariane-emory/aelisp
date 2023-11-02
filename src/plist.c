@@ -35,6 +35,12 @@ ae_obj_t *clone_list_up_to(ae_obj_t * const pos, ae_obj_t * const list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
+  assert(plist);
+  assert(TAILP(plist));
+  assert(NILP(plist) || !(LENGTH(plist) % 2));
+  assert(key);
+  assert(value);
+
   if (plist == NIL) {
     // If the list is empty, return a new key-value pair.
     return CONS(key, CONS(value, NIL));
