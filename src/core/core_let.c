@@ -55,7 +55,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     if ((LAMBDAP(val) || MACROP(val)) && ! HAS_PROP("last-bound-to", CAR(varlist_item))) {
       assert( (! NILP(val)) && (! TRUEP(val)));
       
-      PUT_PROP(CAR(varlist_item), "last-bound-to", val);
+      // PUT_PROP(CAR(varlist_item), "last-bound-to", val);
     }
 
     if (log_core) {
@@ -135,7 +135,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
     if ((LAMBDAP(val) || MACROP(val)) && ! HAS_PROP("last-bound-to", CAR(varlist_item))) {
       assert( (! NILP(val)) && (! TRUEP(val)));
       
-      PUT_PROP(CAR(varlist_item), "last-bound-to", val);
+      // PUT_PROP(CAR(varlist_item), "last-bound-to", val);
     }
 
     if (log_core) {
@@ -219,7 +219,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
     if ((LAMBDAP(val) || MACROP(val)) && ! HAS_PROP("last-bound-to", CAR(varlist_item))) {
       assert( (! NILP(val)) && (! TRUEP(val)));
       
-      PUT_PROP(CAR(varlist_item), "last-bound-to", val);
+      // PUT_PROP(CAR(varlist_item), "last-bound-to", val);
     }
 
     if (log_core) {
