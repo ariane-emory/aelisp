@@ -55,7 +55,7 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   ae_obj_t * key           = CADR(args);
   ae_obj_t * obj           = CADDR(args);
   ae_obj_t * prop_list     = PROPS(obj);
-  ae_obj_t * new_prop_list = KSET(prop_list, key, value);
+  ae_obj_t * new_prop_list = PSET(prop_list, key, value);
   PROPS(obj)               = new_prop_list;
   ret                      = value;
 
@@ -76,7 +76,7 @@ ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
   ae_obj_t * key       = CAR(args);
   ae_obj_t * obj       = CADR(args);
   ae_obj_t * prop_list = PROPS(obj);
-  ret                  = KGET(prop_list, key);
+  ret                  = PGET(prop_list, key);
 
 end:
   
@@ -95,7 +95,7 @@ ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
   ae_obj_t * key       = CAR(args);
   ae_obj_t * obj       = CADR(args);
   ae_obj_t * prop_list = PROPS(obj);
-  ret                  = TRUTH(KHAS(prop_list, key));
+  ret                  = TRUTH(PHAS(prop_list, key));
 
 end:
   
