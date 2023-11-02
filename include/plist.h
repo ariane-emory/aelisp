@@ -10,12 +10,12 @@
 #define PHAS(plist, key)               (ae_plist_contains_key((plist), (key)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct ae_obj_t;
+typedef struct ae_obj_t ae_obj_t;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void              ae_plist_set         (struct ae_obj_t **      plistptr, struct ae_obj_t * const key, struct ae_obj_t * const value);
-struct ae_obj_t * ae_plist_get         (struct ae_obj_t * const plist,    struct ae_obj_t * const key);
-bool              ae_plist_contains_key(struct ae_obj_t * const plist,    struct ae_obj_t * const key);
+void              ae_plist_set         (ae_obj_t **      plistptr, ae_obj_t * const key, ae_obj_t * const value);
+ae_obj_t *        ae_plist_get         (ae_obj_t * const plist,    ae_obj_t * const key);
+bool              ae_plist_contains_key(ae_obj_t * const plist,    ae_obj_t * const key);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
