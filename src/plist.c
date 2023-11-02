@@ -16,15 +16,15 @@ void ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * const v
   LOG(value, "to value");
 #endif
 
-  ae_obj_t * plist = *plistptr;
+  assert(plistptr);
   
-  assert(!plist || (TAILP(plist) && ! (LENGTH(plist) % 2)));
+  assert(!*plistptr || (TAILP(*plistptr) && ! (LENGTH(*plistptr) % 2)));
   
-  if (plist == NULL)
-    plist = NIL;
+  if (*plistptr == NULL)
+    *plistptr = NIL;
 
-  if (plist != NIL)
-    for (ae_obj_t * position = plist; position != NIL; position = CDR(CDR(position))) {
+  if (*plistptr != NIL)
+    for (ae_obj_t * position = *plistptr; position != NIL; position = CDR(CDR(position))) {
       // LOG(position, "position:");
       ae_obj_t    * elem1    = CAR(position);
       ae_obj_t    * elem2    = position ? CADR(position) : NIL;
@@ -36,18 +36,18 @@ void ae_plist_set(ae_obj_t ** plistptr, ae_obj_t * const key, ae_obj_t * const v
       }
     }
 
-  plist = CONS(key, CONS(value, plist));
+  *plistptr = CONS(key, CONS(value, *plistptr));
   // LOG(plist, "after consing");
 
 end:
 
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "after setting key");
-  LOG(plist, "plist is");
+  LOG(*plistptr, "plist is");
   NL;
 #endif
 
-  *plistptr = plist;
+//  *plistptr = plist;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
