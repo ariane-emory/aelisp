@@ -34,9 +34,9 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     LOG(ret, "evaluated 'value' argument is");
 
   if ((LAMBDAP(ret) || MACROP(ret)) && ! HAS_PROP("last-bound-to", ret)) {
-    PUT_PROP(sym, "last-bound-to", ret);
+    assert( (! NILP(ret)) && (! TRUEP(ret)));
 
-    assert(! NILP(ret)); // this should be impossible.
+    PUT_PROP(sym, "last-bound-to", ret);
     
     if (log_core)
       LOG(PROPS(ret), "core setq! val's new properties");
