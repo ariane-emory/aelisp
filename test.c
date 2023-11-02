@@ -109,7 +109,12 @@ char * princ_to_new_string(const ae_obj_t * const this) {
 bool shitty_princ_based_equality_predicate(
   const ae_obj_t * const this,
   const char * const strcmp_str) {
-  return ! strcmp(strcmp_str, SPRINC(this));
+  bool matched = ! strcmp(strcmp_str, SPRINC(this));
+  if (! matched) {
+    NL;
+    PR("Expected \"%s\" but got \"%s\".", strcmp_str, SPRINC(this));
+  }
+  return matched;
 }
 
 ae_obj_t * push_together_a_list_of_ints(void) {
