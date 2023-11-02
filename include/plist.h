@@ -15,9 +15,10 @@ typedef struct ae_obj_t ae_obj_t;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // functions
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_plist_set         (ae_obj_t *       plist,    ae_obj_t * const key, ae_obj_t * const value);
-ae_obj_t * ae_plist_get         (ae_obj_t * const plist,    ae_obj_t * const key);
-bool       ae_plist_contains_key(ae_obj_t * const plist,    ae_obj_t * const key);
+ae_obj_t * ae_plist_set          (ae_obj_t *       plist,    ae_obj_t * const key, ae_obj_t * const value);
+ae_obj_t * ae_plist_get          (ae_obj_t * const plist,    ae_obj_t * const key);
+bool       ae_plist_contains_key (ae_obj_t * const plist,    ae_obj_t * const key);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void       ae_plist_set_mut     (ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value);
+void       ae_plist_set_mut      (ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value);
+ae_obj_t * ae_plist_set_immutable(ae_obj_t *       plist, ae_obj_t * const key, ae_obj_t * const value);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
