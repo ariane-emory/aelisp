@@ -253,7 +253,7 @@
  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
  (repeat 1000
-  (sleep 3)
+  (sleep 2)
 
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
