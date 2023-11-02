@@ -253,7 +253,7 @@
  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
  (repeat 1000
-  (sleep 2)
+  (sleep 3)
 
   (let ((roll (random 1 6)))
    ;; Increment the count for the generated roll.
@@ -262,7 +262,7 @@
 
  (princ "This cycle's counts:    " (vals counts)) (nl)
  ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
- (princ "This cycle's max delta: " (max-delta (plist-values counts))) (nl)
+ (princ "This cycle's max delta: " (max-delta (plist-vals counts))) (nl)
  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
  (princ "Deltas so far:          " deltas) (nl)
  (nl))

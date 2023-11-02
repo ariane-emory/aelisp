@@ -1579,7 +1579,7 @@
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-values (plist)
+(defun plist-vals (plist)
  "Extracts the values from a plist PLIST."
  (unless (list? plist)          (error "PLIST must be a list"))
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
@@ -1611,7 +1611,7 @@
  (let ((arg (car args)))
   (cond
    ((nil? arg)  (vals-base (env (env (env)))))
-   ((list? arg) (plist-values arg))
+   ((list? arg) (plist-vals arg))
    ((env? arg)  (vals-base arg))
    (t           (error "VALS takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
