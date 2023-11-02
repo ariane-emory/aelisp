@@ -5,7 +5,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// #define PSET(plist, key, value)        (ae_plist_set ((plist), (key), (value)))
 #define PGET(plist, key)                 (ae_plist_get ((plist), (key)))
 #define PHAS(plist, key)                 (ae_plist_contains_key((plist), (key)))
 #define PSET_INTERNAL(plist, key, value) (ae_plist_set_internal((plist), (key), (value)))
