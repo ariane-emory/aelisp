@@ -177,11 +177,6 @@
 (confirm that (put 'c :baz :quux)                      returns 'c)
 (confirm that (props :quux)                            returns '(:baz c :bar b :foo a))
 
-(confirm that (plist-set    'a 99 '(a 1 b 2 c 3))      returns '(a 99 b 2 c 3))
-(confirm that (plist-set    'b 99 '(a 1 b 2 c 3))      returns '(a 1 b 99 c 3))
-(confirm that (plist-remove 'a    '(a 1 b 2 c 3))      returns '(b 2 c 3))
-(confirm that (plist-remove 'b    '(a 1 b 2 c 3))      returns '(a 1 c 3))
-
 (confirm that (setq! pl '(a 10 b 20 c 30 d 40 e 50))   returns '(a 10 b 20 c 30 d 40  e 50))
 
 (confirm that (plist-set  'a 1 pl)                     returns '(a 1  b 20 c 30 d 40  e 50))
@@ -212,12 +207,14 @@
 (confirm that (plist-get 'd pl)                        returns 'nil)
 (confirm that (plist-get 'e pl)                        returns '5)
 (confirm that (plist-get 'f pl)                        returns 'nil)
+
 (confirm that (plist-has? 'a pl)                       returns 't)
 (confirm that (plist-has? 'b pl)                       returns 't)
 (confirm that (plist-has? 'c pl)                       returns 't)
 (confirm that (plist-has? 'd pl)                       returns 't)
 (confirm that (plist-has? 'e pl)                       returns 't)
 (confirm that (plist-has? 'f pl)                       returns 'nil)
+
 (confirm that (plist-keys pl)                          returns '(a b c d e))
 (confirm that (plist-vals pl)                          returns '(1 2 3 nil 5))
 
@@ -236,7 +233,6 @@
 
 (confirm that (plist-remove  'b pl)                    returns nil)
 (confirm that (plist-remove! 'b pl)                    returns '(nil nil))
-
 
 (confirm that (props!  :quux  '(:corge d))             returns '(:corge d))
 (confirm that (put 'a  :foo     :quux)                 returns 'a)
