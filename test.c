@@ -1301,6 +1301,10 @@ void plist(void) {
   T(CONSP(list = PSET(list, SYM("name"),   NEW_STRING("Jake"))));
   T(! EQL(       PGET(list, SYM("name")),  NEW_STRING("Bob")));
   T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
+
+  ae_obj_t * plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), NIL))))));
+  ae_plist_set_mut(plist, SYM("d"), NEW_INT(4));
+  T(shitty_princ_based_equality_predicate(plist, "(d 4 a 1 b 2 c 3)"));
 }                
                  
 void tailp(void) {
@@ -1637,12 +1641,12 @@ void push_and_pop(void) {
   DO(macro_expand)                                                                                 \
   DO(deloc)                                                                                        \
   DO(alist)                                                                                        \
-  DO(plist)                                                                                        \
   DO(root_env_and_eval)                                                                            \
   DO(fun_specialness)                                                                              \
   DO(env_with_a_dot)                                                                               \
   DO(eval_args_test)                                                                               \
-  DO(push_and_pop)
+  DO(push_and_pop)                                                                                 \
+  DO(plist)                                                                                        \
 
 // DO(bubble_list) 
 

@@ -9,6 +9,32 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+void ae_plist_set_mut(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
+  assert(plist);
+  assert(CONSP(plist));
+  assert(!(LENGTH(plist) % 2));
+  assert(key);
+  assert(value);
+  
+  // Search for the key in the plist.
+  for (ae_obj_t *pos = plist; pos != NIL; pos = CDR(CDR(pos))) {
+    if (EQL(CAR(pos), key)) {
+      // If key is found, just update the value.
+      CADR(pos) = value;
+      return; // Mutation done; early exit.
+    }
+  }
+
+  // Key wasn't found, so prepend it by mutating in place.
+  ae_obj_t *new_tail = CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist))));
+  CAR(plist) = key;
+  CADR(plist) = value;
+  CDR(plist) = new_tail;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const value) {
 #ifdef AE_LOG_KVP_SET_GET
   LOG(key,   "%s setting key", __func__);
