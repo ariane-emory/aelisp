@@ -55,9 +55,9 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   ae_obj_t * key           = CADR(args);
   ae_obj_t * obj           = CADDR(args);
 
-  LOG(PROPS(obj), "prop_list before");
+  /* LOG(PROPS(obj), "prop_list before"); */
   PSET(PROPS(obj), key, value);
-  LOG(PROPS(obj), "prop_list after");
+  /* LOG(PROPS(obj), "prop_list after"); */
   ret                      = value;
 
 end:
