@@ -204,6 +204,8 @@
 (confirm that pl                                       returns '(a 1  b 2  c 3  d nil e 50))
 (confirm that (plist-set! 'e 5 pl)                     returns '(a 1  b 2  c 3  d nil e 5 ))
 
+(confirm that pl                                       returns '(a 1  b 2  c 3  d nil e 5))
+
 (confirm that (plist-get 'a pl)                        returns '1)
 (confirm that (plist-get 'b pl)                        returns '2)
 (confirm that (plist-get 'c pl)                        returns '3)
@@ -220,6 +222,7 @@
 (confirm that (plist-vals pl)                          returns '(1 2 3 nil 5))
 
 (confirm that (plist-remove  'a pl)                    returns '(b 2 c 3 d nil e 5))
+(confirm that pl                                       returns '(a 1 b 2 c 3 d nil e 5))
 (confirm that (plist-remove! 'a pl)                    returns '(b 2 c 3 d nil e 5))
 
 (confirm that (plist-remove  'd pl)                    returns '(b 2 c 3 e 5))
