@@ -183,23 +183,23 @@
 
 (confirm that (setq! pl '(a 10 b 20 c 30 d 40 e 50))   returns '(a 10 b 20 c 30 d 40  e 50))
 
-(confirm that (plist-set  'a 1 pl)                     returns '(a 1  b 20 c 30 d 40  e 50))
+(confirm that (plist-set  'a pl 1)                     returns '(a 1  b 20 c 30 d 40  e 50))
 (confirm that pl                                       returns '(a 10 b 20 c 30 d 40  e 50))
 (confirm that (plist-set! 'a pl 1)                     returns '(a 1  b 20 c 30 d 40  e 50))
 
-(confirm that (plist-set  'b 2 pl)                     returns '(a 1  b 2  c 30 d 40  e 50))
+(confirm that (plist-set  'b pl 2)                     returns '(a 1  b 2  c 30 d 40  e 50))
 (confirm that pl                                       returns '(a 1  b 20 c 30 d 40  e 50))
 (confirm that (plist-set! 'b pl 2)                     returns '(a 1  b 2  c 30 d 40  e 50))
 
-(confirm that (plist-set  'c 3 pl)                     returns '(a 1  b 2  c 3  d 40  e 50))
+(confirm that (plist-set  'c pl 3)                     returns '(a 1  b 2  c 3  d 40  e 50))
 (confirm that pl                                       returns '(a 1  b 2  c 30 d 40  e 50))
 (confirm that (plist-set! 'c pl 3)                     returns '(a 1  b 2  c 3  d 40  e 50))
 
-(confirm that (plist-set  'd nil pl)                   returns '(a 1  b 2  c 3  d nil e 50))
+(confirm that (plist-set  'd pl nil)                   returns '(a 1  b 2  c 3  d nil e 50))
 (confirm that pl                                       returns '(a 1  b 2  c 3  d 40  e 50))
 (confirm that (plist-set! 'd pl nil)                   returns '(a 1  b 2  c 3  d nil e 50))
 
-(confirm that (plist-set  'e 5 pl)                     returns '(a 1  b 2  c 3  d nil e 5 ))
+(confirm that (plist-set  'e pl 5)                     returns '(a 1  b 2  c 3  d nil e 5 ))
 (confirm that pl                                       returns '(a 1  b 2  c 3  d nil e 50))
 (confirm that (plist-set! 'e pl 5)                     returns '(a 1  b 2  c 3  d nil e 5 ))
 

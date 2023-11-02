@@ -1617,7 +1617,7 @@
    (setq! plist (cddr plist)))  ; Skip to the next pair
   (cdr head)))  ; Return the list after the dummy head.b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-set (prop value plist)
+(defun plist-set (prop plist value)
  "Non-destructively set key PROP in plist PLIST to VALUE."
  (unless (list? plist) (error "PLIST must be a list"))
  (let* ((head (cons nil nil))  ; Dummy head
