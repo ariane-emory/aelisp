@@ -219,11 +219,21 @@
 (confirm that (plist-keys pl)                          returns '(a b c d e))
 (confirm that (plist-vals pl)                          returns '(1 2 3 nil 5))
 
+(confirm that (plist-remove  'a pl)                    returns '(b 2 c 3 d nil e 5))
 (confirm that (plist-remove! 'a pl)                    returns '(b 2 c 3 d nil e 5))
+
+(confirm that (plist-remove  'd pl)                    returns '(b 2 c 3 e 5))
 (confirm that (plist-remove! 'd pl)                    returns '(b 2 c 3 e 5))
+
+(confirm that (plist-remove  'e pl)                    returns '(b 2 c 3))
 (confirm that (plist-remove! 'e pl)                    returns '(b 2 c 3))
+
+(confirm that (plist-remove  'c pl)                    returns '(b 2))
 (confirm that (plist-remove! 'c pl)                    returns '(b 2))
+
+(confirm that (plist-remove  'b pl)                    returns '(nil nil))
 (confirm that (plist-remove! 'b pl)                    returns '(nil nil))
+
 
 (confirm that (props!  :quux  '(:corge d))             returns '(:corge d))
 (confirm that (put 'a  :foo     :quux)                 returns 'a)
