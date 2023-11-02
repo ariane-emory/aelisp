@@ -234,7 +234,7 @@
 (confirm that (plist-remove  'c pl)                    returns '(b 2))
 (confirm that (plist-remove! 'c pl)                    returns '(b 2))
 
-(confirm that (plist-remove  'b pl)                    returns '(nil nil))
+(confirm that (plist-remove  'b pl)                    returns nil)
 (confirm that (plist-remove! 'b pl)                    returns '(nil nil))
 
 
