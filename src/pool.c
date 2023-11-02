@@ -180,7 +180,7 @@ void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * cons
 #ifdef AE_SHARED_PRIMORDIAL_TAIL
     PROPS(&pool[ix]) = common_tail;
 #else
-    KSET(PROPS(&pool[ix]), key, value);
+    PSET(PROPS(&pool[ix]), key, value);
 #endif        
   }
 }

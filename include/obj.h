@@ -200,27 +200,16 @@ extern ae_obj_t * symbols_list;
 #define CORE_MIN_ARGS(obj)               (ae_obj_get_min_args(obj))
 #define CORE_MAX_ARGS(obj)               (ae_obj_get_max_args(obj))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// These 3 should probably go in a different file but I'm not sure where yet:
-#if AE_PREFER_ALIST
-#  define KHAS(obj, key)                 (AHAS((obj), (key)))
-#  define KGET(obj, key)                 (AGET((obj), (key)))
-#  define KSET(obj, key, val)            (ASET((obj), (key), (val)))
-#else
-#  define KHAS(obj, key)                 (PHAS((obj), (key)))
-#  define KGET(obj, key)                 (PGET((obj), (key)))
-#  define KSET(obj, key, val)            (PSET((obj), (key), (val)))
-#endif
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EMSG(obj)                        ((obj)->error_message)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ASSIGN_PROPS(props, obj)         ((obj)->properties = (props))
 #define PROPS(obj)                       ((obj)->properties)
-#define HAS_PROP(key, obj)               (KHAS(PROPS((obj)), KW(key)))
-#define HAS_PROP_RAW(key, obj)           (KHAS(PROPS((obj)), (key)))
-#define GET_PROP(key, obj)               (KGET(PROPS((obj)), KW(key)))
-#define GET_PROP_RAW(key, obj)           (KGET(PROPS((obj)), (key)))
-#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), KW(key), (val))); })
-#define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (KSET(PROPS(CAPTURED), (key), (val))); })
+#define HAS_PROP(key, obj)               (PHAS(PROPS((obj)), KW(key)))
+#define HAS_PROP_RAW(key, obj)           (PHAS(PROPS((obj)), (key)))
+#define GET_PROP(key, obj)               (PGET(PROPS((obj)), KW(key)))
+#define GET_PROP_RAW(key, obj)           (PGET(PROPS((obj)), (key)))
+#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET(PROPS(CAPTURED), KW(key), (val))); })
+#define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET(PROPS(CAPTURED), (key), (val))); })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
