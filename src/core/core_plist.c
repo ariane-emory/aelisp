@@ -10,8 +10,8 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
   CORE_BEGIN("pset");
 
   ae_obj_t * key   = CAR(args);
-  ae_obj_t * plist = CADR(args);
-  ae_obj_t * value = CADDR(args); // this could be unsave if value is NIL, maybe.
+  ae_obj_t * value = CADR(args); // this could be unsave if value is NIL, maybe.
+  ae_obj_t * plist = CADDR(args);
 
   CORE_RETURN("pset", PSET(plist, key, value));
 }
