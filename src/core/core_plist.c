@@ -15,7 +15,7 @@ ae_obj_t * ae_core_psetb(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, CONSP(plist), "PLIST must be a non-empty list");
 
-  ae_plist_set_mutable(plist, key, value);
+  PSET_MUT(plist, key, value);
   
   CORE_RETURN("pset!", plist);
 }
@@ -35,7 +35,7 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
-  ae_plist_set_immutable(plist, key, value);
+  PSET_IMMUT(plist, key, value);
   
   CORE_RETURN("pset", plist);
 }
