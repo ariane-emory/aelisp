@@ -52,7 +52,7 @@ ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, 
   ae_obj_t * new_plist = NIL;
   
   // Search for the key in the plist.
-  for (ae_obj_t * pos = plist; pos != NIL; pos = CDR(CDR(pos)))
+  for (ae_obj_t * pos = plist; pos != NIL; pos = CDR(CDR(pos))) {
     if (EQL(CAR(pos), key)) {
       // If the key is found, clone the list up to this point and update the value.
       new_plist = clone_list_up_to(pos, plist);
@@ -67,6 +67,7 @@ ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, 
         CDR(prev) = updated_pair;
         return new_plist;
       }
+    }
     
     prev = CDR(pos); // Keep track of the previous pair to be able to link the list.
   }
