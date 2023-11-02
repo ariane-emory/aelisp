@@ -1582,12 +1582,22 @@
  (unless (list? plist) (error "PLIST must be a list"))
  ;; Handle the case when the key is at the head of plist.
  (if (eql? key (car plist))
-  (progn
-   ;; Replace the head of the plist with the next key-value pair or nil.
-   (princ "this case") (nl)
-   (rplaca! plist (caddr plist))
-   (rplacd! plist (cdddr plist))
-   plist)
+
+  (if (not (caddr plist)) 
+   (progn
+    ;; Replace the head of the plist with the next key-value pair or nil.
+    (princ "this case 1") (nl)
+    (rplaca! plist nil)
+    (rplacd! plist (list nil))
+    plist)
+   (progn
+    ;; Replace the head of the plist with the next key-value pair or nil.
+    (princ "this case 2") (nl)
+    (rplaca! plist (caddr plist))
+    (rplacd! plist (cdddr plist))
+    plist))
+
+  
   ;; If the key is not at the head, iterate through the plist.
   (let ((prev plist)
         (current (cdr plist)))
