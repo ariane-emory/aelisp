@@ -1311,13 +1311,13 @@ split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * con
     return (split_list_at_value_t){ NIL, CDDR(list) }; // Skip the key and the value
 
   split_list_at_value_t ret = { NIL, NIL };
-  ae_obj_t * new_front = NIL;
-  ae_obj_t ** new_front_ptr = &new_front;
-  ae_obj_t * pos = list;
+  ae_obj_t *  new_front = NIL;
+  ae_obj_t ** new_front_tail_ptr = &new_front;
+  ae_obj_t *  pos = list;
   
   while (pos != value_pos) {
-    *new_front_ptr = CONS(CAR(pos), NIL);
-    new_front_ptr = &CDR(*new_front_ptr);
+    *new_front_tail_ptr = CONS(CAR(pos), NIL);
+    new_front_tail_ptr = &CDR(*new_front_tail_ptr);
     pos = CDR(pos);
   }
 
