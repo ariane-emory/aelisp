@@ -1335,7 +1335,7 @@ ae_obj_t * ae_list_join3(ae_obj_t * front, ae_obj_t * const middle, ae_obj_t * c
     CDR(pos) = middle;
   }
   
-  if (front == NIL)
+  if (NILP(front))
     return back;
 
   ae_obj_t * pos = front;
