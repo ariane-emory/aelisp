@@ -1290,10 +1290,6 @@ void alist(void) {
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
 
-typedef struct ae_plist_split_around_kvp_t {
-  ae_obj_t * before_kvp;
-  ae_obj_t * after_kvp;
-} ae_plist_split_around_kvp_t;
 
 ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const plist) {
   assert(key);
