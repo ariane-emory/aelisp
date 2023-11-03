@@ -264,10 +264,10 @@ void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_
       return; 
     }
 
-  ae_obj_t * const new_tail = CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist))));
+  ae_obj_t * const new_tail = CONS(value, CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist)))));
   
   CAR(plist) = key;
-  CDR(plist) = CONS(value, new_tail);
+  CDR(plist) = new_tail;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
