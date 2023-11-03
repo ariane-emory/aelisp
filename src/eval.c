@@ -601,9 +601,11 @@ ae_obj_t * ae_eval(ae_obj_t * const env, ae_obj_t * const obj) {
   assert(*dispatch.handler);
 
   RETURN((*dispatch.handler)(env, obj));
-
+  
 end:  
 
+  // assert(! HAS_PROP("last-bound-to", NIL));
+  
   JUMP_RETURN_EXIT;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
