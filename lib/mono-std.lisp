@@ -1643,8 +1643,10 @@
        (rvals (reverse vals)))
   (while (not (= (length rkeys) (length rvals)))
    (setq! rvals (cons nil rvals)))
-  (while rkeys 
-   (setq! plist (plist-set plist (car rkeys) (car rvals)))
+  (while rkeys
+   (if plist
+    (plist-set! plist (car rkeys) (car rvals))
+    (setq! plist (plist-set plist (car rkeys) (car rvals))))
    (setq! rkeys (cdr rkeys))
    (setq! rvals (cdr rvals)))
   plist))
