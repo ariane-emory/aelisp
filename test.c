@@ -1387,15 +1387,15 @@ void plist(void) {
   split = split_list_at_value(SYM("d"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
-  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c 3 d)"));
-  T(shitty_princ_based_equality_predicate(split.remainder,  "(4)"));
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c 3)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "nil"));
 
   NL;
   split = split_list_at_value(SYM("b"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
-  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b)"));
-  T(shitty_princ_based_equality_predicate(split.remainder,  "(2 c 3 d 4)"));
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(c 3 d 4)"));
 
   NL;
   split = split_list_at_value(SYM("z"), plist);
