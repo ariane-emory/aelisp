@@ -1295,8 +1295,9 @@ typedef struct split_list_at_value_t {
   ae_obj_t * remainder;
 } split_list_at_value_t;
 
-static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list);
   
+split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list); // in plist.c
+
 void plist(void) {
   SETUP_TEST;    
                  
@@ -1368,40 +1369,6 @@ void plist(void) {
 
   NL;
 }                
-
-static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list) {
-  ae_obj_t * value_pos = NIL;
-
-  for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos))
-    if (EQL(CAR(pos), value)) {
-      value_pos = pos;
-
-      break;
-    }
-
-  if (NILP(value_pos))
-    return (split_list_at_value_t){ NIL, list };
-
-  if (list == value_pos)
-    return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
-
-  split_list_at_value_t ret               = { NIL, NIL };
-  ae_obj_t * const      new_front         = CONS(CAR(list), NIL);
-  ae_obj_t *            new_front_tailtip = new_front;
-  ae_obj_t *            pos               = new_front;
-  
-  for (pos = CDR(list); pos != value_pos; pos = CDR(pos)) {
-    ae_obj_t * const new_cons   = CONS(CAR(pos), NIL);
-    CDR(new_front_tailtip)      = new_cons;
-    new_front_tailtip           = new_cons;
-  }
-
-  CDR(new_front_tailtip)        = CONS(CAR(pos), NIL);
-  ret.up_to_and_including_value = new_front;
-  ret.remainder                 = CDR(value_pos);
-  
-  return ret;
-}
 
 void tailp(void) {
   SETUP_TEST;
