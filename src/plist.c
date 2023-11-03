@@ -239,13 +239,10 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   if (plist == NULL || plist == NIL) {
-    // Use the immutable version if the list is empty
-    // as this will create a new list with the key-value pair.
     return ae_plist_set_nonmutating(NIL, key, value);
   } else {
-    // Use the mutable version to update the existing list.
     ae_plist_set_mutating(plist, key, value);
-    return plist; // Return the updated plist.
+    return plist;
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
