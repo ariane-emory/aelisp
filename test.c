@@ -1297,14 +1297,20 @@ typedef struct split_list_at_value_t {
 
 split_list_at_value_t split_list_at_value(ae_obj_t * const key, ae_obj_t * const list) {
     ae_obj_t *new_front = NIL; // This will be the front part of the split list
-    ae_obj_t **new_front_tail = &new_front; // This points to the last pair of new_front
+    ae_obj_t *new_front_last = NULL; // This will point to the last node of new_front
     ae_obj_t *remainder = list; // Start with the full list as the remainder
 
     // Iterate over the list looking for the key
     while (CONSP(remainder) && !EQL(CAR(remainder), key)) {
-        // Append the current element to new_front
-        *new_front_tail = CONS(CAR(remainder), NIL);
-        new_front_tail = &CDR(*new_front_tail); // Move the tail pointer
+        if (new_front_last == NULL) {
+            // Initialize new_front with the first element
+            new_front = CONS(CAR(remainder), NIL);
+            new_front_last = new_front; // Now new_front_last points to the first node
+        } else {
+            // Append the current element to new_front
+            CDR(new_front_last) = CONS(CAR(remainder), NIL);
+            new_front_last = CDR(new_front_last); // Move to the new last node
+        }
         remainder = CDR(remainder); // Move to the next element
     }
 
