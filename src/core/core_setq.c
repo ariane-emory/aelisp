@@ -36,15 +36,6 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if ((LAMBDAP(ret) || MACROP(ret)) && ! HAS_PROP("last-bound-to", ret)) {
     assert( (! NILP(ret)) && (! TRUEP(ret)));
 
-    assert(! NILP(sym));
-    assert(! TRUEP(sym));
-
-    PR("put ");
-    WRITE(sym);
-    PR(" in :last-bound-to of ");
-    WRITE(ret);
-    NL;    
-    
     PUT_PROP(sym, "last-bound-to", ret);
     
     if (log_core)
