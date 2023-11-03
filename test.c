@@ -1330,7 +1330,7 @@ void plist(void) {
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
 
   NL;
-  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(SYM("c"), plist);
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, SYM("c"));
   LOG(split.before_kvp, "split.before_kvp");
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2)"));
@@ -1341,7 +1341,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 x 99 d 4)"));
   
   NL;
-  split = ae_plist_split_around_kvp(SYM("a"), plist);
+  split = ae_plist_split_around_kvp(plist, SYM("a"));
   LOG(split.before_kvp, "split.before_kvp");
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
@@ -1352,7 +1352,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(joined, "(x 99 b 2 c 3 d 4)"));
 
   NL;
-  split = ae_plist_split_around_kvp(SYM("d"), plist);
+  split = ae_plist_split_around_kvp(plist, SYM("d"));
   LOG(split.before_kvp, "split.before_kvp");
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2 c 3)"));
@@ -1363,14 +1363,14 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 c 3 x 99)"));
 
   NL;
-  split = ae_plist_split_around_kvp(SYM("b"), plist);
+  split = ae_plist_split_around_kvp(plist, SYM("b"));
   LOG(split.before_kvp, "split.before_kvp");
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1)"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "(c 3 d 4)"));
 
   NL;
-  split = ae_plist_split_around_kvp(SYM("z"), plist);
+  split = ae_plist_split_around_kvp(plist, SYM("z"));
   LOG(split.before_kvp, "split.before_kvp");
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
@@ -1384,7 +1384,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(ae_plist_set_nonmutating(   NIL,   SYM("d"), NEW_INT(4)), "(d 4)"));
   
   NL;
-  split = ae_plist_split_around_kvp(SYM("d"), NIL);;
+  split = ae_plist_split_around_kvp(NIL, SYM("d"));
   LOG(split.before_kvp, "split.before_kvp");
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));

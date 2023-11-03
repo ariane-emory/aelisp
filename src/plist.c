@@ -7,10 +7,6 @@
 #include "log.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//  split_list_at_value helper
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_nonmutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +22,7 @@ ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key
   if (NILP(plist))
     return new_kvp;
 
-  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, key);
 
   return ae_list_join3(split.before_kvp, new_kvp, split.after_kvp);
 }
@@ -46,7 +42,7 @@ ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const 
   if (NILP(plist))
     return NIL;
 
-  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, key);
 
   return ae_list_join3(split.before_kvp, NIL, split.after_kvp);
 }
@@ -267,7 +263,7 @@ failed:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _split_around_kvp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const plist) {
+ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const plist, ae_obj_t * const key) {
   assert(key);
   assert(plist);
   assert(TAILP(plist));
