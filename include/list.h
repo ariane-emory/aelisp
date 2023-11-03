@@ -73,4 +73,5 @@ ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_f
 void          ae_list_each         (      ae_obj_t *  const list,  ae_list_each_fun   fun                             );
 ae_obj_t *    ae_list_intern_string(      ae_obj_t ** const plist, const char * const string                          );
 bool          ae_list_is_proper    (const ae_obj_t *  const list                                                      );
+ae_obj_t *    ae_list_join3        (      ae_obj_t *        front, ae_obj_t * const middle, ae_obj_t * const  back    );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

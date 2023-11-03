@@ -1238,7 +1238,7 @@ void deloc(void) {
   T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));  
   T((LOCALIZED(0xC0FFEEF00DC0FFEE,   pool_first)) == NIL       );
   T((LOCALIZED(0xF00DCAFEBAADBEEF,   pool_first)) == TRUE      );
-  T((LOCALIZED(0x0,                   pool_first)) == pool_first);
+  T((LOCALIZED(0x0,                  pool_first)) == pool_first);
   
   {
     ae_obj_t * left  = LOCALIZED((ae_obj_t *)0x0, pool_first);
@@ -1289,7 +1289,7 @@ void alist(void) {
   T(! EQL(       AGET(list, SYM("name")),  NEW_STRING("Bob")));
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
-                 
+
 void plist(void) {
   SETUP_TEST;    
                  
@@ -1308,26 +1308,108 @@ void plist(void) {
   T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
 
   ae_obj_t * plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), NIL))))));
-  ae_plist_set_mutable(plist, SYM("d"), NEW_INT(4));
+  ae_plist_set_mutating(plist, SYM("d"), NEW_INT(4));
   T(shitty_princ_based_equality_predicate(plist, "(d 4 a 1 b 2 c 3)"));
-  ae_plist_set_mutable(plist, SYM("d"), NEW_INT(8));
+  ae_plist_set_mutating(plist, SYM("d"), NEW_INT(8));
   T(shitty_princ_based_equality_predicate(plist, "(d 8 a 1 b 2 c 3)"));
-  ae_plist_set_mutable(plist, SYM("a"), NEW_INT(10));
+  ae_plist_set_mutating(plist, SYM("a"), NEW_INT(10));
   T(shitty_princ_based_equality_predicate(plist, "(d 8 a 10 b 2 c 3)"));
-  ae_plist_set_mutable(plist, SYM("c"), NEW_INT(20));
+  ae_plist_set_mutating(plist, SYM("c"), NEW_INT(20));
   T(shitty_princ_based_equality_predicate(plist, "(d 8 a 10 b 2 c 20)"));
 
   plist = NIL;
-  plist = ae_plist_set_immutable(plist, SYM("d"), NEW_INT(4));
+  plist = ae_plist_set_nonmutating(plist, SYM("d"), NEW_INT(4));
   T(shitty_princ_based_equality_predicate(plist, "(d 4)"));
-  plist = ae_plist_set_immutable(plist, SYM("d"), NEW_INT(8));
+  plist = ae_plist_set_nonmutating(plist, SYM("d"), NEW_INT(8));
   T(shitty_princ_based_equality_predicate(plist, "(d 8)"));
-  plist = ae_plist_set_immutable(plist, SYM("a"), NEW_INT(10));
+  plist = ae_plist_set_nonmutating(plist, SYM("a"), NEW_INT(10));
   T(shitty_princ_based_equality_predicate(plist, "(a 10 d 8)"));
-  plist = ae_plist_set_immutable(plist, SYM("c"), NEW_INT(20));
+  plist = ae_plist_set_nonmutating(plist, SYM("c"), NEW_INT(20));
   T(shitty_princ_based_equality_predicate(plist, "(c 20 a 10 d 8)"));
+
+  plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
+
+  NL;
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(SYM("c"), plist);
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2)"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "(d 4)"));
+
+  ae_obj_t * joined = ae_list_join3(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
+  LOG(joined, "joined");
+  T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 x 99 d 4)"));
+  
+  NL;
+  split = ae_plist_split_around_kvp(SYM("a"), plist);
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "(b 2 c 3 d 4)"));
+
+  joined = ae_list_join3(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
+  LOG(joined, "joined");
+  T(shitty_princ_based_equality_predicate(joined, "(x 99 b 2 c 3 d 4)"));
+
+  NL;
+  split = ae_plist_split_around_kvp(SYM("d"), plist);
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2 c 3)"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "nil"));
+
+  joined = ae_list_join3(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
+  LOG(joined, "joined");
+  T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 c 3 x 99)"));
+
+  NL;
+  split = ae_plist_split_around_kvp(SYM("b"), plist);
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1)"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "(c 3 d 4)"));
+
+  NL;
+  split = ae_plist_split_around_kvp(SYM("z"), plist);
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "(a 1 b 2 c 3 d 4)"));
+
+  T(shitty_princ_based_equality_predicate(ae_plist_remove_nonmutating(plist, SYM("c")),  "(a 1 b 2 d 4)"));
+  T(shitty_princ_based_equality_predicate(ae_plist_remove_nonmutating(plist, SYM("a")),  "(b 2 c 3 d 4)"));
+  T(shitty_princ_based_equality_predicate(ae_plist_remove_nonmutating(plist, SYM("d")),  "(a 1 b 2 c 3)"));
+  T(shitty_princ_based_equality_predicate(ae_plist_remove_nonmutating(NIL,   SYM("d")),  "nil"));
+
+  T(shitty_princ_based_equality_predicate(ae_plist_set_nonmutating(   NIL,   SYM("d"), NEW_INT(4)), "(d 4)"));
+  
+  NL;
+  split = ae_plist_split_around_kvp(SYM("d"), NIL);;
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "nil"));
+
+  // plist is (a 1 b 2 c 3 d 4)
+  ae_plist_remove_mutating(plist, SYM("c"));
+  T(shitty_princ_based_equality_predicate(plist, "(a 1 b 2 d 4)"));
+  LOG(plist, "plist");
+  
+  ae_plist_remove_mutating(plist, SYM("a"));
+  T(shitty_princ_based_equality_predicate(plist, "(b 2 d 4)"));
+  LOG(plist, "plist");
+
+  ae_plist_remove_mutating(plist, SYM("d"));
+  T(shitty_princ_based_equality_predicate(plist, "(b 2)"));
+  LOG(plist, "plist");
+
+  ae_plist_remove_mutating(plist, SYM("b"));
+  T(shitty_princ_based_equality_predicate(plist, "(nil nil)"));
+  LOG(plist, "plist");
+
+  NL;
 }                
-                 
+
 void tailp(void) {
   SETUP_TEST;
   
@@ -1340,73 +1422,6 @@ void tailp(void) {
   // T(TAILP(NIL));    // This would generate a -Werror=address error.
   // T(! TAILP(TRUE)); // This would generate a -Werror=address error.
 }
-
-/* ae_obj_t * lookup_and_bubble(ae_obj_t * symbols, ae_obj_t * values, ae_obj_t * target) { */
-/*   ae_obj_t * symbols_prior = NIL; */
-/*   ae_obj_t * values_prior  = NIL; */
-/*   ae_obj_t * before_symbols_prior = NIL; */
-/*   ae_obj_t * before_values_prior = NIL; */
-
-/*     while (CONSP(symbols) && CONSP(values)) { */
-/*         if (CAR(symbols) == target) { */
-/*             // Swap in the symbols list */
-/*             if (! NILP(before_symbols_prior)) { */
-/*                 CDR(before_symbols_prior) = symbols; */
-/*             } else { */
-/*                 // If the target is the first symbol, adjust the head of the list */
-/*                 symbols = symbols_prior; */
-/*             } */
-/*             CDR(symbols_prior) = CDR(symbols); */
-/*             CDR(symbols) = symbols_prior; */
-
-/*             // Swap in the values list */
-/*             if (! NILP(before_values_prior)) { */
-/*                 CDR(before_values_prior) = values; */
-/*             } else { */
-/*                 // If the target corresponds to the first value, adjust the head of the list */
-/*                 values = values_prior; */
-/*             } */
-/*             CDR(values_prior) = CDR(values); */
-/*             CDR(values) = values_prior; */
-
-/*             // Return the value corresponding to the target symbol after the swap */
-/*             return CAR(values); */
-/*         } */
-
-/*         before_symbols_prior = symbols_prior; */
-/*         symbols_prior = symbols; */
-/*         symbols = CDR(symbols); */
-
-/*         before_values_prior = values_prior; */
-/*         values_prior = values; */
-/*         values = CDR(values); */
-/*     } */
-
-/*     // Target symbol not found */
-/*     return NIL; */
-/* } */
-
-/* void bubble_list(void) { */
-/*   SETUP_TEST; */
-
-/*   ae_obj_t * symbols = CONS(SYM("foo"), */
-/*                   CONS(SYM("bar"), */
-/*                        CONS(SYM("baz"), */
-/*                             CONS(SYM("quux"), */
-/*                                  CONS(SYM("corge"), NIL))))); */
-/*   ae_obj_t * values = CONS(NEW_INT(1), */
-/*                  CONS(NEW_INT(2), */
-/*                       CONS(NEW_INT(3), */
-/*                            CONS(NEW_INT(4), */
-/*                                 CONS(NEW_INT(5), NIL))))); */
-
-/*   ae_obj_t * ret = lookup_and_bubble(symbols, values, SYM("baz")); */
-
-/*   LOG(ret, "got;"); */
-/*   LOG(symbols , "symbols:"); */
-/*   LOG(values, "values:"); */
-/*   } */
-
 
 void env_with_a_dot(void) {
   {
@@ -1494,23 +1509,14 @@ void eval_args_test(void) {
   
   ae_obj_t * mul_expr = CONS(SYM("*"), CONS(NEW_INT(3), CONS(NEW_INT(4), NIL)));
 
-  /* log_eval = true; */
-  /* log_core = true; */
-  
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
-    // OLOG(args);
     ae_obj_t * evaled_args = EVAL_ARGS(env, args);
-    // OLOG(evaled_args);
   }
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), NEW_CONS(SYM("bar"), SYM("baz")))));
-    // OLOG(args);
     ae_obj_t * evaled_args = EVAL_ARGS(env, args);
-    // OLOG(evaled_args);
   }
-  
-  // NL;
 }
   
 void push_and_pop(void) {
@@ -1616,13 +1622,6 @@ void push_and_pop(void) {
   T(EQL(popped, NEW_INT(4)));
   T(LENGTH(lst) == 0);
   T(NILP(lst));
-  
-  /* NL; */
-  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
-  /* char * const tmp = free_list_malloc(256); */
-  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
-  /* free_list_free(tmp); */
-  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
 }
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
