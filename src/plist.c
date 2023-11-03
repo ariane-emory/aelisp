@@ -258,7 +258,7 @@ void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_
   assert(key);
   assert(value);
   
-  for (ae_obj_t * pos = plist; pos != NIL; pos = CDR(CDR(pos)))
+  for (ae_obj_t * pos = plist; ! NILP(pos); pos = CDR(CDR(pos)))
     if (EQL(CAR(pos), key)) {
       CADR(pos) = value;
 
