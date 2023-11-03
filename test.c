@@ -1295,39 +1295,29 @@ typedef struct split_list_at_value_t {
   ae_obj_t * remainder;
 } split_list_at_value_t;
 
-split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list) {
-  ae_obj_t * value_pos = NIL;
+split_list_at_value_t split_list_at_value(ae_obj_t * const key, ae_obj_t * const list) {
+    ae_obj_t *new_front = NIL; // This will be the front part of the split list
+    ae_obj_t **new_front_tail = &new_front; // This points to the last pair of new_front
+    ae_obj_t *remainder = list; // Start with the full list as the remainder
 
-  for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos))
-    if (EQL(CAR(pos), value)) {
-      value_pos = pos;      
-      break;
+    // Iterate over the list looking for the key
+    while (CONSP(remainder) && !EQL(CAR(remainder), key)) {
+        // Append the current element to new_front
+        *new_front_tail = CONS(CAR(remainder), NIL);
+        new_front_tail = &CDR(*new_front_tail); // Move the tail pointer
+        remainder = CDR(remainder); // Move to the next element
     }
 
-  if (NILP(value_pos))
-    return (split_list_at_value_t){ NIL, list };
+    // If the key was found, adjust the remainder to start after the key's value
+    if (CONSP(remainder)) {
+        remainder = CDDR(remainder); // Skip the key and its value
+    } else {
+        // If the key wasn't found, the front is nil and the remainder is the full list
+        new_front = NIL;
+        remainder = list;
+    }
 
-  if (list == value_pos)
-    return (split_list_at_value_t){ NIL, CDDR(list) }; // Skip the key and the value
-
-  split_list_at_value_t ret = { NIL, NIL };
-  ae_obj_t *  new_front = NIL;
-  ae_obj_t ** new_front_tail_ptr = &new_front;
-  ae_obj_t *  pos = list;
-  
-  while (pos != value_pos) {
-    *new_front_tail_ptr = CONS(CAR(pos), NIL);
-    new_front_tail_ptr = &CDR(*new_front_tail_ptr);
-    pos = CDR(pos);
-  }
-
-  // Now pos is at value_pos, we need to skip the value as well.
-  // This assumes that the value is right after the key.
-  ret.remainder = CDDR(pos);
-
-  ret.up_to_and_including_value = new_front;
-  
-  return ret;
+    return (split_list_at_value_t){ new_front, remainder };
 }
 
 void plist(void) {
