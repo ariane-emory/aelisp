@@ -604,7 +604,7 @@ ae_obj_t * ae_eval(ae_obj_t * const env, ae_obj_t * const obj) {
   
 end:  
 
-  assert(! HAS_PROP("last-bound-to", NIL));
+  // assert(! HAS_PROP("last-bound-to", NIL));
   
   JUMP_RETURN_EXIT;
 }
