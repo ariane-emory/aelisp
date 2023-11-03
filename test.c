@@ -1291,8 +1291,8 @@ void alist(void) {
 }                
 
 typedef struct ae_list_split_at_t {
-  ae_obj_t * front;
-  ae_obj_t * back;
+  ae_obj_t * up_to_and_including_value;
+  ae_obj_t * remainder;
 } ae_list_split_at_t;
 
 static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * const list);
@@ -1336,30 +1336,32 @@ void plist(void) {
 
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
   ae_list_split_at_t split = ae_list_split_at(SYM("c"), plist);
-  LOG(split.front, "split.front");
-  LOG(split.back,  "split.back");
-  T(shitty_princ_based_equality_predicate(split.front, "(a 1 b 2 c)"));
-  T(shitty_princ_based_equality_predicate(split.back,  "(3 d 4)"));
+  LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
+  LOG(split.remainder,  "split.remainder");
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(3 d 4)"));
   split = ae_list_split_at(SYM("a"), plist);
-  LOG(split.front, "split.front");
-  LOG(split.back,  "split.back");
-  T(shitty_princ_based_equality_predicate(split.front, "(a)"));
-  T(shitty_princ_based_equality_predicate(split.back,  "(1 b 2 c 3 d 4)"));
+  LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
+  LOG(split.remainder,  "split.remainder");
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(1 b 2 c 3 d 4)"));
   split = ae_list_split_at(SYM("d"), plist);
-  LOG(split.front, "split.front");
-  LOG(split.back,  "split.back");
-  T(shitty_princ_based_equality_predicate(split.front, "(a 1 b 2 c 3 d)"));
-  T(shitty_princ_based_equality_predicate(split.back,  "(4)"));
+  LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
+  LOG(split.remainder,  "split.remainder");
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c 3 d)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(4)"));
   split = ae_list_split_at(SYM("b"), plist);
-  LOG(split.front, "split.front");
-  LOG(split.back,  "split.back");
-  T(shitty_princ_based_equality_predicate(split.front, "(a 1 b)"));
-  T(shitty_princ_based_equality_predicate(split.back,  "(2 c 3 d 4)"));
+  LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
+  LOG(split.remainder,  "split.remainder");
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(2 c 3 d 4)"));
   split = ae_list_split_at(SYM("z"), plist);
-  LOG(split.front, "split.front");
-  LOG(split.back,  "split.back");
-  T(shitty_princ_based_equality_predicate(split.front, "nil"));
-  T(shitty_princ_based_equality_predicate(split.back,  "(a 1 b 2 c 3 d 4)"));
+  LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
+  LOG(split.remainder,  "split.remainder");
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "nil"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(a 1 b 2 c 3 d 4)"));
+
+  NL;
 }                
 
 static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * const list) {
@@ -1375,12 +1377,12 @@ static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * co
   }
 
   if (NILP(value_pos)) {
-    ret.back = list;
+    ret.remainder = list;
     return ret;
   }
   else if (list == value_pos) {
-    ret.front = CONS(CAR(list), NIL);
-    ret.back  = CDR(value_pos);
+    ret.up_to_and_including_value = CONS(CAR(list), NIL);
+    ret.remainder  = CDR(value_pos);
     return ret;
   }
 
@@ -1399,8 +1401,8 @@ static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * co
   CDR(new_list_tail) = CONS(CAR(pos), NIL);
   LOG(new_list, "new_list after attaching last element");
 
-  ret.front = new_list;
-  ret.back  = CDR(value_pos);
+  ret.up_to_and_including_value = new_list;
+  ret.remainder  = CDR(value_pos);
   
   return ret;
 }
