@@ -14,6 +14,24 @@
 // _set_nonmutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const key) {
+  assert(plist);
+  assert(key);
+  assert(TAILP(plist));
+  assert(NILP(plist) || !(LENGTH(plist) % 2));
+
+  if (NILP(plist))
+    return NIL;
+
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
+
+  return ae_list_join3(split.before_kvp, NIL, split.after_kvp);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_nonmutating
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   assert(plist);
   assert(key);
@@ -21,45 +39,14 @@ ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key
   assert(TAILP(plist));
   assert(NILP(plist) || !(LENGTH(plist) % 2));
 
-  if (NILP(plist)) {
-    // If the list is empty, just return a new key-value pair.
-    return CONS(key, CONS(value, NIL));
-  }
+  ae_obj_t * const new_kvp = CONS(key, CONS(value, NIL));
+  
+  if (NILP(plist))
+    return new_kvp;
 
-  // Start with an empty new list.
-  ae_obj_t * new_plist = NIL;
-  ae_obj_t * tail = NIL; // Tail for the new list.
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
 
-  for (ae_obj_t * it = plist; !NILP(it); it = CDR(CDR(it))) {
-    if (EQL(CAR(it), key)) {
-      // If key is found, create a new pair with the updated value.
-      ae_obj_t * updated_pair = CONS(key, CONS(value, CDDR(it)));
-      
-      if (new_plist == NIL) {
-        // Key was the first element in the list.
-        return updated_pair;
-      } else {
-        // Attach the updated pair to the new list and return.
-        CDR(tail) = updated_pair;
-        return new_plist;
-      }
-    }
-
-    // Create a new pair for the current key-value pair.
-    ae_obj_t * pair = CONS(CAR(it), CONS(CADR(it), NIL));
-
-    if (new_plist == NIL) {
-      // Starting a new list.
-      new_plist = tail = pair;
-    } else {
-      // Append to the new list.
-      CDR(tail) = pair;
-      tail = pair;
-    }
-  }
-
-  // If the key wasn't found in the list, add it to the front.
-  return CONS(key, CONS(value, plist));
+  return ae_list_join3(split.before_kvp, new_kvp, split.after_kvp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
