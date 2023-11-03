@@ -1295,17 +1295,17 @@ typedef struct ae_plist_split_around_kvp_t {
   ae_obj_t * after_kvp;
 } ae_plist_split_around_kvp_t;
 
-ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const list) {
+ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const plist) {
   assert(key);
-  assert(list);
-  assert(TAILP(list));
+  assert(plist);
+  assert(TAILP(plist));
 
-  if (NILP(list))
+  if (NILP(plist))
     return (ae_plist_split_around_kvp_t){ NIL, NIL };
   
   ae_obj_t * new_front         = NIL;
   ae_obj_t * new_front_tailtip = NULL; 
-  ae_obj_t * after_kvp         = list;   
+  ae_obj_t * after_kvp         = plist;   
 
   while (CONSP(after_kvp) && !EQL(CAR(after_kvp), key)) {
     if (new_front_tailtip == NULL) {
@@ -1323,7 +1323,7 @@ ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_o
     after_kvp = CDDR(after_kvp); 
   } else {
     new_front = NIL;
-    after_kvp = list;
+    after_kvp = plist;
   }
 
   return (ae_plist_split_around_kvp_t){ new_front, after_kvp };
