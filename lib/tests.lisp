@@ -238,6 +238,8 @@
 (confirm that (plist-remove  pl 'b)                    returns nil)
 (confirm that (plist-remove! pl 'b)                    returns '(nil nil))
 
+(confirm that (make-plist '(a b c) '(1 2 3))           returns '(a 1 b 2 c 3))
+
 (confirm that (put     :quux :foo 'a)                  returns 'a)
 (confirm that (put     :quux :bar 'b)                  returns 'b)
 (confirm that (put     :quux :baz 'c)                  returns 'c)
