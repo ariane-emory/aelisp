@@ -87,19 +87,21 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
   assert(!(LENGTH(plist) % 2));
   assert(key);
   
-  ae_obj_t *current = plist;
-  ae_obj_t *next = CDR(plist);
+  ae_obj_t * current = plist;
+  ae_obj_t * next    = CDR(plist);
 
   if (EQL(CAR(current), key)) {
-    if (NILP(CDR(next))) {
+    ae_obj_t * const after_pair = CDR(next);
+    
+    if (NILP(after_pair)) {
       CAR(current) = NIL;
       CDR(current) = CONS(NIL, NIL);
     }
     else {
-      ae_obj_t * after_pair = CDR(next);
       CAR(current) = CAR(after_pair);
       CDR(current) = CDR(after_pair);
     }
+    
     return;
   }
   
