@@ -183,60 +183,60 @@
 
 (confirm that (setq! pl '(a 10 b 20 c 30 d 40 e 50))   returns '(a 10 b 20 c 30 d 40  e 50))
 
-(confirm that (plist-set  'a pl 1)                     returns '(a 1  b 20 c 30 d 40  e 50))
+(confirm that (plist-set  pl 'a 1)                     returns '(a 1  b 20 c 30 d 40  e 50))
 (confirm that pl                                       returns '(a 10 b 20 c 30 d 40  e 50))
-(confirm that (plist-set! 'a pl 1)                     returns '(a 1  b 20 c 30 d 40  e 50))
+(confirm that (plist-set! pl 'a 1)                     returns '(a 1  b 20 c 30 d 40  e 50))
 
-(confirm that (plist-set  'b pl 2)                     returns '(a 1  b 2  c 30 d 40  e 50))
+(confirm that (plist-set  pl 'b 2)                     returns '(a 1  b 2  c 30 d 40  e 50))
 (confirm that pl                                       returns '(a 1  b 20 c 30 d 40  e 50))
-(confirm that (plist-set! 'b pl 2)                     returns '(a 1  b 2  c 30 d 40  e 50))
+(confirm that (plist-set! pl 'b 2)                     returns '(a 1  b 2  c 30 d 40  e 50))
 
-(confirm that (plist-set  'c pl 3)                     returns '(a 1  b 2  c 3  d 40  e 50))
+(confirm that (plist-set  pl 'c 3)                     returns '(a 1  b 2  c 3  d 40  e 50))
 (confirm that pl                                       returns '(a 1  b 2  c 30 d 40  e 50))
-(confirm that (plist-set! 'c pl 3)                     returns '(a 1  b 2  c 3  d 40  e 50))
+(confirm that (plist-set! pl 'c 3)                     returns '(a 1  b 2  c 3  d 40  e 50))
 
-(confirm that (plist-set  'd pl nil)                   returns '(a 1  b 2  c 3  d nil e 50))
+(confirm that (plist-set  pl 'd nil)                   returns '(a 1  b 2  c 3  d nil e 50))
 (confirm that pl                                       returns '(a 1  b 2  c 3  d 40  e 50))
-(confirm that (plist-set! 'd pl nil)                   returns '(a 1  b 2  c 3  d nil e 50))
+(confirm that (plist-set! pl 'd nil)                   returns '(a 1  b 2  c 3  d nil e 50))
 
-(confirm that (plist-set  'e pl 5)                     returns '(a 1  b 2  c 3  d nil e 5 ))
+(confirm that (plist-set  pl 'e 5)                     returns '(a 1  b 2  c 3  d nil e 5 ))
 (confirm that pl                                       returns '(a 1  b 2  c 3  d nil e 50))
-(confirm that (plist-set! 'e pl 5)                     returns '(a 1  b 2  c 3  d nil e 5 ))
+(confirm that (plist-set! pl 'e 5)                     returns '(a 1  b 2  c 3  d nil e 5 ))
 
 (confirm that pl                                       returns '(a 1  b 2  c 3  d nil e 5))
 
-(confirm that (plist-get 'a pl)                        returns '1)
-(confirm that (plist-get 'b pl)                        returns '2)
-(confirm that (plist-get 'c pl)                        returns '3)
-(confirm that (plist-get 'd pl)                        returns 'nil)
-(confirm that (plist-get 'e pl)                        returns '5)
-(confirm that (plist-get 'f pl)                        returns 'nil)
-
-(confirm that (plist-has? 'a pl)                       returns 't)
-(confirm that (plist-has? 'b pl)                       returns 't)
-(confirm that (plist-has? 'c pl)                       returns 't)
-(confirm that (plist-has? 'd pl)                       returns 't)
-(confirm that (plist-has? 'e pl)                       returns 't)
-(confirm that (plist-has? 'f pl)                       returns 'nil)
+(confirm that (plist-get  pl 'a)                       returns '1)
+(confirm that (plist-get  pl 'b)                       returns '2)
+(confirm that (plist-get  pl 'c)                       returns '3)
+(confirm that (plist-get  pl 'd)                       returns 'nil)
+(confirm that (plist-get  pl 'e)                       returns '5)
+(confirm that (plist-get  pl 'f)                       returns 'nil)
+                            
+(confirm that (plist-has? pl 'a)                       returns 't)
+(confirm that (plist-has? pl 'b)                       returns 't)
+(confirm that (plist-has? pl 'c)                       returns 't)
+(confirm that (plist-has? pl 'd)                       returns 't)
+(confirm that (plist-has? pl 'e)                       returns 't)
+(confirm that (plist-has? pl 'f)                       returns 'nil)
 
 (confirm that (plist-keys pl)                          returns '(a b c d e))
 (confirm that (plist-vals pl)                          returns '(1 2 3 nil 5))
 
-(confirm that (plist-remove  'a pl)                    returns '(b 2 c 3 d nil e 5))
+(confirm that (plist-remove  pl 'a)                    returns '(b 2 c 3 d nil e 5))
 (confirm that pl                                       returns '(a 1 b 2 c 3 d nil e 5))
-(confirm that (plist-remove! 'a pl)                    returns '(b 2 c 3 d nil e 5))
-
-(confirm that (plist-remove  'd pl)                    returns '(b 2 c 3 e 5))
-(confirm that (plist-remove! 'd pl)                    returns '(b 2 c 3 e 5))
-
-(confirm that (plist-remove  'e pl)                    returns '(b 2 c 3))
-(confirm that (plist-remove! 'e pl)                    returns '(b 2 c 3))
-
-(confirm that (plist-remove  'c pl)                    returns '(b 2))
-(confirm that (plist-remove! 'c pl)                    returns '(b 2))
-
-(confirm that (plist-remove  'b pl)                    returns nil)
-(confirm that (plist-remove! 'b pl)                    returns '(nil nil))
+(confirm that (plist-remove! pl 'a)                    returns '(b 2 c 3 d nil e 5))
+                               
+(confirm that (plist-remove  pl 'd)                    returns '(b 2 c 3 e 5))
+(confirm that (plist-remove! pl 'd)                    returns '(b 2 c 3 e 5))
+                               
+(confirm that (plist-remove  pl 'e)                    returns '(b 2 c 3))
+(confirm that (plist-remove! pl 'e)                    returns '(b 2 c 3))
+                               
+(confirm that (plist-remove  pl 'c)                    returns '(b 2))
+(confirm that (plist-remove! pl 'c)                    returns '(b 2))
+                               
+(confirm that (plist-remove  pl 'b)                    returns nil)
+(confirm that (plist-remove! pl 'b)                    returns '(nil nil))
 
 (confirm that (put     :quux :foo 'a)                  returns 'a)
 (confirm that (put     :quux :bar 'b)                  returns 'b)
