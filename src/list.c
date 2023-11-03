@@ -364,6 +364,13 @@ bool ae_list_is_proper(const ae_obj_t * const list) {
 // _join3
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_list_join3(ae_obj_t * front, ae_obj_t * const middle, ae_obj_t * const  back) {
+  assert(front);
+  assert(middle);
+  assert(back);
+  assert(TAILP(front));
+  assert(TAILP(middle));
+  assert(TAILP(back));
+  
   if (NILP(front)) {
     front = middle;
   }
