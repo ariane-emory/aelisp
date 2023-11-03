@@ -239,11 +239,11 @@ extern ae_obj_t * symbols_list;
 #define STRINGP(obj)                     (TYPEP((obj), AE_STRING))
 #define SYMBOLP(obj)                     (TYPEP((obj), AE_SYMBOL))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define SETTABLEP(obj)                   (ae_obj_settable_symbolp((obj)))
-#define KEYWORDP(obj)                    (ae_obj_keywordp((obj)))
-#define SPECIAL_FUNP(obj)                (ae_obj_special_funp((obj)))
-#define SPECIAL_SYMP(obj)                (ae_obj_special_symp((obj)))
-#define TAILP(obj)                       (ae_obj_tailp((obj)))
+#define SETTABLEP                        ae_obj_settable_symbolp
+#define KEYWORDP                         ae_obj_keywordp
+#define SPECIAL_FUNP                     ae_obj_special_funp
+#define SPECIAL_SYMP                     ae_obj_special_symp
+#define TAILP                            ae_obj_tailp
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NILP(obj)                        ((obj) == NIL)
 #define TRUEP(obj)                       ((obj) == TRUE)
