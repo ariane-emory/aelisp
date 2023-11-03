@@ -11,10 +11,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set_immutable
+// _set_nonmutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
+ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   assert(plist);
   assert(key);
   assert(value);
@@ -63,9 +63,9 @@ ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set_mutable
+// _set_mutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ae_plist_set_mutable(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
+void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   assert(plist);
   assert(CONSP(plist));
   assert(!(LENGTH(plist) % 2));
@@ -92,10 +92,10 @@ ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, a
     if (plist == NULL || plist == NIL) {
         // Use the immutable version if the list is empty
         // as this will create a new list with the key-value pair.
-        return ae_plist_set_immutable(NIL, key, value);
+        return ae_plist_set_nonmutating(NIL, key, value);
     } else {
         // Use the mutable version to update the existing list.
-        ae_plist_set_mutable(plist, key, value);
+        ae_plist_set_mutating(plist, key, value);
         return plist; // Return the updated plist.
     }
 }

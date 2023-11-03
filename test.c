@@ -1308,23 +1308,23 @@ void plist(void) {
   T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
 
   ae_obj_t * plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), NIL))))));
-  ae_plist_set_mutable(plist, SYM("d"), NEW_INT(4));
+  ae_plist_set_mutating(plist, SYM("d"), NEW_INT(4));
   T(shitty_princ_based_equality_predicate(plist, "(d 4 a 1 b 2 c 3)"));
-  ae_plist_set_mutable(plist, SYM("d"), NEW_INT(8));
+  ae_plist_set_mutating(plist, SYM("d"), NEW_INT(8));
   T(shitty_princ_based_equality_predicate(plist, "(d 8 a 1 b 2 c 3)"));
-  ae_plist_set_mutable(plist, SYM("a"), NEW_INT(10));
+  ae_plist_set_mutating(plist, SYM("a"), NEW_INT(10));
   T(shitty_princ_based_equality_predicate(plist, "(d 8 a 10 b 2 c 3)"));
-  ae_plist_set_mutable(plist, SYM("c"), NEW_INT(20));
+  ae_plist_set_mutating(plist, SYM("c"), NEW_INT(20));
   T(shitty_princ_based_equality_predicate(plist, "(d 8 a 10 b 2 c 20)"));
 
   plist = NIL;
-  plist = ae_plist_set_immutable(plist, SYM("d"), NEW_INT(4));
+  plist = ae_plist_set_nonmutating(plist, SYM("d"), NEW_INT(4));
   T(shitty_princ_based_equality_predicate(plist, "(d 4)"));
-  plist = ae_plist_set_immutable(plist, SYM("d"), NEW_INT(8));
+  plist = ae_plist_set_nonmutating(plist, SYM("d"), NEW_INT(8));
   T(shitty_princ_based_equality_predicate(plist, "(d 8)"));
-  plist = ae_plist_set_immutable(plist, SYM("a"), NEW_INT(10));
+  plist = ae_plist_set_nonmutating(plist, SYM("a"), NEW_INT(10));
   T(shitty_princ_based_equality_predicate(plist, "(a 10 d 8)"));
-  plist = ae_plist_set_immutable(plist, SYM("c"), NEW_INT(20));
+  plist = ae_plist_set_nonmutating(plist, SYM("c"), NEW_INT(20));
   T(shitty_princ_based_equality_predicate(plist, "(c 20 a 10 d 8)"));
 
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
