@@ -1386,23 +1386,23 @@ static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_
   if (list == value_pos)
     return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
 
-  split_list_at_value_t ret = { NIL, NIL };
-  ae_obj_t * new_list       = CONS(CAR(list), NIL);
-  ae_obj_t * new_list_tail  = new_list;
-  ae_obj_t * pos            = new_list;
+  split_list_at_value_t ret               = { NIL, NIL };
+  ae_obj_t *            new_front         = CONS(CAR(list), NIL);
+  ae_obj_t *            new_front_tailtip = new_front;
+  ae_obj_t *            pos               = new_front;
   
   for (pos = CDR(list); pos != value_pos; pos = CDR(pos)) {
     ae_obj_t * new_cons = CONS(CAR(pos), NIL);
-    CDR(new_list_tail) = new_cons;
-    new_list_tail = new_cons;
+    CDR(new_front_tailtip) = new_cons;
+    new_front_tailtip = new_cons;
   }
 
   // Finally, we need to attach the last element.
-  // LOG(new_list, "new_list before attaching last element");
-  CDR(new_list_tail) = CONS(CAR(pos), NIL);
-  // LOG(new_list, "new_list after attaching last element");
+  // LOG(new_front, "new_front before attaching last element");
+  CDR(new_front_tailtip) = CONS(CAR(pos), NIL);
+  // LOG(new_front, "new_front after attaching last element");
 
-  ret.up_to_and_including_value = new_list;
+  ret.up_to_and_including_value = new_front;
   ret.remainder  = CDR(value_pos);
   
   return ret;
