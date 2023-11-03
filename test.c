@@ -1296,6 +1296,10 @@ typedef struct ae_plist_split_around_kvp_t {
 } ae_plist_split_around_kvp_t;
 
 ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const list) {
+  assert(key);
+  assert(list);
+  assert(TAILP(list));
+  
   ae_obj_t * new_front         = NIL;
   ae_obj_t * new_front_tailtip = NULL; 
   ae_obj_t * after_kvp         = list;   
@@ -1407,6 +1411,13 @@ void plist(void) {
   LOG(split.after_kvp,  "split.after_kvp");
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "(a 1 b 2 c 3 d 4)"));
+
+  NL;
+  split = ae_plist_split_around_kvp(SYM("d"), NIL);;
+  LOG(split.before_kvp, "split.before_kvp");
+  LOG(split.after_kvp,  "split.after_kvp");
+  T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
+  T(shitty_princ_based_equality_predicate(split.after_kvp,  "nil"));
 
   NL;
 }                
