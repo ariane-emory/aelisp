@@ -110,7 +110,7 @@
 ;; list funs (append/nconc variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append2 (lst1 lst2)
- "Append LST1 and LST2."
+ "Append LST1 and LST2 by altering LST1."
  (unless (list? lst1) (error "LST1 must be a list"))
  (unless (list? lst2) (error "LST2 must be a list"))
  (let ((result nil)          ; Initialize the result list as empty
@@ -1699,9 +1699,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; remove! property macro:
+;; remove property macro:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro remove! (obj prop)
+(defmacro remove (obj prop)
  "Remove a property PROP from OBJ."
  $('prog1
    $('quote $('get obj prop))

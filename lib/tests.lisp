@@ -250,10 +250,10 @@
 (confirm that (put     :quux :bar 'b)                  returns 'b)
 (confirm that (put     :quux :baz 'c)                  returns 'c)
 
-(confirm that (remove! :quux :foo)                     returns 'a)
-(confirm that (remove! :quux :bar)                     returns 'b)
-(confirm that (remove! :quux :baz)                     returns 'c)
-(confirm that (remove! :quux :corge)                   returns 'd)
+(confirm that (remove  :quux :foo)                     returns 'a)
+(confirm that (remove  :quux :bar)                     returns 'b)
+(confirm that (remove  :quux :baz)                     returns 'c)
+(confirm that (remove  :quux :corge)                   returns 'd)
 
 (confirm that (props   :quux)                          returns nil)
 

@@ -1,9 +1,9 @@
 (require 'plist-funs)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; remove! property macro:
+;; remove property macro:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro remove! (obj prop)
+(defmacro remove (obj prop)
  "Remove a property PROP from OBJ."
  $('prog1
    $('quote $('get obj prop))
