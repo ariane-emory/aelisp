@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "alist.h"
 #include "core.h"
 #include "core.h"
 #include "env.h"
@@ -1272,24 +1271,6 @@ void deloc(void) {
   }
 }
                  
-void alist(void) {
-  SETUP_TEST;    
-                 
-  ae_obj_t * list = NIL;
-                 
-  T(!            AHAS(list, SYM("name")));
-  T(CONSP(list = ASET(list, SYM("name"),   NEW_STRING("Bob"))));
-  T(             AHAS(list, SYM("name")));
-  T(EQL(         AGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(!            AHAS(list, SYM("age")));
-  T(CONSP(list = ASET(list, SYM("age"),    NEW_INT(24))));
-  T(             AHAS(list, SYM("age")));
-  T(EQL(         AGET(list, SYM("age")),   NEW_INT(24)));
-  T(CONSP(list = ASET(list, SYM("name"),   NEW_STRING("Jake"))));
-  T(! EQL(       AGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
-}                
-
 void plist(void) {
   SETUP_TEST;    
                  
@@ -1660,7 +1641,6 @@ void push_and_pop(void) {
   DO(list_fun)                                                                                     \
   DO(macro_expand)                                                                                 \
   DO(deloc)                                                                                        \
-  DO(alist)                                                                                        \
   DO(root_env_and_eval)                                                                            \
   DO(fun_specialness)                                                                              \
   DO(env_with_a_dot)                                                                               \

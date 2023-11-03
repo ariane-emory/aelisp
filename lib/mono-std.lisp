@@ -64,10 +64,6 @@
 (setq! phas? plist-has?)
 (setq! pset! plist-set!)
 (setq! pget  plist-get)
-(setq! ahas? alist-has?)
-(setq! aset! alist-set!)
-(setq! aget  alist-get)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1915,8 +1911,8 @@
 (setq! #f            nil)
 (setq! #t            t)
 (setq! ???           'unspecified-result)
-(setq! assoc         ahas?) 
-(setq! assq          aget) 
+;; (setq! assoc         ahas?) 
+;; (setq! assq          aget) 
 (setq! collect-if    filter)
 (setq! define        setq!)
 (setq! display       write)
