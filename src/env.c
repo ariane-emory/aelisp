@@ -450,7 +450,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   ENV_SET(env,                SYM("*program*"),                     NIL);
   PUT_PROP(TRUE, "constant",  SYM("*program*"));
 
-  // Of course, nil and t are constants.
+  // Of course, nil and t are constants:
   PUT_PROP(TRUE, "constant",            NIL);
   PUT_PROP(TRUE, "constant",            TRUE);
   
