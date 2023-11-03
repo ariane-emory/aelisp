@@ -41,3 +41,5 @@ void       ae_plist_set_mutable  (ae_obj_t * const plist,    ae_obj_t * const ke
 ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist,    ae_obj_t * const key, ae_obj_t * const value);
 ae_obj_t * ae_plist_set_internal (ae_obj_t * const plist,    ae_obj_t * const key, ae_obj_t * const value);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const plist);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////

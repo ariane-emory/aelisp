@@ -229,3 +229,42 @@ failed:
   return NIL;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _split_around_kvp
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_obj_t * const plist) {
+  assert(key);
+  assert(plist);
+  assert(TAILP(plist));
+
+  if (NILP(plist))
+    return (ae_plist_split_around_kvp_t){ NIL, NIL };
+  
+  ae_obj_t * new_front         = NIL;
+  ae_obj_t * new_front_tailtip = NULL; 
+  ae_obj_t * after_kvp         = plist;   
+
+  while (CONSP(after_kvp) && !EQL(CAR(after_kvp), key)) {
+    if (new_front_tailtip == NULL) {
+      new_front = CONS(CAR(after_kvp), NIL);
+      new_front_tailtip = new_front;
+    } else {
+      CDR(new_front_tailtip) = CONS(CAR(after_kvp), NIL);
+      new_front_tailtip = CDR(new_front_tailtip); 
+    }
+    
+    after_kvp = CDR(after_kvp); 
+  }
+
+  if (CONSP(after_kvp)) {
+    after_kvp = CDDR(after_kvp); 
+  } else {
+    new_front = NIL;
+    after_kvp = plist;
+  }
+
+  return (ae_plist_split_around_kvp_t){ new_front, after_kvp };
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
