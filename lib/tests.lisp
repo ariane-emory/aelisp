@@ -238,20 +238,20 @@
 (confirm that (plist-remove  'b pl)                    returns nil)
 (confirm that (plist-remove! 'b pl)                    returns '(nil nil))
 
-(confirm that (put 'a :foo :quux)                      returns 'a)
-(confirm that (put 'b :bar :quux)                      returns 'b)
-(confirm that (put 'c :baz :quux)                      returns 'c)
-(confirm that (props :quux)                            returns '(:baz c :bar b :foo a))
+(confirm that (put     :quux :foo 'a)                  returns 'a)
+(confirm that (put     :quux :bar 'b)                  returns 'b)
+(confirm that (put     :quux :baz 'c)                  returns 'c)
+(confirm that (props   :quux)                          returns '(:baz c :bar b :foo a))
 
-(confirm that (props!  :quux  '(:corge d))             returns '(:corge d))
-(confirm that (put 'a  :foo     :quux)                 returns 'a)
-(confirm that (put 'b  :bar     :quux)                 returns 'b)
-(confirm that (put 'c  :baz     :quux)                 returns 'c)
+(confirm that (props!  :quux '(:corge d))              returns '(:corge d))
+(confirm that (put     :quux :foo 'a)                  returns 'a)
+(confirm that (put     :quux :bar 'b)                  returns 'b)
+(confirm that (put     :quux :baz 'c)                  returns 'c)
 
-(confirm that (remove! :foo     :quux)                 returns 'a)
-(confirm that (remove! :bar     :quux)                 returns 'b)
-(confirm that (remove! :baz     :quux)                 returns 'c)
-(confirm that (remove! :corge   :quux)                 returns 'd)
+(confirm that (remove! :quux :foo)                     returns 'a)
+(confirm that (remove! :quux :bar)                     returns 'b)
+(confirm that (remove! :quux :baz)                     returns 'c)
+(confirm that (remove! :quux :corge)                   returns 'd)
 
 (confirm that (props   :quux)                          returns nil)
 
