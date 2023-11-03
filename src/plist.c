@@ -93,7 +93,7 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
   if (EQL(CAR(current), key)) {
     ae_obj_t * const after_pair = CDR(next);
     
-    if (NILP(after_pair)) {
+    if (NILP(after_pair)) { // key matches the only pair in the list.
       CAR(current) = NIL;
       CDR(current) = CONS(NIL, NIL);
     }
@@ -105,14 +105,12 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
     return;
   }
   
-  // Search for the key in the list.
   while (!NILP(next) && !NILP(CDR(next))) {
     if (EQL(CAR(next), key)) {
-      // Skip the key-value pair.
       CDR(current) = CDR(CDR(next));
+      
       return;
     }
-    // Move to the next pair.
     current = CDR(current);
     next = CDR(next);
   }
