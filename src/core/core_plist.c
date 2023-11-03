@@ -35,7 +35,7 @@ ae_obj_t * ae_core_pset(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
-  PSET_IMMUT(plist, key, value);
+  plist = PSET_IMMUT(plist, key, value);
   
   CORE_RETURN("pset", plist);
 }
