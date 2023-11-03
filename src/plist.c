@@ -87,36 +87,31 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
   assert(!(LENGTH(plist) % 2));
   assert(key);
   
-  ae_obj_t *current = plist;
-  ae_obj_t *prev = NULL;
+  // Handle the case where the list starts with the key to be removed.
+  if (EQL(CAR(plist), key)) {
+    // Move the second pair to the start of the list.
+    ae_obj_t *nextPair = CDR(CDR(plist));
+    if (!NILP(nextPair)) {
+      CAR(plist) = CAR(nextPair);
+      CDR(plist) = CDR(nextPair);
+    } else {
+      // The list had only one pair which is being removed.
+      CAR(plist) = NIL;
+      CDR(plist) = NIL;
+    }
+    return;
+  }
+  
+  ae_obj_t *current = CDR(plist); // Start with the second pair.
+  ae_obj_t *prev = plist; // Keep track of the previous pair.
 
-  while (!NILP(current)) {
+  while (!NILP(current) && !NILP(CDR(current))) { // Check pairs until the end of the list.
     if (EQL(CAR(current), key)) {
-      // If this is the first node, adjust the head of the list.
-      if (prev == NULL) {
-        // In this case, you're actually mutating the first pair of the list,
-        // so you should adjust the first element and the second directly.
-        ae_obj_t * nextPair = CDR(CDR(current));
-        if (!NILP(nextPair)) {
-          // Set the head to the next pair's key and value.
-          CAR(plist) = CAR(nextPair);
-          CDR(plist) = CDR(nextPair);
-          // Now adjust the next pair to skip the removed elements.
-          CAR(nextPair) = CAR(CDR(nextPair));
-          CDR(nextPair) = CDR(CDR(nextPair));
-        } else {
-          // If the next pair is NIL, the list is now empty.
-          CAR(plist) = NIL;
-          CDR(plist) = NIL;
-        }
-      } else {
-        // If it's not the first node, adjust the previous node's cdr.
-        CDR(prev) = CDR(CDR(current));
-      }
-      // Optionally, if you're managing memory, you'd free the skipped nodes here.
+      // Found the key, remove this pair by skipping over it.
+      CDR(prev) = CDR(CDR(current));
       return;
     }
-    // Keep track of the previous node and move to the next.
+    // Move to the next pair.
     prev = current;
     current = CDR(CDR(current));
   }
