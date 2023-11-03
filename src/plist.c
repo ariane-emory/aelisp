@@ -137,9 +137,9 @@ failed:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
   assert(plist);
+  assert(key);
   assert(CONSP(plist));
   assert(!(LENGTH(plist) % 2));
-  assert(key);
   
   ae_obj_t * current = plist;
   ae_obj_t * next    = CDR(plist);
@@ -192,51 +192,15 @@ ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set (old version, kept because we might switch propperty setting back to using it)
-////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const value) {
-#ifdef AE_LOG_KVP_SET_GET
-  LOG(key,   "%s setting key", __func__);
-  LOG(list,  "in list");
-  LOG(value, "to value");
-#endif
-  
-  assert(!list || (TAILP(list) && ! (LENGTH(list) % 2)));
-  
-  if (list == NULL)
-    list = NIL;
-
-  if (list != NIL)
-    for (ae_obj_t * position = list; position != NIL; position = CDR(CDR(position))) {
-      ae_obj_t    * elem1    = CAR(position);
-      ae_obj_t    * elem2    = position ? CADR(position) : NIL;
-      
-      if (EQL(elem1, key)) {
-        CADR(position) = value;
-
-        goto end;
-      }
-    }
-
-  list = CONS(key, CONS(value, list));
-
-end:
-
-#ifdef AE_LOG_KVP_SET_GET
-  LOG(key,   "after setting key");
-  LOG(list, "list is");
-  NL;
-#endif
-
-  return list;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_internal: I don't fully trust this one yet.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
+  assert(plist);
+  assert(key);
+  assert(value);
+  assert(TAILP(plist));
+  assert(NILP(plist) || !(LENGTH(plist) % 2));
+
   if (plist == NULL || NILP(plist)) {
     return CONS(key, CONS(value, NIL));
   } else {
@@ -252,10 +216,10 @@ ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, a
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   assert(plist);
-  assert(CONSP(plist));
-  assert(!(LENGTH(plist) % 2));
   assert(key);
   assert(value);
+  assert(CONSP(plist));
+  assert(!(LENGTH(plist) % 2));
   
   for (ae_obj_t * pos = plist; ! NILP(pos); pos = CDR(CDR(pos)))
     if (EQL(CAR(pos), key)) {

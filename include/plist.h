@@ -24,7 +24,6 @@ typedef struct ae_plist_split_around_kvp_t {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PHAS                ae_plist_contains_key
 #define PGET                ae_plist_get
-#define PSET                ae_plist_set
 #define PSET_INTERNAL       ae_plist_set_internal
 #define PSET_MUTATING       ae_plist_set_mutating
 #define PSET_NONMUTATING    ae_plist_set_nonmutating
@@ -44,7 +43,6 @@ ae_obj_t *                  ae_plist_get               (ae_obj_t * const plist, 
 void                        ae_plist_remove_mutating   (ae_obj_t * const plist, ae_obj_t * const key                        );
 ae_obj_t *                  ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const key                        );
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t *                  ae_plist_set               (ae_obj_t *       plist, ae_obj_t * const key, ae_obj_t * const value);
 ae_obj_t *                  ae_plist_set_internal      (ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value);
 void                        ae_plist_set_mutating      (ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value);
 ae_obj_t *                  ae_plist_set_nonmutating   (ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value);
