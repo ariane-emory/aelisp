@@ -1322,41 +1322,34 @@ ae_plist_split_list_around_kvp_t ae_plist_split_list_around_kvp(ae_obj_t * const
   return (ae_plist_split_list_around_kvp_t){ new_front, after_kvp };
 }
 
-ae_obj_t * ae_plist_insert_list_between(ae_obj_t * new_middle, ae_plist_split_list_around_kvp_t * const split_list) {
-  assert(split_list != NULL);
-
-  if (split_list->before_kvp == NIL) {
-    if (new_middle != NIL) {
-      ae_obj_t * last_middle = new_middle;
-
-      while (CONSP(CDR(last_middle)))
-        last_middle    = CDR(last_middle);
-
-      CDR(last_middle) = split_list->after_kvp;
+ae_obj_t * join_3_lists(ae_obj_t * front, ae_obj_t * middle, ae_obj_t * back) {
+    // If the front list is nil, the result starts with the middle list
+    if (front == NIL) {
+        front = middle;
     } else {
-      return split_list->after_kvp;
+        // Find the last node of the front list and attach the middle list to it
+        ae_obj_t *current = front;
+        while (CONSP(CDR(current))) {
+            current = CDR(current);
+        }
+        CDR(current) = middle;
     }
 
-    return new_middle;
-  }
+    // If the resulting list (front + middle) is nil, the result is the back list
+    if (front == NIL) {
+        return back;
+    }
 
-  ae_obj_t * tail_tip = split_list->before_kvp;
+    // Find the last node of the resulting list (could be from middle or front if middle is NIL)
+    ae_obj_t *last = front;
+    while (CONSP(CDR(last))) {
+        last = CDR(last);
+    }
 
-  while (CONSP(CDR(tail_tip)))
-    tail_tip = CDR(tail_tip);
+    // Attach the back list to the last node of the resulting list
+    CDR(last) = back;
 
-  if (!NILP(new_middle)) {
-    CDR(tail_tip)   = new_middle;
-
-    while (CONSP(CDR(new_middle)))
-      new_middle    = CDR(new_middle);
-
-    CDR(new_middle) = split_list->after_kvp;
-  } else {
-    CDR(tail_tip)   = split_list->after_kvp;
-  }
-
-  return split_list->before_kvp;
+    return front;
 }
 
 void plist(void) {
@@ -1405,7 +1398,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2)"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "(d 4)"));
 
-  ae_obj_t * joined = ae_plist_insert_list_between(CONS(SYM("x"), CONS(NEW_INT(99), NIL)), &split);
+  ae_obj_t * joined = join_3_lists(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
   LOG(joined, "joined");
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 x 99 d 4)"));
   
@@ -1416,7 +1409,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "(b 2 c 3 d 4)"));
 
-  joined = ae_plist_insert_list_between(CONS(SYM("x"), CONS(NEW_INT(99), NIL)), &split);
+  joined = join_3_lists(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
   LOG(joined, "joined");
   T(shitty_princ_based_equality_predicate(joined, "(x 99 b 2 c 3 d 4)"));
 
@@ -1427,7 +1420,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2 c 3)"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "nil"));
 
-  joined = ae_plist_insert_list_between(CONS(SYM("x"), CONS(NEW_INT(99), NIL)), &split);
+  joined = join_3_lists(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
   LOG(joined, "joined");
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 c 3 x 99)"));
 
