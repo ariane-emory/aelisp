@@ -335,7 +335,6 @@ bool ae_obj_settable_symbolp(const ae_obj_t * const this) {
      (! KEYWORDP(this)) &&
      (! HAS_PROP("constant", this)));
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
