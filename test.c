@@ -1294,7 +1294,6 @@ typedef struct split_list_at_value_t {
   ae_obj_t * up_to_and_including_value;
   ae_obj_t * remainder;
 } split_list_at_value_t;
-  
 
 split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list) {
   ae_obj_t * value_pos = NIL;
@@ -1309,22 +1308,24 @@ split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * con
     return (split_list_at_value_t){ NIL, list };
 
   if (list == value_pos)
-    return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
+    return (split_list_at_value_t){ NIL, CDDR(list) }; // Skip the key and the value
 
-  split_list_at_value_t ret               = { NIL, NIL };
-  ae_obj_t * const      new_front         = CONS(CAR(list), NIL);
-  ae_obj_t *            new_front_tailtip = new_front;
-  ae_obj_t *            pos               = new_front;
+  split_list_at_value_t ret = { NIL, NIL };
+  ae_obj_t * new_front = NIL;
+  ae_obj_t ** new_front_ptr = &new_front;
+  ae_obj_t * pos = list;
   
-  for (pos = CDR(list); pos != value_pos; pos = CDR(pos)) {
-    ae_obj_t * const new_cons   = CONS(CAR(pos), NIL);
-    CDR(new_front_tailtip)      = new_cons;
-    new_front_tailtip           = new_cons;
+  while (pos != value_pos) {
+    *new_front_ptr = CONS(CAR(pos), NIL);
+    new_front_ptr = &CDR(*new_front_ptr);
+    pos = CDR(pos);
   }
 
-  CDR(new_front_tailtip)        = CONS(CAR(pos), NIL);
+  // Now pos is at value_pos, we need to skip the value as well.
+  // This assumes that the value is right after the key.
+  ret.remainder = CDDR(pos);
+
   ret.up_to_and_including_value = new_front;
-  ret.remainder                 = CDR(value_pos);
   
   return ret;
 }
@@ -1372,15 +1373,15 @@ void plist(void) {
   split_list_at_value_t split = split_list_at_value(SYM("c"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
-  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c)"));
-  T(shitty_princ_based_equality_predicate(split.remainder,  "(3 d 4)"));
-
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2)"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(d 4)"));
+ 
   NL;
   split = split_list_at_value(SYM("a"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
-  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a)"));
-  T(shitty_princ_based_equality_predicate(split.remainder,  "(1 b 2 c 3 d 4)"));
+  T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "nil"));
+  T(shitty_princ_based_equality_predicate(split.remainder,  "(b 2 c 3 d 4)"));
 
   NL;
   split = split_list_at_value(SYM("d"), plist);
