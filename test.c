@@ -1521,23 +1521,14 @@ void eval_args_test(void) {
   
   ae_obj_t * mul_expr = CONS(SYM("*"), CONS(NEW_INT(3), CONS(NEW_INT(4), NIL)));
 
-  /* log_eval = true; */
-  /* log_core = true; */
-  
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), CONS(SYM("bar"), NIL))));
-    // OLOG(args);
     ae_obj_t * evaled_args = EVAL_ARGS(env, args);
-    // OLOG(evaled_args);
   }
   {
     ae_obj_t * args = CONS(NEW_INT(8), CONS(mul_expr, CONS(SYM("foo"), NEW_CONS(SYM("bar"), SYM("baz")))));
-    // OLOG(args);
     ae_obj_t * evaled_args = EVAL_ARGS(env, args);
-    // OLOG(evaled_args);
   }
-  
-  // NL;
 }
   
 void push_and_pop(void) {
@@ -1643,13 +1634,6 @@ void push_and_pop(void) {
   T(EQL(popped, NEW_INT(4)));
   T(LENGTH(lst) == 0);
   T(NILP(lst));
-  
-  /* NL; */
-  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
-  /* char * const tmp = free_list_malloc(256); */
-  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
-  /* free_list_free(tmp); */
-  /* printf("free_list_allocated: %lld\n", free_list_allocated); */
 }
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
