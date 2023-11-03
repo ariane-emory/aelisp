@@ -115,6 +115,49 @@ ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, a
     }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ae_obj_t * ae_plist_set(ae_obj_t * list, ae_obj_t * const key, ae_obj_t * const value) {
+#ifdef AE_LOG_KVP_SET_GET
+  LOG(key,   "%s setting key", __func__);
+  LOG(list,  "in list");
+  LOG(value, "to value");
+#endif
+  
+  assert(!list || (TAILP(list) && ! (LENGTH(list) % 2)));
+  
+  if (list == NULL)
+    list = NIL;
+
+  if (list != NIL)
+    for (ae_obj_t * position = list; position != NIL; position = CDR(CDR(position))) {
+      ae_obj_t    * elem1    = CAR(position);
+      ae_obj_t    * elem2    = position ? CADR(position) : NIL;
+      
+      if (EQL(elem1, key)) {
+        CADR(position) = value;
+
+        goto end;
+      }
+    }
+
+  list = CONS(key, CONS(value, list));
+
+end:
+
+#ifdef AE_LOG_KVP_SET_GET
+  LOG(key,   "after setting key");
+  LOG(list, "list is");
+  NL;
+#endif
+
+  return list;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _contains_key
 ////////////////////////////////////////////////////////////////////////////////////////////////////
