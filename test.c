@@ -1322,32 +1322,6 @@ ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_o
   return (ae_plist_split_around_kvp_t){ new_front, after_kvp };
 }
 
-ae_obj_t * ae_list_join3(ae_obj_t * front, ae_obj_t * const middle, ae_obj_t * const  back) {
-  if (NILP(front)) {
-    front = middle;
-  }
-  else {
-    ae_obj_t * pos = front;
-
-    while (CONSP(CDR(pos)))
-      pos = CDR(pos);
-
-    CDR(pos) = middle;
-  }
-  
-  if (NILP(front))
-    return back;
-
-  ae_obj_t * pos = front;
-    
-  while (CONSP(CDR(pos)))
-    pos = CDR(pos);
-
-  CDR(pos) = back;
-
-  return front;
-}
-
 void plist(void) {
   SETUP_TEST;    
                  
