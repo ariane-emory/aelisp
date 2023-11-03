@@ -1295,7 +1295,39 @@ typedef struct split_list_at_value_t {
   ae_obj_t * remainder;
 } split_list_at_value_t;
   
-split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list); // in plist.c
+
+split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list) {
+  ae_obj_t * value_pos = NIL;
+
+  for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos))
+    if (EQL(CAR(pos), value)) {
+      value_pos = pos;      
+      break;
+    }
+
+  if (NILP(value_pos))
+    return (split_list_at_value_t){ NIL, list };
+
+  if (list == value_pos)
+    return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
+
+  split_list_at_value_t ret               = { NIL, NIL };
+  ae_obj_t * const      new_front         = CONS(CAR(list), NIL);
+  ae_obj_t *            new_front_tailtip = new_front;
+  ae_obj_t *            pos               = new_front;
+  
+  for (pos = CDR(list); pos != value_pos; pos = CDR(pos)) {
+    ae_obj_t * const new_cons   = CONS(CAR(pos), NIL);
+    CDR(new_front_tailtip)      = new_cons;
+    new_front_tailtip           = new_cons;
+  }
+
+  CDR(new_front_tailtip)        = CONS(CAR(pos), NIL);
+  ret.up_to_and_including_value = new_front;
+  ret.remainder                 = CDR(value_pos);
+  
+  return ret;
+}
 
 void plist(void) {
   SETUP_TEST;    
@@ -1386,73 +1418,6 @@ void tailp(void) {
   // T(TAILP(NIL));    // This would generate a -Werror=address error.
   // T(! TAILP(TRUE)); // This would generate a -Werror=address error.
 }
-
-/* ae_obj_t * lookup_and_bubble(ae_obj_t * symbols, ae_obj_t * values, ae_obj_t * target) { */
-/*   ae_obj_t * symbols_prior = NIL; */
-/*   ae_obj_t * values_prior  = NIL; */
-/*   ae_obj_t * before_symbols_prior = NIL; */
-/*   ae_obj_t * before_values_prior = NIL; */
-
-/*     while (CONSP(symbols) && CONSP(values)) { */
-/*         if (CAR(symbols) == target) { */
-/*             // Swap in the symbols list */
-/*             if (! NILP(before_symbols_prior)) { */
-/*                 CDR(before_symbols_prior) = symbols; */
-/*             } else { */
-/*                 // If the target is the first symbol, adjust the head of the list */
-/*                 symbols = symbols_prior; */
-/*             } */
-/*             CDR(symbols_prior) = CDR(symbols); */
-/*             CDR(symbols) = symbols_prior; */
-
-/*             // Swap in the values list */
-/*             if (! NILP(before_values_prior)) { */
-/*                 CDR(before_values_prior) = values; */
-/*             } else { */
-/*                 // If the target corresponds to the first value, adjust the head of the list */
-/*                 values = values_prior; */
-/*             } */
-/*             CDR(values_prior) = CDR(values); */
-/*             CDR(values) = values_prior; */
-
-/*             // Return the value corresponding to the target symbol after the swap */
-/*             return CAR(values); */
-/*         } */
-
-/*         before_symbols_prior = symbols_prior; */
-/*         symbols_prior = symbols; */
-/*         symbols = CDR(symbols); */
-
-/*         before_values_prior = values_prior; */
-/*         values_prior = values; */
-/*         values = CDR(values); */
-/*     } */
-
-/*     // Target symbol not found */
-/*     return NIL; */
-/* } */
-
-/* void bubble_list(void) { */
-/*   SETUP_TEST; */
-
-/*   ae_obj_t * symbols = CONS(SYM("foo"), */
-/*                   CONS(SYM("bar"), */
-/*                        CONS(SYM("baz"), */
-/*                             CONS(SYM("quux"), */
-/*                                  CONS(SYM("corge"), NIL))))); */
-/*   ae_obj_t * values = CONS(NEW_INT(1), */
-/*                  CONS(NEW_INT(2), */
-/*                       CONS(NEW_INT(3), */
-/*                            CONS(NEW_INT(4), */
-/*                                 CONS(NEW_INT(5), NIL))))); */
-
-/*   ae_obj_t * ret = lookup_and_bubble(symbols, values, SYM("baz")); */
-
-/*   LOG(ret, "got;"); */
-/*   LOG(symbols , "symbols:"); */
-/*   LOG(values, "values:"); */
-/*   } */
-
 
 void env_with_a_dot(void) {
   {
