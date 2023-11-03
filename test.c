@@ -1390,9 +1390,18 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "nil"));
 
+  // plist is (a 1 b 2 c 3 d 4)
   ae_plist_remove_mutating(plist, SYM("c"));
   T(shitty_princ_based_equality_predicate(plist, "(a 1 b 2 d 4)"));
-  
+
+  ae_plist_remove_mutating(plist, SYM("a"));
+  T(shitty_princ_based_equality_predicate(plist, "(b 2 d 4)"));
+  LOG(plist, "plist");
+
+  ae_plist_remove_mutating(plist, SYM("d"));
+  T(shitty_princ_based_equality_predicate(plist, "(b 2)"));
+  LOG(plist, "plist");
+
   NL;
 }                
 
