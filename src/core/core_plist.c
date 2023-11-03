@@ -14,7 +14,7 @@ ae_obj_t * ae_core_premoveb(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, CONSP(plist), "PLIST must be a non-empty list");
 
-  PREMOVE_MUTATING(plist, key, value);
+  PREMOVE_MUTATING(plist, key);
   
   CORE_RETURN("premove!", plist);
 }
@@ -33,7 +33,7 @@ ae_obj_t * ae_core_premove(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
-  plist = PREMOVE_NONMUTATING(plist, key, value);
+  plist = PREMOVE_NONMUTATING(plist, key);
   
   CORE_RETURN("pset", plist);
 }
