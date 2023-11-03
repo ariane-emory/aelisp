@@ -1423,6 +1423,10 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "nil"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(b 2 c 3 d 4)"));
 
+  ae_obj_t * const joined = insert_list_between(CONS(SYM("x"), CONS(NEW_INT(99), NIL)), &split);
+  LOG(joined, "joined");
+  T(shitty_princ_based_equality_predicate(joined, "(x 99 b 2 d 4)"));
+
   NL;
   split = split_list_at_value(SYM("d"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
