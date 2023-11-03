@@ -55,9 +55,6 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   CORE_BEGIN("put!");
 
   ae_obj_t * obj           = CADDR(args);
-
-  REQUIRE(env, args, ! HAS_PROP("no-user-properties", obj), "user properties may not be added to this object");
-  
   ae_obj_t * value         = CAR(args); // this could be unsafe if value is NIL, mayb?
   ae_obj_t * key           = CADR(args);
   ae_obj_t * prop_list     = PROPS(obj);
