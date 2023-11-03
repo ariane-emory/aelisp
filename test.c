@@ -1381,13 +1381,13 @@ static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_
     }
 
   if (NILP(value_pos)) {
-    ret.remainder = list;
-    return ret;
+    /* ret.remainder = list; */
+    return (split_list_at_value_t){ NIL, list };
   }
   else if (list == value_pos) {
-    ret.up_to_and_including_value = CONS(CAR(list), NIL);
-    ret.remainder  = CDR(value_pos);
-    return ret;
+    /* ret.up_to_and_including_value = CONS(CAR(list), NIL); */
+    /* ret.remainder  = CDR(value_pos); */
+    return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
   }
 
   ae_obj_t * new_list = CONS(CAR(list), NIL);
@@ -1401,9 +1401,9 @@ static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_
   }
 
   // Finally, we need to attach the last element.
-  LOG(new_list, "new_list before attaching last element");
+  // LOG(new_list, "new_list before attaching last element");
   CDR(new_list_tail) = CONS(CAR(pos), NIL);
-  LOG(new_list, "new_list after attaching last element");
+  // LOG(new_list, "new_list after attaching last element");
 
   ret.up_to_and_including_value = new_list;
   ret.remainder  = CDR(value_pos);
