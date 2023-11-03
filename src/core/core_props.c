@@ -14,10 +14,10 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
                              __attribute__((unused)) int args_length) {
   CORE_BEGIN("props!");
 
-  ae_obj_t * obj            = CAR(args);
-  ae_obj_t * new_props_list = CADR(args);
-  PROPS(obj)                = new_props_list;
-  ret                       = new_props_list;
+  ae_obj_t * const obj            = CAR(args);
+  ae_obj_t * const new_props_list = CADR(args);
+  PROPS(obj)                      = new_props_list;
+  ret                             = new_props_list;
 
 end:
   
@@ -33,9 +33,9 @@ ae_obj_t * ae_core_props(ae_obj_t * const env,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("props");
 
-  ae_obj_t * obj       = CAR(args);
-  ae_obj_t * prop_list = PROPS(obj);
-  ret                  = prop_list;               
+  ae_obj_t * const obj       = CAR(args);
+  ae_obj_t * const prop_list = PROPS(obj);
+  ret                        = prop_list;               
 
 end:
   
@@ -51,13 +51,13 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("put!");
 
-  ae_obj_t * value         = CAR(args);
-  ae_obj_t * key           = CADR(args);
-  ae_obj_t * obj           = CADDR(args);
-  ae_obj_t * prop_list     = PROPS(obj);
-  ae_obj_t * new_prop_list = PSET_INTERNAL(prop_list, key, value);
-  PROPS(obj)               = new_prop_list;
-  ret                      = value;
+  ae_obj_t * const value         = CAR(args);
+  ae_obj_t * const key           = CADR(args);
+  ae_obj_t * const obj           = CADDR(args);
+  ae_obj_t * const prop_list     = PROPS(obj);
+  ae_obj_t * const new_prop_list = PSET_INTERNAL(prop_list, key, value);
+  PROPS(obj)                     = new_prop_list;
+  ret                            = value;
 
 end:
   
@@ -73,10 +73,10 @@ ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("get");
 
-  ae_obj_t * key       = CAR(args);
-  ae_obj_t * obj       = CADR(args);
-  ae_obj_t * prop_list = PROPS(obj);
-  ret                  = PGET(prop_list, key);
+  ae_obj_t * const key       = CAR(args);
+  ae_obj_t * const obj       = CADR(args);
+  ae_obj_t * const prop_list = PROPS(obj);
+  ret                        = PGET(prop_list, key);
 
 end:
   
@@ -92,10 +92,10 @@ ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("has?");
 
-  ae_obj_t * key       = CAR(args);
-  ae_obj_t * obj       = CADR(args);
-  ae_obj_t * prop_list = PROPS(obj);
-  ret                  = TRUTH(PHAS(prop_list, key));
+  ae_obj_t * const key       = CAR(args);
+  ae_obj_t * const obj       = CADR(args);
+  ae_obj_t * const prop_list = PROPS(obj);
+  ret                        = TRUTH(PHAS(prop_list, key));
 
 end:
   
