@@ -1322,7 +1322,7 @@ ae_plist_split_list_around_kvp_t ae_plist_split_list_around_kvp(ae_obj_t * const
   return (ae_plist_split_list_around_kvp_t){ new_front, after_kvp };
 }
 
-ae_obj_t * join_3_lists(ae_obj_t * front, ae_obj_t * middle, ae_obj_t * back) {
+ae_obj_t * ae_list_join3(ae_obj_t * front, ae_obj_t * middle, ae_obj_t * back) {
     // If the front list is nil, the result starts with the middle list
     if (front == NIL) {
         front = middle;
@@ -1398,7 +1398,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2)"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "(d 4)"));
 
-  ae_obj_t * joined = join_3_lists(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
+  ae_obj_t * joined = ae_list_join3(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
   LOG(joined, "joined");
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 x 99 d 4)"));
   
@@ -1409,7 +1409,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "nil"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "(b 2 c 3 d 4)"));
 
-  joined = join_3_lists(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
+  joined = ae_list_join3(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
   LOG(joined, "joined");
   T(shitty_princ_based_equality_predicate(joined, "(x 99 b 2 c 3 d 4)"));
 
@@ -1420,7 +1420,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(split.before_kvp, "(a 1 b 2 c 3)"));
   T(shitty_princ_based_equality_predicate(split.after_kvp,  "nil"));
 
-  joined = join_3_lists(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
+  joined = ae_list_join3(split.before_kvp, CONS(SYM("x"), CONS(NEW_INT(99), NIL)), split.after_kvp);
   LOG(joined, "joined");
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 c 3 x 99)"));
 
