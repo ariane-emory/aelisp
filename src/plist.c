@@ -39,31 +39,51 @@ ae_obj_t * clone_list_up_to(ae_obj_t * const pos, ae_obj_t * const list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
-    assert(plist && TAILP(plist) && (NILP(plist) || !(LENGTH(plist) % 2)));
-    assert(key && value);
+  assert(plist);
+  assert(key);
+  assert(value);
+  assert(TAILP(plist));
+  assert(NILP(plist) || !(LENGTH(plist) % 2));
 
-    if (NILP(plist)) {
-        return CONS(key, CONS(value, NIL));
+  if (NILP(plist)) {
+    // If the list is empty, just return a new key-value pair.
+    return CONS(key, CONS(value, NIL));
+  }
+
+  // Start with an empty new list.
+  ae_obj_t * new_plist = NIL;
+  ae_obj_t * tail = NIL; // Tail for the new list.
+
+  for (ae_obj_t * it = plist; !NILP(it); it = CDR(CDR(it))) {
+    if (EQL(CAR(it), key)) {
+      // If key is found, create a new pair with the updated value.
+      ae_obj_t * updated_pair = CONS(key, CONS(value, CDDR(it)));
+      
+      if (new_plist == NIL) {
+        // Key was the first element in the list.
+        return updated_pair;
+      } else {
+        // Attach the updated pair to the new list and return.
+        CDR(tail) = updated_pair;
+        return new_plist;
+      }
     }
 
-    ae_obj_t * dummy_head = CONS(NIL, NIL);
-    ae_obj_t * tail = dummy_head;
-    
-    for (ae_obj_t * pos = plist; !NILP(pos); pos = CDR(CDR(pos))) {
-        if (EQL(CAR(pos), key)) {
-            CDR(tail) = CONS(key, CONS(value, CDR(CDR(pos))));
-            break;
-        }
-        CDR(tail) = CONS(CAR(pos), CONS(CADR(pos), NIL));
-        tail = CDR(tail);
-    }
+    // Create a new pair for the current key-value pair.
+    ae_obj_t * pair = CONS(CAR(it), CONS(CADR(it), NIL));
 
-    if (NILP(CDR(tail))) {
-        CDR(tail) = CONS(key, CONS(value, NIL));
+    if (new_plist == NIL) {
+      // Starting a new list.
+      new_plist = tail = pair;
+    } else {
+      // Append to the new list.
+      CDR(tail) = pair;
+      tail = pair;
     }
+  }
 
-    ae_obj_t * new_plist = CDR(dummy_head);
-    return new_plist;
+  // If the key wasn't found in the list, add it to the front.
+  return CONS(key, CONS(value, plist));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
