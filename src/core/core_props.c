@@ -55,7 +55,7 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   ae_obj_t * key           = CADR(args);
   ae_obj_t * obj           = CADDR(args);
   ae_obj_t * prop_list     = PROPS(obj);
-  ae_obj_t * new_prop_list = PSET_INTERNAL(prop_list, key, value);
+  ae_obj_t * new_prop_list = PSET(prop_list, key, value);
   PROPS(obj)               = new_prop_list;
   ret                      = value;
 
