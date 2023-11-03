@@ -20,8 +20,7 @@ split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * con
 
   for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos))
     if (EQL(CAR(pos), value)) {
-      value_pos = pos;
-
+      value_pos = pos;      
       break;
     }
 

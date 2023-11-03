@@ -1294,7 +1294,6 @@ typedef struct split_list_at_value_t {
   ae_obj_t * up_to_and_including_value;
   ae_obj_t * remainder;
 } split_list_at_value_t;
-
   
 split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list); // in plist.c
 
