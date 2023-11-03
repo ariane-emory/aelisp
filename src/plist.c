@@ -238,8 +238,8 @@ end:
 // _set_internal: I don't fully trust this one yet.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
-  if (plist == NULL || plist == NIL) {
-    return ae_plist_set_nonmutating(NIL, key, value);
+  if (plist == NULL || NILP(plist)) {
+    return CONS(key, CONS(value, NIL));
   } else {
     ae_plist_set_mutating(plist, key, value);
     return plist;
