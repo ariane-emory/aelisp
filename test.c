@@ -1296,34 +1296,30 @@ typedef struct split_list_at_value_t {
 } split_list_at_value_t;
 
 split_list_at_value_t split_list_at_value(ae_obj_t * const key, ae_obj_t * const list) {
-    ae_obj_t *new_front = NIL; // This will be the front part of the split list
-    ae_obj_t *new_front_last = NULL; // This will point to the last node of new_front
-    ae_obj_t *remainder = list; // Start with the full list as the remainder
+  ae_obj_t * new_front         = NIL;
+  ae_obj_t * new_front_tailtip = NULL; 
+  ae_obj_t * remainder         = list;   
 
-    // Iterate over the list looking for the key
-    while (CONSP(remainder) && !EQL(CAR(remainder), key)) {
-        if (new_front_last == NULL) {
-            // Initialize new_front with the first element
-            new_front = CONS(CAR(remainder), NIL);
-            new_front_last = new_front; // Now new_front_last points to the first node
-        } else {
-            // Append the current element to new_front
-            CDR(new_front_last) = CONS(CAR(remainder), NIL);
-            new_front_last = CDR(new_front_last); // Move to the new last node
-        }
-        remainder = CDR(remainder); // Move to the next element
-    }
-
-    // If the key was found, adjust the remainder to start after the key's value
-    if (CONSP(remainder)) {
-        remainder = CDDR(remainder); // Skip the key and its value
+  while (CONSP(remainder) && !EQL(CAR(remainder), key)) {
+    if (new_front_tailtip == NULL) {
+      new_front = CONS(CAR(remainder), NIL);
+      new_front_tailtip = new_front;
     } else {
-        // If the key wasn't found, the front is nil and the remainder is the full list
-        new_front = NIL;
-        remainder = list;
+      CDR(new_front_tailtip) = CONS(CAR(remainder), NIL);
+      new_front_tailtip = CDR(new_front_tailtip); 
     }
+    
+    remainder = CDR(remainder); 
+  }
 
-    return (split_list_at_value_t){ new_front, remainder };
+  if (CONSP(remainder)) {
+    remainder = CDDR(remainder); 
+  } else {
+    new_front = NIL;
+    remainder = list;
+  }
+
+  return (split_list_at_value_t){ new_front, remainder };
 }
 
 void plist(void) {
