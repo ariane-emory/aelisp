@@ -39,41 +39,31 @@ ae_obj_t * clone_list_up_to(ae_obj_t * const pos, ae_obj_t * const list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_plist_set_immutable(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
-  assert(plist);
-  assert(TAILP(plist));
-  assert(NILP(plist) || !(LENGTH(plist) % 2));
-  assert(key);
-  assert(value);
+    assert(plist && TAILP(plist) && (NILP(plist) || !(LENGTH(plist) % 2)));
+    assert(key && value);
 
-  if (NILP(plist))
-    return CONS(key, CONS(value, NIL));
-  
-  ae_obj_t * prev      = NIL;
-  ae_obj_t * new_plist = NIL;
-  
-  // Search for the key in the plist.
-  for (ae_obj_t * pos = plist; pos != NIL; pos = CDR(CDR(pos))) {
-    if (EQL(CAR(pos), key)) {
-      // If the key is found, clone the list up to this point and update the value.
-      new_plist = clone_list_up_to(pos, plist);
-      // Create a new pair with the updated value.
-      ae_obj_t * const updated_pair = CONS(key, CONS(value, CDDR(pos)));
-
-      // If prev is NIL, the key was in the first pair.
-      if (prev == NIL) {
-        return updated_pair;
-      } else {
-        // Otherwise, set the cdr of the last pair of new_plist to updated_pair.
-        CDR(prev) = updated_pair;
-        return new_plist;
-      }
+    if (NILP(plist)) {
+        return CONS(key, CONS(value, NIL));
     }
-    
-    prev = CDR(pos); // Keep track of the previous pair to be able to link the list.
-  }
 
-  // The key was not found; create a new list with the key-value pair at the front.
-  return CONS(key, CONS(value, plist));
+    ae_obj_t * dummy_head = CONS(NIL, NIL);
+    ae_obj_t * tail = dummy_head;
+    
+    for (ae_obj_t * pos = plist; !NILP(pos); pos = CDR(CDR(pos))) {
+        if (EQL(CAR(pos), key)) {
+            CDR(tail) = CONS(key, CONS(value, CDR(CDR(pos))));
+            break;
+        }
+        CDR(tail) = CONS(CAR(pos), CONS(CADR(pos), NIL));
+        tail = CDR(tail);
+    }
+
+    if (NILP(CDR(tail))) {
+        CDR(tail) = CONS(key, CONS(value, NIL));
+    }
+
+    ae_obj_t * new_plist = CDR(dummy_head);
+    return new_plist;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
