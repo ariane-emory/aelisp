@@ -1370,29 +1370,26 @@ void plist(void) {
 }                
 
 static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list) {
-  split_list_at_value_t ret = { NIL, NIL };
   
   ae_obj_t * value_pos = NIL;
 
   for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos))
     if (EQL(CAR(pos), value)) {
       value_pos = pos;
+
       break;
     }
 
-  if (NILP(value_pos)) {
-    /* ret.remainder = list; */
+  if (NILP(value_pos))
     return (split_list_at_value_t){ NIL, list };
-  }
-  else if (list == value_pos) {
-    /* ret.up_to_and_including_value = CONS(CAR(list), NIL); */
-    /* ret.remainder  = CDR(value_pos); */
-    return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
-  }
 
-  ae_obj_t * new_list = CONS(CAR(list), NIL);
-  ae_obj_t * new_list_tail = new_list;
-  ae_obj_t * pos = new_list;
+  if (list == value_pos)
+    return (split_list_at_value_t){ CONS(CAR(list), NIL), CDR(value_pos) };
+
+  split_list_at_value_t ret = { NIL, NIL };
+  ae_obj_t * new_list       = CONS(CAR(list), NIL);
+  ae_obj_t * new_list_tail  = new_list;
+  ae_obj_t * pos            = new_list;
   
   for (pos = CDR(list); pos != value_pos; pos = CDR(pos)) {
     ae_obj_t * new_cons = CONS(CAR(pos), NIL);
