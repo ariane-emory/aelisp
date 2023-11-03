@@ -1290,12 +1290,12 @@ void alist(void) {
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
 
-typedef struct split_list_at_value_t {
+typedef struct ae_plist_split_list_around_kvp_t {
   ae_obj_t * up_to_and_including_value;
   ae_obj_t * remainder;
-} split_list_at_value_t;
+} ae_plist_split_list_around_kvp_t;
 
-split_list_at_value_t split_list_at_value(ae_obj_t * const key, ae_obj_t * const list) {
+ae_plist_split_list_around_kvp_t ae_plist_split_list_around_kvp(ae_obj_t * const key, ae_obj_t * const list) {
   ae_obj_t * new_front         = NIL;
   ae_obj_t * new_front_tailtip = NULL; 
   ae_obj_t * remainder         = list;   
@@ -1319,10 +1319,10 @@ split_list_at_value_t split_list_at_value(ae_obj_t * const key, ae_obj_t * const
     remainder = list;
   }
 
-  return (split_list_at_value_t){ new_front, remainder };
+  return (ae_plist_split_list_around_kvp_t){ new_front, remainder };
 }
 
-ae_obj_t * insert_list_between(ae_obj_t * new_middle, split_list_at_value_t * const split_list) {
+ae_obj_t * insert_list_between(ae_obj_t * new_middle, ae_plist_split_list_around_kvp_t * const split_list) {
     assert(split_list != NULL);
 
     // If the front part is nil, the new list starts with new_middle
@@ -1406,7 +1406,7 @@ void plist(void) {
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
 
   NL;
-  split_list_at_value_t split = split_list_at_value(SYM("c"), plist);
+  ae_plist_split_list_around_kvp_t split = ae_plist_split_list_around_kvp(SYM("c"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2)"));
@@ -1417,7 +1417,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 x 99 d 4)"));
   
   NL;
-  split = split_list_at_value(SYM("a"), plist);
+  split = ae_plist_split_list_around_kvp(SYM("a"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "nil"));
@@ -1428,7 +1428,7 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(joined, "(x 99 b 2 c 3 d 4)"));
 
   NL;
-  split = split_list_at_value(SYM("d"), plist);
+  split = ae_plist_split_list_around_kvp(SYM("d"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c 3)"));
@@ -1439,14 +1439,14 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(joined, "(a 1 b 2 c 3 x 99)"));
 
   NL;
-  split = split_list_at_value(SYM("b"), plist);
+  split = ae_plist_split_list_around_kvp(SYM("b"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(c 3 d 4)"));
 
   NL;
-  split = split_list_at_value(SYM("z"), plist);
+  split = ae_plist_split_list_around_kvp(SYM("z"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "nil"));
