@@ -87,33 +87,28 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
   assert(!(LENGTH(plist) % 2));
   assert(key);
   
-  // Handle the case where the list starts with the key to be removed.
-  if (EQL(CAR(plist), key)) {
-    // Move the second pair to the start of the list.
-    ae_obj_t *nextPair = CDR(CDR(plist));
-    if (!NILP(nextPair)) {
-      CAR(plist) = CAR(nextPair);
-      CDR(plist) = CDR(nextPair);
-    } else {
-      // The list had only one pair which is being removed.
-      CAR(plist) = NIL;
-      CDR(plist) = NIL;
-    }
+  ae_obj_t *current = plist;
+  ae_obj_t *next = CDR(plist);
+
+  // Handle the case where the key is the first element.
+  if (EQL(CAR(current), key)) {
+    // Move the elements after the key-value pair to the front of the list.
+    ae_obj_t *after_pair = CDR(next);
+    CAR(current) = CAR(after_pair);
+    CDR(current) = CDR(after_pair);
     return;
   }
-  
-  ae_obj_t *current = CDR(plist); // Start with the second pair.
-  ae_obj_t *prev = plist; // Keep track of the previous pair.
 
-  while (!NILP(current) && !NILP(CDR(current))) { // Check pairs until the end of the list.
-    if (EQL(CAR(current), key)) {
-      // Found the key, remove this pair by skipping over it.
-      CDR(prev) = CDR(CDR(current));
+  // Search for the key in the list.
+  while (!NILP(next) && !NILP(CDR(next))) {
+    if (EQL(CAR(next), key)) {
+      // Skip the key-value pair.
+      CDR(current) = CDR(CDR(next));
       return;
     }
     // Move to the next pair.
-    prev = current;
-    current = CDR(CDR(current));
+    current = CDR(current);
+    next = CDR(next);
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
