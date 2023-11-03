@@ -30,6 +30,8 @@ ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key
 
   return ae_list_join3(split.before_kvp, new_kvp, split.after_kvp);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _remove_nonmutating
@@ -48,6 +50,8 @@ ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const 
 
   return ae_list_join3(split.before_kvp, NIL, split.after_kvp);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_mutating
@@ -67,9 +71,57 @@ void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_
     }
 
   ae_obj_t * const new_tail = CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist))));
+  
   CAR(plist) = key;
   CDR(plist) = CONS(value, new_tail);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _remove_mutating
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
+  assert(plist);
+  assert(CONSP(plist));
+  assert(!(LENGTH(plist) % 2));
+  assert(key);
+  
+  ae_obj_t *current = plist;
+  ae_obj_t *prev = NULL;
+
+  while (!NILP(current)) {
+    if (EQL(CAR(current), key)) {
+      // If this is the first node, adjust the head of the list.
+      if (prev == NULL) {
+        // In this case, you're actually mutating the first pair of the list,
+        // so you should adjust the first element and the second directly.
+        ae_obj_t * nextPair = CDR(CDR(current));
+        if (!NILP(nextPair)) {
+          // Set the head to the next pair's key and value.
+          CAR(plist) = CAR(nextPair);
+          CDR(plist) = CDR(nextPair);
+          // Now adjust the next pair to skip the removed elements.
+          CAR(nextPair) = CAR(CDR(nextPair));
+          CDR(nextPair) = CDR(CDR(nextPair));
+        } else {
+          // If the next pair is NIL, the list is now empty.
+          CAR(plist) = NIL;
+          CDR(plist) = NIL;
+        }
+      } else {
+        // If it's not the first node, adjust the previous node's cdr.
+        CDR(prev) = CDR(CDR(current));
+      }
+      // Optionally, if you're managing memory, you'd free the skipped nodes here.
+      return;
+    }
+    // Keep track of the previous node and move to the next.
+    prev = current;
+    current = CDR(CDR(current));
+  }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
