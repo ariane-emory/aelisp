@@ -1338,12 +1338,12 @@ ae_obj_t * ae_list_join3(ae_obj_t * front, ae_obj_t * middle, ae_obj_t * back) {
   if (front == NIL)
     return back;
 
-  ae_obj_t * last = front;
+  ae_obj_t * pos = front;
     
-  while (CONSP(CDR(last)))
-    last = CDR(last);
+  while (CONSP(CDR(pos)))
+    pos = CDR(pos);
 
-  CDR(last) = back;
+  CDR(pos) = back;
 
   return front;
 }
