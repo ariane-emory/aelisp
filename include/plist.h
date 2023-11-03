@@ -22,12 +22,14 @@ typedef struct ae_plist_split_around_kvp_t {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define PHAS(plist, key)                    (ae_plist_contains_key((plist), (key)))
-#define PGET(plist, key)                    (ae_plist_get((plist), (key)))
-#define PSET(plist, key, value)             (ae_plist_set((plist), (key), (value)))
-#define PSET_INTERNAL(plist, key, value)    (ae_plist_set_internal((plist), (key), (value)))
-#define PSET_MUTATING(plist, key, value)    (ae_plist_set_mutating((plist), (key), (value)))
-#define PSET_NONMUTATING(plist, key, value) (ae_plist_set_nonmutating((plist), (key), (value)))
+#define PHAS(plist, key)                       (ae_plist_contains_key(      (plist), (key)))
+#define PGET(plist, key)                       (ae_plist_get(               (plist), (key)))
+#define PSET(plist, key, value)                (ae_plist_set(               (plist), (key), (value)))
+#define PSET_INTERNAL(plist, key, value)       (ae_plist_set_internal(      (plist), (key), (value)))
+#define PSET_MUTATING(plist, key, value)       (ae_plist_set_mutating(      (plist), (key), (value)))
+#define PSET_NONMUTATING(plist, key, value)    (ae_plist_set_nonmutating(   (plist), (key), (value)))
+#define PREMOVE_MUTATING(plist, key)           (ae_plist_remove_mutating(   (plist), (key)))
+#define PREMOVE_NONMUTATING(plist, key)        (ae_plist_remove_nonmutating((plist), (key)))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
