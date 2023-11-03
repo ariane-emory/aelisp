@@ -1369,12 +1369,11 @@ static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * co
   
   ae_obj_t * value_pos = NIL;
 
-  for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos)) {
+  for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos))
     if (EQL(CAR(pos), value)) {
       value_pos = pos;
       break;
     }
-  }
 
   if (NILP(value_pos)) {
     ret.remainder = list;
