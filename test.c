@@ -1322,6 +1322,50 @@ split_list_at_value_t split_list_at_value(ae_obj_t * const key, ae_obj_t * const
   return (split_list_at_value_t){ new_front, remainder };
 }
 
+ae_obj_t * insert_list_between(ae_obj_t * new_middle, split_list_at_value_t * const split_list) {
+    assert(split_list != NULL);
+
+    // If the front part is nil, the new list starts with new_middle
+    if (split_list->up_to_and_including_value == NIL) {
+        // Find the last node of new_middle if it's not nil
+        if (new_middle != NIL) {
+            ae_obj_t * last_middle = new_middle;
+            while (CONSP(CDR(last_middle))) {
+                last_middle = CDR(last_middle);
+            }
+            // Attach remainder to the last node of new_middle
+            CDR(last_middle) = split_list->remainder;
+        } else {
+            // If new_middle is also nil, the result is just the remainder
+            return split_list->remainder;
+        }
+        return new_middle;
+    }
+
+    // Find the last node of up_to_and_including_value
+    ae_obj_t *last = split_list->up_to_and_including_value;
+    while (CONSP(CDR(last))) {
+        last = CDR(last);
+    }
+
+    // If new_middle is not nil, attach it to the last node of up_to_and_including_value
+    if (new_middle != NIL) {
+        CDR(last) = new_middle;
+
+        // Now find the last node of new_middle
+        while (CONSP(CDR(new_middle))) {
+            new_middle = CDR(new_middle);
+        }
+        // And attach remainder to the last node of new_middle
+        CDR(new_middle) = split_list->remainder;
+    } else {
+        // If new_middle is nil, attach remainder directly to the last node of up_to_and_including_value
+        CDR(last) = split_list->remainder;
+    }
+
+    return split_list->up_to_and_including_value;
+}
+
 void plist(void) {
   SETUP_TEST;    
                  
