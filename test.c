@@ -1296,14 +1296,14 @@ void plist(void) {
   ae_obj_t * list = NIL;
                  
   T(!            PHAS(list, SYM("name")));
-  T(CONSP(list = PSET(list, SYM("name"),   NEW_STRING("Bob"))));
+  T(CONSP(list = PSET_INTERNAL(list, SYM("name"),   NEW_STRING("Bob"))));
   T(             PHAS(list, SYM("name")));
   T(EQL(         PGET(list, SYM("name")),  NEW_STRING("Bob")));
   T(!            PHAS(list, SYM("age")));
-  T(CONSP(list = PSET(list, SYM("age"),    NEW_INT(24))));
+  T(CONSP(list = PSET_INTERNAL(list, SYM("age"),    NEW_INT(24))));
   T(             PHAS(list, SYM("age")));
   T(EQL(         PGET(list, SYM("age")),   NEW_INT(24)));
-  T(CONSP(list = PSET(list, SYM("name"),   NEW_STRING("Jake"))));
+  T(CONSP(list = PSET_INTERNAL(list, SYM("name"),   NEW_STRING("Jake"))));
   T(! EQL(       PGET(list, SYM("name")),  NEW_STRING("Bob")));
   T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
 
