@@ -1381,6 +1381,8 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(ae_plist_remove_nonmutating(plist, SYM("d")),  "(a 1 b 2 c 3)"));
   T(shitty_princ_based_equality_predicate(ae_plist_remove_nonmutating(NIL,   SYM("d")),  "nil"));
 
+  T(shitty_princ_based_equality_predicate(ae_plist_set_nonmutating(   NIL,   SYM("d"), NEW_INT(4)), "(d 4)"));
+  
   NL;
   split = ae_plist_split_around_kvp(SYM("d"), NIL);;
   LOG(split.before_kvp, "split.before_kvp");
