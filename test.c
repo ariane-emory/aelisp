@@ -1289,7 +1289,9 @@ void alist(void) {
   T(! EQL(       AGET(list, SYM("name")),  NEW_STRING("Bob")));
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
-                 
+
+static ae_obj_t * clone_list_up_to_2(ae_obj_t * const value, ae_obj_t * const list);
+  
 void plist(void) {
   SETUP_TEST;    
                  
@@ -1326,8 +1328,43 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(plist, "(a 10 d 8)"));
   plist = ae_plist_set_immutable(plist, SYM("c"), NEW_INT(20));
   T(shitty_princ_based_equality_predicate(plist, "(c 20 a 10 d 8)"));
+
+  plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
+  ae_obj_t * front = clone_list_up_to_2(SYM("c"), plist);
 }                
-                 
+
+static ae_obj_t * clone_list_up_to_2(ae_obj_t * const value, ae_obj_t * const list) {
+  ae_obj_t * value_pos = NIL;
+
+  for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos)) {
+    if (EQL(CAR(pos), value)) {
+      value_pos = pos;
+      break;
+    }
+  }
+
+  if (NILP(value_pos)) {
+    return NIL;
+  }
+
+  ae_obj_t * new_list = CONS(CAR(list), NIL);
+  ae_obj_t * new_list_tail = new_list;
+  ae_obj_t * pos = new_list;
+  
+  for (pos = CDR(list); pos != value_pos; pos = CDR(pos)) {
+    ae_obj_t * new_cons = CONS(CAR(pos), NIL);
+    CDR(new_list_tail) = new_cons;
+    new_list_tail = new_cons;
+  }
+
+  // Finally, we need to attach the last element.
+  LOG(new_list, "new_list before attaching last element");
+  CDR(new_list_tail) = CONS(CAR(pos), NIL);
+  LOG(new_list, "new_list after attaching last element");
+
+  return new_list;
+}
+
 void tailp(void) {
   SETUP_TEST;
   
