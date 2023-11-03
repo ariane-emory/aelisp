@@ -167,18 +167,18 @@ extern ae_obj_t * symbols_list;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // convenience macros
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ALLOC()                          (pool_alloc_ae_obj())
+#define ALLOC                            pool_alloc_ae_obj
 #define COPY(obj, other)                 (memcpy((obj), (other), sizeof(ae_obj_t)))
-#define CLONE(obj)                       (ae_obj_clone((obj)))
-#define FREE(obj)                        (pool_free_ae_obj((obj)))
-#define INIT(obj, type)                  (ae_obj_init((obj), (type)))
+#define CLONE                            ae_obj_clone
+#define FREE                             pool_free_ae_obj
+#define INIT                             ae_obj_init
 #define MOVE_NEW(other)                  (UNSAFE_MOVE(ALLOC(), other))
 #define NEW(type)                        (INIT((ALLOC()), (type)))
-#define TRUTH(o)                         (ae_obj_truth((o)))
-#define UNSAFE_MOVE(to, from)            (ae_obj_unsafe_move((to), (from)))
+#define TRUTH                            ae_obj_truth
+#define UNSAFE_MOVE                      ae_obj_unsafe_move
 #define ZERO(obj)                        (memset((obj), 0, sizeof(ae_obj_t)))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define DELOCALIZEDP(o)                  (ae_obj_get_delocalized((o)))
+#define DELOCALIZEDP                     ae_obj_get_delocalized
 #define MARK_DELOCALIZED(o)              (ae_obj_set_delocalized((o), true))
 #define UNMARK_DELOCALIZED(o)            (ae_obj_set_delocalized((o), false))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
