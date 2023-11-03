@@ -175,7 +175,6 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _remove_nonmutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const key) {
   assert(plist);
   assert(key);
@@ -185,7 +184,7 @@ ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const 
   if (NILP(plist))
     return NIL;
 
-  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, key);
+  const ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, key);
 
   return ae_list_join3(split.before_kvp, NIL, split.after_kvp);
 }
@@ -238,14 +237,11 @@ end:
 // _set_internal: I don't fully trust this one yet.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
-  if (plist == NULL || plist == NIL) {
-    // Use the immutable version if the list is empty
-    // as this will create a new list with the key-value pair.
-    return ae_plist_set_nonmutating(NIL, key, value);
+  if (plist == NULL || NILP(plist)) {
+    return CONS(key, CONS(value, NIL));
   } else {
-    // Use the mutable version to update the existing list.
     ae_plist_set_mutating(plist, key, value);
-    return plist; // Return the updated plist.
+    return plist;
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,17 +257,17 @@ void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_
   assert(key);
   assert(value);
   
-  for (ae_obj_t * pos = plist; pos != NIL; pos = CDR(CDR(pos)))
+  for (ae_obj_t * pos = plist; ! NILP(pos); pos = CDR(CDR(pos)))
     if (EQL(CAR(pos), key)) {
       CADR(pos) = value;
 
       return; 
     }
 
-  ae_obj_t * const new_tail = CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist))));
+  ae_obj_t * const new_tail = CONS(value, CONS(CAR(plist), CONS(CADR(plist), CDR(CDR(plist)))));
   
   CAR(plist) = key;
-  CDR(plist) = CONS(value, new_tail);
+  CDR(plist) = new_tail;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -279,7 +275,6 @@ void ae_plist_set_mutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _set_nonmutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   assert(plist);
   assert(key);
@@ -292,7 +287,7 @@ ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key
   if (NILP(plist))
     return new_kvp;
 
-  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, key);
+  const ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(plist, key);
 
   return ae_list_join3(split.before_kvp, new_kvp, split.after_kvp);
 }
