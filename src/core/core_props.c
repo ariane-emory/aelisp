@@ -84,6 +84,35 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// _remove_prop
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
+  CORE_BEGIN("remove");
+
+  ae_obj_t * const obj       = CAR(args);
+  ae_obj_t * const key       = CADR(args);
+
+  if (! PHAS(PROPS(obj), key)) {
+    ret = NIL;
+    goto end;
+  }
+
+  ret = PGET(PROPS(obj), key);
+  
+  if (LENGTH(PROPS(obj)) <= 2)
+    PROPS(obj) = NIL;
+  else
+    PREMOVE_MUTATING(PROPS(obj), key);
+
+end:
+  
+  CORE_RETURN("remove", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // _has_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

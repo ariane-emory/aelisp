@@ -82,8 +82,9 @@
   DO(push,         true,           2,          2, "push!",                     FUNDEF_END)                                \
   DO(pop,          true,           1,          1, "pop!",                      FUNDEF_END)                                \
   /*================================================================================================================*/    \
+  DO(remove_prop,  false,          2,          2, "remove",                    FUNDEF_END)                                \
   DO(has_prop,     false,          2,          2, "has?",                      FUNDEF_END)                                \
-  DO(put_prop,     false,          3,          3, "put!",                      FUNDEF_END)                                \
+  DO(put_prop,     false,          3,          3, "put",                       FUNDEF_END)                                \
   DO(get_prop,     false,          2,          2, "get",                       FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(bnot,         false,          1,          1, "~",                         FUNDEF_END)                                \

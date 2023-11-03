@@ -84,7 +84,7 @@
          (body  (cadr split)))
    $('progn 
      $('setq! name $('lambda params . body))
-     $('put! docs ':doc name))))
+     $('put  docs ':doc name))))
  (defun somefun (x y)
   "Multiply two"
   "numbers."

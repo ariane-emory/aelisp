@@ -32,7 +32,7 @@
  (unless (symbol? sym) (error "SYM must be a symbol"))
  $('progn
    $('setq! sym value)
-   $('put! 't ':constant $('quote sym))
+   $('put  't ':constant $('quote sym))
    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 (defun id (o) o)
@@ -1210,7 +1210,7 @@
              (nl)
              result))))
    (rplacd! (body fun) new-body))
-  (put! t :added-logging fun) (nl)
+  (put  t :added-logging fun) (nl)
   fun))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun max-delta (lst)
@@ -1698,17 +1698,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; remove property macro:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro remove (obj prop)
- "Remove a property PROP from OBJ."
- $('prog1
-   $('quote $('get obj prop))
-   $('props! obj $('plist-remove $('props obj) prop))))
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'remove-prop-macro)
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; remove property macro:
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defmacro remove (obj prop)
+;;  "Remove a property PROP from OBJ."
+;;  $('prog1
+;;    $('quote $('get obj prop))
+;;    $('props! obj $('plist-remove $('props obj) prop))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (provide 'remove-prop-macro)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1925,7 +1925,7 @@
 (setq! map           mapcar)
 (setq! map-append    mapcan)
 (setq! position-of   indexq)
-(setq! remove        removeq)
+;; (setq! remove        removeq)
 (setq! set!          setq!) ;should should be a macro that avoids re-defining what-scheme-implementation
 (setq! vector-length list-length)
 (setq! vector-ref    list-ref)
@@ -1941,7 +1941,6 @@
 ;; elisp compat aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! nreverse         reverse)
-(setq! put              put!)
 (setq! setq             setq!)
 (setq! rplaca           rplaca!)
 (setq! rplacd           rplacd!)
@@ -2188,7 +2187,7 @@
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
     $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
-      $('put! $('quote struct-type) ':struct-type 'struct)
+      $('put  $('quote struct-type) ':struct-type 'struct)
       'struct))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-predicate (struct-type)
