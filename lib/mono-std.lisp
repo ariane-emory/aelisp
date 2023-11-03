@@ -1634,7 +1634,7 @@
 ;;   (cdr head)))  ; Return the list after the dummy head.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-plist (keys vals)
- "Build a plist from KEYS and VALS. This is basically equivalent a non-recursive zip2."
+ "Build a plist from KEYS and VALS."
  (unless (list? keys) (error "KEYS must be a list."))
  (unless (list? vals) (error "VALS must be a list."))
  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
