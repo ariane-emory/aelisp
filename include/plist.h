@@ -9,8 +9,8 @@
 #define PGET(plist, key)               (ae_plist_get ((plist), (key)))
 #define PHAS(plist, key)               (ae_plist_contains_key((plist), (key)))
 #define PSET_INTERNAL(plist, key, value) (ae_plist_set_internal((plist), (key), (value)))
-#define PSET_MUT(plist, key, value)      (ae_plist_set_mutable((plist), (key), (value)))
-#define PSET_IMMUT(plist, key, value)    (ae_plist_set_immutable((plist), (key), (value)))
+#define PSET_MUTATING(plist, key, value)      (ae_plist_set_mutable((plist), (key), (value)))
+#define PSET_NONMUTATING(plist, key, value)    (ae_plist_set_immutable((plist), (key), (value)))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct ae_obj_t ae_obj_t;
