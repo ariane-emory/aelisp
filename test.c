@@ -1323,41 +1323,40 @@ ae_plist_split_list_around_kvp_t ae_plist_split_list_around_kvp(ae_obj_t * const
 }
 
 ae_obj_t * ae_plist_insert_list_between(ae_obj_t * new_middle, ae_plist_split_list_around_kvp_t * const split_list) {
-    assert(split_list != NULL);
+  assert(split_list != NULL);
 
-    if (split_list->up_to_and_including_value == NIL) {
-        if (new_middle != NIL) {
-            ae_obj_t * last_middle = new_middle;
+  if (split_list->up_to_and_including_value == NIL) {
+    if (new_middle != NIL) {
+      ae_obj_t * last_middle = new_middle;
 
-            while (CONSP(CDR(last_middle)))
-                last_middle = CDR(last_middle);
+      while (CONSP(CDR(last_middle)))
+        last_middle    = CDR(last_middle);
 
-            CDR(last_middle) = split_list->remainder;
-        } else {
-            return split_list->remainder;
-        }
-
-        return new_middle;
-    }
-
-    ae_obj_t * tail_tip = split_list->up_to_and_including_value;
-
-    while (CONSP(CDR(tail_tip)))
-        tail_tip = CDR(tail_tip);
-
-    // If new_middle is not nil, attach it to the last node of up_to_and_including_value
-    if (!NILP(new_middle)) {
-        CDR(tail_tip)   = new_middle;
-
-        while (CONSP(CDR(new_middle)))
-            new_middle  = CDR(new_middle);
-
-        CDR(new_middle) = split_list->remainder;
+      CDR(last_middle) = split_list->remainder;
     } else {
-        CDR(tail_tip)   = split_list->remainder;
+      return split_list->remainder;
     }
 
-    return split_list->up_to_and_including_value;
+    return new_middle;
+  }
+
+  ae_obj_t * tail_tip = split_list->up_to_and_including_value;
+
+  while (CONSP(CDR(tail_tip)))
+    tail_tip = CDR(tail_tip);
+
+  if (!NILP(new_middle)) {
+    CDR(tail_tip)   = new_middle;
+
+    while (CONSP(CDR(new_middle)))
+      new_middle    = CDR(new_middle);
+
+    CDR(new_middle) = split_list->remainder;
+  } else {
+    CDR(tail_tip)   = split_list->remainder;
+  }
+
+  return split_list->up_to_and_including_value;
 }
 
 void plist(void) {
