@@ -1238,7 +1238,7 @@ void deloc(void) {
   T(((uintptr_t)DELOCALIZED(an_int))     == (((uintptr_t) (an_int) - (uintptr_t)(pool_first)) ));  
   T((LOCALIZED(0xC0FFEEF00DC0FFEE,   pool_first)) == NIL       );
   T((LOCALIZED(0xF00DCAFEBAADBEEF,   pool_first)) == TRUE      );
-  T((LOCALIZED(0x0,                   pool_first)) == pool_first);
+  T((LOCALIZED(0x0,                  pool_first)) == pool_first);
   
   {
     ae_obj_t * left  = LOCALIZED((ae_obj_t *)0x0, pool_first);
