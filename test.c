@@ -1323,33 +1323,29 @@ ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_o
 }
 
 ae_obj_t * ae_list_join3(ae_obj_t * front, ae_obj_t * middle, ae_obj_t * back) {
-    // If the front list is nil, the result starts with the middle list
-    if (front == NIL) {
-        front = middle;
-    } else {
-        // Find the last node of the front list and attach the middle list to it
-        ae_obj_t *current = front;
-        while (CONSP(CDR(current))) {
-            current = CDR(current);
-        }
-        CDR(current) = middle;
-    }
+  if (front == NIL) {
+    front = middle;
+  }
+  else {
+    ae_obj_t * current = front;
 
-    // If the resulting list (front + middle) is nil, the result is the back list
-    if (front == NIL) {
-        return back;
-    }
+    while (CONSP(CDR(current)))
+      current = CDR(current);
 
-    // Find the last node of the resulting list (could be from middle or front if middle is NIL)
-    ae_obj_t *last = front;
-    while (CONSP(CDR(last))) {
-        last = CDR(last);
-    }
+    CDR(current) = middle;
+  }
+  
+  if (front == NIL)
+    return back;
 
-    // Attach the back list to the last node of the resulting list
-    CDR(last) = back;
+  ae_obj_t * last = front;
+    
+  while (CONSP(CDR(last)))
+    last = CDR(last);
 
-    return front;
+  CDR(last) = back;
+
+  return front;
 }
 
 void plist(void) {
