@@ -160,34 +160,6 @@ struct ae_obj_t * pool_localize_ptr(struct ae_obj_t * const ptr, ae_obj_t * cons
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _dset_all_allocated
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void pool_dset_all_allocated(struct ae_obj_t * const key, struct ae_obj_t * const value) {
-  int first_allocated;
-
-  for (first_allocated = 0; first_allocated < AE_OBJ_POOL_SIZE; first_allocated++) 
-    if (! FREEP(&pool[first_allocated]))
-      break;
-
-#ifdef AE_SHARED_PRIMORDIAL_TAIL
-  static ae_obj_t * common_tail = NIL;
-  KSET(common_tail, key, value); 
-#endif
-  
-  int ix = AE_OBJ_POOL_SIZE;
-  
-  while (ix --> first_allocated) {
-#ifdef AE_SHARED_PRIMORDIAL_TAIL
-    PROPS(&pool[ix]) = common_tail;
-#else
-    PSET(PROPS(&pool[ix]), key, value);
-#endif        
-  }
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _get_object
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 struct ae_obj_t * pool_get_object(int const index) {
