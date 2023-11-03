@@ -1290,7 +1290,12 @@ void alist(void) {
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
 
-static ae_obj_t * clone_list_up_to_2(ae_obj_t * const value, ae_obj_t * const list);
+typedef struct split_list_at_t {
+  ae_obj_t * front;
+  ae_obj_t * back;
+} split_list_at_t;
+
+static split_list_at_t split_list_at(ae_obj_t * const value, ae_obj_t * const list);
   
 void plist(void) {
   SETUP_TEST;    
@@ -1330,10 +1335,12 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(plist, "(c 20 a 10 d 8)"));
 
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
-  ae_obj_t * front = clone_list_up_to_2(SYM("c"), plist);
+  split_list_at_t split = split_list_at(SYM("c"), plist);
 }                
 
-static ae_obj_t * clone_list_up_to_2(ae_obj_t * const value, ae_obj_t * const list) {
+static split_list_at_t split_list_at(ae_obj_t * const value, ae_obj_t * const list) {
+  split_list_at_t ret = { NIL, NIL };
+  
   ae_obj_t * value_pos = NIL;
 
   for (ae_obj_t * pos = list; CONSP(pos); pos = CDR(pos)) {
@@ -1344,7 +1351,7 @@ static ae_obj_t * clone_list_up_to_2(ae_obj_t * const value, ae_obj_t * const li
   }
 
   if (NILP(value_pos)) {
-    return NIL;
+    return ret;
   }
 
   ae_obj_t * new_list = CONS(CAR(list), NIL);
@@ -1362,7 +1369,10 @@ static ae_obj_t * clone_list_up_to_2(ae_obj_t * const value, ae_obj_t * const li
   CDR(new_list_tail) = CONS(CAR(pos), NIL);
   LOG(new_list, "new_list after attaching last element");
 
-  return new_list;
+  ret.front = new_list;
+  ret.back  = CDR(value_pos);
+  
+  return ret;
 }
 
 void tailp(void) {
