@@ -1299,6 +1299,9 @@ ae_plist_split_around_kvp_t ae_plist_split_around_kvp(ae_obj_t * const key, ae_o
   assert(key);
   assert(list);
   assert(TAILP(list));
+
+  if (NILP(list))
+    return (ae_plist_split_around_kvp_t){ NIL, NIL };
   
   ae_obj_t * new_front         = NIL;
   ae_obj_t * new_front_tailtip = NULL; 
