@@ -1290,12 +1290,12 @@ void alist(void) {
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
 
-typedef struct ae_list_split_at_t {
+typedef struct split_list_at_value_t {
   ae_obj_t * up_to_and_including_value;
   ae_obj_t * remainder;
-} ae_list_split_at_t;
+} split_list_at_value_t;
 
-static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * const list);
+static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list);
   
 void plist(void) {
   SETUP_TEST;    
@@ -1335,27 +1335,27 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(plist, "(c 20 a 10 d 8)"));
 
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
-  ae_list_split_at_t split = ae_list_split_at(SYM("c"), plist);
+  split_list_at_value_t split = split_list_at_value(SYM("c"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(3 d 4)"));
-  split = ae_list_split_at(SYM("a"), plist);
+  split = split_list_at_value(SYM("a"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(1 b 2 c 3 d 4)"));
-  split = ae_list_split_at(SYM("d"), plist);
+  split = split_list_at_value(SYM("d"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c 3 d)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(4)"));
-  split = ae_list_split_at(SYM("b"), plist);
+  split = split_list_at_value(SYM("b"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(2 c 3 d 4)"));
-  split = ae_list_split_at(SYM("z"), plist);
+  split = split_list_at_value(SYM("z"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "nil"));
@@ -1364,8 +1364,8 @@ void plist(void) {
   NL;
 }                
 
-static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * const list) {
-  ae_list_split_at_t ret = { NIL, NIL };
+static split_list_at_value_t split_list_at_value(ae_obj_t * const value, ae_obj_t * const list) {
+  split_list_at_value_t ret = { NIL, NIL };
   
   ae_obj_t * value_pos = NIL;
 
