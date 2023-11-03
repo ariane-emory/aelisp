@@ -207,8 +207,8 @@ extern ae_obj_t * symbols_list;
 #define HAS_PROP_RAW(key, obj)           (PHAS(PROPS((obj)), (key)))
 #define GET_PROP(key, obj)               (PGET(PROPS((obj)), KW(key)))
 #define GET_PROP_RAW(key, obj)           (PGET(PROPS((obj)), (key))) 
-#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET_NONMUTATING(PROPS(CAPTURED), KW(key), (val))); })
-#define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET_NONMUTATING(PROPS(CAPTURED),   (key), (val))); })
+#define PUT_PROP(val, key, obj)          ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET_INTERNAL(PROPS(CAPTURED), KW(key), (val))); })
+#define PUT_PROP_RAW(val, key, obj)      ({ CAPTURE(obj); PROPS(CAPTURED) = (PSET_INTERNAL(PROPS(CAPTURED),   (key), (val))); })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define KW(sym)                          (SYM(":" sym))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
