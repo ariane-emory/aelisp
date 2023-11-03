@@ -1336,30 +1336,35 @@ void plist(void) {
 
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
 
+  NL;
   split_list_at_value_t split = split_list_at_value(SYM("c"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(3 d 4)"));
 
+  NL;
   split = split_list_at_value(SYM("a"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(1 b 2 c 3 d 4)"));
 
+  NL;
   split = split_list_at_value(SYM("d"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b 2 c 3 d)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(4)"));
 
+  NL;
   split = split_list_at_value(SYM("b"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
   T(shitty_princ_based_equality_predicate(split.up_to_and_including_value, "(a 1 b)"));
   T(shitty_princ_based_equality_predicate(split.remainder,  "(2 c 3 d 4)"));
 
+  NL;
   split = split_list_at_value(SYM("z"), plist);
   LOG(split.up_to_and_including_value, "split.up_to_and_including_value");
   LOG(split.remainder,  "split.remainder");
