@@ -90,6 +90,13 @@ void ae_plist_remove_mutating(ae_obj_t * const plist, ae_obj_t * const key) {
   ae_obj_t *current = plist;
   ae_obj_t *next = CDR(plist);
 
+  // Handle the case where the key is the first and only element.
+  if (EQL(CAR(current), key) && NILP(CDR(next))) {
+    CAR(current) = NIL;
+    CDR(current) = CONS(NIL, NIL);
+    return;
+  }
+
   // Handle the case where the key is the first element.
   if (EQL(CAR(current), key)) {
     // Move the elements after the key-value pair to the front of the list.
