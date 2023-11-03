@@ -1290,12 +1290,12 @@ void alist(void) {
   T(  EQL(       AGET(list, SYM("name")),  NEW_STRING("Jake")));
 }                
 
-typedef struct split_list_at_t {
+typedef struct ae_list_split_at_t {
   ae_obj_t * front;
   ae_obj_t * back;
-} split_list_at_t;
+} ae_list_split_at_t;
 
-static split_list_at_t split_list_at(ae_obj_t * const value, ae_obj_t * const list);
+static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * const list);
   
 void plist(void) {
   SETUP_TEST;    
@@ -1335,11 +1335,35 @@ void plist(void) {
   T(shitty_princ_based_equality_predicate(plist, "(c 20 a 10 d 8)"));
 
   plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), CONS(SYM("d"), CONS(NEW_INT(4), NIL))))))));
-  split_list_at_t split = split_list_at(SYM("c"), plist);
+  ae_list_split_at_t split = ae_list_split_at(SYM("c"), plist);
+  LOG(split.front, "split.front");
+  LOG(split.back,  "split.back");
+  T(shitty_princ_based_equality_predicate(split.front, "(a 1 b 2 c)"));
+  T(shitty_princ_based_equality_predicate(split.back,  "(3 d 4)"));
+  split = ae_list_split_at(SYM("a"), plist);
+  LOG(split.front, "split.front");
+  LOG(split.back,  "split.back");
+  T(shitty_princ_based_equality_predicate(split.front, "(a)"));
+  T(shitty_princ_based_equality_predicate(split.back,  "(1 b 2 c 3 d 4)"));
+  split = ae_list_split_at(SYM("d"), plist);
+  LOG(split.front, "split.front");
+  LOG(split.back,  "split.back");
+  T(shitty_princ_based_equality_predicate(split.front, "(a 1 b 2 c 3 d)"));
+  T(shitty_princ_based_equality_predicate(split.back,  "(4)"));
+  split = ae_list_split_at(SYM("b"), plist);
+  LOG(split.front, "split.front");
+  LOG(split.back,  "split.back");
+  T(shitty_princ_based_equality_predicate(split.front, "(a 1 b)"));
+  T(shitty_princ_based_equality_predicate(split.back,  "(2 c 3 d 4)"));
+  split = ae_list_split_at(SYM("z"), plist);
+  LOG(split.front, "split.front");
+  LOG(split.back,  "split.back");
+  T(shitty_princ_based_equality_predicate(split.front, "nil"));
+  T(shitty_princ_based_equality_predicate(split.back,  "(a 1 b 2 c 3 d 4)"));
 }                
 
-static split_list_at_t split_list_at(ae_obj_t * const value, ae_obj_t * const list) {
-  split_list_at_t ret = { NIL, NIL };
+static ae_list_split_at_t ae_list_split_at(ae_obj_t * const value, ae_obj_t * const list) {
+  ae_list_split_at_t ret = { NIL, NIL };
   
   ae_obj_t * value_pos = NIL;
 
@@ -1351,6 +1375,12 @@ static split_list_at_t split_list_at(ae_obj_t * const value, ae_obj_t * const li
   }
 
   if (NILP(value_pos)) {
+    ret.back = list;
+    return ret;
+  }
+  else if (list == value_pos) {
+    ret.front = CONS(CAR(list), NIL);
+    ret.back  = CDR(value_pos);
     return ret;
   }
 
