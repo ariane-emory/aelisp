@@ -14,24 +14,6 @@
 // _set_nonmutating
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const key) {
-  assert(plist);
-  assert(key);
-  assert(TAILP(plist));
-  assert(NILP(plist) || !(LENGTH(plist) % 2));
-
-  if (NILP(plist))
-    return NIL;
-
-  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
-
-  return ae_list_join3(split.before_kvp, NIL, split.after_kvp);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// _set_nonmutating
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key, ae_obj_t * const value) {
   assert(plist);
   assert(key);
@@ -47,6 +29,24 @@ ae_obj_t * ae_plist_set_nonmutating(ae_obj_t * const plist, ae_obj_t * const key
   ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
 
   return ae_list_join3(split.before_kvp, new_kvp, split.after_kvp);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _set_nonmutating
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_plist_remove_nonmutating(ae_obj_t * const plist, ae_obj_t * const key) {
+  assert(plist);
+  assert(key);
+  assert(TAILP(plist));
+  assert(NILP(plist) || !(LENGTH(plist) % 2));
+
+  if (NILP(plist))
+    return NIL;
+
+  ae_plist_split_around_kvp_t split = ae_plist_split_around_kvp(key, plist);
+
+  return ae_list_join3(split.before_kvp, NIL, split.after_kvp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
