@@ -15,9 +15,6 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
   CORE_BEGIN("props!");
 
   ae_obj_t * obj            = CAR(args);
-
-  REQUIRE(env, args, ! HAS_PROP("no-user-properties", obj), "this object's properties may not be assigned by the user");
-
   ae_obj_t * new_props_list = CADR(args);
   PROPS(obj)                = new_props_list;
   ret                       = new_props_list;
