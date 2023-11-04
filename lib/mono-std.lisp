@@ -727,103 +727,137 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list remove funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeq (elem lst)
- "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while lst
-   (unless (eq? elem (car lst))
-    (setq! result (cons (car lst) result)))
-   (setq! lst (cdr lst)))
-  (reverse result)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeql (elem lst)
- "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
- (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while lst
-   (unless (eq? elem (car lst))
-    (setq! result (cons (car lst) result)))
-   (setq! lst (cdr lst)))
-  (reverse result)))
+;; (defun removeq (elem lst)
+;;  "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((result nil))
+;;   (while lst
+;;    (unless (eq? elem (car lst))
+;;     (setq! result (cons (car lst) result)))
+;;    (setq! lst (cdr lst)))
+;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeq (elem lst)
  "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
  (unless (list? lst) (error "LST must be a list"))
- (let* (result tail)
-   (while lst
-    (unless (eq? elem (car lst))
-     (let ((new-cons (list (car lst))))
-      (if tail
-       (progn
-        (rplacd! tail new-cons)
-        (setq!   tail new-cons))
-       (setq! result new-cons)
-       (setq! tail   result))))
-    (setq! lst (cdr lst))
-    result)))
+ (let (result tail)
+  (while lst
+   (unless (eq? elem (car lst))
+    (let ((new-cons (list (car lst))))
+     (if tail
+      (progn
+       (rplacd! tail new-cons)
+       (setq!   tail new-cons))
+      (setq! result new-cons)
+      (setq! tail   result))))
+   (setq! lst (cdr lst)))
+  result))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun removeql (elem lst)
+;;  "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((result nil))
+;;   (while lst
+;;    (unless (eq? elem (car lst))
+;;     (setq! result (cons (car lst) result)))
+;;    (setq! lst (cdr lst)))
+;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeql (elem lst)
  "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
- (let* (result tail)
-   (while lst
-    (unless (eql? elem (car lst))
-     (let ((new-cons (list (car lst))))
-      (if tail
-       (progn
-        (rplacd! tail new-cons)
-        (setq!   tail new-cons))
-       (setq! result new-cons)
-       (setq! tail   result))))
-    (setq! lst (cdr lst))
-    result)))
+ (let (result tail)
+  (while lst
+   (unless (eql? elem (car lst))
+    (let ((new-cons (list (car lst))))
+     (if tail
+      (progn
+       (rplacd! tail new-cons)
+       (setq!   tail new-cons))
+      (setq! result new-cons)
+      (setq! tail   result))))
+   (setq! lst (cdr lst)))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeq! (obj lst)
- "Remove the first item eq? to OBJ from LST."
- (unless (list? lst) (error "LST must be a list"))
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (eq? obj head)
-   (if (nil? tail)
-    (error "can't remove last item from LST")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (current  (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (next (cdr lst)))
-         (cond
-          ((eq? obj head) (progn (rplacd! prev next) obj))
-          (next           (progn (setq! prev lst) (chase next)))
-          (t              (error "OBJ was not found in LST")))))))
-     (chase current))))))
+;; (defun removeq! (elem lst)
+;;  "Destructively remove the first item eq? to ELEM from LST."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((head (car lst))
+;;        (tail (cdr lst)))
+;;   (if (eq? elem head)
+;;    (if (nil? tail)
+;;     (error "can't remove last item from LST")
+;;     (rplaca! lst (second lst))
+;;     (rplacd! lst (cddr   lst)))
+;;    (let ((prev     lst)
+;;          (current  (cdr lst)))
+;;     (letrec
+;;      ((chase
+;;        (lambda (lst)
+;;         (let ((head (car lst))
+;;               (next (cdr lst)))
+;;          (cond
+;;           ((eq? elem head) (progn (rplacd! prev next) elem))
+;;           (next           (progn (setq! prev lst) (chase next)))
+;;           (t              (error "ELEM was not found in LST")))))))
+;;      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun removeql! (obj lst)
- "Remove the first item eql? to OBJ from LST."
+(defun removeq! (elem lst)
+ "Destructively remove the first item eq? to ELEM from LST."
  (unless (list? lst) (error "LST must be a list"))
- (let ((head (car lst))
-       (tail (cdr lst)))
-  (if (eql? obj head)
-   (if (nil? tail)
-    (error "can't remove last item from LST")
-    (rplaca! lst (second lst))
-    (rplacd! lst (cddr   lst)))
-   (let ((prev     lst)
-         (current  (cdr lst)))
-    (letrec
-     ((chase
-       (lambda (lst)
-        (let ((head (car lst))
-              (next (cdr lst)))
-         (cond
-          ((eql? obj head) (progn (rplacd! prev next) obj))
-          (next            (progn (setq! prev lst) (chase next)))
-          (t               (error "OBJ was not found in LST")))))))
-     (chase current))))))
+ (if (eq? elem (car lst))
+  (if (nil? (cdr lst))
+   (error "can't remove last item from LST")
+   (rplaca! lst (cadr lst))
+   (rplacd! lst (cddr lst)))
+  (let ((prev lst)
+        (current (cdr lst)))
+   (while (and current (not (eq? elem (car current))))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if current
+    (rplacd! prev (cdr current))
+    (error "ELEM was not found in LST")))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun removeql! (elem lst)
+;;  "Destructively remove the first item eql? to ELEM from LST."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((head (car lst))
+;;        (tail (cdr lst)))
+;;   (if (eql? elem head)
+;;    (if (nil? tail)
+;;     (error "can't remove last item from LST")
+;;     (rplaca! lst (cadr lst))
+;;     (rplacd! lst (cddr lst)))
+;;    (let ((prev     lst)
+;;          (current  (cdr lst)))
+;;     (letrec
+;;      ((chase
+;;        (lambda (lst)
+;;         (let ((head (car lst))
+;;               (next (cdr lst)))
+;;          (cond
+;;           ((eql? elem head) (progn (rplacd! prev next) elem))
+;;           (next            (progn (setq! prev lst) (chase next)))
+;;           (t               (error "ELEM was not found in LST")))))))
+;;      (chase current))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun removeql! (elem lst)
+ "Destructively remove the first item eql? to ELEM from LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (if (eql? elem (car lst))
+  (if (nil? (cdr lst))
+   (error "can't remove last item from LST")
+   (rplaca! lst (cadr lst))
+   (rplacd! lst (cddr lst)))
+  (let ((prev lst)
+        (current (cdr lst)))
+   (while (and current (not (eql? elem (car current))))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if current
+    (rplacd! prev (cdr current))
+    (error "ELEM was not found in LST")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-remove)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
