@@ -100,16 +100,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                                         \
-  DO(bxor,  ^, 0)                                                                                                         \
-  DO(band,  &, 0)                                                                                                         \
-  DO(bor,   |, 0)                                                                                                         \
-  DO(rsft, >>, 1)                                                                                                         \
-  DO(lsft, <<, 1)                                                                                                         \
-  DO(mod,   %, 1)                                                                                                         \
-  DO(div,   /, 1)                            /* reducing these doesn't really seem like it would be worth the */          \
-  DO(mul,   *, 1)                            /* bother or the performance impact.                             */          \
-  DO(sub,   -, 0)                                                                                                         \
-  DO(add,   +, 0)                                                                                                         \
+  DO(bxor,  ^, 0, false)                                                                                                  \
+  DO(band,  &, 0, false)                                                                                                  \
+  DO(bor,   |, 0, false)                                                                                                  \
+  DO(rsft, >>, 1, false)                                                                                                  \
+  DO(lsft, <<, 1, false)                                                                                                  \
+  DO(mod,   %, 1, true)                                                                                                   \
+  DO(div,   /, 1, true)                      /* reducing these doesn't really seem like it would be worth the */          \
+  DO(mul,   *, 1, false)                     /* bother or the performance impact.                             */          \
+  DO(sub,   -, 0, false)                                                                                                  \
+  DO(add,   +, 0, false)                                                                                                  \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,5 +1,4 @@
 To Do:
-- [ ] Investigate why (/ 2 0) doesn't cause an error.
 - [ ] Maybe build in zero?, one? and 1+.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
@@ -38,6 +37,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Investigate why (/ 2 0) doesn't cause an error.
 - [x] pwd, basename, dirname.
 - [x] Improve butlast to take optional N.
 - [x] core_put_prop shouldn't allow putting properties on some symbols like t or nil, maybe add a :no-user-properties property?

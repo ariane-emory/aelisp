@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This only deals with AE_INTEGERS for now. It mutates its first argument.
-#define DEF_MATH_OP(name, oper, default)                                                                              \
+#define DEF_MATH_OP(name, oper, default, no_zero_args)                                                                \
   ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) { \
     CORE_BEGIN(#name);                                                                                                \
     assert(CONSP(args));                                                                                              \
@@ -32,6 +32,9 @@
         LOG(CAR(args), "NOT AN INTEGER");                                                                             \
                                                                                                                       \
       REQUIRE(env, args, INTEGERP(elem));                                                                             \
+                                                                                                                      \
+      if (no_zero_args)                                                                                               \
+        REQUIRE(env, args, INT_VAL(elem) != 0, "division by zero");                                                   \
                                                                                                                       \
       accum = accum oper INT_VAL(elem);                                                                               \
     }                                                                                                                 \
