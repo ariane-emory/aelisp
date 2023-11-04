@@ -21,9 +21,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun root-env ()
  "Get the root environment."
- (let ((pos (env)))
-  (while (env pos)
-   (setq! pos (env pos)))
+ (let* ((pos (env))
+        (parent (env pos)))
+  (while parent
+   (setq! pos    parent)
+   (setq! parent (env pos)))
   pos))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defconstant (sym value)
