@@ -2066,7 +2066,7 @@
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun rational-less-than? (a b)
- "t whdn rational A is less than rational B."
+ "t when rational A is less than rational B."
  (unless (rational? a) (error "A must be a rational."))
  (unless (rational? b) (error "B must be a rational."))
  (let* ((cross1 (* (car a) (cdr b)))
@@ -2074,6 +2074,7 @@
   (< cross1 cross2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun approx-sqrt (num . rest)
+ "Calculate the approximate square root of NUM."
  (unless (integer? num) (error "NUM must be an integer"))
  (unless (or (nil? (car rest)) (integer? (car rest)))
   (error "If present, first REST arg must be an integer"))
