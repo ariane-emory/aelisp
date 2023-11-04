@@ -1,5 +1,5 @@
 To Do:
-- [ ] Maybe build in zero?, one? and 1+.
+- [ ] Maybe build in zero?, one? and 1+. (all but 1+ completed)
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
