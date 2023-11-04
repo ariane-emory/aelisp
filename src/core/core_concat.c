@@ -10,15 +10,14 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   int total_length = 0;
 
   FOR_EACH(elem, args) {
-    REQUIRE(env, args, NILP(elem) || STRINGP(elem) || SYMBOLP(elem));
+    REQUIRE(env, args, NILP(elem) || STRINGP(elem));
+    
     if (NILP(elem))
       continue;
 
-    char * str = SYMBOLP(elem)
-      ? SYM_VAL(elem)
-      : STR_VAL(elem);
+    char * str = STR_VAL(elem);
+    int    len = strlen(str);
     
-    int len = strlen(str);
     total_length += len;
   }
 
@@ -37,11 +36,8 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
     if (NILP(elem))
       continue;
 
-    char * str = SYMBOLP(elem)
-      ? SYM_VAL(elem)
-      : STR_VAL(elem);
-
-    int len = strlen(str);
+    char * str = STR_VAL(elem);
+    int    len = strlen(str);
 
     memcpy(string + pos, str, len);
 
