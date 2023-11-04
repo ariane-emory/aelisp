@@ -1842,8 +1842,6 @@
               (setq! tail (cdr tail))))) ; Advance tail once for the key.
       (setq! alist (cdr alist)))
     result))
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
 ;;  "Extracts the keys from a plist PLIST."
