@@ -1,4 +1,5 @@
 To Do:
+- [ ] Investigate why (/ 2 0) doesn't cause an error.
 - [ ] Maybe build in zero?, one? and 1+.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
