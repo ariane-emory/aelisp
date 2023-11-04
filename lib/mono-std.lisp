@@ -1364,7 +1364,7 @@
  "2. The rest of the elements."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (list? lst) (error "LST must be a list"))
- (let ((prev nil)
+ (let (prev
        (current lst))
   (while (and current (pred? (car current)))
    (setq! prev current)
