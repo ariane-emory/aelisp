@@ -130,9 +130,10 @@
  "Append any number of LISTS."
  (let (result
        tail
-       (current-lists lists))
-  (while current-lists
-   (let ((current-list (car current-lists)))
+       ;; (current-lists lists)
+       )
+  (while lists
+   (let ((current-list (car lists)))
     (unless (list? current-list) (error "Every argument must be a list"))
     (while current-list
      (let ((new-cell (list (car current-list))))
@@ -141,7 +142,7 @@
        (rplacd! tail new-cell))
       (setq! tail new-cell)
       (setq! current-list (cdr current-list))))
-    (setq! current-lists (cdr current-lists))))
+    (setq! lists (cdr lists))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nconc2! (lst1 lst2)
