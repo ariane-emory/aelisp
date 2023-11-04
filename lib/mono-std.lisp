@@ -1333,10 +1333,10 @@
  "Make a new list of length SIZE with its cars set to INIT-VAL."
  (unless (integer? size) (error "SIZE must be an integer"))
  (let (result
-       (current-index 0))
-  (until (= current-index size)
+       (current-size 0))
+  (until (= current-size size)
    (setq! result (cons init-val result))
-   (setq! current-index (+ 1 current-index)))
+   (setq! current-size (+ 1 current-size)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'vector-lists)
@@ -1580,7 +1580,7 @@
  (unless (string? init-val)      (error "INIT-VAL must be a string."))
  (let ((result "")
        (current-size 0))
-  (while (< current-size size)
+  (until (= current-size size)
    (setq! result (concat result init-val))
    (setq! current-size (+ 1 current-size)))
   result))
