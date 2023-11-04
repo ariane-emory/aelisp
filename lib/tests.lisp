@@ -402,6 +402,7 @@
 (confirm that (plist-to-alist (alist-to-plist '((a . 1) (b . 2) (c . 3)))) returns '((a . 1) (b . 2) (c . 3)))
 
 (confirm that (concat* :this " sentence " 'contains " " 5 " words.")       returns ":this sentence contains 5 words.")
+(confirm that (concat* :this " sentence " 'contains " a list: " '(1 2 3))  returns ":this sentence contains a list: (1 2 3)")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
