@@ -1,4 +1,5 @@
 To Do:
+- [ ] Maybe build in zero?.
 - [ ] Improve butlast to take optional N.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.

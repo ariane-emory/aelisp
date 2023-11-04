@@ -2110,15 +2110,36 @@
   (setq! num (1+ num)))
  num)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun floor (n)
+;;  "Round N down to the nearest integral value."
+;;  (unless (number? n) (error "N must be a number."))
+;;  (if (integer? n)
+;;   n
+;;   (let ((quotient  (/ (numer n) (denom n)))
+;;         (remainder (% (numer n) (denom n))))
+;;    (if (and (< (numer n) 0) (not (zero? remainder)))
+;;     (- quotient 1)
+;;     quotient))))
 (defun floor (n)
- "Round N down to the nearest integral value. This is probably more complex than it needs"
- "to be and could just be replaced with (div num den)..."
+ "Round N down to the nearest integral value."
  (unless (number? n) (error "N must be a number."))
- (let ((num (numer n))
-       (den (denom n)))
-  (while (not (zero? (mod num den)))
-   (setq! num (- num 1)))
-  (simplify-number (rational num den))))
+ (if (integer? n)
+  n
+  (let ((quotient  (/ (numer n) (denom n)))
+        (remainder (% (numer n) (denom n))))
+   (if (and (< (numer n) 0) (!= 0 remainder))
+    (- quotient 1)
+    quotient))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun floor (n)
+;;  "Round N down to the nearest integral value. This is probably more complex than it needs"
+;;  "to be and could just be replaced with (div num den)..."
+;;  (unless (number? n) (error "N must be a number."))
+;;  (let ((num (numer n))
+;;        (den (denom n)))
+;;   (while (not (zero? (mod num den)))
+;;    (setq! num (- num 1)))
+;;   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun round (num)
  "If the number NUM is a rational number, round it to the nearest integer."
