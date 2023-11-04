@@ -1332,7 +1332,7 @@
 (defun make-list (size init-val)
  "Make a new list of length SIZE with its cars set to INIT-VAL."
  (unless (integer? size) (error "SIZE must be an integer"))
- (let ((result nil)
+ (let (result
        (current-index 0))
   (while (< current-index size)
    (setq! result (cons init-val result))
