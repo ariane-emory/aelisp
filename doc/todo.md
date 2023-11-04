@@ -1,6 +1,6 @@
 To Do:
 - [ ] pwd, basename, dirname.
-- [ ] Maybe build in zero? and 1+.
+- [ ] Maybe build in zero?, one? and 1+.
 - [ ] Improve butlast to take optional N.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.

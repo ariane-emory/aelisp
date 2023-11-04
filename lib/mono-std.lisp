@@ -1334,7 +1334,7 @@
  (unless (integer? size) (error "SIZE must be an integer"))
  (let (result
        (current-index 0))
-  (while (< current-index size)
+  (until (= current-index size)
    (setq! result (cons init-val result))
    (setq! current-index (+ 1 current-index)))
   result))
@@ -1601,12 +1601,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun left-justify  (size str)
  "Left justify a string STR."
- (unless (string? str)      (error "STR must be a string."))
+ (unless (string? str) (error "STR must be a string."))
  (pad-string-right size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun right-justify (size str)
  "Right justify a string STR."
- (unless (string? str)      (error "STR must be a string."))
+ (unless (string? str) (error "STR must be a string."))
  (pad-string-left size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; aliases:
