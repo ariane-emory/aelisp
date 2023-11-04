@@ -1798,6 +1798,18 @@
     (setq! plist (cddr plist)))
    (reverse alist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun plist-to-alist (plist)
+ "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
+ "cons in the resulting alist's value cell will be nil."
+ (unless (list? plist)          (error "PLIST must be a list"))
+ (when plist
+  (let (result tail)
+   (let (alist (plist plist))
+    (while plist
+     (setq! alist (cons (cons (car plist) (cadr plist)) alist))
+     (setq! plist (cddr plist)))
+    (reverse alist)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun alist-to-plist (alist)
  "Convert an alist ALIST to a plist."
  (unless (list? alist)          (error "ALIST must be a list"))
