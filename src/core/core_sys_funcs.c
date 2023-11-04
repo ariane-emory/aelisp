@@ -135,22 +135,6 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _cd
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("cd");
-
-  REQUIRE(env, args, STRINGP(CAR(args)) || SYMBOLP(CAR(args)), "cd's arg must be a string or symbol");
-
-  char * const dst = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
-  
-  ret = TRUTH(chdir(dst) == 0);
-  
-  CORE_RETURN("cd", ret);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // expand_tilde
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -520,5 +504,69 @@ ae_obj_t * ae_core_requireb(ae_obj_t * const env,
           (! TRUEP(CAR(args))));
 
   CORE_RETURN("requireb", load_or_require(REREQUIRE, env, args, args_length));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _cd
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("cd");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "cd's arg must be a string");
+
+  char * const dst = STR_VAL(CAR(args));
+  
+  ret = TRUTH(chdir(dst) == 0);
+  
+  CORE_RETURN("cd", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _pwd
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_pwd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("pwd");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "pwd's arg must be a string");
+
+  char * const dst = STR_VAL(CAR(args));
+  
+  ret = TRUTH(chdir(dst) == 0);
+  
+  CORE_RETURN("pwd", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _basename
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_basename(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("basename");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "basename's arg must be a string");
+
+  char * const dst = STR_VAL(CAR(args));
+  
+  ret = TRUTH(chdir(dst) == 0);
+  
+  CORE_RETURN("basename", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _dirname
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_dirname(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("dirname");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "dirname's arg must be a string");
+
+  char * const dst = STR_VAL(CAR(args));
+  
+  ret = TRUTH(chdir(dst) == 0);
+  
+  CORE_RETURN("dirname", ret);
 }
 

@@ -10,6 +10,9 @@
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
   DO(allocated,    false,          0,          0,                              FUNDEF_END)                                \
+  DO(dirname,      false,          1,          1,                              FUNDEF_END)                                \
+  DO(basename,     false,          1,          1,                              FUNDEF_END)                                \
+  DO(pwd,          false,          0,          0,                              FUNDEF_END)                                \
   DO(load,         false,          1,          2,                              FUNDEF_END)                                \
   DO(read,         false,          1,          1,                              FUNDEF_END)                                \
   DO(requireb,     false,          1,          2, "require!",                  FUNDEF_END)                                \
