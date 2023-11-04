@@ -1302,7 +1302,7 @@
 (defun list-set! (lst index obj)
  "Destructively set the element at INDEX of LST to OBJ."
  (unless (list? lst) (error "LST must be a list"))
- (unless (and (integer? index) (>= index 0)) (error "INDEX must be a non-negative integer"))
+ (unless (and (integer? index) (positive? index)) (error "INDEX must be a positive integer"))
  (let ((current-index 0)
        (done nil))
   (while (and lst (not done))
@@ -1318,7 +1318,7 @@
 (defun list-ref (lst index)
  "Return the element at INDEX of LST."
  (unless (list? lst) (error "LST must be a list"))
- (unless (and (integer? index) (>= index 0)) (error "INDEX must be a non-negative integer"))
+ (unless (and (integer? index) (positive? index)) (error "INDEX must be a positive integer"))
  (let ((current-index 0))
   (while (and lst (not (= current-index index)))
    (setq! lst (cdr lst))
@@ -1331,7 +1331,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-list (size init-val)
  "Make a new list of length SIZE with its cars set to INIT-VAL."
- (unless (integer? size) (error "SIZE must be an integer"))
+ (unless (and (integer? size) (positive? size)) (error "SIZE must be a positiveinteger"))
  (let (result
        (current-size 0))
   (until (= current-size size)
