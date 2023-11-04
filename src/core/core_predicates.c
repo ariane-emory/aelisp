@@ -133,3 +133,27 @@ ae_obj_t * ae_core_onep(__attribute__((unused)) ae_obj_t * const env,
   CORE_RETURN("one?", TRUTH(INT_VAL(CAR(args)) == 1));
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _positivep
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_positivep(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("positive?");
+  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  CORE_RETURN("positive?", TRUTH(INT_VAL(CAR(args)) >= 0));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _negativep
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_negativep(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("negative?");
+  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  CORE_RETURN("negative?", TRUTH(INT_VAL(CAR(args)) < 0));
+}
+

@@ -56,6 +56,8 @@
   DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
   DO(zerop,        false,          1,          1, "zero?",                     FUNDEF_END)                                \
   DO(onep,         false,          1,          1, "one?",                      FUNDEF_END)                                \
+  DO(positivep,    false,          1,          1, "positive?",                 FUNDEF_END)                                \
+  DO(negativep,    false,          1,          1, "negative?",                 FUNDEF_END)                                \
   DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(phas,         false,          2,          2, "plist-has?",                FUNDEF_END)                                \
