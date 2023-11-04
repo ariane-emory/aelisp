@@ -2006,14 +2006,6 @@
  "t if OBJ is a number."
  (or (integer? obj) (rational? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-to-nearest (num)
- "If the number NUM is a rational number, round it to the nearest integer."
- "Otherwise, just return it."
- (unless (number? num) (error "NUM must be a number"))
- (if (integer? num)
-  num
-  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun simplify-number (number)
  "Simplify a rational number NUMBER."
  (unless (number? number) (error "NUMBER must be a number"))
@@ -2135,6 +2127,14 @@
  (if (integer? num)
   num
   (floor (rational (+ (numer num) (>> (denom num) 1)) (denom num)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun round-to-nearest (num)
+ "If the number NUM is a rational number, round it to the nearest integer."
+ "Otherwise, just return it."
+ (unless (number? num) (error "NUM must be a number"))
+ (if (integer? num)
+  num
+  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Redefinitions of integer functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
