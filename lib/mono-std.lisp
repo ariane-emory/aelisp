@@ -21,7 +21,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun root-env ()
  "Get the root environment."
- (let* ((pos (env))
+ (let* ((pos    (env))
         (parent (env pos)))
   (while parent
    (setq! pos    parent)
@@ -33,7 +33,7 @@
  (unless (symbol? sym) (error "SYM must be a symbol"))
  $('progn
    $('setq! sym value)
-   $('put  't ':constant $('quote sym))
+   $('put $('quote sym) ':constant 't)
    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 (defun id (o) o)
