@@ -106,25 +106,21 @@
 ;; list funs (append/nconc variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append2 (lst1 lst2)
- "Append LST1 and LST2 by copying LST1."
- (unless (list? lst1) (error "LST1 must be a list"))
- (unless (list? lst2) (error "LST2 must be a list"))
- (let (result    
-       tail
-       (current lst1))
-  ;; Iterate over lst1 and copy elements to result
-  (while current
-   (let ((new-cons (list (car current))))
-    (if (nil? result)
-     (setq! result new-cons)    ; Initialize result if it's the first element
-     (rplacd! tail new-cons)) ; Attach new-cons to the end of result
-    (setq! tail new-cons)
-    (setq! current (cdr current))))
-  ;; Attach lst2 to the end of result
-  (if (nil? result)
-   lst2
-    (rplacd! tail lst2)
-    result)))
+  "Append LST1 and LST2 by copying LST1 and connecting it to LST2."
+  (unless (list? lst1) (error "LST1 must be a list"))
+  (unless (list? lst2) (error "LST2 must be a list"))
+  (if (nil? lst1)
+      lst2
+      (let* ((result (list (car lst1)))
+             (tail result))
+        (setq! lst1 (cdr lst1))
+        (while lst1
+          (let ((new-cons (list (car lst1))))
+            (rplacd! tail new-cons)
+            (setq! tail new-cons))
+          (setq! lst1 (cdr lst1)))
+        (rplacd! tail lst2) 
+        result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lists
  "Append any number of LISTS."
@@ -133,11 +129,11 @@
    (let ((current-list (car lists)))
     (unless (list? current-list) (error "Every argument must be a list"))
     (while current-list
-     (let ((new-cell (list (car current-list))))
+     (let ((new-cons (list (car current-list))))
       (if (nil? result)
-       (setq! result new-cell)
-       (rplacd! tail new-cell))
-      (setq! tail new-cell)
+       (setq! result new-cons)
+       (rplacd! tail new-cons))
+      (setq! tail new-cons)
       (setq! current-list (cdr current-list))))
     (setq! lists (cdr lists))))
   result))
