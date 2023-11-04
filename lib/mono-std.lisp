@@ -967,11 +967,16 @@
 (defun copy-list (lst)
  "Take a shallow copy of LST."
  (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while lst
-   (setq! result (cons (car lst) result))
-   (setq! lst    (cdr lst)))
-  (reverse result)))
+ (when lst
+  (let* ((result (list (car lst)))
+         (tail result))
+   (setq! lst (cdr lst))
+   (while lst
+    (let ((new-cons (list (car lst))))
+     (rplacd! tail new-cons)
+     (setq! tail new-cons))
+    (setq! lst (cdr lst)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun-list-pred-fun (name combiner base-case)
  `(defun ,name (pred? lst)

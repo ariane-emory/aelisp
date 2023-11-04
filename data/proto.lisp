@@ -71,47 +71,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Test setting matrix values.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (ignore
-;;  (setq! *counter* 0)
-;;  (setq! *matrix*
-;;   (list
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)))
-
-;;  (defun set-next-int (row)
-;;   (list-set!! row (mod *counter* 6) (setq! *counter* (+ *counter* 1))))
-
-;;  (repeat 6
-;;   (let ((current-row (nth (/ *counter* 6) *matrix*)))
-;;    (set-next-int current-row)
-;;    (set-next-int current-row)
-;;    (set-next-int current-row)
-;;    (set-next-int current-row)
-;;    (set-next-int current-row)
-;;    (set-next-int current-row)))
-;;  (princ *matrix*) (nl)
-
-;;  (setq! *matrix*
-;;   (list
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)
-;;    (list 0 0 0 0 0 0)))
-
-;;  (princ *matrix*) (nl)
-
-;;  (repeat 100 (princ (random 1 6)) (nl)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Sum up the test results in results.lisp.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
@@ -222,52 +181,51 @@
  (setq! matrix (make-matrix 6 6 0))
  (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
  (write-matrix matrix))
-;; (log-eval t)
-
-;; (princ (max-delta '(1 3 7))) (nl)
-
-
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun xorshift64 ()
- "Generate a pseudo-random positive integer."
- (when (zero? *xorshift64-seed*) (setq! *xorshift64-seed* (now-us)))  
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
- (abs *xorshift64-seed*))
-
 (setq! deltas nil)
 (setq! ctr 0)
 
-(repeat 10
- (setq! *xorshift64-seed* (now-us))
- (sleep (random 2 20))
- (setq! *xorshift64-seed* (now-us))
- (setq! ctr (+ 1 ctr))
- (princ "Iter #" ctr) (nl)
+(when nil
+ (repeat 10
+  (setq! *xorshift64-seed* (now-us))
+  (sleep (random 2 20))
+  (setq! *xorshift64-seed* (now-us))
+  (setq! ctr (+ 1 ctr))
+  (princ "Iter #" ctr) (nl)
 
- ;; Initialize/reset the counts for this cycle.
- (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
+  ;; Initialize/reset the counts for this cycle.
+  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
- (repeat 1000
-  (sleep 3)
+  (repeat 1000
+   (sleep 3)
 
-  (let ((roll (random 1 6)))
-   ;; Increment the count for the generated roll.
-   (setq! counts (plist-set! roll counts (1+ (plist-get roll counts))))
-   ))
+   (let ((roll (random 1 6)))
+    ;; Increment the count for the generated roll.
+    (setq! counts (plist-set! roll counts (1+ (plist-get roll counts))))
+    ))
 
- (princ "This cycle's counts:    " (vals counts)) (nl)
- ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
- (princ "This cycle's max delta: " (max-delta (plist-vals counts))) (nl)
- (setq! deltas (cons (max-delta (vals counts)) deltas)) 
- (princ "Deltas so far:          " deltas) (nl)
- (nl))
+  (princ "This cycle's counts:    " (vals counts)) (nl)
+  ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
+  (princ "This cycle's max delta: " (max-delta (plist-vals counts))) (nl)
+  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
+  (princ "Deltas so far:          " deltas) (nl)
+  (nl))
 
-(princ "Max delta: " (apply max deltas)) (nl)
+ (princ "Max delta: " (apply max deltas)) (nl))
 
-;; (setq! plist '(a 1 b 2))
-;; (setq! key 'z) (setq! value 26) (let ((new-tail (cons (car plist) (cons (cadr plist) (cddr plist))))) (rplaca! plist key) (rplaca! (cdr plist) value) (rplacd! (cdr plist) new-tail)) plist
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun copy-list (lst)
+ "Take a shallow copy of LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (let* ((result (list (car lst)))
+         (tail result))
+   (setq! lst (cdr lst))
+   (while lst
+    (let ((new-cons (list (car lst))))
+     (rplacd! tail new-cons)
+     (setq! tail new-cons))
+    (setq! lst (cdr lst)))
+   result)))j
