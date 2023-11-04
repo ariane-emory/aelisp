@@ -1953,6 +1953,96 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; even?/odd? predicates:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun even? (n)
+ "t if N is even."
+ (unless (integer? n) (error "N must be an integer"))
+ (zero? (% n 2 )))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun odd? (n)
+ "t if N is odd."
+ (unless (integer? n) (error "N must be an integer"))
+ (= 1 (% n 2 )))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun max2 (a b)
+ "Return the larger of A and B."
+ (unless (integer? a) (error "A must be an integer"))
+ (unless (integer? b) (error "B must be an integer"))
+ (if (> a b) a b))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun min2 (a b)
+ "Return the smaller of A and B."
+ (unless (integer? a) (error "A must be an integer"))
+ (unless (integer? b) (error "B must be an integer"))
+ (if (< a b) a b))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun min lst
+ "Get the least element in LST."
+ (unless (all? integer? lst) (error "LST must contain only integers"))
+ (let ((current-min (first lst)))
+  (mapc
+   (lambda (x) 
+    (when (< x current-min) 
+     (setq! current-min x)))
+   lst)
+  current-min))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun max lst
+ "Get the greatest element in LST."
+ (unless (all? integer? lst) (error "LST must contain only integers"))
+ (let ((current-max (first lst)))
+  (mapc
+   (lambda (x) 
+    (when (> x current-max) 
+     (setq! current-max x)))
+   lst)
+  current-max))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun 1+(n)
+ "Return N + 1."
+ (unless (integer? n) (error "N must be an integer"))
+ (+ 1 n))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun 1-(n)
+ "Return N - 1."
+ (unless (integer? n) (error "N must be an integer"))
+ (- n 1))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun double(n)
+ "Return N * 2."
+ (unless (integer? n) (error "N must be an integer"))
+ (<< n 1))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun abs (n)
+ "Return the absolute value of N."
+ (unless (integer? n) (error "N must be an integer."))
+ (if (> n 0) n (- n)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq! 2* double)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun sum (lst)
+ "Get the sum of the numbers in LST."
+ (unless (all? integer? lst) (error "LST must contain only integers"))
+ (let ((total 0))
+  (while lst
+   (unless (number? (car lst))
+    (error "The elements of LST must be numbers."))
+   (setq! total (+ total (car lst)))
+   (setq! lst (cdr lst)))
+  total))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun gcd (a b)
+ "Get the greatest common divisor of A and B."
+ (unless (and (integer? a) (integer? b))
+  (error "gcd's arguments must be integers"))
+ (if (zero? b) a (gcd b (mod a b))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'int-funs)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; rational math funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if *use-soft-rationals*
