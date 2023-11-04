@@ -1,3 +1,4 @@
+#include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -548,9 +549,14 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env, ae_obj_t * const args, __attri
 
   REQUIRE(env, args, STRINGP(CAR(args)), "basename's arg must be a string");
 
-  char * const dst = STR_VAL(CAR(args));
+  char * const path = STR_VAL(CAR(args));
+  char * const tmp = free_list_malloc(strlen(path) + 1);
+  basename_r(path, tmp);
+  char * const basename = free_list_malloc(strlen(tmp) + 1);
+  strcpy(basename, tmp);
+  free_list_free(tmp);
   
-  ret = TRUTH(chdir(dst) == 0);
+  ret = NEW_STRING(basename);
   
   CORE_RETURN("basename", ret);
 }
@@ -564,10 +570,16 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env, ae_obj_t * const args, __attrib
 
   REQUIRE(env, args, STRINGP(CAR(args)), "dirname's arg must be a string");
 
-  char * const dst = STR_VAL(CAR(args));
+
+  char * const path = STR_VAL(CAR(args));
+  char * const tmp = free_list_malloc(strlen(path) + 1);
+  dirname_r(path, tmp);
+  char * const dirname = free_list_malloc(strlen(tmp) + 1);
+  strcpy(dirname, tmp);
+  free_list_free(tmp);
   
-  ret = TRUTH(chdir(dst) == 0);
-  
+  ret = NEW_STRING(dirname);
+    
   CORE_RETURN("dirname", ret);
 }
 
