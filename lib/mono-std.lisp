@@ -426,20 +426,20 @@
  "Map fun over LST and concatenate the results by altering them."
  (unless (fun? fun)  (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
- (let ((results nil)
+ (let ((result nil)
        (tail nil)
        (current lst))
   (while current
-   (let ((result (fun (car current))))
-    (when result
-     (if results
+   (let ((fun-result (fun (car current))))
+    (when fun-result
+     (if result
       (progn
-       (setq! tail (nconc! tail result))
+       (setq! tail (nconc! tail fun-result))
        (setq! tail (last tail)))
-      (setq! results result)
-      (setq! tail results))))
+      (setq! result fun-result)
+      (setq! tail result))))
    (setq! current (cdr current)))
-  results))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
  "Apply FUN to each element of LST for side effects only and return LST."
