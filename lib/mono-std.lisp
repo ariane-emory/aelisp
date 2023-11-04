@@ -128,18 +128,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lists
  "Append any number of LISTS."
- (let ((result nil)
-       (last-cell nil)
+ (let (result
+       tail
        (current-lists lists))
   (while current-lists
    (let ((current-list (car current-lists)))
     (unless (list? current-list) (error "Every argument must be a list"))
     (while current-list
-     (let ((new-cell (cons (car current-list) nil)))
+     (let ((new-cell (list (car current-list))))
       (if (nil? result)
        (setq! result new-cell)
-       (rplacd! last-cell new-cell))
-      (setq! last-cell new-cell)
+       (rplacd! tail new-cell))
+      (setq! tail new-cell)
       (setq! current-list (cdr current-list))))
     (setq! current-lists (cdr current-lists))))
   result))
