@@ -1194,7 +1194,7 @@
 (defun add-logging-to (fun)
  "Add logging to a function FUN."
  (unless (fun? fun) (error "FUN must be a function"))
- (if (has? :added-logging fun)
+ (if (has? fun :added-logging)
   (error "logging was already added to this fun")
   (let* ((fun-name      (get :last-bound-to fun))
          (old-fun-body  (body fun))
@@ -1210,7 +1210,7 @@
              (nl)
              result))))
    (rplacd! (body fun) new-body))
-  (put  t :added-logging fun) (nl)
+  (put fun t :added-logging) (nl)
   fun))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun max-delta (lst)
