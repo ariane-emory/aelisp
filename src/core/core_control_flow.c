@@ -374,7 +374,7 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   ae_obj_t * first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
  
-  REQUIRE(env, args, INTEGERP(first_arg), "repeat requires an integer as its first argument");
+  REQUIRE(env, args, INTEGERP(first_arg) && (INT_VAL(first_arg) >= 0), "repeat requires a positive integer as its first argument");
 
   long long int times = INT_VAL(first_arg);
 

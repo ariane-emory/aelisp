@@ -233,9 +233,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nthcdr (index lst)
  "Get the INDEXth cdr of LST."
- (unless (integer? index) (error "N must be an integer"))
- (unless (list? lst)      (error "LST must be a list"))
- (unless (>= index 0)     (error "INDEX must be non-negative"))
+ (unless (and (integer? index) (positive? index)) (error "N must be a positive integer"))
+ (unless (list? lst)                              (error "LST must be a list"))
+ (unless (>= index 0)                             (error "INDEX must be non-negative"))
  (until (zero? index)
   (setq! lst   (cdr lst))
   (setq! index (- index 1)))
@@ -1087,8 +1087,8 @@
  "Returns a new list that contains all the elements of the input list except the last one."
  (unless (list? lst)      (error "LST must be a list"))
  (unless (not (cdr rest)) (error "butlast takes one or zero arguments"))
- (when (and (car rest) (not (integer? (car rest))))
-  (error "If provided, butlast's argument must be an integer."))
+ (unless (or (nil? (car rest)) (and (integer? (car rest)) (positive? (car rest))))
+  (error "If provided, butlast's argument must be a positive integer"))
  (let ((n (or (car rest) 1)))
   (when (and lst (nthcdr n lst))
    (let* ((result (list (car lst)))
@@ -1201,8 +1201,10 @@
  "total/average time in ms, printing updates ever PRINT-INTERVAL iterations."
 
  "THIS PROBABLY NEEDS AN UPDATE!"
- (unless (integer? repetitions)   (error "REPETITIONS must be an integer"))
- (unless (integer? print-interval)(error "PRINT-INTERVAL must be an integer"))
+ (unless (and (integer? repetitions)    (positive? repetitions))
+  (error "REPETITIONS must be a positive integer"))
+ (unless (and (integer? print-interval) (positive? print-interval))
+  (error "PRINT-INTERVAL must be a positive integer"))
  (nl)
  (let ((ctr   0)
        (total 0))
@@ -1430,7 +1432,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prime? (num)
  "Check if a number is prime."
- (unless (integer? num) (error "NUM must be an integer"))
+ (unless (and (integer? num) (positive? num)) (error "NUM must be a positive integer"))
  (if (or (= num 0) (= num 1))
   nil
   (let ((limit (/ num 2))
@@ -1443,8 +1445,8 @@
    is-prime)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun primes (n)
- "Return the first n prime numbers."
- (unless (integer? n) (error "N must be an integer"))
+ "Return the first N prime numbers."
+ (unless (and (integer? n) (positive? n)) (error "N must be a positive integer"))
  (let ((count 0)
        (num 2)
        (primes '()))
@@ -1576,8 +1578,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-string (size init-val)
  "Make a new string of consisting of SIZE repetitions of INIT-VAL."
- (unless (integer? size)         (error "SIZE must be an integer."))
- (unless (string? init-val)      (error "INIT-VAL must be a string."))
+ (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
+ (unless (string? init-val)                     (error "INIT-VAL must be a string."))
  (let ((result "")
        (current-size 0))
   (until (= current-size size)
@@ -1587,9 +1589,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-right (size init-val str)
  "Pad STR to SIZE with INIT-VAL."
- (unless (integer? size)         (error "SIZE must be an integer."))
- (unless (string? init-val)      (error "INIT-VAL must be a string."))
- (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
+ (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
+ (unless (string? init-val)                     (error "INIT-VAL must be a string."))
+ (unless (one? (length init-val))               (error "INIT-VAL must be a string of length 1."))
  (concat str (make-string (- size (length str)) init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-left (size init-val str)
@@ -2330,19 +2332,19 @@
    (setq! current-row (+ 1 current-row)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
-(defun matrix-transform (matrix height width ternary-func)
+(defun matrix-transform (matrix rows cols ternary-func)
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
- (unless (and (integer? height) (integer? width) (positive? height) (positive? width))
-  (error "Both HEIGHT and WIDTH must be positive integers"))
+ (unless (and (integer? rows) (integer? cols) (positive? rows) (positive? cols))
+  (error "Both ROWS and COLS must be positive integers"))
  (let ((current-row 0)
        (current-col 0))
-  (until (= current-row height)
+  (until (= current-row rows)
    (setq! current-col 0)
-   (until (= current-col width)
+   (until (= current-col cols)
     (let* ((current-value (matrix-ref matrix current-row current-col))
            (new-value (ternary-func current-row current-col current-value)))
      ;; (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
