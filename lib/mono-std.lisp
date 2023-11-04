@@ -244,14 +244,24 @@
     ((zero? index) (car lst))
     (lst           (nth (- index 1) (cdr lst)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun nthcdr (index lst)
+;;  "Get the INDEXth cdr of LST."
+;;  (unless (integer? index) (error "N must be an integer"))
+;;  (unless (list? lst)      (error "LST must be a list"))
+;;  (unless (>= index 0)     (error "INDEX must be non-negative"))
+;;  (if (zero? index)
+;;   lst
+;;   (nthcdr (1- index) (cdr lst))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nthcdr (index lst)
- "Get the INDEXh cdr of LST."
+ "Get the INDEXth cdr of LST."
  (unless (integer? index) (error "N must be an integer"))
  (unless (list? lst)      (error "LST must be a list"))
  (unless (>= index 0)     (error "INDEX must be non-negative"))
- (if (zero? index)
-  lst
-  (nthcdr (1- index) (cdr lst))))
+ (while (> index 0)
+  (setq! lst   (cdr lst))
+  (setq! index (- index 1)))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun last (lst)
 ;;  "Get last item in a LST."
