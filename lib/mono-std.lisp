@@ -423,24 +423,24 @@
    (setq current (cdr current)))
   acc))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapcan (fun lst)
- "Map fun over LST and concatenate the results by altering them."
- (unless (fun? fun)  (error "FUN must be a function"))
- (unless (list? lst) (error "LST must be a list"))
- (let ((result nil)
-       (tail nil)
-       (current lst))
-  (while current
-   (let ((fun-result (fun (car current))))
-    (when fun-result
-     (if result
-      (progn
-       (setq! tail (nconc2! tail fun-result))
-       (setq! tail (last tail)))
-      (setq! result fun-result)
-      (setq! tail result))))
-   (setq! current (cdr current)))
-  result))
+;; (defun mapcan (fun lst)
+;;  "Map fun over LST and concatenate the results by altering them."
+;;  (unless (fun? fun)  (error "FUN must be a function"))
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((result nil)
+;;        (tail nil)
+;;        (current lst))
+;;   (while current
+;;    (let ((fun-result (fun (car current))))
+;;     (when fun-result
+;;      (if result
+;;       (progn
+;;        (setq! tail (nconc2! tail fun-result))
+;;        (setq! tail (last tail)))
+;;       (setq! result fun-result)
+;;       (setq! tail result))))
+;;    (setq! current (cdr current)))
+;;   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcan (fun lst)
  "Map fun over LST and concatenate the results by altering them."
@@ -454,10 +454,10 @@
     (when fun-result
      (if tail
       (progn
-       (setq! tail (nconc2! tail fun-result))
-       (setq! tail (last tail)))
+       (rplacd! tail fun-result)
+       (setq!   tail (last tail)))
       (setq! result fun-result)
-      (setq! tail result))))
+      (setq! tail   (last result)))))
    (setq! current (cdr current)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
