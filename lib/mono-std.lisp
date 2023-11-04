@@ -434,7 +434,7 @@
     (when fun-result
      (if result
       (progn
-       (setq! tail (nconc! tail fun-result))
+       (setq! tail (nconc2! tail fun-result))
        (setq! tail (last tail)))
       (setq! result fun-result)
       (setq! tail result))))
