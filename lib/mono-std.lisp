@@ -385,7 +385,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (when lst
   (let* ((result (list (fun (car lst))))
-         (tail    result))
+         (tail   result))
    (setq lst (cdr lst))
    (while lst
     (let ((new-cons (list (fun (car lst)))))
