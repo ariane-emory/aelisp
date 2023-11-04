@@ -1401,11 +1401,11 @@
  (when lst
   (while (and lst (eq? (car lst) item))
    (setq! lst (cdr lst)))
-  (let ((ptr lst))
-   (while (and ptr (cdr ptr))
-    (if (eq? (cadr ptr) item)
-     (rplacd! ptr (cddr ptr))
-     (setq! ptr (cdr ptr)))))
+  (let ((pos lst))
+   (while (and pos (cdr pos))
+    (if (eq? (cadr pos) item)
+     (rplacd! pos (cddr pos))
+     (setq! pos (cdr pos)))))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun delql! (item lst)
@@ -1414,11 +1414,11 @@
  (when lst
   (while (and lst (eql? (car lst) item))
    (setq! lst (cdr lst)))
-  (let ((ptr lst))
-   (while (and ptr (cdr ptr))
-    (if (eql? (cadr ptr) item)
-     (rplacd! ptr (cddr ptr))
-     (setq! ptr (cdr ptr)))))
+  (let ((pos lst))
+   (while (and pos (cdr pos))
+    (if (eql? (cadr pos) item)
+     (rplacd! pos (cddr pos))
+     (setq! pos (cdr pos)))))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
