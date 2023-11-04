@@ -236,7 +236,7 @@
  (unless (integer? index) (error "N must be an integer"))
  (unless (list? lst)      (error "LST must be a list"))
  (unless (>= index 0)     (error "INDEX must be non-negative"))
- (while (> index 0)
+ (until (zero? index)
   (setq! lst   (cdr lst))
   (setq! index (- index 1)))
  lst)
@@ -2321,7 +2321,7 @@
   (error "Both ROWS and COLS must be integers"))
  (let (result
        (current-row 0))
-  (while (< current-row rows)
+  (until (= current-row rows)
    (setq! result (cons (make-list cols init-val) result))
    (setq! current-row (+ 1 current-row)))
   result))
