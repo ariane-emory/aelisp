@@ -1575,11 +1575,15 @@
 ;; string funss
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-string (size init-val)
- "Make a new string of length SIZE with it's chars set to INIT-VAL."
+ "Make a new string of consisting of SIZE repetitions of INIT-VAL."
  (unless (integer? size)         (error "SIZE must be an integer."))
  (unless (string? init-val)      (error "INIT-VAL must be a string."))
- (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
- (apply concat (make-list size init-val)))
+ (let ((result "")
+       (current-size 0))
+  (while (< current-size size)
+   (setq! result (concat result init-val))
+   (setq! current-size (+ 1 current-size)))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-right (size init-val str)
  "Pad STR to SIZE with INIT-VAL."
