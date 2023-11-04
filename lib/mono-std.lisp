@@ -1086,14 +1086,16 @@
 (defun butlast (lst)
  "Returns a new list that contains all the elements of the input list except the last one."
  (unless (list? lst) (error "LST must be a list"))
- (let (result prev)
-  (while (cdr lst)
-   (setq! prev (cons (car lst) prev))
-   (setq! lst (cdr lst)))
-  (while prev
-   (setq! result (cons (car prev) result))
-   (setq! prev (cdr prev)))
-  result))
+ (when lst
+  (let* ((result (list (car lst)))
+         (tail   result))
+   (setq! lst (cdr lst))
+   (while (cdr lst)
+    (let ((new-cons (list (car lst))))
+     (rplacd! tail new-cons)
+     (setq!   tail new-cons))
+    (setq! lst (cdr lst)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-list (lst)
  "Take a shallow copy of LST."
