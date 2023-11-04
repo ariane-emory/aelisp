@@ -64,7 +64,7 @@
   DO(concat,       false,          0,  UNLIMITED,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(set,          false,          1,          2, "set!",                      FUNDEF_END)                                \
-  DO(length,       false,          1,          1,                              FUNDEF_END) /* reduceable            */    \
+  DO(length,       false,          1,          1,                              FUNDEF_END)                                \
   DO(eval,         false,          1,          1,                              FUNDEF_END)                                \
   DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(macro,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
@@ -147,13 +147,13 @@
 #define FOR_EACH_CORE_FUN_GROUP_4(DO)                                                                                     \
   /*================================================================================================================*/    \
   DO(repeat,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(case,         true,           2,  UNLIMITED,                              FUNDEF_END)                                \
+  DO(cond,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(until,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(while,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(unless,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(when,         true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(if,           true,           2,  UNLIMITED,                              FUNDEF_END)                                \
-  DO(case,         true,           2,  UNLIMITED,                              FUNDEF_END)                                \
-  DO(cond,         true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(list,         false,  UNLIMITED,  UNLIMITED,                              FUNDEF_END)                                \
   DO(quote,        true,           1,          1,                              FUNDEF_END)                                \
