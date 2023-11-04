@@ -1317,18 +1317,18 @@
     $(lst current))
    $(nil lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun split-list (pred? lst)
- "Split LST into two sublists:"
- "1. The longest initial sublist of elements satisfying PRED?"
- "2. The rest of the elements."
- (unless (fun? pred?) (error "PRED? must be a function"))
- (unless (list? lst) (error "LST must be a list"))
- (let ((front nil)
-       (current lst))
-  (while (and current (pred? (car current)))
-   (setq front (cons (car current) front))
-   (setq current (cdr current)))
-  $((reverse front) current)))
+;; (defun split-list (pred? lst)
+;;  "Split LST into two sublists:"
+;;  "1. The longest initial sublist of elements satisfying PRED?"
+;;  "2. The rest of the elements."
+;;  (unless (fun? pred?) (error "PRED? must be a function"))
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((front nil)
+;;        (current lst))
+;;   (while (and current (pred? (car current)))
+;;    (setq front (cons (car current) front))
+;;    (setq current (cdr current)))
+;;   $((reverse front) current)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'split-list)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1587,7 +1587,7 @@
 ;;     (rplaca! plist (caddr plist))
 ;;     (rplacd! plist (if (caddr plist) (cdddr plist) (list nil))) ;; special case for removing last element
 ;;     plist)
-  
+
 ;;   ;; If the key is not at the head, iterate through the plist.
 ;;   (let ((prev plist)
 ;;         (current (cdr plist)))
