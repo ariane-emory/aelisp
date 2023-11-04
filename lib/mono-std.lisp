@@ -1787,16 +1787,16 @@
    (setq! rvals (cdr rvals)))
   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-to-alist (plist)
- "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
- "cons in the resulting alist's value cell will be nil."
- (unless (list? plist)          (error "PLIST must be a list"))
- (when plist
-  (let (alist (plist plist))
-   (while plist
-    (setq! alist (cons (cons (car plist) (cadr plist)) alist))
-    (setq! plist (cddr plist)))
-   (reverse alist))))
+;; (defun plist-to-alist (plist)
+;;  "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
+;;  "cons in the resulting alist's value cell will be nil."
+;;  (unless (list? plist)          (error "PLIST must be a list"))
+;;  (when plist
+;;   (let (alist (plist plist))
+;;    (while plist
+;;     (setq! alist (cons (cons (car plist) (cadr plist)) alist))
+;;     (setq! plist (cddr plist)))
+;;    (reverse alist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-to-alist (plist)
  "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
@@ -1813,14 +1813,37 @@
     (setq! plist (cddr plist)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun alist-to-plist (alist)
+;;  "Convert an alist ALIST to a plist."
+;;  (unless (list? alist)          (error "ALIST must be a list"))
+;;  (let (plist (alist alist))
+;;   (while alist
+;;    (setq! plist (cons (car alist) (cons (cadr alist) plist)))
+;;    (setq! alist (cddr alist)))
+;;   plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun alist-to-plist (alist)
- "Convert an alist ALIST to a plist."
- (unless (list? alist)          (error "ALIST must be a list"))
- (let (plist (alist alist))
-  (while alist
-   (setq! plist (cons (car alist) (cons (cadr alist) plist)))
-   (setq! alist (cddr alist)))
-  plist))
+  "Convert an alist ALIST to a plist."
+  (unless (list? alist)          (error "ALIST must be a list"))
+  (let ((result nil)
+        (tail   nil))
+    (while alist
+      (let* ((pair (car alist))
+             (key  (car pair))
+             (value (cdr pair)))
+        (if tail
+            (progn
+              (rplacd! tail (cons key (cons value nil))) ; Append the two new items.
+              (setq! tail (cdr tail)) ; Advance tail once for the key.
+              (setq! tail (cdr tail))) ; Advance tail once more for the value.
+            (progn
+              (setq! result (cons key (cons value nil))) ; Initialize result.
+              (setq! tail result) ; Set tail to the first cons.
+              (setq! tail (cdr tail))))) ; Advance tail once for the key.
+      (setq! alist (cdr alist)))
+    result))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
 ;;  "Extracts the keys from a plist PLIST."

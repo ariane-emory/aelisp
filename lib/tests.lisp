@@ -390,7 +390,8 @@
 (confirm that (copy-list '(1 2 3 4 5 6 7 8 9)) returns '(1 2 3 4 5 6 7 8 9))
 
 (confirm that (plist-to-alist '(a 1 b 2 c 3)) returns '((a . 1) (b . 2) (c . 3)))
-
+(confirm that (alist-to-plist '((a . 1) (b . 2) (c . 3))) returns '(a 1 b 2 c 3))
+(confirm that (plist-to-alist (alist-to-plist '((a . 1) (b . 2) (c . 3)))) returns '((a . 1) (b . 2) (c . 3)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
