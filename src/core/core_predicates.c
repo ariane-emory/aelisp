@@ -105,7 +105,31 @@ ae_obj_t * ae_core_not(__attribute__((unused)) ae_obj_t * const env,
 ae_obj_t * ae_core_nilp(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("nilp");
-  CORE_RETURN("nilp", NILP(CAR(args)) ? TRUE : NIL);
+  CORE_BEGIN("nil?");
+  CORE_RETURN("nil?", TRUTH(NILP(CAR(args))));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _zerop
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_zerop(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("zero?");
+  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  CORE_RETURN("zero?", TRUTH(INT_VAL(CAR(args)) == 0));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _onep
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_onep(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
+  CORE_BEGIN("one?");
+  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  CORE_RETURN("one?", TRUTH(INT_VAL(CAR(args)) == 1));
 }
 

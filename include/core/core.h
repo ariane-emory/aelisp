@@ -54,6 +54,8 @@
   DO(tailp,        false,          1,          1, "tail?",                     FUNDEF_END)                                \
   DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
   DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
+  DO(zerop,        false,          1,          1, "zero?",                     FUNDEF_END)                                \
+  DO(onep,         false,          1,          1, "one?",                      FUNDEF_END)                                \
   DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(phas,         false,          2,          2, "plist-has?",                FUNDEF_END)                                \
