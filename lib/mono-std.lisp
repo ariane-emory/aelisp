@@ -1049,16 +1049,16 @@
    (setq! lst (cdr lst)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun intercalate (intercalated lst)
- "Intercalate INTERCALATED between items in LST."
- (unless (list? lst) (error "LST must be a list"))
- (let (result)
-  (while (cdr lst)
-   (setq! result (cons (car lst) result))
-   (setq! result (cons intercalated result))
-   (setq! lst (cdr lst)))
-  (if lst (setq! result (cons (car lst) result)))
-  (reverse result)))
+;; (defun intercalate (intercalated lst)
+;;  "Intercalate INTERCALATED between items in LST."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let (result)
+;;   (while (cdr lst)
+;;    (setq! result (cons (car lst) result))
+;;    (setq! result (cons intercalated result))
+;;    (setq! lst (cdr lst)))
+;;   (if lst (setq! result (cons (car lst) result)))
+;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
  "Intercalate INTERCALATED between items in LST."
@@ -1420,17 +1420,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; split lists:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun split-list-alternate! (pred? lst)
- "Destructively split the LST into two sublists:"
- "1. The longest initial sublist of elements satisfying PRED?"
- "2. The rest of the elements."
- (unless (fun? pred?) (error "PRED? must be a function"))
- (unless (list? lst) (error "LST must be a list"))
- (let ((front nil)
-       (back lst))
-  (while (and back (pred? (car back)))
-   (push! (pop! back) front))
-  $((reverse front) back)))
+;; (defun split-list-alternate! (pred? lst)
+;;  "Destructively split the LST into two sublists:"
+;;  "1. The longest initial sublist of elements satisfying PRED?"
+;;  "2. The rest of the elements."
+;;  (unless (fun? pred?) (error "PRED? must be a function"))
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((front nil)
+;;        (back lst))
+;;   (while (and back (pred? (car back)))
+;;    (push! (pop! back) front))
+;;   $((reverse front) back)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun split-list (pred? lst)
  "Destructivly split LST into two sublists:"
@@ -1810,6 +1810,20 @@
  "Extracts the keys from a plist PLIST."
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist (cons (car plist) (plist-keys (cddr plist)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun plist-keys (plist)
+;;  "Extracts the keys from a plist PLIST."
+;;  (unless (list? plist)          (error "PLIST must be a list"))
+;;  (when lst
+;;   (let* ((result (list (car lst)))
+;;          (tail result))
+;;    (setq! lst (cdr lst))
+;;    (while lst
+;;     (let ((new-cons (list (car lst))))
+;;      (rplacd! tail new-cons)
+;;      (setq! tail new-cons))
+;;     (setq! lst (cddr lst)))
+;;    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-vals (plist)
  "Extracts the values from a plist PLIST."
