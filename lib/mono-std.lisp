@@ -232,28 +232,6 @@
 (defun eleventh (lst)  (caddr (cddddr (cddddr lst))))
 (defun twelfth  (lst) (cadddr (cddddr (cddddr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun nth (index lst)
-;;  "Get the nth item in LST."
-;;  (unless (integer? index) (error "INDEX must be an integer"))
-;;  (unless (list? lst)      (error "LST must be a list"))
-;;  (unless (>= index 0)     (error "INDEX must be non-negative"))
-;;  (let ((len (length lst)))
-;;   (if (>= index len)
-;;    (error "INDEX is out of range")
-;;    (cond
-;;     ((zero? index) (car lst))
-;;     (lst           (nth (- index 1) (cdr lst)))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun nth (index lst)
- "Get the nth item in LST."
- (unless (integer? index) (error "INDEX must be an integer"))
- (unless (list? lst)      (error "LST must be a list"))
- (unless (>= index 0)     (error "INDEX must be non-negative"))
- (while (> index 0)
-  (setq! lst   (cdr lst))
-  (setq! index (- index 1)))
- (car lst))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun nthcdr (index lst)
 ;;  "Get the INDEXth cdr of LST."
 ;;  (unless (integer? index) (error "N must be an integer"))
@@ -272,6 +250,22 @@
   (setq! lst   (cdr lst))
   (setq! index (- index 1)))
  lst)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun nth (index lst)
+;;  "Get the nth item in LST."
+;;  (unless (integer? index) (error "INDEX must be an integer"))
+;;  (unless (list? lst)      (error "LST must be a list"))
+;;  (unless (>= index 0)     (error "INDEX must be non-negative"))
+;;  (let ((len (length lst)))
+;;   (if (>= index len)
+;;    (error "INDEX is out of range")
+;;    (cond
+;;     ((zero? index) (car lst))
+;;     (lst           (nth (- index 1) (cdr lst)))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun nth (index lst)
+ "Get the nth item in LST."
+ (car (nthcdr lst)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun last (lst)
 ;;  "Get last item in a LST."
