@@ -1811,19 +1811,20 @@
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun plist-keys (plist)
-;;  "Extracts the keys from a plist PLIST."
-;;  (unless (list? plist)          (error "PLIST must be a list"))
-;;  (when lst
-;;   (let* ((result (list (car lst)))
-;;          (tail result))
-;;    (setq! lst (cdr lst))
-;;    (while lst
-;;     (let ((new-cons (list (car lst))))
-;;      (rplacd! tail new-cons)
-;;      (setq! tail new-cons))
-;;     (setq! lst (cddr lst)))
-;;    result)))
+(defun plist-keys (plist)
+ "Extracts the keys from a plist PLIST."
+ (unless (list? plist) (error "PLIST must be a list"))
+ (if (nil? plist)
+  nil
+  (let* ((result (cons (car plist) nil))
+         (tail result))
+   (setq! plist (cdr (cdr plist)))  ; Skip the second element initially.
+   (while plist
+    (let ((new-cons (cons (car plist) nil)))
+     (rplacd! tail new-cons)
+     (setq! tail new-cons))
+    (setq! plist (cdr (cdr plist))))  ; Skip every second element.
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-vals (plist)
  "Extracts the values from a plist PLIST."
