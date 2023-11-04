@@ -379,6 +379,21 @@
    (setq! lst (cdr lst)))
   (reverse acc)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun mapcar (fun lst)
+ "Map FUN over LST, returning the resulting list."
+ (unless (fun?  fun) (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (let* ((result (list (fun (car lst))))
+         (tail result))
+   (setq lst (cdr lst))
+   (while lst
+    (let ((new-cons (list (fun (car lst)))))
+     (rplacd! tail new-cons)
+     (setq! tail new-cons))
+    (setq! lst (cdr lst)))
+   result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar! (fun lst)
@@ -387,7 +402,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let ((current lst))
   (while current
-   (setcar! current (fun (car current)))
+   (rplaca! current (fun (car current)))
    (setq! current (cdr current)))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
