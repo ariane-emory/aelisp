@@ -740,16 +740,42 @@
 (defun removeql (elem lst)
  "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
+ (let ((result nil))
+  (while lst
+   (unless (eq? elem (car lst))
+    (setq! result (cons (car lst) result)))
+   (setq! lst (cdr lst)))
+  (reverse result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun removeq (elem lst)
+ "Non-destructively remove ELEM from LST. Comparison done with 'eq?'."
+ (unless (list? lst) (error "LST must be a list"))
+ (let* (result tail)
+   (while lst
+    (unless (eq? elem (car lst))
+     (let ((new-cons (list (car lst))))
+      (if tail
+       (progn
+        (rplacd! tail new-cons)
+        (setq!   tail new-cons))
+       (setq! result new-cons)
+       (setq! tail   result))))
+    (setq! lst (cdr lst))
+    result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun removeql (elem lst)
+ "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
+ (unless (list? lst) (error "LST must be a list"))
  (let* (result tail)
    (while lst
     (unless (eql? elem (car lst))
      (let ((new-cons (list (car lst))))
-      (if (nil? tail)
-       (progn 
-        (setq! result new-cons)
-        (setq! tail result))
-       (rplacd! tail new-cons)
-       (setq! tail new-cons))))
+      (if tail
+       (progn
+        (rplacd! tail new-cons)
+        (setq!   tail new-cons))
+       (setq! result new-cons)
+       (setq! tail   result))))
     (setq! lst (cdr lst))
     result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
