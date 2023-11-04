@@ -14,9 +14,9 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     ? NIL
     : CADR(args);
 
-  REQUIRE(env, args, SYMBOLP(sym),                "sym is not a symbol");
-  REQUIRE(env, args, ! KEYWORDP(sym),             "keyword symbols may not be set");
-  REQUIRE(env, args, ! HAS_PROP("constant", sym), "constant symbols may not be set");
+  REQUIRE(env, args, SYMBOLP(sym),                    "sym is not a symbol");
+  REQUIRE(env, args, ! KEYWORDP(sym),                 "keyword symbols may not be set");
+  REQUIRE(env, args, NILP(GET_PROP("constant", sym)), "constant symbols may not be set");
 
   if (log_core) {
     LOG(sym, "setting symbol");
