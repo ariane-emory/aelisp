@@ -1596,18 +1596,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-left (size init-val str)
  "Pad STR to SIZE with INIT-VAL."
- (unless (integer? size)         (error "SIZE must be an integer."))
- (unless (string? init-val)      (error "INIT-VAL must be a string."))
- (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
+ (unless (integer? size)          (error "SIZE must be an integer."))
+ (unless (string? init-val)       (error "INIT-VAL must be a string."))
+ (unless (one? (length init-val)) (error "INIT-VAL must be a string of length 1."))
  (concat (make-string (- size (length str)) init-val) str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun left-justify  (size str)
  "Left justify a string STR."
+ (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
  (unless (string? str) (error "STR must be a string."))
  (pad-string-right size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun right-justify (size str)
  "Right justify a string STR."
+ (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
  (unless (string? str) (error "STR must be a string."))
  (pad-string-left size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1886,7 +1888,7 @@
 (defun odd? (n)
  "t if N is odd."
  (unless (integer? n) (error "N must be an integer"))
- (= 1 (% n 2 )))
+ (one? (% n 2 )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun max2 (a b)
  "Return the larger of A and B."
@@ -1972,9 +1974,9 @@
  (progn
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (defun rational (n d)
-   "Construct a rational number from numerator N and denominator D."
-   (unless (integer? n) (error "N must be an integer."))
-   (unless (integer? d) (error "D must be an integer."))
+   "Construct a rational number with numerator N and denominator D."
+   (unless (integer? n)                     (error "N must be an integer."))
+   (unless (and (integer? d) (positive? d)) (error "D must be a positive integer."))
    (cons n d))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
   (defun integer-to-rational (n)
