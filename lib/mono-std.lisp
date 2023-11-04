@@ -1083,14 +1083,18 @@
    (setq! lst (cdr lst)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun butlast (lst)
+(defun butlast (lst . rest)
  "Returns a new list that contains all the elements of the input list except the last one."
- (unless (list? lst) (error "LST must be a list"))
+ (unless (list? lst)      (error "LST must be a list"))
+ (unless (not (cdr rest)) (error "butlast takes one or zero arguments"))
+ (when (and (car rest) (not (integer? (car rest))))
+  (error "If provided, butlast's argument must be an integer."))
  (when lst
-  (let* ((result (list (car lst)))
+  (let* ((n (or  (car rest) 1))
+         (result (list (car lst)))
          (tail   result))
    (setq! lst (cdr lst))
-   (while (cdr lst)
+   (while (nthcdr n lst)
     (let ((new-cons (list (car lst))))
      (rplacd! tail new-cons)
      (setq!   tail new-cons))
@@ -1817,13 +1821,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun vals args
  "Retrieve the values from a plist or environment."
- (when (cdr args) (error "VALS takes one or zero arguments"))
+ (when (cdr args) (error "vals takes one or zero arguments"))
  (let ((arg (car args)))
   (cond
    ((nil? arg)  (vals-base (env (env (env)))))
    ((list? arg) (plist-vals arg))
    ((env? arg)  (vals-base arg))
-   (t           (error "VALS takes a plist or an environment")))))
+   (t           (error "vals takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
