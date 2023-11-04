@@ -8,7 +8,15 @@
 (confirm that (removeql 4 lst)                 returns '(6 5 3 2 1))
 (confirm that (indexql  5 lst)                 returns 1)
 (confirm that (mapcar! double lst)             returns '(12 10 8 6 4 2))
-(confirm that (butlast '(1 2 3 4 5))           returns '(1 2 3 4))
+
+(confirm that (butlast '(1 2 3 4 5) 0)         returns '(1 2 3 4 5))
+(confirm that (butlast '(1 2 3 4 5) 1)         returns '(1 2 3 4))
+(confirm that (butlast '(1 2 3 4 5) 2)         returns '(1 2 3))
+(confirm that (butlast '(1 2 3 4 5) 3)         returns '(1 2))
+(confirm that (butlast '(1 2 3 4 5) 4)         returns '(1))
+(confirm that (butlast '(1 2 3 4 5) 5)         returns nil)
+(confirm that (butlast '(1 2 3 4 5) 6)         returns nil)
+
 (confirm that (reverse '(1 2 3 4 5))           returns '(5 4 3 2 1))
 (confirm that (reverse (butlast '(1 2 3 4 5))) returns '(4 3 2 1))
 (confirm that (unionql '(1 2 3) '(4 5 6))      returns '(6 5 4 3 2 1))
