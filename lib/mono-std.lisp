@@ -2062,9 +2062,8 @@
  (if (integer? b) (setq! b (integer-to-rational b)))
  (let* ((num (* (numer a) (denom b)))
         (den (* (denom a) (numer b))))
-  (if (zero? den)
-   (error "Division by zero!")
-   (simplify-number (rational num den)))))
+  (when (zero? den) (error "Division by zero!"))
+  (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun rational-less-than? (a b)
  "t whdn rational A is less than rational B."
