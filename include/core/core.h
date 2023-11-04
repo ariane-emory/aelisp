@@ -121,7 +121,7 @@
   DO(rplacd,       false,          2,          2, "rplacd!",                   FUNDEF_END)                                \
   DO(rplaca,       false,          2,          2, "rplaca!",                   FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(type,         false,          1,          1,                              FUNDEF_END) /* GET_TYPE proxy        */    \
+  DO(type,         false,          1,          1,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(setq,         true,           1,          2, "setq!",                     FUNDEF_END)                                \
   /*================================================================================================================*/    \
@@ -135,8 +135,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_CMP_OP(DO)                                                                                          \
   DO(lte,    <=, &=, true)                                                                                                \
-  DO(gte,    >=, &=, true)                         /* bother or the performance impact.                             */    \
-  DO(lt,     < , &=, true)                         /* reducing these doesn't really seem like it would be worth the */    \
+  DO(gte,    >=, &=, true)                                                                                                \
+  DO(lt,     < , &=, true)                                                                                                \
   DO(gt,     > , &=, true)                                                                                                \
   DO(nequal, !=, |=, false)                                                                                               \
   DO(equal,  ==, &=, true)                                                                                                \
