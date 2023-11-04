@@ -1590,16 +1590,14 @@
  (unless (integer? size)         (error "SIZE must be an integer."))
  (unless (string? init-val)      (error "INIT-VAL must be a string."))
  (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
- (let ((pad (make-string (- size (length str)) init-val)))
-  (concat str pad)))
+ (concat str (make-string (- size (length str)) init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-left (size init-val str)
  "Pad STR to SIZE with INIT-VAL."
  (unless (integer? size)         (error "SIZE must be an integer."))
  (unless (string? init-val)      (error "INIT-VAL must be a string."))
  (unless (= 1 (length init-val)) (error "INIT-VAL must be a string of length 1."))
- (let ((pad (make-string (- size (length str)) init-val)))
-  (concat pad str)))
+ (concat (make-string (- size (length str)) init-val) str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun left-justify  (size str)
  "Left justify a string STR."
