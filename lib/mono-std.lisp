@@ -1331,7 +1331,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-list (size init-val)
  "Make a new list of length SIZE with its cars set to INIT-VAL."
- (unless (and (integer? size) (positive? size)) (error "SIZE must be a positiveinteger"))
+ (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
  (let (result
        (current-size 0))
   (until (= current-size size)
@@ -2321,8 +2321,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-matrix (rows cols init-val)
  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
- (unless (and (integer? rows) (integer? cols))
-  (error "Both ROWS and COLS must be integers"))
+ (unless (and (integer? rows) (integer? cols) (positive? rows) (positive? cols))
+  (error "Both ROWS and COLS must be positive integers"))
  (let (result
        (current-row 0))
   (until (= current-row rows)
