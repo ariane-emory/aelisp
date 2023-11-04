@@ -1719,7 +1719,6 @@
 ;;     (rplaca! plist (caddr plist))
 ;;     (rplacd! plist (if (caddr plist) (cdddr plist) (list nil))) ;; special case for removing last element
 ;;     plist)
-
 ;;   ;; If the key is not at the head, iterate through the plist.
 ;;   (let ((prev plist)
 ;;         (current (cdr plist)))
@@ -1769,23 +1768,23 @@
 ;;    (rplacd! tail (cons prop (cons value nil))))  ; Append the prop-value pair if not found.
 ;;   (cdr head)))  ; Return the list after the dummy head.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun make-plist (keys vals)
- "Build a plist from KEYS and VALS."
- (unless (list? keys) (error "KEYS must be a list."))
- (unless (list? vals) (error "VALS must be a list."))
- (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
- (let (plist
-       (rkeys (reverse keys))
-       (rvals (reverse vals)))
-  (while (not (= (length rkeys) (length rvals)))
-   (setq! rvals (cons nil rvals)))
-  (while rkeys
-   (if plist
-    (plist-set! plist (car rkeys) (car rvals))
-    (setq! plist (plist-set plist (car rkeys) (car rvals))))
-   (setq! rkeys (cdr rkeys))
-   (setq! rvals (cdr rvals)))
-  plist))
+;; (defun make-plist (keys vals)
+;;  "Build a plist from KEYS and VALS."
+;;  (unless (list? keys) (error "KEYS must be a list."))
+;;  (unless (list? vals) (error "VALS must be a list."))
+;;  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
+;;  (let (plist
+;;        (rkeys (reverse keys))
+;;        (rvals (reverse vals)))
+;;   (while (not (= (length rkeys) (length rvals)))
+;;    (setq! rvals (cons nil rvals)))
+;;   (while rkeys
+;;    (if plist
+;;     (plist-set! plist (car rkeys) (car rvals))
+;;     (setq! plist (plist-set plist (car rkeys) (car rvals))))
+;;    (setq! rkeys (cdr rkeys))
+;;    (setq! rvals (cdr rvals)))
+;;   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-plist (keys vals)
  "Build a plist from KEYS and VALS."
@@ -1843,21 +1842,20 @@
  (defun alist-to-plist (alist)
   "Convert an alist ALIST to a plist."
   (unless (list? alist)          (error "ALIST must be a list"))
-  (let ((result nil)
-        (tail   nil))
+  (let (result tail)
    (while alist
     (let* ((pair (car alist))
            (key  (car pair))
            (value (cdr pair)))
      (if tail
       (progn
-       (rplacd! tail (cons key (cons value nil))) ; Append the two new items.
-       (setq! tail (cdr tail)) ; Advance tail once for the key.
-       (setq! tail (cdr tail))) ; Advance tail once more for the value.
+       (rplacd! tail (cons key (cons value nil)))
+       (setq!   tail (cdr tail))
+       (setq!   tail (cdr tail)))
       (progn
-       (setq! result (cons key (cons value nil))) ; Initialize result.
-       (setq! tail result) ; Set tail to the first cons.
-       (setq! tail (cdr tail))))) ; Advance tail once for the key.
+       (setq! result (cons key (cons value nil)))
+       (setq! tail   result)
+       (setq! tail   (cdr tail)))))
     (setq! alist (cdr alist)))
    result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1884,7 +1882,7 @@
   "Extracts the values from a plist PLIST."
   (unless (list? plist)          (error "PLIST must be a list"))
   (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
-  (when plist (plist-keys (cdr plist))))
+  (plist-keys (cdr plist)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (setq! keys      plist-keys)
  (setq! vals-base vals)
