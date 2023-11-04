@@ -1016,18 +1016,19 @@
  "Return a list containing those members of lst satisfying pred?."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
- (let (result tail)
-  (while lst
-   (if (pred? (car lst))
-    (let ((new-cons (list (car lst))))
-     (if tail
-      (progn
-       (rplacd! tail new-cons)
-       (setq!   tail new-cons))
-      (setq! result new-cons)
-      (setq! tail   result))))
-   (setq! lst (cdr lst)))
-  result))
+ (when lst
+  (let (result tail)
+   (while lst
+    (if (pred? (car lst))
+     (let ((new-cons (list (car lst))))
+      (if tail
+       (progn
+        (rplacd! tail new-cons)
+        (setq!   tail new-cons))
+       (setq! result new-cons)
+       (setq! tail   result))))
+    (setq! lst (cdr lst)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
  "Intercalate INTERCALATED between items in LST."
