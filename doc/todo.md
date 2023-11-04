@@ -1,7 +1,4 @@
 To Do:
-- [ ] Why is :last-bound-to set on nil/t?
-- [ ] core_put_prop shouldn't allow putting properties on some symbols like t or nil, maybe add a :no-user-properties property?
-- { } core_alist needs to be revised or maybe removed.
 - [ ] Improve butlast to take optional N.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
@@ -40,6 +37,9 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] core_put_prop shouldn't allow putting properties on some symbols like t or nil, maybe add a :no-user-properties property?
+- {x} core_alist needs to be revised or maybe removed. (Removed for now)
+- [x] Why is :last-bound-to set on nil/t? (Fixed)
 - [x] Function parameters should be forbidden from being *special* symbols. (Oh, they already were.)
 - [x] rational constructor func.
 - [x] case macro.
