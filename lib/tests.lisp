@@ -400,6 +400,9 @@
 (confirm that (plist-to-alist '(a 1 b 2 c 3))                              returns '((a . 1) (b . 2) (c . 3)))
 (confirm that (alist-to-plist '((a . 1) (b . 2) (c . 3)))                  returns '(a 1 b 2 c 3))
 (confirm that (plist-to-alist (alist-to-plist '((a . 1) (b . 2) (c . 3)))) returns '((a . 1) (b . 2) (c . 3)))
+
+(confirm that (concat* :this " sentence " 'contains " " 5 " words.")       returns ":this sentence contains 5 words.")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
