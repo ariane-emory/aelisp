@@ -744,16 +744,16 @@
         (tail result))
    (while lst
     (unless (eql? elem (car lst))
-     (if (nil? tail)
-      (progn 
-       (setq! result (list (car lst)))
-       (setq! tail result))
-      (let ((new-cons (list (car lst))))
+     (let ((new-cons (list (car lst))))
+      (if (nil? tail)
+       (progn 
+        (setq! result new-cons)
+        (setq! tail result))
        (princ "(rplacd! " tail " " new-cons ")") (nl)
        (rplacd! tail new-cons)
        (setq! tail new-cons))))
     (setq! lst (cdr lst))
-  result)))
+    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeq! (obj lst)
  "Remove the first item eq? to OBJ from LST."
