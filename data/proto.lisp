@@ -216,16 +216,4 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun copy-list (lst)
- "Take a shallow copy of LST."
- (unless (list? lst) (error "LST must be a list"))
- (when lst
-  (let* ((result (list (car lst)))
-         (tail result))
-   (setq! lst (cdr lst))
-   (while lst
-    (let ((new-cons (list (car lst))))
-     (rplacd! tail new-cons)
-     (setq! tail new-cons))
-    (setq! lst (cdr lst)))
-   result)))j
+
