@@ -154,9 +154,8 @@
  (unless (list? lst2) (error "LST2 must be a list"))
  (if (nil? lst1)
   lst2
-  (progn
-   (rplacd! (last lst1) lst2)
-   lst1)))
+  (rplacd! (last lst1) lst2)
+  lst1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nconc! lists
  "Destructively concatenate multiple lists."
@@ -430,6 +429,25 @@
  (unless (list? lst) (error "LST must be a list"))
  (let ((result nil)
        (tail nil)
+       (current lst))
+  (while current
+   (let ((fun-result (fun (car current))))
+    (when fun-result
+     (if result
+      (progn
+       (setq! tail (nconc2! tail fun-result))
+       (setq! tail (last tail)))
+      (setq! result fun-result)
+      (setq! tail result))))
+   (setq! current (cdr current)))
+  result))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun mapcan (fun lst)
+ "Map fun over LST and concatenate the results by altering them."
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
+ (let (result
+       tail
        (current lst))
   (while current
    (let ((fun-result (fun (car current))))
