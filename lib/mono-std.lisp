@@ -106,25 +106,25 @@
 ;; list funs (append/nconc variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append2 (lst1 lst2)
- "Append LST1 and LST2 by altering LST1."
+ "Append LST1 and LST2 by copying LST1."
  (unless (list? lst1) (error "LST1 must be a list"))
  (unless (list? lst2) (error "LST2 must be a list"))
- (let ((result nil)          ; Initialize the result list as empty
-       (last-cell nil)       ; Track the last cell in the result
+ (let (result          ; Initialize the result list as empty
+       last-cons       ; Track the last cons in the result
        (current lst1))
   ;; Iterate over lst1 and copy elements to result
   (while current
-   (let ((new-cell (cons (car current) nil)))
+   (let ((new-cons (list (car current))))
     (if (nil? result)
-     (setq! result new-cell)    ; Initialize result if it's the first element
-     (rplacd! last-cell new-cell)) ; Attach new-cell to the end of result
-    (setq! last-cell new-cell)
+     (setq! result new-cons)    ; Initialize result if it's the first element
+     (rplacd! last-cons new-cons)) ; Attach new-cons to the end of result
+    (setq! last-cons new-cons)
     (setq! current (cdr current))))
   ;; Attach lst2 to the end of result
   (if (nil? result)
    lst2
    (progn
-    (rplacd! last-cell lst2)
+    (rplacd! last-cons lst2)
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lists
