@@ -107,18 +107,18 @@ end:
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _pop
+// _popb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_popb(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("pop");
+  CORE_BEGIN("pop!");
 
   ae_obj_t * const sym  = CAR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
-          "pop! only works on bound and settable symbols");
+          "popb! only works on bound and settable symbols");
 
   ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
 
@@ -132,22 +132,22 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("pop", ret);
+  CORE_RETURN("pop!", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _push
+// _pushb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_pushb(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("push");
+  CORE_BEGIN("push!");
 
   ae_obj_t * const sym = CADR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
-          "push! only works on bound and settable symbols");
+          "pushb! only works on bound and settable symbols");
 
   ae_obj_t * const lst = RETURN_IF_ERRORP(EVAL(env, sym));
 
@@ -160,5 +160,5 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("push", ret);
+  CORE_RETURN("push!", ret);
 }
