@@ -1,5 +1,4 @@
 To Do:
-- [ ] Maybe build in zero?, one? and 1+. (all but 1+ completed)
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -37,6 +36,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Maybe build in zero?, one? and 1+.
 - [x] Investigate why (/ 2 0) doesn't cause an error.
 - [x] pwd, basename, dirname.
 - [x] Improve butlast to take optional N.
