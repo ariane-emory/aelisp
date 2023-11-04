@@ -1001,16 +1001,33 @@
      current-list)))
   max-depth))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun filter (pred? lst)
+;;  "Return a list containing those members of lst satisfying pred?."
+;;  (unless (fun? pred?) (error "PRED? must be a function"))
+;;  (unless (list? lst)  (error "LST must be a list"))
+;;  (let (result)
+;;   (while lst
+;;    (if (pred? (car lst))
+;;     (setq! result (cons (car lst) result)))
+;;    (setq! lst (cdr lst)))
+;;   (reverse result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun filter (pred? lst)
  "Return a list containing those members of lst satisfying pred?."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
- (let ((result nil))
+ (let (result tail)
   (while lst
    (if (pred? (car lst))
-    (setq! result (cons (car lst) result)))
+    (let ((new-cons (list (car lst))))
+     (if tail
+      (progn
+       (rplacd! tail new-cons)
+       (setq!   tail new-cons))
+      (setq! result new-cons)
+      (setq! tail   result))))
    (setq! lst (cdr lst)))
-  (reverse result)))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
  "Intercalate INTERCALATED between items in LST."
