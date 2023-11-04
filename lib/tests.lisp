@@ -405,10 +405,10 @@
 (ignore
  "Make some syntax kind of like this work:"
  (confirm that (random 10) is (and (>= 0 val) (< 10 val))))
-
 #|
 
 Write some tests for bitwise operators.
+Write some tests for matrix-transform..
 Write some tests for random.
 Write some tests for structs.
 
