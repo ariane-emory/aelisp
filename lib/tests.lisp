@@ -268,7 +268,7 @@
 (confirm that (removeql 9 '(1 2 3 4 5 6))              returns '(1 2 3 4 5 6))
 
 (confirm that (equal? '(1 . (2 . (3 . nil))) '(1 2 3)) returns t)
-(confirm that (depth '(1 2 (3 4 (5)) (6 7)))           returns 3)
+(confirm that (depth  '(1 2 (3 4 (5)) (6 7)))          returns 3)
 
 (confirm that (min 2 3 1 4 9 8 1 7)                    returns 1)
 (confirm that (max 2 3 1 4 9 8 1 7)                    returns 9)
