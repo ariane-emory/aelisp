@@ -160,10 +160,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nconc! lists
  "Destructively concatenate multiple lists."
- (let ((result (car lists))
+ (let ((result     (car lists))
        (rest-lists (cdr lists)))
   (while rest-lists
-   (setq! result (nconc2! result (car rest-lists)))
+   (setq! result     (nconc2! result (car rest-lists)))
    (setq! rest-lists (cdr rest-lists)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
