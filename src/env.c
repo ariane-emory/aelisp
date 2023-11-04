@@ -434,25 +434,35 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
     ENV_SET(env, SYM("*std-name*"), SYM("mono-std"));
 
   // This is constant because it's set by the command line on startup and chang it wouldn't do anything anyhow:
-  PUT_PROP(TRUE, "constant", SYM("*std-name*"));
+  PUT_PROP(TRUE, "constant",      SYM("*std-name*"));
+  PUT_PROP(TRUE, "no-user-props", SYM("*std-name*"));
   
   // *features* should always be ENV_BOUNDP.
   ENV_SET(env,                SYM("*features*"),                    NIL); 
 
   // These two are constant because changing them wouldn't do anything until std is reloaded anyhow:
-  ENV_SET(env,                SYM("*log-loading-std-enabled*"),     TRUTH(log_loading_std));
-  PUT_PROP(TRUE, "constant",  SYM("*log-loading-std-enabled*"));
-  ENV_SET(env,                SYM("*microbench-enabled*"),          TRUTH(flags & MICROBENCH_ENABLED));
-  PUT_PROP(TRUE, "constant",  SYM("*microbench-enable*"));
+  ENV_SET(env,                     SYM("*log-loading-std-enabled*"),     TRUTH(log_loading_std));
+
+  PUT_PROP(TRUE, "constant",       SYM("*log-loading-std-enabled*"));
+  PUT_PROP(TRUE, "no-user-props",  SYM("*log-loading-std-enabled*"));
+
+  ENV_SET(env,                     SYM("*microbench-enabled*"),          TRUTH(flags & MICROBENCH_ENABLED));
+
+  PUT_PROP(TRUE, "constant",       SYM("*microbench-enable*"));
+  PUT_PROP(TRUE, "no-user-props",  SYM("*microbench-enable*"));
 
   // *program* should always be bound but is constant, the user probably shouldn't change it anyhow:
   bool program_found = false;
-  ENV_SET(env,                SYM("*program*"),                     NIL);
-  PUT_PROP(TRUE, "constant",  SYM("*program*"));
+  ENV_SET(env,                     SYM("*program*"),                     NIL);
+  PUT_PROP(TRUE, "constant",       SYM("*program*"));
+  PUT_PROP(TRUE, "no-user-props",  SYM("*program*"));
 
   // Of course, nil and t are constants:
   PUT_PROP(TRUE, "constant",            NIL);
+  PUT_PROP(TRUE, "no-user-props",       NIL);
+
   PUT_PROP(TRUE, "constant",            TRUE);
+  PUT_PROP(TRUE, "no-user-props",       TRUE);
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 6: Set some system variables and mark some of them as constant:
