@@ -1787,637 +1787,655 @@
    (setq! rvals (cdr rvals)))
   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun plist-to-alist (plist)
-;;  "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
-;;  "cons in the resulting alist's value cell will be nil."
-;;  (unless (list? plist)          (error "PLIST must be a list"))
-;;  (when plist
-;;   (let (alist (plist plist))
-;;    (while plist
-;;     (setq! alist (cons (cons (car plist) (cadr plist)) alist))
-;;     (setq! plist (cddr plist)))
-;;    (reverse alist))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-to-alist (plist)
- "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
- "cons in the resulting alist's value cell will be nil."
- (unless (list? plist)          (error "PLIST must be a list"))
- (when plist
-  (let* ((result (list (cons (car plist) (cadr plist))))
-         (tail   result)
-         (plist  (cddr plist)))
-   (while plist
-    (let ((new-alist-item (list (cons (car plist) (cadr plist)))))
-     (rplacd! tail new-alist-item)
-     (setq!   tail new-alist-item))
-    (setq! plist (cddr plist)))
+(defun make-plist (keys vals)
+ "Build a plist from KEYS and VALS."
+ (unless (list? keys) (error "KEYS must be a list."))
+ (unless (list? vals) (error "VALS must be a list."))
+ (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
+ (when keys
+  (let* ((result (list (car keys) (car vals)))
+         (tail (cdr result)))
+   (setq! keys (cdr keys))
+   (setq! vals (cdr vals))
+   (while keys
+    (let ((new-tail (list (car keys) (car vals))))
+     (rplacd! tail new-tail)
+     (setq!   tail (cdr new-tail))
+     (setq! keys (cdr keys))
+     (setq! vals (cdr vals))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun alist-to-plist (alist)
-;;  "Convert an alist ALIST to a plist."
-;;  (unless (list? alist)          (error "ALIST must be a list"))
-;;  (let (plist (alist alist))
-;;   (while alist
-;;    (setq! plist (cons (car alist) (cons (cadr alist) plist)))
-;;    (setq! alist (cddr alist)))
-;;   plist))
+ ;; (defun plist-to-alist (plist)
+ ;;  "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
+ ;;  "cons in the resulting alist's value cell will be nil."
+ ;;  (unless (list? plist)          (error "PLIST must be a list"))
+ ;;  (when plist
+ ;;   (let (alist (plist plist))
+ ;;    (while plist
+ ;;     (setq! alist (cons (cons (car plist) (cadr plist)) alist))
+ ;;     (setq! plist (cddr plist)))
+ ;;    (reverse alist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun alist-to-plist (alist)
+ (defun plist-to-alist (plist)
+  "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
+  "cons in the resulting alist's value cell will be nil."
+  (unless (list? plist)          (error "PLIST must be a list"))
+  (when plist
+   (let* ((result (list (cons (car plist) (cadr plist))))
+          (tail   result)
+          (plist  (cddr plist)))
+    (while plist
+     (let ((new-alist-item (list (cons (car plist) (cadr plist)))))
+      (rplacd! tail new-alist-item)
+      (setq!   tail new-alist-item))
+     (setq! plist (cddr plist)))
+    result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; (defun alist-to-plist (alist)
+ ;;  "Convert an alist ALIST to a plist."
+ ;;  (unless (list? alist)          (error "ALIST must be a list"))
+ ;;  (let (plist (alist alist))
+ ;;   (while alist
+ ;;    (setq! plist (cons (car alist) (cons (cadr alist) plist)))
+ ;;    (setq! alist (cddr alist)))
+ ;;   plist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun alist-to-plist (alist)
   "Convert an alist ALIST to a plist."
   (unless (list? alist)          (error "ALIST must be a list"))
   (let ((result nil)
         (tail   nil))
-    (while alist
-      (let* ((pair (car alist))
-             (key  (car pair))
-             (value (cdr pair)))
-        (if tail
-            (progn
-              (rplacd! tail (cons key (cons value nil))) ; Append the two new items.
-              (setq! tail (cdr tail)) ; Advance tail once for the key.
-              (setq! tail (cdr tail))) ; Advance tail once more for the value.
-            (progn
-              (setq! result (cons key (cons value nil))) ; Initialize result.
-              (setq! tail result) ; Set tail to the first cons.
-              (setq! tail (cdr tail))))) ; Advance tail once for the key.
-      (setq! alist (cdr alist)))
-    result))
+   (while alist
+    (let* ((pair (car alist))
+           (key  (car pair))
+           (value (cdr pair)))
+     (if tail
+      (progn
+       (rplacd! tail (cons key (cons value nil))) ; Append the two new items.
+       (setq! tail (cdr tail)) ; Advance tail once for the key.
+       (setq! tail (cdr tail))) ; Advance tail once more for the value.
+      (progn
+       (setq! result (cons key (cons value nil))) ; Initialize result.
+       (setq! tail result) ; Set tail to the first cons.
+       (setq! tail (cdr tail))))) ; Advance tail once for the key.
+    (setq! alist (cdr alist)))
+   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun plist-keys (plist)
-;;  "Extracts the keys from a plist PLIST."
-;;  (unless (list? plist)          (error "PLIST must be a list"))
-;;  (when plist (cons (car plist) (plist-keys (cddr plist)))))
+ ;; (defun plist-keys (plist)
+ ;;  "Extracts the keys from a plist PLIST."
+ ;;  (unless (list? plist)          (error "PLIST must be a list"))
+ ;;  (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-keys (plist)
- "Extracts the keys from a plist PLIST."
- (unless (list? plist) (error "PLIST must be a list"))
- (when lst
-  (let* ((result (list (car plist)))
-         (tail result))
-   (setq! plist (cddr plist))
-   (while plist
-    (let ((new-cons (list (car plist))))
-     (rplacd! tail new-cons)
-     (setq!   tail new-cons))
-    (setq! plist (cddr plist)))
-   result)))
+ (defun plist-keys (plist)
+  "Extracts the keys from a plist PLIST."
+  (unless (list? plist) (error "PLIST must be a list"))
+  (when lst
+   (let* ((result (list (car plist)))
+          (tail result))
+    (setq! plist (cddr plist))
+    (while plist
+     (let ((new-cons (list (car plist))))
+      (rplacd! tail new-cons)
+      (setq!   tail new-cons))
+     (setq! plist (cddr plist)))
+    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-vals (plist)
- "Extracts the values from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
- (when plist (plist-keys (cdr plist))))
+ (defun plist-vals (plist)
+  "Extracts the values from a plist PLIST."
+  (unless (list? plist)          (error "PLIST must be a list"))
+  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
+  (when plist (plist-keys (cdr plist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! keys      plist-keys)
-(setq! vals-base vals)
+ (setq! keys      plist-keys)
+ (setq! vals-base vals)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun vals args
- "Retrieve the values from a plist or environment."
- (when (cdr args) (error "VALS takes only one argument"))
- (let ((arg (car args)))
-  (cond
-   ((nil? arg)  (vals-base (env (env (env)))))
-   ((list? arg) (plist-vals arg))
-   ((env? arg)  (vals-base arg))
-   (t           (error "VALS takes a plist or an environment")))))
+ (defun vals args
+  "Retrieve the values from a plist or environment."
+  (when (cdr args) (error "VALS takes only one argument"))
+  (let ((arg (car args)))
+   (cond
+    ((nil? arg)  (vals-base (env (env (env)))))
+    ((list? arg) (plist-vals arg))
+    ((env? arg)  (vals-base arg))
+    (t           (error "VALS takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'plist-funs)
+ (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; remove property macro:
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defmacro remove (obj prop)
-;;  "Remove a property PROP from OBJ."
-;;  $('prog1
-;;    $('quote $('get obj prop))
-;;    $('props! obj $('plist-remove $('props obj) prop))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (provide 'remove-prop-macro)
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; ;; remove property macro:
+ ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; (defmacro remove (obj prop)
+ ;;  "Remove a property PROP from OBJ."
+ ;;  $('prog1
+ ;;    $('quote $('get obj prop))
+ ;;    $('props! obj $('plist-remove $('props obj) prop))))
+ ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; (provide 'remove-prop-macro)
+ ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; rational math funs:
+ ;; rational math funs:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if *use-soft-rationals*
- (progn
+ (if *use-soft-rationals*
+  (progn
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (defun rational (n d)
-   "Construct a rational number from numerator N and denominator D."
-   (unless (integer? n) (error "N must be an integer."))
-   (unless (integer? d) (error "D must be an integer."))
-   (cons n d))
+   (defun rational (n d)
+    "Construct a rational number from numerator N and denominator D."
+    (unless (integer? n) (error "N must be an integer."))
+    (unless (integer? d) (error "D must be an integer."))
+    (cons n d))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
-  (defun integer-to-rational (n)
-   "Construct a rational number from integer N."
-   (unless (integer? n) (error "N must be an integer."))
-   (cons n 1))
+   (defun integer-to-rational (n)
+    "Construct a rational number from integer N."
+    (unless (integer? n) (error "N must be an integer."))
+    (cons n 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (defun numer (num)
-   "Get NUM's numerator"
-   (unless (number? num) (error "NUM must be a number"))
-   (if (integer? num)
-    num
-    (car num)))
+   (defun numer (num)
+    "Get NUM's numerator"
+    (unless (number? num) (error "NUM must be a number"))
+    (if (integer? num)
+     num
+     (car num)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (defun denom (num)
-   "Get NUM's denominator"
-   (unless (number? num) (error "NUM must be a number"))
-   (if (integer? num)
-    1
-    (cdr num)))
+   (defun denom (num)
+    "Get NUM's denominator"
+    (unless (number? num) (error "NUM must be a number"))
+    (if (integer? num)
+     1
+     (cdr num)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (defun rational? (obj)
-   "t if OBJ is a rational number."
-   (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))) ;; end when *use-soft-rationals*
+   (defun rational? (obj)
+    "t if OBJ is a rational number."
+    (and (cons? obj) (integer? (car obj)) (integer? (cdr obj))))) ;; end when *use-soft-rationals*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
- "built-in numer and denom functions already handle integers correctly."
- (setq! integer-to-rational id))
+  "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
+  "built-in numer and denom functions already handle integers correctly."
+  (setq! integer-to-rational id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun number? (obj)
- "t if OBJ is a number."
- (or (integer? obj) (rational? obj)))
+ (defun number? (obj)
+  "t if OBJ is a number."
+  (or (integer? obj) (rational? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun gcd (a b)
- "Get the greatest common divisor of A and B."
- (unless (and (integer? a) (integer? b))
-  (error "gcd's arguments must be integers"))
- (if (zero? b) a (gcd b (mod a b))))
+ (defun gcd (a b)
+  "Get the greatest common divisor of A and B."
+  (unless (and (integer? a) (integer? b))
+   (error "gcd's arguments must be integers"))
+  (if (zero? b) a (gcd b (mod a b))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-to-nearest (num)
- "If the number NUM is a rational number, round it to the nearest integer."
- "Otherwise, just return it."
- (unless (number? num) (error "NUM must be a number"))
- (if (integer? num)
-  num
-  (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun simplify-number (number)
- "Simplify a rational number NUMBER."
- (unless (number? number) (error "NUMBER must be a number"))
- (if (integer? number)
-  number
-  (let* ((num (numer number))
-         (den (denom number))
-         (common-divisor (gcd num den)))
-   (if (zero? den) (error "Denominator is 0, something has gone awry"))
-   (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
-    (if (one? (denom rat))
-     (numer rat)
-     rat)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun add-rational (a b)
- "Add the number B to the number A."
- (unless (number? a) (error "A must be a number"))
- (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
-        (den (* (denom a) (denom b))))
-  (simplify-number (rational num den))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun sub-rational (a b)
- "Subtract the number B from the number A."
- (unless (number? a) (error "A must be a number"))
- (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
-        (den (* (denom a) (denom b))))
-  (simplify-number (rational num den))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mul-rational (a b)
- "Multiply the number A by the number B."
- (unless (number? a) (error "A must be a number"))
- (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (* (numer a) (numer b)))
-        (den (* (denom a) (denom b))))
-  (simplify-number (rational num den))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun div-rational (a b)
- "Divide the number A by the number B."
- (unless (number? a) (error "A must be a number"))
- (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
- (let* ((num (* (numer a) (denom b)))
-        (den (* (denom a) (numer b))))
-  (if (zero? den)
-   (error "Division by zero!")
-   (simplify-number (rational num den)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun rational-less-than? (a b)
- "t whdn rational A is less than rational B."
- (unless (rational? a) (error "A must be a rational."))
- (unless (rational? b) (error "B must be a rational."))
- (let* ((cross1 (* (car a) (cdr b)))
-        (cross2 (* (cdr a) (car b))))
-  (< cross1 cross2)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun approx-sqrt (num . rest)
- (unless (integer? num) (error "NUM must be an integer"))
- (unless (or (nil? (car rest)) (integer? (car rest)))
-  (error "If present, first REST arg must be an integer"))
- (unless (or (nil? (cadr rest)) (integer? (cadr rest)))
-  (error "If present, second REST arg must be an integer"))
- (when (caddr rest)
-  (error "approx-sqrt takes no more than three arguments"))
- ;; Initial guess
- (let ((denominator-limit (or (car rest) (<< 24)))
-       (max-iterations    (or (cadr rest) 1000))
-       (guess (integer-to-rational num))
-       (last-guess (integer-to-rational 0))
-       (iterations 0)
-       (continue t))  ;; continue flag
-  ;; Iterative method
-  (while (and continue 
-          (not (eql? guess last-guess))
-          (<= iterations max-iterations))
-   (setq! last-guess guess)
-   (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
-   ;; Check if the denominator is too large
-   (if (> (denom guess) denominator-limit)
-    (setq! continue nil))
-   (setq! iterations (+ 1 iterations)))  
-  guess))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun is-square? (num)
- "t when NUM is a square number."
- (unless (integer? num) (error "NUM must be an integer"))
- (let ((approx (round-to-nearest (approx-sqrt num))))
-  (= (* approx approx) num)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-up-to-square (num)
- "Round NUM up to the next square number."
- (unless (integer? num) (error "NUM must be an integer"))
- (while (not (is-square? num))
-  (setq! num (1+ num)))
- num)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun floor (n)
- "Round N down to the nearest integral value. This is probably more complex than it needs"
- "to be and could just be replaced with (div num den)..."
- (unless (number? n) (error "N must be a number."))
- (let ((num (numer n))
-       (den (denom n)))
-  (while (not (zero? (mod num den)))
-   (setq! num (- num 1)))
-  (simplify-number (rational num den))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round (num)
- "Round NUM to the nearest integral value. This overhaps heavily with 'round-to-nearest, one"
- "of them should go."
- (unless (number? num) (error "NUM must be a number."))
- (if (integer? num)
-  num
-  (floor (rational (+ (numer num) (>> (denom num) 1)) (denom num)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun abs (n)
- "Return the absolute value of N."
- (unless (number? n) (error "N must be a number."))
- (if (integer? n)
-  (if (> n 0) n (- n))
-  (let ((num (numer n)))
-   (simplify-number (rational (if (> num 0) num (- num)) (denom n))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! addd add-rational)
-(setq! subr sub-rational)
-(setq! mulr mul-rational)
-(setq! divr div-rational)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'rational-math)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; tiny-clos scheme compat aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! #f            nil)
-(setq! #t            t)
-(setq! ???           'unspecified-result)
-;; (setq! assoc         ahas?) 
-;; (setq! assq          aget) 
-(setq! collect-if    filter)
-(setq! define        setq!)
-(setq! display       write)
-(setq! every         all?)
-(setq! getl          pget)
-(setq! gsort         sort!!)
-(setq! make-vector   make-list)
-(setq! map           mapcar)
-(setq! map-append    mapcan)
-(setq! position-of   indexq)
-;; (setq! remove        removeq)
-(setq! set!          setq!) ;should should be a macro that avoids re-defining what-scheme-implementation
-(setq! vector-length list-length)
-(setq! vector-ref    list-ref)
-(setq! vector-set!   list-set!)
-(setq! null?         nil?)  
-(setq! pair?         cons?) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'scheme-compat-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; elisp compat aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! nreverse         reverse)
-(setq! setq             setq!)
-(setq! rplaca           rplaca!)
-(setq! rplacd           rplacd!)
-(setq! nconc            nconc!)
-(setq! null             nil?)
-(setq! identity         id)
-(setq! expand-file-name expand-path)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'elisp-compat-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; simple aliases:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! ljust     left-justify)
-(setq! rjust     right-justify)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'std-aliases)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; new content that hasn't been sorted of merged into split std's modules yet:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun sys* args
- "A splat version of sys that flattens and stringifies ARGS."
- (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! stdout    (curry1 pget :stdout))
-(setq! stderr    (curry1 pget :stderr))
-(setq! exit-code (curry1 pget :exit))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun not-nil? (o)
- "t when O."
- (not (nil? o)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! compact (curry1 filter not-nil?))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun expand-file-name (name . rest)
- "Return the absolute file name of NAME, optionally relative to DEFAULT-DIRECTORY."
- (unless (string? name)
-  (error "NAME must be a string"))
- (unless (or (nil? rest) (nil? (cdr rest)))
-  (error "If present, REST must contain a single element"))
- (if (nil? rest)
-  (expand-path name)
-  (let ((default-directory (car rest)))
-   (unless (string? default-directory)
-    (error "If present, the first element of REST must be a string"))
-   (expand-path (concat default-directory "/" name)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-up-to-nearest-multiple (num multiple-of)
- "Round NUM up to the nearest multiple of MULTIPLE-OF."
- (unless (integer? num)         (error "NUM must be an integer"))
- (unless (integer? multiple-of) (error "MULTIPLE-OF must be an integer"))
- (unless (> multiple-of 0)      (error "MULTIPLE-OF must be greater than zero"))
- (unless (> num 0)              (error "NUM must be greater than zero"))
- (let ((remainder (% num multiple-of)))
-  (if (zero? remainder)
+ (defun round-to-nearest (num)
+  "If the number NUM is a rational number, round it to the nearest integer."
+  "Otherwise, just return it."
+  (unless (number? num) (error "NUM must be a number"))
+  (if (integer? num)
    num
-   (+ num (- multiple-of remainder)))))
+   (/ (+ (numer num) (>> (denom num) 1)) (denom num))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun simplify-number (number)
+  "Simplify a rational number NUMBER."
+  (unless (number? number) (error "NUMBER must be a number"))
+  (if (integer? number)
+   number
+   (let* ((num (numer number))
+          (den (denom number))
+          (common-divisor (gcd num den)))
+    (if (zero? den) (error "Denominator is 0, something has gone awry"))
+    (let ((rat (rational (/ num common-divisor) (/ den common-divisor))))
+     (if (one? (denom rat))
+      (numer rat)
+      rat)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun add-rational (a b)
+  "Add the number B to the number A."
+  (unless (number? a) (error "A must be a number"))
+  (unless (number? b) (error "B must be a number")) 
+  (if (integer? a) (setq! a (integer-to-rational a)))
+  (if (integer? b) (setq! b (integer-to-rational b)))
+  (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
+         (den (* (denom a) (denom b))))
+   (simplify-number (rational num den))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun sub-rational (a b)
+  "Subtract the number B from the number A."
+  (unless (number? a) (error "A must be a number"))
+  (unless (number? b) (error "B must be a number")) 
+  (if (integer? a) (setq! a (integer-to-rational a)))
+  (if (integer? b) (setq! b (integer-to-rational b)))
+  (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
+         (den (* (denom a) (denom b))))
+   (simplify-number (rational num den))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun mul-rational (a b)
+  "Multiply the number A by the number B."
+  (unless (number? a) (error "A must be a number"))
+  (unless (number? b) (error "B must be a number")) 
+  (if (integer? a) (setq! a (integer-to-rational a)))
+  (if (integer? b) (setq! b (integer-to-rational b)))
+  (let* ((num (* (numer a) (numer b)))
+         (den (* (denom a) (denom b))))
+   (simplify-number (rational num den))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun div-rational (a b)
+  "Divide the number A by the number B."
+  (unless (number? a) (error "A must be a number"))
+  (unless (number? b) (error "B must be a number")) 
+  (if (integer? a) (setq! a (integer-to-rational a)))
+  (if (integer? b) (setq! b (integer-to-rational b)))
+  (let* ((num (* (numer a) (denom b)))
+         (den (* (denom a) (numer b))))
+   (if (zero? den)
+    (error "Division by zero!")
+    (simplify-number (rational num den)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun rational-less-than? (a b)
+  "t whdn rational A is less than rational B."
+  (unless (rational? a) (error "A must be a rational."))
+  (unless (rational? b) (error "B must be a rational."))
+  (let* ((cross1 (* (car a) (cdr b)))
+         (cross2 (* (cdr a) (car b))))
+   (< cross1 cross2)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun approx-sqrt (num . rest)
+  (unless (integer? num) (error "NUM must be an integer"))
+  (unless (or (nil? (car rest)) (integer? (car rest)))
+   (error "If present, first REST arg must be an integer"))
+  (unless (or (nil? (cadr rest)) (integer? (cadr rest)))
+   (error "If present, second REST arg must be an integer"))
+  (when (caddr rest)
+   (error "approx-sqrt takes no more than three arguments"))
+  ;; Initial guess
+  (let ((denominator-limit (or (car rest) (<< 24)))
+        (max-iterations    (or (cadr rest) 1000))
+        (guess (integer-to-rational num))
+        (last-guess (integer-to-rational 0))
+        (iterations 0)
+        (continue t))  ;; continue flag
+   ;; Iterative method
+   (while (and continue 
+           (not (eql? guess last-guess))
+           (<= iterations max-iterations))
+    (setq! last-guess guess)
+    (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
+    ;; Check if the denominator is too large
+    (if (> (denom guess) denominator-limit)
+     (setq! continue nil))
+    (setq! iterations (+ 1 iterations)))  
+   guess))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun is-square? (num)
+  "t when NUM is a square number."
+  (unless (integer? num) (error "NUM must be an integer"))
+  (let ((approx (round-to-nearest (approx-sqrt num))))
+   (= (* approx approx) num)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun round-up-to-square (num)
+  "Round NUM up to the next square number."
+  (unless (integer? num) (error "NUM must be an integer"))
+  (while (not (is-square? num))
+   (setq! num (1+ num)))
+  num)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun floor (n)
+  "Round N down to the nearest integral value. This is probably more complex than it needs"
+  "to be and could just be replaced with (div num den)..."
+  (unless (number? n) (error "N must be a number."))
+  (let ((num (numer n))
+        (den (denom n)))
+   (while (not (zero? (mod num den)))
+    (setq! num (- num 1)))
+   (simplify-number (rational num den))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun round (num)
+  "Round NUM to the nearest integral value. This overhaps heavily with 'round-to-nearest, one"
+  "of them should go."
+  (unless (number? num) (error "NUM must be a number."))
+  (if (integer? num)
+   num
+   (floor (rational (+ (numer num) (>> (denom num) 1)) (denom num)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun abs (n)
+  "Return the absolute value of N."
+  (unless (number? n) (error "N must be a number."))
+  (if (integer? n)
+   (if (> n 0) n (- n))
+   (let ((num (numer n)))
+    (simplify-number (rational (if (> num 0) num (- num)) (denom n))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! addd add-rational)
+ (setq! subr sub-rational)
+ (setq! mulr mul-rational)
+ (setq! divr div-rational)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (provide 'rational-math)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; random number generator functions:
+ ;; tiny-clos scheme compat aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; uint64_t xorshift64(struct xorshift64_state *state)
-;; {
-;; 	uint64_t x = state->a;
-;; 	x ^= x << 13;
-;; 	x ^= x >> 7;
-;; 	x ^= x << 17;
-;; 	return state->a = x;
-;; }
-(setq! *xorshift64-seed* (now-us))
+ (setq! #f            nil)
+ (setq! #t            t)
+ (setq! ???           'unspecified-result)
+ ;; (setq! assoc         ahas?) 
+ ;; (setq! assq          aget) 
+ (setq! collect-if    filter)
+ (setq! define        setq!)
+ (setq! display       write)
+ (setq! every         all?)
+ (setq! getl          pget)
+ (setq! gsort         sort!!)
+ (setq! make-vector   make-list)
+ (setq! map           mapcar)
+ (setq! map-append    mapcan)
+ (setq! position-of   indexq)
+ ;; (setq! remove        removeq)
+ (setq! set!          setq!) ;should should be a macro that avoids re-defining what-scheme-implementation
+ (setq! vector-length list-length)
+ (setq! vector-ref    list-ref)
+ (setq! vector-set!   list-set!)
+ (setq! null?         nil?)  
+ (setq! pair?         cons?) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun xorshift64 ()
- "Generate a pseudo-random positive integer."
- (when (zero? *xorshift64-seed*) (setq! *xorshift64-seed* (now-us)))  
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
- (abs *xorshift64-seed*))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun random args
- "Return a psuedo-random integer between MIN and MAX inclusive."
- (unless (or (nil? args) (nil? (cddr args)))
-  (error "random takes either 0, 1 or 2 arguments"))
- (unless (or (nil? (car args)) (integer? (car args)))
-  (error "If provided, first argument must be an integer"))
- (unless (or (nil? (cdr args)) (integer? (cadr args)))
-  (error "If provided, second argument must be an integer"))
- (let ((randval (xorshift64)))
-  (if args
-   (let* ((arg1 (if (cadr args) (car  args) 0))
-          (arg2 (if (cadr args) (cadr args) (car args)))
-          (min (min arg1 arg2))
-          (max (max arg1 arg2))
-          (range (+ 1 (- max min))))
-    (+ min (mod (xorshift64) range)))
-   randval)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'random)
+ (provide 'scheme-compat-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; matrix-related functions:
+ ;; elisp compat aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix? (obj)
- "t when OBJ is a matrix (list of lists)."
- (and (list? obj) (all? list? obj)))
+ (setq! nreverse         reverse)
+ (setq! setq             setq!)
+ (setq! rplaca           rplaca!)
+ (setq! rplacd           rplacd!)
+ (setq! nconc            nconc!)
+ (setq! null             nil?)
+ (setq! identity         id)
+ (setq! expand-file-name expand-path)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-transpose (matrix)
- "Convert the rows of MATRIX into columns."
- (unless (rectangular-matrix? matrix) (error "MATRIX must be a rectangular matrix (all rows must have the same number of columns)."))
- (when (car matrix)
-  (cons (mapcar car matrix) (matrix-transpose (mapcar cdr matrix)))))
+ (provide 'elisp-compat-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-reverse-rows (matrix)
- "Reverse each row in MATRIX."
- (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
- (mapcar reverse matrix))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun rectangular-matrix? (matrix)
- "t if the rows in MATRIX all have the same length."
- (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
- (let ((first-row-length (length (car matrix))))
-  (all?
-   (lambda (row)
-    (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
-    (= (length row) first-row-length))
-   (cdr matrix))))
+ ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-rotate-right (matrix)
- "Rotate MATRIX right by 90 degrees."
- (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
- (unless (rectangular-matrix? matrix)
-  (error "MATRIX is not rectangular. All rows must have the same number of columns."))
- (matrix-reverse-rows (matrix-transpose matrix)))
+ (setq! ljust     left-justify)
+ (setq! rjust     right-justify)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-set! (matrix row col value)
- "Destructively set the element at ROW and COL of MATRIX to VALUE."
- (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- ;;(princ "Set row " row " col " col " to " value) (nl)
- (let ((target-row (list-ref matrix row)))
-  (list-set! target-row col value)))
+ (provide 'std-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-ref (matrix row col)
- "Retrieve the element at ROW and COL in MATRIX."
- (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
- (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
- (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- (let ((target-row (list-ref matrix row)))
-  (unless target-row                       (error "ROW index out of bounds"))
-  (list-ref target-row col)))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun write-matrix (matrix)
- "Display a matrix MATRIX by applying write to each row."
- (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
- (let ((row-count (length matrix))
-       (current-row 0))
-  (while (< current-row row-count)
-   (write (list-ref matrix current-row))
-   (nl)
-   (setq! current-row (+ 1 current-row)))))
+ ;; new content that hasn't been sorted of merged into split std's modules yet:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun make-matrix (rows cols init-val)
-;;   "Make a new matrix of size ROWS x COLS with each element set to INIT-VAL."
-;;   (unless (integer? rows) (error "ROWS must be an integer"))
-;;   (unless (integer? cols) (error "COLS must be an integer"))
-;;   ;; Create the matrix using make-list
-;;  (make-list rows (make-list cols init-val)))
-(defun make-matrix (rows cols init-val)
- "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
- (unless (and (integer? rows) (integer? cols))
-  (error "Both ROWS and COLS must be integers"))
- (let ((result nil)
-       (current-row 0))
-  (while (< current-row rows)
-   (setq! result (cons (make-list cols init-val) result))
-   (setq! current-row (+ 1 current-row)))
-  result))
+ (defun sys* args
+  "A splat version of sys that flattens and stringifies ARGS."
+  (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! stdout    (curry1 pget :stdout))
+ (setq! stderr    (curry1 pget :stderr))
+ (setq! exit-code (curry1 pget :exit))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun not-nil? (o)
+  "t when O."
+  (not (nil? o)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (setq! compact (curry1 filter not-nil?))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun expand-file-name (name . rest)
+  "Return the absolute file name of NAME, optionally relative to DEFAULT-DIRECTORY."
+  (unless (string? name)
+   (error "NAME must be a string"))
+  (unless (or (nil? rest) (nil? (cdr rest)))
+   (error "If present, REST must contain a single element"))
+  (if (nil? rest)
+   (expand-path name)
+   (let ((default-directory (car rest)))
+    (unless (string? default-directory)
+     (error "If present, the first element of REST must be a string"))
+    (expand-path (concat default-directory "/" name)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun round-up-to-nearest-multiple (num multiple-of)
+  "Round NUM up to the nearest multiple of MULTIPLE-OF."
+  (unless (integer? num)         (error "NUM must be an integer"))
+  (unless (integer? multiple-of) (error "MULTIPLE-OF must be an integer"))
+  (unless (> multiple-of 0)      (error "MULTIPLE-OF must be greater than zero"))
+  (unless (> num 0)              (error "NUM must be greater than zero"))
+  (let ((remainder (% num multiple-of)))
+   (if (zero? remainder)
+    num
+    (+ num (- multiple-of remainder)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; random number generator functions:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; uint64_t xorshift64(struct xorshift64_state *state)
+ ;; {
+ ;; 	uint64_t x = state->a;
+ ;; 	x ^= x << 13;
+ ;; 	x ^= x >> 7;
+ ;; 	x ^= x << 17;
+ ;; 	return state->a = x;
+ ;; }
+ (setq! *xorshift64-seed* (now-us))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun xorshift64 ()
+  "Generate a pseudo-random positive integer."
+  (when (zero? *xorshift64-seed*) (setq! *xorshift64-seed* (now-us)))  
+  (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
+  (setq! *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
+  (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
+  (abs *xorshift64-seed*))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun random args
+  "Return a psuedo-random integer between MIN and MAX inclusive."
+  (unless (or (nil? args) (nil? (cddr args)))
+   (error "random takes either 0, 1 or 2 arguments"))
+  (unless (or (nil? (car args)) (integer? (car args)))
+   (error "If provided, first argument must be an integer"))
+  (unless (or (nil? (cdr args)) (integer? (cadr args)))
+   (error "If provided, second argument must be an integer"))
+  (let ((randval (xorshift64)))
+   (if args
+    (let* ((arg1 (if (cadr args) (car  args) 0))
+           (arg2 (if (cadr args) (cadr args) (car args)))
+           (min (min arg1 arg2))
+           (max (max arg1 arg2))
+           (range (+ 1 (- max min))))
+     (+ min (mod (xorshift64) range)))
+    randval)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (provide 'random)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; matrix-related functions:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun matrix? (obj)
+  "t when OBJ is a matrix (list of lists)."
+  (and (list? obj) (all? list? obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun matrix-transpose (matrix)
+  "Convert the rows of MATRIX into columns."
+  (unless (rectangular-matrix? matrix) (error "MATRIX must be a rectangular matrix (all rows must have the same number of columns)."))
+  (when (car matrix)
+   (cons (mapcar car matrix) (matrix-transpose (mapcar cdr matrix)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun matrix-reverse-rows (matrix)
+  "Reverse each row in MATRIX."
+  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+  (mapcar reverse matrix))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun rectangular-matrix? (matrix)
+  "t if the rows in MATRIX all have the same length."
+  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+  (let ((first-row-length (length (car matrix))))
+   (all?
+    (lambda (row)
+     (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
+     (= (length row) first-row-length))
+    (cdr matrix))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun matrix-rotate-right (matrix)
+  "Rotate MATRIX right by 90 degrees."
+  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+  (unless (rectangular-matrix? matrix)
+   (error "MATRIX is not rectangular. All rows must have the same number of columns."))
+  (matrix-reverse-rows (matrix-transpose matrix)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun matrix-set! (matrix row col value)
+  "Destructively set the element at ROW and COL of MATRIX to VALUE."
+  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+  (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
+  ;;(princ "Set row " row " col " col " to " value) (nl)
+  (let ((target-row (list-ref matrix row)))
+   (list-set! target-row col value)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun matrix-ref (matrix row col)
+  "Retrieve the element at ROW and COL in MATRIX."
+  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
+  (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
+  (let ((target-row (list-ref matrix row)))
+   (unless target-row                       (error "ROW index out of bounds"))
+   (list-ref target-row col)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun write-matrix (matrix)
+  "Display a matrix MATRIX by applying write to each row."
+  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
+  (let ((row-count (length matrix))
+        (current-row 0))
+   (while (< current-row row-count)
+    (write (list-ref matrix current-row))
+    (nl)
+    (setq! current-row (+ 1 current-row)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; (defun make-matrix (rows cols init-val)
+ ;;   "Make a new matrix of size ROWS x COLS with each element set to INIT-VAL."
+ ;;   (unless (integer? rows) (error "ROWS must be an integer"))
+ ;;   (unless (integer? cols) (error "COLS must be an integer"))
+ ;;   ;; Create the matrix using make-list
+ ;;  (make-list rows (make-list cols init-val)))
+ (defun make-matrix (rows cols init-val)
+  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
+  (unless (and (integer? rows) (integer? cols))
+   (error "Both ROWS and COLS must be integers"))
+  (let ((result nil)
+        (current-row 0))
+   (while (< current-row rows)
+    (setq! result (cons (make-list cols init-val) result))
+    (setq! current-row (+ 1 current-row)))
+   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
-(defun mutate-matrix (matrix height width ternary-func)
- "Modify each cell of the MATRIX using the TERNARY-FUNC."
- "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
- "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
- (unless (matrix? matrix)
-  (error "MATRIX must be a list of lists"))
- (unless (and (integer? height) (integer? width))
-  (error "Both HEIGHT and WIDTH must be integers"))
- (let ((current-row 0)
-       (current-col 0))
-  (while (< current-row height)
-   (setq! current-col 0)
-   (while (< current-col width)
-    (let* ((current-value (matrix-ref matrix current-row current-col))
-           (new-value (ternary-func current-row current-col current-value)))
-     ;; (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
-     (matrix-set! matrix current-row current-col new-value)
-     (setq! current-col (+ current-col 1))))
-   (setq! current-row (+ current-row 1))))
- matrix)
+ (defun mutate-matrix (matrix height width ternary-func)
+  "Modify each cell of the MATRIX using the TERNARY-FUNC."
+  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
+  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
+  (unless (matrix? matrix)
+   (error "MATRIX must be a list of lists"))
+  (unless (and (integer? height) (integer? width))
+   (error "Both HEIGHT and WIDTH must be integers"))
+  (let ((current-row 0)
+        (current-col 0))
+   (while (< current-row height)
+    (setq! current-col 0)
+    (while (< current-col width)
+     (let* ((current-value (matrix-ref matrix current-row current-col))
+            (new-value (ternary-func current-row current-col current-value)))
+      ;; (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
+      (matrix-set! matrix current-row current-col new-value)
+      (setq! current-col (+ current-col 1))))
+    (setq! current-row (+ current-row 1))))
+  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'matrix)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; struct-related macros/funs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-struct-getter (struct-type slot)
- "Generate a getter function for STRUCT-TYPE's slot SLOT."
- (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
- (unless (symbol? slot)        (error "SLOT must be a symbol"))
- (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name slot))))
-       (slot-kw (intern (concat ":" (symbol-name slot)))))
-  $('defun getter-name $('obj)
-    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
-      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
-    $('plist-get slot-kw 'obj))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-struct-setter (struct-type slot)
- "Generate a setter function for STRUCT-TYPE's slot SLOT."
- (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
- (unless (symbol? slot)        (error "SLOT must be a symbol"))
- (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
-       (slot-kw (intern (concat ":" (symbol-name slot)))))
-  $('defun setter-name $('obj 'val)
-    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
-      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
-    $('plist-set slot-kw 'obj 'val))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-struct-constructor (struct-type . slots)
- "Generate a constructor function for STRUCT-TYPE with SLOTS."
- (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
- (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
- (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
-       (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
-  $('defun constructor-name 'slot-values
-    $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
-      $('put  $('quote struct-type) ':struct-type 'struct)
-      'struct))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro make-struct-predicate (struct-type)
- "Generate a predicate function for STRUCT-TYPE."
- (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
- (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
-  $('defun predicate-name $('obj)
-    $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun struct? (obj)
- "t when OBJ is a struct."
- (and (cons? obj) (has? ':struct-type obj)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defstruct (struct-type . slots)
- "Define a new struct type STRUCT type with slots SLOTS."
- (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
- (unless (list? slots)         (error "SLOTS must be a list"))
- (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
- (let
-  ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
-   (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
-  (cons 'list
-   (append
-    $($('make-struct-constructor struct-type . slots))
-    $($('make-struct-predicate struct-type))
-    getters
-    setters))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'struct)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(provide 'mono-std)
-(provide 'std) ;; this counts as an implementation of 'std.
+ (provide 'matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; struct-related macros/funs:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro make-struct-getter (struct-type slot)
+  "Generate a getter function for STRUCT-TYPE's slot SLOT."
+  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+  (unless (symbol? slot)        (error "SLOT must be a symbol"))
+  (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name slot))))
+        (slot-kw (intern (concat ":" (symbol-name slot)))))
+   $('defun getter-name $('obj)
+     $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
+       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+     $('plist-get slot-kw 'obj))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro make-struct-setter (struct-type slot)
+  "Generate a setter function for STRUCT-TYPE's slot SLOT."
+  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+  (unless (symbol? slot)        (error "SLOT must be a symbol"))
+  (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
+        (slot-kw (intern (concat ":" (symbol-name slot)))))
+   $('defun setter-name $('obj 'val)
+     $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
+       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+     $('plist-set slot-kw 'obj 'val))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro make-struct-constructor (struct-type . slots)
+  "Generate a constructor function for STRUCT-TYPE with SLOTS."
+  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+  (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
+  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
+        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
+   $('defun constructor-name 'slot-values
+     $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
+       $('put  $('quote struct-type) ':struct-type 'struct)
+       'struct))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro make-struct-predicate (struct-type)
+  "Generate a predicate function for STRUCT-TYPE."
+  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+  (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
+   $('defun predicate-name $('obj)
+     $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun struct? (obj)
+  "t when OBJ is a struct."
+  (and (cons? obj) (has? ':struct-type obj)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defmacro defstruct (struct-type . slots)
+  "Define a new struct type STRUCT type with slots SLOTS."
+  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+  (unless (list? slots)         (error "SLOTS must be a list"))
+  (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
+  (let
+   ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
+    (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
+   (cons 'list
+    (append
+     $($('make-struct-constructor struct-type . slots))
+     $($('make-struct-predicate struct-type))
+     getters
+     setters))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (provide 'struct)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when *log-loading-std-enabled*
- (nl)
- (princ "Loaded in   ")
- (princ (elapsed-us *time-before-loading-std*))
- (princ " us.")
- (nl))
+ (provide 'mono-std)
+ (provide 'std) ;; this counts as an implementation of 'std.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (when *log-loading-std-enabled*
+  (nl)
+  (princ "Loaded in   ")
+  (princ (elapsed-us *time-before-loading-std*))
+  (princ " us.")
+  (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
