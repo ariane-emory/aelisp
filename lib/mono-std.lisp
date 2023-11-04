@@ -21,12 +21,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun root-env ()
  "Get the root environment."
- (let* ((pos    (env))
-        (parent (env pos)))
+ (let* ((current (env))
+        (parent  (env current)))
   (while parent
-   (setq! pos    parent)
-   (setq! parent (env pos)))
-  pos))
+   (setq! current parent)
+   (setq! parent (env current)))
+  current))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defconstant (sym value)
  "Set SYM to VALUE and mark it as constant."
@@ -109,23 +109,22 @@
  "Append LST1 and LST2 by copying LST1."
  (unless (list? lst1) (error "LST1 must be a list"))
  (unless (list? lst2) (error "LST2 must be a list"))
- (let (result          ; Initialize the result list as empty
-       last-cons       ; Track the last cons in the result
+ (let (result    
+       tail
        (current lst1))
   ;; Iterate over lst1 and copy elements to result
   (while current
    (let ((new-cons (list (car current))))
     (if (nil? result)
      (setq! result new-cons)    ; Initialize result if it's the first element
-     (rplacd! last-cons new-cons)) ; Attach new-cons to the end of result
-    (setq! last-cons new-cons)
+     (rplacd! tail new-cons)) ; Attach new-cons to the end of result
+    (setq! tail new-cons)
     (setq! current (cdr current))))
   ;; Attach lst2 to the end of result
   (if (nil? result)
    lst2
-   (progn
-    (rplacd! last-cons lst2)
-    result))))
+    (rplacd! tail lst2)
+    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lists
  "Append any number of LISTS."
