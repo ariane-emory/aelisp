@@ -1349,6 +1349,12 @@
    (setq! lst (cdr lst)))
   total))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun gcd (a b)
+ "Get the greatest common divisor of A and B."
+ (unless (and (integer? a) (integer? b))
+  (error "gcd's arguments must be integers"))
+ (if (zero? b) a (gcd b (mod a b))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun add-logging-to (fun)
  "Add logging to a function FUN."
  (unless (fun? fun) (error "FUN must be a function"))
@@ -1979,12 +1985,6 @@
  "t if OBJ is a number."
  (or (integer? obj) (rational? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun gcd (a b)
- "Get the greatest common divisor of A and B."
- (unless (and (integer? a) (integer? b))
-  (error "gcd's arguments must be integers"))
- (if (zero? b) a (gcd b (mod a b))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun round-to-nearest (num)
  "If the number NUM is a rational number, round it to the nearest integer."
  "Otherwise, just return it."
@@ -2114,6 +2114,8 @@
  (if (integer? num)
   num
   (floor (rational (+ (numer num) (>> (denom num) 1)) (denom num)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Redefinitions of integer functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun abs (n)
  "Return the absolute value of N."
