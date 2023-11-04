@@ -152,9 +152,11 @@
  "Destructively join LST1 an LST2."
  (unless (list? lst1) (error "LST1 must be a list"))
  (unless (list? lst2) (error "LST2 must be a list"))
- (cond
-  ((nil? lst1) lst2)
-  (t           (rplacd! (last lst1) lst2) lst1)))
+ (if (nil? lst1)
+  lst2
+  (progn
+   (rplacd! (last lst1) lst2)
+   lst1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nconc! lists
  "Destructively concatenate multiple lists."
