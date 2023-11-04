@@ -2332,8 +2332,8 @@
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
- (unless (and (integer? height) (integer? width))
-  (error "Both HEIGHT and WIDTH must be integers"))
+ (unless (and (integer? height) (> 0 height) (integer? width) (> 0 width))
+  (error "Both HEIGHT and WIDTH must be positive integers"))
  (let ((current-row 0)
        (current-col 0))
   (until (= current-row height)
