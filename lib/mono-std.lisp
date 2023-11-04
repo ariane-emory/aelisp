@@ -740,12 +740,20 @@
 (defun removeql (elem lst)
  "Non-destructively remove ELEM from LST. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while lst
-   (unless (eql? elem (car lst))
-    (setq! result (cons (car lst) result)))
-   (setq! lst (cdr lst)))
-  (reverse result)))
+ (let* ((result nil)
+        (tail result))
+   (while lst
+    (unless (eql? elem (car lst))
+     (if (nil? tail)
+      (progn 
+       (setq! result (list (car lst)))
+       (setq! tail result))
+      (let ((new-cons (list (car lst))))
+       (princ "(rplacd! " tail " " new-cons ")") (nl)
+       (rplacd! tail new-cons)
+       (setq! tail new-cons))))
+    (setq! lst (cdr lst))
+  result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeq! (obj lst)
  "Remove the first item eq? to OBJ from LST."
