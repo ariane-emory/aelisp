@@ -529,11 +529,12 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 ae_obj_t * ae_core_pwd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("pwd");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "pwd's arg must be a string");
-
-  char * const dst = STR_VAL(CAR(args));
-  
-  ret = TRUTH(chdir(dst) == 0);
+  char * const buff = free_list_malloc(PATH_MAX);
+  getcwd(buff, PATH_MAX);
+  char * const cwd = free_list_malloc(strlen(buff) + 1);
+  strcpy(cwd, buff);
+  free_list_free(buff);
+  ret = NEW_STRING(cwd);
   
   CORE_RETURN("pwd", ret);
 }
