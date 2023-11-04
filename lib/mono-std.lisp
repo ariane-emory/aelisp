@@ -50,7 +50,6 @@
 (setq! ¬          not)          
 (setq! ∨          or )           
 (setq! ∧          and)
-(setq! list?      tail?)
 (setq! setcdr!    rplacd!)
 (setq! setcar!    rplaca!)
 (setq! λ          lambda)
@@ -372,12 +371,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar (fun lst)
  "Map fun over LST, returning the resulting list."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
  (let ((acc nil))
   (while lst
    (setq! acc (cons (fun (car lst)) acc))
-   (setq! lst    (cdr lst)))
+   (setq! lst (cdr lst)))
   (reverse acc)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
@@ -394,8 +393,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst . rest)
  "Map fun over LST, returning the result of concatenating the resulting strings."
- (unless (fun? fun)     (error "FUN must be a function"))
- (unless (list? lst)    (error "LST must be a list"))
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
  (unless (or (nil? rest) (single? rest))
   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
  (let ((delimiter (car rest))
@@ -410,8 +409,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcan (fun lst)
  "Map fun over LST and concatenate the results by altering them."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
  (let ((results nil)
        (tail nil)
        (current lst))
@@ -429,8 +428,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
  "Apply FUN to each element of LST for side effects only and return LST."
- (unless (fun? fun)   (error "FUN must be a function"))
- (unless (list? lst)  (error "LST must be a list"))
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
  (let ((current lst))
   (while current
    (fun (car current))
