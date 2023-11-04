@@ -1609,6 +1609,10 @@
  (unless (string? str) (error "STR must be a string."))
  (pad-string-left size " " str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun concat* args
+ "Convert ARGS into strings and concatenate them."
+ (apply concat (mapcar string args)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! ljust left-justify)
@@ -2332,7 +2336,7 @@
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
- (unless (and (integer? height) (> 0 height) (integer? width) (> 0 width))
+ (unless (and (integer? height) (integer? width) (positive? height) (positive? width))
   (error "Both HEIGHT and WIDTH must be positive integers"))
  (let ((current-row 0)
        (current-col 0))
