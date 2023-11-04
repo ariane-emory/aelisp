@@ -369,15 +369,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (map variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapcar (fun lst)
- "Map fun over LST, returning the resulting list."
- (unless (fun? fun)  (error "FUN must be a function"))
- (unless (list? lst) (error "LST must be a list"))
- (let ((acc nil))
-  (while lst
-   (setq! acc (cons (fun (car lst)) acc))
-   (setq! lst (cdr lst)))
-  (reverse acc)))
+;; (defun mapcar (fun lst)
+;;  "Map fun over LST, returning the resulting list."
+;;  (unless (fun? fun)  (error "FUN must be a function"))
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((acc nil))
+;;   (while lst
+;;    (setq! acc (cons (fun (car lst)) acc))
+;;    (setq! lst (cdr lst)))
+;;   (reverse acc)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar (fun lst)
  "Map FUN over LST, returning the resulting list."
