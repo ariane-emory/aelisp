@@ -1106,7 +1106,7 @@
    (while lst
     (let ((new-cons (list (car lst))))
      (rplacd! tail new-cons)
-     (setq! tail new-cons))
+     (setq!   tail new-cons))
     (setq! lst (cdr lst)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1789,7 +1789,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-to-alist (plist)
  "Convert a plist PLIST to an alist. If the number of elements in plist is odd, the last"
- "cell in the resulting alist's value cell will be nil."
+ "cons in the resulting alist's value cell will be nil."
  (unless (list? plist)          (error "PLIST must be a list"))
  (let (alist (plist plist))
   (while plist
@@ -1806,24 +1806,23 @@
    (setq! alist (cddr alist)))
   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun plist-keys (plist)
- "Extracts the keys from a plist PLIST."
- (unless (list? plist)          (error "PLIST must be a list"))
- (when plist (cons (car plist) (plist-keys (cddr plist)))))
+;; (defun plist-keys (plist)
+;;  "Extracts the keys from a plist PLIST."
+;;  (unless (list? plist)          (error "PLIST must be a list"))
+;;  (when plist (cons (car plist) (plist-keys (cddr plist)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-keys (plist)
  "Extracts the keys from a plist PLIST."
  (unless (list? plist) (error "PLIST must be a list"))
- (if (nil? plist)
-  nil
-  (let* ((result (cons (car plist) nil))
+ (when lst
+  (let* ((result (list (car plist)))
          (tail result))
-   (setq! plist (cdr (cdr plist)))  ; Skip the second element initially.
+   (setq! plist (cddr plist))
    (while plist
-    (let ((new-cons (cons (car plist) nil)))
+    (let ((new-cons (list (car plist))))
      (rplacd! tail new-cons)
-     (setq! tail new-cons))
-    (setq! plist (cdr (cdr plist))))  ; Skip every second element.
+     (setq!   tail new-cons))
+    (setq! plist (cddr plist)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-vals (plist)
