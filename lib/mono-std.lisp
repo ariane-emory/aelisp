@@ -2100,7 +2100,7 @@
 (defun is-square? (num)
  "t when NUM is a square number."
  (unless (integer? num) (error "NUM must be an integer"))
- (let ((approx (round-to-nearest (approx-sqrt num))))
+ (let ((approx (round (approx-sqrt num))))
   (= (* approx approx) num)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun round-up-to-square (num)
@@ -2121,14 +2121,6 @@
   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun round (num)
- "Round NUM to the nearest integral value. This overhaps heavily with 'round-to-nearest, one"
- "of them should go."
- (unless (number? num) (error "NUM must be a number."))
- (if (integer? num)
-  num
-  (floor (rational (+ (numer num) (>> (denom num) 1)) (denom num)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun round-to-nearest (num)
  "If the number NUM is a rational number, round it to the nearest integer."
  "Otherwise, just return it."
  (unless (number? num) (error "NUM must be a number"))
