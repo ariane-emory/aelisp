@@ -970,18 +970,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun single? (lst)
  "true if LST is a list with single item."
- (unless (cons? lst) (error "LST must be a cons"))
- (not (cdr lst)))
+ (unless (list? lst) (error "LST must be a cons"))
+ (and (cons? lst) (not (cdr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun double? (lst)
  "true if LST is list with two items."
- (unless (cons? lst) (error "LST must be a cons"))
- (not (cddr lst)))
+ (unless (list? lst) (error "LST must be a cons"))
+ (and (cons? lst) (cdr lst) (not (cddr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun single? (lst)
+(defun triple? (lst)
  "true if LST is a list with three items."
- (unless (cons? lst) (error "LST must be a cons"))
- (not (cdddr lst)))
+ (unless (list? lst) (error "LST must be a cons"))
+ (and (cons? lst) (cddr lst) (not (cdddr lst))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; manipulate predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
