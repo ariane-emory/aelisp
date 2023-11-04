@@ -452,7 +452,7 @@
   (while current
    (let ((fun-result (fun (car current))))
     (when fun-result
-     (if result
+     (if tail
       (progn
        (setq! tail (nconc2! tail fun-result))
        (setq! tail (last tail)))
