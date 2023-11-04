@@ -1016,7 +1016,6 @@
  "Return a list containing those members of lst satisfying pred?."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
- (when lst
   (let (result tail)
    (while lst
     (if (pred? (car lst))
@@ -1028,23 +1027,23 @@
        (setq! result new-cons)
        (setq! tail   result))))
     (setq! lst (cdr lst)))
-   result)))
+   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
  "Intercalate INTERCALATED between items in LST."
  (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
-  (while (cdr lst)
-   (setq! result (cons (car lst) result))
-   (setq! result (cons intercalated result))
-   (setq! lst (cdr lst)))
-  (if lst (setq! result (cons (car lst) result)))
-  (reverse result)))
+  (let (result)
+   (while (cdr lst)
+    (setq! result (cons (car lst) result))
+    (setq! result (cons intercalated result))
+    (setq! lst (cdr lst)))
+   (if lst (setq! result (cons (car lst) result)))
+   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse (lst)
  "Return a new list that is the reverse of the input list LST."
  (unless (list? lst) (error "LST must be a list"))
- (let ((result nil))
+ (let (result)
   (while lst
    (setq! result (cons (car lst) result))
    (setq! lst (cdr lst)))
