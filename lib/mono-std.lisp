@@ -128,10 +128,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lists
  "Append any number of LISTS."
- (let (result
-       tail
-       ;; (current-lists lists)
-       )
+ (let (result tail)
   (while lists
    (let ((current-list (car lists)))
     (unless (list? current-list) (error "Every argument must be a list"))
@@ -1093,8 +1090,7 @@
 (defun butlast (lst)
  "Returns a new list that contains all the elements of the input list except the last one."
  (unless (list? lst) (error "LST must be a list"))
- (let ((result nil)
-       (prev nil))
+ (let (result prev)
   (while (cdr lst)
    (setq! prev (cons (car lst) prev))
    (setq! lst (cdr lst)))
