@@ -260,6 +260,16 @@
   ((nil? (cdr lst)) lst)
   (lst              (last (cdr lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun last (lst)
+;;  "Get last item in a LST."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (let ((head (car lst))
+;;        (lst  (cdr lst)))
+;;   (while lst
+;;    (setq! head (car lst))
+;;    (setq! lst  (cdr lst)))
+;;   head))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-access-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1889,7 +1899,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  (defun vals args
   "Retrieve the values from a plist or environment."
-  (when (cdr args) (error "VALS takes only one argument"))
+  (when (cdr args) (error "VALS takes one or zero arguments"))
   (let ((arg (car args)))
    (cond
     ((nil? arg)  (vals-base (env (env (env)))))
