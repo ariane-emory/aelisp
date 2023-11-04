@@ -10,9 +10,6 @@
   /*================================================================================================================*/    \
   DO(exit,         false,          0,          1,                              FUNDEF_END)                                \
   DO(allocated,    false,          0,          0,                              FUNDEF_END)                                \
-  DO(dirname,      false,          1,          1,                              FUNDEF_END)                                \
-  DO(basename,     false,          1,          1,                              FUNDEF_END)                                \
-  DO(pwd,          false,          0,          0,                              FUNDEF_END)                                \
   DO(load,         false,          1,          2,                              FUNDEF_END)                                \
   DO(read,         false,          1,          1,                              FUNDEF_END)                                \
   DO(requireb,     false,          1,          2, "require!",                  FUNDEF_END)                                \
@@ -30,8 +27,11 @@
   DO(error,        false,          1,          2,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(expand_path,  false,          1,          1, "expand-path",               FUNDEF_END)                                \
-  DO(system,       false,          1,          1, "sys",                       FUNDEF_END)                                \
+  DO(dirname,      false,          1,          1,                              FUNDEF_END)                                \
+  DO(basename,     false,          1,          1,                              FUNDEF_END)                                \
+  DO(pwd,          false,          0,          0,                              FUNDEF_END)                                \
   DO(cd,           false,          1,          1,                              FUNDEF_END)                                \
+  DO(system,       false,          1,          1, "sys",                       FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(string,       false,          1,          1,                              FUNDEF_END) /* stringifier           */    \
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */    \
@@ -47,18 +47,6 @@
   DO(env,          false,          0,          1,                              FUNDEF_END) /* env/fun accessor      */    \
   DO(vals,         false,          0,          1,                              FUNDEF_END) /* env accessor          */    \
   DO(syms,         false,          0,          1,                              FUNDEF_END) /* env accessor          */    \
-  /*================================================================================================================*/    \
-  DO(repeat,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
-  /*================================================================================================================*/    \
-  DO(properp,      false,          1,          1, "proper?",                   FUNDEF_END)                                \
-  DO(tailp,        false,          1,          1, "tail?",                     FUNDEF_END)                                \
-  DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
-  DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
-  DO(zerop,        false,          1,          1, "zero?",                     FUNDEF_END)                                \
-  DO(onep,         false,          1,          1, "one?",                      FUNDEF_END)                                \
-  DO(positivep,    false,          1,          1, "positive?",                 FUNDEF_END)                                \
-  DO(negativep,    false,          1,          1, "negative?",                 FUNDEF_END)                                \
-  DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
   /*================================================================================================================*/    \
   DO(phas,         false,          2,          2, "plist-has?",                FUNDEF_END)                                \
   DO(psetb,        false,          3,          3, "plist-set!",                FUNDEF_END)                                \
@@ -94,7 +82,19 @@
   DO(put_prop,     false,          3,          3, "put",                       FUNDEF_END)                                \
   DO(get_prop,     false,          2,          2, "get",                       FUNDEF_END)                                \
   /*================================================================================================================*/    \
+  DO(properp,      false,          1,          1, "proper?",                   FUNDEF_END)                                \
+  DO(tailp,        false,          1,          1, "tail?",                     FUNDEF_END)                                \
+  DO(nilp,         false,          1,          1, "nil?",                      FUNDEF_END)                                \
+  DO(boundp,       false,          1,          1, "bound?",                    FUNDEF_END)                                \
+  DO(zerop,        false,          1,          1, "zero?",                     FUNDEF_END)                                \
+  DO(onep,         false,          1,          1, "one?",                      FUNDEF_END)                                \
+  DO(positivep,    false,          1,          1, "positive?",                 FUNDEF_END)                                \
+  DO(negativep,    false,          1,          1, "negative?",                 FUNDEF_END)                                \
+  DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                                \
+  /*================================================================================================================*/    \
   DO(bnot,         false,          1,          1, "~",                         FUNDEF_END)                                \
+  /*================================================================================================================*/    \
+  DO(1plus,        false,          1,  UNLIMITED, "1+",                        FUNDEF_END)                                \
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -129,8 +129,6 @@
   DO(or,           true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   DO(and,          true,           1,  UNLIMITED,                              FUNDEF_END)                                \
   /*================================================================================================================*/    \
-  DO(1plus,        false,          1,  UNLIMITED, "1+",                        FUNDEF_END)                                \
-  /*================================================================================================================*/    \
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -147,6 +145,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_4(DO)                                                                                     \
+  /*================================================================================================================*/    \
+  DO(repeat,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(until,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(while,        true,           2,  UNLIMITED,                              FUNDEF_END)                                \
   DO(unless,       true,           2,  UNLIMITED,                              FUNDEF_END)                                \
