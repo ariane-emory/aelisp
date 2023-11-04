@@ -1016,29 +1016,43 @@
  "Return a list containing those members of lst satisfying pred?."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (list? lst)  (error "LST must be a list"))
-  (let (result tail)
-   (while lst
-    (if (pred? (car lst))
-     (let ((new-cons (list (car lst))))
-      (if tail
-       (progn
-        (rplacd! tail new-cons)
-        (setq!   tail new-cons))
-       (setq! result new-cons)
-       (setq! tail   result))))
-    (setq! lst (cdr lst)))
-   result))
+ (let (result tail)
+  (while lst
+   (if (pred? (car lst))
+    (let ((new-cons (list (car lst))))
+     (if tail
+      (progn
+       (rplacd! tail new-cons)
+       (setq!   tail new-cons))
+      (setq! result new-cons)
+      (setq! tail   result))))
+   (setq! lst (cdr lst)))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
  "Intercalate INTERCALATED between items in LST."
  (unless (list? lst) (error "LST must be a list"))
-  (let (result)
-   (while (cdr lst)
-    (setq! result (cons (car lst) result))
-    (setq! result (cons intercalated result))
+ (let (result)
+  (while (cdr lst)
+   (setq! result (cons (car lst) result))
+   (setq! result (cons intercalated result))
+   (setq! lst (cdr lst)))
+  (if lst (setq! result (cons (car lst) result)))
+  (reverse result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun intercalate (intercalated lst)
+ "Intercalate INTERCALATED between items in LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (let* ((result (list (car lst)))
+         (tail result))
+   (setq! lst (cdr lst))
+   (while lst
+    (let ((new-cons (list intercalated (car lst))))
+     (rplacd! tail new-cons)
+     (setq! tail (cdr new-cons)))
     (setq! lst (cdr lst)))
-   (if lst (setq! result (cons (car lst) result)))
-   (reverse result)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse (lst)
  "Return a new list that is the reverse of the input list LST."
