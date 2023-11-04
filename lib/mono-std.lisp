@@ -1803,12 +1803,15 @@
  "cons in the resulting alist's value cell will be nil."
  (unless (list? plist)          (error "PLIST must be a list"))
  (when plist
-  (let (result tail)
-   (let (alist (plist plist))
-    (while plist
-     (setq! alist (cons (cons (car plist) (cadr plist)) alist))
-     (setq! plist (cddr plist)))
-    (reverse alist)))))
+  (let* ((result (list (cons (car plist) (cadr plist))))
+         (tail   result)
+         (plist  (cddr plist)))
+   (while plist
+    (let ((new-alist-item (list (cons (car plist) (cadr plist)))))
+     (rplacd! tail new-alist-item)
+     (setq!   tail new-alist-item))
+    (setq! plist (cddr plist)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun alist-to-plist (alist)
  "Convert an alist ALIST to a plist."
