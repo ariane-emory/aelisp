@@ -2466,11 +2466,9 @@
   (while (< current-row row-count)
    (let ((cell-values (list-ref matrix current-row)))
     (princ
-     (if cell-width
-      (mapcar
+     (mapcar
        render-fun
-       cell-values)
-      cell-values))
+       cell-values))
     (nl)
     (incr! current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
