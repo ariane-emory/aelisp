@@ -205,12 +205,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when t
  (defun trav-upp ()
-  (let ((attrs $(:soc :edu :int :end :dex :str))
-        (upp nil))
-   (while attrs
-    (setq! upp (kset (car attrs) upp(+ (random 1 6) (random 1 6))))
-    (setq! attrs (cdr attrs)))
-   upp))
+  (let ((attrs $(:str :dex :end :edu :int :soc))
+        rolls)
+   (repeat 6 (push! (+ (random 6) (random 6)) rolls))
+   (make-plist attrs rolls)))
  (repeat 200
   (princ (trav-upp))
   (nl)))
