@@ -1502,33 +1502,23 @@
 (defun delql! (item lst)
  "Destructively remove all items eql? to ITEM from LST."
  (unless (list? lst) (error "LST must be a list"))
- (while (and lst (eql? (car lst) item))
-   ;; Check if we have more than one element to avoid error in case lst has only one element that is eql? to item
-   (if (cdr lst)
-       (progn
-         (rplaca! lst (car (cdr lst)))
-         (rplacd! lst (cdr (cdr lst))))
-       (setq! lst nil)))
- (let ((pos lst))
-   (while (and pos (cdr pos))
-    (if (eql? (cadr pos) item)
-     ;; Replace the cdr of pos with the cdr of the cdr of pos, effectively removing the next element
-     (rplacd! pos (cddr pos))
-     ;; Otherwise, just move pos forward
-     (setq! pos (cdr pos)))))
- lst)
-;; (defun delql! (item lst)
-;;  "Destructively remove all items eql? to ITEM from LST."
-;;  (unless (list? lst) (error "LST must be a list"))
-;;  (when lst
-;;   (while (and lst (eql? (car lst) item))
-;;    (setq! lst (cdr lst)))
-;;   (let ((pos lst))
-;;    (while (and pos (cdr pos))
-;;     (if (eql? (cadr pos) item)
-;;      (rplacd! pos (cddr pos))
-;;      (setq! pos (cdr pos)))))
-;;   lst))
+ ;; Handle the case where the head of the list matches the item
+ (while (and (cons? lst) (eql? (car lst) item))
+   (if (cons? (cdr lst))
+     (progn
+       (rplaca! lst (cadr lst))  ;; Replace the head of the list with the second element
+       (rplacd! lst (cddr lst))) ;; Adjust the rest of the list after the second element
+     (return nil))) ;; If there is no second element, return nil
+ ;; Now lst is guaranteed not to start with an item match
+ (let ((current lst))
+   (while (and (cons? current) (cons? (cdr current)))
+     (if (eql? (cadr current) item)
+         (rplacd! current (cddr current)) ;; Remove the next element
+         (setq! current (cdr current))))  ;; Otherwise move to the next
+   lst))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
