@@ -1425,7 +1425,7 @@
        (current-size 0))
   (until (= current-size size)
    (setq! result (cons init-val result))
-   (setq! current-size (+ 1 current-size)))
+   (incr! current-size))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'vector-lists)
@@ -1671,7 +1671,7 @@
        (current-size 0))
   (until (= current-size size)
    (setq! result (concat result init-val))
-   (setq! current-size (+ 1 current-size)))
+   (incr! current-size))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-right (size init-val str)
@@ -2418,7 +2418,7 @@
        (current-row 0))
   (until (= current-row rows)
    (setq! result (cons (make-list cols init-val) result))
-   (setq! current-row (+ 1 current-row)))
+   (incr! current-row))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
 (defun matrix-transform (matrix rows cols ternary-func)
@@ -2438,8 +2438,8 @@
            (new-value (ternary-func current-row current-col current-value)))
      ;; (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
      (matrix-set! matrix current-row current-col new-value)
-     (setq! current-col (+ current-col 1))))
-   (setq! current-row (+ current-row 1))))
+     (incr! current-col)))
+   (incr! current-row)))
  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix)
