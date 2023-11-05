@@ -281,3 +281,12 @@
 ;;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun shared-structure? (tree1 tree2)
+  "Checks if two trees share any structure by using eq? to compare cons cells."
+  (cond
+    ((not (cons? tree1)) nil)
+    ((not (cons? tree2)) nil)
+    ((eq? tree1 tree2) t)
+    (else
+     (or (shared-structure? (car tree1) (car tree2))
+         (shared-structure? (cdr tree1) (cdr tree2))))))

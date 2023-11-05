@@ -638,22 +638,22 @@
 ;;  tree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform! (pred? fun tree)
-  "Destructively transform the cons tree TREE by replacing members matching
+ "Destructively transform the cons tree TREE by replacing members matching
    PRED? with the result of applying FUN to them."
-  (unless (fun? pred?) (error "PRED? must be a function"))
-  (unless (fun? fun)   (error "FUN must be a function"))
-  (unless (cons? tree) (error "TREE must be a non-empty cons tree"))
-  (let ((head (car tree)))
-    (if (cons? head)
-        (transform! pred? fun head)
-        (when (pred? head)
-          (rplaca! tree (fun head)))))
-  (let ((tail (cdr tree)))
-    (if (cons? tail)
-        (transform! pred? fun tail)
-        (when (pred? tail)
-          (rplacd! tree (fun tail)))))
-  tree)
+ (unless (fun? pred?) (error "PRED? must be a function"))
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (unless (cons? tree) (error "TREE must be a non-empty cons tree"))
+ (let ((head (car tree)))
+  (if (cons? head)
+   (transform! pred? fun head)
+   (when (pred? head)
+    (rplaca! tree (fun head)))))
+ (let ((tail (cdr tree)))
+  (if (cons? tail)
+   (transform! pred? fun tail)
+   (when (pred? tail)
+    (rplacd! tree (fun tail)))))
+ tree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun old-transform (pred? fun obj)
 ;;  "Transform OBJ by replacing members matching PRED? with the result of
@@ -684,6 +684,25 @@
              (cond
               ((cons? head) (transform pred? fun head))
               ((pred? head) (fun head))
+              (else         head)))))
+     (if result
+      (rplacd! tail new-tail)
+      (setq! result new-tail))
+     (setq! tail new-tail)
+     (setq! tree (cdr tree))))
+   result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun copy-tree (tree)
+ "Deep copy the tree TREE."
+ (unless (list? tree) (error "TREE must be a list"))
+ (when tree
+  (let* (result tail)
+   (while tree
+    (let* ((head (car tree))
+           (new-tail
+            (list
+             (cond
+              ((cons? head) (copy-tree head))
               (else         head)))))
      (if result
       (rplacd! tail new-tail)
@@ -1192,6 +1211,15 @@
      (setq!   tail new-tail))
     (setq! lst (cdr lst)))
    result)))
+
+(defun copy-tree (tree)
+ "Take a deep copy of TREE."
+ (cond
+  ((not (cons? tree)) tree)  ; Return atoms as they are.
+  (else (let ((new-car (copy-tree (car tree)))  ; Recursively copy car.
+              (new-cdr (copy-tree (cdr tree)))) ; Recursively copy cdr.
+         (cons new-car new-cdr)))))  ; Return a new cons cell with copied car and cdr.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-pred-fun (name combiner base-case)
 ;;  `(defun ,name (pred? lst)
@@ -2506,7 +2534,7 @@
      (matrix-set! new-matrix current-row current-col new-value)
      (incr! current-col)))
    (incr! current-row))
- new-matrix))
+  new-matrix))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
