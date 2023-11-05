@@ -203,7 +203,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Generate a bunch of Traveller UPPs.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defstruct upp str dex end edu int soc)
 
 (when t
 
@@ -213,31 +212,30 @@
    (repeat 6 (push! (+ (random 6) (random 6)) rolls))
    (make-plist attrs rolls)))
 
+ (defstruct upp str dex end edu int soc)
+
  (defun trav-upp ()
   (let ((upp (make-upp))
-        (ctr 0))
-   (until (= ctr 6)
-    (let ((index (1+ (2* ctr))))
-     (list-set! upp index (+ (random 6) (random 6)))
-     (setq! ctr (1+ ctr))))
+        (index -1))
+   (until (= index 11)
+    (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6))))
    upp))
+
+ (ignore ;; hypothetical
+  (defun trav-upp ()
+   (build (upp (make-upp))
+    (let ((index -1))
+     (until (= index 11)
+      (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
+
+  (defconstructor upp () ;; hypothetical
+   (let ((index -1))
+    (until (= index 11)
+     (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
  
  (repeat 200
   (princ (trav-upp))
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(ignore
- (setq! upp (make-upp 10 10 10 10 10 10))
- (princ upp) (nl)
 
-
- (let ((ctr 1))
-  (until (= ctr 7)
-   (let ((index (1- (2* ctr))))
-    (princ index) (nl)
-    (list-set! upp index (+ (random 6) (random 6)))
-    (setq! ctr (1+ ctr)))))
-
- (princ upp) (nl)
- (princ (props upp)) (nl))
