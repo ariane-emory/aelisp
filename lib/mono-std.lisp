@@ -2458,7 +2458,7 @@
    (current-row 0))
   (while (< current-row row-count)
    (write
-    (if (cell-width)
+    (if cell-width
      (list-ref matrix current-row)
      (list-ref matrix current-row)))
    (nl)
