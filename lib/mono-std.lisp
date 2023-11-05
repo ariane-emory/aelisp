@@ -649,6 +649,32 @@
   (lambda (x) (eval x))
   expr))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun subst (tree this that . rest)
+ "Substitute occurence of THIS for THAT in TREE."
+ (unless (list? tree) (error "TREE must be a list"))
+ (unless (or (fun? (car rest)) (nil? (car rest)))
+  (error "If provided, PRED? must be a function"))
+ (when (cdr rest)
+  (error "subst accepts only one optional argument"))
+ (when tree
+  (let* ((pred? (or (car rest) eql?))
+         result
+         tail)
+   (while tree
+    (let* ((head (car tree))
+           (new-tail
+            (list
+             (cond
+              ((cons? head) (subst head this that pred?))
+              ((pred? this head) that)
+              (else head)))))
+     (if result
+      (rplacd! tail new-tail)
+      (setq! result new-tail))
+     (setq! tail new-tail)
+     (setq! tree (cdr tree))))
+   result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'transform)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
