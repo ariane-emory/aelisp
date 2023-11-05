@@ -269,8 +269,8 @@
 (defun subst (tree this that . rest)
  "Substitute occurence of THIS for THAT in TREE."
  (unless (list? tree) (error "TREE must be a list"))
- (unless (or (nil? (car rest)) (lambda? (car rest)))
-  (error "If provided, PRED? must be a lambda function"))
+ (unless (or (fun? (car rest)) (nil? (car rest)))
+  (error "If provided, PRED? must be a function"))
  (when (cdr rest)
   (error "subst accepts only one optional argument"))
  (when tree
@@ -283,7 +283,7 @@
            (new-cons
             (list
              (cond
-              ((cons? head) (subst head this that))
+              ((cons? head) (subst head this that pred?))
               ((pred? this head) that)
               (else head)))))
      (if (nil? result)
