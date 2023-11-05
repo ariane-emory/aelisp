@@ -238,11 +238,14 @@
      (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
 
  ;; (log-eval t)
+
+ (setq! ctr 0)
  
- (repeat 200
+ (until (= ctr 200)
   (let ((upp (new-upp)))
-   (princ upp) (nl)
-   (princ (upp-total upp)) (nl))))
+   (if (>= (upp-total upp) 42)
+    (progn (princ upp) (nl))
+    (setq! ctr (+ 1 ctr))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
