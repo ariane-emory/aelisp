@@ -266,40 +266,9 @@
 (setq! l2 '(a b c d e f g h i j))
 (setq! l3 '(q r s t u v w x y z))
 
-
-
 (write (heads (list l1 l2 l3))) (nl)
 (write (tails (list l1 l2 l3))) (nl)
 
-(defun copy-list (lst)
- "Take a shallow copy of LST."
- (unless (list? lst) (error "LST must be a list"))
- (when lst
-  (let* ((result (list (car lst)))
-         (tail result))
-   (setq! lst (cdr lst))
-   (while lst
-    (let ((new-cons (list (car lst))))
-     (rplacd! tail new-cons)
-     (setq!   tail new-cons))
-    (setq! lst (cdr lst)))
-   result)))
-
-(defun append lists
- "Append any number of LISTS."
- (let (result tail)
-  (while lists
-   (let ((current-list (car lists)))
-    (unless (list? current-list) (error "Every argument must be a list"))
-    (while current-list
-     (let ((new-cons (list (car current-list))))
-      (if (nil? result)
-       (setq! result new-cons)
-       (rplacd! tail new-cons))
-      (setq! tail new-cons)
-      (setq! current-list (cdr current-list))))
-    (setq! lists (cdr lists))))
-  result))
 
 (defun zip (lsts)
  (unless (list? lsts)      (error "LSTS must be a list of lists"))
@@ -325,18 +294,18 @@
 
 ;; Now the `zip` function without `labels`
 (defun zip (lsts)
-  "Zip a list of lists into a list of tuples."
-  (unless (list? lsts)      (error "LSTS must be a list of lists"))
-  (unless (all? list? lsts) (error "LSTS must be a list of lists"))
-  (let (result tail)
-    (while (all? cons? lsts)
-      (let ((heads (heads lsts)))
-        (if (nil? result)
-            (setq! tail (setq! result (list heads)))
-              (rplacd! tail (list heads))
-              (setq! tail (cdr tail)))
-      (setq! lsts (tails lsts)))
-    result)))
+ "Zip a list of lists into a list of tuples."
+ (unless (list? lsts)      (error "LSTS must be a list of lists"))
+ (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (let (result tail)
+  (while (all? cons? lsts)
+   (let ((heads (heads lsts)))
+    (if (nil? result)
+     (setq! tail (setq! result (list heads)))
+     (rplacd! tail (list heads))
+     (setq! tail (cdr tail)))
+    (setq! lsts (tails lsts)))
+   result)))
 
 ;; Example usage
 (write (zip '((1 2 3) (a b c) (x y z)))) (nl) ;; expected: ((1 a x) (2 b y) (3 c z)), actual (nil nil nil)
