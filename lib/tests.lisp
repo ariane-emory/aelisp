@@ -21,7 +21,7 @@
 (confirm that (reverse (butlast '(1 2 3 4 5))) returns '(4 3 2 1))
 (confirm that (unionql '(1 2 3) '(4 5 6))      returns '(6 5 4 3 2 1))
 
-(setq!   lst (make-list 6 200))
+(setq!   lst  (make-list 6 200))
 (confirm that lst                              returns '(200 200 200 200 200 200))
 (confirm that (list-set! lst 0 100)            returns 100)
 (confirm that (list-ref  lst 0)                returns 100)
