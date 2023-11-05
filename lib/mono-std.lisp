@@ -2444,15 +2444,22 @@
   (unless target-row                       (error "ROW index out of bounds"))
   (list-ref target-row col)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun write-matrix (matrix)
+(defun write-matrix (matrix . rest)
  "Display a matrix MATRIX by applying write to each row."
- (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
- (let ((row-count (length matrix))
-       (current-row 0))
-  (while (< current-row row-count)
-   (write (list-ref matrix current-row))
-   (nl)
-   (incr! current-row))))
+ (unless (or (nil? (car rest) (and (integer? (car rest)) (positive? (car rest)))))
+  (error "If provided, CELL-WIDTH must be a positive integer"))
+ (when (cdr rest)
+  (error "subst accepts only one optional argument"))
+ (unless (matrix? matrix)
+  (error "MATRIX must be a list of lists"))
+ (let
+  (cell-width (car rest))
+  (row-count (length matrix))
+  (current-row 0)
+ (while (< current-row row-count)
+  (write (list-ref matrix current-row))
+  (nl)
+  (incr! current-row))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-matrix (rows cols init-val)
  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
