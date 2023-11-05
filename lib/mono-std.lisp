@@ -617,40 +617,58 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (transform):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transform! (pred? fun obj)
- "Destructively transform the cons tree OBJ by replacing members matching
-  PRED? with the result of applying FUN to them."
- (when (not (fun? pred?)) (error "PRED? must be a lambda function"))
- (when (not (fun? fun))   (error "FUN must be a lambda function"))
- (when (atom? obj)        (error "OBJ must be a non-empty list"))
- (cond
-  ((cons? obj)
-   (let ((head (car obj))
-         (tail (cdr obj)))
-    (cond
-     ((pred? head) (rplaca! obj (fun head)))
-     ((cons? head) (transform! pred? fun head)))
-    (cond
-     ((pred? tail) (rplacd! obj (fun tail)))
-     ((cons? tail) (rplacd! obj (transform! pred? fun tail))))))
-  ((pred? obj) (setq! obj (fun obj)))
-  (else obj))
- obj)
+;; (defun transform! (pred? fun tree)
+;;  "Destructively transform the cons tree TREE by replacing members matching
+;;   PRED? with the result of applying FUN to them."
+;;  (when (not (fun? pred?)) (error "PRED? must be a lambda function"))
+;;  (when (not (fun? fun))   (error "FUN must be a lambda function"))
+;;  (when (atom? tree)        (error "TREE must be a non-empty list"))
+;;  (cond
+;;   ((cons? tree)
+;;    (let ((head (car tree))
+;;          (tail (cdr tree)))
+;;     (cond
+;;      ((pred? head) (rplaca! tree (fun head)))
+;;      ((cons? head) (transform! pred? fun head)))
+;;     (cond
+;;      ((pred? tail) (rplacd! tree (fun tail)))
+;;      ((cons? tail) (rplacd! tree (transform! pred? fun tail))))))
+;;   ((pred? tree) (error "bang") (setq! tree (fun tree)))
+;;   (else tree))
+;;  tree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun old-transform (pred? fun obj)
- "Transform OBJ by replacing members matching PRED? with the result of
-  applying FUN to them or, if obj is not a cons tree, by applying FUN to
-  OBJ."
- (when (not (fun? pred?)) (error "PRED? must be a function"))
- (when (not (fun? fun))   (error "FUN must be a function"))
- (cond
-  ;; ((and (atom? obj) (pred? obj)) (fun obj))
-  ((pred? obj) (fun obj))
-  ((atom? obj) obj)
-  (else
-   (cons
-    (transform pred? fun (car obj))
-    (transform pred? fun (cdr obj))))))
+(defun transform! (pred? fun tree)
+  "Destructively transform the cons tree TREE by replacing members matching
+   PRED? with the result of applying FUN to them."
+  (unless (fun? pred?) (error "PRED? must be a function"))
+  (unless (fun? fun)   (error "FUN must be a function"))
+  (unless (cons? tree) (error "TREE must be a non-empty cons tree"))
+  (let ((head (car tree)))
+    (if (cons? head)
+        (transform! pred? fun head)
+        (when (pred? head)
+          (rplaca! tree (fun head)))))
+  (let ((tail (cdr tree)))
+    (if (cons? tail)
+        (transform! pred? fun tail)
+        (when (pred? tail)
+          (rplacd! tree (fun tail)))))
+  tree)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun old-transform (pred? fun obj)
+;;  "Transform OBJ by replacing members matching PRED? with the result of
+;;   applying FUN to them or, if obj is not a cons tree, by applying FUN to
+;;   OBJ."
+;;  (when (not (fun? pred?)) (error "PRED? must be a function"))
+;;  (when (not (fun? fun))   (error "FUN must be a function"))
+;;  (cond
+;;   ;; ((and (atom? obj) (pred? obj)) (fun obj))
+;;   ((pred? obj) (fun obj))
+;;   ((atom? obj) obj)
+;;   (else
+;;    (cons
+;;     (transform pred? fun (car obj))
+;;     (transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform (pred? fun tree)
  "Replace items matching PRED? in TREE with the result of applying FUN to them."
