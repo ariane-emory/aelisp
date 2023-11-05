@@ -615,10 +615,10 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; list funs (transform):
+;; list funs (tree-transform):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun transform! (pred? fun tree)
-;;  "Destructively transform the cons tree TREE by replacing members matching
+;; (defun tree-transform! (pred? fun tree)
+;;  "Destructively tree-transform the cons tree TREE by replacing members matching
 ;;   PRED? with the result of applying FUN to them."
 ;;  (when (not (fun? pred?)) (error "PRED? must be a lambda function"))
 ;;  (when (not (fun? fun))   (error "FUN must be a lambda function"))
@@ -629,34 +629,34 @@
 ;;          (tail (cdr tree)))
 ;;     (cond
 ;;      ((pred? head) (rplaca! tree (fun head)))
-;;      ((cons? head) (transform! pred? fun head)))
+;;      ((cons? head) (tree-transform! pred? fun head)))
 ;;     (cond
 ;;      ((pred? tail) (rplacd! tree (fun tail)))
-;;      ((cons? tail) (rplacd! tree (transform! pred? fun tail))))))
+;;      ((cons? tail) (rplacd! tree (tree-transform! pred? fun tail))))))
 ;;   ((pred? tree) (error "bang") (setq! tree (fun tree)))
 ;;   (else tree))
 ;;  tree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transform! (pred? fun tree)
- "Destructively transform the cons tree TREE by replacing members matching
+(defun tree-transform! (pred? fun tree)
+ "Destructively tree-transform the cons tree TREE by replacing members matching
    PRED? with the result of applying FUN to them."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (fun? fun)   (error "FUN must be a function"))
  (unless (cons? tree) (error "TREE must be a non-empty cons tree"))
  (let ((head (car tree)))
   (if (cons? head)
-   (transform! pred? fun head)
+   (tree-transform! pred? fun head)
    (when (pred? head)
     (rplaca! tree (fun head)))))
  (let ((tail (cdr tree)))
   (if (cons? tail)
-   (transform! pred? fun tail)
+   (tree-transform! pred? fun tail)
    (when (pred? tail)
     (rplacd! tree (fun tail)))))
  tree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun old-transform (pred? fun obj)
-;;  "Transform OBJ by replacing members matching PRED? with the result of
+;; (defun old-tree-transform (pred? fun obj)
+;;  "Tree-Transform OBJ by replacing members matching PRED? with the result of
 ;;   applying FUN to them or, if obj is not a cons tree, by applying FUN to
 ;;   OBJ."
 ;;  (when (not (fun? pred?)) (error "PRED? must be a function"))
@@ -667,10 +667,10 @@
 ;;   ((atom? obj) obj)
 ;;   (else
 ;;    (cons
-;;     (transform pred? fun (car obj))
-;;     (transform pred? fun (cdr obj))))))
+;;     (tree-transform pred? fun (car obj))
+;;     (tree-transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transform (pred? fun tree)
+(defun tree-transform (pred? fun tree)
  "Replace items matching PRED? in TREE with the result of applying FUN to them."
  (unless (list? tree) (error "TREE must be a list"))
  (unless (fun? pred?) (error "PRED? must be a function"))
@@ -682,7 +682,7 @@
            (new-tail
             (list
              (cond
-              ((cons? head) (transform pred? fun head))
+              ((cons? head) (tree-transform pred? fun head))
               ((pred? head) (fun head))
               (else         head)))))
      (if result
@@ -693,7 +693,7 @@
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-tree (tree)
- "Deep copy the tree TREE. Equivalent to using transform with an always true PRED? and id as FUN?"
+ "Deep copy the tree TREE. Equivalent to using tree-transform with an always true PRED? and id as FUN?"
  (unless (list? tree) (error "TREE must be a list"))
  (when tree
   (let (result tail)
@@ -714,7 +714,7 @@
 (defun prefetch (expr)
  "Try to optimize EXPR by replacing it's symbol? members with the result of
   looking them up. This is, mysteriously, not a very effective optimization."
- (transform!
+ (tree-transform!
   (lambda (x) (and (symbol? x) (bound? x)))
   (lambda (x) (eval x))
   expr))
