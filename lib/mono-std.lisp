@@ -2453,13 +2453,13 @@
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
  (let
-  (cell-width (car rest))
-  (row-count (length matrix))
-  (current-row 0)
- (while (< current-row row-count)
-  (write (list-ref matrix current-row))
-  (nl)
-  (incr! current-row))))
+  ((cell-width (car rest))
+   (row-count (length matrix))
+   (current-row 0))
+  (while (< current-row row-count)
+   (write (list-ref matrix current-row))
+   (nl)
+   (incr! current-row))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-matrix (rows cols init-val)
  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
