@@ -2507,8 +2507,8 @@
            (new-value (ternary-func current-row current-col current-value)))
      (matrix-set! new-matrix current-row current-col new-value)
      (incr! current-col)))
-   (incr! current-row)))
- new-matrix)
+   (incr! current-row))
+ new-matrix))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
