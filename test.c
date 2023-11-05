@@ -835,9 +835,9 @@ void core_eq_eql_not(void) {
   args = CONS(NEW_INT(5), CONS(NEW_INT(5)   , NEW_CONS(NEW_INT(6), NIL)));
   T(NILP (ae_core_eql  (env, args, LENGTH(args))));
 
-  args = CONS(NIL       , CONS(NIL          , NEW_CONS(NIL       , NIL)));
+  args = CONS(NIL       , NIL);
   T(TRUEP(ae_core_not  (env, args, LENGTH(args))));
-  args = CONS(NIL       , CONS(NIL          , NEW_CONS(TRUE      , NIL)));
+  args = CONS(TRUE      , NIL);
   T(NILP (ae_core_not  (env, args, LENGTH(args))));
 }
 
