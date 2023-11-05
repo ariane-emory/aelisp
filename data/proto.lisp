@@ -302,10 +302,9 @@
    (let ((heads (heads lsts)))
     (if (nil? result)
      (setq! tail (setq! result (list heads)))
-     (rplacd! tail (list heads))
-     (setq! tail (cdr tail)))
+     (setq! tail (rplacd! tail (list heads))))
     (setq! lsts (tails lsts)))
    result)))
 
 ;; Example usage
-(write (zip '((1 2 3) (a b c) (x y z)))) (nl) ;; expected: ((1 a x) (2 b y) (3 c z)), actual (nil nil nil)
+(write (zip '((1 2 3 4) (a b c) (x y z p q)))) (nl) ;; expected: ((1 a x) (2 b y) (3 c z)), actual (nil nil nil)
