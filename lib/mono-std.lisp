@@ -2476,7 +2476,7 @@
   (while (< current-row row-count)
    (write (list-ref matrix current-row))
    (nl)
-   (setq! current-row (+ 1 current-row)))))
+   (incr! current-row))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-matrix (rows cols init-val)
  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
