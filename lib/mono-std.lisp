@@ -2459,7 +2459,7 @@
    (render-fun
     (if cell-width
      (lambda (o)
-      (left-justify cell-width (string o)))
+      (right-justify cell-width (string o)))
      string))
    (row-count (length matrix))
    (current-row 0))
