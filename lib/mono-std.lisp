@@ -666,6 +666,28 @@
             (list
              (cond
               ((cons? head) (subst head this that pred?))
+              ((pred? head) that)
+              (else head)))))
+     (if result
+      (rplacd! tail new-tail)
+      (setq! result new-tail))
+     (setq! tail new-tail)
+     (setq! tree (cdr tree))))
+   result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun transform (tree pred? fun)
+ "Replace items matching PRED? in TREE with the result of applying FUN to them."
+ (unless (list? tree) (error "TREE must be a list"))
+ (unless (fun? pred)  (error "PRED? must be a function"))
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (when tree
+  (let* (result tail)
+   (while tree
+    (let* ((head (car tree))
+           (new-tail
+            (list
+             (cond
+              ((cons? head) (transform pred? fun)) head this that pred?))
               ((pred? this head) that)
               (else head)))))
      (if result
