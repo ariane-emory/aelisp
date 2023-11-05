@@ -434,6 +434,85 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq! matrix (make-matrix 6 6 0))
+
+(matrix-set! matrix 0 3 3)
+(matrix-set! matrix 0 5 5)
+(matrix-set! matrix 1 1 11)
+(matrix-set! matrix 1 5 15)
+(matrix-set! matrix 2 0 20)
+(matrix-set! matrix 2 4 24)
+(matrix-set! matrix 4 4 44)
+(matrix-set! matrix 4 1 41)
+(matrix-set! matrix 5 2 52)
+
+(confirm that matrix returns
+ '((0 0 0 3 0 5)
+   (0 11 0 0 0 15)
+   (20 0 0 0 24 0)
+   (0 0 0 0 0 0)
+   (0 41 0 0 44 0)
+   (0 0 52 0 0 0)))
+
+(confirm that
+ (matrix-rotate-right
+  '((1 2 3)
+    (4 5 6)
+    (7 8 9)))
+ returns
+ '((7 4 1)
+   (8 5 2)
+   (9 6 3)))
+
+(setq! matrix (make-matrix 6 6 0))
+(setq! ctr 5)
+
+(until (zero? ctr)
+ (matrix-set! matrix ctr ctr (* 100 ctr))
+ (decr! ctr))
+
+(confirm that matrix returns
+ '((0 0 0 0 0 0)
+   (0 100 0 0 0 0)
+   (0 0 200 0 0 0)
+   (0 0 0 300 0 0)
+   (0 0 0 0 400 0)
+   (0 0 0 0 0 500)))
+
+(confirm that (matrix-transform matrix (lambda (row col val) (+ val (* 10 row) col))) returns
+ '((0 1 2 3 4 5)
+   (10 111 12 13 14 15)
+   (20 21 222 23 24 25)
+   (30 31 32 333 34 35)
+   (40 41 42 43 444 45)
+   (50 51 52 53 54 555)))
+
+(confirm that matrix returns
+ '((0 0 0 0 0 0)
+   (0 100 0 0 0 0)
+   (0 0 200 0 0 0)
+   (0 0 0 300 0 0)
+   (0 0 0 0 400 0)
+   (0 0 0 0 0 500)))
+
+(confirm that (matrix-transform! matrix (lambda (row col val) (+ val (* 10 row) col))) returns
+ '((0 1 2 3 4 5)
+   (10 111 12 13 14 15)
+   (20 21 222 23 24 25)
+   (30 31 32 333 34 35)
+   (40 41 42 43 444 45)
+   (50 51 52 53 54 555)))
+
+(confirm that matrix returns
+ '((0 1 2 3 4 5)
+   (10 111 12 13 14 15)
+   (20 21 222 23 24 25)
+   (30 31 32 333 34 35)
+   (40 41 42 43 444 45)
+   (50 51 52 53 54 555)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (ignore
  "Make some syntax kind of like this work:"
  (confirm that (random 10) is (and (>= 0 val) (< 10 val))))
