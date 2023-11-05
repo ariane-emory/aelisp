@@ -2457,7 +2457,10 @@
    (row-count (length matrix))
    (current-row 0))
   (while (< current-row row-count)
-   (write (list-ref matrix current-row))
+   (write
+    (if (cell-width)
+     (list-ref matrix current-row)
+     (list-ref matrix current-row)))
    (nl)
    (incr! current-row))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
