@@ -2487,7 +2487,7 @@
  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-transform (matrix ternary-func)
- "Modify each cell of the MATRIX using the TERNARY-FUNC."
+ "Make a new matrix in which each cell of MATRIX has had TERNARY-FUNC applies."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
  "This fun currently only suppors rectangular matrices."
@@ -2508,7 +2508,7 @@
      (matrix-set! new-matrix current-row current-col new-value)
      (incr! current-col)))
    (incr! current-row)))
- matrix)
+ new-matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
