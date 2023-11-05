@@ -276,7 +276,7 @@
  (when tree
   (let* ((pred? (or (car rest) eql?))
          result
-         (tail result))
+         tail)
    (setq! tree tree)
    (while tree
     (let* ((head (car tree))
