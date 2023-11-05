@@ -2454,16 +2454,24 @@
   (error "subst accepts only one optional argument"))
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
- (let
+ (let*
   ((cell-width (car rest))
+   (render-fun
+    (if cell-width
+     (lambda (o)
+      (left-justify cell-width (string o)))
+     string))
    (row-count (length matrix))
    (current-row 0))
   (while (< current-row row-count)
-   (let ((cell-value (list-ref matrix current-row)))
+   (let ((cell-values (list-ref matrix current-row)))
     (princ
      (if cell-width
-      (left-justify cell-width (string cell-value))
-      (string cell-value)))
+      (mapcar
+       (lambda (o)
+        (left-justify cell-width (string o)))
+       cell-values)
+      cell-values))
     (nl)
     (incr! current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
