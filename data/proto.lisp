@@ -227,3 +227,4 @@
    (setq! ctr (1+ ctr)))))
 
 (princ upp) (nl)
+(princ (props upp)) (nl)
