@@ -2466,10 +2466,11 @@
   (while (< current-row row-count)
    (let ((cell-values (list-ref matrix current-row)))
     (princ "(")
+    (princ (render-fun (car cell-values)))
     (mapc
      (lambda (o)
       (princ " " (render-fun o)))
-     cell-values)
+     (cdr cell-values))
     (princ ")")
     (nl)
     (incr! current-row)))))
