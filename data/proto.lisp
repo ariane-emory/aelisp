@@ -266,23 +266,24 @@
    (laugh (1- n) (cons 'ha acc)))))
 
 
-(defun subst (lst this that)
- "Substitute occurence of THIS for THAT in LST."
- (unless (list? lst) (error "LST must be a list"))
- (when lst
-  (let* ((result (list (car lst)))
+(defun subst (tree this that)
+ "Substitute occurence of THIS for THAT in TREE."
+ (unless (list? tree) (error "TREE must be a list"))
+ (when tree
+  (let* ((result (list (car tree)))
          (tail result))
-   (setq! lst (cdr lst))
-   (while lst
-    (let ((new-cons
+   (setq! tree (cdr tree))
+   (while tree
+    (let* ((head (car tree))
+           (new-cons
            (list
             (cond
-             ((cons? (car lst)) (subst (car lst) this that))
-             ((eql? this (car lst)) that)
-             (else (car lst))))))
+             ((cons? head) (subst head this that))
+             ((eql? this head) that)
+             (else head)))))
      (rplacd! tail new-cons)
      (setq!   tail new-cons))
-    (setq! lst (cdr lst)))
+    (setq! tree (cdr tree)))
    result)))
 
 (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
