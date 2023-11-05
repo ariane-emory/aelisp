@@ -203,7 +203,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Generate a bunch of Traveller UPPs.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when t
+(when nil
  (defun trav-upp ()
   (let ((attrs $(:str :dex :end :edu :int :soc))
         rolls)
@@ -213,3 +213,17 @@
   (princ (trav-upp))
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defstruct upp str dex end edu int soc)
+(setq! upp (make-upp 10 10 10 10 10 10))
+(princ upp) (nl)
+
+
+(let ((ctr 1))
+ (until (= ctr 7)
+  (let ((index (1- (2* ctr))))
+   (princ index) (nl)
+   (list-set! upp index (+ (random 6) (random 6)))
+   (setq! ctr (1+ ctr)))))
+
+(princ upp) (nl)
