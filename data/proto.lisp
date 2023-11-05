@@ -40,14 +40,13 @@
 ;; Count results of rolling 1d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
- (setq! *counts* '(1 0 2 0 3 0 4 0 5 0 6 0))
+ (setq! *counts* (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
  (repeat 10000
   (let ((roll (random 1 7)))
-   (setq! *counts*
-    (plist-set! roll *counts*
-     (if (plist-has? roll *counts*)
-      (1+ (plist-get roll *counts*))
-      1)))))
+   (plist-set! *counts* roll
+    (if (plist-has? *counts* roll)
+     (1+ (plist-get *counts* roll))
+     1))))
  (princ *counts*) (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -173,7 +172,7 @@
   (setq! *xorshift64-seed* (now-us))
   (sleep (random 2 20))
   (setq! *xorshift64-seed* (now-us))
-  (setq! ctr (+ 1 ctr))
+  (incr! ctr)
   (princ "Iter #" ctr) (nl)
 
   ;; Initialize/reset the counts for this cycle.
@@ -183,9 +182,7 @@
    (sleep 3)
 
    (let ((roll (random 1 6)))
-    ;; Increment the count for the generated roll.
-    (setq! counts (plist-set! roll counts (1+ (plist-get roll counts))))
-    ))
+    (plist-set! counts roll (1+ (plist-get counts roll)))))
 
   (princ "This cycle's counts:    " (vals counts)) (nl)
   ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
