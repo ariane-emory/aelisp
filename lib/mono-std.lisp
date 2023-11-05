@@ -643,7 +643,7 @@
     (transform pred? fun (car obj))
     (transform pred? fun (cdr obj))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transform (pred? fun tree)
+(defun old-transform (pred? fun tree)
  "Replace items matching PRED? in TREE with the result of applying FUN to them."
  (unless (list? tree) (error "TREE must be a list"))
  (unless (fun? pred?) (error "PRED? must be a function"))
@@ -677,11 +677,11 @@
  "Substitute occurence of THIS for THAT in TREE."
  (unless (list? tree) (error "TREE must be a list"))
  (unless (or (fun? (car rest)) (nil? (car rest)))
-  (error "If provided, EQP?? must be a function"))
+  (error "If provided, EQP? must be a function"))
  (when (cdr rest)
   (error "subst accepts only one optional argument"))
  (when tree
-  (let* ((eqp?? (or (car rest) eql?))
+  (let* ((eqp? (or (car rest) eql?))
          result
          tail)
    (while tree
@@ -689,9 +689,9 @@
            (new-tail
             (list
              (cond
-              ((cons? head) (subst head this that eqp??))
-              ((eqp?? this head) that)
-              (else head)))))
+              ((cons? head)     (subst head this that eqp?))
+              ((eqp? this head) that)
+              (else             head)))))
      (if result
       (rplacd! tail new-tail)
       (setq! result new-tail))
@@ -713,7 +713,7 @@
              (cond
               ((cons? head) (transform pred? fun head))
               ((pred? head) (fun head))
-              (else head)))))
+              (else         head)))))
      (if result
       (rplacd! tail new-tail)
       (setq! result new-tail))
@@ -1455,16 +1455,17 @@
  "2. The rest of the elements."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (list? lst) (error "LST must be a list"))
- (let (prev
-       (current lst))
-  (while (and current (pred? (car current)))
-   (setq! prev current)
-   (setq! current (cdr current)))
-  (if prev
-   (progn
-    (rplacd! prev nil)
-    $(lst current))
-   $(nil lst))))
+ (when lst
+  (let (prev
+        (current lst))
+   (while (and current (pred? (car current)))
+    (setq! prev current)
+    (setq! current (cdr current)))
+   (if prev
+    (progn
+     (rplacd! prev nil)
+     $(lst current))
+    $(nil lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun split-list (pred? lst)
 ;;  "Split LST into two sublists:"
@@ -1489,40 +1490,36 @@
 (defun delq! (item lst)
  "Destructively remove all items eq? to ITEM from LST, error on single-item removal."
  (unless (cons? lst) (error "LST must be a cons"))
- ;; (when (and (nil? (cdr lst)) (eq? (car lst) item))
- (when (nil? (cdr lst))
-   (error "Cannot remove the only item from a single-item list"))
+ (unless (cdr lst)   (error "Cannot remove the only item from a single-item list"))
  (while (and (cons? lst) (eq? (car lst) item))
-   (if (cons? (cdr lst))
-     (progn
-       (rplaca! lst (cadr lst))
-       (rplacd! lst (cddr lst)))
-     (return nil)))
+  (if (cons? (cdr lst))
+   (progn
+    (rplaca! lst (cadr lst))
+    (rplacd! lst (cddr lst)))
+   (return nil)))
  (let ((current lst))
-   (while (and (cons? current) (cons? (cdr current)))
-     (if (eq? (cadr current) item)
-         (rplacd! current (cddr current))
-         (setq! current (cdr current))))
+  (while (and (cons? current) (cons? (cdr current)))
+   (if (eq? (cadr current) item)
+    (rplacd! current (cddr current))
+    (setq! current (cdr current))))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun delql! (item lst)
  "Destructively remove all items eql? to ITEM from LST, error on single-item removal."
  (unless (cons? lst) (error "LST must be a cons"))
- ;; (when (and (nil? (cdr lst)) (eql? (car lst) item))
- (when (nil? (cdr lst))
-   (error "Cannot remove the only item from a single-item list"))
+ (unless (cdr lst)   (error "Cannot remove the only item from a single-item list"))
  (while (and (cons? lst) (eql? (car lst) item))
-   (if (cons? (cdr lst))
-     (progn
-       (rplaca! lst (cadr lst))
-       (rplacd! lst (cddr lst)))
-     (return nil)))
+  (if (cons? (cdr lst))
+   (progn
+    (rplaca! lst (cadr lst))
+    (rplacd! lst (cddr lst)))
+   (return nil)))
  (let ((current lst))
-   (while (and (cons? current) (cons? (cdr current)))
-     (if (eql? (cadr current) item)
-         (rplacd! current (cddr current))
-         (setq! current (cdr current))))
-   lst))
+  (while (and (cons? current) (cons? (cdr current)))
+   (if (eql? (cadr current) item)
+    (rplacd! current (cddr current))
+    (setq! current (cdr current))))
+  lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2343,7 +2340,7 @@
           (arg2 (if (cadr args) (cadr args) (car args)))
           (min (min arg1 arg2))
           (max (max arg1 arg2))
-          (range (+ 1 (- max min))))
+          (range (1+ (- max min))))
     (+ min (mod (xorshift64) range)))
    randval)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
