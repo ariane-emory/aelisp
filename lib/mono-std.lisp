@@ -1487,58 +1487,42 @@
 ;; delq:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun delq! (item lst)
- "Destructively remove all items eq? to ITEM from LST."
- (unless (list? lst) (error "LST must be a list"))
- (when lst
-  (while (and lst (eq? (car lst) item))
-   (setq! lst (cdr lst)))
-  (let ((pos lst))
-   (while (and pos (cdr pos))
-    (if (eq? (cadr pos) item)
-     (rplacd! pos (cddr pos))
-     (setq! pos (cdr pos)))))
+ "Destructively remove all items eq? to ITEM from LST, error on single-item removal."
+ (unless (cons? lst) (error "LST must be a cons"))
+ ;; (when (and (nil? (cdr lst)) (eq? (car lst) item))
+ (when (nil? (cdr lst))
+   (error "Cannot remove the only item from a single-item list"))
+ (while (and (cons? lst) (eq? (car lst) item))
+   (if (cons? (cdr lst))
+     (progn
+       (rplaca! lst (cadr lst))
+       (rplacd! lst (cddr lst)))
+     (return nil)))
+ (let ((current lst))
+   (while (and (cons? current) (cons? (cdr current)))
+     (if (eq? (cadr current) item)
+         (rplacd! current (cddr current))
+         (setq! current (cdr current))))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun delql! (item lst)
- "Destructively remove all items eql? to ITEM from LST."
- (unless (list? lst) (error "LST must be a list"))
- ;; Handle the case where the head of the list matches the item
- (while (and (cons? lst) (eql? (car lst) item))
-   (if (cons? (cdr lst))
-     (progn
-       (rplaca! lst (cadr lst))  ;; Replace the head of the list with the second element
-       (rplacd! lst (cddr lst))) ;; Adjust the rest of the list after the second element
-     (return nil))) ;; If there is no second element, return nil
- ;; Now lst is guaranteed not to start with an item match
- (let ((current lst))
-   (while (and (cons? current) (cons? (cdr current)))
-     (if (eql? (cadr current) item)
-         (rplacd! current (cddr current)) ;; Remove the next element
-         (setq! current (cdr current))))  ;; Otherwise move to the next
-   lst))
-
-
-(defun delql! (item lst)
  "Destructively remove all items eql? to ITEM from LST, error on single-item removal."
- (unless (list? lst) (error "LST must be a list"))
- ;; Special case: single-item list
- (when (and (cons? lst) (null (cdr lst)) (eql? (car lst) item))
+ (unless (cons? lst) (error "LST must be a cons"))
+ ;; (when (and (nil? (cdr lst)) (eql? (car lst) item))
+ (when (nil? (cdr lst))
    (error "Cannot remove the only item from a single-item list"))
- ;; Handle the case where the head of the list matches the item
  (while (and (cons? lst) (eql? (car lst) item))
    (if (cons? (cdr lst))
      (progn
-       (rplaca! lst (cadr lst))  ;; Replace the head of the list with the second element
-       (rplacd! lst (cddr lst))) ;; Adjust the rest of the list after the second element
-     (return nil))) ;; If there is no second element, return nil
- ;; Now lst is guaranteed not to start with an item match
+       (rplaca! lst (cadr lst))
+       (rplacd! lst (cddr lst)))
+     (return nil)))
  (let ((current lst))
    (while (and (cons? current) (cons? (cdr current)))
      (if (eql? (cadr current) item)
-         (rplacd! current (cddr current)) ;; Remove the next element
-         (setq! current (cdr current))))  ;; Otherwise move to the next
+         (rplacd! current (cddr current))
+         (setq! current (cdr current))))
    lst))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
