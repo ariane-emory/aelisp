@@ -155,11 +155,11 @@
 (confirm that (mapcar! double lst)                                        returns '(2 4 6 8))
 (confirm that lst                                                         returns '(2 4 6 8))
 (confirm that (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)               returns '(1 2 3 4 five 6 7 (8 five 9 five 10)))
-(confirm that (tree-transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10))) returns '(1 4 3 8 5 12 7 (16 5 9 5 20)))
+(confirm that (transform-tree even? double '(1 2 3 4 5 6 7 (8 5 9 5 10))) returns '(1 4 3 8 5 12 7 (16 5 9 5 20)))
 (setq!   lst  '(a 2 3 (b 4 x (y 5)) (6 nil 7)))
-(confirm that (tree-transform  integer? double lst)                       returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that (transform-tree  integer? double lst)                       returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that lst                                                         returns '(a 2 3 (b 4 x (y  5)) (6  nil  7)))
-(confirm that (tree-transform! integer? double lst)                       returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
+(confirm that (transform-tree! integer? double lst)                       returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that lst                                                         returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that (make-string      10 "x")                                   returns "xxxxxxxxxx")
 (confirm that (pad-string-right 10 "x" "hello")                           returns "helloxxxxx")
@@ -411,7 +411,7 @@
    (0 0 0 0 400 0)
    (0 0 0 0 0 500)))
 
-(confirm that (matrix-transform matrix (lambda (row col val) (+ val (* 10 row) col))) returns
+(confirm that (transform-matrix matrix (lambda (row col val) (+ val (* 10 row) col))) returns
  '((0 1 2 3 4 5)
    (10 111 12 13 14 15)
    (20 21 222 23 24 25)
@@ -427,7 +427,7 @@
    (0 0 0 0 400 0)
    (0 0 0 0 0 500)))
 
-(confirm that (matrix-transform! matrix (lambda (row col val) (+ val (* 10 row) col))) returns
+(confirm that (transform-matrix! matrix (lambda (row col val) (+ val (* 10 row) col))) returns
  '((0 1 2 3 4 5)
    (10 111 12 13 14 15)
    (20 21 222 23 24 25)
@@ -452,7 +452,7 @@
 #|
 
 Write some tests for bitwise operators.
-Write some tests for matrix-transform.
+Write some tests for transform-matrix.
 Write some tests for random.
 Write some tests for structs.
 
