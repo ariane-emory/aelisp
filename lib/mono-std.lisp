@@ -728,8 +728,8 @@
   (error "subst accepts only one optional argument"))
  (when tree
   (let ((eqp? (or (car rest) eql?))
-         result
-         tail)
+        result
+        tail)
    (while tree
     (let* ((head (car tree))
            (new-tail
