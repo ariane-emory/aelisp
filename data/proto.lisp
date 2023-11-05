@@ -275,9 +275,9 @@
   (error "subst accepts only one optional argument"))
  (when tree
   (let* ((pred? (or (car rest) eql?))
-         (result (list (car tree)))
+         result
          (tail result))
-   (setq! tree (cdr tree))
+   (setq! tree tree)
    (while tree
     (let* ((head (car tree))
            (new-cons
@@ -289,8 +289,8 @@
      (if (nil? result)
       (setq! result new-cons)
       (rplacd! tail new-cons))
-     (setq!   tail (cdr tail)))
-    (setq! tree (cdr tree)))
+     (setq! tail new-cons)
+     (setq! tree (cdr tree))))
    result)))
 
 (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
