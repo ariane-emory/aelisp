@@ -704,7 +704,7 @@
  (let ((found nil))
   (while (and lst (not found))
    (if (eq? elem (car lst))
-    (setq! found t)
+    (setq! found lst)
     (setq! lst (cdr lst))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -714,7 +714,7 @@
  (let ((found nil))
   (while (and lst (not found))
    (if (eql? elem (car lst))
-    (setq! found t)
+    (setq! found lst)
     (setq! lst (cdr lst))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

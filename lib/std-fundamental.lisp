@@ -34,8 +34,8 @@
   (error "NAME must be a symbol"))
  (unless (or (eq? :CONS (type params)) (eq? :SYMBOL (type params)))
   (error "PARAMS must be a list or symbol"))
- (unless (eq? :CONS (type body))
-  (error "BODY must be a cons"))
+ (unless body
+  (error "BODY must not be nil"))
  $('setq! name $('lambda params . body)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

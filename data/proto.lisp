@@ -240,12 +240,20 @@
  ;; (log-eval t)
 
  (setq! ctr 0)
+ (setq! upps nil)
  
- (until (= ctr 200)
+ (until (= ctr 500)
   (let ((upp (new-upp)))
    (if (>= (upp-total upp) 42)
-    (progn (princ upp) (nl))
-    (setq! ctr (+ 1 ctr))))))
+    (push! upp upps)
+    (setq! ctr (1+ ctr)))))
+
+ (setq! upps (sort!! upps (lambda (a b) (> (upp-total a) (upp-total b)))))
+ 
+ (mapc (lambda (upp) (princ upp " " (upp-total upp)) (nl)) upps)
+ nil
+ 
+ )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
