@@ -129,11 +129,22 @@
    (rplacd! tail lst2) 
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun append lists
- "Append any number of LISTS."
+(defun nconc! lsts
+ "Destructively concatenate multiple lsts."
+ (unless (all? list? lsts) (error "Every argument must be a list"))
+ (let ((result      (car lsts))
+       (rest-lsts   (cdr lsts)))
+  (while rest-lsts
+   (setq! result    (nconc2! result (car rest-lsts)))
+   (setq! rest-lsts (cdr rest-lsts)))
+  result))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun append lsts
+ "Append any number of LSTS by copying the leading lists."
+ (unless (all? list? lsts) (error "Every argument must be a list"))
  (let (result tail)
-  (while lists
-   (let ((current-list (car lists)))
+  (while lsts
+   (let ((current-list (car lsts)))
     (unless (list? current-list) (error "Every argument must be a list"))
     (while current-list
      (let ((new-cons (list (car current-list))))
@@ -142,16 +153,7 @@
        (rplacd! tail new-cons))
       (setq! tail new-cons)
       (setq! current-list (cdr current-list))))
-    (setq! lists (cdr lists))))
-  result))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun nconc! lists
- "Destructively concatenate multiple lists."
- (let ((result     (car lists))
-       (rest-lists (cdr lists)))
-  (while rest-lists
-   (setq! result     (nconc2! result (car rest-lists)))
-   (setq! rest-lists (cdr rest-lists)))
+    (setq! lsts (cdr lsts))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'append-and-nconc)
