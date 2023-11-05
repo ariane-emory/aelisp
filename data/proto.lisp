@@ -204,7 +204,7 @@
 ;; Generate a bunch of Traveller UPPs.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when t
+(when nil
 
  (defun new-upp ()
   (let ((attrs $(:str :dex :end :edu :int :soc))
