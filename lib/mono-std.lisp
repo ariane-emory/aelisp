@@ -2392,7 +2392,7 @@
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
     $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
-      $('put  $('quote struct-type) ':struct-type 'struct)
+      $('put 'struct ':struct-type $('quote struct-type))
       'struct))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-predicate (struct-type)
