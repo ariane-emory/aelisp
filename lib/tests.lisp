@@ -356,6 +356,11 @@
 (confirm that (plist-to-alist (alist-to-plist '((a . 1) (b . 2) (c . 3)))) returns '((a . 1) (b . 2) (c . 3)))
 (confirm that (concat* :this " sentence " 'contains " " 5 " words.")       returns ":this sentence contains 5 words.")
 (confirm that (concat* :this " sentence " 'contains " a list: " '(1 2 3))  returns ":this sentence contains a list: (1 2 3)")
+(setq! l1 '(1 2 3 4 5 6 7 8 9 10))
+(setq! l2 '(a b c d e f g h i j))
+(setq! l3 '(q r s t u v w x y z))
+(confirm that (heads (list l1 l2 l3)) returns '(1 a q))
+(confirm that (tails (list l1 l2 l3)) returns '((2 3 4 5 6 7 8 9 10) (b c d e f g h i j) (r s t u v w x y z)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; matrix tests:
