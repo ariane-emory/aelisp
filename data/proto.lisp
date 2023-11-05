@@ -333,9 +333,8 @@
       (let ((heads (heads lsts)))
         (if (nil? result)
             (setq! tail (setq! result (list heads)))
-            (progn
               (rplacd! tail (list heads))
-              (setq! tail (cdr tail))))
+              (setq! tail (cdr tail)))
       (setq! lsts (tails lsts)))
     result)))
 
