@@ -125,7 +125,7 @@
 (confirm that (rreduce + '(1 2 3)    0)            returns 6)
 (confirm that (rreduce + '(1 2 3 4)  0)            returns 10)
 
-(confirm that (zip '((a b c) (1 2 3)))             returns '((a 1) (b 2) (c 3)))
+(confirm that (zip '((a b c) (1 2 3)))             returns '((a 1)   (b 2)   (c 3)))
 (confirm that (zip '((a b c) (1 2 3) (x y z)))     returns '((a 1 x) (b 2 y) (c 3 z)))
 
 (setq!   lst                                               '(7 5 4 6 3 9 1 6 2 8 6))
