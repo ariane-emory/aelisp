@@ -2011,16 +2011,6 @@
    lst)
   current-max))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun 1+ (n)
-;;  "Return N + 1."
-;;  (unless (integer? n) (error "N must be an integer"))
-;;  (+ 1 n))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun 1- (n)
-;;  "Return N - 1."
-;;  (unless (integer? n) (error "N must be an integer"))
-;;  (- n 1))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun double (n)
  "Return N * 2."
  (unless (integer? n) (error "N must be an integer"))
@@ -2198,7 +2188,7 @@
  "Round NUM up to the next square number."
  (unless (integer? num) (error "NUM must be an integer"))
  (while (not (is-square? num))
-  (setq! num (1+ num)))
+  (incr! num))
  num)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun floor (n)
