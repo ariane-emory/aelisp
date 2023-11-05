@@ -279,9 +279,26 @@
  (matrix-set! matrix ctr ctr (* 100 ctr))
  (decr! ctr))
 
+(confirm that matrix returns
+ '((0 0 0 0 0 0)
+   (0 100 0 0 0 0)
+   (0 0 200 0 0 0)
+   (0 0 0 300 0 0)
+   (0 0 0 0 400 0)
+   (0 0 0 0 0 500)))
+
 (write-matrix matrix) (nl)
 
 (matrix-transform! matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
+
+(confirm that matrix returns
+ '((0 1 2 3 4 5)
+   (10 111 12 13 14 15)
+   (20 21 222 23 24 25)
+   (30 31 32 333 34 35)
+   (40 41 42 43 444 45)
+   (50 51 52 53 54 555)))
+
 
 (write-matrix matrix) (nl)
 
