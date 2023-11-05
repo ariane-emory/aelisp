@@ -155,15 +155,6 @@
 ;; Wild west:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(ignore 
- (defstruct cat name legs whiskers)
- (setq! higgs (make-cat "higgy" 4 t))
-
- (setq! matrix (make-matrix 6 6 0))
- (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
- (write-matrix matrix))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! deltas nil)
 (setq! ctr 0)
 
@@ -277,3 +268,20 @@
 
 ;; Example usage
 (write (zip '((1 2 3 4) (a b c) (x y z p q)))) (nl) ;; expected: ((1 a x) (2 b y) (3 c z)), actual (nil nil nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(setq! matrix (make-matrix 6 6 0))
+(setq! ctr 5)
+
+(until (zero? ctr)
+ (matrix-set! matrix ctr ctr (* 100 ctr))
+ (decr! ctr))
+
+(write-matrix matrix) (nl)
+
+(matrix-transform! matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
+
+(write-matrix matrix) (nl)
+

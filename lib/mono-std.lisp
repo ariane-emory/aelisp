@@ -2451,7 +2451,7 @@
    (incr! current-row))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
-(defun matrix-transform (matrix rows cols ternary-func)
+(defun matrix-transform! (matrix rows cols ternary-func)
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
@@ -2466,7 +2466,6 @@
    (until (= current-col cols)
     (let* ((current-value (matrix-ref matrix current-row current-col))
            (new-value (ternary-func current-row current-col current-value)))
-     ;; (princ "Setting row " current-row " column " current-col " to " new-value) (nl)
      (matrix-set! matrix current-row current-col new-value)
      (incr! current-col)))
    (incr! current-row)))
