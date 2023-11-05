@@ -2,6 +2,27 @@
 (provide 'proto)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(ignore
+ (defmacro defun (name params . docs-and-body)
+  "Defun with support for stashing docstrings in a property. No tests written for this one yet."
+  (let* ((split (split-list string? docs-and-body))
+         (docs  (apply concat (intercalate " " (car split))))
+         (body  (cadr split)))
+   $('progn 
+     $('setq! name $('lambda params . body))
+     $('put  docs ':doc name))))
+ (defun somefun (x y)
+  "Multiply two"
+  "numbers."
+  (* x y))
+ (write (get :doc somefun)) (nl)
+ (write (doc somefun))      (nl)
+ (write (doc write))        (nl))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Non-recursive reduce I haven't tested yet.
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -126,6 +147,8 @@
 
 ;; (let ((rat (cf-to-rational (continued-fractions 408 500 10))))
 ;;  (princ (brute-force-approximation (numer rat) (denom rat) 32)) (nl))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Untested alternate approach to approximating a rational number with a simpler fraction.
@@ -150,6 +173,8 @@
    (setq! current-denom (1+ current-denom)))
   ;; Return the best approximation found
   best-approximation))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Wild west:
@@ -242,102 +267,23 @@
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(ignore
+;; (ignore
  (defun laugh (n . rest)
- (let ((acc (car rest)))
-  (if (zero? n)
-   acc
-   (laugh (1- n) (cons 'ha acc)))))
+  (let ((acc (car rest)))
+   (if (zero? n)
+    acc
+    (laugh (1- n) (cons 'ha acc)))))
 
-(write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
-(write (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
-(write (laugh 6)) (nl)
+ (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
+ (write (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
+ (write (laugh 6)) (nl)
 
-(setq! l1 '(1 2 3 4 5 6 7 8 9 10))
-(setq! l2 '(a b c d e f g h i j))
-(setq! l3 '(q r s t u v w x y z))
+ (setq! l1 '(1 2 3 4 5 6 7 8 9 10))
+ (setq! l2 '(a b c d e f g h i j))
+ (setq! l3 '(q r s t u v w x y z))
 
-(write (heads (list l1 l2 l3))) (nl)
-(write (tails (list l1 l2 l3))) (nl))
-
+(confirm that (heads (list l1 l2 l3)) returns '(1 a q))
+(confirm that (tails (list l1 l2 l3)) returns '((2 3 4 5 6 7 8 9 10) (b c d e f g h i j) (r s t u v w x y z)))
+;;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq! matrix (make-matrix 6 6 0))
-
-(matrix-set! matrix 0 3 3)
-(matrix-set! matrix 0 5 5)
-(matrix-set! matrix 1 1 11)
-(matrix-set! matrix 1 5 15)
-(matrix-set! matrix 2 0 20)
-(matrix-set! matrix 2 4 24)
-(matrix-set! matrix 4 4 44)
-(matrix-set! matrix 4 1 41)
-(matrix-set! matrix 5 2 52)
-
-(confirm that matrix returns
- '((0 0 0 3 0 5)
-   (0 11 0 0 0 15)
-   (20 0 0 0 24 0)
-   (0 0 0 0 0 0)
-   (0 41 0 0 44 0)
-   (0 0 52 0 0 0)))
-
-(confirm that
- (matrix-rotate-right
-  '((1 2 3)
-    (4 5 6)
-    (7 8 9)))
- returns
- '((7 4 1)
-   (8 5 2)
-   (9 6 3)))
-
-(setq! matrix (make-matrix 6 6 0))
-(setq! ctr 5)
-
-(until (zero? ctr)
- (matrix-set! matrix ctr ctr (* 100 ctr))
- (decr! ctr))
-
-(confirm that matrix returns
- '((0 0 0 0 0 0)
-   (0 100 0 0 0 0)
-   (0 0 200 0 0 0)
-   (0 0 0 300 0 0)
-   (0 0 0 0 400 0)
-   (0 0 0 0 0 500)))
-
-(confirm that (matrix-transform matrix (lambda (row col val) (+ val (* 10 row) col))) returns
- '((0 1 2 3 4 5)
-   (10 111 12 13 14 15)
-   (20 21 222 23 24 25)
-   (30 31 32 333 34 35)
-   (40 41 42 43 444 45)
-   (50 51 52 53 54 555)))
-
-(confirm that matrix returns
- '((0 0 0 0 0 0)
-   (0 100 0 0 0 0)
-   (0 0 200 0 0 0)
-   (0 0 0 300 0 0)
-   (0 0 0 0 400 0)
-   (0 0 0 0 0 500)))
-
-(confirm that (matrix-transform! matrix (lambda (row col val) (+ val (* 10 row) col))) returns
- '((0 1 2 3 4 5)
-   (10 111 12 13 14 15)
-   (20 21 222 23 24 25)
-   (30 31 32 333 34 35)
-   (40 41 42 43 444 45)
-   (50 51 52 53 54 555)))
-
-(confirm that matrix returns
- '((0 1 2 3 4 5)
-   (10 111 12 13 14 15)
-   (20 21 222 23 24 25)
-   (30 31 32 333 34 35)
-   (40 41 42 43 444 45)
-   (50 51 52 53 54 555)))
-
 

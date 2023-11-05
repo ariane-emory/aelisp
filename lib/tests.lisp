@@ -78,29 +78,13 @@
 (confirm that (push! 99 lst) returns '(99 2 3 4 5 6 7 8 9))
 (setq! lst '("asdw" "erer" "rerw" 1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
 (setq! split (split-list string? lst))
+(confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
+
 (ignore
  "This test cannot work until handling of strings containing escaped double quotes is fixed,"
  "and so for now we will ignore it."
  (confirm that (apply concat (intercalate " " (car split))) returns "\"asdw erer rerw\""))
-(confirm that (cadr split) returns '(1 nil (lambda (x) x) zoop z (1 2 . 3) 8))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(ignore
- "Defun with support for stashing docstrings in a property. No tests written for this one yet."
- (defmacro defun (name params . docs-and-body)
-  (let* ((split (split-list string? docs-and-body))
-         (docs  (apply concat (intercalate " " (car split))))
-         (body  (cadr split)))
-   $('progn 
-     $('setq! name $('lambda params . body))
-     $('put  docs ':doc name))))
- (defun somefun (x y)
-  "Multiply two"
-  "numbers."
-  (* x y))
- (write (get :doc somefun)) (nl)
- (write (doc somefun))      (nl)
- (write (doc write))        (nl))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (confirm that (bin-list-to-int  '(1 0 1 0 1 0 1))  returns 85)
 (confirm that (bin-list-to-int*   1 0 1 0 1 0 1)   returns 85)
 
