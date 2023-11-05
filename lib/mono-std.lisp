@@ -647,7 +647,7 @@
   ;; ((and (atom? obj) (pred? obj)) (fun obj))
   ((pred? obj) (fun obj))
   ((atom? obj) obj)
-  (t
+  (else
    (cons
     (transform pred? fun (car obj))
     (transform pred? fun (cdr obj))))))
