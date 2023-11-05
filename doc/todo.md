@@ -1,4 +1,5 @@
 To Do:
+- [ ] incr!/decr!, like incf/decf.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
