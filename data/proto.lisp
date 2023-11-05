@@ -262,8 +262,7 @@
    (laugh (1- n) (cons 'ha acc)))))
 
 
-
-
 (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
 ;;(log-eval t)
 (write (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
+(write (laugh 6)) (nl)
