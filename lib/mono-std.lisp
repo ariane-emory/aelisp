@@ -1502,15 +1502,33 @@
 (defun delql! (item lst)
  "Destructively remove all items eql? to ITEM from LST."
  (unless (list? lst) (error "LST must be a list"))
- (when lst
-  (while (and lst (eql? (car lst) item))
-   (setq! lst (cdr lst)))
-  (let ((pos lst))
+ (while (and lst (eql? (car lst) item))
+   ;; Check if we have more than one element to avoid error in case lst has only one element that is eql? to item
+   (if (cdr lst)
+       (progn
+         (rplaca! lst (car (cdr lst)))
+         (rplacd! lst (cdr (cdr lst))))
+       (setq! lst nil)))
+ (let ((pos lst))
    (while (and pos (cdr pos))
     (if (eql? (cadr pos) item)
+     ;; Replace the cdr of pos with the cdr of the cdr of pos, effectively removing the next element
      (rplacd! pos (cddr pos))
+     ;; Otherwise, just move pos forward
      (setq! pos (cdr pos)))))
-  lst))
+ lst)
+;; (defun delql! (item lst)
+;;  "Destructively remove all items eql? to ITEM from LST."
+;;  (unless (list? lst) (error "LST must be a list"))
+;;  (when lst
+;;   (while (and lst (eql? (car lst) item))
+;;    (setq! lst (cdr lst)))
+;;   (let ((pos lst))
+;;    (while (and pos (cdr pos))
+;;     (if (eql? (cadr pos) item)
+;;      (rplacd! pos (cddr pos))
+;;      (setq! pos (cdr pos)))))
+;;   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
