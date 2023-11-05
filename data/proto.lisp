@@ -269,6 +269,10 @@
 (defun subst (tree this that . rest)
  "Substitute occurence of THIS for THAT in TREE."
  (unless (list? tree) (error "TREE must be a list"))
+ (unless (or (nil? (car rest)) (lambda? (car rest)))
+  (error "If provided, PRED? must be a lambda function"))
+ (when (cdr rest)
+  (error "subst accepts only one optional argument"))
  (when tree
   (let* ((pred? (or (car rest) eql?))
          (result (list (car tree)))
@@ -280,7 +284,7 @@
             (list
              (cond
               ((cons? head) (subst head this that))
-              ((eql? this head) that)
+              ((pred? this head) that)
               (else head)))))
      (rplacd! tail new-cons)
      (setq!   tail (cdr tail)))
