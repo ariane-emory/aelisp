@@ -1711,17 +1711,19 @@
  (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
  (unless (string? init-val)                     (error "INIT-VAL must be a string."))
  (unless (one? (length init-val))               (error "INIT-VAL must be a string of length 1."))
- (concat str (make-string (- size (length str)) init-val)))
+ (concat str (make-string (max 0 (- size (length str))) init-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-left (size init-val str)
  "Pad STR to SIZE with INIT-VAL."
  (unless (integer? size)          (error "SIZE must be an integer."))
  (unless (string? init-val)       (error "INIT-VAL must be a string."))
  (unless (one? (length init-val)) (error "INIT-VAL must be a string of length 1."))
- (concat (make-string (- size (length str)) init-val) str))
+ (concat (make-string (max 0 (- size (length str))) init-val) str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun left-justify  (size str)
  "Left justify a string STR."
+ (unless (and (integer? size) (positive? size))
+  (princ "Not valid: " size) (nl))
  (unless (and (integer? size) (positive? size)) (error "SIZE must be a positive integer"))
  (unless (string? str) (error "STR must be a string."))
  (pad-string-right size " " str))
@@ -2458,10 +2460,10 @@
    (current-row 0))
   (while (< current-row row-count)
    (let ((cell-value (list-ref matrix current-row)))
-    (write
+    (princ
      (if cell-width
       (left-justify cell-width (string cell-value))
-      cell-value))
+      (string cell-value)))
     (nl)
     (incr! current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
