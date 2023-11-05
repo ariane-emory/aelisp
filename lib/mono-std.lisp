@@ -1188,16 +1188,16 @@
     (setq! lst (cdr lst)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-list-pred-fun (name combiner base-case)
- `(defun ,name (pred? lst)
-   (if lst
-    (,combiner
-     (pred? (car lst))
-     (,name pred? (cdr lst)))
-    ,base-case)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-list-pred-fun any? or  nil)
-(defun-list-pred-fun all? and t)
+;; (defmacro defun-list-pred-fun (name combiner base-case)
+;;  `(defun ,name (pred? lst)
+;;    (if lst
+;;     (,combiner
+;;      (pred? (car lst))
+;;      (,name pred? (cdr lst)))
+;;     ,base-case)))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun-list-pred-fun any? or  nil)
+;; (defun-list-pred-fun all? and t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun all? (pred? lst)
  "t when all elems in LST? are PRED?"
@@ -1215,13 +1215,25 @@
    (setq! lst (cdr lst)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro defun-list-transform-fun (name transformer)
- `(defun ,name (lsts)
-   (when lsts
-    (cons (,transformer (car lsts)) (,name (cdr lsts))))))
+;; (defmacro defun-list-transform-fun (name transformer)
+;;  `(defun ,name (lsts)
+;;    (when lsts
+;;     (cons (,transformer (car lsts)) (,name (cdr lsts))))))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (defun-list-transform-fun heads caar)
+;; (defun-list-transform-fun tails cdar)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun-list-transform-fun heads caar)
-(defun-list-transform-fun tails cdar)
+(defun heads (lsts)
+ "Return a list of the heads of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar car lsts))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun tails (lsts)
+ "Return a list of the tails of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar cdr lsts))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'misc-list-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -266,11 +266,7 @@
 (setq! l2 '(a b c d e f g h i j))
 (setq! l3 '(q r s t u v w x y z))
 
-(defun heads (lsts)
- (mapcar car lsts))
 
-(defun tails (lsts)
- (mapcar cdr lsts))
 
 (write (heads (list l1 l2 l3))) (nl)
 (write (tails (list l1 l2 l3))) (nl)
