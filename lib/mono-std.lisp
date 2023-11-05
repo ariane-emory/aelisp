@@ -103,6 +103,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (append/nconc variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun nconc2! (lst1 lst2)
+ "Destructively join LST1 an LST2."
+ (unless (list? lst1) (error "LST1 must be a list"))
+ (unless (list? lst2) (error "LST2 must be a list"))
+ (if (nil? lst1)
+  lst2
+  (rplacd! (last lst1) lst2)
+  lst1))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append2 (lst1 lst2)
  "Append LST1 and LST2 by copying LST1 and connecting it to LST2."
  (unless (list? lst1) (error "LST1 must be a list"))
@@ -135,15 +144,6 @@
       (setq! current-list (cdr current-list))))
     (setq! lists (cdr lists))))
   result))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun nconc2! (lst1 lst2)
- "Destructively join LST1 an LST2."
- (unless (list? lst1) (error "LST1 must be a list"))
- (unless (list? lst2) (error "LST2 must be a list"))
- (if (nil? lst1)
-  lst2
-  (rplacd! (last lst1) lst2)
-  lst1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nconc! lists
  "Destructively concatenate multiple lists."
@@ -2489,7 +2489,7 @@
 (defun matrix-transform (matrix ternary-func)
  "Make a new matrix in which each cell of MATRIX has had TERNARY-FUNC applies."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
- "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
+ "The resulting value of TERNARY-FUNC in NEW-MATRIC is then set to the corresponding cell in the matrix."
  "This fun currently only suppors rectangular matrices."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
