@@ -122,9 +122,9 @@
          (tail result))
    (setq! lst1 (cdr lst1))
    (while lst1
-    (let ((new-cons (list (car lst1))))
-     (rplacd! tail new-cons)
-     (setq! tail new-cons))
+    (let ((new-tail (list (car lst1))))
+     (rplacd! tail new-tail)
+     (setq! tail new-tail))
     (setq! lst1 (cdr lst1)))
    (rplacd! tail lst2) 
    result)))
@@ -147,11 +147,11 @@
    (let ((current-list (car lsts)))
     (unless (list? current-list) (error "Every argument must be a list"))
     (while current-list
-     (let ((new-cons (list (car current-list))))
+     (let ((new-tail (list (car current-list))))
       (if (nil? result)
-       (setq! result new-cons)
-       (rplacd! tail new-cons))
-      (setq! tail new-cons)
+       (setq! result new-tail)
+       (rplacd! tail new-tail))
+      (setq! tail new-tail)
       (setq! current-list (cdr current-list))))
     (setq! lsts (cdr lsts))))
   result))
@@ -400,9 +400,9 @@
          (tail   result)
          (lst     (cdr lst)))
    (while lst
-    (let ((new-cons (list (fun (car lst)))))
-     (rplacd! tail new-cons)
-     (setq! tail new-cons))
+    (let ((new-tail (list (fun (car lst)))))
+     (rplacd! tail new-tail)
+     (setq! tail new-tail))
     (setq! lst (cdr lst)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -852,12 +852,12 @@
  (let (result tail)
   (while lst
    (unless (eq? elem (car lst))
-    (let ((new-cons (list (car lst))))
+    (let ((new-tail (list (car lst))))
      (if tail
       (progn
-       (rplacd! tail new-cons)
-       (setq!   tail new-cons))
-      (setq! result new-cons)
+       (rplacd! tail new-tail)
+       (setq!   tail new-tail))
+      (setq! result new-tail)
       (setq! tail   result))))
    (setq! lst (cdr lst)))
   result))
@@ -878,12 +878,12 @@
  (let (result tail)
   (while lst
    (unless (eql? elem (car lst))
-    (let ((new-cons (list (car lst))))
+    (let ((new-tail (list (car lst))))
      (if tail
       (progn
-       (rplacd! tail new-cons)
-       (setq!   tail new-cons))
-      (setq! result new-cons)
+       (rplacd! tail new-tail)
+       (setq!   tail new-tail))
+      (setq! result new-tail)
       (setq! tail   result))))
    (setq! lst (cdr lst)))
   result))
@@ -1117,12 +1117,12 @@
  (let (result tail)
   (while lst
    (if (pred? (car lst))
-    (let ((new-cons (list (car lst))))
+    (let ((new-tail (list (car lst))))
      (if tail
       (progn
-       (rplacd! tail new-cons)
-       (setq!   tail new-cons))
-      (setq! result new-cons)
+       (rplacd! tail new-tail)
+       (setq!   tail new-tail))
+      (setq! result new-tail)
       (setq! tail   result))))
    (setq! lst (cdr lst)))
   result))
@@ -1146,9 +1146,9 @@
          (tail result))
    (setq! lst (cdr lst))
    (while lst
-    (let ((new-cons (list intercalated (car lst))))
-     (rplacd! tail new-cons)
-     (setq! tail (cdr new-cons)))
+    (let ((new-tail (list intercalated (car lst))))
+     (rplacd! tail new-tail)
+     (setq! tail (cdr new-tail)))
     (setq! lst (cdr lst)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1173,9 +1173,9 @@
           (tail   result))
     (setq! lst (cdr lst))
     (while (nthcdr n lst)
-     (let ((new-cons (list (car lst))))
-      (rplacd! tail new-cons)
-      (setq!   tail new-cons))
+     (let ((new-tail (list (car lst))))
+      (rplacd! tail new-tail)
+      (setq!   tail new-tail))
      (setq! lst (cdr lst)))
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1187,9 +1187,9 @@
          (tail result))
    (setq! lst (cdr lst))
    (while lst
-    (let ((new-cons (list (car lst))))
-     (rplacd! tail new-cons)
-     (setq!   tail new-cons))
+    (let ((new-tail (list (car lst))))
+     (rplacd! tail new-tail)
+     (setq!   tail new-tail))
     (setq! lst (cdr lst)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1929,9 +1929,9 @@
          (tail result))
    (setq! plist (cddr plist))
    (while plist
-    (let ((new-cons (list (car plist))))
-     (rplacd! tail new-cons)
-     (setq!   tail new-cons))
+    (let ((new-tail (list (car plist))))
+     (rplacd! tail new-tail)
+     (setq!   tail new-tail))
     (setq! plist (cddr plist)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2301,9 +2301,9 @@
          (tail result))
    (while lst
     (when (not (nil? (car lst)))
-     (let ((new-cons (list (car lst))))
-      (rplacd! tail new-cons)
-      (setq!   tail new-cons)))
+     (let ((new-tail (list (car lst))))
+      (rplacd! tail new-tail)
+      (setq!   tail new-tail)))
     (setq! lst (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun expand-file-name (name . rest)
