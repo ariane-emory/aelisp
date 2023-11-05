@@ -2467,6 +2467,7 @@
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
+ "This fun currently only suppors rectangular matrices."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
  (unless (rectangular-matrix? matrix)
@@ -2485,25 +2486,7 @@
    (incr! current-row)))
  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-transform (matrix rows cols ternary-func)
- "Modify each cell of the MATRIX using the TERNARY-FUNC."
- "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
- "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
- (unless (matrix? matrix)
-  (error "MATRIX must be a list of lists"))
- (unless (and (integer? rows) (integer? cols) (positive? rows) (positive? cols))
-  (error "Both ROWS and COLS must be positive integers"))
- (let ((current-row 0)
-       (current-col 0))
-  (until (= current-row rows)
-   (setq! current-col 0)
-   (until (= current-col cols)
-    (let* ((current-value (matrix-ref matrix current-row current-col))
-           (new-value (ternary-func current-row current-col current-value)))
-     (matrix-set! matrix current-row current-col new-value)
-     (incr! current-col)))
-   (incr! current-row)))
- matrix)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
