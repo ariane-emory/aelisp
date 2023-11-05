@@ -24,14 +24,13 @@
 ;; Count results of rolling 2d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
- (setq! *counts* '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0))
- (repeat 10000
+ (setq! *counts* (copy-list '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0)))
+ (repeat 1000
   (let ((roll (+ (random 1 6) (random 1 6))))
-   (setq! *counts*
-    (plist-set! roll *counts*
-     (if (plist-has? roll *counts*)
-      (1+ (plist-get roll *counts*))
-      1)))))
+   (plist-set! *counts* roll
+    (if (plist-has? *counts* roll)
+     (1+ (plist-get *counts* roll))
+     1))))
  (princ *counts*) (nl)
  (exit))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
