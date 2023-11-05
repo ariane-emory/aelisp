@@ -277,7 +277,6 @@
   (let* ((pred? (or (car rest) eql?))
          result
          tail)
-   (setq! tree tree)
    (while tree
     (let* ((head (car tree))
            (new-cons
