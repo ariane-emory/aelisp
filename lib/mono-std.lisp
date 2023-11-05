@@ -2463,15 +2463,17 @@
    (incr! current-row))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun matrix-transform! (matrix rows cols ternary-func)
+(defun matrix-transform! (matrix ternary-func)
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
- (unless (and (integer? rows) (integer? cols) (positive? rows) (positive? cols))
-  (error "Both ROWS and COLS must be positive integers"))
- (let ((current-row 0)
+ (unless (rectangular-matrix? matrix)
+  (error "MATRIX is not rectangular. All rows must have the same number of columns."))
+ (let ((rows (matrix-rows matrix))
+       (cols (matrix-cols matrix))
+       (current-row 0)
        (current-col 0))
   (until (= current-row rows)
    (setq! current-col 0)

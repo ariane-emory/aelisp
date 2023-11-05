@@ -420,7 +420,7 @@
 
 (write-matrix matrix) (nl)
 
-(matrix-transform! matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
+(matrix-transform! matrix (lambda (row col val) (+ val (* 10 row) col)))
 
 (confirm that matrix returns
  '((0 1 2 3 4 5)
