@@ -332,9 +332,7 @@
     (while (all? cons? lsts)
       (let ((heads (heads lsts)))
         (if (nil? result)
-            (progn
-              (setq! result (list heads))
-              (setq! tail result))
+            (setq! tail (setq! result (list heads)))
             (progn
               (rplacd! tail (list heads))
               (setq! tail (cdr tail))))
