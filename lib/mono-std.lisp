@@ -676,7 +676,7 @@
  (unless (fun? pred?) (error "PRED? must be a function"))
  (unless (fun? fun)   (error "FUN must be a function"))
  (when tree
-  (let* (result tail)
+  (let (result tail)
    (while tree
     (let* ((head (car tree))
            (new-tail
@@ -693,10 +693,10 @@
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-tree (tree)
- "Deep copy the tree TREE."
+ "Deep copy the tree TREE. Equivalent to using transform with an always true PRED? and id as FUN?"
  (unless (list? tree) (error "TREE must be a list"))
  (when tree
-  (let* (result tail)
+  (let (result tail)
    (while tree
     (let* ((head (car tree))
            (new-tail
@@ -727,7 +727,7 @@
  (when (cdr rest)
   (error "subst accepts only one optional argument"))
  (when tree
-  (let* ((eqp? (or (car rest) eql?))
+  (let ((eqp? (or (car rest) eql?))
          result
          tail)
    (while tree
