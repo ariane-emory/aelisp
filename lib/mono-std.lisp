@@ -2369,7 +2369,7 @@
  (let ((getter-name (intern (concat (symbol-name struct-type) "-" (symbol-name slot))))
        (slot-kw (intern (concat ":" (symbol-name slot)))))
   $('defun getter-name $('obj)
-    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
+    $('unless $('eq? $('get 'obj ':struct-type) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-get slot-kw 'obj))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2380,7 +2380,7 @@
  (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
        (slot-kw (intern (concat ":" (symbol-name slot)))))
   $('defun setter-name $('obj 'val)
-    $('unless $('eq? $('get ':struct-type 'obj) $('quote struct-type))
+    $('unless $('eq? $('get 'obj ':struct-type) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
     $('plist-set slot-kw 'obj 'val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2400,11 +2400,11 @@
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (let ((predicate-name (intern (concat (symbol-name struct-type) "?"))))
   $('defun predicate-name $('obj)
-    $('eq? $('get ':struct-type 'obj) $('quote struct-type)))))
+    $('eq? $('get 'obj ':struct-type) $('quote struct-type)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun struct? (obj)
  "t when OBJ is a struct."
- (and (cons? obj) (has? ':struct-type obj)))
+ (and (cons? obj) (has? obj ':struct-type)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defstruct (struct-type . slots)
  "Define a new struct type STRUCT type with slots SLOTS."
