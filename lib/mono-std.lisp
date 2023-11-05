@@ -2285,11 +2285,7 @@
 (setq! stderr    (curry1 pget :stderr))
 (setq! exit-code (curry1 pget :exit))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun not-nil? (o)
- "t when O."
- (not (nil? o)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! compact (curry1 filter not-nil?))
+(setq! compact (curry1 filter id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun expand-file-name (name . rest)
  "Return the absolute file name of NAME, optionally relative to DEFAULT-DIRECTORY."
