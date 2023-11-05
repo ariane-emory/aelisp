@@ -2465,10 +2465,12 @@
    (current-row 0))
   (while (< current-row row-count)
    (let ((cell-values (list-ref matrix current-row)))
-    (princ
-     (mapcar
-       render-fun
-       cell-values))
+    (princ "(")
+    (mapc
+     (lambda (o)
+      (princ " " (render-fun o)))
+     cell-values)
+    (princ ")")
     (nl)
     (incr! current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
