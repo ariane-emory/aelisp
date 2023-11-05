@@ -270,3 +270,30 @@
 
 (write (heads (list l1 l2 l3))) (nl)
 (write (tails (list l1 l2 l3))) (nl)
+
+(defun copy-list (lst)
+ "Take a shallow copy of LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (let* ((result (list (car lst)))
+         (tail result))
+   (setq! lst (cdr lst))
+   (while lst
+    (let ((new-cons (list (car lst))))
+     (rplacd! tail new-cons)
+     (setq!   tail new-cons))
+    (setq! lst (cdr lst)))
+   result)))
+
+(defun compact (lst)
+ (when lst
+  (while (nil? (car lst))
+   (setq! lst (cdr lst)))
+  (let* ((result (list (car lst)))
+         (tail result))
+   (while lst
+    (when (not (nil? (car lst)))
+     (let ((new-cons (list (car lst))))
+      (rplacd! tail new-cons)
+      (setq!   tail new-cons)))
+    (setq! lst (cdr lst))))))

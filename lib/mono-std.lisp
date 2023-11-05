@@ -2285,7 +2285,21 @@
 (setq! stderr    (curry1 pget :stderr))
 (setq! exit-code (curry1 pget :exit))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! compact (curry1 filter id))
+;; (setq! compact (curry1 filter id))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun compact (lst)
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (while (nil? (car lst))
+   (setq! lst (cdr lst)))
+  (let* ((result (list (car lst)))
+         (tail result))
+   (while lst
+    (when (not (nil? (car lst)))
+     (let ((new-cons (list (car lst))))
+      (rplacd! tail new-cons)
+      (setq!   tail new-cons)))
+    (setq! lst (cdr lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun expand-file-name (name . rest)
  "Return the absolute file name of NAME, optionally relative to DEFAULT-DIRECTORY."
