@@ -255,8 +255,7 @@
 
 
 (defun laugh (n . rest)
- (let ((acc (when rest
-             (car rest))))
+ (let ((acc (car rest)))
   (if (zero? n)
    acc
    (laugh (1- n) (cons 'ha acc)))))
