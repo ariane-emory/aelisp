@@ -107,13 +107,13 @@
   DO(bxor,  ^, 0, false, "bit-xor")                                                                                     \
   DO(band,  &, 0, false, "bit-and")                                                                                     \
   DO(bor,   |, 0, false, "bit-or" )                                                                                     \
-  DO(rsft, >>, 1, false,)                                                                                               \
-  DO(lsft, <<, 1, false,)                                                                                               \
-  DO(mod,   %, 1, true, )                                                                                               \
-  DO(div,   /, 1, true, )                     /* reducing these doesn't really seem like it would be worth the */       \
-  DO(mul,   *, 1, false,)                     /* bother or the performance impact.                             */       \
-  DO(sub,   -, 0, false,)                                                                                               \
-  DO(add,   +, 0, false,)                                                                                               \
+  DO(rsft, >>, 1, false, "rsft"   )                                                                                     \
+  DO(lsft, <<, 1, false, "lsft"   )                                                                                     \
+  DO(mod,   %, 1, true,  "mod"    )                                                                                     \
+  DO(div,   /, 1, true,  "div"    )                /* reducing these doesn't really seem like it would be worth the */  \
+  DO(mul,   *, 1, false, "mul"    )                /* bother or the performance impact.                             */  \
+  DO(sub,   -, 0, false, "sub"    )                                                                                     \
+  DO(add,   +, 0, false, "add"    )                                                                                     \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -139,12 +139,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_CMP_OP(DO)                                                                                        \
-  DO(lte,    <=, &=, true)                                                                                              \
-  DO(gte,    >=, &=, true)                                                                                              \
-  DO(lt,     < , &=, true)                                                                                              \
-  DO(gt,     > , &=, true)                                                                                              \
-  DO(nequal, !=, |=, false)                                                                                             \
-  DO(equal,  ==, &=, true)                                                                                              \
+  DO(lte,    <=, &=, true,  "lte")                                                                                      \
+  DO(gte,    >=, &=, true,  "gte")                                                                                      \
+  DO(lt,     < , &=, true,  "lt")                                                                                       \
+  DO(gt,     > , &=, true,  "gt")                                                                                       \
+  DO(nequal, !=, |=, false, "int-equal")                                                                                \
+  DO(equal,  ==, &=, true,  "int-not-equal")                                                                            \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
