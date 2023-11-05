@@ -270,41 +270,10 @@
 (write (tails (list l1 l2 l3))) (nl)
 
 
-(defun zip (lsts)
- (unless (list? lsts)      (error "LSTS must be a list of lists"))
- (unless (all? list? lsts) (error "LSTS must be a list of lists"))
- (let (result tail)
-  (while  (all? cons? lsts)
-   (let ((heads (heads lsts))
-         (tails (tails lsts)))
-    (princ "heads: " heads) (nl)
-    (princ "tails: " tails) (nl)
-    
-    (if (nil? result)
-     (progn
-      (setq! result (list heads))
-      (setq! tail result))
-     (rplacd! tail (list heads)))
-    (setq! lsts tails)))))
-
-;; Define helper functions outside of `zip`
-
 
 
 
 ;; Now the `zip` function without `labels`
-(defun zip (lsts)
- "Zip a list of lists into a list of tuples."
- (unless (list? lsts)      (error "LSTS must be a list of lists"))
- (unless (all? list? lsts) (error "LSTS must be a list of lists"))
- (let (result tail)
-  (while (all? cons? lsts)
-   (let ((heads (heads lsts)))
-    (if (nil? result)
-     (setq! tail (setq! result (list heads)))
-     (setq! tail (rplacd! tail (list heads))))
-    (setq! lsts (tails lsts)))
-   result)))
 
 ;; Example usage
 (write (zip '((1 2 3 4) (a b c) (x y z p q)))) (nl) ;; expected: ((1 a x) (2 b y) (3 c z)), actual (nil nil nil)

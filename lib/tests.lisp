@@ -170,6 +170,8 @@
 (setq! lst '(1 2 3 4))
 (confirm that (mapcar! double lst)                                       returns '(2 4 6 8))
 (confirm that lst                                                        returns '(2 4 6 8))
+(confirm that (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)              returns '(1 2 3 4 five 6 7 (8 five 9 five 10)))
+(confirm that (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))     returns '(1 4 3 8 5 12 7 (16 5 9 5 20)))
 (setq!   lst  '(a 2 3 (b 4 x (y 5)) (6 nil 7)))
 (confirm that (transform  integer? double lst)                           returns '(a 4 6 (b 8 x (y 10)) (12 nil 14)))
 (confirm that lst                                                        returns '(a 2 3 (b 4 x (y  5)) (6  nil  7)))
