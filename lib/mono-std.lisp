@@ -2016,10 +2016,10 @@
 ;;  (unless (integer? n) (error "N must be an integer"))
 ;;  (+ 1 n))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun 1- (n)
- "Return N - 1."
- (unless (integer? n) (error "N must be an integer"))
- (- n 1))
+;; (defun 1- (n)
+;;  "Return N - 1."
+;;  (unless (integer? n) (error "N must be an integer"))
+;;  (- n 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun double (n)
  "Return N * 2."

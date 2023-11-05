@@ -48,11 +48,23 @@ FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
 // _plus1
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_1plus(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_plus1(__attribute__((unused)) ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("1+");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   CORE_RETURN("1+", NEW_INT(INT_VAL(CAR(args)) + 1));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _minus1
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_minus1(__attribute__((unused)) ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
+  CORE_BEGIN("1-");
+  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  CORE_RETURN("1-", NEW_INT(INT_VAL(CAR(args)) - 1));
 }
 
