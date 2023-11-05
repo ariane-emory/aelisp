@@ -95,7 +95,7 @@
   DO(negativep,    false,          1,          1, "negative?",                 FUNDEF_END)                              \
   DO(keywordp,     false,          1,          1, "keyword?",                  FUNDEF_END)                              \
   /*================================================================================================================*/  \
-  DO(bnot,         false,          1,          1, "~",                         FUNDEF_END)                              \
+  DO(bnot,         false,          1,          1, "~", "bit-not",              FUNDEF_END)                              \
   /*================================================================================================================*/  \
   DO(minus1,       false,          1,  UNLIMITED, "1-",                        FUNDEF_END)                              \
   DO(plus1,        false,          1,  UNLIMITED, "1+",                        FUNDEF_END)                              \
@@ -104,16 +104,16 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                                       \
-  DO(bxor,  ^, 0, false)                                                                                                \
-  DO(band,  &, 0, false)                                                                                                \
-  DO(bor,   |, 0, false)                                                                                                \
-  DO(rsft, >>, 1, false)                                                                                                \
-  DO(lsft, <<, 1, false)                                                                                                \
-  DO(mod,   %, 1, true)                                                                                                 \
-  DO(div,   /, 1, true)                      /* reducing these doesn't really seem like it would be worth the */        \
-  DO(mul,   *, 1, false)                     /* bother or the performance impact.                             */        \
-  DO(sub,   -, 0, false)                                                                                                \
-  DO(add,   +, 0, false)                                                                                                \
+  DO(bxor,  ^, 0, false, "bit-xor")                                                                                     \
+  DO(band,  &, 0, false, "bit-and")                                                                                     \
+  DO(bor,   |, 0, false, "bit-or" )                                                                                     \
+  DO(rsft, >>, 1, false,)                                                                                               \
+  DO(lsft, <<, 1, false,)                                                                                               \
+  DO(mod,   %, 1, true, )                                                                                               \
+  DO(div,   /, 1, true, )                     /* reducing these doesn't really seem like it would be worth the */       \
+  DO(mul,   *, 1, false,)                     /* bother or the performance impact.                             */       \
+  DO(sub,   -, 0, false,)                                                                                               \
+  DO(add,   +, 0, false,)                                                                                               \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
