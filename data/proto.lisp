@@ -255,10 +255,9 @@
 
 
 (defun laugh (n . rest)
- (let ((acc (car rest)))
   (if (zero? n)
    acc
-   (laugh (1- n) (cons 'ha acc)))))
+   (laugh (1- n) (cons 'ha (car rest)))))
 
 
 (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
