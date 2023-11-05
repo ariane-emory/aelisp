@@ -261,3 +261,16 @@
 (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
 (write (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
 (write (laugh 6)) (nl)
+
+(setq! l1 '(1 2 3 4 5 6 7 8 9 10))
+(setq! l2 '(a b c d e f g h i j))
+(setq! l3 '(q r s t u v w x y z))
+
+(defun heads (lsts)
+ (mapcar car lsts))
+
+(defun tails (lsts)
+ (mapcar cdr lsts))
+
+(write (heads (list l1 l2 l3))) (nl)
+(write (tails (list l1 l2 l3))) (nl)
