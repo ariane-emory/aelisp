@@ -258,16 +258,29 @@ ae_obj_t * ae_core_elapsed_us(ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _msleep
+// _sleep
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_sleep(ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("msleep");
+  CORE_BEGIN("sleep");
   REQUIRE(env, args, INTEGERP(CAR(args)));
   usleep(INT_VAL(CAR(args)) * 1000);
-  CORE_RETURN("msleep", CAR(args));
+  CORE_RETURN("sleep", CAR(args));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _sleep_us
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_sleep_us(ae_obj_t * const env,
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
+  CORE_BEGIN("sleep-us");
+  REQUIRE(env, args, INTEGERP(CAR(args)));
+  usleep(INT_VAL(CAR(args)));
+  CORE_RETURN("sleep-us", CAR(args));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
