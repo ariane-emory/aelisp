@@ -2468,8 +2468,7 @@
     (princ
      (if cell-width
       (mapcar
-       (lambda (o)
-        (left-justify cell-width (string o)))
+       render-fun
        cell-values)
       cell-values))
     (nl)
