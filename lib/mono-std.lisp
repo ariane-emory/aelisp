@@ -2457,12 +2457,13 @@
    (row-count (length matrix))
    (current-row 0))
   (while (< current-row row-count)
-   (write
-    (if cell-width
-     (list-ref matrix current-row)
-     (list-ref matrix current-row)))
-   (nl)
-   (incr! current-row))))
+   (let ((cell-value (list-ref matrix current-row)))
+    (write
+     (if cell-width
+      (left-justify cell-width (string cell-value))
+      cell-value))
+    (nl)
+    (incr! current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-matrix (rows cols init-val)
  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
