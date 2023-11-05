@@ -1,5 +1,4 @@
 To Do:
-- [ ] incr!/decr!, like incf/decf.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -37,6 +36,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] incr!/decr!, like incf/decf.
 - [x] Maybe build in zero?, one? and 1+.
 - [x] Investigate why (/ 2 0) doesn't cause an error.
 - [x] pwd, basename, dirname.

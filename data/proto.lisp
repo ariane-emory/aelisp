@@ -262,7 +262,7 @@
  (let ((acc (when rest
              (car rest))))
   (if (zero? n)
-   (reverse acc)
+   acc
    (laugh (1- n) (cons 'ha acc)))))
 
 

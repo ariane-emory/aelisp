@@ -147,7 +147,7 @@ ae_obj_t * ae_core_pushb(__attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * const sym = CADR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
-          "pushb! only works on bound and settable symbols");
+          "push! only works on bound and settable symbols");
 
   ae_obj_t * const lst = RETURN_IF_ERRORP(EVAL(env, sym));
 
