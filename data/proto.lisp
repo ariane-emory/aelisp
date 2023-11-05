@@ -330,8 +330,7 @@
   (unless (all? list? lsts) (error "LSTS must be a list of lists"))
   (let (result tail)
     (while (all? cons? lsts)
-      (let ((heads (heads lsts))
-            (tails (tails lsts)))
+      (let ((heads (heads lsts)))
         (if (nil? result)
             (progn
               (setq! result (list heads))
@@ -339,7 +338,7 @@
             (progn
               (rplacd! tail (list heads))
               (setq! tail (cdr tail))))
-      (setq! lsts tails))
+      (setq! lsts (tails lsts)))
     result)))
 
 ;; Example usage
