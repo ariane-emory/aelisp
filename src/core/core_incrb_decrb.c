@@ -47,7 +47,7 @@ ae_obj_t * ae_core_decrb(__attribute__((unused)) ae_obj_t * const env,
 
   REQUIRE(env, args, INTEGERP(integer));
 
-  ret = NEW_INT(1 + INT_VAL(integer));
+  ret = NEW_INT(INT_VAL(integer) - 1);
 
   ENV_SET(env, sym, ret);
   
