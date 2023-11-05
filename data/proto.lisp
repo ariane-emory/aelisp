@@ -215,9 +215,9 @@
 
  (defun trav-upp ()
   (let ((upp (make-upp))
-        (ctr 1))
-   (until (= ctr 7)
-    (let ((index (1- (2* ctr))))
+        (ctr 0))
+   (until (= ctr 6)
+    (let ((index (1+ (2* ctr))))
      (list-set! upp index (+ (random 6) (random 6)))
      (setq! ctr (1+ ctr))))
    upp))
