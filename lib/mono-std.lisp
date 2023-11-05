@@ -675,11 +675,11 @@
      (setq! tree (cdr tree))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun transform (tree pred? fun)
+(defun transform (pred? fun tree)
  "Replace items matching PRED? in TREE with the result of applying FUN to them."
  (unless (list? tree) (error "TREE must be a list"))
- (unless (fun? pred)  (error "PRED? must be a function"))
- (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (fun? pred?) (error "PRED? must be a function"))
+ (unless (fun? fun)   (error "FUN must be a function"))
  (when tree
   (let* (result tail)
    (while tree
@@ -687,8 +687,8 @@
            (new-tail
             (list
              (cond
-              ((cons? head) (transform pred? fun)) head this that pred?))
-              ((pred? this head) that)
+              ((cons? head) (transform pred? fun head))
+              ((pred? head) (fun head))
               (else head)))))
      (if result
       (rplacd! tail new-tail)
