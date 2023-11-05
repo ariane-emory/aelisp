@@ -48,7 +48,7 @@
    (if (bound? 'memq?)
     memq?
     (lambda (elem lst)
-     (let ((found nil))
+     (let (found)
       (while (and lst (not found))
        (if (eq? elem (car lst))
         (setq! found t)
@@ -140,7 +140,6 @@
 (setq! rational? (lambda (o)          (type?    :RATIONAL       o)))
 (setq! string?   (lambda (o)          (type?    :STRING         o)))
 (setq! symbol?   (lambda (o)          (type?    :SYMBOL         o)))
-(setq! !nil?     (lambda (o)     (not (nil?  o))))
 (setq! improper? (lambda (o)     (and (list? o) (not (proper? o)))))
 (setq! fun?      (lambda (o)     (or  (core? o) (lambda? o) (macro? o))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
