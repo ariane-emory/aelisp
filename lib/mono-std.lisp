@@ -1809,7 +1809,7 @@
 (defun plist-keys (plist)
  "Extracts the keys from a plist PLIST."
  (unless (list? plist) (error "PLIST must be a list"))
- (when lst
+ (when plist
   (let* ((result (list (car plist)))
          (tail result))
    (setq! plist (cddr plist))

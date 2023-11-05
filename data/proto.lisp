@@ -220,6 +220,10 @@
    (until (= index 11)
     (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6))))
    upp))
+
+ (defun upp-total (upp)
+  (unless (upp? upp) (error "UPP must be a upp struct"))
+  (apply + (vals upp)))
  
  (ignore ;; hypothetical
   (defun new-upp ()
@@ -232,10 +236,14 @@
    (let ((index -1))
     (until (= index 11)
      (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
+
+ ;; (log-eval t)
  
  (repeat 200
-  (princ (new-upp))
-  (nl)))
+  (let ((upp (new-upp)))
+   (princ upp) (nl)
+   (princ (upp-total upp)) (nl))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
