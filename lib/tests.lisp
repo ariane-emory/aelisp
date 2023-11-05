@@ -427,8 +427,6 @@
    (0 0 0 0 400 0)
    (0 0 0 0 0 500)))
 
-(write-matrix matrix) (nl)
-
 (confirm that (transform-matrix! matrix (lambda (row col val) (+ val (* 10 row) col))) returns
  '((0 1 2 3 4 5)
    (10 111 12 13 14 15)
@@ -436,8 +434,6 @@
    (30 31 32 333 34 35)
    (40 41 42 43 444 45)
    (50 51 52 53 54 555)))
-
-(write-matrix matrix) (nl)
 
 (confirm that matrix returns
  '((0 1 2 3 4 5)
