@@ -609,9 +609,9 @@
 (defun transform! (pred? fun obj)
  "Destructively transform the cons tree OBJ by replacing members matching
   PRED? with the result of applying FUN to them."
- (when (not (lambda? pred?)) (error "PRED? must be a lambda function"))
- (when (not (lambda? fun))   (error "FUN must be a lambda function"))
- (when (atom? obj)           (error "OBJ must be a non-empty list"))
+ (when (not (fun? pred?)) (error "PRED? must be a lambda function"))
+ (when (not (fun? fun))   (error "FUN must be a lambda function"))
+ (when (atom? obj)        (error "OBJ must be a non-empty list"))
  (cond
   ((pred? obj) (set! obj (fun obj)))
   ((cons? obj)
@@ -630,8 +630,8 @@
  "Transform OBJ by replacing members matching PRED? with the result of
   applying FUN to them or, if obj is not a cons tree, by applying FUN to
   OBJ."
- (when (not (lambda? pred?)) (error "PRED? must be a lambda function"))
- (when (not (lambda? fun))   (error "FUN must be a lambda function"))
+ (when (not (fun? pred?)) (error "PRED? must be a lambda function"))
+ (when (not (fun? fun))   (error "FUN must be a lambda function"))
  (cond
   ;; ((and (atom? obj) (pred? obj)) (fun obj))
   ((pred? obj) (fun obj))
@@ -640,6 +640,28 @@
    (cons
     (transform pred? fun (car obj))
     (transform pred? fun (cdr obj))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun transform (pred? fun tree)
+ "Replace items matching PRED? in TREE with the result of applying FUN to them."
+ (unless (list? tree) (error "TREE must be a list"))
+ (unless (fun? pred?) (error "PRED? must be a function"))
+ (unless (fun? fun)   (error "FUN must be a function"))
+ (when tree
+  (let* (result tail)
+   (while tree
+    (let* ((head (car tree))
+           (new-tail
+            (list
+             (cond
+              ((cons? head) (transform pred? fun head))
+              ((pred? head) (fun head))
+              (else head)))))
+     (if result
+      (rplacd! tail new-tail)
+      (setq! result new-tail))
+     (setq! tail new-tail)
+     (setq! tree (cdr tree))))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prefetch (expr)
  "Try to optimize EXPR by replacing it's symbol? members with the result of
