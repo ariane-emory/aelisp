@@ -238,7 +238,7 @@
  (unless (>= index 0)                             (error "INDEX must be non-negative"))
  (until (zero? index)
   (setq! lst   (cdr lst))
-  (setq! index (- index 1)))
+  (decr! index))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun nth (index lst)
