@@ -2446,7 +2446,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun write-matrix (matrix . rest)
  "Display a matrix MATRIX by applying write to each row."
- (unless (or (nil? (car rest) (and (integer? (car rest)) (positive? (car rest)))))
+ (unless (or (nil? (car rest)) (and (integer? (car rest)) (positive? (car rest))))
   (error "If provided, CELL-WIDTH must be a positive integer"))
  (when (cdr rest)
   (error "subst accepts only one optional argument"))
