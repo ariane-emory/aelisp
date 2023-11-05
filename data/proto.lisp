@@ -206,7 +206,7 @@
 
 (when t
 
- (defun trav-upp ()
+ (defun new-upp ()
   (let ((attrs $(:str :dex :end :edu :int :soc))
         rolls)
    (repeat 6 (push! (+ (random 6) (random 6)) rolls))
@@ -214,15 +214,15 @@
 
  (defstruct upp str dex end edu int soc)
 
- (defun trav-upp ()
+ (defun new-upp ()
   (let ((upp (make-upp))
         (index -1))
    (until (= index 11)
     (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6))))
    upp))
-
+ 
  (ignore ;; hypothetical
-  (defun trav-upp ()
+  (defun new-upp ()
    (build (upp (make-upp))
     (let ((index -1))
      (until (= index 11)
@@ -234,7 +234,7 @@
      (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
  
  (repeat 200
-  (princ (trav-upp))
+  (princ (new-upp))
   (nl)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
