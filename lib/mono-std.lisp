@@ -536,13 +536,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! left-nested-zip (reduced* zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmacro zip lists
- "Zip many lists. This might not flatten properly if the zipped elements are"
- "themselves lists."
- (unless (list? lists) (error "LISTS must be a list"))
- (if (cdr lists)
-  $('mapcar 'flatten (cons 'left-nested-zip lists))
-  $('mapcar 'list  (car lists))))
+(defun zip (lsts)
+ "Zip a list of lists into a list of tuples."
+ (unless (list? lsts)      (error "LSTS must be a list of lists"))
+ (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (let (result tail)
+  (while (all? cons? lsts)
+   (let ((heads (heads lsts)))
+    (if (nil? result)
+     (setq! tail (setq! result (list heads)))
+     (setq! tail (rplacd! tail (list heads))))
+    (setq! lsts (tails lsts)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'zip)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
