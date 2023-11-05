@@ -247,12 +247,10 @@
  (setq! upps (sort!! upps (lambda (a b) (> (upp-total a) (upp-total b)))))
  
  (mapc (lambda (upp) (princ upp " " (upp-total upp)) (nl)) upps)
- nil
- 
+ nil 
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 (defun laugh (n . rest)
  (let ((acc (car rest)))
@@ -260,8 +258,6 @@
    acc
    (laugh (1- n) (cons 'ha acc)))))
 
-
 (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
-;;(log-eval t)
 (write (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
 (write (laugh 6)) (nl)
