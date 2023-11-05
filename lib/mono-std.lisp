@@ -106,21 +106,21 @@
 ;; list funs (append/nconc variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append2 (lst1 lst2)
-  "Append LST1 and LST2 by copying LST1 and connecting it to LST2."
-  (unless (list? lst1) (error "LST1 must be a list"))
-  (unless (list? lst2) (error "LST2 must be a list"))
-  (if (nil? lst1)
-      lst2
-      (let* ((result (list (car lst1)))
-             (tail result))
-        (setq! lst1 (cdr lst1))
-        (while lst1
-          (let ((new-cons (list (car lst1))))
-            (rplacd! tail new-cons)
-            (setq! tail new-cons))
-          (setq! lst1 (cdr lst1)))
-        (rplacd! tail lst2) 
-        result)))
+ "Append LST1 and LST2 by copying LST1 and connecting it to LST2."
+ (unless (list? lst1) (error "LST1 must be a list"))
+ (unless (list? lst2) (error "LST2 must be a list"))
+ (if (nil? lst1)
+  lst2
+  (let* ((result (list (car lst1)))
+         (tail result))
+   (setq! lst1 (cdr lst1))
+   (while lst1
+    (let ((new-cons (list (car lst1))))
+     (rplacd! tail new-cons)
+     (setq! tail new-cons))
+    (setq! lst1 (cdr lst1)))
+   (rplacd! tail lst2) 
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lists
  "Append any number of LISTS."
@@ -267,9 +267,9 @@
 (defun last (lst)
  "Get last cons cell in a LST."
  (unless (list? lst) (error "LST must be a list"))
-  (while (cdr lst)
-   (setq! lst (cdr lst)))
-  lst)
+ (while (cdr lst)
+  (setq! lst (cdr lst)))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-access-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -553,21 +553,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (push/push-back):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun push-back (lst elem) 
- "Non-destructively push ELEM onto the tail of LST."
- (unless (list? lst) (error "LST must be a list"))
- (append lst (cons elem nil)))
+(ignore ;; I don't really think these make much sense.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun pop (elem lst)
- "Non-destructively pop ELEM from the head of LST."
- "The only difference from car is that an empty LST may not be popped."
- (unless (cons? lst) (error "LST must be a list"))
- (car lst))
+ (defun push-back (lst elem) 
+  "Non-destructively push ELEM onto the tail of LST."
+  (unless (list? lst) (error "LST must be a list"))
+  (append lst (list elem)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun push (elem lst)
- "Non-destructively push ELEM onto the head of LST, aka cons."
- (unless (list? lst) (error "LST must be a list"))
- (cons elem lst))
+ (defun pop (elem lst)
+  "Non-destructively pop ELEM from the head of LST."
+  "The only difference from car is that an empty LST may not be popped."
+  (unless (cons? lst) (error "LST must be a list"))
+  (car lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ (defun push (elem lst)
+  "Non-destructively push ELEM onto the head of LST, aka cons."
+  (unless (list? lst) (error "LST must be a list"))
+  (cons elem lst))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  (defun push-back! (lst elem)
 ;;   "Destructively push ELEM onto the tail of LST."
