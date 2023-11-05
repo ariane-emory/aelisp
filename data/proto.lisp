@@ -165,7 +165,7 @@
  (mutate-matrix matrix 6 6 (lambda (row col val) (+ val (* 10 row) col)))
  (write-matrix matrix))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq! deltas nil)
 (setq! ctr 0)
 
@@ -246,7 +246,7 @@
   (let ((upp (new-upp)))
    (if (>= (upp-total upp) 42)
     (push! upp upps)
-    (setq! ctr (1+ ctr)))))
+    (setq! ctr (1+  ctr)))))
 
  (setq! upps (sort!! upps (lambda (a b) (> (upp-total a) (upp-total b)))))
  
@@ -258,3 +258,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(defun laugh (n . rest)
+ (let ((acc (when rest
+             (car rest))))
+  (if (zero? n)
+   (reverse acc)
+   (laugh (1- n) (cons 'ha acc)))))

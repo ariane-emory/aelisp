@@ -398,7 +398,7 @@
  (when lst
   (let* ((result (list (fun (car lst))))
          (tail   result)
-         (lst    (cdr lst)))
+         (lst     (cdr lst)))
    (while lst
     (let ((new-cons (list (fun (car lst)))))
      (rplacd! tail new-cons)
@@ -1125,6 +1125,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun-list-pred-fun any? or  nil)
 (defun-list-pred-fun all? and t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun all? (pred? lst)
+ "t when all elems in LST? are PRED?"
+ (while (and lst (pred? (car lst)))
+  (setq! lst (cdr lst)))
+ (nil? lst))
+(defun any? (pred? lst)
+ "t when any elem in LST? is PRED?."
+ (let (result)
+  (while (and lst (not result))
+   (setq! result (pred? (car lst)))
+   (setq! lst (cdr lst)))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defun-list-transform-fun (name transformer)
  `(defun ,name (lsts)
