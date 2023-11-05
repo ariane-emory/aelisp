@@ -328,19 +328,18 @@
   "Zip a list of lists into a list of tuples."
   (unless (list? lsts)      (error "LSTS must be a list of lists"))
   (unless (all? list? lsts) (error "LSTS must be a list of lists"))
-
   (let (result tail)
     (while (all? cons? lsts)
-      (let ((new-heads (heads lsts))
-            (new-tails (tails lsts)))
+      (let ((heads (heads lsts))
+            (tails (tails lsts)))
         (if (nil? result)
             (progn
-              (setq! result (list new-heads))
+              (setq! result (list heads))
               (setq! tail result))
             (progn
-              (rplacd! tail (list new-heads))
+              (rplacd! tail (list heads))
               (setq! tail (cdr tail))))
-      (setq! lsts new-tails))
+      (setq! lsts tails))
     result)))
 
 ;; Example usage
