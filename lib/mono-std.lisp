@@ -2384,6 +2384,28 @@
  "t when OBJ is a matrix (list of lists)."
  (and (list? obj) (all? list? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun rectangular-matrix? (matrix)
+ "t if the rows in MATRIX all have the same length."
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+ (let ((first-row-length (length (car matrix))))
+  (all?
+   (lambda (row)
+    (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
+    (= (length row) first-row-length))
+   (cdr matrix))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix-rows (matrix)
+ "Get the number of rows in MATRIX."
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+ (length matrix))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix-cols (matrix)
+ "Get the number of columns in MATRIX."
+ (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
+ (unless (rectangular-matrix? matrix)
+  (error "MATRIX is not rectangular. All rows must have the same number of columns."))
+ (length (car matrix)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-transpose (matrix)
  "Convert the rows of MATRIX into columns."
  (unless (rectangular-matrix? matrix) (error "MATRIX must be a rectangular matrix (all rows must have the same number of columns)."))
@@ -2394,16 +2416,6 @@
  "Reverse each row in MATRIX."
  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  (mapcar reverse matrix))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun rectangular-matrix? (matrix)
- "t if the rows in MATRIX all have the same length."
- (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
- (let ((first-row-length (length (car matrix))))
-  (all?
-   (lambda (row)
-    (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
-    (= (length row) first-row-length))
-   (cdr matrix))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-rotate-right (matrix)
  "Rotate MATRIX right by 90 degrees."
@@ -2450,8 +2462,28 @@
    (setq! result (cons (make-list cols init-val) result))
    (incr! current-row))
   result))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;s
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix-transform! (matrix rows cols ternary-func)
+ "Modify each cell of the MATRIX using the TERNARY-FUNC."
+ "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
+ "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
+ (unless (matrix? matrix)
+  (error "MATRIX must be a list of lists"))
+ (unless (and (integer? rows) (integer? cols) (positive? rows) (positive? cols))
+  (error "Both ROWS and COLS must be positive integers"))
+ (let ((current-row 0)
+       (current-col 0))
+  (until (= current-row rows)
+   (setq! current-col 0)
+   (until (= current-col cols)
+    (let* ((current-value (matrix-ref matrix current-row current-col))
+           (new-value (ternary-func current-row current-col current-value)))
+     (matrix-set! matrix current-row current-col new-value)
+     (incr! current-col)))
+   (incr! current-row)))
+ matrix)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix-transform (matrix rows cols ternary-func)
  "Modify each cell of the MATRIX using the TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
