@@ -285,4 +285,4 @@
     (setq! lst (cdr lst)))
    result)))
 
-(write (subst '(1 2 3 4 5 6 7 (8 5 9) 10) 5 'five)) (nl)
+(write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
