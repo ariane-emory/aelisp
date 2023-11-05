@@ -264,3 +264,20 @@
   (if (zero? n)
    (reverse acc)
    (laugh (1- n) (cons 'ha acc)))))
+
+
+(defun subst (lst this that)
+ "Substitute occurence of THIS for THAT in LST."
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (let* ((result (list (car lst)))
+         (tail result))
+   (setq! lst (cdr lst))
+   (while lst
+    (let ((new-cons (list (if (eql? this (car lst)) that (car lst)))))
+     (rplacd! tail new-cons)
+     (setq!   tail new-cons))
+    (setq! lst (cdr lst)))
+   result)))
+
+(write (subst '(1 2 3 4 5 6 7 8 9 10) 5 'five)) (nl)
