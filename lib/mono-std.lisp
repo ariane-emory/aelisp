@@ -2290,9 +2290,9 @@
  "A splat version of sys that flattens and stringifies ARGS."
  (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! stdout    (curry1 plist-get :stdout))
-(setq! stderr    (curry1 plist-get :stderr))
-(setq! exit-code (curry1 plist-get :exit))
+(setq! stdout    (lambda (sysout) (plist-get sysout :stdout)))
+(setq! stderr    (lambda (sysout) (plist-get sysout :stderr)))
+(setq! exit-code (lambda (sysout) (plist-get sysout :exit  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq! compact (curry1 filter id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
