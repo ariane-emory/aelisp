@@ -2486,6 +2486,30 @@
    (incr! current-row)))
  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun matrix-transform (matrix ternary-func)
+ "Modify each cell of the MATRIX using the TERNARY-FUNC."
+ "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
+ "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
+ "This fun currently only suppors rectangular matrices."
+ (unless (matrix? matrix)
+  (error "MATRIX must be a list of lists"))
+ (unless (rectangular-matrix? matrix)
+  (error "MATRIX is not rectangular. All rows must have the same number of columns."))
+ (let ((new-matrix (make-matrix (matrix-rows matrix) (matrix-cols matrix) nil))
+       (rows (matrix-rows matrix))
+       (cols (matrix-cols matrix))
+       (current-row 0)
+       (current-col 0))
+  (until (= current-row rows)
+   (setq! current-col 0)
+   (until (= current-col cols)
+    (let* ((current-value (matrix-ref matrix current-row current-col))
+           (new-value (ternary-func current-row current-col current-value)))
+     (matrix-set! new-matrix current-row current-col new-value)
+     (incr! current-col)))
+   (incr! current-row)))
+ matrix)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix)
