@@ -285,15 +285,63 @@
     (setq! lst (cdr lst)))
    result)))
 
-(defun compact (lst)
- (when lst
-  (while (nil? (car lst))
-   (setq! lst (cdr lst)))
-  (let* ((result (list (car lst)))
-         (tail result))
-   (while lst
-    (when (not (nil? (car lst)))
-     (let ((new-cons (list (car lst))))
-      (rplacd! tail new-cons)
-      (setq!   tail new-cons)))
-    (setq! lst (cdr lst))))))
+(defun append lists
+ "Append any number of LISTS."
+ (let (result tail)
+  (while lists
+   (let ((current-list (car lists)))
+    (unless (list? current-list) (error "Every argument must be a list"))
+    (while current-list
+     (let ((new-cons (list (car current-list))))
+      (if (nil? result)
+       (setq! result new-cons)
+       (rplacd! tail new-cons))
+      (setq! tail new-cons)
+      (setq! current-list (cdr current-list))))
+    (setq! lists (cdr lists))))
+  result))
+
+(defun zip (lsts)
+ (unless (list? lsts)      (error "LSTS must be a list of lists"))
+ (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (let (result tail)
+  (while  (all? cons? lsts)
+   (let ((heads (heads lsts))
+         (tails (tails lsts)))
+    (princ "heads: " heads) (nl)
+    (princ "tails: " tails) (nl)
+    
+    (if (nil? result)
+     (progn
+      (setq! result (list heads))
+      (setq! tail result))
+     (rplacd! tail (list heads)))
+    (setq! lsts tails)))))
+
+;; Define helper functions outside of `zip`
+
+
+
+
+;; Now the `zip` function without `labels`
+(defun zip (lsts)
+  "Zip a list of lists into a list of tuples."
+  (unless (list? lsts)      (error "LSTS must be a list of lists"))
+  (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+
+  (let (result tail)
+    (while (all? cons? lsts)
+      (let ((new-heads (heads lsts))
+            (new-tails (tails lsts)))
+        (if (nil? result)
+            (progn
+              (setq! result (list new-heads))
+              (setq! tail result))
+            (progn
+              (rplacd! tail (list new-heads))
+              (setq! tail (cdr tail))))
+      (setq! lsts new-tails))
+    result)))
+
+;; Example usage
+(write (zip '((1 2 3) (a b c) (x y z)))) (nl) ;; expected: ((1 a x) (2 b y) (3 c z)), actual (nil nil nil)
