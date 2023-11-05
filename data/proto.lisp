@@ -216,7 +216,7 @@
 ;; Generate a bunch of Traveller UPPs.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when nil
+(when t
 
  (defun new-upp ()
   (let ((attrs $(:str :dex :end :edu :int :soc))
@@ -252,13 +252,13 @@
  ;; (log-eval t)
 
  (setq! ctr 0)
- (setq! upps nil)
+ (setq! upps)
  
  (until (= ctr 500)
   (let ((upp (new-upp)))
    (if (>= (upp-total upp) 42)
     (push! upp upps)
-    (setq! ctr (1+  ctr)))))
+    (incr! ctr))))
 
  (setq! upps (sort!! upps (lambda (a b) (> (upp-total a) (upp-total b)))))
  
