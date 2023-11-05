@@ -366,6 +366,13 @@
 (confirm that (is-square? 36)                                       returns t)
 (confirm that (round-up-to-square 35)                               returns 36)
 (confirm that (round-up-to-square 36)                               returns 36)
+(confirm that (copy-list '(1 2 3 4 5 6 7 8 9))                             returns '(1 2 3 4 5 6 7 8 9))
+(confirm that (plist-to-alist '(a 1 b 2 c 3))                              returns '((a . 1) (b . 2) (c . 3)))
+(confirm that (alist-to-plist '((a . 1) (b . 2) (c . 3)))                  returns '(a 1 b 2 c 3))
+(confirm that (plist-to-alist (alist-to-plist '((a . 1) (b . 2) (c . 3)))) returns '((a . 1) (b . 2) (c . 3)))
+(confirm that (concat* :this " sentence " 'contains " " 5 " words.")       returns ":this sentence contains 5 words.")
+(confirm that (concat* :this " sentence " 'contains " a list: " '(1 2 3))  returns ":this sentence contains a list: (1 2 3)")
+
 
 (setq! matrix (make-matrix 6 6 0))
 
@@ -429,15 +436,6 @@
    (30 31 32 333 34 35)
    (40 41 42 43 444 45)
    (50 51 52 53 54 555)))
-
-(confirm that (copy-list '(1 2 3 4 5 6 7 8 9))                             returns '(1 2 3 4 5 6 7 8 9))
-
-(confirm that (plist-to-alist '(a 1 b 2 c 3))                              returns '((a . 1) (b . 2) (c . 3)))
-(confirm that (alist-to-plist '((a . 1) (b . 2) (c . 3)))                  returns '(a 1 b 2 c 3))
-(confirm that (plist-to-alist (alist-to-plist '((a . 1) (b . 2) (c . 3)))) returns '((a . 1) (b . 2) (c . 3)))
-
-(confirm that (concat* :this " sentence " 'contains " " 5 " words.")       returns ":this sentence contains 5 words.")
-(confirm that (concat* :this " sentence " 'contains " a list: " '(1 2 3))  returns ":this sentence contains a list: (1 2 3)")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
