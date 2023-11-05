@@ -1,4 +1,5 @@
 To Do:
+- [ ] setq! could take more arguments.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
