@@ -282,7 +282,7 @@
              ((eql? this head) that)
              (else head)))))
      (rplacd! tail new-cons)
-     (setq!   tail new-cons))
+     (setq!   tail (cdr tail)))
     (setq! tree (cdr tree)))
    result)))
 
