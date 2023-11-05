@@ -279,16 +279,16 @@
          tail)
    (while tree
     (let* ((head (car tree))
-           (new-cons
+           (new-tail
             (list
              (cond
               ((cons? head) (subst head this that pred?))
               ((pred? this head) that)
               (else head)))))
-     (if (nil? result)
-      (setq! result new-cons)
-      (rplacd! tail new-cons))
-     (setq! tail new-cons)
+     (if result
+      (rplacd! tail new-tail)
+      (setq! result new-tail))
+     (setq! tail new-tail)
      (setq! tree (cdr tree))))
    result)))
 
