@@ -2460,7 +2460,6 @@
     (if cell-width
      (lambda (o) (right-justify cell-width (string o)))
      string))
-   (princ-fun (lambda (o) (princ " " (render-fun o))))
    (row-count (length matrix))
    (final-row (1- row-count))
    (current-row 0))
@@ -2473,7 +2472,6 @@
     (while tail-cell-values
      (princ " " (render-fun (car tail-cell-values)))
      (setq! tail-cell-values (cdr tail-cell-values)))
-    ;;(mapc princ-fun tail-cell-values)
     
     (princ ")")
     (when (= current-row final-row)
