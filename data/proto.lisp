@@ -290,11 +290,4 @@
 (princ "Out.") (nl)
 
 
-(defmacro time (expr)
- "Time evaluating EXPR."
- $('let* $($('time-before $('now-us))
-           $('result      expr)
-           $('time-after  $('now-us)))
-   $('list ':time $('elapsed-us 'time-before) ':result 'result)))
-
 (princ (time 1)) (nl)
