@@ -1408,8 +1408,8 @@
  (unless (and (integer? index) (positive? index)) (error "INDEX must be a positive integer"))
  (let ((current-index 0))
   (while (and lst (not (= current-index index)))
-   (setq! lst (cdr lst))
-   (setq! current-index (+ 1 current-index)))
+   (setq! current-index (+ 1 current-index))
+   (pop! lst))
   (if lst
    (car lst)
    (error "INDEX out of bounds"))))
