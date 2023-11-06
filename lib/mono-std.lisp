@@ -389,8 +389,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let ((current lst))
   (while current
-   (rplaca! current (fun (car current)))
-   (setq! current (cdr current)))
+   (rplaca! current (fun (pop! current))))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst . rest)
