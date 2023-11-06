@@ -454,10 +454,10 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   PUT_PROP(TRUE, "no-user-props",  SYM("*microbench-enable*"));
 
   // *program* should always be bound but is constant, the user probably shouldn't change it anyhow:
-  bool program_found = false;
-  ENV_SET(env,                     SYM("*program*"),                     NIL);
-  PUT_PROP(TRUE, "constant",       SYM("*program*"));
-  PUT_PROP(TRUE, "no-user-props",  SYM("*program*"));
+  /* bool program_found = false; */
+  /* ENV_SET(env,                     SYM("*program*"),                     NIL); */
+  /* PUT_PROP(TRUE, "constant",       SYM("*program*")); */
+  /* PUT_PROP(TRUE, "no-user-props",  SYM("*program*")); */
 
   // Of course, nil and t are constants:
   PUT_PROP(TRUE, "constant",            NIL);
