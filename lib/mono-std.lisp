@@ -1516,6 +1516,21 @@
     (rplacd! current (cddr current))
     (pop! current)))
   lst))
+(defun delql! (item lst)
+ "Destructively remove all items eql? to ITEM from LST, error on single-item removal."
+ (unless (cons? lst) (error "LST must be a cons"))
+ (unless (cdr lst)   (error "Cannot remove the only item from a single-item list"))
+ (while (and (cons? (cdr lst)) (eql? (car lst) item))
+   (rplaca! lst (cadr lst))
+   (rplacd! lst (cddr lst)))
+ (when (and (null (cdr lst)) (eql? (car lst) item))
+   (error "Cannot remove the last remaining item"))
+ (let ((current lst))
+   (while (cons? (cdr current))
+     (if (eql? (cadr current) item)
+         (rplacd! current (cddr current))
+       (setq current (cdr current)))))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
