@@ -128,8 +128,9 @@
       (if (nil? result)
        (setq result new-tail)
        (rplacd! tail new-tail))
-      (setq tail new-tail)
-      (setq current-list (cdr current-list))))
+      (setq
+       tail         new-tail
+       current-list (cdr current-list))))
     (setq lsts (cdr lsts))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
