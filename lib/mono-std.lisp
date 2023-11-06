@@ -370,13 +370,17 @@
  "Map FUN over LST, returning the resulting list."
  (unless (fun?  fun) (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
- (unless (nil? lst)
-  (let* ((result (list (fun (pop lst))))
-         (tail   result))
+ (let (result tail new-tail)
+  (unless (nil? lst)
+   (setq
+    new-tail (fun (pop lst))
+    result   (list new-tail)
+    tail     result)
    (until (nil? lst)
-    (let ((new-tail (list (fun (pop lst)))))     
-     (setq tail (rplacd! tail new-tail))))
-   result)))
+    (setq
+     new-tail (fun (pop lst))
+     tail     (rplacd! tail (list new-tail)))))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
