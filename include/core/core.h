@@ -78,8 +78,8 @@
   DO(incrb,        true,           1,          1, "incr!",                     FUNDEF_END)                              \
   DO(decrb,        true,           1,          1, "decr!",                     FUNDEF_END)                              \
   /*================================================================================================================*/  \
-  DO(pushb,        true,           2,          2, "push!",                     FUNDEF_END)                              \
-  DO(popb,         true,           1,          1, "pop!",                      FUNDEF_END)                              \
+  DO(push,         true,           2,          2,                              FUNDEF_END)                              \
+  DO(pop,          true,           1,          1,                              FUNDEF_END)                              \
   /*================================================================================================================*/  \
   DO(remove_prop,  false,          2,          2, "remove",                    FUNDEF_END)                              \
   DO(has_prop,     false,          2,          2, "has?",                      FUNDEF_END)                              \

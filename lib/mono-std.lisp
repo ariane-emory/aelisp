@@ -372,10 +372,10 @@
  (unless (fun?  fun) (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
  (when lst
-  (let* ((result (list (fun (pop! lst))))
+  (let* ((result (list (fun (pop lst))))
          (tail   result))
    (while lst
-    (let ((new-tail (list (fun (pop! lst)))))
+    (let ((new-tail (list (fun (pop lst)))))
      (rplacd! tail new-tail)
      (setq!   tail new-tail)))
    result)))
@@ -388,7 +388,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let ((current lst))
   (while current
-   (rplaca! current (fun (pop! current))))
+   (rplaca! current (fun (pop current))))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst . rest)
@@ -398,11 +398,11 @@
  (unless (or (nil? rest) (single? rest))
   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
  (let ((delimiter (car rest))
-       (acc (if lst (fun (pop! lst)) "")))
+       (acc (if lst (fun (pop lst)) "")))
   (unless (or (nil? delimiter) (string? delimiter))
    (error "DELIMITER must be a string or nil"))
   (while lst
-   (setq acc (concat acc (or delimiter "") (fun (pop! lst)))))
+   (setq acc (concat acc (or delimiter "") (fun (pop lst)))))
   acc))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun mapcan (fun lst)
@@ -431,7 +431,7 @@
  (let (result
        tail)
   (while lst
-   (let ((fun-result (fun (pop! lst))))
+   (let ((fun-result (fun (pop lst))))
     (when fun-result
      (if tail
       (progn
@@ -447,7 +447,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let ((current lst))
   (while current
-   (fun (pop! current)))
+   (fun (pop current)))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc* (fun . args) (apply mapc fun (list args)))
@@ -464,23 +464,23 @@
  (cond
   ((nil? lst) nil)
   ((list? (car lst))
-   (append (pop! lst) (flatten1 lst)))
+   (append (pop lst) (flatten1 lst)))
   (else
-   (cons (pop! lst) (flatten1 lst)))))
+   (cons (pop lst) (flatten1 lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun flatten-left (lst)
  "Flatten a left-nested list structure LST."
  (unless (list? lst) (error "LST must be a list"))
  (if (cons? (car lst))
-  (append (flatten-left (pop! lst)) (list (car lst)))
+  (append (flatten-left (pop lst)) (list (car lst)))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun flatten (lst)
  (unless (list? lst) (error "LST must be a list"))
  (when lst
   (if (cons? (car lst))
-   (append (flatten (pop! lst)) (flatten lst))
-   (cons (pop! lst) (flatten lst)))))
+   (append (flatten (pop lst)) (flatten lst))
+   (cons (pop lst) (flatten lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'flatten)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -555,7 +555,7 @@
 ;;   (rplacd! (last lst) (cons elem nil))
 ;;   lst)
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defun push! (elem lst)
+;;  (defun push (elem lst)
 ;;   "Destructively push ELEM onto the head of LST."
 ;;   (unless (list? lst) (error "LST must be a list"))
 ;;   (let ((old-car (car lst)))
@@ -563,14 +563,14 @@
 ;;    (rplacd! lst (cons old-car (cdr lst)))
 ;;    lst))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  (defmacro push! (val list-sym)
+;;  (defmacro push (val list-sym)
 ;;   "Destructively push an item onto the list bound to LIST-SYM."
 ;;   (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
 ;;   $('if $('not $('symbol? $('quote list-sym)))
 ;;     $('error "LIST-SYM must be a symbol")
 ;;     $('setq! list-sym $('cons val list-sym))))
 ;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defmacro pop! (list-sym)
+;; (defmacro pop (list-sym)
 ;;  "Destructively pop an item from the list bound to LIST-SYM."
 ;;  (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
 ;;  $('if $('not $('symbol? $('quote list-sym)))
@@ -647,7 +647,7 @@
  (when tree
   (let (result tail)
    (while tree
-    (let* ((head (pop! tree))
+    (let* ((head (pop tree))
            (new-tail
             (list
              (cond
@@ -666,7 +666,7 @@
  (when tree
   (let (result tail)
    (while tree
-    (let* ((head (pop! tree))
+    (let* ((head (pop tree))
            (new-tail
             (list
              (cond
@@ -698,7 +698,7 @@
         result
         tail)
    (while tree
-    (let* ((head (pop! tree))
+    (let* ((head (pop tree))
            (new-tail
             (list
              (cond
@@ -738,9 +738,9 @@
      ((nil? left)  right)
      ((nil? right) left)
      ((pred? (car left) (car right))
-      (cons (pop! left)  (merge left right pred?)))
+      (cons (pop left)  (merge left right pred?)))
      (else
-      (cons (pop! right) (merge left right pred?)))))))
+      (cons (pop right) (merge left right pred?)))))))
  (defun sort!!  (lst pred?)
   "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
   "returning a new list."
@@ -749,7 +749,7 @@
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (let* ((splits (half lst))
-          (left   (pop! splits))
+          (left   (pop splits))
           (right  splits))
     (merge
      (sort!! left  pred?)
@@ -796,7 +796,7 @@
  (let ((idx 0)
        found)
   (while (and lst (not found))
-   (if (eq? elem (pop! lst))
+   (if (eq? elem (pop lst))
     (setq! found idx)
     (setq! idx (+ 1 idx))))
   found))
@@ -808,7 +808,7 @@
  (let ((idx 0)
        found)
   (while (and lst (not found))
-   (if (eql? elem (pop! lst))
+   (if (eql? elem (pop lst))
     (setq! found idx)
     (setq! idx (+ 1 idx))))
   found))
@@ -835,7 +835,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result tail)
   (while lst
-   (let ((head (pop! lst)))
+   (let ((head (pop lst)))
     (unless (eq? elem head)
      (let ((new-tail (list head)))
       (if tail
@@ -861,7 +861,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result tail)
   (while lst
-   (let ((head (pop! lst)))
+   (let ((head (pop lst)))
     (unless (eql? elem head)
      (let ((new-tail (list head)))
       (if tail
@@ -1087,14 +1087,14 @@
  (let ((stack (list (cons lst 1))) ; Stack with initial list and depth of 1
        (max-depth 0))
   (while stack
-   (let* ((current (pop! stack))
+   (let* ((current (pop stack))
           (current-list (car current))
           (current-depth (cdr current)))
     (if (> current-depth max-depth)
      (setq! max-depth current-depth))
     (mapc (lambda (item)
            (when (list? item)
-            (push! (cons item (1+ current-depth)) stack)))
+            (push (cons item (1+ current-depth)) stack)))
      current-list)))
   max-depth))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1115,7 +1115,7 @@
  (unless (list? lst)  (error "LST must be a list"))
  (let (result tail)
   (while lst
-   (let ((head (pop! lst)))
+   (let ((head (pop lst)))
     (if (pred? head)
      (let ((new-tail (list head)))
       (if tail
@@ -1145,7 +1145,7 @@
          (tail result))
    (setq! lst (cdr lst))
    (while lst
-    (let* ((head (pop! lst))
+    (let* ((head (pop lst))
            (new-tail (list intercalated head)))
      (rplacd! tail new-tail)
      (setq! tail (cdr new-tail))))
@@ -1156,7 +1156,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result)
   (while lst
-   (setq! result (cons (pop! lst) result)))
+   (setq! result (cons (pop lst) result)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun butlast (lst . rest)
@@ -1171,7 +1171,7 @@
           (tail   result))
     (setq! lst (cdr lst))
     (while (nthcdr n lst)
-     (let* ((new-tail (list (pop! lst))))
+     (let* ((new-tail (list (pop lst))))
       (rplacd! tail new-tail)
       (setq!   tail new-tail)))
     result))))
@@ -1180,10 +1180,10 @@
  "Take a shallow copy of LST."
  (unless (list? lst) (error "LST must be a list"))
  (when lst
-  (let* ((result (list (pop! lst)))
+  (let* ((result (list (pop lst)))
          (tail result))
    (while lst
-    (let ((new-tail (list (pop! lst))))
+    (let ((new-tail (list (pop lst))))
      (rplacd! tail new-tail)
      (setq!   tail new-tail)))
    result)))
@@ -1202,7 +1202,7 @@
 (defun all? (pred? lst)
  "t when all elems in LST? are PRED?"
  (unless (fun? pred?) (error "PRED? must be a function"))
- (while (and lst (pred? (pop! lst))))
+ (while (and lst (pred? (pop lst))))
  (nil? lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun any? (pred? lst)
@@ -1210,7 +1210,7 @@
  (unless (fun? pred?) (error "PRED? must be a function"))
  (let (result)
   (while (and lst (not result))
-   (setq! result (pred? (pop! lst))))
+   (setq! result (pred? (pop lst))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-transform-fun (name transformer)
@@ -1383,7 +1383,7 @@
  (let ((min-val (car lst))
        (max-val (car lst)))
   (while lst
-   (let ((current (pop! lst)))
+   (let ((current (pop lst)))
     (setq! min-val (min min-val current))
     (setq! max-val (max max-val current))))
   (- max-val min-val)))
@@ -1411,7 +1411,7 @@
      (rplaca! lst obj)
      (setq! done t))
     (incr! current-index)
-    (pop! lst)))
+    (pop lst)))
   (unless done (error "INDEX out of bounds")))
  obj) ; return the set object for convenience, similar to setq!
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1422,7 +1422,7 @@
  (let ((current-index 0))
   (while (and lst (not (= current-index index)))
    (incr! current-index)
-   (pop! lst))
+   (pop lst))
   (if lst
    (car lst)
    (error "INDEX out of bounds"))))
@@ -1455,7 +1455,7 @@
 ;;  (let ((front nil)
 ;;        (back lst))
 ;;   (while (and back (pred? (car back)))
-;;    (push! (pop! back) front))
+;;    (push (pop back) front))
 ;;   $((reverse front) back)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun split-list (pred? lst)
@@ -1509,7 +1509,7 @@
   (while (cons? (cdr current))
    (if (eq? (cadr current) item)
     (rplacd! current (cddr current))
-    (pop! current))))
+    (pop current))))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun delql! (item lst)
@@ -1525,7 +1525,7 @@
   (while (cons? (cdr current))
    (if (eql? (cadr current) item)
     (rplacd! current (cddr current))
-    (pop! current))))
+    (pop current))))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
@@ -1840,10 +1840,10 @@
  (unless (list? vals) (error "VALS must be a list."))
  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
  (when keys
-  (let* ((result (list (pop! keys) (pop! vals)))
+  (let* ((result (list (pop keys) (pop vals)))
          (tail (cdr result)))
    (while keys
-    (let ((new-tail (list (pop! keys) (pop! vals))))
+    (let ((new-tail (list (pop keys) (pop vals))))
      (rplacd! tail new-tail)
      (setq!   tail (cdr new-tail))))
    result)))
@@ -1868,7 +1868,7 @@
          (tail   result)
          (plist  (cddr plist)))
    (while plist
-    (let ((new-alist-item (list (cons (pop! plist) (pop! plist)))))
+    (let ((new-alist-item (list (cons (pop plist) (pop plist)))))
      (rplacd! tail new-alist-item)
      (setq!   tail new-alist-item)))
    result)))
@@ -1887,7 +1887,7 @@
  (unless (list? alist) (error "ALIST must be a list"))
  (let (result tail)
   (while alist
-   (let* ((pair  (pop! alist))
+   (let* ((pair  (pop alist))
           (key   (car pair))
           (value (cdr pair)))
     (let ((new-tail (list key value)))
@@ -1911,10 +1911,10 @@
          (tail result))
    (setq! plist (cddr plist))
    (while plist
-    (let ((new-tail (list (pop! plist))))
+    (let ((new-tail (list (pop plist))))
      (rplacd! tail new-tail)
      (setq!   tail new-tail))
-    (pop! plist))
+    (pop plist))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-vals (plist)
@@ -2038,7 +2038,7 @@
  (unless (all? integer? lst) (error "LST must contain only integers"))
  (let ((total 0))
   (while lst
-   (let ((head (pop! lst)))
+   (let ((head (pop lst)))
     (unless (number? head)
      (error "The elements of LST must be numbers."))
     (setq! total (+ total head))))
@@ -2280,10 +2280,10 @@
  (while (and lst (nil? (car lst)))
   (setq! lst (cdr lst)))
  (when lst
-  (let* ((result (list (pop! lst)))
+  (let* ((result (list (pop lst)))
          (tail result))
    (while lst
-    (let ((head (pop! lst)))
+    (let ((head (pop lst)))
      (unless (nil? head)
       (setq! tail (rplacd! tail (list head))))))
    result)))
@@ -2444,7 +2444,7 @@
           (tail-cell-values (cdr cell-values)))
     (princ (if (zero? current-row) "(" " ") "(" (render-fun head-cell-value))
     (while tail-cell-values
-     (princ " " (render-fun (pop! tail-cell-values))))
+     (princ " " (render-fun (pop tail-cell-values))))
     (princ ")")
     (when (= current-row final-row)
      (princ ")"))
