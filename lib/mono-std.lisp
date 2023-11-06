@@ -1143,7 +1143,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result)
   (while lst
-    (setq! result (cons (pop! lst) result)))
+   (setq! result (cons (pop! lst) result)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun butlast (lst . rest)
@@ -1158,10 +1158,10 @@
           (tail   result))
     (setq! lst (cdr lst))
     (while (nthcdr n lst)
-     (let ((head (pop! lst)))
-     (let ((new-tail (list head)))
+     (let* ((head (pop! lst))
+            (new-tail (list head)))
       (rplacd! tail new-tail)
-      (setq!   tail new-tail))))
+      (setq!   tail new-tail)))
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-list (lst)
