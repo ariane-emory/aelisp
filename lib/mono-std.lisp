@@ -1874,7 +1874,7 @@
  (unless (list? alist) (error "ALIST must be a list"))
  (let (result tail)
   (while alist
-   (let* ((pair   (pop! alist))
+   (let* ((pair  (pop! alist))
           (key   (car pair))
           (value (cdr pair)))
     (let ((new-tail (list key value)))
