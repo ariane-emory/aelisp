@@ -98,9 +98,8 @@
   (let* ((result (list (pop lst1)))
          (tail   result))
    (while lst1
-    (let ((new-tail (list (pop lst1))))
-     (rplacd! tail new-tail)
-     (setq tail new-tail)))
+    (let ((new-tail (list (pop lst1))))     
+     (setq tail (rplacd! tail new-tail))))
    (rplacd! tail lst2) 
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -125,7 +124,7 @@
     (while current-list
      (let ((new-tail (list (car current-list))))
       (if (nil? result)
-       (setq result new-tail)
+       (setq result  new-tail)
        (rplacd! tail new-tail))
       (setq
        tail         new-tail
@@ -173,9 +172,9 @@
   ((eq? (car expr) 'unquote-splicing)
    (error "unquote-splicing can't occur at top level"))
   ;; If the list is regular, we just recurse on both its parts
-  (t $('cons
-       $('expand-quasiquoted (car expr))
-       $('expand-quasiquoted (cdr expr))))))
+  (else $('cons
+          $('expand-quasiquoted (car expr))
+          $('expand-quasiquoted (cdr expr))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq quasiquote expand-quasiquoted)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -214,7 +213,7 @@
  (unless (list? lst)                              (error "LST must be a list"))
  (unless (>= index 0)                             (error "INDEX must be non-negative"))
  (until (zero? index)
-  (setq lst   (cdr lst))
+  (setq lst (cdr lst))
   (decr index))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -298,7 +297,7 @@
     (cond
      ((nil? lst)        nil)
      ((nil? (cdr lst))  (car lst))
-     (t                 (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
+     (else              (reduce-inner fun (cons (fun (car lst) (cadr lst)) (cddr lst))))))))
  (defun reduce (fun lst . init-val)
   "Left-reduce ('foldl' in Haskell) LST by applying FUN to successive pairs."
   (cond
@@ -306,7 +305,7 @@
    ((not (list? lst)) (error "LST must be a list"))
    ((cdr init-val)    (error "INIT-VAL must be a single object"))
    ((nil? init-val)   (reduce-inner fun lst))
-   (t                 (reduce-inner fun (cons (car init-val) lst))))))
+   (else              (reduce-inner fun (cons (car init-val) lst))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (letrec
  ((rreduce-inner
@@ -314,7 +313,7 @@
     (cond
      ((nil? lst)        nil)
      ((nil? (cdr lst))  (car lst))
-     (t                 (fun (car lst) (rreduce-inner fun (cdr lst))))))))
+     (else              (fun (car lst) (rreduce-inner fun (cdr lst))))))))
  (defun rreduce (fun lst . init-val)
   "Right-reduce ('foldr' in Haskell) LST by applying FUN to successive pairs."
   (cond
@@ -322,7 +321,7 @@
    ((not (list? lst)) (error "LST must be a list"))
    ((cdr init-val)    (error "INIT-VAL must be a single object"))
    ((nil? init-val)   (rreduce-inner fun lst))
-   (t                 (rreduce-inner fun (append2 lst (list (car init-val))))))))
+   (else              (rreduce-inner fun (append2 lst (list (car init-val))))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reduced (fun . init-val)
  "Return a function that is a left reduction of the binary function FUN."
@@ -494,9 +493,9 @@
  (unless (list? lst1) (error "LST1 must be a list"))
  (unless (list? lst2) (error "LST2 must be a list"))
  (cond
-  ((∨ (nil? lst1) (nil? lst2)) nil)
-  (t  (cons  $((car lst1) (car lst2))
-       (zip2 (cdr lst1) (cdr lst2))))))
+  ((∨   (nil? lst1) (nil? lst2)) nil)
+  (else (cons  $((car lst1) (car lst2))
+         (zip2 (cdr lst1) (cdr lst2))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun zip3 (l1 l2 l3)
  "Zip the three lists LST1, LST2 and LST3."
@@ -877,7 +876,7 @@
 ;;          (cond
 ;;           ((eq? elem head) (progn (rplacd! prev next) elem))
 ;;           (next           (progn (setq prev lst) (chase next)))
-;;           (t              (error "ELEM was not found in LST")))))))
+;;           (else           (error "ELEM was not found in LST")))))))
 ;;      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeq! (elem lst)
@@ -918,8 +917,8 @@
 ;;               (next (cdr lst)))
 ;;          (cond
 ;;           ((eql? elem head) (progn (rplacd! prev next) elem))
-;;           (next            (progn (setq prev lst) (chase next)))
-;;           (t               (error "ELEM was not found in LST")))))))
+;;           (next             (progn (setq prev lst) (chase next)))
+;;           (else             (error "ELEM was not found in LST")))))))
 ;;      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeql! (elem lst)
@@ -1110,10 +1109,10 @@
  (unless (list? lst) (error "LST must be a list"))
  (when lst
   (let* ((result (list (car lst)))
-         (tail result))
+         (tail   result))
    (setq lst (cdr lst))
    (while lst
-    (let* ((head (pop lst))
+    (let* ((head     (pop lst))
            (new-tail (list intercalated head)))
      (rplacd! tail new-tail)
      (setq tail (cdr new-tail))))
@@ -1904,7 +1903,7 @@
    ((nil? arg)  (vals-base (env (env (env)))))
    ((list? arg) (plist-vals arg))
    ((env? arg)  (vals-base arg))
-   (t           (error "vals takes a plist or an environment")))))
+   (else        (error "vals takes a plist or an environment")))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'plist-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
