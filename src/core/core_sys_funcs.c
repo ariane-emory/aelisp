@@ -1,3 +1,4 @@
+#include <dirent.h>
 #include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -583,7 +584,6 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env, ae_obj_t * const args, __attrib
 
   REQUIRE(env, args, STRINGP(CAR(args)), "dirname's arg must be a string");
 
-
   char * const path = STR_VAL(CAR(args));
   char * const tmp = free_list_malloc(strlen(path) + 1);
   dirname_r(path, tmp);
@@ -594,5 +594,35 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env, ae_obj_t * const args, __attrib
   ret = NEW_STRING(dirname);
     
   CORE_RETURN("dirname", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _files
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_files(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("files-in");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "files-in's arg must be a string");
+
+  char * const path = STR_VAL(CAR(args));
+
+  DIR * const dir = opendir(path);
+
+  REQUIRE(env, args, dir, "could not open directory");
+
+  struct dirent * entry;
+  
+  while ((entry = readdir(dir))) {
+    if (entry->d_type == DT_REG) {
+      ret = CONS(NEW_STRING(entry->d_name), ret);
+    }
+  }
+
+  closedir(dir);
+
+end:
+  
+  CORE_RETURN("files-in", ret);
 }
 
