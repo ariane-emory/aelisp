@@ -1167,9 +1167,8 @@
  "Take a shallow copy of LST."
  (unless (list? lst) (error "LST must be a list"))
  (when lst
-  (let* ((result (list (car lst)))
+  (let* ((result (list (pop! lst)))
          (tail result))
-   (setq! lst (cdr lst))
    (while lst
     (let ((new-tail (list (pop! lst))))
      (rplacd! tail new-tail)
