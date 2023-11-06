@@ -647,7 +647,7 @@
  (when tree
   (let (result tail)
    (while tree
-    (let* ((head (car tree))
+    (let* ((head (pop! tree))
            (new-tail
             (list
              (cond
@@ -657,8 +657,7 @@
      (if result
       (rplacd! tail new-tail)
       (setq! result new-tail))
-     (setq! tail new-tail)
-     (setq! tree (cdr tree))))
+     (setq! tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-tree (tree)
