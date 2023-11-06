@@ -2271,9 +2271,9 @@
          (tail result))
    (setq! lst (cdr lst))
    (while lst
-    (unless (nil? (car lst))
-     (setq! tail (rplacd! tail (list (car lst)))))
-    (setq! lst (cdr lst)))
+    (let ((head (pop! lst)))
+     (unless (nil? head)
+      (setq! tail (rplacd! tail (list head))))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun expand-file-name (name . rest)
