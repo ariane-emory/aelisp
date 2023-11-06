@@ -463,6 +463,16 @@
 
 (confirm that (compact '(nil nil 1 nil 2 3 nil nil 4 nil)) returns '(1 2 3 4))
 
+(confirm that (all even? '(2 4 6 8))    returns t)
+(confirm that (all even? '(1 2 4 6 8))  returns nil)
+(confirm that (all even? '(2 4 6 1 8))  returns nil)
+(confirm that (all even? '(2 4 6 8 1))  returns nil)
+(confirm that (any odd?  '(2 4 6 8))    returns nil)
+(confirm that (any odd?  '(2 4 6 8 1))  returns t)
+(confirm that (any odd?  '(1 2 4 6 8))  returns t)
+(confirm that (any odd?  '(2 4 1 6 8))  returns t)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
