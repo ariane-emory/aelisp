@@ -1525,8 +1525,7 @@
 (defun prime? (num)
  "Check if a number is prime."
  (unless (and (integer? num) (positive? num)) (error "NUM must be a positive integer"))
- (if (or (= num 0) (= num 1))
-  nil
+ (when (not (or (= num 0) (= num 1)))
   (let ((limit (/ num 2))
         (divisor 2)
         (is-prime t))
