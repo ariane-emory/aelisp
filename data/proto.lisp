@@ -341,8 +341,7 @@
 (print (heads '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 (print (tails '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 
-(ignore
- (princ "In.") (nl)
- (write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
- (princ "Out.") (nl))
+(princ "In.") (nl)
+(write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
+(princ "Out.") (nl)
 ;;(mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))
