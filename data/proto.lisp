@@ -295,6 +295,6 @@
  $('let* $($('time-before $('now-us))
            $('result      expr)
            $('time-after  $('now-us)))
-   $('cons $('elapsed-us 'time-before) 'result)))
+   $('list ':time $('elapsed-us 'time-before) ':result 'result)))
 
 (princ (time 1)) (nl)
