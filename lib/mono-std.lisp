@@ -479,8 +479,8 @@
  (unless (list? lst) (error "LST must be a list"))
  (when lst
   (if (cons? (car lst))
-   (append (flatten (car lst)) (flatten (cdr lst)))
-   (cons (car lst) (flatten (cdr lst))))))
+   (append (flatten (pop! lst)) (flatten lst))
+   (cons (pop! lst) (flatten lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'flatten)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
