@@ -165,13 +165,13 @@ bool expand_tilde(const char * const path, char ** expanded_path) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _expand_fn
+// _expand_path
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("expand_path");
+  CORE_BEGIN("expand-path");
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
@@ -196,7 +196,8 @@ ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
   path = tmp;
   
   ret = NEW_STRING(path);
-  CORE_RETURN("expand_path", ret);
+  
+  CORE_RETURN("expand-path", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +243,6 @@ ae_obj_t * ae_core_elapsed(ae_obj_t * const env,
   CORE_BEGIN("elapsed");
   REQUIRE(env, args, INTEGERP(CAR(args)));
   CORE_RETURN("elapsed", NEW_INT(elapsed(INT_VAL(CAR(args)))));
-  // CORE_RETURN("elapsed", NEW_INT(now() - INT_VAL(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,7 +255,6 @@ ae_obj_t * ae_core_elapsed_us(ae_obj_t * const env,
   CORE_BEGIN("elapsed_us");
   REQUIRE(env, args, INTEGERP(CAR(args)));
   CORE_RETURN("elapsed", NEW_INT(elapsed_us(INT_VAL(CAR(args)))));
-  // CORE_RETURN("elapsed_us", NEW_INT(now_us() - INT_VAL(CAR(args))));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -531,14 +530,22 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   REQUIRE(env, args, STRINGP(CAR(args)), "cd's arg must be a string");
 
   char * const dst = STR_VAL(CAR(args));
+  char         cwd[PATH_MAX];
   
-  //ret = TRUTH(chdir(dst) == 0);
+  if (getcwd(cwd, sizeof(cwd)) == NULL)
+    CORE_RETURN("cd", NIL);
+  
   REQUIRE(env, args, chdir(dst) == 0, "Could not change directory");
+  
+  if (strcmp(dst, "..") == 0 && strcmp(cwd, "/") == 0)
+    CORE_RETURN("cd", NIL);
+
   ret = ae_core_pwd(env, NIL, 0);
+
+end:
   
   CORE_RETURN("cd", ret);
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _pwd
 ////////////////////////////////////////////////////////////////////////////////////////////////////
