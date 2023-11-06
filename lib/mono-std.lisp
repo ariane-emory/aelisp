@@ -373,13 +373,15 @@
  (let (result tail new-tail)
   (unless (nil? lst)
    (setq
-    new-tail (fun (pop lst))
+    new-tail (fun (car lst))
     result   (list new-tail)
-    tail     result)
+    tail     result
+    lst      (cdr lst))
    (until (nil? lst)
     (setq
-     new-tail (fun (pop lst))
-     tail     (rplacd! tail (list new-tail)))))
+     new-tail (fun (car lst))
+     tail     (rplacd! tail (list new-tail))
+     lst      (cdr lst))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
@@ -415,18 +417,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapconcat (fun lst . rest)
  "Map fun over LST, returning the result of concatenating the resulting strings."
- (unless (fun? fun)  (error "FUN must be a function"))
- (unless (list? lst) (error "LST must be a list"))
- (unless (or (nil? rest) (single? rest))
-  (error "MAPCONCAT takes exactly only one optional arguments after LST"))
- (when lst
-  (let ((delimiter (car rest))
-        (acc (if lst (fun (pop lst)) "")))
-   (unless (or (nil? delimiter) (string? delimiter))
-    (error "DELIMITER must be a string or nil"))
-   (while lst
-    (setq acc (concat acc (or delimiter "") (fun (pop lst)))))
-   acc)))
+ (unless (fun? fun)                                  (error "FUN must be a function"))
+ (unless (list? lst)                                 (error "LST must be a list"))
+ (unless (or (nil? rest) (single? rest))             (error "MAPCONCAT takes exactly only one optional arguments after LST"))
+ (unless (or (nil? (car rest)) (string? (car rest))) (error "DELIMITER must be a string or nil"))
+ (let ((delimiter (or (car rest) ""))
+       (result    (if lst (fun (pop lst)) "")))
+  (until (nil? lst)
+   (setq result (concat result delimiter (fun (pop lst)))))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun mapcan (fun lst)
 ;;  "Map fun over LST and concatenate the results by altering them."
