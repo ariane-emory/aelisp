@@ -1874,19 +1874,17 @@
  (unless (list? alist)          (error "ALIST must be a list"))
  (let (result tail)
   (while alist
-   (let* ((pair (car alist))
+   (let* ((pair (pop! alist))
           (key  (car pair))
           (value (cdr pair)))
     (if tail
      (progn
-      (rplacd! tail (cons key (cons value nil)))
-      (setq!   tail (cdr tail))
-      (setq!   tail (cdr tail)))
+      (rplacd! tail (cons key (list value)))
+      (setq!   tail (cddr tail)))
      (progn
-      (setq! result (cons key (cons value nil)))
+      (setq! result (cons key (list value)))
       (setq! tail   result)
-      (setq! tail   (cdr tail)))))
-   (setq! alist (cdr alist)))
+      (setq! tail   (cdr tail))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
