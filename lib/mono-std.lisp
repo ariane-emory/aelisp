@@ -516,7 +516,9 @@
   (while (all cons? lsts)
    (let ((heads (heads lsts)))
     (if (nil? result)
-     (setq tail (setq result (list heads)))
+     (setq
+      result (list heads)
+      tail   result)
      (setq tail (rplacd! tail (list heads))))
     (setq lsts (tails lsts)))
    result)))
