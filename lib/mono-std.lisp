@@ -246,7 +246,7 @@
  "Get last cons cell in a LST."
  (unless (list? lst) (error "LST must be a list"))
  (while (cdr lst)
-  (setq lst (cdr lst)))
+  (pop lst))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-access-funs)
