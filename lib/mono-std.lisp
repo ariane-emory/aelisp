@@ -357,7 +357,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (map variants):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun mapcar (fun lst)
+;; (defun mapcr (fun lst)
 ;;  "Map fun over LST, returning the resulting list."
 ;;  (unless (fun? fun)  (error "FUN must be a function"))
 ;;  (unless (list? lst) (error "LST must be a list"))
@@ -2465,7 +2465,7 @@
    (current-row 0))
   (while (< current-row row-count)
    (let ((cell-values (list-ref matrix current-row)))
-    (princ "(")
+    (princ (if (zero? current-row) "(" " ") "(")
     (princ (render-fun (car cell-values)))
     (mapc
      (lambda (o)
