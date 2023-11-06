@@ -2467,7 +2467,10 @@
   (until (= row-count current-row)
    (let ((cell-values (list-ref matrix current-row)))
     (princ (if (zero? current-row) "(" " ") "(" (render-fun (car cell-values)))
-    (mapc princ-fun (cdr cell-values))
+
+    (let ((tail-cell-values (cdr cell-values)))
+     (mapc princ-fun tail-cell-values))
+    
     (princ ")")
     (when (= current-row final-row)
      (princ ")"))
