@@ -935,8 +935,9 @@
   (let ((prev lst)
         (current (cdr lst)))
    (while (and current (not (eql? elem (car current))))
-    (setq prev current)
-    (setq current (cdr current)))
+    (setq
+     prev    current
+     current (cdr current)))
    (if current
     (rplacd! prev (cdr current))
     (error "ELEM was not found in LST"))))
