@@ -1397,7 +1397,7 @@
     (progn
      (rplaca! lst obj)
      (setq! done t))
-    (setq! current-index (+ 1 current-index))
+    (incr! current-index)
     (pop! lst)))
   (unless done (error "INDEX out of bounds")))
  obj) ; return the set object for convenience, similar to setq!
@@ -1408,7 +1408,7 @@
  (unless (and (integer? index) (positive? index)) (error "INDEX must be a positive integer"))
  (let ((current-index 0))
   (while (and lst (not (= current-index index)))
-   (setq! current-index (+ 1 current-index))
+   (incr! current-index)
    (pop! lst))
   (if lst
    (car lst)
