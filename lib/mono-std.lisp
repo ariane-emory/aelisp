@@ -835,15 +835,15 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result tail)
   (while lst
-   (unless (eq? elem (car lst))
-    (let ((new-tail (list (car lst))))
-     (if tail
-      (progn
-       (rplacd! tail new-tail)
-       (setq!   tail new-tail))
-      (setq! result new-tail)
-      (setq! tail   result))))
-   (setq! lst (cdr lst)))
+   (let ((head (pop! lst)))
+    (unless (eq? elem head)
+     (let ((new-tail (list head)))
+      (if tail
+       (progn
+        (rplacd! tail new-tail)
+        (setq!   tail new-tail))
+       (setq! result new-tail)
+       (setq! tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun removeql (elem lst)
