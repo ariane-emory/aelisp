@@ -315,28 +315,6 @@
      lsts     (tails lsts)))
    result))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun heads (lsts)
- "Return a list of the heads of the lists in LSTS."
- (unless (list? lsts)     (error "LSTS must be a list of lists"))
- (unless (all list? lsts) (error "LSTS must be a list of lists"))
- (let* ((result (list (car (pop lsts))))
-        (tail   result))
-  (while lsts
-   (let ((new-tail (list (car (pop lsts)))))
-    (setq tail (rplacd! tail new-tail))))
-  result))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun tails (lsts)
- "Return a list of the tails of the lists in LSTS."
- (unless (list? lsts)     (error "LSTS must be a list of lists"))
- (unless (all list? lsts) (error "LSTS must be a list of lists"))
- (let* ((result (list (cdr (pop lsts))))
-        (tail   result))
-  (while lsts
-   (let ((new-tail (list (cdr (pop lsts)))))
-    (setq tail (rplacd! tail new-tail))))
-  result))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (print (heads '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 (print (tails '((1 2 3) (4 5 6) (7 8 9)))) (nl)

@@ -1191,15 +1191,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun heads (lsts)
  "Return a list of the heads of the lists in LSTS."
- (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (list? lsts)     (error "LSTS must be a list of lists"))
  (unless (all list? lsts) (error "LSTS must be a list of lists"))
- (mapcar car lsts))
+ (let* ((result (list (car (pop lsts))))
+        (tail   result))
+  (while lsts
+   (let ((new-tail (list (car (pop lsts)))))
+    (setq tail (rplacd! tail new-tail))))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun tails (lsts)
  "Return a list of the tails of the lists in LSTS."
- (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (list? lsts)     (error "LSTS must be a list of lists"))
  (unless (all list? lsts) (error "LSTS must be a list of lists"))
- (mapcar cdr lsts))
+ (let* ((result (list (cdr (pop lsts))))
+        (tail   result))
+  (while lsts
+   (let ((new-tail (list (cdr (pop lsts)))))
+    (setq tail (rplacd! tail new-tail))))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'misc-list-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
