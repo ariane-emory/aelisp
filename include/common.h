@@ -8,15 +8,15 @@
 // types
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-  // MONO_STD             = 1,
-  STD_FUNDAMENTAL_ONLY = 1,
-  SPLIT_STD            = 2,
-  LOG_EVAL             = 4,
-  LOG_CORE             = 8,
-  LOG_MACRO            = 16,
-  EARLY_LOGGING        = 32,
-  OPTS_OK              = 64,
-  MICROBENCH_ENABLED   = 128,
+  NO_STD               = 1,
+  STD_FUNDAMENTAL = 2,
+  SPLIT_STD            = 4,  
+  LOG_EVAL             = 8,  
+  LOG_CORE             = 16, 
+  LOG_MACRO            = 32, 
+  EARLY_LOGGING        = 64, 
+  OPTS_OK              = 128,
+  MICROBENCH_ENABLED   = 256,
 } setopts_flag_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

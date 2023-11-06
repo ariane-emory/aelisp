@@ -426,7 +426,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
 
   // Set *std-name* based on the std_mode passed from the command line:
 
-  if      (flags & STD_FUNDAMENTAL_ONLY)
+  if      (flags & STD_FUNDAMENTAL)
     ENV_SET(env, SYM("*std-name*"), SYM("std-fundamental"));
   else if (flags & SPLIT_STD)
     ENV_SET(env, SYM("*std-name*"), SYM("std"));
