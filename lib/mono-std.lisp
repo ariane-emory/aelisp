@@ -1052,8 +1052,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun push! (elem lst)
  "Add ELEM to the head of LST."
- (unless lst
-  (error "Cannot add to the empty list."))
+ (unless (cons? lst) (error "LST must be a non-empty list"))
  (let ((new-tail (cons (car lst) (cdr lst))))
   (rplaca! lst elem)
   (rplacd! lst new-tail))
@@ -1061,11 +1060,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pop! (lst)
  "Pop an item from the head of LST."
- (unless (cons? lst)
-  (error "Cannot pop from an empty list or a non-list."))
+ (unless (cons? lst) (error "LST must be a non-empty list"))
  (let ((head (car lst)))
   (if (not (cdr lst))
-   (error "Cannot pop the last item from the list.")
+   (error "Cannot pop the last item from the list")
    (rplaca! lst (cadr lst))
    (rplacd! lst (cddr lst)))
   head))
