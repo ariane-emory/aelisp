@@ -738,7 +738,7 @@
      ((nil? left)  right)
      ((nil? right) left)
      ((pred? (car left) (car right))
-      (cons (pop! left) (merge left right pred?)))
+      (cons (pop! left)  (merge left right pred?)))
      (else
       (cons (pop! right) (merge left right pred?)))))))
  (defun sort!!  (lst pred?)
@@ -749,10 +749,11 @@
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (let* ((splits (half lst))
-          (left   (car splits))
-          (right  (cdr splits)))
-    (merge (sort!!  left pred?)
-     (sort!!  right pred?) pred?)))))
+          (left   (pop!  splits))
+          (right  splits))
+    (merge
+     (sort!! left  pred?)
+     (sort!! right pred?) pred?)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'merge-sort)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
