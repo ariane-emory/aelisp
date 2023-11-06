@@ -289,3 +289,12 @@
 (princ (mapcar+ list '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
 (princ "Out.") (nl)
 
+
+(defmacro time (expr)
+ "Time evaluating EXPR."
+ $('let* $($('time-before $('now-us))
+           $('result      expr)
+           $('time-after  $('now-us)))
+   $('cons $('elapsed-us 'time-before) 'result)))
+
+(princ (time 1)) (nl)
