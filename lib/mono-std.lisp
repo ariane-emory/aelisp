@@ -1143,8 +1143,8 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result)
   (while lst
-   (setq! result (cons (car lst) result))
-   (setq! lst (cdr lst)))
+   (let ((head (pop! lst)))
+    (setq! result (cons head result))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun butlast (lst . rest)
