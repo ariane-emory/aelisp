@@ -431,15 +431,14 @@
  (let (result
        tail)
   (while lst
-   (let ((fun-result (fun (car lst))))
+   (let ((fun-result (fun (pop! lst))))
     (when fun-result
      (if tail
       (progn
        (rplacd! tail fun-result)
        (setq!   tail (last tail)))
       (setq! result fun-result)
-      (setq! tail   (last result)))))
-   (setq! lst (cdr lst)))
+      (setq! tail   (last result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
