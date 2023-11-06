@@ -32,6 +32,7 @@
   DO(files,              false,          0,          1, "files-in", "files",         FUNDEF_END)                              \
   DO(fappend_string,     false,          2,          2, "file-append",               FUNDEF_END)                              \
   DO(fwrite_string,      false,          2,          2, "file-write",                FUNDEF_END)                              \
+  DO(fread_string,       false,          1,          1, "file-read",                 FUNDEF_END)                              \
   DO(dirname,            false,          1,          1,                              FUNDEF_END)                              \
   DO(basename,           false,          1,          1,                              FUNDEF_END)                              \
   DO(pwd,                false,          0,          0,                              FUNDEF_END)                              \

@@ -726,29 +726,30 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env, ae_obj_t * const args, _
 // _file_read_string
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_file_read_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_fread_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-read-string");
 
   REQUIRE(env, args, STRINGP(CAR(args)), "Argument must be a string");
 
-  char *filename = STR_VAL(CAR(args));
-
-  FILE *file = fopen(filename, "r");
+  char * const filename = STR_VAL(CAR(args));
+  FILE * const file     = fopen(filename, "r");
+  
   REQUIRE(env, args, file, "Could not open file for reading");
 
   fseek(file, 0, SEEK_END);
   long filesize = ftell(file);
   rewind(file);
 
-  char *buffer = (char *)malloc(filesize + 1);
+  char * const buffer = free_list_malloc(filesize + 1);
+  
   REQUIRE(env, args, buffer, "Memory allocation failed");
 
   size_t read = fread(buffer, sizeof(char), filesize, file);
+
   buffer[read] = '\0';
   fclose(file);
 
-  ae_obj_t *result = NEW_STRING(buffer);
-  free(buffer);
+  ret = NEW_STRING(buffer);
 
-  CORE_RETURN("file-read-string", result);
+  CORE_RETURN("file-read-string", ret);
 }
