@@ -529,7 +529,7 @@
 (defun zip (lsts)
  "Zip a list of lists into a list of tuples."
  (unless (list? lsts)      (error "LSTS must be a list of lists"))
- (unless (all list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts)  (error "LSTS must be a list of lists"))
  (let (result tail)
   (while (all cons? lsts)
    (let ((heads (heads lsts)))
