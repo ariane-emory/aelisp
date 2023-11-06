@@ -428,8 +428,8 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
 
   if      (flags & STD_FUNDAMENTAL)
     ENV_SET(env, SYM("*std-name*"), SYM("std-fundamental"));
-  else if (flags & SPLIT_STD)
-    ENV_SET(env, SYM("*std-name*"), SYM("std"));
+  /* else if (flags & SPLIT_STD) */
+  /*   ENV_SET(env, SYM("*std-name*"), SYM("std")); */
   else if (flags & NO_STD)
     ENV_SET(env, SYM("*std-name*"), NIL);
   else 

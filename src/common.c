@@ -133,9 +133,9 @@ int setopts(int argc, char *argv[]) {
       if (strcmp(optarg, "f") == 0) {
         result |= STD_FUNDAMENTAL;
         got_std_opt = true;
-      } else if (strcmp(optarg, "s") == 0) {
-        result |= SPLIT_STD;
-        got_std_opt = true;
+      /* } else if (strcmp(optarg, "s") == 0) { */
+      /*   result |= SPLIT_STD; */
+      /*   got_std_opt = true; */
       } else if (strcmp(optarg, "n") == 0) {
         result |= NO_STD;
         got_std_opt = true;
@@ -155,7 +155,8 @@ int setopts(int argc, char *argv[]) {
   return result;
 
 fail:
-  fprintf(stderr, "Usage: %s [-e] [-m] [-l c|e|m] [-s f|s|m|n]\n", argv[0]);
+  // fprintf(stderr, "Usage: %s [-e] [-m] [-l c|e|m] [-s f|s|m|n]\n", argv[0]);
+  fprintf(stderr, "Usage: %s [-e] [-m] [-l c|e|m] [-s f|m|n]\n", argv[0]);
 
   return result;
 }
