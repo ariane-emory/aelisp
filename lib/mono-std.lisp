@@ -429,10 +429,9 @@
  (unless (fun? fun)  (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
  (let (result
-       tail
-       (current lst))
-  (while current
-   (let ((fun-result (fun (car current))))
+       tail)
+  (while lst
+   (let ((fun-result (fun (car lst))))
     (when fun-result
      (if tail
       (progn
@@ -440,7 +439,7 @@
        (setq!   tail (last tail)))
       (setq! result fun-result)
       (setq! tail   (last result)))))
-   (setq! current (cdr current)))
+   (setq! lst (cdr lst)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
