@@ -2267,9 +2267,8 @@
  (while (and lst (nil? (car lst)))
   (setq! lst (cdr lst)))
  (when lst
-  (let* ((result (list (car lst)))
+  (let* ((result (list (pop! lst)))
          (tail result))
-   (setq! lst (cdr lst))
    (while lst
     (let ((head (pop! lst)))
      (unless (nil? head)
