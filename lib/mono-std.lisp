@@ -2262,18 +2262,19 @@
 ;; (setq! compact (curry1 filter id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun compact (lst)
- (unless (list? lst) (error "LST must be a list"))
+ "Filter nil items from LST."
+ (unless (list? lst) (error "LST must be a list")) 
+ (while (and lst (nil? (car lst)))
+  (setq! lst (cdr lst)))
  (when lst
-  (while (nil? (car lst))
-   (setq! lst (cdr lst)))
   (let* ((result (list (car lst)))
          (tail result))
+   (setq! lst (cdr lst))
    (while lst
-    (when (not (nil? (car lst)))
-     (let ((new-tail (list (car lst))))
-      (rplacd! tail new-tail)
-      (setq!   tail new-tail)))
-    (setq! lst (cdr lst))))))
+    (unless (nil? (car lst))
+     (setq! tail (rplacd! tail (list (car lst)))))
+    (setq! lst (cdr lst)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun expand-file-name (name . rest)
  "Return the absolute file name of NAME, optionally relative to DEFAULT-DIRECTORY."

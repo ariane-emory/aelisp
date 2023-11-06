@@ -461,6 +461,8 @@
 (confirm that (max-delta '(3 2 8 4 1 5)) returns 7)
 (confirm that (sum '(1 2 3 4))           returns 10)
 
+(confirm that (compact '(nil nil 1 nil 2 3 nil nil 4 nil)) returns '(1 2 3 4))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
