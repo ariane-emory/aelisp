@@ -707,8 +707,9 @@
     (let ((slow lst)
           (fast (cdr lst)))
      (while (and fast (cdr fast))
-      (setq slow (cdr slow))
-      (setq fast (cddr fast)))
+      (setq
+       slow (cdr slow)
+       fast (cddr fast)))
      (let ((right (cdr slow)))
       (rplacd! slow nil)
       (cons lst right)))))
