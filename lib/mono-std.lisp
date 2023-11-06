@@ -861,15 +861,15 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result tail)
   (while lst
-   (unless (eql? elem (car lst))
-    (let ((new-tail (list (car lst))))
-     (if tail
-      (progn
-       (rplacd! tail new-tail)
-       (setq!   tail new-tail))
-      (setq! result new-tail)
-      (setq! tail   result))))
-   (setq! lst (cdr lst)))
+   (let ((head (pop! lst)))
+    (unless (eql? elem head)
+     (let ((new-tail (list head)))
+      (if tail
+       (progn
+        (rplacd! tail new-tail)
+        (setq!   tail new-tail))
+       (setq! result new-tail)
+       (setq! tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun removeq! (elem lst)
@@ -2459,7 +2459,7 @@
     (princ (if (zero? current-row) "(" " ") "(" (render-fun head-cell-value))
 
     (while tail-cell-values
-      (princ " " (render-fun (pop! tail-cell-values))))
+     (princ " " (render-fun (pop! tail-cell-values))))
     
     (princ ")")
     (when (= current-row final-row)
