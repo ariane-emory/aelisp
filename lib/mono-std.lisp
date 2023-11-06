@@ -2237,7 +2237,7 @@
  "Filter nil items from LST."
  (unless (list? lst) (error "LST must be a list")) 
  (while (and lst (nil? (car lst)))
-  (setq lst (cdr lst)))
+  (pop lst)) ;; (setq lst (cdr lst)))
  (when lst
   (let* ((result (list (pop lst)))
          (tail result))
@@ -2541,21 +2541,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq s          setq)
-(setq setcar!    rplaca!)
-(setq setcdr!    rplacd!)
-(setq ¬          not)          
-(setq ∨          or )           
-(setq ∧          and)
-(setq setcdr!    rplacd!)
-(setq setcar!    rplaca!)
-(setq λ          lambda)
-;; (setq has-key?   khas?)
-;; (setq get-key    kget)
-;; (setq set-key    kset)
-(setq phas? plist-has?)
-(setq pset! plist-set!)
-(setq pget  plist-get)
+(setq s       setq)
+(setq setcar! rplaca!)
+(setq setcdr! rplacd!)
+(setq ¬       not)          
+(setq ∨       or )           
+(setq ∧       and)
+(setq setcdr! rplacd!)
+(setq setcar! rplaca!)
+(setq λ       lambda)
+(setq phas?   plist-has?)
+(setq pset!   plist-set!)
+(setq pget    plist-get)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2579,7 +2576,7 @@
 (setq map           mapcar)
 (setq map-append    mapcan)
 (setq position-of   indexq)
-;; (setq remove        removeq)
+(setq remove        removeq)
 (setq set!          setq) ;should should be a macro that avoids re-defining what-scheme-implementation
 (setq vector-length list-length)
 (setq vector-ref    list-ref)
