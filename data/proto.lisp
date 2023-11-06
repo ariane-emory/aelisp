@@ -288,21 +288,21 @@
 ;; (log-core t)
 
 (setq ctr 0)
-(repeat 100
+(repeat 1000
  (let* ((result (time (mapcar+ list '(1 2 3) '(4 5 6) '(7 8 9))))
         (dur (plist-get result :time)))
   (incr ctr dur)))
 (princ "Total: " ctr) (nl)
 
-(setq ctr 0)
-(repeat 100
- (let* ((result (time (zip* '(1 2 3) '(4 5 6) '(7 8 9))))
-        (dur (plist-get result :time)))
-  (incr ctr dur)))
-(princ "Total: " ctr) (nl)
+;; (setq ctr 0)
+;; (repeat 100
+;;  (let* ((result (time (zip* '(1 2 3) '(4 5 6) '(7 8 9))))
+;;         (dur (plist-get result :time)))
+;;   (incr ctr dur)))
+;; (princ "Total: " ctr) (nl)
 
 (setq ctr 0)
-(repeat 100
+(repeat 1000
  (let* ((result (time (zip '(1 2 3) '(4 5 6) '(7 8 9))))
         (dur (plist-get result :time)))
   (incr ctr dur)))
