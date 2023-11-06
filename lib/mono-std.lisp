@@ -2026,9 +2026,9 @@
  (let ((total 0))
   (while lst
    (let ((head (pop! lst)))
-   (unless (number? head)
-    (error "The elements of LST must be numbers."))
-   (setq! total (+ total head))))
+    (unless (number? head)
+     (error "The elements of LST must be numbers."))
+    (setq! total (+ total head))))
   total))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun gcd (a b)
