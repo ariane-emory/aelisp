@@ -391,7 +391,7 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
 
 typedef enum {
   READ,
-  LOAD,
+  LOAD_FILE,
   REQUIRE,
   REREQUIRE
 } load_or_require_mode_t;
@@ -415,7 +415,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
     mode == READ
     ? load_target_string
     : find_file(env,
-                mode != LOAD, 
+                mode != LOAD_FILE, 
                 load_target_string);
     
   bool no_error = (args_length == 2) && ! NILP(CADR(args));
@@ -466,7 +466,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("load", load_or_require(LOAD, env, args, args_length));
+  CORE_RETURN("load", load_or_require(LOAD_FILE, env, args, args_length));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
