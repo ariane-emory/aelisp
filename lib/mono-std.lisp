@@ -545,8 +545,7 @@
  "Zip a list of lists into a list of tuples."
  (unless (list? lsts)      (error "LSTS must be a list of lists"))
  (unless (all list? lsts)  (error "LSTS must be a list of lists"))
- (if (any nil? lsts)       ;; If any list is empty, return nil
-  nil
+ (when (not (any nil? lsts))
   (let (result tail new-tail)
    (setq new-tail (heads lsts))
    (setq result   (list new-tail))
