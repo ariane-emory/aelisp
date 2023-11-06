@@ -1829,15 +1829,10 @@
  (when keys
   (let* ((result (list (pop! keys) (pop! vals)))
          (tail (cdr result)))
-   ;; (setq! keys (cdr keys))
-   ;; (setq! vals (cdr vals))
    (while keys
     (let ((new-tail (list (pop! keys) (pop! vals))))
      (rplacd! tail new-tail)
-     (setq!   tail (cdr new-tail))
-     ;; (setq! keys (cdr keys))
-     ;; (setq! vals (cdr vals))
-     ))
+     (setq!   tail (cdr new-tail))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-to-alist (plist)
@@ -1860,10 +1855,9 @@
          (tail   result)
          (plist  (cddr plist)))
    (while plist
-    (let ((new-alist-item (list (cons (car plist) (cadr plist)))))
+    (let ((new-alist-item (list (cons (pop! plist) (pop! plist)))))
      (rplacd! tail new-alist-item)
-     (setq!   tail new-alist-item))
-    (setq! plist (cddr plist)))
+     (setq!   tail new-alist-item)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun alist-to-plist (alist)
