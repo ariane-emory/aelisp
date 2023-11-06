@@ -471,9 +471,9 @@
 (defun flatten-left (lst)
  "Flatten a left-nested list structure LST."
  (unless (list? lst) (error "LST must be a list"))
- (if (cons? (car lst)))
- (append (flatten-left (car lst)) $(cadr lst))
- lst)
+ (if (cons? (car lst))
+  (append (flatten-left (pop! lst)) (list (car lst)))
+  lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun flatten (lst)
  (unless (list? lst) (error "LST must be a list"))
