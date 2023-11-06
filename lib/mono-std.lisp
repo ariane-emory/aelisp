@@ -997,7 +997,7 @@
   ((and (cons? o1) (cons? o2))
    (and (equal? (car o1) (car o2))
     (equal? (cdr o1) (cdr o2))))
-  (t nil)))
+  (else nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; always?/never? predicates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1032,7 +1032,7 @@
       (cond
        ((nil? (car preds))       t)
        ((not  ((car preds) val)) nil)
-       (t     (fun (cdr preds)))))))
+       (else  (fun (cdr preds)))))))
    (fun preds))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; invert a predicate:
@@ -1065,7 +1065,7 @@
 		 (cond
       ((nil? args)       nil)
 		  ((nil? (cdr args)) (car args))
-		  (t                 (cons (car args) (chase (cdr args))))))))
+		  (else              (cons (car args) (chase (cdr args))))))))
   (chase args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun depth (lst)
@@ -1102,15 +1102,15 @@
  (unless (list? lst)  (error "LST must be a list"))
  (let (result tail)
   (while lst
-   (if (pred? (car lst))
-    (let ((new-tail (list (car lst))))
-     (if tail
-      (progn
-       (rplacd! tail new-tail)
-       (setq!   tail new-tail))
-      (setq! result new-tail)
-      (setq! tail   result))))
-   (setq! lst (cdr lst)))
+   (let ((head (pop! lst)))
+    (if (pred? head)
+     (let ((new-tail (list head)))
+      (if tail
+       (progn
+        (rplacd! tail new-tail)
+        (setq!   tail new-tail))
+       (setq! result new-tail)
+       (setq! tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun intercalate (intercalated lst)
