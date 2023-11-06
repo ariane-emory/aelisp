@@ -437,8 +437,9 @@
       (progn
        (rplacd! tail fun-result)
        (setq    tail (last tail)))
-      (setq result fun-result)
-      (setq tail   (last result))))))
+      (setq
+       result fun-result
+       tail   (last result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
