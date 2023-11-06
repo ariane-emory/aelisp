@@ -245,8 +245,7 @@
 (defun last (lst)
  "Get last cons cell in a LST."
  (unless (list? lst) (error "LST must be a list"))
- (while (cdr lst)
-  (pop lst))
+ (while (cdr lst) (pop lst))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-access-funs)
@@ -377,9 +376,8 @@
   (let* ((result (list (fun (pop lst))))
          (tail   result))
    (while lst
-    (let ((new-tail (list (fun (pop lst)))))
-     (rplacd! tail new-tail)
-     (setq    tail new-tail)))
+    (let ((new-tail (list (fun (pop lst)))))     
+     (setq tail (rplacd! tail new-tail))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
