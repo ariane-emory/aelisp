@@ -285,13 +285,9 @@
 (print (heads '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 (print (tails '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 
-(princ "In.") (nl)
-(princ (mapcar+ list '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
-(princ "Out.") (nl)
-
 (setq ctr 0)
 (repeat 100
- (let* ((result (time 1))
+ (let* ((result (mapcar+ list '(1 2 3) '(4 5 6) '(7 8 9)))
         (dur (plist-get result :time)))
   (incr ctr dur)))
 (princ "Total: " ctr) (nl)
