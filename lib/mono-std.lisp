@@ -107,7 +107,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun nconc! lsts
  "Destructively concatenate multiple lsts."
- (unless (all? list? lsts) (error "Every argument must be a list"))
+ (unless (all list? lsts) (error "Every argument must be a list"))
  (let ((result      (car lsts))
        (rest-lsts   (cdr lsts)))
   (while rest-lsts
@@ -117,7 +117,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lsts
  "Append any number of LSTS by copying the leading lists."
- (unless (all? list? lsts) (error "Every argument must be a list"))
+ (unless (all list? lsts) (error "Every argument must be a list"))
  (let (result tail)
   (while lsts
    (let ((current-list (car lsts)))
@@ -510,9 +510,9 @@
 (defun zip (lsts)
  "Zip a list of lists into a list of tuples."
  (unless (list? lsts)      (error "LSTS must be a list of lists"))
- (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
  (let (result tail)
-  (while (all? cons? lsts)
+  (while (all cons? lsts)
    (let ((heads (heads lsts)))
     (if (nil? result)
      (setq tail (setq result (list heads)))
@@ -1003,7 +1003,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun compose-pred1s preds
  "Does what it says on the tin and composes unary predicatess PREDS."
- (unless (all? fun? preds) (error "PREDS must be functions"))
+ (unless (all fun? preds) (error "PREDS must be functions"))
  (lambda (val)
   (letrec
    ((fun
@@ -1155,16 +1155,16 @@
 ;;      (,name pred? (cdr lst)))
 ;;     ,base-case)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun-list-pred-fun any? or  nil)
-;; (defun-list-pred-fun all? and t)
+;; (defun-list-pred-fun any or  nil)
+;; (defun-list-pred-fun all and t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun all? (pred? lst)
+(defun all (pred? lst)
  "t when all elems in LST? are PRED?"
  (unless (fun? pred?) (error "PRED? must be a function"))
  (while (and lst (pred? (pop lst))))
  (nil? lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun any? (pred? lst)
+(defun any (pred? lst)
  "t when any elem in LST? is PRED?."
  (unless (fun? pred?) (error "PRED? must be a function"))
  (let (result)
@@ -1183,13 +1183,13 @@
 (defun heads (lsts)
  "Return a list of the heads of the lists in LSTS."
  (unless (list? lsts) (error "LSTS must be a list of lists"))
- (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
  (mapcar car lsts))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun tails (lsts)
  "Return a list of the tails of the lists in LSTS."
  (unless (list? lsts) (error "LSTS must be a list of lists"))
- (unless (all? list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
  (mapcar cdr lsts))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'misc-list-funs)
@@ -1338,7 +1338,7 @@
 (defun max-delta (lst)
  "Find the maximum delte between elements in a list of integers LST."
  (unless (cons? lst)         (error "LST must not be empty."))
- (unless (all? integer? lst) (error "LST's elements must be integers."))
+ (unless (all integer? lst) (error "LST's elements must be integers."))
  (let ((min-val (car lst))
        (max-val (car lst)))
   (while lst
@@ -1803,8 +1803,7 @@
          (tail (cdr result)))
    (while keys
     (let ((new-tail (list (pop keys) (pop vals))))
-     (rplacd! tail new-tail)
-     (setq   tail (cdr new-tail))))
+     (setq tail (cdr (rplacd! tail new-tail)))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-to-alist (plist)
@@ -1828,8 +1827,7 @@
          (plist  (cddr plist)))
    (while plist
     (let ((new-alist-item (list (cons (pop plist) (pop plist)))))
-     (rplacd! tail new-alist-item)
-     (setq   tail new-alist-item)))
+     (setq tail (rplacd! tail new-alist-item))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun alist-to-plist (alist)
@@ -1853,8 +1851,9 @@
      (if tail
       (rplacd! tail new-tail)
       (setq result new-tail))
-     (setq tail new-tail)
-     (setq tail (cdr tail)))))
+     (setq tail (cdr new-tail))
+     ;;(setq tail (cdr tail))
+     )))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
@@ -1959,7 +1958,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun min lst
  "Get the least element in LST."
- (unless (all? integer? lst) (error "LST must contain only integers"))
+ (unless (all integer? lst) (error "LST must contain only integers"))
  (let ((current-min (first lst)))
   (mapc
    (lambda (x) 
@@ -1970,7 +1969,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun max lst
  "Get the greatest element in LST."
- (unless (all? integer? lst) (error "LST must contain only integers"))
+ (unless (all integer? lst) (error "LST must contain only integers"))
  (let ((current-max (first lst)))
   (mapc
    (lambda (x) 
@@ -1993,7 +1992,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sum (lst)
  "Get the sum of the numbers in LST."
- (unless (all? integer? lst) (error "LST must contain only integers"))
+ (unless (all integer? lst) (error "LST must contain only integers"))
  (let ((total 0))
   (while lst
    (let ((head (pop lst)))
@@ -2320,13 +2319,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun matrix? (obj)
  "t when OBJ is a matrix (list of lists)."
- (and (list? obj) (all? list? obj)))
+ (and (list? obj) (all list? obj)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun rectangular-matrix? (matrix)
  "t if the rows in MATRIX all have the same length."
  (unless (matrix? matrix) (error "MATRIX must be a list of lists"))
  (let ((first-row-length (length (car matrix))))
-  (all?
+  (all
    (lambda (row)
     (unless (cons? matrix) (error "MATRIX's rows must all be non-empty lists"))
     (= (length row) first-row-length))
@@ -2499,7 +2498,7 @@
 (defmacro make-struct-constructor (struct-type . slots)
  "Generate a constructor function for STRUCT-TYPE with SLOTS."
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
- (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
+ (unless (all symbol? slots)  (error "SLOTS must be a list of symbols"))
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
@@ -2522,7 +2521,7 @@
  "Define a new struct type STRUCT type with slots SLOTS."
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (unless (list? slots)         (error "SLOTS must be a list"))
- (unless (all? symbol? slots)  (error "SLOTS must be a list of symbols"))
+ (unless (all symbol? slots)  (error "SLOTS must be a list of symbols"))
  (let
   ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
    (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
@@ -2568,7 +2567,7 @@
 (setq collect-if    filter)
 (setq define        setq)
 (setq display       write)
-(setq every         all?)
+(setq every         all)
 (setq getl          pget)
 (setq gsort         sort!!)
 (setq make-vector   make-list)
