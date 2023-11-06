@@ -338,11 +338,10 @@
      (setq new-tail (apply fun (mapcar car lsts)))
      (setq result   (list new-tail))
      (setq tail     result)     
-     (setq lsts (mapcar cdr lsts))
+     (setq lsts     (tails lsts))
 
      (while (not (any nil? lsts))
-       (setq new-tail (apply fun (mapcar car lsts)))
-       
+       (setq new-tail (apply fun (heads lsts)))
        (setq tail (rplacd! tail (list new-tail)))
        (setq lsts (mapcar cdr lsts)))
      result)))
