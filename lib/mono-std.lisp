@@ -2470,8 +2470,7 @@
     (princ (if (zero? current-row) "(" " ") "(" (render-fun head-cell-value))
 
     (while tail-cell-values
-     (let ((head-tail-cell-value (pop! tail-cell-values)))
-      (princ " " (render-fun head-tail-cell-value))))
+      (princ " " (render-fun (pop! tail-cell-values))))
     
     (princ ")")
     (when (= current-row final-row)
