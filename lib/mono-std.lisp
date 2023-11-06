@@ -545,9 +545,9 @@
  "Zip a list of lists into a list of tuples."
  (unless (list? first-lst)     (error "FIRST-LST must be a list"))
  (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
- (let ((lsts (cons first-lst rest-lsts)))
+ (let ((lsts (cons first-lst rest-lsts))
+       result tail new-tail)
   (when (not (any nil? lsts))
-   (let (result tail new-tail)
     (setq new-tail (heads lsts))
     (setq result   (list new-tail))
     (setq tail     result)
@@ -556,7 +556,7 @@
      (setq new-tail (heads lsts))
      (setq tail (rplacd! tail (list new-tail)))
      (setq lsts (tails lsts)))
-    result))))
+    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun zip* lsts (apply zip (list lsts)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
