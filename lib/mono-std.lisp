@@ -378,7 +378,7 @@
    (while lst
     (let ((new-tail (list (fun (pop! lst)))))
      (rplacd! tail new-tail)
-     (setq! tail new-tail)))
+     (setq!   tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
