@@ -2458,9 +2458,9 @@
   ((cell-width (car rest))
    (render-fun
     (if cell-width
-     (lambda (o)
-      (right-justify cell-width (string o)))
+     (lambda (o) (right-justify cell-width (string o)))
      string))
+   (princ-fun (lambda (o) (princ " " (render-fun o))))
    (row-count (length matrix))
    (final-row (1- row-count))
    (current-row 0))
@@ -2468,8 +2468,7 @@
    (let ((cell-values (list-ref matrix current-row)))
     (princ (if (zero? current-row) "(" " ") "(" (render-fun (car cell-values)))
     (mapc
-     (lambda (o)
-      (princ " " (render-fun o)))
+     princ-fun
      (cdr cell-values))
     (princ ")")
     (when (= current-row final-row)
