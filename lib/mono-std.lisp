@@ -1370,10 +1370,9 @@
  (let ((min-val (car lst))
        (max-val (car lst)))
   (while lst
-   (let ((current (car lst)))
+   (let ((current (pop! lst)))
     (setq! min-val (min min-val current))
-    (setq! max-val (max max-val current)))
-   (setq! lst (cdr lst)))
+    (setq! max-val (max max-val current))))
   (- max-val min-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 (setq! bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
