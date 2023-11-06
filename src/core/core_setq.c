@@ -34,6 +34,15 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
     if (log_core) LOG(ret, "evaluated 'value' argument is");
 
+    if ((LAMBDAP(ret) || MACROP(ret)) && ! HAS_PROP("last-bound-to", ret)) {
+      assert( (! NILP(ret)) && (! TRUEP(ret)));
+
+      PUT_PROP(sym, "last-bound-to", ret);
+    
+      if (log_core)
+        LOG(PROPS(ret), "core setq! val's new properties");
+    }
+
     ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym) ? GLOBAL : NEAREST;
 
     ENV_SET_4(mode, env, sym, ret);
