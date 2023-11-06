@@ -111,8 +111,9 @@
  (let ((result      (car lsts))
        (rest-lsts   (cdr lsts)))
   (while rest-lsts
-   (setq result    (nconc2! result (car rest-lsts)))
-   (setq rest-lsts (cdr rest-lsts)))
+   (setq
+    result    (nconc2! result (car rest-lsts))
+    rest-lsts (cdr rest-lsts)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lsts
