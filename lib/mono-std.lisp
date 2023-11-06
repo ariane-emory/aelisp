@@ -2396,7 +2396,6 @@
  (unless (matrix? matrix)                  (error "MATRIX must be a list of lists"))
  (unless (and (integer? row) (>= row 0))   (error "ROW must be a non-negative integer"))
  (unless (and (integer? col) (>= col 0))   (error "COL must be a non-negative integer"))
- ;;(princ "Set row " row " col " col " to " value) (nl)
  (let ((target-row (list-ref matrix row)))
   (list-set! target-row col value)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2431,10 +2430,8 @@
           (head-cell-value  (car cell-values))
           (tail-cell-values (cdr cell-values)))
     (princ (if (zero? current-row) "(" " ") "(" (render-fun head-cell-value))
-
     (while tail-cell-values
      (princ " " (render-fun (pop! tail-cell-values))))
-    
     (princ ")")
     (when (= current-row final-row)
      (princ ")"))
@@ -2498,8 +2495,6 @@
      (incr! current-col)))
    (incr! current-row))
   new-matrix))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
