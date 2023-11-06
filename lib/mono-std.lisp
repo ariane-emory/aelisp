@@ -450,18 +450,33 @@
  "Map fun over LST and concatenate the results by altering them."
  (unless (fun? fun)  (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
- (let (result
-       tail)
-  (while lst
-   (let ((fun-result (fun (pop lst))))
-    (when fun-result
-     (if tail
-      (progn
-       (rplacd! tail fun-result)
-       (setq    tail (last tail)))
-      (setq
-       result fun-result
-       tail   (last result))))))
+ (let (result tail new-tail)
+  (unless (nil? lst)
+   (setq
+    new-tail (list (fun (car lst)))
+    result   (list new-tail)
+    lst      (cdr lst))
+   (until (nil? lst)
+    (setq
+     new-tail (list (fun (car lst)))
+     tail     (rplacd! tail new-tail)
+     lst (cdr lst)))
+   result)))
+(defun mapcan (fun lst)
+ "Map FUN over LST and concatenate the results by altering them."
+ (unless (fun? fun)  (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
+ (let (result tail)
+  (unless (nil? lst)
+   (setq result (fun (car lst))) ; Assume fun returns a list.
+   (setq tail (last result))     ; Set tail to the last element of result.
+   (setq lst (cdr lst))
+   (while (not (nil? lst))       ; Continue if there's more in the list.
+    (let ((new-items (fun (car lst)))) ; Get new items from fun.
+     (when new-items                  ; Proceed if non-nil.
+      (rplacd! tail new-items)        ; Append new items to the end.
+      (setq tail (last tail))))       ; Update the tail.
+    (setq lst (cdr lst))))            ; Move to the next element.
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)

@@ -1,4 +1,5 @@
 To Do:
+- [ ] restructure mapcan.
 - [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position.
 - [ ] -sn switch for no std at all.
 - [ ] Add dotimes, it's just a fancier repeat.
