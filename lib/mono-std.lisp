@@ -1189,8 +1189,7 @@
 (defun all? (pred? lst)
  "t when all elems in LST? are PRED?"
  (unless (fun? pred?) (error "PRED? must be a function"))
- (while (and lst (pred? (car lst)))
-  (setq! lst (cdr lst)))
+ (while (and lst (pred? (pop! lst))))
  (nil? lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun any? (pred? lst)
