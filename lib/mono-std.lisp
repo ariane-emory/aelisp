@@ -1871,39 +1871,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun alist-to-plist (alist)
  "Convert an alist ALIST to a plist."
- (unless (list? alist)          (error "ALIST must be a list"))
- (let (result tail)
-  (while alist
-   (let* ((pair  (pop! alist))
-          (key   (car pair))
-          (value (cdr pair)))
-    (if tail
-     (progn
-      (rplacd! tail (cons key (list value)))
-      (setq!   tail (cddr tail)))
-     (progn
-      (setq! result (cons key (list value)))
-      (setq! tail   result)
-      (setq! tail   (cdr tail))))))
-  result))
-(defun alist-to-plist (alist)
- "Convert an alist ALIST to a plist."
  (unless (list? alist) (error "ALIST must be a list"))
- (let (result tail)
+ (let (result tail new-tail)
   (while alist
-   (let* ((pair  (pop! alist))
+   (let* ((pair   (pop! alist))
           (key   (car pair))
           (value (cdr pair)))
+    (setq! new-tail (list key value))
     (if tail
-     (progn
-      (rplacd! tail (cons key (list value)))
-      (setq! tail (cdr tail)))
-     (progn
-      (setq! result (cons key (list value)))
-      (setq! tail (cdr result)))))
-   result)))
-
-
+     (rplacd! tail new-tail)
+     (setq! result new-tail))
+    (setq! tail new-tail)
+    (setq! tail (cdr tail))))
+  result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
 ;;  "Extracts the keys from a plist PLIST."
