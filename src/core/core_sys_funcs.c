@@ -613,16 +613,42 @@ ae_obj_t * ae_core_files(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   struct dirent * entry;
   
-  while ((entry = readdir(dir))) {
-    if (entry->d_type == DT_REG) {
+  while ((entry = readdir(dir)))
+    if (entry->d_type == DT_REG)
       ret = CONS(NEW_STRING(entry->d_name), ret);
-    }
-  }
 
   closedir(dir);
 
 end:
   
   CORE_RETURN("files-in", ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _dirs
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_dirs(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("dirs-in");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "dirs-in's arg must be a string");
+
+  char * const path = STR_VAL(CAR(args));
+
+  DIR * const dir = opendir(path);
+
+  REQUIRE(env, args, dir, "could not open directory");
+
+  struct dirent * entry;
+  
+  while ((entry = readdir(dir)))
+    if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+      ret = CONS(NEW_STRING(entry->d_name), ret);
+
+  closedir(dir);
+
+end:
+  
+  CORE_RETURN("dirs-in", ret);
 }
 

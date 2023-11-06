@@ -28,6 +28,7 @@
   DO(error,        false,          1,          2,                              FUNDEF_END)                              \
   /*================================================================================================================*/  \
   DO(expand_path,  false,          1,          1, "expand-path",               FUNDEF_END)                              \
+  DO(dirs,         false,          1,          1, "dirs-in",                   FUNDEF_END)                              \
   DO(files,        false,          1,          1, "files-in",                  FUNDEF_END)                              \
   DO(dirname,      false,          1,          1,                              FUNDEF_END)                              \
   DO(basename,     false,          1,          1,                              FUNDEF_END)                              \
