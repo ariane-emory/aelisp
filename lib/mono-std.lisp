@@ -1176,15 +1176,6 @@
      (setq!   tail new-tail))
     (setq! lst (cdr lst)))
    result)))
-
-(defun copy-tree (tree)
- "Take a deep copy of TREE."
- (cond
-  ((not (cons? tree)) tree)  ; Return atoms as they are.
-  (else (let ((new-car (copy-tree (car tree)))  ; Recursively copy car.
-              (new-cdr (copy-tree (cdr tree)))) ; Recursively copy cdr.
-         (cons new-car new-cdr)))))  ; Return a new cons cell with copied car and cdr.
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-pred-fun (name combiner base-case)
 ;;  `(defun ,name (pred? lst)
