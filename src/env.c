@@ -473,22 +473,24 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   bool             std_name_found = false; 
   ae_obj_t * const std_name       = ENV_GET(env, SYM("*std-name*"), &std_name_found);
 
-  assert(std_name_found); // We just set this a page or so back, so if it's not found something is very broken.
-  assert(std_name);
-  assert(SYMBOLP(std_name));
-  assert(! NILP(std_name)); // We just set it, so it better not be nil.
-  
-  //////////////////////////////////////////////////////////////////////////////////////////////////
-  // Step 7: Finally, load whichever version of the stdlib was chosen:
-  //////////////////////////////////////////////////////////////////////////////////////////////////
+  if (! NILP(std_name)) {
+    assert(std_name_found); // We just set this a page or so back, so if it's not found something is very broken.
+    assert(std_name);
+    assert(SYMBOLP(std_name));
+    assert(! NILP(std_name)); // We just set it, so it better not be nil.
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    // Step 7: Finally, load whichever version of the stdlib was chosen:
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const ae_obj_t * const std_return = ae_core_require(env, CONS(std_name, NIL), 1);
+    const ae_obj_t * const std_return = ae_core_require(env, CONS(std_name, NIL), 1);
 
-  if (ERRORP(std_return)) {
-    FPR(stderr, "\nWARNING: Failed to load std: ");
-    WRITE(std_return);
-    NL;
-  }
+    if (ERRORP(std_return)) {
+      FPR(stderr, "\nWARNING: Failed to load std: ");
+      WRITE(std_return);
+      NL;
+    }
+  }  
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Step 8: Restore the log flags.
