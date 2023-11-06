@@ -529,6 +529,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (push/push-back):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun push! (elem lst)
+ "Destructively push ELEM onto the head of LST."
+ (unless (cons? lst) (error "LST must be a non-empty list"))
+ (let ((new-tail (cons (car lst) (cdr lst))))
+  (rplaca! lst elem)
+  (rplacd! lst new-tail))
+ lst)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun push-back! (lst elem) 
+ "Destructively push ELEM onto the tail of LST."
+ (unless (cons? lst) (error "LST must be a non-empty list"))
+ (rplacd! (last lst) (list elem))
+ lst)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun pop! (lst)
+ "Pop an item from the head of LST."
+ (unless (cons? lst) (error "LST must be a non-empty list"))
+ (let ((head (car lst)))
+  (if (not (cdr lst))
+   (error "Cannot pop the last item from the list")
+   (rplaca! lst (cadr lst))
+   (rplacd! lst (cddr lst)))
+  head))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun push-back (lst elem) 
  "Non-destructively push ELEM onto the tail of LST."
  (unless (list? lst) (error "LST must be a list"))
@@ -1049,24 +1073,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (unsorted):
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun push! (elem lst)
- "Add ELEM to the head of LST."
- (unless (cons? lst) (error "LST must be a non-empty list"))
- (let ((new-tail (cons (car lst) (cdr lst))))
-  (rplaca! lst elem)
-  (rplacd! lst new-tail))
- lst)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun pop! (lst)
- "Pop an item from the head of LST."
- (unless (cons? lst) (error "LST must be a non-empty list"))
- (let ((head (car lst)))
-  (if (not (cdr lst))
-   (error "Cannot pop the last item from the list")
-   (rplaca! lst (cadr lst))
-   (rplacd! lst (cddr lst)))
-  head))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list* args
  "Come up with a docstring for this!"
