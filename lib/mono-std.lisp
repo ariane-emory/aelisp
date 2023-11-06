@@ -1050,7 +1050,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (unsorted):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun push-to-list (elem lst)
+(defun push! (elem lst)
  "Add ELEM to the head of LST."
  (unless lst
   (error "Cannot add to the empty list."))
@@ -1059,7 +1059,7 @@
   (rplacd! lst new-tail))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun pop-from-list (lst)
+(defun pop! (lst)
  "Pop an item from the head of LST."
  (unless (cons? lst)
   (error "Cannot pop from an empty list or a non-list."))
