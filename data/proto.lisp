@@ -289,5 +289,9 @@
 (princ (mapcar+ list '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
 (princ "Out.") (nl)
 
-
-(princ (time 1)) (nl)
+(setq ctr 0)
+(repeat 100
+ (let* ((result (time 1))
+        (dur (plist-get result :time)))
+  (incr ctr dur)))
+(princ "Total: " ctr) (nl)
