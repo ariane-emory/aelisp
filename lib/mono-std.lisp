@@ -794,12 +794,11 @@
  "ELEM does not appear in the list. Comparison done with 'eq?'."
  (unless (list? lst) (error "LST must be a list"))
  (let ((idx 0)
-       (found nil))
+       found)
   (while (and lst (not found))
-   (if (eq? elem (car lst))
+   (if (eq? elem (pop! lst))
     (setq! found idx)
-    (setq! idx (+ 1 idx))
-    (setq! lst (cdr lst))))
+    (setq! idx (+ 1 idx))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun indexql (elem lst)
@@ -807,12 +806,11 @@
  "ELEM does not appear in the list. Comparison done with 'eql?'."
  (unless (list? lst) (error "LST must be a list"))
  (let ((idx 0)
-       (found nil))
+       found)
   (while (and lst (not found))
-   (if (eql? elem (car lst))
+   (if (eql? elem (pop! lst))
     (setq! found idx)
-    (setq! idx (+ 1 idx))
-    (setq! lst (cdr lst))))
+    (setq! idx (+ 1 idx))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-index)
