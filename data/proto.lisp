@@ -321,9 +321,10 @@
     tail     result
     lsts     (tails lsts))
    (until (any nil? lsts)
-    (setq new-tail (apply fun (heads lsts)))
-    (setq tail (rplacd! tail (list new-tail)))
-    (setq lsts (tails lsts)))
+    (setq
+     new-tail (apply fun (heads lsts))
+     tail (rplacd! tail (list new-tail))
+     lsts (tails lsts)))
    result))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
