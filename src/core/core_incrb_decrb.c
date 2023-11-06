@@ -17,7 +17,7 @@ ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
           "incr only works on bound and settable symbols");
   
   ae_obj_t * const integer        = RETURN_IF_ERRORP(EVAL(env, sym));
-  ae_obj_t * const addend_expr    = CADR(args);
+  ae_obj_t * const addend_expr    = NILP(CDR(args)) ? NIL : CADR(args);
   ae_obj_t * const addend_integer = RETURN_IF_ERRORP(EVAL(env, addend_expr));
 
   REQUIRE(env, args, INTEGERP(integer));
@@ -47,7 +47,7 @@ ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
           "decr only works on bound and settable symbols");
   
   ae_obj_t * const integer            = RETURN_IF_ERRORP(EVAL(env, sym));
-  ae_obj_t * const subtrahend_expr    = CADR(args);
+  ae_obj_t * const subtrahend_expr    = NILP(CDR(args)) ? NIL : CADR(args);
   ae_obj_t * const subtrahend_integer = RETURN_IF_ERRORP(EVAL(env, subtrahend_expr));
 
   REQUIRE(env, args, INTEGERP(integer));
