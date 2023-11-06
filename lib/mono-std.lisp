@@ -1143,8 +1143,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result)
   (while lst
-   (let ((head (pop! lst)))
-    (setq! result (cons head result))))
+    (setq! result (cons (pop! lst) result)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun butlast (lst . rest)
