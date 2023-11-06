@@ -445,6 +445,10 @@
 ;;(log-eval t)
 (write-matrix matrix 3) (nl)
 
+(setq! l '(a 1 b 2 c 3 d 4 e 5))
+(confirm that (removeql! 'c l) returns '(a 1 b 2 3 d 4 e 5))
+(confirm that (removeql! 'e l) returns '(a 1 b 2 3 d 4 5))
+(confirm that (removeql! 'a l) returns '(1 b 2 3 d 4 5))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
