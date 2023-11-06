@@ -457,6 +457,9 @@
 (confirm that (removeq!  'a l) returns '(1 b 2 3 d 4 5))
 (confirm that l                returns '(1 b 2 3 d 4 5))
 
+(confirm that (max-delta '(1 3 2 8 4 5)) returns 7)
+(confirm that (max-delta '(3 2 8 4 1 5)) returns 7)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore
