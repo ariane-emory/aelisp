@@ -642,7 +642,8 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env, ae_obj_t * const args, __attribute
   struct dirent * entry;
   
   while ((entry = readdir(dir)))
-    if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+    // if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+    if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0)
       ret = CONS(NEW_STRING(entry->d_name), ret);
 
   closedir(dir);
