@@ -1,6 +1,5 @@
 To Do:
 - [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position.
-- [ ] -sn switch for no std at all.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -19,8 +18,7 @@ To Do:
 - [ ] Implement math for non-integer types.
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
-- [ ] read-only property isn't well thought out.
-- [ ] GC.
+- [ ] GC
 
 Under Consideration:
 - [ ] Maybe move load_file?
@@ -38,6 +36,8 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] read-only property isn't well thought out. (removed for now)
+- [x] -sn switch for no std at all.
 - [x] restructure mapcan.
 - [x] setq! could take more arguments. 
 - [x] incr!/decr!, like incf/decf.

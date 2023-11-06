@@ -47,7 +47,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_BEGIN("rplaca");
 
   REQUIRE(env, args, CONSP(CAR(args)));
-  REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
+  // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
   
   CAAR(args) = CADR(args);
 
@@ -62,7 +62,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CORE_BEGIN("rplacd");
 
   REQUIRE(env, args, CONSP(CAR(args)));
-  REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
+  // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
   
   CDAR(args) = CADR(args);
 
@@ -111,8 +111,8 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+                       ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("pop");
 
   ae_obj_t * const sym  = CAR(args);
