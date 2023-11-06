@@ -415,13 +415,14 @@
  (unless (list? lst) (error "LST must be a list"))
  (unless (or (nil? rest) (single? rest))
   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
- (let ((delimiter (car rest))
-       (acc (if lst (fun (pop lst)) "")))
-  (unless (or (nil? delimiter) (string? delimiter))
-   (error "DELIMITER must be a string or nil"))
-  (while lst
-   (setq acc (concat acc (or delimiter "") (fun (pop lst)))))
-  acc))
+ (when lst
+  (let ((delimiter (car rest))
+        (acc (if lst (fun (pop lst)) "")))
+   (unless (or (nil? delimiter) (string? delimiter))
+    (error "DELIMITER must be a string or nil"))
+   (while lst
+    (setq acc (concat acc (or delimiter "") (fun (pop lst)))))
+   acc)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun mapcan (fun lst)
 ;;  "Map fun over LST and concatenate the results by altering them."
@@ -547,7 +548,7 @@
  (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
  (let ((lsts (cons first-lst rest-lsts))
        result tail new-tail)
-  (when (not (any nil? lsts))
+  (unless (any nil? lsts)
    (setq
     new-tail (heads lsts)
     result   (list new-tail)
