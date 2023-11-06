@@ -370,10 +370,10 @@
  "Map FUN over LST, returning the resulting list."
  (unless (fun?  fun) (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
- (when lst
+ (unless (nil? lst)
   (let* ((result (list (fun (pop lst))))
          (tail   result))
-   (while lst
+   (until (nil? lst)
     (let ((new-tail (list (fun (pop lst)))))     
      (setq tail (rplacd! tail new-tail))))
    result)))
@@ -553,12 +553,12 @@
     new-tail (heads lsts)
     result   (list new-tail)
     tail     result
-    lsts (tails lsts))
+    lsts     (tails lsts))
    (until (any nil? lsts)
     (setq
      new-tail (heads lsts)
-     tail (rplacd! tail (list new-tail))
-     lsts (tails lsts)))
+     tail     (rplacd! tail (list new-tail))
+     lsts     (tails lsts)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun zip* lsts (apply zip (list lsts)))
