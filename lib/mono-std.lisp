@@ -1132,10 +1132,10 @@
          (tail result))
    (setq! lst (cdr lst))
    (while lst
-    (let ((new-tail (list intercalated (car lst))))
+    (let* ((head (pop! lst))
+           (new-tail (list intercalated head)))
      (rplacd! tail new-tail)
-     (setq! tail (cdr new-tail)))
-    (setq! lst (cdr lst)))
+     (setq! tail (cdr new-tail))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse (lst)
