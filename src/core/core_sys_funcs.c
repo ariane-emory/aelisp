@@ -480,7 +480,7 @@ ae_obj_t * ae_core_read(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("read", load_or_require(READ, env, args, args_length));
+  CORE_RETURN("read", CDR(load_or_require(READ, env, args, args_length)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

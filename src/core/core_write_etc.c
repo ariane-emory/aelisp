@@ -97,6 +97,6 @@ ae_obj_t * ae_core_nl(__attribute__((unused)) ae_obj_t * const env,
                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("nl");
   NL;
-  CORE_RETURN("nl", NIL);
+  CORE_RETURN("nl", NEW_INT(1));
 }
 
