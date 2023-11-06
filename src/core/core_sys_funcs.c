@@ -684,7 +684,7 @@ end:
 // _file_read_string
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_file_write_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-write-string");
 
   REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
@@ -707,7 +707,7 @@ ae_obj_t * ae_core_file_write_string(ae_obj_t * const env, ae_obj_t * const args
 // _file_append_string
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_file_append_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_fappend_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-append-string");
 
   REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
