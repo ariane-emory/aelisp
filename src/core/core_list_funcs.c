@@ -122,6 +122,9 @@ ae_obj_t * ae_core_popb(__attribute__((unused)) ae_obj_t * const env,
 
   ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
 
+  if (NILP(lst))
+    RETURN(NIL);
+  
   REQUIRE(env, args, CONSP(lst));
 
   ae_obj_t * const tail = CDR(lst);

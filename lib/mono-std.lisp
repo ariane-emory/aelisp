@@ -1898,10 +1898,10 @@
          (tail result))
    (setq! plist (cddr plist))
    (while plist
-    (let ((new-tail (list (car plist))))
+    (let ((new-tail (list (pop! plist))))
      (rplacd! tail new-tail)
      (setq!   tail new-tail))
-    (setq! plist (cddr plist)))
+    (pop! plist))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-vals (plist)
