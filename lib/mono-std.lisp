@@ -1648,8 +1648,7 @@
  $('progn  ;; *confirm's-2nd-column*
    $('let* $(
              $('printed $('princ $('string $('quote expr))))
-             $('column   'printed)
-             )
+             $('column  'printed))
      $('while $('< 'column *confirm's-2nd-column*)
        $('princ '" ")
        $('setq! 'column $('+ 1 'column)))
