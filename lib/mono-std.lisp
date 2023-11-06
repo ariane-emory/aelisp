@@ -2305,9 +2305,10 @@
 (defun xorshift64 ()
  "Generate a pseudo-random positive integer."
  (when (zero? *xorshift64-seed*) (setq *xorshift64-seed* (now-us)))  
- (setq *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
- (setq *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
- (setq *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
+ (setq
+  *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13))
+  *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7))
+  *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
  (abs *xorshift64-seed*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun random args

@@ -11,7 +11,7 @@
          (docs  (apply concat (intercalate " " (car split))))
          (body  (cadr split)))
    $('progn 
-     $('setq! name $('lambda params . body))
+     $('setq name $('lambda params . body))
      $('put  docs ':doc name))))
  (defun somefun (x y)
   "Multiply two"
@@ -32,10 +32,10 @@
 ;;   ;; If there's an initial value, start with it. Otherwise, start with the first element of the list.
 ;;   (let ((acc (if initial-value
 ;;                  initial-value
-;;                  (pop! lst))))
+;;                  (pop lst))))
 ;;     ;; Iterate over the rest of the list, updating the accumulator.
 ;;     (while lst
-;;       (setq! acc (funcall func acc (pop! lst)))
+;;       (setq acc (funcall func acc (pop lst)))
 ;;     ;; Return the accumulated result.
 ;;     acc)))
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -45,7 +45,7 @@
 ;; Count results of rolling 2d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
- (setq! *counts* (copy-list '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0)))
+ (setq *counts* (copy-list '(2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0)))
  (repeat 1000
   (let ((roll (+ (random 1 6) (random 1 6))))
    (plist-set! *counts* roll
@@ -61,7 +61,7 @@
 ;; Count results of rolling 1d6 10000 times.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
- (setq! *counts* (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
+ (setq *counts* (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
  (repeat 10000
   (let ((roll (random 1 7)))
    (plist-set! *counts* roll
@@ -76,11 +76,11 @@
 ;; Sum up the test results in results.lisp.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when nil
- (setq! ctr 1)
+ (setq ctr 1)
  (princ
   (mapcar
    (lambda (x)
-    (cons (setq! ctr (+ 1 ctr)) (list x)))
+    (cons (setq ctr (+ 1 ctr)) (list x)))
    (mapcar sum (rotate-right-90 (mapcar vals (cdr (read "results.lisp"))))))) 
  (nl))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -116,13 +116,13 @@
        (best-error (abs (- num den)))  ; Set to the difference between num and den as the initial error
        current-rat current-error) 
   (while (<= approx-depth max-depth)
-   (setq! current-rat (simpler-fraction num den approx-depth))
-   (setq! current-error (abs (- (* num (cdr current-rat)) (* den (car current-rat)))))  ; Calculate the difference without division
+   (setq current-rat (simpler-fraction num den approx-depth))
+   (setq current-error (abs (- (* num (cdr current-rat)) (* den (car current-rat)))))  ; Calculate the difference without division
    (when (< current-error best-error)
-    (setq! best-error current-error)
-    (setq! best-num (car current-rat))
-    (setq! best-den (cdr current-rat)))
-   (setq! approx-depth (1+ approx-depth)))
+    (setq best-error current-error)
+    (setq best-num (car current-rat))
+    (setq best-den (cdr current-rat)))
+   (setq approx-depth (1+ approx-depth)))
   (rational best-num best-den)))
 
 ;;(log-core t)
@@ -167,10 +167,10 @@
           (current-error (rational-sub (rational num den) approximation)))
     ;; Check if this approximation is closer than the best found so far
     (when (rational-less-than? (abs current-error) (abs best-error))
-     (setq! best-approximation approximation)
-     (setq! best-error current-error)))
+     (setq best-approximation approximation)
+     (setq best-error current-error)))
    ;; Increase the current denominator for the next iteration
-   (setq! current-denom (1+ current-denom)))
+   (setq current-denom (1+ current-denom)))
   ;; Return the best approximation found
   best-approximation))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -180,19 +180,19 @@
 ;; Wild west:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq! deltas nil)
-(setq! ctr 0)
+(setq deltas nil)
+(setq ctr 0)
 
 (when nil
  (repeat 10
-  (setq! *xorshift64-seed* (now-us))
+  (setq *xorshift64-seed* (now-us))
   (sleep (random 2 20))
-  (setq! *xorshift64-seed* (now-us))
-  (incr! ctr)
+  (setq *xorshift64-seed* (now-us))
+  (incr ctr)
   (princ "Iter #" ctr) (nl)
 
   ;; Initialize/reset the counts for this cycle.
-  (setq! counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
+  (setq counts (copy-list '(1 0 2 0 3 0 4 0 5 0 6 0)))
 
   (repeat 1000
    (sleep 3)
@@ -203,7 +203,7 @@
   (princ "This cycle's counts:    " (vals counts)) (nl)
   ;; (princ "This cycle's counts sum    " (sum (vals counts))) (nl)
   (princ "This cycle's max delta: " (max-delta (plist-vals counts))) (nl)
-  (setq! deltas (cons (max-delta (vals counts)) deltas)) 
+  (setq deltas (cons (max-delta (vals counts)) deltas)) 
   (princ "Deltas so far:          " deltas) (nl)
   (nl))
 
@@ -221,7 +221,7 @@
  (defun new-upp ()
   (let ((attrs $(:str :dex :end :edu :int :soc))
         rolls)
-   (repeat 6 (push! (+ (random 6) (random 6)) rolls))
+   (repeat 6 (push (+ (random 6) (random 6)) rolls))
    (make-plist attrs rolls)))
 
  (defstruct upp str dex end edu int soc)
@@ -230,7 +230,7 @@
   (let ((upp (make-upp))
         (index -1))
    (until (= index 11)
-    (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6))))
+    (list-set! upp (setq index (+ index 2)) (+ (random 1 6) (random 1 6))))
    upp))
 
  (defun upp-total (upp)
@@ -242,25 +242,26 @@
    (build (upp (make-upp))
     (let ((index -1))
      (until (= index 11)
-      (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
+      (list-set! upp (setq index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
 
   (defconstructor upp () ;; hypothetical
    (let ((index -1))
     (until (= index 11)
-     (list-set! upp (setq! index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
+     (list-set! upp (setq index (+ index 2)) (+ (random 1 6) (random 1 6)))))))
 
  ;; (log-eval t)
 
- (setq! ctr 0)
- (setq! upps)
+ (setq
+  ctr  0
+  upps nil)
  
  (until (= ctr 500)
   (let ((upp (new-upp)))
    (if (>= (upp-total upp) 42)
-    (push! upp upps)
-    (incr! ctr))))
+    (push upp upps)
+    (incr ctr))))
 
- (setq! upps (sort!! upps (lambda (a b) (> (upp-total a) (upp-total b)))))
+ (setq upps (sort!! upps (lambda (a b) (> (upp-total a) (upp-total b)))))
  
  (mapc (lambda (upp) (princ upp " " (upp-total upp)) (nl)) upps)
  nil 
@@ -275,7 +276,7 @@
     (laugh (1- n) (cons 'ha acc)))))
 
  (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
- (write (transform even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
+ (write (transform-tree even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
  (write (laugh 6)) (nl)
 
 ;;)
