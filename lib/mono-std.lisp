@@ -751,8 +751,9 @@
  (let (found)
   (while (and lst (not found))
    (if (eq? elem (car lst))
-    (setq found lst)
-    (setq lst (cdr lst))))
+    (setq
+     found lst
+     lst   (cdr lst))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun memql? (elem lst)
