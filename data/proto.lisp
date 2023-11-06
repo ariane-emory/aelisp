@@ -216,7 +216,7 @@
 ;; Generate a bunch of Traveller UPPs.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when t
+(when nil
 
  (defun new-upp ()
   (let ((attrs $(:str :dex :end :edu :int :soc))
@@ -269,25 +269,95 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (ignore
- (defun laugh (n . rest)
-  (let ((acc (car rest)))
-   (if (zero? n)
-    acc
-    (laugh (1- n) (cons 'ha acc)))))
+(defun laugh (n . rest)
+ (let ((acc (car rest)))
+  (if (zero? n)
+   acc
+   (laugh (1- n) (cons 'ha acc)))))
 
- (write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
- (write (transform-tree even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
- (write (laugh 6)) (nl)
+(write (subst '(1 2 3 4 5 6 7 (8 5 9 5 10)) 5 'five)) (nl)
+(write (transform-tree even? double '(1 2 3 4 5 6 7 (8 5 9 5 10)))) (nl)
+(write (laugh 6)) (nl)
 
 ;;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun shared-structure? (tree1 tree2)
-  "Checks if two trees share any structure by using eq? to compare cons cells."
-  (cond
-    ((not (cons? tree1)) nil)
-    ((not (cons? tree2)) nil)
-    ((eq? tree1 tree2) t)
-    (else
-     (or (shared-structure? (car tree1) (car tree2))
-         (shared-structure? (cdr tree1) (cdr tree2))))))
+(defun mapcar (fun lst)
+ "Map FUN over LST, returning the resulting list."
+ (unless (fun?  fun) (error "FUN must be a function"))
+ (unless (list? lst) (error "LST must be a list"))
+ (when lst
+  (let* ((result (list (fun (pop lst))))
+         (tail   result))
+   (while lst
+    (let ((new-tail (list (fun (pop lst)))))     
+     (setq tail (rplacd! tail new-tail))))
+   result)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun heads (lsts)
+ "Return a list of the heads of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar car lsts))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun tails (lsts)
+ "Return a list of the tails of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar cdr lsts))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun mapcar+ (fun first-lst . rest-lsts)
+ "Map FUN over LSTS, returning the resulting list."
+ (unless (fun?  fun)            (error "FUN must be a function"))
+ (unless (list? first-lst)      (error "FIRST-LST must be a list"))
+ (unless (all list? rest-lsts)  (error "REST-LSTS must all be lists"))
+ (let ((lsts (cons first-lst rest-lsts)))
+  (when lsts
+   (princ lsts) (nl)
+   (let* ((car-heads  (heads lsts))
+          (lsts       (tails lsts))
+          (result     (list  (apply fun car-heads)))
+          (tail       result))
+    (while lsts
+     (let ((car-heads  (heads lsts))
+           (new-tail   (list  (apply fun car-heads))))
+      (setq lsts (tails lsts))
+      (setq tail (rplacd! tail new-tail))))
+    result))))
+
+(defun mapcar+ (fun first-lst . rest-lsts)
+ "Map FUN over FIRST-LST and REST-LSTS, returning the resulting list."
+ (unless (fun? fun)            (error "FUN must be a function"))
+ (unless (list? first-lst)     (error "FIRST-LST must be a list"))
+ (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
+ 
+ (let ((lsts (cons first-lst rest-lsts))
+       result tail new-item)
+
+   ;; Check if any of the lists are empty, and if so, return nil
+   (if (any nil? lsts) 
+       nil
+     ;; Initialize result and tail on the first set of items
+     (setq new-item (apply fun (mapcar car lsts)))
+     (setq result   (list new-item))
+     (setq tail     result)
+     
+     ;; Now update lsts to be the tails of the lists
+     (setq lsts (mapcar cdr lsts))
+
+     ;; Iterate over the rest of the elements
+     (while (not (any nil? lsts))
+       (setq new-item (apply fun (mapcar car lsts)))
+       ;; Add new item to the result list by updating the tail
+       (rplacd! tail (list new-item))
+       ;; Update tail to point to the last element
+       (setq tail (cdr tail))
+       (setq lsts (mapcar cdr lsts)))
+     result)))
+
+
+(princ "In.") (nl)
+(write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
+(princ "Out.") (nl)
+;;(mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))
