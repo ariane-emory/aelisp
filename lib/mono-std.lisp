@@ -376,10 +376,9 @@
          (tail   result)
          (lst     (cdr lst)))
    (while lst
-    (let ((new-tail (list (fun (car lst)))))
+    (let ((new-tail (list (fun (pop! lst)))))
      (rplacd! tail new-tail)
-     (setq! tail new-tail))
-    (setq! lst (cdr lst)))
+     (setq! tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
