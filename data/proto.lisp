@@ -314,16 +314,17 @@
  (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
  (let ((lsts (cons first-lst rest-lsts))
        result tail new-tail)
-   (unless (any nil? lsts)
-     (setq new-tail (apply fun (heads lsts)))
-     (setq result   (list new-tail))
-     (setq tail     result)     
-     (setq lsts     (tails lsts))
-     (until (any nil? lsts)
-       (setq new-tail (apply fun (heads lsts)))
-       (setq tail (rplacd! tail (list new-tail)))
-       (setq lsts (tails lsts)))
-     result))) 
+  (unless (any nil? lsts)
+   (setq
+    new-tail (apply fun (heads lsts))
+    result   (list new-tail)
+    tail     result
+    lsts     (tails lsts))
+   (until (any nil? lsts)
+    (setq new-tail (apply fun (heads lsts)))
+    (setq tail (rplacd! tail (list new-tail)))
+    (setq lsts (tails lsts)))
+   result))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (princ "In.") (nl)
