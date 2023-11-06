@@ -33,7 +33,7 @@
  (unless (symbol? sym) (error "SYM must be a symbol"))
  $('progn
    $('setq sym value)
-   $('put $('quote sym) ':constant 't)
+   $('put! $('quote sym) ':constant 't)
    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 (provide 'basic-funs)
@@ -1373,7 +1373,7 @@
              (nl)
              result))))
    (rplacd! (body fun) new-body))
-  (put fun :added-logging t) (nl)
+  (put! fun :added-logging t) (nl)
   fun))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun max-delta (lst)
@@ -2546,7 +2546,7 @@
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
     $('let $($('struct $('make-plist (cons 'list slot-kws) 'slot-values)))
-      $('put 'struct ':struct-type $('quote struct-type))
+      $('put! 'struct ':struct-type $('quote struct-type))
       'struct))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-predicate (struct-type)
