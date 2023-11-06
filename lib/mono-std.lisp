@@ -95,14 +95,12 @@
  (unless (list? lst2) (error "LST2 must be a list"))
  (if (nil? lst1)
   lst2
-  (let* ((result (list (car lst1)))
-         (tail result))
-   (setq lst1 (cdr lst1))
+  (let* ((result (list (pop lst1)))
+         (tail   result))
    (while lst1
-    (let ((new-tail (list (car lst1))))
+    (let ((new-tail (list (pop lst1))))
      (rplacd! tail new-tail)
-     (setq tail new-tail))
-    (setq lst1 (cdr lst1)))
+     (setq tail new-tail)))
    (rplacd! tail lst2) 
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2439,10 +2437,10 @@
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform-matrix! (matrix ternary-func)
- "Modify each cell of the MATRIX using the TERNARY-FUNC."
+ "Modify each cell of the MATRIX using TERNARY-FUNC."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
  "The resulting value of TERNARY-FUNC is then set to the corresponding cell in the matrix."
- "This fun currently only suppors rectangular matrices."
+ "This fun currently only supports rectangular matrices."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
  (unless (rectangular-matrix? matrix)
@@ -2464,8 +2462,8 @@
 (defun transform-matrix (matrix ternary-func)
  "Make a new matrix in which each cell of MATRIX has had TERNARY-FUNC applies."
  "TERNARY-FUNC takes three arguments: row, column, and current value of the cell."
- "The resulting value of TERNARY-FUNC in NEW-MATRIC is then set to the corresponding cell in the matrix."
- "This fun currently only suppors rectangular matrices."
+ "The resulting value of TERNARY-FUNC is then set to the corresponding cell in NEW-MATRIX."
+ "This fun currently only supports rectangular matrices."
  (unless (matrix? matrix)
   (error "MATRIX must be a list of lists"))
  (unless (rectangular-matrix? matrix)
