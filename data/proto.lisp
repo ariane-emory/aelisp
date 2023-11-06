@@ -333,25 +333,17 @@
  (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
  
  (let ((lsts (cons first-lst rest-lsts))
-       result tail new-item)
-
-   ;; Check if any of the lists are empty, and if so, return nil
+       result tail new-tail)
    (if (any nil? lsts) 
        nil
-     ;; Initialize result and tail on the first set of items
-     (setq new-item (apply fun (mapcar car lsts)))
-     (setq result   (list new-item))
-     (setq tail     result)
-     
-     ;; Now update lsts to be the tails of the lists
+     (setq new-tail (apply fun (mapcar car lsts)))
+     (setq result   (list new-tail))
+     (setq tail     result)     
      (setq lsts (mapcar cdr lsts))
 
-     ;; Iterate over the rest of the elements
      (while (not (any nil? lsts))
-       (setq new-item (apply fun (mapcar car lsts)))
-       ;; Add new item to the result list by updating the tail
-       (rplacd! tail (list new-item))
-       ;; Update tail to point to the last element
+       (setq new-tail (apply fun (mapcar car lsts)))
+       (rplacd! tail (list new-tail))
        (setq tail (cdr tail))
        (setq lsts (mapcar cdr lsts)))
      result)))
