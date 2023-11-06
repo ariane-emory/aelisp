@@ -1497,7 +1497,7 @@
   (while (and (cons? current) (cons? (cdr current)))
    (if (eq? (cadr current) item)
     (rplacd! current (cddr current))
-    (setq! current (cdr current))))
+    (pop! current)))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun delql! (item lst)
@@ -1514,7 +1514,7 @@
   (while (and (cons? current) (cons? (cdr current)))
    (if (eql? (cadr current) item)
     (rplacd! current (cddr current))
-    (setq! current (cdr current))))
+    (pop! current)))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'delq)
