@@ -960,11 +960,11 @@ void core_sleep(void) {
   
   ae_obj_t * expr   = NIL;
   ae_obj_t * add    = CONS(CONS(SYM("+"), CONS(SYM("xx"), CONS(NEW_INT(2), NIL))), NIL);
-  ae_obj_t * incr2  = CONS(SYM("setq!"),   CONS(SYM("xx"), add));
+  ae_obj_t * incr2  = CONS(SYM("setq"),   CONS(SYM("xx"), add));
   ae_obj_t * print  = CONS(SYM("print"),  CONS(SYM("xx"), NIL));
   ae_obj_t * sleep = CONS(SYM("sleep"),  CONS(NEW_INT(100), NIL));
 
-  EVAL(env, CONS(SYM("setq!"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("xx"), CONS(NEW_INT(10), NIL))));
 
   for (int ix = 0; ix < 6; ix++) {
     expr            = CONS(incr2, expr);
@@ -1010,8 +1010,8 @@ void root_env_and_eval(void) {
 
   T(EQL(NEW_INT(75),  EVAL(env, CONS(SYM("*"), CONS(NEW_INT(3),  NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))))));
 
-  EVAL(env, CONS(SYM("setq!"), CONS(SYM("bar"), NEW_CONS(NEW_INT(9), NIL))));
-  EVAL(env, CONS(SYM("setq!"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("bar"), NEW_CONS(NEW_INT(9), NIL))));
+  EVAL(env, CONS(SYM("setq"), CONS(SYM("baz"), NEW_CONS(CONS(SYM("+"), CONS(NEW_INT(16), NEW_CONS(NEW_INT(9), NIL))), NIL))));
 
   T(EQL(NEW_INT(9),   EVAL(env, SYM("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, SYM("baz"))));
@@ -1160,8 +1160,8 @@ void macro_expand(void) {
   ae_obj_t * env = ENV_NEW_ROOT(false, false);
   // PR("\nDone populating root env.\n");
 
-  GENERATED_MACRO_TEST(defmacro, "(setq! defmacro (macro (name params . body) (list 'setq! name (list 'macro params . body))))");
-  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list 'setq! name (list 'lambda params . body)))");
+  GENERATED_MACRO_TEST(defmacro, "(setq defmacro (macro (name params . body) (list 'setq name (list 'macro params . body))))");
+  GENERATED_MACRO_TEST(defun,    "(defmacro defun (name params . body) (list 'setq name (list 'lambda params . body)))");
   GENERATED_MACRO_TEST(and,      "(defmacro and args (cond ((null args) t) ((null (cdr args)) (car args)) (t (list 'if (car args) (cons 'and (cdr args))))))");
   GENERATED_MACRO_TEST(or,       "(defmacro or args (if (null args) nil (cons 'cond (mapcar list args))))");
 
@@ -1174,7 +1174,7 @@ void macro_expand(void) {
   // PR("should be  (macro (xxx yyy) (list '+ xxx yyy))");
   T(shitty_princ_based_equality_predicate(macro_def, "(macro (xxx yyy) (list '+ xxx yyy))"));
 
-  ae_obj_t * setq_for_macro_def   = CONS(SYM("setq!"), CONS(SYM("add2"), CONS(macro_def, NIL)));
+  ae_obj_t * setq_for_macro_def   = CONS(SYM("setq"), CONS(SYM("add2"), CONS(macro_def, NIL)));
   ae_obj_t * rtrn_for_macro_def   = EVAL(env, setq_for_macro_def);
   // NL;
   // OLOG(setq_for_macro_def);

@@ -24,15 +24,15 @@
  (let* ((current (env))
         (parent  (env current)))
   (while parent
-   (setq! current parent)
-   (setq! parent (env current)))
+   (setq current parent)
+   (setq parent (env current)))
   current))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defconstant (sym value)
  "Set SYM to VALUE and mark it as constant."
  (unless (symbol? sym) (error "SYM must be a symbol"))
  $('progn
-   $('setq! sym value)
+   $('setq sym value)
    $('put $('quote sym) ':constant 't)
    value))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
@@ -96,12 +96,12 @@
   lst2
   (let* ((result (list (car lst1)))
          (tail result))
-   (setq! lst1 (cdr lst1))
+   (setq lst1 (cdr lst1))
    (while lst1
     (let ((new-tail (list (car lst1))))
      (rplacd! tail new-tail)
-     (setq! tail new-tail))
-    (setq! lst1 (cdr lst1)))
+     (setq tail new-tail))
+    (setq lst1 (cdr lst1)))
    (rplacd! tail lst2) 
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -111,8 +111,8 @@
  (let ((result      (car lsts))
        (rest-lsts   (cdr lsts)))
   (while rest-lsts
-   (setq! result    (nconc2! result (car rest-lsts)))
-   (setq! rest-lsts (cdr rest-lsts)))
+   (setq result    (nconc2! result (car rest-lsts)))
+   (setq rest-lsts (cdr rest-lsts)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun append lsts
@@ -125,11 +125,11 @@
     (while current-list
      (let ((new-tail (list (car current-list))))
       (if (nil? result)
-       (setq! result new-tail)
+       (setq result new-tail)
        (rplacd! tail new-tail))
-      (setq! tail new-tail)
-      (setq! current-list (cdr current-list))))
-    (setq! lsts (cdr lsts))))
+      (setq tail new-tail)
+      (setq current-list (cdr current-list))))
+    (setq lsts (cdr lsts))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'append-and-nconc)
@@ -176,7 +176,7 @@
        $('expand-quasiquoted (car expr))
        $('expand-quasiquoted (cdr expr))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! quasiquote expand-quasiquoted)
+(setq quasiquote expand-quasiquoted)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'quasiquote)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -213,7 +213,7 @@
  (unless (list? lst)                              (error "LST must be a list"))
  (unless (>= index 0)                             (error "INDEX must be non-negative"))
  (until (zero? index)
-  (setq! lst   (cdr lst))
+  (setq lst   (cdr lst))
   (decr! index))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -244,7 +244,7 @@
  "Get last cons cell in a LST."
  (unless (list? lst) (error "LST must be a list"))
  (while (cdr lst)
-  (setq! lst (cdr lst)))
+  (setq lst (cdr lst)))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-access-funs)
@@ -276,7 +276,7 @@
      (letrec
       ((chase-internal
         (lambda (,user-param lst . rest)
-         (setq! position lst)
+         (setq position lst)
          (let ((head (car position))
                (tail (cdr position)))
           (cond ,@cond-clauses))))
@@ -363,8 +363,8 @@
 ;;  (unless (list? lst) (error "LST must be a list"))
 ;;  (let ((acc nil))
 ;;   (while lst
-;;    (setq! acc (cons (fun (car lst)) acc))
-;;    (setq! lst (cdr lst)))
+;;    (setq acc (cons (fun (car lst)) acc))
+;;    (setq lst (cdr lst)))
 ;;   (reverse acc)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar (fun lst)
@@ -377,7 +377,7 @@
    (while lst
     (let ((new-tail (list (fun (pop lst)))))
      (rplacd! tail new-tail)
-     (setq!   tail new-tail)))
+     (setq   tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
@@ -417,11 +417,11 @@
 ;;     (when fun-result
 ;;      (if result
 ;;       (progn
-;;        (setq! tail (nconc2! tail fun-result))
-;;        (setq! tail (last tail)))
-;;       (setq! result fun-result)
-;;       (setq! tail result))))
-;;    (setq! current (cdr current)))
+;;        (setq tail (nconc2! tail fun-result))
+;;        (setq tail (last tail)))
+;;       (setq result fun-result)
+;;       (setq tail result))))
+;;    (setq current (cdr current)))
 ;;   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcan (fun lst)
@@ -436,9 +436,9 @@
      (if tail
       (progn
        (rplacd! tail fun-result)
-       (setq!   tail (last tail)))
-      (setq! result fun-result)
-      (setq! tail   (last result))))))
+       (setq   tail (last tail)))
+      (setq result fun-result)
+      (setq tail   (last result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc (fun lst)
@@ -505,7 +505,7 @@
  (unless (list? l3) (error "LST3 must be a list"))
  (mapcar flatten1 (reduce zip2 $(l2 l3) l1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! left-nested-zip (reduced* zip2))
+(setq left-nested-zip (reduced* zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun zip (lsts)
  "Zip a list of lists into a list of tuples."
@@ -515,9 +515,9 @@
   (while (all? cons? lsts)
    (let ((heads (heads lsts)))
     (if (nil? result)
-     (setq! tail (setq! result (list heads)))
-     (setq! tail (rplacd! tail (list heads))))
-    (setq! lsts (tails lsts)))
+     (setq tail (setq result (list heads)))
+     (setq tail (rplacd! tail (list heads))))
+    (setq lsts (tails lsts)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun zip* lsts (apply zip (list lsts)))
@@ -568,7 +568,7 @@
 ;;   (unless (symbol? list-sym) (error "LIST-SYM must be a symbol"))
 ;;   $('if $('not $('symbol? $('quote list-sym)))
 ;;     $('error "LIST-SYM must be a symbol")
-;;     $('setq! list-sym $('cons val list-sym))))
+;;     $('setq list-sym $('cons val list-sym))))
 ;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro pop (list-sym)
 ;;  "Destructively pop an item from the list bound to LIST-SYM."
@@ -576,7 +576,7 @@
 ;;  $('if $('not $('symbol? $('quote list-sym)))
 ;;    $('error "LIST-SYM must be a symbol")
 ;;    $('let $($('head $('car list-sym)))
-;;      $('setq! list-sym $('cdr list-sym))
+;;      $('setq list-sym $('cdr list-sym))
 ;;      'head)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'push-pop-funs)
@@ -602,7 +602,7 @@
 ;;     (cond
 ;;      ((pred? tail) (rplacd! tree (fun tail)))
 ;;      ((cons? tail) (rplacd! tree (transform-tree! pred? fun tail))))))
-;;   ((pred? tree) (error "bang") (setq! tree (fun tree)))
+;;   ((pred? tree) (error "bang") (setq tree (fun tree)))
 ;;   (else tree))
 ;;  tree)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -656,8 +656,8 @@
               (else         head)))))
      (if result
       (rplacd! tail new-tail)
-      (setq! result new-tail))
-     (setq! tail new-tail)))
+      (setq result new-tail))
+     (setq tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-tree (tree)
@@ -674,8 +674,8 @@
               (else         head)))))
      (if result
       (rplacd! tail new-tail)
-      (setq! result new-tail))
-     (setq! tail new-tail)))
+      (setq result new-tail))
+     (setq tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun prefetch (expr)
@@ -707,8 +707,8 @@
               (else             head)))))
      (if result
       (rplacd! tail new-tail)
-      (setq! result new-tail))
-     (setq! tail new-tail)))
+      (setq result new-tail))
+     (setq tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'transform)
@@ -725,8 +725,8 @@
     (let ((slow lst)
           (fast (cdr lst)))
      (while (and fast (cdr fast))
-      (setq! slow (cdr slow))
-      (setq! fast (cddr fast)))
+      (setq slow (cdr slow))
+      (setq fast (cddr fast)))
      (let ((right (cdr slow)))
       (rplacd! slow nil)
       (cons lst right)))))
@@ -768,8 +768,8 @@
  (let (found)
   (while (and lst (not found))
    (if (eq? elem (car lst))
-    (setq! found lst)
-    (setq! lst (cdr lst))))
+    (setq found lst)
+    (setq lst (cdr lst))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun memql? (elem lst)
@@ -778,8 +778,8 @@
  (let (found)
   (while (and lst (not found))
    (if (eql? elem (car lst))
-    (setq! found lst)
-    (setq! lst (cdr lst))))
+    (setq found lst)
+    (setq lst (cdr lst))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-member)
@@ -797,8 +797,8 @@
        found)
   (while (and lst (not found))
    (if (eq? elem (pop lst))
-    (setq! found idx)
-    (setq! idx (+ 1 idx))))
+    (setq found idx)
+    (setq idx (+ 1 idx))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun indexql (elem lst)
@@ -809,8 +809,8 @@
        found)
   (while (and lst (not found))
    (if (eql? elem (pop lst))
-    (setq! found idx)
-    (setq! idx (+ 1 idx))))
+    (setq found idx)
+    (setq idx (+ 1 idx))))
   found))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'list-index)
@@ -826,8 +826,8 @@
 ;;  (let ((result nil))
 ;;   (while lst
 ;;    (unless (eq? elem (car lst))
-;;     (setq! result (cons (car lst) result)))
-;;    (setq! lst (cdr lst)))
+;;     (setq result (cons (car lst) result)))
+;;    (setq lst (cdr lst)))
 ;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeq (elem lst)
@@ -841,9 +841,9 @@
       (if tail
        (progn
         (rplacd! tail new-tail)
-        (setq!   tail new-tail))
-       (setq! result new-tail)
-       (setq! tail   result))))))
+        (setq   tail new-tail))
+       (setq result new-tail)
+       (setq tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun removeql (elem lst)
@@ -852,8 +852,8 @@
 ;;  (let ((result nil))
 ;;   (while lst
 ;;    (unless (eq? elem (car lst))
-;;     (setq! result (cons (car lst) result)))
-;;    (setq! lst (cdr lst)))
+;;     (setq result (cons (car lst) result)))
+;;    (setq lst (cdr lst)))
 ;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun removeql (elem lst)
@@ -867,9 +867,9 @@
       (if tail
        (progn
         (rplacd! tail new-tail)
-        (setq!   tail new-tail))
-       (setq! result new-tail)
-       (setq! tail   result))))))
+        (setq   tail new-tail))
+       (setq result new-tail)
+       (setq tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun removeq! (elem lst)
@@ -891,7 +891,7 @@
 ;;               (next (cdr lst)))
 ;;          (cond
 ;;           ((eq? elem head) (progn (rplacd! prev next) elem))
-;;           (next           (progn (setq! prev lst) (chase next)))
+;;           (next           (progn (setq prev lst) (chase next)))
 ;;           (t              (error "ELEM was not found in LST")))))))
 ;;      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -906,8 +906,8 @@
   (let ((prev lst)
         (current (cdr lst)))
    (while (and current (not (eq? elem (car current))))
-    (setq! prev current)
-    (setq! current (cdr current)))
+    (setq prev current)
+    (setq current (cdr current)))
    (if current
     (rplacd! prev (cdr current))
     (error "ELEM was not found in LST"))))
@@ -932,7 +932,7 @@
 ;;               (next (cdr lst)))
 ;;          (cond
 ;;           ((eql? elem head) (progn (rplacd! prev next) elem))
-;;           (next            (progn (setq! prev lst) (chase next)))
+;;           (next            (progn (setq prev lst) (chase next)))
 ;;           (t               (error "ELEM was not found in LST")))))))
 ;;      (chase current))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -947,8 +947,8 @@
   (let ((prev lst)
         (current (cdr lst)))
    (while (and current (not (eql? elem (car current))))
-    (setq! prev current)
-    (setq! current (cdr current)))
+    (setq prev current)
+    (setq current (cdr current)))
    (if current
     (rplacd! prev (cdr current))
     (error "ELEM was not found in LST"))))
@@ -977,10 +977,10 @@
         (union1   (reduce combine lst1 '())))
   (reduce combine lst2 union1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! unionq
+(setq unionq
  (reduced* union2q))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! unionql
+(setq unionql
  (reduced* union2ql))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'union)
@@ -1091,7 +1091,7 @@
           (current-list (car current))
           (current-depth (cdr current)))
     (if (> current-depth max-depth)
-     (setq! max-depth current-depth))
+     (setq max-depth current-depth))
     (mapc (lambda (item)
            (when (list? item)
             (push (cons item (1+ current-depth)) stack)))
@@ -1105,8 +1105,8 @@
 ;;  (let (result)
 ;;   (while lst
 ;;    (if (pred? (car lst))
-;;     (setq! result (cons (car lst) result)))
-;;    (setq! lst (cdr lst)))
+;;     (setq result (cons (car lst) result)))
+;;    (setq lst (cdr lst)))
 ;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun filter (pred? lst)
@@ -1121,9 +1121,9 @@
       (if tail
        (progn
         (rplacd! tail new-tail)
-        (setq!   tail new-tail))
-       (setq! result new-tail)
-       (setq! tail   result))))))
+        (setq   tail new-tail))
+       (setq result new-tail)
+       (setq tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun intercalate (intercalated lst)
@@ -1131,10 +1131,10 @@
 ;;  (unless (list? lst) (error "LST must be a list"))
 ;;  (let (result)
 ;;   (while (cdr lst)
-;;    (setq! result (cons (car lst) result))
-;;    (setq! result (cons intercalated result))
-;;    (setq! lst (cdr lst)))
-;;   (if lst (setq! result (cons (car lst) result)))
+;;    (setq result (cons (car lst) result))
+;;    (setq result (cons intercalated result))
+;;    (setq lst (cdr lst)))
+;;   (if lst (setq result (cons (car lst) result)))
 ;;   (reverse result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun intercalate (intercalated lst)
@@ -1143,12 +1143,12 @@
  (when lst
   (let* ((result (list (car lst)))
          (tail result))
-   (setq! lst (cdr lst))
+   (setq lst (cdr lst))
    (while lst
     (let* ((head (pop lst))
            (new-tail (list intercalated head)))
      (rplacd! tail new-tail)
-     (setq! tail (cdr new-tail))))
+     (setq tail (cdr new-tail))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reverse (lst)
@@ -1156,7 +1156,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let (result)
   (while lst
-   (setq! result (cons (pop lst) result)))
+   (setq result (cons (pop lst) result)))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun butlast (lst . rest)
@@ -1169,11 +1169,11 @@
   (when (and lst (nthcdr n lst))
    (let* ((result (list (car lst)))
           (tail   result))
-    (setq! lst (cdr lst))
+    (setq lst (cdr lst))
     (while (nthcdr n lst)
      (let* ((new-tail (list (pop lst))))
       (rplacd! tail new-tail)
-      (setq!   tail new-tail)))
+      (setq   tail new-tail)))
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-list (lst)
@@ -1185,7 +1185,7 @@
    (while lst
     (let ((new-tail (list (pop lst))))
      (rplacd! tail new-tail)
-     (setq!   tail new-tail)))
+     (setq   tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-pred-fun (name combiner base-case)
@@ -1210,7 +1210,7 @@
  (unless (fun? pred?) (error "PRED? must be a function"))
  (let (result)
   (while (and lst (not result))
-   (setq! result (pred? (pop lst))))
+   (setq result (pred? (pop lst))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-transform-fun (name transformer)
@@ -1262,9 +1262,9 @@
  (lambda funs-or-exprs
   (last (mapcar (with-toggled-fun1 toggled-fun) funs-or-exprs))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! with-log-eval  (with-toggled-fun log-eval))
-(setq! with-log-core  (with-toggled-fun log-core))
-(setq! with-log-macro (with-toggled-fun log-macro))
+(setq with-log-eval  (with-toggled-fun log-eval))
+(setq with-log-core  (with-toggled-fun log-core))
+(setq with-log-macro (with-toggled-fun log-macro))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'log-toggle-helpers)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1308,10 +1308,10 @@
  (let ((ctr   0)
        (total 0))
   (repeat repetitions
-   (setq! ctr (1+ ctr))
+   (setq ctr (1+ ctr))
    (let ((before (time)))
     (eval qexpr)
-    (setq! total (+ total (elapsed before))))
+    (setq total (+ total (elapsed before))))
    (when (zero? (% ctr print-interval))
     (nl)
     (princ "Iteration #")
@@ -1384,13 +1384,13 @@
        (max-val (car lst)))
   (while lst
    (let ((current (pop lst)))
-    (setq! min-val (min min-val current))
-    (setq! max-val (max max-val current))))
+    (setq min-val (min min-val current))
+    (setq max-val (max max-val current))))
   (- max-val min-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-(setq! bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
+(setq bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! bin-list-to-int* (reduced* (lambda (acc bin) (+ (<< acc 1) bin))))
+(setq bin-list-to-int* (reduced* (lambda (acc bin) (+ (<< acc 1) bin))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'unsorted-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1409,11 +1409,11 @@
    (if (= current-index index) ; <- changed eq? to =
     (progn
      (rplaca! lst obj)
-     (setq! done t))
+     (setq done t))
     (incr! current-index)
     (pop lst)))
   (unless done (error "INDEX out of bounds")))
- obj) ; return the set object for convenience, similar to setq!
+ obj) ; return the set object for convenience, similar to setq
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list-ref (lst index)
  "Return the element at INDEX of LST."
@@ -1427,7 +1427,7 @@
    (car lst)
    (error "INDEX out of bounds"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! list-length length)
+(setq list-length length)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-list (size init-val)
  "Make a new list of length SIZE with its cars set to INIT-VAL."
@@ -1435,7 +1435,7 @@
  (let (result
        (current-size 0))
   (until (= current-size size)
-   (setq! result (cons init-val result))
+   (setq result (cons init-val result))
    (incr! current-size))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1468,8 +1468,8 @@
   (let (prev
         (current lst))
    (while (and current (pred? (car current)))
-    (setq! prev current)
-    (setq! current (cdr current)))
+    (setq prev current)
+    (setq current (cdr current)))
    (if prev
     (progn
      (rplacd! prev nil)
@@ -1544,7 +1544,7 @@
         (is-prime t))
    (while (and (<= divisor limit) is-prime)
     (if (= (% num divisor) 0)
-     (setq! is-prime)
+     (setq is-prime)
      (incr! divisor)))
    is-prime)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1557,7 +1557,7 @@
   (while (< count n)
    (when (prime? num)
     (incr! count)
-    (setq! primes (append2 primes (list num))))
+    (setq primes (append2 primes (list num))))
    (incr! num))
   primes))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1581,8 +1581,8 @@
   (let ((prev lst)
         (current (cdr lst)))
    (while (and current (not (pred? (car current))))
-    (setq! prev current)
-    (setq! current (cdr current)))
+    (setq prev current)
+    (setq current (cdr current)))
    (if current
     (progn
      (rplacd! prev (cdr current))
@@ -1652,7 +1652,7 @@
          '" ≠ actual "
          $('string 'val))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *confirm's-2nd-column* 72)
+(setq *confirm's-2nd-column* 72)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro confirm (that expr returns expected)
  "Test whether EXPR evaluates to EXPECTED."
@@ -1687,7 +1687,7 @@
  (let ((result "")
        (current-size 0))
   (until (= current-size size)
-   (setq! result (concat result init-val))
+   (setq result (concat result init-val))
    (incr! current-size))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1725,8 +1725,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! ljust left-justify)
-(setq! rjust right-justify)
+(setq ljust left-justify)
+(setq rjust right-justify)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'string-funs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1792,8 +1792,8 @@
 ;;   (while plist
 ;;    (unless (eql? prop (car plist))
 ;;     (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair
-;;     (setq! tail (cddr tail)))  ; Move tail pointer forward
-;;    (setq! plist (cddr plist)))  ; Skip to the next pair
+;;     (setq tail (cddr tail)))  ; Move tail pointer forward
+;;    (setq plist (cddr plist)))  ; Skip to the next pair
 ;;   (cdr head)))  ; Return the list after the dummy head.b
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-set (prop plist value)
@@ -1805,13 +1805,13 @@
 ;;   (while plist
 ;;    (if (eql? prop (car plist))
 ;;     (progn
-;;      (setq! found t)
+;;      (setq found t)
 ;;      (rplacd! tail (cons prop (cons value (cddr plist))))  ; Set new pair and link rest.
-;;      (setq! plist nil))  ; End the loop.
+;;      (setq plist nil))  ; End the loop.
 ;;     (progn
 ;;      (rplacd! tail (cons (car plist) (cons (cadr plist) nil)))  ; Append current pair.
-;;      (setq! tail (cddr tail))  ; Move tail pointer forward.
-;;      (setq! plist (cddr plist)))))  ; Move through the plist.
+;;      (setq tail (cddr tail))  ; Move tail pointer forward.
+;;      (setq plist (cddr plist)))))  ; Move through the plist.
 ;;   (unless found
 ;;    (rplacd! tail (cons prop (cons value nil))))  ; Append the prop-value pair if not found.
 ;;   (cdr head)))  ; Return the list after the dummy head.
@@ -1825,13 +1825,13 @@
 ;;        (rkeys (reverse keys))
 ;;        (rvals (reverse vals)))
 ;;   (while (not (= (length rkeys) (length rvals)))
-;;    (setq! rvals (cons nil rvals)))
+;;    (setq rvals (cons nil rvals)))
 ;;   (while rkeys
 ;;    (if plist
 ;;     (plist-set! plist (car rkeys) (car rvals))
-;;     (setq! plist (plist-set plist (car rkeys) (car rvals))))
-;;    (setq! rkeys (cdr rkeys))
-;;    (setq! rvals (cdr rvals)))
+;;     (setq plist (plist-set plist (car rkeys) (car rvals))))
+;;    (setq rkeys (cdr rkeys))
+;;    (setq rvals (cdr rvals)))
 ;;   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-plist (keys vals)
@@ -1845,7 +1845,7 @@
    (while keys
     (let ((new-tail (list (pop keys) (pop vals))))
      (rplacd! tail new-tail)
-     (setq!   tail (cdr new-tail))))
+     (setq   tail (cdr new-tail))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-to-alist (plist)
@@ -1855,8 +1855,8 @@
 ;;  (when plist
 ;;   (let (alist (plist plist))
 ;;    (while plist
-;;     (setq! alist (cons (cons (car plist) (cadr plist)) alist))
-;;     (setq! plist (cddr plist)))
+;;     (setq alist (cons (cons (car plist) (cadr plist)) alist))
+;;     (setq plist (cddr plist)))
 ;;    (reverse alist))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun plist-to-alist (plist)
@@ -1870,7 +1870,7 @@
    (while plist
     (let ((new-alist-item (list (cons (pop plist) (pop plist)))))
      (rplacd! tail new-alist-item)
-     (setq!   tail new-alist-item)))
+     (setq   tail new-alist-item)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun alist-to-plist (alist)
@@ -1878,8 +1878,8 @@
 ;;  (unless (list? alist)          (error "ALIST must be a list"))
 ;;  (let (plist (alist alist))
 ;;   (while alist
-;;    (setq! plist (cons (car alist) (cons (cadr alist) plist)))
-;;    (setq! alist (cddr alist)))
+;;    (setq plist (cons (car alist) (cons (cadr alist) plist)))
+;;    (setq alist (cddr alist)))
 ;;   plist))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun alist-to-plist (alist)
@@ -1893,9 +1893,9 @@
     (let ((new-tail (list key value)))
      (if tail
       (rplacd! tail new-tail)
-      (setq! result new-tail))
-     (setq! tail new-tail)
-     (setq! tail (cdr tail)))))
+      (setq result new-tail))
+     (setq tail new-tail)
+     (setq tail (cdr tail)))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
@@ -1909,11 +1909,11 @@
  (when plist
   (let* ((result (list (car plist)))
          (tail result))
-   (setq! plist (cddr plist))
+   (setq plist (cddr plist))
    (while plist
     (let ((new-tail (list (pop plist))))
      (rplacd! tail new-tail)
-     (setq!   tail new-tail))
+     (setq   tail new-tail))
     (pop plist))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1923,8 +1923,8 @@
  (unless (even? (length plist)) (error "PLIST must have an even number of elements"))
  (plist-keys (cdr plist)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! keys      plist-keys)
-(setq! vals-base vals)
+(setq keys      plist-keys)
+(setq vals-base vals)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun vals args
  "Retrieve the values from a plist or environment."
@@ -1956,21 +1956,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; basic integer math functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *u8-max* (- (<<  8) 1))
+(setq *u8-max* (- (<<  8) 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun u8  (n)
  "Trunctate N to an 8 bit value."
  (unless (integer? n) (error "N must be an integer"))
  (& n *u8-max*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *u16-max* (- (<< 16) 1))
+(setq *u16-max* (- (<< 16) 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun u16 (n)
  "Trunctate N to a 16 bit value."
  (unless (integer? n) (error "N must be an integer"))
  (& n *u16-max*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! *u32-max* (- (<< 32) 1))
+(setq *u32-max* (- (<< 32) 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun u32 (n)
  "Trunctate N to a 32 bit value."
@@ -2006,7 +2006,7 @@
   (mapc
    (lambda (x) 
     (when (< x current-min) 
-     (setq! current-min x)))
+     (setq current-min x)))
    lst)
   current-min))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2017,7 +2017,7 @@
   (mapc
    (lambda (x) 
     (when (> x current-max) 
-     (setq! current-max x)))
+     (setq current-max x)))
    lst)
   current-max))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2031,7 +2031,7 @@
  (unless (integer? n) (error "N must be an integer."))
  (if (> n 0) n (- n)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! 2* double)
+(setq 2* double)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun sum (lst)
  "Get the sum of the numbers in LST."
@@ -2041,7 +2041,7 @@
    (let ((head (pop lst)))
     (unless (number? head)
      (error "The elements of LST must be numbers."))
-    (setq! total (+ total head))))
+    (setq total (+ total head))))
   total))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun gcd (a b)
@@ -2091,7 +2091,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  "When (not *use-soft-rationals*), integer-to-rational can just be id since the"
  "built-in numer and denom functions already handle integers correctly."
- (setq! integer-to-rational id))
+ (setq integer-to-rational id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun number? (obj)
  "t if OBJ is a number."
@@ -2115,8 +2115,8 @@
  "Add the number B to the number A."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
+ (if (integer? a) (setq a (integer-to-rational a)))
+ (if (integer? b) (setq b (integer-to-rational b)))
  (let* ((num (+ (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
@@ -2125,8 +2125,8 @@
  "Subtract the number B from the number A."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
+ (if (integer? a) (setq a (integer-to-rational a)))
+ (if (integer? b) (setq b (integer-to-rational b)))
  (let* ((num (- (* (numer a) (denom b)) (* (numer b) (denom a))))
         (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
@@ -2135,8 +2135,8 @@
  "Multiply the number A by the number B."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
+ (if (integer? a) (setq a (integer-to-rational a)))
+ (if (integer? b) (setq b (integer-to-rational b)))
  (let* ((num (* (numer a) (numer b)))
         (den (* (denom a) (denom b))))
   (simplify-number (rational num den))))
@@ -2145,8 +2145,8 @@
  "Divide the number A by the number B."
  (unless (number? a) (error "A must be a number"))
  (unless (number? b) (error "B must be a number")) 
- (if (integer? a) (setq! a (integer-to-rational a)))
- (if (integer? b) (setq! b (integer-to-rational b)))
+ (if (integer? a) (setq a (integer-to-rational a)))
+ (if (integer? b) (setq b (integer-to-rational b)))
  (let* ((num (* (numer a) (denom b)))
         (den (* (denom a) (numer b))))
   (when (zero? den) (error "Division by zero!"))
@@ -2180,12 +2180,12 @@
   (while (and continue 
           (not (eql? guess last-guess))
           (<= iterations max-iterations))
-   (setq! last-guess guess)
-   (setq! guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
+   (setq last-guess guess)
+   (setq guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
    ;; Check if the denominator is too large
    (if (> (denom guess) denominator-limit)
-    (setq! continue nil))
-   (setq! iterations (+ 1 iterations)))  
+    (setq continue nil))
+   (setq iterations (+ 1 iterations)))  
   guess))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun is-square? (num)
@@ -2229,7 +2229,7 @@
 ;;  (let ((num (numer n))
 ;;        (den (denom n)))
 ;;   (while (not (zero? (mod num den)))
-;;    (setq! num (- num 1)))
+;;    (setq num (- num 1)))
 ;;   (simplify-number (rational num den))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun round (num)
@@ -2252,10 +2252,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Aliases:h
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! addr add-rational)
-(setq! subr sub-rational)
-(setq! mulr mul-rational)
-(setq! divr div-rational)
+(setq addr add-rational)
+(setq subr sub-rational)
+(setq mulr mul-rational)
+(setq divr div-rational)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'rational-math)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2268,24 +2268,24 @@
  "A splat version of sys that flattens and stringifies ARGS."
  (sys (reduce concat (intercalate " " (mapcar string (flatten args))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! stdout    (lambda (sysout) (plist-get sysout :stdout)))
-(setq! stderr    (lambda (sysout) (plist-get sysout :stderr)))
-(setq! exit-code (lambda (sysout) (plist-get sysout :exit  )))
+(setq stdout    (lambda (sysout) (plist-get sysout :stdout)))
+(setq stderr    (lambda (sysout) (plist-get sysout :stderr)))
+(setq exit-code (lambda (sysout) (plist-get sysout :exit  )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq! compact (curry1 filter id))
+;; (setq compact (curry1 filter id))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun compact (lst)
  "Filter nil items from LST."
  (unless (list? lst) (error "LST must be a list")) 
  (while (and lst (nil? (car lst)))
-  (setq! lst (cdr lst)))
+  (setq lst (cdr lst)))
  (when lst
   (let* ((result (list (pop lst)))
          (tail result))
    (while lst
     (let ((head (pop lst)))
      (unless (nil? head)
-      (setq! tail (rplacd! tail (list head))))))
+      (setq tail (rplacd! tail (list head))))))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun expand-file-name (name . rest)
@@ -2325,14 +2325,14 @@
 ;; 	x ^= x << 17;
 ;; 	return state->a = x;
 ;; }
-(setq! *xorshift64-seed* (now-us))
+(setq *xorshift64-seed* (now-us))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun xorshift64 ()
  "Generate a pseudo-random positive integer."
- (when (zero? *xorshift64-seed*) (setq! *xorshift64-seed* (now-us)))  
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
- (setq! *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
+ (when (zero? *xorshift64-seed*) (setq *xorshift64-seed* (now-us)))  
+ (setq *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 13)))
+ (setq *xorshift64-seed* (^ *xorshift64-seed* (>> *xorshift64-seed* 7)))
+ (setq *xorshift64-seed* (^ *xorshift64-seed* (<< *xorshift64-seed* 17)))
  (abs *xorshift64-seed*))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun random args
@@ -2458,7 +2458,7 @@
  (let (result
        (current-row 0))
   (until (= current-row rows)
-   (setq! result (cons (make-list cols init-val) result))
+   (setq result (cons (make-list cols init-val) result))
    (incr! current-row))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2476,7 +2476,7 @@
        (current-row 0)
        (current-col 0))
   (until (= current-row rows)
-   (setq! current-col 0)
+   (setq current-col 0)
    (until (= current-col cols)
     (let* ((current-value (matrix-ref matrix current-row current-col))
            (new-value (ternary-func current-row current-col current-value)))
@@ -2500,7 +2500,7 @@
        (current-row 0)
        (current-col 0))
   (until (= current-row rows)
-   (setq! current-col 0)
+   (setq current-col 0)
    (until (= current-col cols)
     (let* ((current-value (matrix-ref matrix current-row current-col))
            (new-value (ternary-func current-row current-col current-value)))
@@ -2582,21 +2582,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simple aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! s          setq!)
-(setq! setcar!    rplaca!)
-(setq! setcdr!    rplacd!)
-(setq! ¬          not)          
-(setq! ∨          or )           
-(setq! ∧          and)
-(setq! setcdr!    rplacd!)
-(setq! setcar!    rplaca!)
-(setq! λ          lambda)
-;; (setq! has-key?   khas?)
-;; (setq! get-key    kget)
-;; (setq! set-key    kset)
-(setq! phas? plist-has?)
-(setq! pset! plist-set!)
-(setq! pget  plist-get)
+(setq s          setq)
+(setq setcar!    rplaca!)
+(setq setcdr!    rplacd!)
+(setq ¬          not)          
+(setq ∨          or )           
+(setq ∧          and)
+(setq setcdr!    rplacd!)
+(setq setcar!    rplaca!)
+(setq λ          lambda)
+;; (setq has-key?   khas?)
+;; (setq get-key    kget)
+;; (setq set-key    kset)
+(setq phas? plist-has?)
+(setq pset! plist-set!)
+(setq pget  plist-get)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2605,28 +2605,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tiny-clos scheme compat aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! #f            nil)
-(setq! #t            t)
-(setq! ???           'unspecified-result)
-;; (setq! assoc         ahas?) 
-;; (setq! assq          aget) 
-(setq! collect-if    filter)
-(setq! define        setq!)
-(setq! display       write)
-(setq! every         all?)
-(setq! getl          pget)
-(setq! gsort         sort!!)
-(setq! make-vector   make-list)
-(setq! map           mapcar)
-(setq! map-append    mapcan)
-(setq! position-of   indexq)
-;; (setq! remove        removeq)
-(setq! set!          setq!) ;should should be a macro that avoids re-defining what-scheme-implementation
-(setq! vector-length list-length)
-(setq! vector-ref    list-ref)
-(setq! vector-set!   list-set!)
-(setq! null?         nil?)  
-(setq! pair?         cons?) 
+(setq #f            nil)
+(setq #t            t)
+(setq ???           'unspecified-result)
+;; (setq assoc         ahas?) 
+;; (setq assq          aget) 
+(setq collect-if    filter)
+(setq define        setq)
+(setq display       write)
+(setq every         all?)
+(setq getl          pget)
+(setq gsort         sort!!)
+(setq make-vector   make-list)
+(setq map           mapcar)
+(setq map-append    mapcan)
+(setq position-of   indexq)
+;; (setq remove        removeq)
+(setq set!          setq) ;should should be a macro that avoids re-defining what-scheme-implementation
+(setq vector-length list-length)
+(setq vector-ref    list-ref)
+(setq vector-set!   list-set!)
+(setq null?         nil?)  
+(setq pair?         cons?) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'scheme-compat-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2635,13 +2635,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elisp compat aliases:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq! nreverse         reverse)
-(setq! setq             setq!)
-(setq! rplaca           rplaca!)
-(setq! rplacd           rplacd!)
-(setq! nconc            nconc!)
-(setq! null             nil?)
-(setq! identity         id)
+(setq nreverse         reverse)
+(setq setq             setq)
+(setq rplaca           rplaca!)
+(setq rplacd           rplacd!)
+(setq nconc            nconc!)
+(setq null             nil?)
+(setq identity         id)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'elisp-compat-aliases)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2654,7 +2654,7 @@
 
 
 ;; just a dummy list for test purposes:
-(setq! l '(a 1 b 2 c 3 d 4 e 5))
+(setq l '(a 1 b 2 c 3 d 4 e 5))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when *log-loading-std-enabled*

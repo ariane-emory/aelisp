@@ -3,11 +3,11 @@
 #include "env.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _setq!
+// _setq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("setq!");
+  CORE_BEGIN("setq");
 
   ae_obj_t * sym      = CAR(args);
   ae_obj_t * val_expr = args_length == 1
@@ -39,7 +39,7 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     PUT_PROP(sym, "last-bound-to", ret);
     
     if (log_core)
-      LOG(PROPS(ret), "core setq! val's new properties");
+      LOG(PROPS(ret), "core setq val's new properties");
   }
 
   ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym) ? GLOBAL : NEAREST;
@@ -48,6 +48,6 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
 end:
   
-  CORE_RETURN("setq!", ret);
+  CORE_RETURN("setq", ret);
 }
 
