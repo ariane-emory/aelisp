@@ -214,7 +214,7 @@
  (unless (>= index 0)                             (error "INDEX must be non-negative"))
  (until (zero? index)
   (setq lst   (cdr lst))
-  (decr! index))
+  (decr index))
  lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun nth (index lst)
@@ -1410,7 +1410,7 @@
     (progn
      (rplaca! lst obj)
      (setq done t))
-    (incr! current-index)
+    (incr current-index)
     (pop lst)))
   (unless done (error "INDEX out of bounds")))
  obj) ; return the set object for convenience, similar to setq
@@ -1421,7 +1421,7 @@
  (unless (and (integer? index) (positive? index)) (error "INDEX must be a positive integer"))
  (let ((current-index 0))
   (while (and lst (not (= current-index index)))
-   (incr! current-index)
+   (incr current-index)
    (pop lst))
   (if lst
    (car lst)
@@ -1436,7 +1436,7 @@
        (current-size 0))
   (until (= current-size size)
    (setq result (cons init-val result))
-   (incr! current-size))
+   (incr current-size))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'vector-lists)
@@ -1545,7 +1545,7 @@
    (while (and (<= divisor limit) is-prime)
     (if (= (% num divisor) 0)
      (setq is-prime)
-     (incr! divisor)))
+     (incr divisor)))
    is-prime)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun primes (n)
@@ -1556,9 +1556,9 @@
        primes)
   (while (< count n)
    (when (prime? num)
-    (incr! count)
+    (incr count)
     (setq primes (append2 primes (list num))))
-   (incr! num))
+   (incr num))
   primes))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'prime-funs)
@@ -1664,7 +1664,7 @@
              $('column  'printed))
      $('while $('< 'column *confirm's-2nd-column*)
        $('princ '" ")
-       $('incr! 'column ))
+       $('incr 'column ))
      $('princ '" ⇒ ")
      (when (cons? expected)
       $('princ "'"))
@@ -1688,7 +1688,7 @@
        (current-size 0))
   (until (= current-size size)
    (setq result (concat result init-val))
-   (incr! current-size))
+   (incr current-size))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun pad-string-right (size init-val str)
@@ -2198,7 +2198,7 @@
  "Round NUM up to the next square number."
  (unless (integer? num) (error "NUM must be an integer"))
  (while (not (is-square? num))
-  (incr! num))
+  (incr num))
  num)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun floor (n)
@@ -2449,7 +2449,7 @@
     (when (= current-row final-row)
      (princ ")"))
     (nl)
-    (incr! current-row)))))
+    (incr current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun make-matrix (rows cols init-val)
  "Create a new matrix of size ROWS x COLS with all values set to INIT-VAL."
@@ -2459,7 +2459,7 @@
        (current-row 0))
   (until (= current-row rows)
    (setq result (cons (make-list cols init-val) result))
-   (incr! current-row))
+   (incr current-row))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform-matrix! (matrix ternary-func)
@@ -2481,8 +2481,8 @@
     (let* ((current-value (matrix-ref matrix current-row current-col))
            (new-value (ternary-func current-row current-col current-value)))
      (matrix-set! matrix current-row current-col new-value)
-     (incr! current-col)))
-   (incr! current-row)))
+     (incr current-col)))
+   (incr current-row)))
  matrix)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun transform-matrix (matrix ternary-func)
@@ -2505,8 +2505,8 @@
     (let* ((current-value (matrix-ref matrix current-row current-col))
            (new-value (ternary-func current-row current-col current-value)))
      (matrix-set! new-matrix current-row current-col new-value)
-     (incr! current-col)))
-   (incr! current-row))
+     (incr current-col)))
+   (incr current-row))
   new-matrix))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'matrix)

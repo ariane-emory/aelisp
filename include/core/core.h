@@ -12,7 +12,7 @@
   DO(allocated,    false,          0,          0,                              FUNDEF_END)                              \
   DO(load,         false,          1,          2,                              FUNDEF_END)                              \
   DO(read,         false,          1,          1,                              FUNDEF_END)                              \
-  DO(requireb,     false,          1,          2, "require!",                  FUNDEF_END)                              \
+  DO(requireb,     false,          1,          2, "require*",                  FUNDEF_END)                              \
   DO(require,      false,          1,          2,                              FUNDEF_END)                              \
   DO(sleep,        false,          1,          1,                              FUNDEF_END)                              \
   DO(sleep_us,     false,          1,          1, "sleep-us",                  FUNDEF_END)                              \
@@ -36,7 +36,7 @@
   /*================================================================================================================*/  \
   DO(string,       false,          1,          1,                              FUNDEF_END) /* stringifier           */  \
   DO(intern,       false,          1,          1,                              FUNDEF_END) /* symbolizer            */  \
-  DO(set_props,    false,          2,          2, "props!",                    FUNDEF_END) /* props accessor        */  \
+  DO(set_props,    false,          2,          2, "set-props",                 FUNDEF_END) /* props accessor        */  \
   DO(props,        false,          1,          1,                              FUNDEF_END) /* props accessor        */  \
   DO(message,      false,          1,          1,                              FUNDEF_END) /* error accessor        */  \
   DO(name,         false,          1,          1, "symbol-name",               FUNDEF_END) /* symbol accessor       */  \
@@ -64,7 +64,7 @@
   /*================================================================================================================*/  \
   DO(concat,       false,          0,  UNLIMITED,                              FUNDEF_END)                              \
   /*================================================================================================================*/  \
-  DO(set,          false,          1,          2, "set!",                      FUNDEF_END)                              \
+  DO(set,          false,          1,          2,                              FUNDEF_END)                              \
   DO(length,       false,          1,          1,                              FUNDEF_END)                              \
   DO(eval,         false,          1,          1,                              FUNDEF_END)                              \
   DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                              \
@@ -75,8 +75,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_FUN_GROUP_3(DO)                                                                                   \
   /*================================================================================================================*/  \
-  DO(incrb,        true,           1,          1, "incr!",                     FUNDEF_END)                              \
-  DO(decrb,        true,           1,          1, "decr!",                     FUNDEF_END)                              \
+  DO(incr,         true,           1,          1,                              FUNDEF_END)                              \
+  DO(decr,         true,           1,          1,                              FUNDEF_END)                              \
   /*================================================================================================================*/  \
   DO(push,         true,           2,          2,                              FUNDEF_END)                              \
   DO(pop,          true,           1,          1,                              FUNDEF_END)                              \

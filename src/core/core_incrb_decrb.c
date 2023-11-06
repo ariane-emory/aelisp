@@ -6,15 +6,15 @@
 // _incrb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_incrb(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("incr!");
+  CORE_BEGIN("incr");
 
   ae_obj_t * const sym = CAR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
-          "incr! only works on bound and settable symbols");
+          "incr only works on bound and settable symbols");
   
   ae_obj_t * const integer = RETURN_IF_ERRORP(EVAL(env, sym));
 
@@ -26,22 +26,22 @@ ae_obj_t * ae_core_incrb(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("incr!", ret);
+  CORE_RETURN("incr", ret);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _decrb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_decrb(__attribute__((unused)) ae_obj_t * const env,
+ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("decr!");
+  CORE_BEGIN("decr");
 
   ae_obj_t * const sym = CAR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
-          "decr! only works on bound and settable symbols");
+          "decr only works on bound and settable symbols");
   
   ae_obj_t * const integer = RETURN_IF_ERRORP(EVAL(env, sym));
 
@@ -53,5 +53,5 @@ ae_obj_t * ae_core_decrb(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("decr!", ret);
+  CORE_RETURN("decr", ret);
 }

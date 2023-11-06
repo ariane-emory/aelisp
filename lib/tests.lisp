@@ -234,22 +234,22 @@
 
 (confirm that (make-plist '(a b c) '(1 2 3))           returns '(a 1 b 2 c 3))
 
-(confirm that (put     :quux :foo 'a)                  returns 'a)
-(confirm that (put     :quux :bar 'b)                  returns 'b)
-(confirm that (put     :quux :baz 'c)                  returns 'c)
-(confirm that (props   :quux)                          returns '(:baz c :bar b :foo a))
+(confirm that (put        :quux :foo 'a)               returns 'a)
+(confirm that (put        :quux :bar 'b)               returns 'b)
+(confirm that (put        :quux :baz 'c)               returns 'c)
+(confirm that (props      :quux)                       returns '(:baz c :bar b :foo a))
 
-(confirm that (props!  :quux '(:corge d))              returns '(:corge d))
-(confirm that (put     :quux :foo 'a)                  returns 'a)
-(confirm that (put     :quux :bar 'b)                  returns 'b)
-(confirm that (put     :quux :baz 'c)                  returns 'c)
+(confirm that (set-props  :quux '(:corge d))           returns '(:corge d))
+(confirm that (put        :quux :foo 'a)               returns 'a)
+(confirm that (put        :quux :bar 'b)               returns 'b)
+(confirm that (put        :quux :baz 'c)               returns 'c)
 
-(confirm that (remove  :quux :foo)                     returns 'a)
-(confirm that (remove  :quux :bar)                     returns 'b)
-(confirm that (remove  :quux :baz)                     returns 'c)
-(confirm that (remove  :quux :corge)                   returns 'd)
+(confirm that (remove     :quux :foo)                  returns 'a)
+(confirm that (remove     :quux :bar)                  returns 'b)
+(confirm that (remove     :quux :baz)                  returns 'c)
+(confirm that (remove     :quux :corge)                returns 'd)
 
-(confirm that (props   :quux)                          returns nil)
+(confirm that (props      :quux)                       returns nil)
 
 (confirm that (nconc! '(1 2 3) '(4 5 6) '(7 8 9))      returns '(1 2 3 4 5 6 7 8 9))
 (confirm that (append '(1 2 3) '(4 5 6) '(7 8 9))      returns '(1 2 3 4 5 6 7 8 9))
@@ -401,7 +401,7 @@
 
 (until (zero? ctr)
  (matrix-set! matrix ctr ctr (* 100 ctr))
- (decr! ctr))
+ (decr ctr))
 
 (confirm that matrix returns
  '((0 0 0 0 0 0)
