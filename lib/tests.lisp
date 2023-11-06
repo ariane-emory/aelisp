@@ -16,7 +16,7 @@
 (confirm that (butlast '(1 2 3 4 5) 4)         returns '(1))
 (confirm that (butlast '(1 2 3 4 5) 5)         returns nil)
 (confirm that (butlast '(1 2 3 4 5) 6)         returns nil)
-
+(confirm that (last '(1 2 3))                  returns '(3))
 (confirm that (reverse '(1 2 3 4 5))           returns '(5 4 3 2 1))
 (confirm that (reverse (butlast '(1 2 3 4 5))) returns '(4 3 2 1))
 (confirm that (unionql '(1 2 3) '(4 5 6))      returns '(6 5 4 3 2 1))
