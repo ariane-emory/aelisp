@@ -1504,7 +1504,7 @@
         (is-prime t))
    (while (and (<= divisor limit) is-prime)
     (if (= (% num divisor) 0)
-     (setq is-prime)
+     (setq is-prime nil)
      (incr divisor)))
    is-prime)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,5 +1,5 @@
 To Do:
-- [ ] setq! could take more arguments.
+- [ ] -sn switch for no std at all.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -37,6 +37,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] setq! could take more arguments. 
 - [x] incr!/decr!, like incf/decf.
 - [x] Maybe build in zero?, one? and 1+.
 - [x] Investigate why (/ 2 0) doesn't cause an error.
