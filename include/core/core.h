@@ -64,7 +64,7 @@
   /*================================================================================================================*/  \
   DO(concat,       false,          0,  UNLIMITED,                              FUNDEF_END)                              \
   /*================================================================================================================*/  \
-  DO(set,          false,          1,          2,                              FUNDEF_END)                              \
+  DO(set,          false,          2,  UNLIMITED,                              FUNDEF_END)                              \
   DO(length,       false,          1,          1,                              FUNDEF_END)                              \
   DO(eval,         false,          1,          1,                              FUNDEF_END)                              \
   DO(apply,        true,           2,  UNLIMITED,                              FUNDEF_END)                              \
