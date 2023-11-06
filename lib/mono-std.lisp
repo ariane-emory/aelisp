@@ -1532,8 +1532,8 @@
         (is-prime t))
    (while (and (<= divisor limit) is-prime)
     (if (= (% num divisor) 0)
-     (setq! is-prime nil)
-     (setq! divisor (+ divisor 1))))
+     (setq! is-prime)
+     (incr! divisor)))
    is-prime)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun primes (n)
