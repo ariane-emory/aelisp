@@ -540,6 +540,25 @@
      (setq tail (rplacd! tail (list heads))))
     (setq lsts (tails lsts)))
    result)))
+(defun zip (lsts)
+ "Zip a list of lists into a list of tuples."
+ (unless (list? lsts)      (error "LSTS must be a list of lists"))
+ (unless (all list? lsts)  (error "LSTS must be a list of lists"))
+ (if (any nil? lsts)       ;; If any list is empty, return nil
+  nil
+  (let (result tail new-tail)
+   ;; Initialize the result and tail with the first set of heads
+   (setq new-tail (heads lsts))
+   (setq result   (list new-tail))
+   (setq tail     result)
+   ;; Update lsts for the next iteration
+   (setq lsts (tails lsts))
+   ;; Now process the rest of the elements
+   (until (any nil? lsts) ;; While all lists have elements
+    (setq new-tail (heads lsts))
+    (setq tail (rplacd! tail (list new-tail)))
+    (setq lsts (tails lsts)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun zip* lsts (apply zip (list lsts)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -288,47 +288,34 @@
 ;; (log-core t)
 
 (setq ctr 0)
-(repeat 5000
+(repeat 100
  (let* ((result (time (mapcar+ list '(1 2 3) '(4 5 6) '(7 8 9))))
         (dur (plist-get result :time)))
   (incr ctr dur)))
 (princ "Total: " ctr) (nl)
 
 (setq ctr 0)
-(repeat 5000
+(repeat 100
  (let* ((result (time (zip* '(1 2 3) '(4 5 6) '(7 8 9))))
         (dur (plist-get result :time)))
   (incr ctr dur)))
 (princ "Total: " ctr) (nl)
 
 (setq ctr 0)
-(repeat 5000
+(repeat 100
  (let* ((result (time (zip '((1 2 3) (4 5 6) (7 8 9)))))
         (dur (plist-get result :time)))
   (incr ctr dur)))
 (princ "Total: " ctr) (nl)
 
-(defun zip (lsts)
- "Zip a list of lists into a list of tuples."
- (unless (list? lsts)      (error "LSTS must be a list of lists"))
- (unless (all list? lsts)  (error "LSTS must be a list of lists"))
- (unless (any nil? lsts)
-  (let (result tail new-tail)
-   (setq
-    new-tail (heads lsts)
-    result   (list new-tail)
-    tail     result
-    lsts     (tails lsts))
-   (while (not (any nil? lsts))
-    (setq
-     new-tail (heads lsts)
-     tail     (rplacd! tail (list new-tail))
-     lsts     (tails lsts)))
-   result)))
+
+
 
 (setq ctr 0)
-(repeat 5000
+(repeat 100
  (let* ((result (time (zip '((1 2 3) (4 5 6) (7 8 9)))))
         (dur (plist-get result :time)))
   (incr ctr dur)))
 (princ "Total: " ctr) (nl)
+
+
