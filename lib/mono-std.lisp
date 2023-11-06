@@ -526,20 +526,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq left-nested-zip (reduced* zip2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun zip (lsts)
- "Zip a list of lists into a list of tuples."
- (unless (list? lsts)      (error "LSTS must be a list of lists"))
- (unless (all list? lsts)  (error "LSTS must be a list of lists"))
- (let (result tail)
-  (while (all cons? lsts)
-   (let ((heads (heads lsts)))
-    (if (nil? result)
-     (setq
-      result (list heads)
-      tail   result)
-     (setq tail (rplacd! tail (list heads))))
-    (setq lsts (tails lsts)))
-   result)))
+;; (defun zip (lsts)
+;;  "Zip a list of lists into a list of tuples."
+;;  (unless (list? lsts)      (error "LSTS must be a list of lists"))
+;;  (unless (all list? lsts)  (error "LSTS must be a list of lists"))
+;;  (let (result tail)
+;;   (while (all cons? lsts)
+;;    (let ((heads (heads lsts)))
+;;     (if (nil? result)
+;;      (setq
+;;       result (list heads)
+;;       tail   result)
+;;      (setq tail (rplacd! tail (list heads))))
+;;     (setq lsts (tails lsts)))
+;;    result)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun zip (lsts)
  "Zip a list of lists into a list of tuples."
  (unless (list? lsts)      (error "LSTS must be a list of lists"))
