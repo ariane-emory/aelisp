@@ -447,8 +447,7 @@
  (unless (list? lst) (error "LST must be a list"))
  (let ((current lst))
   (while current
-   (fun (car current))
-   (setq! current (cdr current)))
+   (fun (pop! current)))
   lst))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapc* (fun . args) (apply mapc fun (list args)))
