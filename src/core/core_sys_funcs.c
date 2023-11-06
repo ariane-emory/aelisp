@@ -127,7 +127,7 @@ static ae_obj_t * capture_command_output(char * const command) {
 ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("system");
 
-  REQUIRE(env, args, STRINGP(CAR(args)) || SYMBOLP(CAR(args)), "system's arg must be a string or symbol");
+  REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
 
   char * cmd = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
   
@@ -605,10 +605,18 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env, ae_obj_t * const args, __attrib
 ae_obj_t * ae_core_files(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("files-in");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "files-in's arg must be a string");
+  REQUIRE(env, args, (args_length == 0) || STRINGP(CAR(args)), "dirs-in's arg must be a string");
+  
+  char * path = NULL;
 
-  char * const path = STR_VAL(CAR(args));
-
+  if (args_length == 0) {
+    ae_obj_t * const pwd = RETURN_IF_ERRORP(ae_core_pwd(env, NIL, 0));
+    path = STR_VAL(pwd);
+  }
+  else {
+    path = STR_VAL(CAR(args));
+  }
+  
   DIR * const dir = opendir(path);
 
   REQUIRE(env, args, dir, "could not open directory");
@@ -633,10 +641,18 @@ end:
 ae_obj_t * ae_core_dirs(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("dirs-in");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "dirs-in's arg must be a string");
+  REQUIRE(env, args, (args_length == 0) || STRINGP(CAR(args)), "dirs-in's arg must be a string");
+  
+  char * path = NULL;
 
-  char * const path = STR_VAL(CAR(args));
-
+  if (args_length == 0) {
+    ae_obj_t * const pwd = RETURN_IF_ERRORP(ae_core_pwd(env, NIL, 0));
+    path = STR_VAL(pwd);
+  }
+  else {
+    path = STR_VAL(CAR(args));
+  }
+  
   DIR * const dir = opendir(path);
 
   REQUIRE(env, args, dir, "could not open directory");
@@ -644,7 +660,6 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env, ae_obj_t * const args, __attribute
   struct dirent * entry;
   
   while ((entry = readdir(dir)))
-    // if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
     if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0)
       ret = CONS(NEW_STRING(entry->d_name), ret);
 
