@@ -1355,8 +1355,9 @@
        (max-val (car lst)))
   (while lst
    (let ((current (pop lst)))
-    (setq min-val (min min-val current))
-    (setq max-val (max max-val current))))
+    (setq
+     min-val (min min-val current)
+     max-val (max max-val current))))
   (- max-val min-val)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 (setq bin-list-to-int  (reduced  (lambda (acc bin) (+ (<< acc 1) bin))))
@@ -1439,8 +1440,9 @@
   (let (prev
         (current lst))
    (while (and current (pred? (car current)))
-    (setq prev current)
-    (setq current (cdr current)))
+    (setq
+     prev    current
+     current (cdr current)))
    (if prev
     (progn
      (rplacd! prev nil)
@@ -1552,8 +1554,9 @@
   (let ((prev lst)
         (current (cdr lst)))
    (while (and current (not (pred? (car current))))
-    (setq prev current)
-    (setq current (cdr current)))
+    (setq
+     prev    current
+     current (cdr current)))
    (if current
     (progn
      (rplacd! prev (cdr current))
@@ -2149,8 +2152,9 @@
   (while (and continue 
           (not (eql? guess last-guess))
           (<= iterations max-iterations))
-   (setq last-guess guess)
-   (setq guess (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
+   (setq
+    last-guess guess
+    guess      (div-rational (add-rational guess (div-rational (integer-to-rational num) guess)) (integer-to-rational 2)))
    ;; Check if the denominator is too large
    (if (> (denom guess) denominator-limit)
     (setq continue nil))
