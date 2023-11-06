@@ -398,13 +398,11 @@
  (unless (or (nil? rest) (single? rest))
   (error "MAPCONCAT takes exactly only one optional arguments after LST"))
  (let ((delimiter (car rest))
-       (acc (if lst (fun (car lst)) ""))
-       (current (cdr lst)))
+       (acc (if lst (fun (pop! lst)) "")))
   (unless (or (nil? delimiter) (string? delimiter))
    (error "DELIMITER must be a string or nil"))
-  (while current
-   (setq acc (concat acc (or delimiter "") (fun (car current))))
-   (setq current (cdr current)))
+  (while lst
+   (setq acc (concat acc (or delimiter "") (fun (pop! lst)))))
   acc))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun mapcan (fun lst)
