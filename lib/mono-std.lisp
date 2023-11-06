@@ -738,9 +738,9 @@
      ((nil? left)  right)
      ((nil? right) left)
      ((pred? (car left) (car right))
-      (cons (car left) (merge (cdr left) right pred?)))
-     (t
-      (cons (car right) (merge left (cdr right) pred?)))))))
+      (cons (pop! left) (merge left right pred?)))
+     (else
+      (cons (pop! right) (merge left right pred?)))))))
  (defun sort!!  (lst pred?)
   "Just a basic merge sort of LST by PRED?, destroying LST in the process and"
   "returning a new list."
