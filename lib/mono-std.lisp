@@ -1158,10 +1158,10 @@
           (tail   result))
     (setq! lst (cdr lst))
     (while (nthcdr n lst)
-     (let ((new-tail (list (car lst))))
+     (let ((head (pop! lst)))
+     (let ((new-tail (list head)))
       (rplacd! tail new-tail)
-      (setq!   tail new-tail))
-     (setq! lst (cdr lst)))
+      (setq!   tail new-tail))))
     result))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-list (lst)
