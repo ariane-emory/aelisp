@@ -1827,10 +1827,10 @@
  (unless (list? vals) (error "VALS must be a list."))
  (unless (>= (length keys) (length vals)) (error "KEYS must be at least as long as VALS."))
  (when keys
-  (let* ((result (list (car keys) (car vals)))
+  (let* ((result (list (pop! keys) (pop! vals)))
          (tail (cdr result)))
-   (setq! keys (cdr keys))
-   (setq! vals (cdr vals))
+   ;; (setq! keys (cdr keys))
+   ;; (setq! vals (cdr vals))
    (while keys
     (let ((new-tail (list (car keys) (car vals))))
      (rplacd! tail new-tail)
