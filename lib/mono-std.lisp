@@ -372,9 +372,8 @@
  (unless (fun?  fun) (error "FUN must be a function"))
  (unless (list? lst) (error "LST must be a list"))
  (when lst
-  (let* ((result (list (fun (car lst))))
-         (tail   result)
-         (lst     (cdr lst)))
+  (let* ((result (list (fun (pop! lst))))
+         (tail   result))
    (while lst
     (let ((new-tail (list (fun (pop! lst)))))
      (rplacd! tail new-tail)
