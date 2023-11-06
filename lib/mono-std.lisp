@@ -2471,6 +2471,8 @@
       (princ " " (render-fun o)))
      (cdr cell-values))
     (princ ")")
+    (when (= current-row (1- row-count))
+     (princ ")"))
     (nl)
     (incr! current-row)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
