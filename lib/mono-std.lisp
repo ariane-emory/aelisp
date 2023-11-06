@@ -1397,7 +1397,7 @@
     (progn
      (rplaca! lst obj)
      (setq! done t))
-    (setq! lst (cdr lst))
+    (pop! lst)
     (setq! current-index (+ 1 current-index))))
   (unless done (error "INDEX out of bounds")))
  obj) ; return the set object for convenience, similar to setq!
