@@ -24,8 +24,9 @@
  (let* ((current (env))
         (parent  (env current)))
   (while parent
-   (setq current parent)
-   (setq parent (env current)))
+   (setq
+    current parent
+    parent  (env current)))
   current))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro defconstant (sym value)
@@ -853,8 +854,9 @@
        (progn
         (rplacd! tail new-tail)
         (setq   tail new-tail))
-       (setq result new-tail)
-       (setq tail   result))))))
+       (setq
+        result new-tail
+        tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun removeq! (elem lst)
@@ -891,8 +893,9 @@
   (let ((prev lst)
         (current (cdr lst)))
    (while (and current (not (eq? elem (car current))))
-    (setq prev current)
-    (setq current (cdr current)))
+    (setq
+     prev current
+     current (cdr current)))
    (if current
     (rplacd! prev (cdr current))
     (error "ELEM was not found in LST"))))
