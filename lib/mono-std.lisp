@@ -749,7 +749,7 @@
   (if (or (nil? lst) (nil? (cdr lst)))
    lst
    (let* ((splits (half lst))
-          (left   (pop!  splits))
+          (left   (pop! splits))
           (right  splits))
     (merge
      (sort!! left  pred?)
