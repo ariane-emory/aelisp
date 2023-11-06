@@ -449,6 +449,14 @@
 (confirm that (removeql! 'c l) returns '(a 1 b 2 3 d 4 e 5))
 (confirm that (removeql! 'e l) returns '(a 1 b 2 3 d 4 5))
 (confirm that (removeql! 'a l) returns '(1 b 2 3 d 4 5))
+(confirm that l                returns '(1 b 2 3 d 4 5))
+
+(setq! l '(a 1 b 2 c 3 d 4 e 5))
+(confirm that (removeq!  'c l) returns '(a 1 b 2 3 d 4 e 5))
+(confirm that (removeq!  'e l) returns '(a 1 b 2 3 d 4 5))
+(confirm that (removeq!  'a l) returns '(1 b 2 3 d 4 5))
+(confirm that l                returns '(1 b 2 3 d 4 5))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (ignore

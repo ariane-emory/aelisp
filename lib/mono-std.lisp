@@ -910,7 +910,8 @@
     (setq! current (cdr current)))
    (if current
     (rplacd! prev (cdr current))
-    (error "ELEM was not found in LST")))))
+    (error "ELEM was not found in LST"))))
+ lst)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun removeql! (elem lst)
 ;;  "Destructively remove the first item eql? to ELEM from LST."
