@@ -334,8 +334,7 @@
  
  (let ((lsts (cons first-lst rest-lsts))
        result tail new-tail)
-   (if (any nil? lsts) 
-       nil
+   (when (not (any nil? lsts))
      (setq new-tail (apply fun (mapcar car lsts)))
      (setq result   (list new-tail))
      (setq tail     result)     
