@@ -282,44 +282,10 @@
 ;;)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun mapcar (fun lst)
- "Map FUN over LST, returning the resulting list."
- (unless (fun?  fun) (error "FUN must be a function"))
- (unless (list? lst) (error "LST must be a list"))
- (when lst
-  (let* ((result (list (fun (pop lst))))
-         (tail   result))
-   (while lst
-    (let ((new-tail (list (fun (pop lst)))))     
-     (setq tail (rplacd! tail new-tail))))
-   result)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun mapcar+ (fun first-lst . rest-lsts)
- "Map FUN over FIRST-LST and REST-LSTS, returning the resulting list."
- (unless (fun? fun)            (error "FUN must be a function"))
- (unless (list? first-lst)     (error "FIRST-LST must be a list"))
- (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
- (let ((lsts (cons first-lst rest-lsts))
-       result tail new-tail)
-  (unless (any nil? lsts)
-   (setq
-    new-tail (apply fun (heads lsts))
-    result   (list new-tail)
-    tail     result
-    lsts     (tails lsts))
-   (until (any nil? lsts)
-    (setq
-     new-tail (apply fun (heads lsts))
-     tail     (rplacd! tail (list new-tail))
-     lsts     (tails lsts)))
-   result))) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (print (heads '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 (print (tails '((1 2 3) (4 5 6) (7 8 9)))) (nl)
 
 (princ "In.") (nl)
-(write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
+
 (princ "Out.") (nl)
 ;;(mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))

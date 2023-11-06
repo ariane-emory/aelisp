@@ -380,6 +380,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar* (fun . args) (apply mapcar fun (list args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun mapcar+ (fun first-lst . rest-lsts)
+ "Map FUN over FIRST-LST and REST-LSTS, returning the resulting list."
+ (unless (fun? fun)            (error "FUN must be a function"))
+ (unless (list? first-lst)     (error "FIRST-LST must be a list"))
+ (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
+ (let ((lsts (cons first-lst rest-lsts))
+       result tail new-tail)
+  (unless (any nil? lsts)
+   (setq
+    new-tail (apply fun (heads lsts))
+    result   (list new-tail)
+    tail     result
+    lsts     (tails lsts))
+   (until (any nil? lsts)
+    (setq
+     new-tail (apply fun (heads lsts))
+     tail     (rplacd! tail (list new-tail))
+     lsts     (tails lsts)))
+   result))) 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar! (fun lst)
  "Map fun over LST, altering the list."
  (unless (fun? fun)  (error "FUN must be a function"))
