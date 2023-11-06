@@ -677,3 +677,81 @@ end:
   CORE_RETURN("dirs-in", ret);
 }
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _file_read_string
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_file_write_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("file-write-string");
+
+  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
+
+  char *filename = STR_VAL(CAR(args));
+  char *data     = STR_VAL(CADR(args));
+  FILE *file     = fopen(filename, "w");
+
+  REQUIRE(env, args, file, "Could not open file for writing");
+
+  size_t written = fwrite(data, sizeof(char), strlen(data), file);
+  
+  fclose(file);
+
+  CORE_RETURN("file-write-string", TRUTH(written == strlen(data)));
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _file_append_string
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_file_append_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("file-append-string");
+
+  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
+
+  char *filename = STR_VAL(CAR(args));
+  char *data     = STR_VAL(CADR(args));
+  FILE *file     = fopen(filename, "a");
+  
+  REQUIRE(env, args, file, "Could not open file for appending");
+
+  size_t written = fwrite(data, sizeof(char), strlen(data), file);
+  
+  fclose(file);
+
+  CORE_RETURN("file-append-string", TRUTH(written == strlen(data)));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// _file_read_string
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ae_obj_t * ae_core_file_read_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+  CORE_BEGIN("file-read-string");
+
+  REQUIRE(env, args, STRINGP(CAR(args)), "Argument must be a string");
+
+  char *filename = STR_VAL(CAR(args));
+
+  FILE *file = fopen(filename, "r");
+  REQUIRE(env, args, file, "Could not open file for reading");
+
+  fseek(file, 0, SEEK_END);
+  long filesize = ftell(file);
+  rewind(file);
+
+  char *buffer = (char *)malloc(filesize + 1);
+  REQUIRE(env, args, buffer, "Memory allocation failed");
+
+  size_t read = fread(buffer, sizeof(char), filesize, file);
+  buffer[read] = '\0';
+  fclose(file);
+
+  ae_obj_t *result = NEW_STRING(buffer);
+  free(buffer);
+
+  CORE_RETURN("file-read-string", result);
+}
