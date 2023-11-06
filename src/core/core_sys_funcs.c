@@ -532,7 +532,9 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 
   char * const dst = STR_VAL(CAR(args));
   
-  ret = TRUTH(chdir(dst) == 0);
+  //ret = TRUTH(chdir(dst) == 0);
+  REQUIRE(env, args, chdir(dst) == 0, "Could not change directory");
+  ret = ae_core_pwd(env, NIL, 0);
   
   CORE_RETURN("cd", ret);
 }
