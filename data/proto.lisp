@@ -295,18 +295,6 @@
    result)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun heads (lsts)
- "Return a list of the heads of the lists in LSTS."
- (unless (list? lsts) (error "LSTS must be a list of lists"))
- (unless (all list? lsts) (error "LSTS must be a list of lists"))
- (mapcar car lsts))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun tails (lsts)
- "Return a list of the tails of the lists in LSTS."
- (unless (list? lsts) (error "LSTS must be a list of lists"))
- (unless (all list? lsts) (error "LSTS must be a list of lists"))
- (mapcar cdr lsts))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar+ (fun first-lst . rest-lsts)
  "Map FUN over FIRST-LST and REST-LSTS, returning the resulting list."
  (unless (fun? fun)            (error "FUN must be a function"))
@@ -327,8 +315,45 @@
      lsts     (tails lsts)))
    result))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun heads (lsts)
+ "Return a list of the heads of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar car lsts))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun tails (lsts)
+ "Return a list of the tails of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar cdr lsts))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun heads (lsts)
+ "Return a list of the heads of the lists in LSTS."
+ (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (all list? lsts) (error "LSTS must be a list of lists"))
+ (mapcar car lsts))
 
-(princ "In.") (nl)
-(write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
-(princ "Out.") (nl)
+(defun heads (lsts)
+ (let* ((result (list (car (pop lsts))))
+        (tail   result))
+  (while lsts
+   (let ((new-tail (list (car (pop lsts)))))
+    (setq tail (rplacd! tail new-tail))))
+  result))
+
+(defun tails (lsts)
+ (let* ((result (list (cdr (pop lsts))))
+        (tail   result))
+  (while lsts
+   (let ((new-tail (list (cdr (pop lsts)))))
+    (setq tail (rplacd! tail new-tail))))
+  result))
+
+(print (heads '((1 2 3) (4 5 6) (7 8 9)))) (nl)
+(print (tails '((1 2 3) (4 5 6) (7 8 9)))) (nl)
+
+(ignore
+ (princ "In.") (nl)
+ (write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
+ (princ "Out.") (nl))
 ;;(mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))
