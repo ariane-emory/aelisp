@@ -1091,8 +1091,9 @@
        (progn
         (rplacd! tail new-tail)
         (setq   tail new-tail))
-       (setq result new-tail)
-       (setq tail   result))))))
+       (setq
+        result new-tail
+        tail   result))))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun intercalate (intercalated lst)
