@@ -308,30 +308,10 @@
  (mapcar cdr lsts))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun mapcar+ (fun first-lst . rest-lsts)
- "Map FUN over LSTS, returning the resulting list."
- (unless (fun?  fun)            (error "FUN must be a function"))
- (unless (list? first-lst)      (error "FIRST-LST must be a list"))
- (unless (all list? rest-lsts)  (error "REST-LSTS must all be lists"))
- (let ((lsts (cons first-lst rest-lsts)))
-  (when lsts
-   (princ lsts) (nl)
-   (let* ((car-heads  (heads lsts))
-          (lsts       (tails lsts))
-          (result     (list  (apply fun car-heads)))
-          (tail       result))
-    (while lsts
-     (let ((car-heads  (heads lsts))
-           (new-tail   (list  (apply fun car-heads))))
-      (setq lsts (tails lsts))
-      (setq tail (rplacd! tail new-tail))))
-    result))))
-
-(defun mapcar+ (fun first-lst . rest-lsts)
  "Map FUN over FIRST-LST and REST-LSTS, returning the resulting list."
  (unless (fun? fun)            (error "FUN must be a function"))
  (unless (list? first-lst)     (error "FIRST-LST must be a list"))
  (unless (all list? rest-lsts) (error "REST-LSTS must all be lists"))
- 
  (let ((lsts (cons first-lst rest-lsts))
        result tail new-tail)
    (when (not (any nil? lsts))
@@ -339,13 +319,12 @@
      (setq result   (list new-tail))
      (setq tail     result)     
      (setq lsts     (tails lsts))
-
      (while (not (any nil? lsts))
        (setq new-tail (apply fun (heads lsts)))
        (setq tail (rplacd! tail (list new-tail)))
        (setq lsts (mapcar cdr lsts)))
-     result)))
-
+     result))) 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (princ "In.") (nl)
 (write (mapcar+ + '(1 2 3) '(4 5 6) '(7 8 9))) (nl)
