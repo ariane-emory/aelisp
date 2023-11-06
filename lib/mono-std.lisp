@@ -552,8 +552,8 @@
    (setq
     new-tail (heads lsts)
     result   (list new-tail)
-    tail     result)
-   (setq lsts (tails lsts))
+    tail     result
+    lsts (tails lsts))
    (until (any nil? lsts)
     (setq
      new-tail (heads lsts)
