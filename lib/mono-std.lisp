@@ -1872,17 +1872,17 @@
 (defun alist-to-plist (alist)
  "Convert an alist ALIST to a plist."
  (unless (list? alist) (error "ALIST must be a list"))
- (let (result tail new-tail)
+ (let (result tail)
   (while alist
    (let* ((pair   (pop! alist))
           (key   (car pair))
           (value (cdr pair)))
-    (setq! new-tail (list key value))
-    (if tail
-     (rplacd! tail new-tail)
-     (setq! result new-tail))
-    (setq! tail new-tail)
-    (setq! tail (cdr tail))))
+    (let ((new-tail (list key value)))
+     (if tail
+      (rplacd! tail new-tail)
+      (setq! result new-tail))
+     (setq! tail new-tail)
+     (setq! tail (cdr tail)))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-keys (plist)
