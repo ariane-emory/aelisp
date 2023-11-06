@@ -1871,8 +1871,7 @@
    (setq plist (cddr plist))
    (while plist
     (let ((new-tail (list (pop plist))))
-     (rplacd! tail new-tail)
-     (setq   tail new-tail))
+     (setq tail (rplacd! tail new-tail)))
     (pop plist))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
