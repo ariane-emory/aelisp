@@ -1651,7 +1651,7 @@
              $('column  'printed))
      $('while $('< 'column *confirm's-2nd-column*)
        $('princ '" ")
-       $('setq! 'column $('+ 1 'column)))
+       $('incr! 'column ))
      $('princ '" ⇒ ")
      (when (cons? expected)
       $('princ "'"))
