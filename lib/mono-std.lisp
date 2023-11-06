@@ -1171,10 +1171,9 @@
          (tail result))
    (setq! lst (cdr lst))
    (while lst
-    (let ((new-tail (list (car lst))))
+    (let ((new-tail (list (pop! lst))))
      (rplacd! tail new-tail)
-     (setq!   tail new-tail))
-    (setq! lst (cdr lst)))
+     (setq!   tail new-tail)))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-pred-fun (name combiner base-case)
