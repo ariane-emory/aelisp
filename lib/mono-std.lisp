@@ -464,8 +464,9 @@
  (cond
   ((nil? lst) nil)
   ((list? (car lst))
-   (append (car lst) (flatten1 (cdr lst))))
-  (t (cons (car lst) (flatten1 (cdr lst))))))
+   (append (pop! lst) (flatten1 lst)))
+  (else
+   (cons (pop! lst) (flatten1 lst)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun flatten-left (lst)
  "Flatten a left-nested list structure LST."
