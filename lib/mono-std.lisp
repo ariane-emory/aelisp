@@ -2025,10 +2025,10 @@
  (unless (all? integer? lst) (error "LST must contain only integers"))
  (let ((total 0))
   (while lst
-   (unless (number? (car lst))
+   (let ((head (pop! lst)))
+   (unless (number? head)
     (error "The elements of LST must be numbers."))
-   (setq! total (+ total (car lst)))
-   (setq! lst (cdr lst)))
+   (setq! total (+ total head))))
   total))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun gcd (a b)
