@@ -548,15 +548,17 @@
  (let ((lsts (cons first-lst rest-lsts))
        result tail new-tail)
   (when (not (any nil? lsts))
-    (setq new-tail (heads lsts))
-    (setq result   (list new-tail))
-    (setq tail     result)
-    (setq lsts (tails lsts))
-    (until (any nil? lsts)
-     (setq new-tail (heads lsts))
-     (setq tail (rplacd! tail (list new-tail)))
-     (setq lsts (tails lsts)))
-    result)))
+   (setq
+    new-tail (heads lsts)
+    result   (list new-tail)
+    tail     result)
+   (setq lsts (tails lsts))
+   (until (any nil? lsts)
+    (setq
+     new-tail (heads lsts)
+     tail (rplacd! tail (list new-tail))
+     lsts (tails lsts)))
+   result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun zip* lsts (apply zip (list lsts)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
