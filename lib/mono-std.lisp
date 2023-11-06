@@ -1197,8 +1197,7 @@
  (unless (fun? pred?) (error "PRED? must be a function"))
  (let (result)
   (while (and lst (not result))
-   (setq! result (pred? (car lst)))
-   (setq! lst (cdr lst)))
+   (setq! result (pred? (pop! lst))))
   result))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defmacro defun-list-transform-fun (name transformer)
