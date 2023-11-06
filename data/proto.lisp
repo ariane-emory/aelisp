@@ -317,7 +317,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun heads (lsts)
  "Return a list of the heads of the lists in LSTS."
- (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (list? lsts)     (error "LSTS must be a list of lists"))
  (unless (all list? lsts) (error "LSTS must be a list of lists"))
  (let* ((result (list (car (pop lsts))))
         (tail   result))
@@ -328,7 +328,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun tails (lsts)
  "Return a list of the tails of the lists in LSTS."
- (unless (list? lsts) (error "LSTS must be a list of lists"))
+ (unless (list? lsts)     (error "LSTS must be a list of lists"))
  (unless (all list? lsts) (error "LSTS must be a list of lists"))
  (let* ((result (list (cdr (pop lsts))))
         (tail   result))
