@@ -1832,11 +1832,12 @@
    ;; (setq! keys (cdr keys))
    ;; (setq! vals (cdr vals))
    (while keys
-    (let ((new-tail (list (car keys) (car vals))))
+    (let ((new-tail (list (pop! keys) (pop! vals))))
      (rplacd! tail new-tail)
      (setq!   tail (cdr new-tail))
-     (setq! keys (cdr keys))
-     (setq! vals (cdr vals))))
+     ;; (setq! keys (cdr keys))
+     ;; (setq! vals (cdr vals))
+     ))
    result)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (defun plist-to-alist (plist)
