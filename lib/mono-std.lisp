@@ -1050,12 +1050,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; list funs (unsorted):
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun add-to-list (lst elem)
+(defun push-to-list (elem lst)
  "Add ELEM to the head of LST."
+ (unless lst
+  (error "Cannot add to the empty list."))
  (let ((new-tail (cons (car lst) (cdr lst))))
   (rplaca! lst elem)
   (rplacd! lst new-tail))
  lst)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun pop-from-list (lst)
+ "Pop an item from the head of LST."
+ (unless (cons? lst)
+  (error "Cannot pop from an empty list or a non-list."))
+ (let ((head (car lst)))
+  (if (not (cdr lst))
+   (error "Cannot pop the last item from the list.")
+   (rplaca! lst (cadr lst))
+   (rplacd! lst (cddr lst)))
+  head))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun list* args
  "Come up with a docstring for this!"
