@@ -19,8 +19,8 @@
 // ae_sys_read_from_fd
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-  RFFS_OK,
-  RFFS_NO_ALLOC,
+  RFFD_OK,
+  RFFD_NO_ALLOC,
 } read_from_fd_state_t;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef struct read_from_fd_t {
@@ -48,6 +48,11 @@ static read_from_fd_t ae_sys_read_from_fd(int fd) {
     buffer[bytes_read] = '\0'; // Null-terminate the buffer
 
     char * const new_output = free_list_malloc(total_read + bytes_read + 1); // +1 for null terminator
+
+    if (! new_output) {
+      result.state = RFFD_NO_ALLOC;
+      return result;
+    }
     
     if (output) {
       memcpy(new_output, output, total_read);
@@ -63,7 +68,7 @@ static read_from_fd_t ae_sys_read_from_fd(int fd) {
     output[total_read] = '\0'; // Ensure null-termination
   }
 
-  result.state  = RFFS_OK; 
+  result.state  = RFFD_OK; 
   result.buffer = output;
   result.size   = total_read;  
 
