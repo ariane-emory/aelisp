@@ -1,11 +1,12 @@
+#include <assert.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
-#include <stdio.h>    // if you are using any IO functions like printf for debugging
-#include <stdlib.h>   // if dynamic memory allocation occurs elsewhere in the function
-#include <sys/types.h> // for pid_t
-#include <sys/wait.h>  // for waitpid
-#include <unistd.h>    // for fork, pipe, close, dup2, execl, _exit
+#include <unistd.h>
 
 #include "sys.h"
 
@@ -16,8 +17,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_sys_capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 captured_command_output_t ae_sys_capture_command_output(char * const command) {
+  assert(command);
+  
   captured_command_output_t result;
   memset(&result, 0, sizeof(result)); // Initialize all fields to 0/NULL
 
@@ -80,6 +82,8 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
 // ae_sys_read_from_fd
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 char * ae_sys_read_from_fd(int fd, size_t * const size) {
+  assert(!size);
+  
   char buffer[BUFFER_SIZE];
   char * output     = NULL;
   size_t total_read = 0;
@@ -111,5 +115,34 @@ char * ae_sys_read_from_fd(int fd, size_t * const size) {
   *size = total_read;
   
   return output;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// expand_tilde
+////////////////////////////////////////////////////////////////////////////////////////////////////
+bool expand_tilde(const char * const path, char ** expanded_path) {
+  *expanded_path = NULL;
+  
+  if (! path || path[0] != '~')
+    return false; 
+
+  const char * const home = getenv("HOME");
+    
+  if (! home)
+    return false;
+
+  const size_t len = strlen(home) + strlen(path);
+    
+  *expanded_path = free_list_malloc(len);
+
+  if (! expanded_path)
+    return false;
+
+  strcpy(*expanded_path, home);
+  strcat(*expanded_path, path + 1);
+
+  return true;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

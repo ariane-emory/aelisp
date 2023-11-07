@@ -64,34 +64,6 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// expand_tilde
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool expand_tilde(const char * const path, char ** expanded_path) {
-  *expanded_path = NULL;
-  
-  if (! path || path[0] != '~')
-    return false; 
-
-  const char * const home = getenv("HOME");
-    
-  if (! home)
-    return false;
-
-  const size_t len = strlen(home) + strlen(path);
-    
-  *expanded_path = free_list_malloc(len);
-
-  if (! expanded_path)
-    return false;
-
-  strcpy(*expanded_path, home);
-  strcat(*expanded_path, path + 1);
-
-  return true;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 // _expand_path
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
