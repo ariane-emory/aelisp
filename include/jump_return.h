@@ -52,7 +52,7 @@
       /* if (local_indents != 0) */                                                                \
       /* PR("RETURN because ERRORP at %s:%d\n", __FILE__, __LINE__); */                            \
                                                                                                    \
-      OUTDENTS(local_indents, 1);                                                                  \
+      OUTDENTS(local_indents, 0);                                                                  \
                                                                                                    \
       ret = CAPTURED;                                                                              \
                                                                                                    \
