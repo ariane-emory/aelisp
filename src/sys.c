@@ -22,7 +22,7 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
   assert(command);
   
   captured_command_output_t result;
-  memset(&result, 0, sizeof(result)); // Initialize all fields to 0/NULL
+  memset(&result, 0, sizeof(result));
 
   int stdout_pipe[2];
   int stderr_pipe[2];

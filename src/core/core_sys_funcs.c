@@ -599,6 +599,54 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env, ae_obj_t * const args, _
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _file_read_string
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef enum {
+  FRS_READ,
+  FRS_NO_ALLOC,
+  FRS_NO_OPEN
+} fread_string_state_t;
+
+typedef struct fread_string_t {
+  fread_string_state_t state;
+  char *               buffer;
+  size_t               length;
+} fread_string_t;
+
+fread_string_t ae_sys_fread_string(const char * const filename) {
+  assert(filename);
+  
+  fread_string_t result;
+  memset(&result, 0, sizeof(result));
+
+  FILE * const file = fopen(filename, "r");
+
+  if (! file) {
+    result.state = FRS_NO_OPEN;
+    return result;
+  }
+
+  fseek(file, 0, SEEK_END);
+  long filesize = ftell(file);
+  rewind(file);
+
+  char * const buffer = free_list_malloc(filesize + 1);
+
+  if (! buffer) {
+    result.state = FRS_NO_ALLOC;
+    return result;
+  }
+
+  size_t read = fread(buffer, sizeof(char), filesize, file);
+
+  buffer[read] = '\0';
+  fclose(file);
+
+  result.state  = FRS_READ;
+  result.buffer = buffer;
+  result.length = read;
+
+  return result;
+}
+
 ae_obj_t * ae_core_fread_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-read-string");
 
