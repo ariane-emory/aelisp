@@ -73,8 +73,6 @@ const char * ae_type_str(const ae_type_t this);
 // Obj struct
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef struct ae_obj_t {
-  // Currently, this field is only used to store an ae_obj_t's type in it's bottom 5 bits, but in 
-  // the future it's remaining bits will store other info such as GC related flags:
   unsigned long long int      metadata;
 
   struct ae_obj_t *           properties;
