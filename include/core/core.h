@@ -14,6 +14,7 @@
   DO(load,               false,          1,          2,                        FUNDEF_END)                              \
   DO(requireb,           false,          1,          2, "require*",            FUNDEF_END)                              \
   DO(require,            false,          1,          2,                        FUNDEF_END)                              \
+  DO(read,               false,          1,          1,                        FUNDEF_END)                              \
   DO(sleep,              false,          1,          1,                        FUNDEF_END)                              \
   DO(sleep_us,           false,          1,          1, "sleep-us",            FUNDEF_END)                              \
   DO(elapsed,            false,          1,          1,                        FUNDEF_END)                              \
