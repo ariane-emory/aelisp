@@ -1,14 +1,17 @@
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 
-#include "sys_funcs.h"
+#include "sys.h"
+
+#include "free_list.h"
 
 #define BUFFER_SIZE 4096
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// read_from_fd
+// ae_sys_read_from_fd
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-char * read_from_fd(int fd, size_t * const size) {
+char * ae_sys_read_from_fd(int fd, size_t * const size) {
   char buffer[BUFFER_SIZE];
   char * output     = NULL;
   size_t total_read = 0;

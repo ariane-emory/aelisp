@@ -14,7 +14,7 @@
 #include "common.h"
 #include "env.h"
 #include "free_list.h"
-#include "sys_funcs.h"
+#include "sys.h"
 #include "time_funcs.h"
 #include "pool.h"
 
@@ -60,8 +60,8 @@ static ae_obj_t * capture_command_output(char * const command) {
   close(stdout_pipe[1]);
   close(stderr_pipe[1]);
 
-  stdout_output = read_from_fd(stdout_pipe[0], &stdout_size);
-  stderr_output = read_from_fd(stderr_pipe[0], &stderr_size);
+  stdout_output = ae_sys_read_from_fd(stdout_pipe[0], &stdout_size);
+  stderr_output = ae_sys_read_from_fd(stderr_pipe[0], &stderr_size);
 
   close(stdout_pipe[0]);
   close(stderr_pipe[0]);
