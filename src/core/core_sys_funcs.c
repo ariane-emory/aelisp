@@ -604,25 +604,14 @@ ae_obj_t * ae_core_fread_string(ae_obj_t * const env, ae_obj_t * const args, __a
 
   REQUIRE(env, args, STRINGP(CAR(args)), "Argument must be a string");
 
-  char * const filename = STR_VAL(CAR(args));
-  FILE * const file     = fopen(filename, "r");
-  
-  REQUIRE(env, args, file, "Could not open file for reading");
+  fread_string_t result = ae_sys_fread_string(STR_VAL(CAR(args)));
 
-  fseek(file, 0, SEEK_END);
-  long filesize = ftell(file);
-  rewind(file);
-
-  char * const buffer = free_list_malloc(filesize + 1);
-  
-  REQUIRE(env, args, buffer, "Memory allocation failed");
-
-  size_t read = fread(buffer, sizeof(char), filesize, file);
-
-  buffer[read] = '\0';
-  fclose(file);
-
-  ret = NEW_STRING(buffer);
+  if (result.state == FRS_NO_ALLOC)
+    ret = NEW_ERROR("Could not allocate memory for file read");
+  else if (result.state == FRS_NO_OPEN)
+    ret = NEW_ERROR("Could not open file for reading");
+  else
+    ret = NEW_STRING(result.buffer);
 
   CORE_RETURN("file-read-string", ret);
 }
