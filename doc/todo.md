@@ -1,5 +1,5 @@
 To Do:
-- [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position.
+- [ ] Add core_read to parse strings.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -16,6 +16,7 @@ To Do:
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
 - [ ] Implement math for non-integer types.
+- [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position?
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] GC
@@ -36,6 +37,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] revise read to read strings instead of filenames - it can always be combined with read-file anyhow. (renamed it to load-file)
 - [x] read-only property isn't well thought out. (removed for now)
 - [x] -sn switch for no std at all.
 - [x] restructure mapcan.
