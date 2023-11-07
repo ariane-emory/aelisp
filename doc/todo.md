@@ -1,4 +1,5 @@
 To Do:
+- [ ] 'files' and 'dirs' should allocate new strings?
 - [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.

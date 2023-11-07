@@ -86,13 +86,9 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
   captured_command_output_t result;
   memset(&result, 0, sizeof(result));
 
-  int stdout_pipe[2];
-  int stderr_pipe[2];
+  int  stdout_pipe[2];
+  int  stderr_pipe[2];
   pid_t pid;
-  size_t stdout_size = 0;
-  size_t stderr_size = 0;
-  char * stdout_output = NULL;
-  char * stderr_output = NULL;
 
   if (pipe(stdout_pipe) || pipe(stderr_pipe)) {
     result.state = CCOS_STATE_NO_PIPE;
