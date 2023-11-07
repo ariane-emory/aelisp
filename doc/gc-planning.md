@@ -5,7 +5,7 @@ Safe files - should not need major revision:
 - time_funcs.c/h: should be fine.
 - write.c/h: should be fine.
 - free_list.h/c: might become obsolete, but if not should be fine in current form. splitting into from/to spaces could possibly benefit from a void   free_list_remove_block function, undecided.
-- grammar files: doing GC during parsing is probably not practical and foregoing it might be tolerable in stage 1 as long as GC happens afterwards. Could be done in stage 2.
+- grammar files: doing GC during parsing is probably not practical and foregoing it might be tolerable in stage 1 as long as GC happens afterwards. Could be done in after 2.
 
 Average files - likely to need some revision:
 - obj.h/c: clone and init would need a GC param and tracing.
@@ -15,9 +15,9 @@ Unsafe files - likely to need major revision:
 - common.h/c: load_file should probably trigger GC after parsing, ae_common_new_env will need a GC param and tracing.
 - env.h/c: many functions will need a GC param and tracing.
 - eval.h/c: many functions will need a GC param and tracing.
-- list.h/c: somefunctions will need a GC param and tracing (e.g. ae_list_cons).
+- list.h/c: some functions will need a GC param and tracing (e.g. ae_list_cons).
 - plist.h/c: many functions will need a GC param and tracing.
-- test.c: obiously many tests will need to be re-formulated.
+- test.c: many tests will need to be re-formulated.
 - All core files: every core function and maybe some helpers will need a GC param and tracing.
 
 Unused files - not presently in use and being ignored entirely for now:
