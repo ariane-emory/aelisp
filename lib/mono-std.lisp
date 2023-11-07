@@ -1372,6 +1372,13 @@
  (lambda args
   (apply fun arg1 args)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun curry (fun first-curried-arg . rest-curried-args)
+ "Curry the leading args of fun."
+ "This does not currently validate how many args fun is meant to take."
+ (unless (fun? fun) (error "FUN must be a function"))
+ (lambda args
+  (apply fun (append (cons first-curried-arg rest-curried-args) args))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun spc ()
  "Print a space character."
  (princ " ")
