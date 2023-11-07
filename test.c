@@ -221,9 +221,10 @@ void basic_list_checks(ae_obj_t * this) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void remove_interned_symbol_from_list(void) {
+#ifdef AE_LIST_REMOVE
   SETUP_TEST;
 
-#define TEST_SYM(str)                                                                              \
+#  define TEST_SYM(str)                                                                            \
   {                                                                                                \
     int len = LENGTH(symbols_list);                                                                \
     T(SYM(str) == SYM(str)));                                                                      \
@@ -253,6 +254,7 @@ void remove_interned_symbol_from_list(void) {
   T(LENGTH(symbols_list) == 3);
   T(! MEMBERP(symbols_list, that));
   T(shitty_princ_based_equality_predicate(symbols_list, "(d c a)"));
+#endif
 }
 
 void test_setup_is_okay(void)
@@ -557,7 +559,7 @@ void env_new_root(void) {
 }
 
 #define ENV_TRIO                                                                                   \
-  ae_obj_t * root   = NEW_ROOT(false, STD_MONO);                                                  \
+  ae_obj_t * root   = NEW_ROOT(false, STD_MONO);                                                   \
   ae_obj_t * parent = NEW_ENV(root,   NIL, NIL);                                                   \
   ae_obj_t * child  = NEW_ENV(parent, NIL, NIL);
   

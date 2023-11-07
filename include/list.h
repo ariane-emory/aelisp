@@ -44,9 +44,12 @@ typedef struct ae_obj_t * (*ae_list_map_fun )(const struct ae_obj_t * const);
 #define POP(list)                     (ae_list_pop(&(list)))
 #define PUSH(elem, list)              (ae_list_push(&(list), (elem)))
 #define PUSH_BACK(list, elem)         (ae_list_push_back(&(list), (elem)))
-#define REMOVE(list, elem)            (ae_list_remove_member((list), elem))
-#define SYM2(sym_list, str)           (ae_list_intern_string((sym_list), (str)))
 #define SYM(str)                      (SYM2(&symbols_list, (str)))
+#define SYM2(sym_list, str)           (ae_list_intern_string((sym_list), (str)))
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef AE_LIST_REMOVE
+#  define REMOVE(list, elem)          (ae_list_remove_member((list), elem))
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MEMBERP(list, elem)           (ae_list_has_member((list), (elem)))
 #define PROPERP(obj)                  (ae_list_is_proper((obj)))
@@ -72,10 +75,13 @@ ae_obj_t *    ae_list_join3        (      ae_obj_t *        front, ae_obj_t * co
 ae_obj_t *    ae_list_pop          (      ae_obj_t ** const plist                                                     );
 ae_obj_t *    ae_list_push         (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
 ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
-ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const  member                          );
 bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  const  member                          );
 bool          ae_list_is_proper    (const ae_obj_t *  const list                                                      );
 int           ae_list_length       (const ae_obj_t *  const list                                                      );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef AE_LIST_REMOVE
+ae_obj_t *    ae_list_remove_member(      ae_obj_t *  const list,  ae_obj_t *  const  member                          );
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_LIST_EACH_AND_MAP
 ae_obj_t *    ae_list_map          (      ae_obj_t *  const list,  ae_list_map_fun    fun                             );
