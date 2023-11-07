@@ -432,7 +432,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
   /*   ENV_SET(env, SYM("*std-name*"), SYM("std")); */
   else if (flags & NO_STD)
     ENV_SET(env, SYM("*std-name*"), NIL);
-  else if (flags & MONO_STD)
+  else if (flags & STD_MONO)
     ENV_SET(env, SYM("*std-name*"), SYM("mono-std"));
   else
     assert(false && "Invalid std_mode");

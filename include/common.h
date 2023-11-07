@@ -10,7 +10,7 @@
 typedef enum {
   NO_STD               = 1,
   STD_FUNDAMENTAL      = 2,
-  MONO_STD             = 4, 
+  STD_MONO             = 4, 
   LOG_EVAL             = 8,  
   LOG_CORE             = 16, 
   LOG_MACRO            = 32, 

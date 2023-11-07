@@ -29,14 +29,15 @@ extern FILE * yyin;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool       log_core            = false;
-bool       log_eval            = false;
-bool       log_macro           = false;
-bool       read_error          = false;
-char       mem[free_list_size] = { 0 };
-ae_obj_t * filename_stack      = NIL;
-ae_obj_t * line_stack          = NIL;
-ae_obj_t * program             = NIL;
+bool       log_core                  = false;
+bool       log_eval                  = false;
+bool       log_macro                 = false;
+bool       read_error                = false;
+char       mem[free_list_size]       = { 0 };
+ae_obj_t * filename_stack            = NIL;
+ae_obj_t * line_stack                = NIL;
+ae_obj_t * program                   = NIL;
+const setopts_flag_t default_std_opt = STD_MONO;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -140,7 +141,7 @@ int setopts(int argc, char *argv[]) {
         result |= NO_STD;
         got_std_opt = true;
       } else if (strcmp(optarg, "m") == 0) {
-        result |= MONO_STD;
+        result |= STD_MONO;
         got_std_opt = true;
       } else {
         goto fail;
@@ -152,7 +153,7 @@ int setopts(int argc, char *argv[]) {
   }
 
   if (! got_std_opt)
-    result |= MONO_STD;
+    result |= default_std_opt;
   
   result |= OPTS_OK;
   
