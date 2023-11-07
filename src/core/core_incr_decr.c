@@ -29,7 +29,7 @@ ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("incr", ret);
+  CORE_RETURN("incr");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,5 +59,5 @@ ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("decr", ret);
+  CORE_RETURN("decr");
 }
