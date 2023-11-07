@@ -390,8 +390,8 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef enum {
-  READ,
   LOAD_FILE,
+  LOAD,
   REQUIRE,
   REREQUIRE
 } load_or_require_mode_t;
@@ -412,10 +412,10 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
   char * const file_path          =
-    mode == READ
+    mode == LOAD_FILE
     ? load_target_string
     : find_file(env,
-                mode != LOAD_FILE, 
+                mode != LOAD, 
                 load_target_string);
     
   bool no_error = (args_length == 2) && ! NILP(CADR(args));
@@ -425,7 +425,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
-  if (mode != READ) free_list_free(file_path);
+  if (mode != LOAD_FILE) free_list_free(file_path);
 
   /* const bool old_log_macro     = log_macro; */
   /* const bool old_log_core      = log_core; */
@@ -433,7 +433,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   /* log_macro                    = false; */
   /* log_core                     = false; */
   /* log_eval                     = false; */
-  ret                          = mode == READ ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
+  ret                          = mode == LOAD_FILE ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
   /* log_macro                    = old_log_macro; */
   /* log_core                     = old_log_core; */
   /* log_eval                     = old_log_eval; */
@@ -466,7 +466,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("load", load_or_require(LOAD_FILE, env, args, args_length));
+  CORE_RETURN("load", load_or_require(LOAD, env, args, args_length));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -480,7 +480,7 @@ ae_obj_t * ae_core_read(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("read", CDR(load_or_require(READ, env, args, args_length)));
+  CORE_RETURN("read", CDR(load_or_require(LOAD_FILE, env, args, args_length)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

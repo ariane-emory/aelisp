@@ -10,7 +10,7 @@
 
 #define YYSTYPE ae_obj_t *
 
-#ifdef AE_READ_OBJ_TAGGING
+#ifdef AE_LOAD_FILE_OBJ_TAGGING
 // This will need to be revised to deal with the upcoming load stack.
 #  define TAG(o) (PUT_PROP(NEW_INT(yylineno + 1), "line", ((o))), PUT_PROP(filename_stack, "file", ((o))))
 #else
