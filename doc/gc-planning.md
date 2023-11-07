@@ -2,7 +2,7 @@ Safe files - should not need major revision:
 - capture.h: should be fine.
 - free_list.h/c: might become obsolete, but if not should be fine in current form.
 - jump_return.h: should be fine.
-- log.h: should be fine.
+- log.h/c: should be fine.
 - time_funcs.c/h: should be fine.
 - write: should be fine.
 - grammar files: doing GC during parsing is probably not practical and foregoing it might be tolerable as long as GC happens afterwards.
@@ -22,3 +22,15 @@ Unsafe files - likely to need major revision:
 
 Unused files - not presently in use and being ignored for now:
 - alist.h/c.
+
+Files that could be temporarily excluded to build a minimal test case:
+- All core files.
+- capture.h
+- common.h/c.
+- eval.h/c.
+- free_list.h/c.
+- jump_return.h.
+- log.h/c.
+- plist.h/c.
+- time_funcs.h
+
