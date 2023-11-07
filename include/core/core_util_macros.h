@@ -49,6 +49,6 @@
     if (local_indents) OUTDENT;                                                                    \
     if (log_core)                                                                                  \
       LOG_RETURN_WITH_TYPE("core_" name, ret);                                                \
-    return CAPTURED;                                                                               \
+    return ret;                                                                               \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

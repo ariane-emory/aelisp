@@ -46,5 +46,9 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   // No need to manually null-terminate because we initialized memory to zeros
 
-  CORE_RETURN("concat", NEW_STRING(string));
+  RETURN(NEW_STRING(string));
+  
+end:
+  
+  CORE_RETURN("concat");
 }
