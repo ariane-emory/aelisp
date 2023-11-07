@@ -436,11 +436,20 @@ void eql(void) {
   ae_obj_t * obj_char_a_b    = NEW_CHAR('a');
   ae_obj_t * obj_char_b_a    = NEW_CHAR('b');
   ae_obj_t * obj_char_b_b    = NEW_CHAR('b');
-  char     * pchar_a         = "a";
+
+  char     * pchar_a         = free_list_malloc(2);
+  strcpy(pchar_a, "a");
+
   ae_obj_t * obj_string_a_a  = NEW_STRING(pchar_a);
   ae_obj_t * obj_string_a_b  = NEW_STRING(pchar_a);
-  ae_obj_t * obj_string_a_c  = NEW_STRING("a");
-  ae_obj_t * obj_string_b_a  = NEW_STRING("b");
+
+  char * pchar_a_c = free_list_malloc(2);
+  strcpy(pchar_a_c, "a");
+  ae_obj_t * obj_string_a_c  = NEW_STRING(pchar_a_c);
+
+  char * pchar_b_a = free_list_malloc(2);
+  strcpy(pchar_b_a, "b");
+  ae_obj_t * obj_string_b_a  = NEW_STRING(pchar_b_a);
 
 #define FOR_EVERY_OBJ_DO(X)                                                                        \
   X(  obj_int_2a)                                                                                  \
