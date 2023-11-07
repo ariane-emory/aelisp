@@ -33,12 +33,12 @@ static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured
  
   // If completed successfully, create the plist
   ae_obj_t * const plist = CONS(KW("exit"),
-                          CONS(NEW_INT(captured.exit),
-                               CONS(KW("stdout"),
-                                    CONS(captured.stdout ? NEW_STRING(captured.stdout) : NIL,
-                                         CONS(KW("stderr"),
-                                              CONS(captured.stderr ? NEW_STRING(captured.stderr) : NIL,
-                                                   NIL))))));
+                                CONS(NEW_INT(captured.exit),
+                                     CONS(KW("stdout"),
+                                          CONS(captured.stdout ? NEW_STRING(captured.stdout) : NIL,
+                                               CONS(KW("stderr"),
+                                                    CONS(captured.stderr ? NEW_STRING(captured.stderr) : NIL,
+                                                         NIL))))));
 
   return plist;
 }
@@ -503,8 +503,10 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
   char * path = NULL;
 
   if (args_length == 0) {
-    ae_obj_t * const pwd = RETURN_IF_ERRORP(ae_core_pwd(env, NIL, 0));
-    path = STR_VAL(pwd);
+    path = ae_sys_pwd();
+
+    if (! path)
+      RETURN(NEW_ERROR("Could not get current working directory"));
   }
   else {
     path = STR_VAL(CAR(args));
@@ -549,8 +551,10 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env,
   char * path = NULL;
 
   if (args_length == 0) {
-    ae_obj_t * const pwd = RETURN_IF_ERRORP(ae_core_pwd(env, NIL, 0));
-    path = STR_VAL(pwd);
+    path = ae_sys_pwd();
+
+    if (! path)
+      RETURN(NEW_ERROR("Could not get current working directory"));
   }
   else {
     path = STR_VAL(CAR(args));
