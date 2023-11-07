@@ -182,9 +182,9 @@ bool ae_sys_file_exists(const char * const filename) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _directory_exists
+// _dir_exists
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool ae_sys_directory_exists(const char * const pathname) {
+bool ae_sys_dir_exists(const char * const pathname) {
     struct stat buffer;
     return (! stat(pathname, &buffer)) && S_ISDIR(buffer.st_mode);
 }

@@ -222,6 +222,9 @@ static char * find_file_in_load_path(ae_obj_t * const env,
   assert(load_path);
   
   FOR_EACH(dir, load_path) {
+    if (! ae_sys_dir_exists(STR_VAL(dir)))
+      FPR(stderr, "WARNING: load path directory '%s' does not exist\n", STR_VAL(dir));
+    
     char * const possible_path = add_extension
       ? free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 7)
       : free_list_malloc(strlen(STR_VAL(dir)) + strlen(name) + 2);
