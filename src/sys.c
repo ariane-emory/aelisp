@@ -80,10 +80,10 @@ static read_from_fd_t ae_sys_read_from_fd(int fd) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_sys_capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-captured_command_output_t ae_sys_capture_command_output(char * const command) {
+capture_command_output_t ae_sys_capture_command_output(char * const command) {
   assert(command);
   
-  captured_command_output_t result;
+  capture_command_output_t result;
   memset(&result, 0, sizeof(result));
 
   int  stdout_pipe[2];

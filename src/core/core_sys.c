@@ -18,7 +18,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // wrap_captured_command_output
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-static ae_obj_t * wrap_captured_command_output(captured_command_output_t captured) {
+static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured) {
   if (captured.state != CCOS_STATE_COMPLETED)
     switch (captured.state) {
     case CCOS_STATE_NO_EXEC:
