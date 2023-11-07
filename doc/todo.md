@@ -1,5 +1,4 @@
 To Do:
-- [ ] Nested defuns (or defuns in function envs) are probably going not going to setq in the right scope.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
