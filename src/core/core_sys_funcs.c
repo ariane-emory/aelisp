@@ -18,10 +18,18 @@
 #include "sys_time.h"
 #include "pool.h"
 
+typedef enum {
+  CCOS_STATE_COMPLETED,
+  CCOS_STATE_NO_EXEC,
+  CCOS_STATE_NO_PIPE,
+  CCOS_STATE_NO_FORK,
+} captured_command_output_state_t;
+  
 typedef struct captured_command_output_t {
-  char * stdout;
-  char * stderr;
-  int    exit;
+  captured_command_output_state_t state;
+  char *                          stdout;
+  char *                          stderr; 
+  int                             exit;
 } captured_command_output_t;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
