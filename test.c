@@ -34,7 +34,13 @@
 #define FF                        (fflush(stdout))
 
 #define PR(...)                   (fprintf(stdout, __VA_ARGS__))
-#define COUNT_LIST_LENGTH(l)      ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
+
+#ifdef AE_LIST_EACH_AND_MAP
+#  define COUNT_LIST_LENGTH(l)    ({ list_length_counter = 0; EACH((l), incr_list_length_counter); })
+#else
+#  define COUNT_LIST_LENGTH(l)    { (list_length_counter = ae_list_length((l))); }
+#endif
+
 #define CORE_SETQ(env, sym, val)  ({                                                               \
       ae_obj_t * args = CONS(SYM(sym), CONS(val, NIL));                                            \
       (ae_core_setq(env, args, LENGTH(args)));                                                     \
@@ -191,22 +197,23 @@ void basic_list_checks(ae_obj_t * this) {
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 4)"));
 
+#ifdef AE_LIST_EACH_AND_MAP
   ae_obj_t * mapped = NULL;
 
   mapped = MAP(this, ae_obj_double);
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
-#ifdef AE_OBJ_CLONE
+#  ifdef AE_OBJ_CLONE
   mapped = CLONE(mapped);
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
-#endif
+#  endif
   
   mapped = MAP(mapped, ae_obj_to_pairs);
   T(shitty_princ_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
-  
+#endif  
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -546,7 +553,7 @@ void truth(void) {
 }
 
 void env_new_root(void) {
-  ae_obj_t * root   = ENV_NEW_ROOT(false, false);
+  ae_obj_t * root   = ENV_NEW_ROOT(false, STD_MONO);
 }
 
 #define ENV_TRIO                                                                                   \
@@ -710,9 +717,11 @@ void improper_list(void) {
 
   T(shitty_princ_based_equality_predicate(this, "(1 2 3 . 4)"));
 
+#ifdef AE_LIST_EACH_AND_MAP
   ae_obj_t * mapped = MAP(this, ae_obj_double);
   T(shitty_princ_based_equality_predicate(mapped, "nil"));
   T(NILP(mapped));
+#endif
 
   // PUT(NEW_CONS(NEW_INT(1), NEW_INT(2)));
 }
