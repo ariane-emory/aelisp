@@ -131,7 +131,7 @@ ae_obj_t * ae_core_now_us(__attribute__((unused)) ae_obj_t * const env,
                           __attribute__((unused)) ae_obj_t * const args,
                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("now_us");
-  CORE_RETURN("now_us", NEW_INT(now_us()));
+  CORE_RETURN("now_us", NEW_INT(ae_sys_time_now_us()));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
