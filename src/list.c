@@ -29,6 +29,7 @@ int ae_list_length(const ae_obj_t * const list) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+#ifdef AE_LIST_EACH_AND_MAP
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _each method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
   if (NILP(list))
     return;
 
-#ifdef AE_LIST_EACH_RECURSES
+#  ifdef AE_LIST_EACH_RECURSES
   if (!CAR(list))
     return;
 
@@ -48,10 +49,10 @@ void ae_list_each (ae_obj_t * const list, ae_list_each_fun fun) {
 
   if (CDR(list))
     EACH(CDR(list), fun);
-#else
+#  else
   FOR_EACH(elem, list)
     fun(elem);
-#endif
+#  endif
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,9 +71,9 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
   if (NILP(list))
     return list;
 
-#ifdef AE_LIST_MAP_RECURSES
+#  ifdef AE_LIST_MAP_RECURSES
   return CONS(fun(CAR(list)), MAP(CDR(list), fun));
-#else
+#  else
   ae_obj_t * new_list = NEW_CONS(fun(CAR(list)), NIL);
   ae_obj_t * tailtip  = new_list;
 
@@ -83,9 +84,10 @@ ae_obj_t * ae_list_map(ae_obj_t * const list, ae_list_map_fun fun) {
     tailtip = PUSH_BACK(tailtip, fun(elem));
 
   return new_list;
-#endif
+#  endif
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
