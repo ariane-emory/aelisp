@@ -16,6 +16,63 @@
 #define BUFFER_SIZE 4096
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+// ae_sys_read_from_fd
+////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef enum {
+  RFFS_OK,
+  RFFS_NO_ALLOC,
+} read_from_fd_state_t;
+////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef struct read_from_fd_t {
+  read_from_fd_state_t state;
+  char * buffer;
+  size_t size;
+} read_from_fd_t;
+////////////////////////////////////////////////////////////////////////////////////////////////////
+static read_from_fd_t ae_sys_read_from_fd(int fd) {
+  assert(fd);
+  
+  read_from_fd_t result;
+  memset(&result, 0, sizeof(result));
+
+  char buffer[BUFFER_SIZE];
+  char * output     = NULL;
+  size_t total_read = 0;
+
+  while (true) {
+    int bytes_read = read(fd, buffer, sizeof(buffer) - 1); // -1 to leave space for null terminator
+    
+    if (bytes_read <= 0) // Nothing more to read or an error occurred
+      break;
+
+    buffer[bytes_read] = '\0'; // Null-terminate the buffer
+
+    char * const new_output = free_list_malloc(total_read + bytes_read + 1); // +1 for null terminator
+    
+    if (output) {
+      memcpy(new_output, output, total_read);
+      free_list_free(output);
+    }
+
+    memcpy(new_output + total_read, buffer, bytes_read);
+    output      = new_output;
+    total_read += bytes_read;
+  }
+
+  if (output) {
+    output[total_read] = '\0'; // Ensure null-termination
+  }
+
+  result.state  = RFFS_OK; 
+  result.buffer = output;
+  result.size   = total_read;  
+
+  return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_sys_capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 captured_command_output_t ae_sys_capture_command_output(char * const command) {
@@ -61,8 +118,8 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
   close(stdout_pipe[1]);
   close(stderr_pipe[1]);
 
-  stdout_output = ae_sys_read_from_fd(stdout_pipe[0], &stdout_size);
-  stderr_output = ae_sys_read_from_fd(stderr_pipe[0], &stderr_size);
+  read_from_fd_t stdout_result = ae_sys_read_from_fd(stdout_pipe[0]);
+  read_from_fd_t stderr_result = ae_sys_read_from_fd(stderr_pipe[0]);
 
   close(stdout_pipe[0]);
   close(stderr_pipe[0]);
@@ -70,67 +127,10 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
   int status;
   waitpid(pid, &status, 0);
 
-  // Populate the result structure
-  result.state = CCOS_STATE_COMPLETED;
-  result.stdout = stdout_output; // Assume this is dynamically allocated and needs to be freed later
-  result.stderr = stderr_output; // Assume this is dynamically allocated and needs to be freed later
-  result.exit = WEXITSTATUS(status);
-
-  return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// ae_sys_read_from_fd
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef enum {
-  RFFS_OK,
-  RFFS_NO_ALLOC,
-} read_from_fd_state_t;
-
-typedef struct read_from_fd_t {
-  read_from_fd_state_t state;
-  char * buffer;
-  size_t size;
-} read_from_fd_t;
-
-static read_from_fd_t ae_sys_read_from_fd(int fd) {
-  assert(fd);
-  
-  read_from_fd_t result;
-  memset(&result, 0, sizeof(result));
-
-  char buffer[BUFFER_SIZE];
-  char * output     = NULL;
-  size_t total_read = 0;
-
-  while (true) {
-    int bytes_read = read(fd, buffer, sizeof(buffer) - 1); // -1 to leave space for null terminator
-    
-    if (bytes_read <= 0) // Nothing more to read or an error occurred
-      break;
-
-    buffer[bytes_read] = '\0'; // Null-terminate the buffer
-
-    char * const new_output = free_list_malloc(total_read + bytes_read + 1); // +1 for null terminator
-    
-    if (output) {
-      memcpy(new_output, output, total_read);
-      free_list_free(output);
-    }
-
-    memcpy(new_output + total_read, buffer, bytes_read);
-    output      = new_output;
-    total_read += bytes_read;
-  }
-
-  if (output) {
-    output[total_read] = '\0'; // Ensure null-termination
-  }
-
-  result.state  = RFFS_OK; 
-  result.buffer = output;
-  result.size   = total_read;  
+  result.state  = CCOS_STATE_COMPLETED;
+  result.stdout = stdout_result.buffer;
+  result.stderr = stderr_result.buffer;
+  result.exit   = WEXITSTATUS(status);
 
   return result;
 }
