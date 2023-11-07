@@ -58,12 +58,12 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
   if (log_core)
     LOG(new_expr, "flattened apply's args:");
 
-  ret = RETURN_IF_ERRORP(EVAL(env, new_expr));
-
   if (log_core)
     OLOG(ret);
 
+  RETURN(EVAL(env, new_expr));
+
 end:
   
-  CORE_RETURN("apply", ret);
+  CORE_RETURN("apply");
 }
