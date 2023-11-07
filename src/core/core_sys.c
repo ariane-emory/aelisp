@@ -424,12 +424,14 @@ ae_obj_t * ae_core_pwd(ae_obj_t * const env,
                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("pwd");
 
-  char * const buff = free_list_malloc(PATH_MAX);
-  getcwd(buff, PATH_MAX);
-  char * const cwd = free_list_malloc(strlen(buff) + 1);
-  strcpy(cwd, buff);
-  free_list_free(buff);
-  ret = NEW_STRING(cwd);
+  char * pwd = ae_sys_pwd();
+
+  if (! pwd)
+    RETURN(NEW_ERROR("Could not get current working directory"));
+  
+  ret = NEW_STRING(pwd);
+  
+end:
   
   CORE_RETURN("pwd", ret);
 }

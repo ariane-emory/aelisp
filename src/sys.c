@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/syslimits.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -230,6 +231,10 @@ char * ae_sys_pwd() {
   char * const buff = free_list_malloc(PATH_MAX);
   getcwd(buff, PATH_MAX);
   char * const cwd = free_list_malloc(strlen(buff) + 1);
+
+  if (! cwd)
+    return NULL;
+  
   strcpy(cwd, buff);
   free_list_free(buff);
   return cwd;
