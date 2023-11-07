@@ -456,22 +456,23 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)), "basename's arg must be a string");
 
-  char * const path = STR_VAL(CAR(args));
-  char * const tmp = free_list_malloc(strlen(path) + 1);
-  basename_r(path, tmp);
-  char * const basename = free_list_malloc(strlen(tmp) + 1);
-  strcpy(basename, tmp);
-  free_list_free(tmp);
+  char * const path = ae_sys_basename(STR_VAL(CAR(args)));
+
+  if (! path)
+    RETURN(NEW_ERROR("Could not get basename"));
   
-  ret = NEW_STRING(basename);
+  ret = NEW_STRING(path);
+
+end:
   
   CORE_RETURN("basename", ret);
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _dirname
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 ae_obj_t * ae_core_dirname(ae_obj_t * const env,
                            ae_obj_t * const args,
                            __attribute__((unused)) int args_length) {
@@ -479,15 +480,15 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)), "dirname's arg must be a string");
 
-  char * const path = STR_VAL(CAR(args));
-  char * const tmp = free_list_malloc(strlen(path) + 1);
-  dirname_r(path, tmp);
-  char * const dirname = free_list_malloc(strlen(tmp) + 1);
-  strcpy(dirname, tmp);
-  free_list_free(tmp);
+  char * const path = ae_sys_dirname(STR_VAL(CAR(args)));
+
+  if (! path)
+    RETURN(NEW_ERROR("Could not get dirname"));
   
-  ret = NEW_STRING(dirname);
-    
+  ret = NEW_STRING(path);
+
+end:
+  
   CORE_RETURN("dirname", ret);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
