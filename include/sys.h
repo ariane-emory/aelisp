@@ -48,4 +48,5 @@ capture_command_output_t ae_sys_capture_command_output(char * const command);
 bool                     ae_sys_expand_tilde(const char * const path, char ** expanded_path);
 bool                     ae_sys_file_exists(const char * const filename);
 fread_string_t           ae_sys_file_read_string(const char * const filename);
+char *                   ae_sys_pwd();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
