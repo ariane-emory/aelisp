@@ -652,12 +652,16 @@ ae_obj_t * ae_core_fread_string(ae_obj_t * const env,
 
   fread_string_t result = ae_sys_file_read_string(STR_VAL(CAR(args)));
 
-  if (result.state == FRS_NO_ALLOC)
+  switch (result.state) {
+  case FRS_NO_ALLOC:
     ret = NEW_ERROR("Could not allocate memory for file read");
-  else if (result.state == FRS_NO_OPEN)
+    break;
+  case FRS_NO_OPEN:
     ret = NEW_ERROR("Could not open file for reading");
-  else
+    break;
+  default:
     ret = NEW_STRING(result.buffer);
+  }
 
   CORE_RETURN("file-read-string", ret);
 }
