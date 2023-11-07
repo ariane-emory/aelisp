@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/syslimits.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <time.h>
@@ -169,8 +170,8 @@ bool expand_tilde(const char * const path, char ** expanded_path) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
+                               ae_obj_t * const args,
+                               __attribute__((unused)) int args_length) {
   CORE_BEGIN("expand-path");
 
   REQUIRE(env, args, STRINGP(CAR(args)));
@@ -330,10 +331,10 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 /* } */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// find_file
+// find_file_in_load_path
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-char * find_file(ae_obj_t * const env,
+char * find_file_in_load_path(ae_obj_t * const env,
                  bool add_extension,
                  const char * const name) {
   bool load_path_found = false;
@@ -385,6 +386,19 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
   return false;
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// file_exists
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool file_exists(const char * const filename) {
+  struct stat buffer;
+    
+  int exist = stat(filename, &buffer);
+
+  return exist == 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // load_or_require
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -414,13 +428,11 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   char * const file_path          =
     mode == READ_FILE
     ? load_target_string
-    : find_file(env,
-                mode != LOAD, 
-                load_target_string);
+    : find_file_in_load_path(env, mode != LOAD, load_target_string);
     
   bool no_error = (args_length == 2) && ! NILP(CADR(args));
 
-  if (! file_path)
+  if ((! file_path) || (! file_exists(file_path)))
     RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
   
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
@@ -474,8 +486,8 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_file_read(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+                             ae_obj_t * const args,
+                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-read");
 
   REQUIRE(env, args, STRINGP(CAR(args)));
