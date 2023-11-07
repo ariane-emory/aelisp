@@ -18,90 +18,12 @@
 #include "sys_time.h"
 #include "pool.h"
 
-typedef enum {
-  CCOS_STATE_COMPLETED,
-  CCOS_STATE_NO_EXEC,
-  CCOS_STATE_NO_PIPE,
-  CCOS_STATE_NO_FORK,
-} captured_command_output_state_t;
-  
-typedef struct captured_command_output_t {
-  captured_command_output_state_t state;
-  char *                          stdout;
-  char *                          stderr; 
-  int                             exit;
-} captured_command_output_t;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// capture_command_output
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-captured_command_output_t capture_command_output(char * const command) {
-  captured_command_output_t result;
-  memset(&result, 0, sizeof(result)); // Initialize all fields to 0/NULL
-
-  int stdout_pipe[2];
-  int stderr_pipe[2];
-  pid_t pid;
-  size_t stdout_size = 0;
-  size_t stderr_size = 0;
-  char * stdout_output = NULL;
-  char * stderr_output = NULL;
-
-  if (pipe(stdout_pipe) || pipe(stderr_pipe)) {
-    result.state = CCOS_STATE_NO_PIPE;
-    return result;
-  }
-
-  if ((pid = fork()) == -1) {
-    result.state = CCOS_STATE_NO_FORK;
-    return result;
-  }
-
-  if (pid == 0) { // Child process.
-    close(stdout_pipe[0]);
-    close(stderr_pipe[0]);
-
-    dup2(stdout_pipe[1], STDOUT_FILENO);
-    dup2(stderr_pipe[1], STDERR_FILENO);
-
-    close(stdout_pipe[1]);
-    close(stderr_pipe[1]);
-
-    execl("/bin/bash", "bash", "-c", command, (char *)NULL);
-    // If execl() fails.
-    _exit(1);
-  }
-
-  // Parent process
-  close(stdout_pipe[1]);
-  close(stderr_pipe[1]);
-
-  stdout_output = ae_sys_read_from_fd(stdout_pipe[0], &stdout_size);
-  stderr_output = ae_sys_read_from_fd(stderr_pipe[0], &stderr_size);
-
-  close(stdout_pipe[0]);
-  close(stderr_pipe[0]);
-
-  int status;
-  waitpid(pid, &status, 0);
-
-  // Populate the result structure
-  result.state = CCOS_STATE_COMPLETED;
-  result.stdout = stdout_output; // Assume this is dynamically allocated and needs to be freed later
-  result.stderr = stderr_output; // Assume this is dynamically allocated and needs to be freed later
-  result.exit = WEXITSTATUS(status);
-
-  return result;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // wrap_captured_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static ae_obj_t * wrap_captured_command_output(captured_command_output_t captured) {
-  if (captured.state != CCOS_STATE_COMPLETED) {
-    // Handle error states by returning an appropriate error message
+  if (captured.state != CCOS_STATE_COMPLETED)
     switch (captured.state) {
     case CCOS_STATE_NO_EXEC:
       return NEW_ERROR("Execution failed");
@@ -112,21 +34,15 @@ static ae_obj_t * wrap_captured_command_output(captured_command_output_t capture
     default:
       return NEW_ERROR("Unknown error");
     }
-  }
-
+ 
   // If completed successfully, create the plist
-  ae_obj_t * plist = CONS(KW("exit"),
+  ae_obj_t * const plist = CONS(KW("exit"),
                           CONS(NEW_INT(captured.exit),
                                CONS(KW("stdout"),
                                     CONS(captured.stdout ? NEW_STRING(captured.stdout) : NIL,
                                          CONS(KW("stderr"),
                                               CONS(captured.stderr ? NEW_STRING(captured.stderr) : NIL,
                                                    NIL))))));
-
-  // Don't forget to free the captured.stdout and captured.stderr if necessary
-  // For example, you may need to do something like this:
-  // free(captured.stdout);
-  // free(captured.stderr);
 
   return plist;
 }
@@ -142,7 +58,7 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   char * cmd = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
   
-  ret = wrap_captured_command_output(capture_command_output(cmd));
+  ret = wrap_captured_command_output(ae_sys_capture_command_output(cmd));
   
   CORE_RETURN("system", ret);
 }
