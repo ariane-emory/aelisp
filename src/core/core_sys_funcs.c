@@ -390,7 +390,7 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef enum {
-  LOAD_FILE,
+  READ_FILE,
   LOAD,
   REQUIRE,
   REREQUIRE
@@ -412,7 +412,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 
   char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
   char * const file_path          =
-    mode == LOAD_FILE
+    mode == READ_FILE
     ? load_target_string
     : find_file(env,
                 mode != LOAD, 
@@ -425,7 +425,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
-  if (mode != LOAD_FILE) free_list_free(file_path);
+  if (mode != READ_FILE) free_list_free(file_path);
 
   /* const bool old_log_macro     = log_macro; */
   /* const bool old_log_core      = log_core; */
@@ -433,7 +433,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   /* log_macro                    = false; */
   /* log_core                     = false; */
   /* log_eval                     = false; */
-  ret                          = mode == LOAD_FILE ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
+  ret                          = mode == READ_FILE ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
   /* log_macro                    = old_log_macro; */
   /* log_core                     = old_log_core; */
   /* log_eval                     = old_log_eval; */
@@ -480,7 +480,7 @@ ae_obj_t * ae_core_read_file(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("read-file", CDR(load_or_require(LOAD_FILE, env, args, args_length)));
+  CORE_RETURN("read-file", CDR(load_or_require(READ_FILE, env, args, args_length)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
