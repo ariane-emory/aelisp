@@ -516,6 +516,7 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
   }
   
   DIR * const dir = opendir(path);
+
   REQUIRE(env, args, dir, "could not open directory");
 
   struct dirent * entry;
@@ -523,11 +524,15 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
   while ((entry = readdir(dir))) {
     if (entry->d_type == DT_REG) {
       char * const new_string = free_list_malloc(strlen(entry->d_name) + 1);
+
       if (! new_string) {
         closedir(dir);
+
         RETURN(NEW_ERROR("Out of memory when allocating new string for filename"));
       }
+
       strcpy(new_string, entry->d_name);
+
       ret = CONS(NEW_STRING(new_string), ret); // Assuming NEW_STRING takes ownership of new_string
     }
   }
@@ -572,12 +577,15 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env,
   while ((entry = readdir(dir)))
     if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0) {
       char * const new_string = free_list_malloc(strlen(entry->d_name) + 1);
+
       if (! new_string) {
         closedir(dir);
+
         RETURN(NEW_ERROR("Out of memory when allocating new string for directory name"));
       }
+
       strcpy(new_string, entry->d_name);
-      strcpy(new_string, entry->d_name);
+      
       ret = CONS(NEW_STRING(new_string), ret);
     }
 
