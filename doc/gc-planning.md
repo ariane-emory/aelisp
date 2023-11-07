@@ -13,12 +13,12 @@ Average files - likely to need some revision:
 
 Unsafe files - likely to need major revision:
 - common.h/c: load_file should probably trigger GC after parsing.
-- env.h/c: many methods will need a GC param.
-- eval.h/c: many methods will need a GC param.
-- list.h/c: many methods will need a GC param.
-- plist.h/c: many methods will need a GC param.
+- env.h/c: many functions will need a GC param.
+- eval.h/c: many functions will need a GC param.
+- list.h/c: many functions will need a GC param.
+- plist.h/c: many functions will need a GC param.
 - tesc.c: obiously many tests will need to be re-formulated.
-- All core files.
+- All core files: every core function will need a GC param.
 
 Unused files - not presently in use and being ignored for now:
 - alist.h/c.
