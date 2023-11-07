@@ -28,7 +28,7 @@ typedef struct captured_command_output_t {
 // capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static ae_obj_t * capture_command_output(char * const command) {
+ae_obj_t * capture_command_output(char * const command) {
   /* if (! STRINGP(command_obj)) */
   /*   return NEW_ERROR("command must be a string"); */
 
