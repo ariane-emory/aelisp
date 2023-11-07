@@ -34,7 +34,9 @@ typedef enum {
 typedef struct captured_command_output_t {
   captured_command_output_state_t state;
   char *                          stdout;
-  char *                          stderr; 
+  size_t                          stdout_size;
+  char *                          stderr;
+  size_t                          stderr_size;
   int                             exit;
 } captured_command_output_t;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -132,10 +132,12 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
   int status;
   waitpid(pid, &status, 0);
 
-  result.state  = CCOS_STATE_COMPLETED;
-  result.stdout = stdout_result.buffer;
-  result.stderr = stderr_result.buffer;
-  result.exit   = WEXITSTATUS(status);
+  result.state       = CCOS_STATE_COMPLETED;
+  result.stdout      = stdout_result.buffer;
+  result.stdout_size = stdout_result.size;
+  result.stderr      = stderr_result.buffer;
+  result.stderr_size = stderr_result.size;
+  result.exit        = WEXITSTATUS(status);
 
   return result;
 }
