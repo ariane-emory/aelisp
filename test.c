@@ -50,9 +50,9 @@
   ae_obj_t *    this    = NULL;                                                                    \
   ae_obj_t *    that    = NULL;                                                                    \
   symbols_list          = NIL;                                                                     \
-  memset(string_pool, 0, free_list_size);                                                                  \
+  memset(string_pool, 0, string_pool_size);                                                                  \
   free_list_reset();                                                                               \
-  free_list_add_block(&string_pool[0], free_list_size);                                                    \
+  free_list_add_block(&string_pool[0], string_pool_size);                                                    \
   pool_clear();                                                                                    \
   if (tmp_str) {                                                                                   \
     free(tmp_str);                                                                                 \
@@ -89,7 +89,7 @@ void before_acutest() {
   printf("Pool size:    %016p (%zu bytes).\n",
          sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE,
          sizeof(ae_obj_t) * AE_OBJ_POOL_SIZE);
-  printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
+  printf("Strings pool size: %016p (%zu bytes).", string_pool_size, string_pool_size);
   NL;
   NL;
 

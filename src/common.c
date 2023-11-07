@@ -35,7 +35,7 @@ bool       log_core                    = false;
 bool       log_eval                    = false;
 bool       log_macro                   = false;
 bool       read_error                  = false;
-char       string_pool[free_list_size] = { 0 };
+char       string_pool[string_pool_size] = { 0 };
 ae_obj_t * filename_stack              = NIL;
 ae_obj_t * line_stack                  = NIL;
 ae_obj_t * program                     = NIL;
@@ -59,7 +59,7 @@ void preface(void) {
   printf("Pool size:         %016p (%zu bytes / %zu kb / %zu mb / %zu gb).\n",
          pool_size, pool_size, pool_size >> 10, pool_size >> 20, pool_size >> 30);
 
-  printf("Strings pool size: %016p (%zu bytes).", free_list_size, free_list_size);
+  printf("Strings pool size: %016p (%zu bytes).", string_pool_size, string_pool_size);
   NL;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -302,7 +302,7 @@ ae_obj_t * ae_common_new_root(bool log_loading_std, int flags) {
   symbols_list = NIL;
   pool_clear();
   free_list_reset();
-  free_list_add_block(&string_pool[0], free_list_size);
+  free_list_add_block(&string_pool[0], string_pool_size);
 
   // Reset the properties of nil and t: this is is only really necessary if we're going to build
   // the root env more than once (such as is done by, for example, the unit tests, or the REPL's

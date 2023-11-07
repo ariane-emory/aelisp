@@ -2,7 +2,7 @@
 
 #include "obj.h"
 
-#define free_list_size (1 << 18)
+#define string_pool_size (1 << 18)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // types
@@ -24,7 +24,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-extern char       string_pool[free_list_size]; // the string pool.
+extern char       string_pool[string_pool_size]; // the string pool.
 extern ae_obj_t * program;                     // bison will put the last parsed program here.
 extern bool       log_core;                    // global toggle.
 extern bool       log_eval;                    // global toggle.

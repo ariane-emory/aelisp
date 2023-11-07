@@ -346,7 +346,7 @@ extern ae_obj_t * symbols_list;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_STRING(val)                                                                                                               \
   ({                                                                                                                                  \
-  assert((val) >= string_pool && (val) < string_pool + free_list_size);                                                               \
+  assert((val) >= string_pool && (val) < string_pool + string_pool_size);                                                               \
   ae_obj_t * _obj  = NEW(AE_STRING);                                                                                                  \
   STR_VAL(_obj) = (val);                                                                                                              \
   _obj;                                                                                                                               \
