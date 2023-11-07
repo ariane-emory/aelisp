@@ -482,7 +482,7 @@ ae_obj_t * ae_env_new_root(bool log_loading_std, int flags) {
     assert(! NILP(std_name)); // We just set it, so it better not be nil.
     
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    // Step 7: Finally, load whichever version of the stdlib was chosen:
+    // Step 7: Finally, require whichever version of the stdlib was chosen:
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     const ae_obj_t * const std_return = ae_core_require(env, CONS(std_name, NIL), 1);
