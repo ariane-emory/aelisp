@@ -1,5 +1,4 @@
 To Do:
-- [ ] Add core_read to parse strings.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -37,6 +36,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Add core_read to parse strings.
 - [x] revise read to read strings instead of filenames - it can always be combined with read-file anyhow. (renamed it to load-file)
 - [x] read-only property isn't well thought out. (removed for now)
 - [x] -sn switch for no std at all.

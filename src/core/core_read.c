@@ -15,8 +15,8 @@ ae_obj_t * ae_core_read(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   REQUIRE(env, args, ! read_error, "Could not read.");
       
-  ret = EVAL(env, program);
+  // ret = EVAL(env, program);
 
-  CORE_RETURN("read", ret);
+  CORE_RETURN("read", program);
 }
 
