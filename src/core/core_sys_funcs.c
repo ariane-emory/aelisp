@@ -36,66 +36,6 @@ typedef struct captured_command_output_t {
 // capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/* ae_obj_t * capture_command_output(char * const command) { */
-/*   /\* if (! STRINGP(command_obj)) *\/ */
-/*   /\*   return NEW_ERROR("command must be a string"); *\/ */
-
-/*   /\* char * const command = STR_VAL(command_obj); *\/ */
-
-/*   int stdout_pipe[2]; */
-/*   int stderr_pipe[2]; */
-/*   pid_t pid; */
-/*   size_t stdout_size; */
-/*   size_t stderr_size; */
-/*   char * stdout_output = NULL; */
-/*   char * stderr_output = NULL; */
-
-/*   if (pipe(stdout_pipe) || pipe(stderr_pipe)) */
-/*     return NEW_ERROR("Pipe creation failed"); */
-
-/*   if ((pid = fork()) == -1) */
-/*     return NEW_ERROR("Fork failed"); */
- 
-/*   if (pid == 0) { // Child process. */
-/*     close(stdout_pipe[0]); */
-/*     close(stderr_pipe[0]); */
-        
-/*     dup2(stdout_pipe[1], STDOUT_FILENO); */
-/*     dup2(stderr_pipe[1], STDERR_FILENO); */
-        
-/*     close(stdout_pipe[1]); */
-/*     close(stderr_pipe[1]); */
-
-/*     execl("/bin/bash", "bash", "-c", command, (char *)NULL); */
-/*     // If execl() fails. */
-/*     _exit(1); */
-/*   } */
-
-/*   close(stdout_pipe[1]); */
-/*   close(stderr_pipe[1]); */
-
-/*   stdout_output = ae_sys_read_from_fd(stdout_pipe[0], &stdout_size); */
-/*   stderr_output = ae_sys_read_from_fd(stderr_pipe[0], &stderr_size); */
-
-/*   close(stdout_pipe[0]); */
-/*   close(stderr_pipe[0]); */
-
-/*   int status; */
-  
-/*   waitpid(pid, &status, 0); */
-
-/*   const int exit = WEXITSTATUS(status); */
-
-/*   return CONS(KW("exit"), */
-/*               CONS(NEW_INT(exit), */
-/*                    CONS(KW("stdout"), */
-/*                         CONS(stdout_output ? NEW_STRING(stdout_output) : NIL, */
-/*                              CONS(KW("stderr"), */
-/*                                   CONS(stderr_output? NEW_STRING(stderr_output) : NIL, */
-/*                                        NIL)))))); */
-
-/* } */
-
 captured_command_output_t capture_command_output(char * const command) {
   captured_command_output_t result;
   memset(&result, 0, sizeof(result)); // Initialize all fields to 0/NULL
