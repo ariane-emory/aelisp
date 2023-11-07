@@ -606,11 +606,12 @@ ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
 
   REQUIRE(env, args, file, "Could not open file for writing");
 
-  size_t written = fwrite(data, sizeof(char), strlen(data), file);
+  size_t data_size = strlen(data);
+  size_t written   = fwrite(data, sizeof(char), data_size, file);
   
   fclose(file);
 
-  CORE_RETURN("file-write-string", TRUTH(written == strlen(data)));
+  CORE_RETURN("file-write-string", TRUTH(written == data_size));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -631,11 +632,12 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
   
   REQUIRE(env, args, file, "Could not open file for appending");
 
-  size_t written = fwrite(data, sizeof(char), strlen(data), file);
+  size_t data_size = strlen(data);
+  size_t written   = fwrite(data, sizeof(char), data_size, file);
   
   fclose(file);
 
-  CORE_RETURN("file-append-string", TRUTH(written == strlen(data)));
+  CORE_RETURN("file-append-string", TRUTH(written == data_size));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
