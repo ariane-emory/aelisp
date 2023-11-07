@@ -155,6 +155,10 @@ captured_command_output_t capture_command_output(char * const command) {
   return result;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// wrap_captured_command_output
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static ae_obj_t * wrap_captured_command_output(captured_command_output_t captured) {
   if (captured.state != CCOS_STATE_COMPLETED) {
     // Handle error states by returning an appropriate error message
