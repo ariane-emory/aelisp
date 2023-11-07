@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <string.h>
 
 #include "sys_funcs.h"
 
