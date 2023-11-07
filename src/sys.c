@@ -113,7 +113,7 @@ capture_command_output_t ae_sys_capture_command_output(const char * const comman
     close(stderr_pipe[1]);
 
     execl("/bin/bash", "bash", "-c", command, (char *)NULL);
-    // If execl() fails.
+
     _exit(1);
   }
 
@@ -128,6 +128,7 @@ capture_command_output_t ae_sys_capture_command_output(const char * const comman
   close(stderr_pipe[0]);
 
   int status;
+
   waitpid(pid, &status, 0);
 
   result.state       = CCOS_STATE_OK;
@@ -146,6 +147,8 @@ capture_command_output_t ae_sys_capture_command_output(const char * const comman
 // ae_sys_expand_tilde
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ae_sys_expand_tilde(const char * const path, char ** expanded_path) {
+  assert(path);
+  
   *expanded_path = NULL;
   
   if (! path || path[0] != '~')
@@ -175,9 +178,11 @@ bool ae_sys_expand_tilde(const char * const path, char ** expanded_path) {
 // _file_exists
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ae_sys_file_exists(const char * const filename) {
-    struct stat buffer;
+  assert(filename);
+  
+  struct stat buffer;
     
-    return (! stat(filename, &buffer)) && S_ISREG(buffer.st_mode);
+  return (! stat(filename, &buffer)) && S_ISREG(buffer.st_mode);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -186,8 +191,11 @@ bool ae_sys_file_exists(const char * const filename) {
 // _dir_exists
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ae_sys_dir_exists(const char * const pathname) {
-    struct stat buffer;
-    return (! stat(pathname, &buffer)) && S_ISDIR(buffer.st_mode);
+  assert(pathname);
+
+  struct stat buffer;
+
+  return (! stat(pathname, &buffer)) && S_ISDIR(buffer.st_mode);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -209,7 +217,9 @@ fread_string_t ae_sys_file_read_string(const char * const filename) {
   }
 
   fseek(file, 0, SEEK_END);
+
   long filesize = ftell(file);
+
   rewind(file);
 
   char * const buffer = free_list_malloc(filesize + 1);
@@ -238,7 +248,9 @@ fread_string_t ae_sys_file_read_string(const char * const filename) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 char * ae_sys_pwd() {
   char * const buff = free_list_malloc(PATH_MAX);
+
   getcwd(buff, PATH_MAX);
+
   char * const cwd = free_list_malloc(strlen(buff) + 1);
 
   if (! cwd)
@@ -258,8 +270,11 @@ char * ae_sys_basename(const char * const path) {
   assert(path);
 
   char * const tmp = free_list_malloc(strlen(path) + 1);
+
   basename_r(path, tmp);
+
   char * const basename = free_list_malloc(strlen(tmp) + 1);
+
   strcpy(basename, tmp);
   free_list_free(tmp);
 
@@ -275,8 +290,11 @@ char * ae_sys_dirname(const char * const path) {
   assert(path);
 
   char * const tmp = free_list_malloc(strlen(path) + 1);
+
   dirname_r(path, tmp);
+
   char * const dirname = free_list_malloc(strlen(tmp) + 1);
+
   strcpy(dirname, tmp);
   free_list_free(tmp);
   
