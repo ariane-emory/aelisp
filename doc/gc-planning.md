@@ -9,7 +9,7 @@ Safe files - should not need major revision:
 
 Average files - likely to need some revision:
 - obj.h/c: clone and init would need a GC param.
-- pool.h/c: probably would be nice to allocate variably sized objects, which would obsolesce free_list.h/c.
+- pool.h/c: probably would be nice to allocate variably sized objects, which would obsolesce free_list.h/c. Also from/to division.
 
 Unsafe files - likely to need major revision:
 - common.h/c: load_file should probably trigger GC after parsing.
