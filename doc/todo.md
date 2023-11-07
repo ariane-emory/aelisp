@@ -1,4 +1,7 @@
 To Do:
+- [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
+- [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
+- [ ] Review printing of characters that need escaping.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
@@ -12,13 +15,11 @@ To Do:
 - [ ] Review correctness environments used for macro expansion/evaluation, especially for nested macros.
 - [ ] Review correctness of unwinding indentation.
 - [ ] try incremental selection sorting env syms/vals?
-- [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
-- [ ] Review printing of characters that need escaping.
 - [ ] Implement math for non-integer types.
 - [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position?
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
-- [ ] GC
+- [ ] GC.
 
 Under Consideration:
 - [ ] Maybe move load_file?
