@@ -36,33 +36,95 @@ typedef struct captured_command_output_t {
 // capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * capture_command_output(char * const command) {
-  /* if (! STRINGP(command_obj)) */
-  /*   return NEW_ERROR("command must be a string"); */
+/* ae_obj_t * capture_command_output(char * const command) { */
+/*   /\* if (! STRINGP(command_obj)) *\/ */
+/*   /\*   return NEW_ERROR("command must be a string"); *\/ */
 
-  /* char * const command = STR_VAL(command_obj); */
+/*   /\* char * const command = STR_VAL(command_obj); *\/ */
+
+/*   int stdout_pipe[2]; */
+/*   int stderr_pipe[2]; */
+/*   pid_t pid; */
+/*   size_t stdout_size; */
+/*   size_t stderr_size; */
+/*   char * stdout_output = NULL; */
+/*   char * stderr_output = NULL; */
+
+/*   if (pipe(stdout_pipe) || pipe(stderr_pipe)) */
+/*     return NEW_ERROR("Pipe creation failed"); */
+
+/*   if ((pid = fork()) == -1) */
+/*     return NEW_ERROR("Fork failed"); */
+ 
+/*   if (pid == 0) { // Child process. */
+/*     close(stdout_pipe[0]); */
+/*     close(stderr_pipe[0]); */
+        
+/*     dup2(stdout_pipe[1], STDOUT_FILENO); */
+/*     dup2(stderr_pipe[1], STDERR_FILENO); */
+        
+/*     close(stdout_pipe[1]); */
+/*     close(stderr_pipe[1]); */
+
+/*     execl("/bin/bash", "bash", "-c", command, (char *)NULL); */
+/*     // If execl() fails. */
+/*     _exit(1); */
+/*   } */
+
+/*   close(stdout_pipe[1]); */
+/*   close(stderr_pipe[1]); */
+
+/*   stdout_output = ae_sys_read_from_fd(stdout_pipe[0], &stdout_size); */
+/*   stderr_output = ae_sys_read_from_fd(stderr_pipe[0], &stderr_size); */
+
+/*   close(stdout_pipe[0]); */
+/*   close(stderr_pipe[0]); */
+
+/*   int status; */
+  
+/*   waitpid(pid, &status, 0); */
+
+/*   const int exit = WEXITSTATUS(status); */
+
+/*   return CONS(KW("exit"), */
+/*               CONS(NEW_INT(exit), */
+/*                    CONS(KW("stdout"), */
+/*                         CONS(stdout_output ? NEW_STRING(stdout_output) : NIL, */
+/*                              CONS(KW("stderr"), */
+/*                                   CONS(stderr_output? NEW_STRING(stderr_output) : NIL, */
+/*                                        NIL)))))); */
+
+/* } */
+
+captured_command_output_t capture_command_output(char * const command) {
+  captured_command_output_t result;
+  memset(&result, 0, sizeof(result)); // Initialize all fields to 0/NULL
 
   int stdout_pipe[2];
   int stderr_pipe[2];
   pid_t pid;
-  size_t stdout_size;
-  size_t stderr_size;
+  size_t stdout_size = 0;
+  size_t stderr_size = 0;
   char * stdout_output = NULL;
   char * stderr_output = NULL;
 
-  if (pipe(stdout_pipe) || pipe(stderr_pipe))
-    return NEW_ERROR("Pipe creation failed");
+  if (pipe(stdout_pipe) || pipe(stderr_pipe)) {
+    result.state = CCOS_STATE_NO_PIPE;
+    return result;
+  }
 
-  if ((pid = fork()) == -1)
-    return NEW_ERROR("Fork failed");
- 
+  if ((pid = fork()) == -1) {
+    result.state = CCOS_STATE_NO_FORK;
+    return result;
+  }
+
   if (pid == 0) { // Child process.
     close(stdout_pipe[0]);
     close(stderr_pipe[0]);
-        
+
     dup2(stdout_pipe[1], STDOUT_FILENO);
     dup2(stderr_pipe[1], STDERR_FILENO);
-        
+
     close(stdout_pipe[1]);
     close(stderr_pipe[1]);
 
@@ -71,6 +133,7 @@ ae_obj_t * capture_command_output(char * const command) {
     _exit(1);
   }
 
+  // Parent process
   close(stdout_pipe[1]);
   close(stderr_pipe[1]);
 
@@ -81,19 +144,47 @@ ae_obj_t * capture_command_output(char * const command) {
   close(stderr_pipe[0]);
 
   int status;
-  
   waitpid(pid, &status, 0);
 
-  const int exit = WEXITSTATUS(status);
+  // Populate the result structure
+  result.state = CCOS_STATE_COMPLETED;
+  result.stdout = stdout_output; // Assume this is dynamically allocated and needs to be freed later
+  result.stderr = stderr_output; // Assume this is dynamically allocated and needs to be freed later
+  result.exit = WEXITSTATUS(status);
 
-  return CONS(KW("exit"),
-              CONS(NEW_INT(exit),
-                   CONS(KW("stdout"),
-                        CONS(stdout_output ? NEW_STRING(stdout_output) : NIL,
-                             CONS(KW("stderr"),
-                                  CONS(stderr_output? NEW_STRING(stderr_output) : NIL,
-                                       NIL))))));
+  return result;
+}
 
+static ae_obj_t * wrap_captured_command_output(captured_command_output_t captured) {
+  if (captured.state != CCOS_STATE_COMPLETED) {
+    // Handle error states by returning an appropriate error message
+    switch (captured.state) {
+    case CCOS_STATE_NO_EXEC:
+      return NEW_ERROR("Execution failed");
+    case CCOS_STATE_NO_PIPE:
+      return NEW_ERROR("Pipe creation failed");
+    case CCOS_STATE_NO_FORK:
+      return NEW_ERROR("Fork failed");
+    default:
+      return NEW_ERROR("Unknown error");
+    }
+  }
+
+  // If completed successfully, create the plist
+  ae_obj_t * plist = CONS(KW("exit"),
+                          CONS(NEW_INT(captured.exit),
+                               CONS(KW("stdout"),
+                                    CONS(captured.stdout ? NEW_STRING(captured.stdout) : NIL,
+                                         CONS(KW("stderr"),
+                                              CONS(captured.stderr ? NEW_STRING(captured.stderr) : NIL,
+                                                   NIL))))));
+
+  // Don't forget to free the captured.stdout and captured.stderr if necessary
+  // For example, you may need to do something like this:
+  // free(captured.stdout);
+  // free(captured.stderr);
+
+  return plist;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +198,7 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   char * cmd = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
   
-  ret = capture_command_output(cmd);
+  ret = wrap_captured_command_output(capture_command_output(cmd));
   
   CORE_RETURN("system", ret);
 }
@@ -310,8 +401,8 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char * find_file_in_load_path(ae_obj_t * const env,
-                 bool add_extension,
-                 const char * const name) {
+                              bool add_extension,
+                              const char * const name) {
   bool load_path_found = false;
   ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
 
