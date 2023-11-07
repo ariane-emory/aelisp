@@ -230,7 +230,7 @@ static char * find_file_in_load_path(ae_obj_t * const env,
             add_extension ? "%s/%s.lisp" : "%s/%s",
             STR_VAL(dir), name);
 
-    if (access(possible_path, F_OK) != -1)
+    if (ae_sys_file_exists(possible_path))
       return possible_path;
     else
       free_list_free(possible_path);
