@@ -38,7 +38,11 @@
       accum = accum oper INT_VAL(elem);                                                                               \
     }                                                                                                                 \
                                                                                                                       \
-    CORE_RETURN(#name, NEW_INT(accum));                                                                               \
+    RETURN(NEW_INT(accum));                                                                                           \
+                                                                                                                      \
+  end:                                                                                                                \
+                                                                                                                      \
+    CORE_RETURN(#name);                                                                                               \
   }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,7 +57,12 @@ ae_obj_t * ae_core_plus1(__attribute__((unused)) ae_obj_t * const env,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("1+");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
-  CORE_RETURN("1+", NEW_INT(INT_VAL(CAR(args)) + 1));
+
+  RETURN(NEW_INT(INT_VAL(CAR(args)) + 1));
+  
+end:
+  
+  CORE_RETURN("1+");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +74,11 @@ ae_obj_t * ae_core_minus1(__attribute__((unused)) ae_obj_t * const env,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("1-");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
-  CORE_RETURN("1-", NEW_INT(INT_VAL(CAR(args)) - 1));
+
+  RETURN(NEW_INT(INT_VAL(CAR(args)) - 1));
+  
+end:
+  
+  CORE_RETURN("1-");
 }
 
