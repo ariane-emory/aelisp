@@ -56,9 +56,7 @@ ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
 
-  char * cmd = SYMBOLP(CAR(args)) ? SYM_VAL(CAR(args)) : STR_VAL(CAR(args));
-  
-  ret = wrap_captured_command_output(ae_sys_capture_command_output(cmd));
+  ret = wrap_captured_command_output(ae_sys_capture_command_output(STR_VAL(CAR(args))));
   
   CORE_RETURN("system", ret);
 }
