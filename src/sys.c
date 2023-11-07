@@ -94,7 +94,7 @@ typedef struct read_from_fd_t {
   size_t size;
 } read_from_fd_t;
 
-read_from_fd_t ae_sys_read_from_fd(int fd) {
+static read_from_fd_t ae_sys_read_from_fd(int fd) {
   assert(fd);
   
   read_from_fd_t result;

@@ -41,7 +41,7 @@ typedef struct captured_command_output_t {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-char *                    ae_sys_read_from_fd(int fd, size_t * const size);
+// char *                    ae_sys_read_from_fd(int fd, size_t * const size);
 captured_command_output_t ae_sys_capture_command_output(char * const command);
 bool                      ae_sys_expand_tilde(const char * const path, char ** expanded_path);
 bool                      ae_sys_file_exists(const char * const filename);
