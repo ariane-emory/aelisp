@@ -140,6 +140,7 @@ int setopts(int argc, char *argv[]) {
         result |= NO_STD;
         got_std_opt = true;
       } else if (strcmp(optarg, "m") == 0) {
+        result |= MONO_STD;
         got_std_opt = true;
       } else {
         goto fail;
@@ -150,6 +151,9 @@ int setopts(int argc, char *argv[]) {
     }
   }
 
+  if (! got_std_opt)
+    result |= MONO_STD;
+  
   result |= OPTS_OK;
   
   return result;
