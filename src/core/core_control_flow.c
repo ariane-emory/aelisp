@@ -26,7 +26,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
 end:
   
-  CORE_RETURN("progn", ret);
+  CORE_RETURN("progn");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,8 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
         if (EQL(key_form, case_form_car_elem)) {
           if (log_core)
             SLOG("matches");
-          CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr))));
+          
+          RETURN(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr)));
         } else if (log_core) {
           SLOG("doesn't match");
         }
@@ -96,12 +97,11 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     }
   }
 
-  if (selected_value_form) {  // If there's an else clause and no prior match was found
-    CORE_RETURN("case", RETURN_IF_ERRORP(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form))));
-  }
+  if (selected_value_form)
+    RETURN(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form)));
 
 end:
-  CORE_RETURN("case", NIL);
+  CORE_RETURN("case");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +146,8 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
   }
 
 end:
-  CORE_RETURN("cond", ret);
+  
+  CORE_RETURN("cond");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +187,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 
 end:
   
-  CORE_RETURN("if", ret);
+  CORE_RETURN("if");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -221,7 +222,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
 end:
   
-  CORE_RETURN("when", ret);
+  CORE_RETURN("when");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +257,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("unless", ret);
+  CORE_RETURN("unless");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,7 +280,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
       
 end:
     
-  CORE_RETURN("or", ret);
+  CORE_RETURN("or");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,8 +300,9 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       break;
   }
 
-end:  
-  CORE_RETURN("and", ret);
+end:
+  
+  CORE_RETURN("and");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,7 +332,7 @@ end:
   if (log_core)
     SLOG("left while");
   
-  CORE_RETURN("while", ret);
+  CORE_RETURN("while");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -362,7 +364,7 @@ end:
   if (log_core)
     SLOG("left until");
   
-  CORE_RETURN("until", ret);
+  CORE_RETURN("until");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -383,6 +385,6 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("repeat", ret);
+  CORE_RETURN("repeat");
 }
 

@@ -18,5 +18,9 @@ ae_obj_t * ae_core_type(__attribute__((unused)) ae_obj_t * const env,
 
   free_list_free(tmp);
 
-  CORE_RETURN("type", sym);
+  RETURN(sym);
+
+end:
+  
+  CORE_RETURN("type");
 }

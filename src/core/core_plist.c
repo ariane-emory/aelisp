@@ -15,8 +15,12 @@ ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
   REQUIRE(env, args, CONSP(plist), "PLIST must be a non-empty list");
 
   PREMOVE_MUTATING(plist, key);
+
+  ret = plist;
   
-  CORE_RETURN("premove!", plist);
+end:
+  
+  CORE_RETURN("premove!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,8 +38,10 @@ ae_obj_t * ae_core_premove(ae_obj_t * const env,
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
   ret = PREMOVE_NONMUTATING(plist, key);
+
+end:
   
-  CORE_RETURN("pset", ret);
+  CORE_RETURN("pset");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,8 +60,12 @@ ae_obj_t * ae_core_psetb(ae_obj_t * const env,
   REQUIRE(env, args, CONSP(plist), "PLIST must be a non-empty list");
 
   PSET_MUTATING(plist, key, value);
+
+  ret = plist;
   
-  CORE_RETURN("pset!", plist);
+end:
+  
+  CORE_RETURN("pset!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,8 +84,10 @@ ae_obj_t * ae_core_pset(ae_obj_t * const env,
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
   ret = PSET_NONMUTATING(plist, key, value);
+
+end:
   
-  CORE_RETURN("pset", ret);
+  CORE_RETURN("pset");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +104,11 @@ ae_obj_t * ae_core_pget(ae_obj_t * const env,
 
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
-  CORE_RETURN("pget", PGET(plist, key));
+  ret = PGET(plist, key);
+  
+end:
+  
+  CORE_RETURN("pget");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +124,11 @@ ae_obj_t * ae_core_phas(ae_obj_t * const env,
   ae_obj_t * const key   = CADR(args);
 
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
-    
-  CORE_RETURN("phas", TRUTH(PHAS(plist, key)));
+
+  ret = TRUTH(PHAS(plist, key));
+  
+end:
+  
+  CORE_RETURN("phas");
 }
 

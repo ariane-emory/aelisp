@@ -15,8 +15,12 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribut
   ae_obj_t * const err = NEW_ERROR(STR_VAL(CAR(args)));
 
   ASSIGN_PROPS(CADR(args), err);
+
+  RETURN(err);
+
+end:  
   
-  CORE_RETURN("error", err);
+  CORE_RETURN("error");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +32,10 @@ ae_obj_t * ae_core_message(ae_obj_t * const env, ae_obj_t * const args, __attrib
 
   REQUIRE(env, args, ERRORP(CAR(args)));
 
-  CORE_RETURN("message", NEW_STRING(EMSG(CAR(args))));
+  RETURN(NEW_STRING(EMSG(CAR(args))));
+  
+end:
+  
+  CORE_RETURN("message");
 }
 

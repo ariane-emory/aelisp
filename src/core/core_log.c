@@ -26,7 +26,11 @@ ae_obj_t * ae_core_log_eval(ae_obj_t * const env,
       SLOG("TURNING 'eval' LOGGING ON!\n");
   }
 
-  CORE_RETURN("l_eval", old_value ? TRUE : NIL);
+  RETURN(TRUTH(old_value));
+  
+end:
+  
+  CORE_RETURN("l_eval");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +55,11 @@ ae_obj_t * ae_core_log_core(ae_obj_t * const env,
       SLOG("TURNING 'core' LOGGING ON!\n");
   }
 
-  CORE_RETURN("l_core", old_value ? TRUE : NIL);
+  RETURN(TRUTH(old_value));
+
+end:
+  
+  CORE_RETURN("l_core");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,6 +83,10 @@ ae_obj_t * ae_core_log_macro(ae_obj_t * const env,
     else if (TRUEP(CAR(args)) && !old_value)
       SLOG("TURNING 'macro' LOGGING ON!\n");
   }
+  
+  RETURN(TRUTH(old_value));
 
-  CORE_RETURN("l_macro", old_value ? TRUE : NIL);
+end:
+  
+  CORE_RETURN("l_macro");
 }

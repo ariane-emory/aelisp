@@ -22,7 +22,7 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("props!", ret);
+  CORE_RETURN("props!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ ae_obj_t * ae_core_props(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("props", ret);
+  CORE_RETURN("props");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("put!", ret);
+  CORE_RETURN("put!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("get", ret);
+  CORE_RETURN("get");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +116,7 @@ ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("remove", ret);
+  CORE_RETURN("remove");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +135,6 @@ ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("has?", ret);
+  CORE_RETURN("has?");
 }
 

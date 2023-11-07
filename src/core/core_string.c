@@ -15,9 +15,11 @@ ae_obj_t * ae_core_string(ae_obj_t * const env, ae_obj_t * const args, __attribu
   char * const tmp2 = free_list_malloc(strlen(tmp) + 1);
   strcpy(tmp2, tmp);
 
-  ret = NEW_STRING(tmp2);
+  RETURN(NEW_STRING(tmp2));
+
+end:
   
-  CORE_RETURN("string", ret);
+  CORE_RETURN("string");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,8 +34,10 @@ ae_obj_t * ae_core_intern(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
   REQUIRE(env, args, STRINGP(CAR(args)), "intern's 1st arg must be a string");
 
-  ret = SYM(STR_VAL(CAR(args)));
+  RETURN(SYM(STR_VAL(CAR(args))));
+
+end:
   
-  CORE_RETURN("intern", ret);
+  CORE_RETURN("intern");
 }
 

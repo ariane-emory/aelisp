@@ -23,7 +23,11 @@
       result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                                       \
     }                                                                                                                 \
                                                                                                                       \
-    CORE_RETURN(#name, TRUTH(result));                                                                                \
+    ret = TRUTH(result);                                                                                              \
+                                                                                                                      \
+  end:                                                                                                                \
+                                                                                                                      \
+    CORE_RETURN(#name);                                                                                               \
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

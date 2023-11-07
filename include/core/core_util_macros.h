@@ -44,11 +44,11 @@
     free(tmp##__LINE__);                                                                           \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CORE_RETURN(name)                                                                     \
+#define CORE_RETURN(name)                                                                          \
   {                                                                                                \
     if (local_indents) OUTDENT;                                                                    \
     if (log_core)                                                                                  \
-      LOG_RETURN_WITH_TYPE("core_" name, ret);                                                \
-    return ret;                                                                               \
+      LOG_RETURN_WITH_TYPE("core_" name, ret);                                                     \
+    return ret;                                                                                    \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
