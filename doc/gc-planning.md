@@ -23,7 +23,7 @@ Unsafe files - likely to need major revision:
 Unused files - not presently in use and being ignored entirely for now:
 - alist.h/c.
 
-Files that could be temporarily excluded to build a minimal test case:
+Files that could be excluded from a minimal GC test case:
 - All core files.
 - capture.h
 - common.h/c.
