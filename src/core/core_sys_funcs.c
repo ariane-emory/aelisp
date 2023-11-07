@@ -470,17 +470,17 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// _read
+// _load_file
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_read(ae_obj_t * const env,
+ae_obj_t * ae_core_load_file(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("read");
+  CORE_BEGIN("load-file");
 
   REQUIRE(env, args, STRINGP(CAR(args)));
 
-  CORE_RETURN("read", CDR(load_or_require(LOAD_FILE, env, args, args_length)));
+  CORE_RETURN("load-file", CDR(load_or_require(LOAD_FILE, env, args, args_length)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
