@@ -133,14 +133,9 @@ ae_obj_t *    ae_obj_clone                 (      ae_obj_t * const this         
 #endif
 bool          ae_obj_eql                   (const ae_obj_t * const this, const ae_obj_t * const that     );
 ae_obj_t *    ae_obj_truth                 (const bool             this                                  );
+//======================================================================================================================
 ae_type_t     ae_obj_get_type              (const ae_obj_t * const this                                  );
 void          ae_obj_set_type              (      ae_obj_t * const this, const ae_type_t        type     );
-//======================================================================================================================
-bool          ae_obj_settable_symbolp      (const ae_obj_t * const this                                  );
-bool          ae_obj_keywordp              (const ae_obj_t * const this                                  );
-bool          ae_obj_special_funp          (const ae_obj_t * const this                                  );
-bool          ae_obj_special_symp          (const ae_obj_t * const this                                  );
-bool          ae_obj_tailp                 (const ae_obj_t * const this                                  );
 //======================================================================================================================
 bool          ae_obj_get_delocalized       (const ae_obj_t * const this                                  );
 void          ae_obj_set_delocalized       (      ae_obj_t * const this, const bool             foo      );
@@ -154,6 +149,12 @@ void          ae_obj_set_min_args          (      ae_obj_t * const this, const u
 //======================================================================================================================
 unsigned int  ae_obj_get_max_args          (const ae_obj_t * const this                                  );
 void          ae_obj_set_max_args          (      ae_obj_t * const this, const unsigned int      max_args);
+//======================================================================================================================
+bool          ae_obj_settable_symbolp      (const ae_obj_t * const this                                  );
+bool          ae_obj_keywordp              (const ae_obj_t * const this                                  );
+bool          ae_obj_special_funp          (const ae_obj_t * const this                                  );
+bool          ae_obj_special_symp          (const ae_obj_t * const this                                  );
+bool          ae_obj_tailp                 (const ae_obj_t * const this                                  );
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
