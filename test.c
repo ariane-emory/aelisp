@@ -197,13 +197,16 @@ void basic_list_checks(ae_obj_t * this) {
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
 
+#ifdef AE_OBJ_CLONE
   mapped = CLONE(mapped);
   T(shitty_princ_based_equality_predicate(mapped, "(2 4 6 8)"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
-
+#endif
+  
   mapped = MAP(mapped, ae_obj_to_pairs);
   T(shitty_princ_based_equality_predicate(mapped, "((2 2) (4 4) (6 6) (8 8))"));
   tmp_str = SPRINC(this); TM("Got \"%s\".", tmp_str);
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,6 +296,7 @@ void pushed_list_tests(void) {
 }
 
 void unsafe_move_an_ae_obj(void) {
+#ifdef AE_OBJ_UNSAFE_MOVE
   SETUP_TEST;
 
   that = NEW(AE_RATIONAL);
@@ -308,9 +312,11 @@ void unsafe_move_an_ae_obj(void) {
   T(FREEP(that));
   T(that->numerator_val   == 0);
   T(that->denominator_val == 0);
+#endif
 }
 
 void clone_a_simple_ae_obj(void) {
+#ifdef AE_OBJ_CLONE
   SETUP_TEST;
 
   this = NEW(AE_RATIONAL);
@@ -323,6 +329,7 @@ void clone_a_simple_ae_obj(void) {
   T(RATIONALP(that));
   T(that->numerator_val   == 123);
   T(that->denominator_val == 321);
+#endif
 }
 
 void pushed_and_consed_lists_princ_identically(void) {

@@ -178,61 +178,63 @@ ae_obj_t * ae_obj_init(ae_obj_t * const this, ae_type_t type) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _unsafe_move method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef AE_OBJ_UNSAFE_MOVE
 ae_obj_t * ae_obj_unsafe_move(ae_obj_t * const this, ae_obj_t * const that) {
   assert(this);
   assert(that);
   assert(this != that);
   
-#ifdef AE_LOG_MOVE
+#  ifdef AE_LOG_MOVE
   fputs("Moving           ", stdout);
   PUT(that);
   fputs(" to ", stdout);
   PUT(this);
   putchar('\n');
-#endif
+#  endif
 
   COPY(this, that);
   INIT(that, AE_FREE);
 
-#ifdef AE_LOG_MOVE
+#  ifdef AE_LOG_MOVE
   fputs("Moved            ", stdout);
   PUT(that);
   fputs(" to ", stdout);
   PUT(this);
   putchar('\n');
-#endif
+#  endif
 
   return this;
 }
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _clone method
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef AE_OBJ_UNSAFE_MOVE
 ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
   assert(this);
   
-#ifdef AE_LOG_CLONE
+#  ifdef AE_LOG_CLONE
   fputs("Cloning          ", stdout);
   PUT(this);
   putchar('\n');
   fflush(stdout);
-#endif
+#  endif
   
   ae_obj_t * clone = NULL;
 
-#define CLONE_USING_MEMCPY clone = ALLOC(); COPY(clone, this)
+#  define CLONE_USING_MEMCPY clone = ALLOC(); COPY(clone, this)
 
-#ifdef NO_AE_FREE_LIST
-#  define DUP_C_STR(field) clone->field = strdup(this->field)
-#else
-#  define DUP_C_STR(field)                                                                         \
+#  ifdef NO_AE_FREE_LIST
+#    define DUP_C_STR(field) clone->field = strdup(this->field)
+#  else
+#    define DUP_C_STR(field)                                                                         \
   {                                                                                                \
     clone->field = free_list_malloc(strlen(this->field) + 1);                                      \
     strcpy(clone->field, this->field);                                                             \
   }
-#endif
+#  endif
   
   switch (GET_TYPE(this)) {
   case AE_CONS:
@@ -250,20 +252,21 @@ ae_obj_t * ae_obj_clone(ae_obj_t * const this) {
     CLONE_USING_MEMCPY;
   }
 
-#undef CLONE_USING_MEMCPY
-#undef DUP_C_STR
+#  undef CLONE_USING_MEMCPY
+#  undef DUP_C_STR
   
-#ifdef AE_LOG_CLONE
+#  ifdef AE_LOG_CLONE
   fputs("Cloned           ", stdout);
   PUT(this);
   fputs(" into ", stdout);
   PUT(clone);
   putchar('\n');
   fflush(stdout);
-#endif
+#  endif
 
   return clone;
 }
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

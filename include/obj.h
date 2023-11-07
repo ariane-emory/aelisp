@@ -125,8 +125,12 @@ typedef struct ae_obj_t {
 // Obj's methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t *    ae_obj_init                  (      ae_obj_t * const this,       ae_type_t        type     );
+#ifdef AE_OBJ_UNSAFE_MOVE
 ae_obj_t *    ae_obj_unsafe_move           (      ae_obj_t * const this,       ae_obj_t * const that     );
+#endif
+#ifdef AE_OBJ_CLONE
 ae_obj_t *    ae_obj_clone                 (      ae_obj_t * const this                                  );
+#endif
 bool          ae_obj_eql                   (const ae_obj_t * const this, const ae_obj_t * const that     );
 ae_obj_t *    ae_obj_truth                 (const bool             this                                  );
 ae_type_t     ae_obj_get_type              (const ae_obj_t * const this                                  );
