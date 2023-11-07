@@ -1045,7 +1045,21 @@ void root_env_and_eval(void) {
   T(EQL(NEW_INT(9),   EVAL(env, SYM("bar"))));
   T(EQL(NEW_INT(25),  EVAL(env, SYM("baz"))));
 
-  expr = CONS(SYM("progn"), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("Hello "), NIL)), CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("from Ash"), NIL)), NEW_CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING("Lisp!"), NIL)), NIL))));
+  char * const pchar_hello = free_list_malloc(7);
+  strcpy(pchar_hello, "Hello ");
+
+  char * const pchar_from_ash = free_list_malloc(9);
+  strcpy(pchar_from_ash, "from Ash");
+
+  char * const pchar_lisp = free_list_malloc(6);
+  strcpy(pchar_lisp, "Lisp!");
+  
+  expr = CONS(SYM("progn"),
+              CONS(CONS(SYM("princ"),
+                        NEW_CONS(NEW_STRING(pchar_hello), NIL)),
+                   CONS(CONS(SYM("princ"),
+                             NEW_CONS(NEW_STRING(pchar_from_ash), NIL)),
+                        NEW_CONS(CONS(SYM("princ"), NEW_CONS(NEW_STRING(pchar_lisp), NIL)), NIL))));
 
   NL;
   PR("Should Print \"Hello from Ash Lisp!\" on the next line:\n");
