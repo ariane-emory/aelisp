@@ -121,9 +121,9 @@ char * ae_sys_read_from_fd(int fd, size_t * const size) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// expand_tilde
+// ae_sys_expand_tilde
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool expand_tilde(const char * const path, char ** expanded_path) {
+bool ae_sys_expand_tilde(const char * const path, char ** expanded_path) {
   *expanded_path = NULL;
   
   if (! path || path[0] != '~')
@@ -150,9 +150,9 @@ bool expand_tilde(const char * const path, char ** expanded_path) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// file_exists
+// ae_sys_file_exists
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool file_exists(const char * const filename) {
+bool ae_sys_file_exists(const char * const filename) {
   struct stat buffer;
     
   int exist = stat(filename, &buffer);

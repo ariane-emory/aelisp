@@ -76,7 +76,7 @@ ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
   char * path = STR_VAL(CAR(args));
   
   char * expanded_tilde_path = NULL;
-  bool   expanded_tilde      = expand_tilde(path, &expanded_tilde_path);
+  bool   expanded_tilde      = ae_sys_expand_tilde(path, &expanded_tilde_path);
 
   if (expanded_tilde)
     path = expanded_tilde_path;
@@ -301,7 +301,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
     
   bool no_error = (args_length == 2) && ! NILP(CADR(args));
 
-  if ((! file_path) || (! file_exists(file_path)))
+  if ((! file_path) || (! ae_sys_file_exists(file_path)))
     RETURN(no_error ? NIL : NEW_ERROR("could not find file for '%s", load_target_string));
   
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
