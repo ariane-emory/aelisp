@@ -130,7 +130,7 @@ capture_command_output_t ae_sys_capture_command_output(const char * const comman
   int status;
   waitpid(pid, &status, 0);
 
-  result.state       = CCOS_STATE_COMPLETED;
+  result.state       = CCOS_STATE_OK;
   result.stdout      = stdout_result.buffer;
   result.stdout_size = stdout_result.size;
   result.stderr      = stderr_result.buffer;
@@ -224,7 +224,7 @@ fread_string_t ae_sys_file_read_string(const char * const filename) {
   buffer[read] = '\0';
   fclose(file);
 
-  result.state  = FRS_READ;
+  result.state  = FRS_OK;
   result.buffer = buffer;
   result.length = read;
 
