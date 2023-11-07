@@ -14,6 +14,7 @@
 #include "common.h"
 #include "env.h"
 #include "free_list.h"
+#include "sys_funcs.h"
 #include "time_funcs.h"
 #include "pool.h"
 
