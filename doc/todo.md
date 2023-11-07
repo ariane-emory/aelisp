@@ -12,6 +12,7 @@ To Do:
 - [ ] Refactor: CORE_RETURN should be unary.
 - [ ] DRY up core_funs.c.
 - [ ] DRY up core_let.c.
+- [ ] SELFEVALUATINGP and corresponding core might come in handy.
 - [ ] Review correctness environments used for macro expansion/evaluation, especially for nested macros.
 - [ ] Review correctness of unwinding indentation.
 - [ ] try incremental selection sorting env syms/vals?

@@ -48,7 +48,9 @@ static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _system
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_system(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_system(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("system");
 
   REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
@@ -328,9 +330,7 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("load");
-
   REQUIRE(env, args, STRINGP(CAR(args)));
-
   CORE_RETURN("load", load_or_require(LORM_LOAD, env, args, args_length));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -343,9 +343,7 @@ ae_obj_t * ae_core_file_read(ae_obj_t * const env,
                              ae_obj_t * const args,
                              __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-read");
-
   REQUIRE(env, args, STRINGP(CAR(args)));
-
   CORE_RETURN("file-read", CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -364,7 +362,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
           (! KEYWORDP(CAR(args))) &&
           (! NILP(CAR(args)))     &&
           (! TRUEP(CAR(args))));
-
+  
   CORE_RETURN("require", load_or_require(LORM_REQUIRE, env, args, args_length));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -412,12 +410,9 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
 
   char * const pwd = ae_sys_pwd();
 
-  if (! pwd)
-    RETURN(NEW_ERROR("Could not get current working directory after changing directory"));
-  
-  ret = NEW_STRING(pwd);
-
-end:
+  ret = (! pwd)
+    ? NEW_ERROR("Could not get current working directory after changing directory")
+    : NEW_STRING(pwd);
   
   CORE_RETURN("cd", ret);
 }
@@ -434,12 +429,9 @@ ae_obj_t * ae_core_pwd(ae_obj_t * const env,
 
   char * const pwd = ae_sys_pwd();
 
-  if (! pwd)
-    RETURN(NEW_ERROR("Could not get current working directory"));
-  
-  ret = NEW_STRING(pwd);
-  
-end:
+  ret = pwd
+    ? NEW_STRING(pwd)
+    : NEW_ERROR("Could not get current working directory");
   
   CORE_RETURN("pwd", ret);
 }
@@ -458,9 +450,9 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
 
   char * const path = ae_sys_basename(STR_VAL(CAR(args)));
 
-  ret = (! path)
-    ? NEW_ERROR("Could not get basename")
-    : NEW_STRING(path);
+  ret = path
+    ? NEW_STRING(path)
+    : NEW_ERROR("Could not get basename");
   
   CORE_RETURN("basename", ret);
 }
@@ -479,10 +471,10 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
 
   char * const path = ae_sys_dirname(STR_VAL(CAR(args)));
 
-  ret = (! path)
-    ? NEW_ERROR("Could not get dirname")
-    : NEW_STRING(path);
-  
+  ret = path
+    ? NEW_STRING(path)
+    : NEW_ERROR("Could not get dirname");
+
   CORE_RETURN("dirname", ret);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -603,9 +595,9 @@ ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
 
-  char *filename = STR_VAL(CAR(args));
-  char *data     = STR_VAL(CADR(args));
-  FILE *file     = fopen(filename, "w");
+  char * filename  = STR_VAL(CAR(args));
+  char * data      = STR_VAL(CADR(args));
+  FILE * file      = fopen(filename, "w");
 
   REQUIRE(env, args, file, "Could not open file for writing");
 
@@ -629,9 +621,9 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
 
   REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
 
-  char *filename = STR_VAL(CAR(args));
-  char *data     = STR_VAL(CADR(args));
-  FILE *file     = fopen(filename, "a");
+  char * filename  = STR_VAL(CAR(args));
+  char * data      = STR_VAL(CADR(args));
+  FILE * file      = fopen(filename, "a");
   
   REQUIRE(env, args, file, "Could not open file for appending");
 
@@ -639,7 +631,7 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
   size_t written   = fwrite(data, sizeof(char), data_size, file);
   
   fclose(file);
-
+  
   CORE_RETURN("file-append-string", TRUTH(written == data_size));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -660,14 +652,16 @@ ae_obj_t * ae_core_fread_string(ae_obj_t * const env,
   switch (result.state) {
   case FRS_NO_ALLOC:
     ret = NEW_ERROR("Could not allocate memory for file read");
+
     break;
   case FRS_NO_OPEN:
     ret = NEW_ERROR("Could not open file for reading");
+
     break;
   default:
     ret = NEW_STRING(result.buffer);
   }
-
+  
   CORE_RETURN("file-read-string", ret);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
