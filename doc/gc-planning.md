@@ -4,7 +4,7 @@ Safe files - should not need major revision:
 - log.h/c: should be fine.
 - sys_time.c/h: should be fine.
 - write.c/h: should be fine.
-- free_list.h/c: might become obsolete, but if not should be fine in current form. splitting into from/to spaces could possibly benefit from a void   free_list_remove_block function, undecided.
+- free_list.h/c: might become obsolete, but if not should be fine in current form. splitting into from/to spaces could possibly benefit from a void  free_list_remove_block function, undecided.
 - grammar files: doing GC during parsing is probably not practical and foregoing it might be tolerable in stage 1 as long as GC happens afterwards. Could be done in after 2.
 
 Average files - likely to need some revision:
