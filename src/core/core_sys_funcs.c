@@ -425,7 +425,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
 
   char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
-  char * const file_path          =
+  char * const file_path =
     mode == READ_FILE
     ? load_target_string
     : find_file_in_load_path(env, mode != LOAD, load_target_string);
@@ -437,29 +437,13 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   
   ae_obj_t * const new_program = RETURN_IF_ERRORP(load_file(file_path, NULL));
 
-  if (mode != READ_FILE) free_list_free(file_path);
+  if (mode != READ_FILE)
+    free_list_free(file_path);
 
-  /* const bool old_log_macro     = log_macro; */
-  /* const bool old_log_core      = log_core; */
-  /* const bool old_log_eval      = log_eval; */
-  /* log_macro                    = false; */
-  /* log_core                     = false; */
-  /* log_eval                     = false; */
-  ret                          = mode == READ_FILE ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
-  /* log_macro                    = old_log_macro; */
-  /* log_core                     = old_log_core; */
-  /* log_eval                     = old_log_eval; */
+  ret = mode == READ_FILE ? new_program : RETURN_IF_ERRORP(EVAL(env, new_program));
 
   if ((mode == REQUIRE || mode == REREQUIRE) && ! have_feature(env, load_target))
     RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
-
-  /* bool sprograms_found = false; */
-  /* ae_obj_t * sprograms = ENV_GET(env, SYM("*program*"), &sprograms_found); */
-  /* assert(sprograms_found); */
-  /* assert(sprograms); */
-  /* assert(TAILP(sprograms)); */
-  /* // sprograms = KSET(sprograms, load_target, new_program); // temporarily disabled */
-  /* ENV_SET_G(env, SYM("*program*"), sprograms); */
   
 end:
   
