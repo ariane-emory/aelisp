@@ -39,3 +39,8 @@ Files that would be used in the minimal test case:
 - list.h/c
 - obj.h/c
 - pool.h/c
+
+Compromises on initial stages:
+- stage 1 will not adress string pool, it could still fill up.
+- stage 2 will use a 'from' and 'to' string pool.
+- possible stage 3 will revise pool to allocate various sizes and eliminate separate string pool.
