@@ -458,10 +458,9 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
 
   char * const path = ae_sys_basename(STR_VAL(CAR(args)));
 
-  if (! path)
-    ret = NEW_ERROR("Could not get basename");
-  
-  ret = NEW_STRING(path);
+  ret = (! path)
+    ? NEW_ERROR("Could not get basename")
+    : NEW_STRING(path);
   
   CORE_RETURN("basename", ret);
 }
@@ -480,10 +479,9 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
 
   char * const path = ae_sys_dirname(STR_VAL(CAR(args)));
 
-  if (! path)
-    ret = NEW_ERROR("Could not get dirname");
-  
-  ret = NEW_STRING(path);
+  ret = (! path)
+    ? NEW_ERROR("Could not get dirname")
+    : NEW_STRING(path);
   
   CORE_RETURN("dirname", ret);
 }
