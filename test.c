@@ -1318,18 +1318,24 @@ void plist(void) {
   SETUP_TEST;    
                  
   ae_obj_t * list = NIL;
-                 
+
+  char * const pchar_bob = free_list_malloc(4);
+  strcpy(pchar_bob, "Bob");
+
+  char * const pchar_jake = free_list_malloc(5);
+  strcpy(pchar_jake, "Jake");
+    
   T(!            PHAS(list, SYM("name")));
-  T(CONSP(list = PSET_INTERNAL(list, SYM("name"),   NEW_STRING("Bob"))));
+  T(CONSP(list = PSET_INTERNAL(list, SYM("name"),   NEW_STRING(pchar_bob))));
   T(             PHAS(list, SYM("name")));
-  T(EQL(         PGET(list, SYM("name")),  NEW_STRING("Bob")));
+  T(EQL(         PGET(list, SYM("name")),  NEW_STRING(pchar_bob)));
   T(!            PHAS(list, SYM("age")));
   T(CONSP(list = PSET_INTERNAL(list, SYM("age"),    NEW_INT(24))));
   T(             PHAS(list, SYM("age")));
   T(EQL(         PGET(list, SYM("age")),   NEW_INT(24)));
-  T(CONSP(list = PSET_INTERNAL(list, SYM("name"),   NEW_STRING("Jake"))));
-  T(! EQL(       PGET(list, SYM("name")),  NEW_STRING("Bob")));
-  T(  EQL(       PGET(list, SYM("name")),  NEW_STRING("Jake")));
+  T(CONSP(list = PSET_INTERNAL(list, SYM("name"),   NEW_STRING(pchar_jake))));
+  T(! EQL(       PGET(list, SYM("name")),  NEW_STRING(pchar_bob)));
+  T(  EQL(       PGET(list, SYM("name")),  NEW_STRING(pchar_jake)));
 
   ae_obj_t * plist = CONS(SYM("a"), CONS(NEW_INT(1), CONS(SYM("b"), CONS(NEW_INT(2), CONS(SYM("c"), CONS(NEW_INT(3), NIL))))));
   ae_plist_set_mutating(plist, SYM("d"), NEW_INT(4));
