@@ -13,10 +13,9 @@ ae_obj_t * ae_core_read(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   parse_line(STR_VAL(CAR(args)));
 
-  REQUIRE(env, args, ! read_error, "Could not read.");
-      
-  // ret = EVAL(env, program);
-
-  CORE_RETURN("read", program);
+  REQUIRE(env, args, ! read_error, "Could not read");
+  REQUIRE(env, args, NILP(CDDR(program)), "Muliple s-exps in input");
+  
+  CORE_RETURN("read", CADR(program));
 }
 
