@@ -407,7 +407,12 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
   if (strcmp(dst, "..") == 0 && strcmp(cwd, "/") == 0)
     CORE_RETURN("cd", NIL);
 
-  ret = ae_core_pwd(env, NIL, 0);
+  char * const pwd = ae_sys_pwd();
+
+  if (! pwd)
+    RETURN(NEW_ERROR("Could not get current working directory after changing directory"));
+  
+  ret = NEW_STRING(pwd);
 
 end:
   
@@ -424,7 +429,7 @@ ae_obj_t * ae_core_pwd(ae_obj_t * const env,
                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("pwd");
 
-  char * pwd = ae_sys_pwd();
+  char * const pwd = ae_sys_pwd();
 
   if (! pwd)
     RETURN(NEW_ERROR("Could not get current working directory"));
