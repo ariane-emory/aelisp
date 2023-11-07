@@ -194,7 +194,7 @@ int main(int argc, char **argv) {
 // setup root env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  root_env = ENV_NEW_ROOT(false, setopts_result);
+  root_env = NEW_ROOT(false, setopts_result);
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // unless EARLY_LOGGING:
@@ -257,7 +257,7 @@ int main(int argc, char **argv) {
       exit(0);
     }
     else if (! strncmp(line, ";r", 2)) {
-      root_env = ENV_NEW_ROOT(false, setopts_result);
+      root_env = NEW_ROOT(false, setopts_result);
     }
     else if (! strncmp(line, ";s", 2)) {
       WRITE(ENV_SYMS(root_env));

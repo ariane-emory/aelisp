@@ -1,5 +1,5 @@
 To Do:
-- [ ] Move ae_env_new_root into common or maybe it's own file.
+- [ ] Move ae_common_new_root into common or maybe it's own file.
 - [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
@@ -56,7 +56,7 @@ Completed:
 - [x] rational constructor func.
 - [x] case macro.
 - [x] Multiline comment grammar rules.
-- [x] Maybe nil/t init should happen in ENV_NEW_ROOT? ('fixed' in ENV_NEW_ROOt but not completely reinitialized.)
+- [x] Maybe nil/t init should happen in NEW_ROOT? ('fixed' in ENV_NEW_ROOt but not completely reinitialized.)
 - [x] concat might glitch sometimes? (fixed)
 - [x] new_root_env and setup_root_env should be combined.
 - [x] *program* entries by symbol instead of name. Maybe move entirely into *features* as properties or plist items?
@@ -128,7 +128,7 @@ Completed:
 - [x] fwrite_lengths test is noisy.
 - [x] Split princ into princ and print.
 - [x] Implement eval functions.
-- [x] Load the root environment up (added ae_env_new_root).
+- [x] Load the root environment up (added ae_common_new_root).
 - [x] Add in-world primitive functions.
 - [x] ae_obj_eql could maybe support AE_STRINGs too? Might as well.
 - [x] ae_obj_eql should support AE_CHARSs.
