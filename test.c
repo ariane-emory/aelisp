@@ -871,14 +871,16 @@ void core_eq_eql_not(void) {
 void core_print_princ_write(void) {
   SETUP_TEST;
   ae_obj_t * const env = NEW_ROOT(false, STD_MONO);
-
+  char * pchar_hello   = free_list_malloc(6);
+  strcpy(pchar_hello, "hello");
+    
   NL;
   
   {
     PR("write-ing '\"hello\" 5 a abc' on the next line, with quoting: ");
     NL;
 
-    ae_obj_t * const args    = CONS(NEW_STRING("hello"),
+    ae_obj_t * const args    = CONS(NEW_STRING(pchar_hello),
                                     CONS(NEW_INT(5),
                                          CONS(NEW_CHAR('a'),
                                               CONS(SYM("abc"),
@@ -890,7 +892,7 @@ void core_print_princ_write(void) {
   }
   {
     PR("\nprint-ing \"hello\",  5 a, abc on the next 3 lines, with quoting: ");
-    ae_obj_t * const args    = CONS(NEW_STRING("hello"),
+    ae_obj_t * const args    = CONS(NEW_STRING(pchar_hello),
                                     CONS(NEW_INT(5),
                                          CONS(NEW_CHAR('a'),
                                               CONS(SYM("abc"),
@@ -903,7 +905,7 @@ void core_print_princ_write(void) {
   {
     PR("\nprinc-ing 'hello5aabc' on the next line, without quoting: ");
     NL;
-    ae_obj_t * const args    = CONS(NEW_STRING("hello"),
+    ae_obj_t * const args    = CONS(NEW_STRING(pchar_hello),
                                     CONS(NEW_INT(5),
                                          CONS(NEW_CHAR('a'),
                                               CONS(SYM("abc"),
