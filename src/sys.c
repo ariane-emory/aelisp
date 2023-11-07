@@ -82,9 +82,24 @@ captured_command_output_t ae_sys_capture_command_output(char * const command) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_sys_read_from_fd
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-char * ae_sys_read_from_fd(int fd, size_t * const size) {
-  assert(!size);
+
+typedef enum {
+  RFFS_OK,
+  RFFS_NO_ALLOC,
+} read_from_fd_state_t;
+
+typedef struct read_from_fd_t {
+  read_from_fd_state_t state;
+  char * buffer;
+  size_t size;
+} read_from_fd_t;
+
+read_from_fd_t ae_sys_read_from_fd(int fd) {
+  assert(fd);
   
+  read_from_fd_t result;
+  memset(&result, 0, sizeof(result));
+
   char buffer[BUFFER_SIZE];
   char * output     = NULL;
   size_t total_read = 0;
@@ -113,9 +128,11 @@ char * ae_sys_read_from_fd(int fd, size_t * const size) {
     output[total_read] = '\0'; // Ensure null-termination
   }
 
-  *size = total_read;
-  
-  return output;
+  result.state  = RFFS_OK; 
+  result.buffer = output;
+  result.size   = total_read;  
+
+  return result;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
