@@ -34,3 +34,8 @@ Files that could be temporarily excluded to build a minimal test case:
 - plist.h/c.
 - time_funcs.h
 
+Files that would be used in the minimal test case:
+- env.h/c
+- list.h/c
+- obj.h/c
+- pool.h/c
