@@ -50,9 +50,9 @@
   ae_obj_t *    this    = NULL;                                                                    \
   ae_obj_t *    that    = NULL;                                                                    \
   symbols_list          = NIL;                                                                     \
-  memset(mem, 0, free_list_size);                                                                  \
+  memset(string_pool, 0, free_list_size);                                                                  \
   free_list_reset();                                                                               \
-  free_list_add_block(&mem[0], free_list_size);                                                    \
+  free_list_add_block(&string_pool[0], free_list_size);                                                    \
   pool_clear();                                                                                    \
   if (tmp_str) {                                                                                   \
     free(tmp_str);                                                                                 \

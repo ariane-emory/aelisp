@@ -31,15 +31,15 @@ extern FILE * yyin;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool       log_core                  = false;
-bool       log_eval                  = false;
-bool       log_macro                 = false;
-bool       read_error                = false;
-char       mem[free_list_size]       = { 0 };
-ae_obj_t * filename_stack            = NIL;
-ae_obj_t * line_stack                = NIL;
-ae_obj_t * program                   = NIL;
-const setopts_flag_t default_std_opt = STD_MONO;
+bool       log_core                    = false;
+bool       log_eval                    = false;
+bool       log_macro                   = false;
+bool       read_error                  = false;
+char       string_pool[free_list_size] = { 0 };
+ae_obj_t * filename_stack              = NIL;
+ae_obj_t * line_stack                  = NIL;
+ae_obj_t * program                     = NIL;
+const setopts_flag_t default_std_opt   = STD_MONO;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -302,7 +302,7 @@ ae_obj_t * ae_common_new_root(bool log_loading_std, int flags) {
   symbols_list = NIL;
   pool_clear();
   free_list_reset();
-  free_list_add_block(&mem[0], free_list_size);
+  free_list_add_block(&string_pool[0], free_list_size);
 
   // Reset the properties of nil and t: this is is only really necessary if we're going to build
   // the root env more than once (such as is done by, for example, the unit tests, or the REPL's

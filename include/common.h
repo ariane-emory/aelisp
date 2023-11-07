@@ -24,14 +24,14 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-extern char       mem[free_list_size]; // the string pool.
-extern ae_obj_t * program;             // bison will put the last parsed program here.
-extern bool       log_core;            // global toggle.
-extern bool       log_eval;            // global toggle.
-extern bool       log_macro;           // global toggle.
-extern bool       read_error;          // set by yacc/flex, read by repl.c/ae.c.
-extern ae_obj_t * filename_stack;      // keeps track of the current file being parsed.
-extern ae_obj_t * line_stack;          // keeps track of line in previous file.
+extern char       string_pool[free_list_size]; // the string pool.
+extern ae_obj_t * program;                     // bison will put the last parsed program here.
+extern bool       log_core;                    // global toggle.
+extern bool       log_eval;                    // global toggle.
+extern bool       log_macro;                   // global toggle.
+extern bool       read_error;                  // set by yacc/flex, read by repl.c/ae.c.
+extern ae_obj_t * filename_stack;              // keeps track of the current file being parsed.
+extern ae_obj_t * line_stack;                  // keeps track of line in previous file.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
