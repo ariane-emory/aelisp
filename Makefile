@@ -14,6 +14,9 @@ COMMON_CFLAGS = \
 	-Wno-misleading-indentation \
 	-Wno-unused-label \
 	-DAE_OBJ_POOL_SIZE=$(POOL_SIZE) \
+  -DAE_OBJ_USE_PROPS \
+	-DAE_OBJ_POOL_USE_PROPS \
+	-DAE_AE_WRITE_USE_PROPS \
 	-DAE_DEADLY_MARGIN \
   -D_GNU_SOURCE \
 	-DCOUNT_ALLOCATIONS \

@@ -10,6 +10,9 @@
 #include "free_list.h"
 #include "pool.h"
 
+#ifdef AE_OBJ_USE_PROPS
+#  include "plist.h"
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Data
@@ -332,11 +335,13 @@ bool ae_obj_settable_symbolp(const ae_obj_t * const this) {
   assert(this);
 
   return
-    ((SYMBOLP(this))    &&
-     (this != NIL)      &&
-     (this != TRUE)     && 
-     (! KEYWORDP(this)) &&
-     (! HAS_PROP("constant", this)));
+    ((SYMBOLP(this))                &&
+     (this != NIL)                  &&
+     (this != TRUE)                 &&
+#ifdef AE_OBJ_USE_PROPS
+     (! HAS_PROP("constant", this)) && 
+#endif
+     (! KEYWORDP(this)));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

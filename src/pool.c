@@ -10,6 +10,10 @@
 #include "write.h"
 #include "env.h"
 
+#ifdef AE_POOL_PRINT_PROPS
+#  include "plist.h"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // pool data
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,9 +115,11 @@ void pool_print(void) {
     SPC; SPC;
 
     FF;
-    
+
+#ifdef AE_POOL_PRINT_PROPS    
     if (! NILP(PROPS(&pool[ix])))
       WRITE(PROPS(&pool[ix]));
+#endif
     
     putchar('\n');
   }

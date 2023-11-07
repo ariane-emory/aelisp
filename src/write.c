@@ -10,6 +10,10 @@
 #include "env.h"
 #include "list.h"
 
+#ifdef AE_WRITE_USE_PROPS
+#  include "plist.h"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // forward declarations
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -234,7 +238,8 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
 
       goto end_of_env_write;
     }
-    
+
+#ifdef AE_WRITE_USE_PROPS
     if (HAS_PROP("fun", this)) {      
       char * fun_name = NULL;
 
@@ -247,6 +252,7 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
 
       COUNTED_FPRINTF(fwrite_stream, "%s,", fun_name);
     }
+#endif
 
     char parent_name[12] = { 0 };
 
@@ -275,6 +281,7 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
     break;
   case AE_LAMBDA:
   case AE_MACRO:
+#ifdef AE_WRITE_USE_PROPS
     if (HAS_PROP("last-bound-to", this)) {
       COUNTED_FPRINTF(fwrite_stream, "%s<%s ", GET_TYPE_STR(this),
                       SYM_VAL(GET_PROP("last-bound-to", this)));
@@ -282,6 +289,7 @@ static int ae_fwrite_internal(const ae_obj_t * this) {
       COUNTED_FPRINTF(fwrite_stream,">");
     }
     else 
+#endif
     {
       COUNTED_FPRINTF(fwrite_stream, "%s< %08p ", GET_TYPE_STR(this), this);
       ae_fwrite_internal(FUN_PARAMS(this));

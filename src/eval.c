@@ -5,11 +5,12 @@
 
 // one or two of these includes might not by strictly necessary: 
 #include "common.h"
-#include "obj.h"
-#include "free_list.h"
-#include "log.h"
 #include "env.h"
+#include "free_list.h"
 #include "jump_return.h"
+#include "log.h"
+#include "obj.h"
+#include "plist.h"
 #include "time_funcs.h"
 #include "write.h"
 

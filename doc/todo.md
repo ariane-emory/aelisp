@@ -1,4 +1,5 @@
 To Do:
+- [ ] Move ae_env_new_root into common or maybe it's own file.
 - [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.

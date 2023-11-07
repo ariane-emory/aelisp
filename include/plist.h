@@ -32,8 +32,6 @@ typedef struct ae_plist_split_around_kvp_t {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // object 'properties' macros:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ASSIGN_PROPS(props, obj)         ((obj)->properties = (props))
-#define PROPS(obj)                       ((obj)->properties)
 #define HAS_PROP(key, obj)               (PHAS(PROPS((obj)), KW(key)))
 #define HAS_PROP_RAW(key, obj)           (PHAS(PROPS((obj)), (key)))
 #define GET_PROP(key, obj)               (PGET(PROPS((obj)), KW(key)))
