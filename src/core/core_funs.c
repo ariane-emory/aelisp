@@ -21,8 +21,12 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribut
       REQUIRE(env, args, ! SPECIAL_SYMP(param), "special symbols cannot be used as params");
     }
   }
+
+  RETURN(NEW_MACRO(CAR(args), CDR(args), env));
   
-  CORE_RETURN("macro", NEW_MACRO(CAR(args), CDR(args), env));
+end:
+  
+  CORE_RETURN("macro");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,8 +49,12 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribu
       REQUIRE(env, args, ! SPECIAL_SYMP(param), "special symbols cannot be used as params");
     }
   }
+
+  RETURN(NEW_LAMBDA(CAR(args), CDR(args), env));
   
-  CORE_RETURN("lambda", NEW_LAMBDA(CAR(args), CDR(args), env));
+end:
+  
+  CORE_RETURN("lambda");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +66,11 @@ ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
-  CORE_RETURN("params", FUN_PARAMS(CAR(args)));
+  RETURN(FUN_PARAMS(CAR(args)));
+  
+end:
+  
+  CORE_RETURN("params");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +82,10 @@ ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
-  CORE_RETURN("body", FUN_BODY(CAR(args)));
+  RETURN(FUN_BODY(CAR(args)));
+  
+end:
+  
+  CORE_RETURN("body");
 }
 

@@ -20,7 +20,11 @@ ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   fflush(stdout);
 
-  CORE_RETURN("write", NEW_INT(written));
+  RETURN(NEW_INT(written));
+  
+end:
+  
+  CORE_RETURN("write");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +49,11 @@ ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env,
 
   fflush(stdout);
 
-  CORE_RETURN("put", NEW_INT(written));
+  RETURN(NEW_INT(written));
+  
+end:
+  
+  CORE_RETURN("put");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +70,11 @@ ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   fflush(stdout);
 
-  CORE_RETURN("princ", NEW_INT(written));
+  RETURN(NEW_INT(written));
+  
+end:
+  
+  CORE_RETURN("princ");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +97,11 @@ ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   fflush(stdout);
 
-  CORE_RETURN("print", NEW_INT(written));
+  RETURN(NEW_INT(written));
+
+end:
+  
+  CORE_RETURN("print");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +112,13 @@ ae_obj_t * ae_core_nl(__attribute__((unused)) ae_obj_t * const env,
                       __attribute__((unused)) ae_obj_t * const args,
                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("nl");
+
   NL;
-  CORE_RETURN("nl", NEW_INT(1));
+
+  RETURN(NEW_INT(1));
+
+end:
+  
+  CORE_RETURN("nl");
 }
 

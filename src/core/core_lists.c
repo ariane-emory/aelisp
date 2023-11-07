@@ -16,9 +16,13 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     REQUIRE(env, args, TAILP(CAR(args)));
   }
 
-  CORE_RETURN("car", NILP(CAR(args))
-              ? NIL // car of nil is nil.
-              : CAAR(args));
+  RETURN(NILP(CAR(args))
+         ? NIL // car of nil is nil.
+         : CAAR(args));
+  
+end:
+  
+  CORE_RETURN("car");
 }
 
 
@@ -34,9 +38,13 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute_
     REQUIRE(env, args, TAILP(CAR(args)));
   }
 
-  CORE_RETURN("cdr", NILP(CAR(args))
-              ? NIL // cdr of nil is nil.
-              : CDAR(args));
+  RETURN(NILP(CAR(args))
+         ? NIL // cdr of nil is nil.
+         : CDAR(args));
+  
+end:
+  
+  CORE_RETURN("cdr");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +59,11 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
   CAAR(args) = CADR(args);
 
-  CORE_RETURN("rplaca", CADR(args));
+  RETURN(CADR(args));
+  
+end:
+  
+  CORE_RETURN("rplaca");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +78,11 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
   CDAR(args) = CADR(args);
 
-  CORE_RETURN("rplacd", CADR(args));
+  RETURN(CADR(args));
+  
+end:
+  
+  CORE_RETURN("rplacd");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +98,11 @@ ae_obj_t * ae_core_cons(
   ae_obj_t * const head = CAR(args);
   ae_obj_t * const tail = CADR(args);
 
-  CORE_RETURN("cons", NEW_CONS(head, tail));
+  RETURN(NEW_CONS(head, tail));
+  
+end:
+  
+  CORE_RETURN("cons");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,13 +117,13 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
   if (NILP(CAR(args)))
     RETURN(NEW_INT(0));
   
-  ret = CONSP(CAR(args))
-    ? NEW_INT(LENGTH(CAR(args)))
-    : NEW_INT(strlen(STR_VAL(CAR(args))));
+  RETURN(CONSP(CAR(args))
+         ? NEW_INT(LENGTH(CAR(args)))
+         : NEW_INT(strlen(STR_VAL(CAR(args)))));
   
 end:
 
-  CORE_RETURN("length", ret);
+  CORE_RETURN("length");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +155,7 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("pop", ret);
+  CORE_RETURN("pop");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,5 +183,5 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("push", ret);
+  CORE_RETURN("push");
 }
