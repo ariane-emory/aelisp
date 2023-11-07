@@ -216,8 +216,8 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 // find_file_in_load_path
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 static char * find_file_in_load_path(ae_obj_t * const env,
-                              bool add_extension,
-                              const char * const name) {
+                                     bool add_extension,
+                                     const char * const name) {
   bool load_path_found = false;
   ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
 
@@ -265,19 +265,6 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
       return true;
   
   return false;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// file_exists
-////////////////////////////////////////////////////////////////////////////////////////////////////
-bool file_exists(const char * const filename) {
-  struct stat buffer;
-    
-  int exist = stat(filename, &buffer);
-
-  return exist == 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
