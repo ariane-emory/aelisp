@@ -11,7 +11,7 @@
 #include "log.h"
 #include "obj.h"
 #include "plist.h"
-#include "time_funcs.h"
+#include "sys_time.h"
 #include "write.h"
 
 

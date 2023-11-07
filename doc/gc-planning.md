@@ -2,7 +2,7 @@ Safe files - should not need major revision:
 - capture.h: should be fine.
 - jump_return.h: should be fine.
 - log.h/c: should be fine.
-- time_funcs.c/h: should be fine.
+- sys_time.c/h: should be fine.
 - write.c/h: should be fine.
 - free_list.h/c: might become obsolete, but if not should be fine in current form. splitting into from/to spaces could possibly benefit from a void   free_list_remove_block function, undecided.
 - grammar files: doing GC during parsing is probably not practical and foregoing it might be tolerable in stage 1 as long as GC happens afterwards. Could be done in after 2.
@@ -32,7 +32,7 @@ Files that could be excluded from a minimal GC test case:
 - jump_return.h.
 - log.h/c.
 - plist.h/c.
-- time_funcs.h.
+- sys_time.h.
 
 Files that would be used in the minimal test case:
 - env.h/c.
