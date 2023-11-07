@@ -76,8 +76,18 @@ bool          ae_list_has_member   (const ae_obj_t *  const list,  ae_obj_t *  c
 bool          ae_list_is_proper    (const ae_obj_t *  const list                                                      );
 int           ae_list_length       (const ae_obj_t *  const list                                                      );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// push/pop, these 2 are only used by:
+//   ENV_PUSH in ae_common_new_root
+//   filename_stack / line_stack in load_file
+//   tests
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t *    ae_list_pop          (      ae_obj_t ** const plist                                                     );
 ae_obj_t *    ae_list_push         (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// push_back, this is only used by:
+//   ae_list_remove_member
+//   ae_list_map
+//   tests 
 ae_obj_t *    ae_list_push_back    (      ae_obj_t ** const plist, ae_obj_t *  const  member                          );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef AE_LIST_REMOVE
