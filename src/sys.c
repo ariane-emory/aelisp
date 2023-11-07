@@ -82,7 +82,7 @@ static read_from_fd_t ae_sys_read_from_fd(int fd) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ae_sys_capture_command_output
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-capture_command_output_t ae_sys_capture_command_output(char * const command) {
+capture_command_output_t ae_sys_capture_command_output(const char * const command) {
   assert(command);
   
   capture_command_output_t result;
