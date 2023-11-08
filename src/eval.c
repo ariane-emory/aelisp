@@ -196,7 +196,6 @@ static ae_obj_t * apply_core(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     strcpy(err_msg, err_msg_tmp);
     free_list_free(err_msg_tmp);
     
-
     ae_obj_t * const err = NEW_ERROR(err_msg); 
 
     PUT_PROP(env,  "error-env",  err);
@@ -278,7 +277,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
     snprintf(fun_name_part, 256, "'%s'", SYM_VAL(GET_PROP("last-bound-to", fun)));
   }
   else {
-    char * tmp = SWRITE(fun);
+    char * const tmp = SWRITE(fun);
     snprintf(fun_name_part, 256, "%s", tmp);
     free(tmp);
   }
@@ -331,7 +330,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
 
   INDENT;
 
-  ae_obj_t * body = FUN_BODY(fun);
+  ae_obj_t * const body = FUN_BODY(fun);
 
   if (log_eval) {  
     // If FUN_PARAMS(fun) is a blob, we lie to get a plural length:
@@ -353,7 +352,7 @@ end:
           SYM_VAL(GET_PROP("last-bound-to", fun)), a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
     }
     else {
-      char * tmp = SWRITE(fun);
+      char * const tmp = SWRITE(fun);
       LOG(ret, "applying user fun %s returned %s :%s", tmp, a_or_an(GET_TYPE_STR(ret)), GET_TYPE_STR(ret));
       free(tmp);
     }
@@ -377,15 +376,15 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   assert(obj);
   assert(CONSP(obj));
 
-  ae_obj_t * head = CAR(obj);
-  ae_obj_t * args = CDR(obj);
+  ae_obj_t * const head = CAR(obj);
+  ae_obj_t * const args = CDR(obj);
 
   assert(args);
   assert(TAILP(args));
 
   if (log_eval) {
-    char * tmp = SWRITE(head);
-    char * msg = free_list_malloc(256);
+    char * const tmp = SWRITE(head);
+    char * const msg = free_list_malloc(256);
 
     snprintf(msg, 256,
              "evaluating list by applying '%s' to %d arg%s:",
@@ -411,7 +410,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     }
   }
 
-  ae_obj_t * fun = EVAL_AND_RETURN_IF_ERRORP(env, head);
+  ae_obj_t * const fun = EVAL_AND_RETURN_IF_ERRORP(env, head);
 
   if (! (COREP(fun) || LAMBDAP(fun) || MACROP(fun))) {
     NL;
@@ -478,8 +477,8 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
   }
 
   if (ERRORP(ret)) {
-    char * fun_tmp = SWRITE(fun);
-    char * ret_tmp = SWRITE(ret);
+    char * const fun_tmp = SWRITE(fun);
+    char * const ret_tmp = SWRITE(ret);
 
     FSLOGF(stderr, "%s returned an error: %s", fun_tmp, ret_tmp);
 
@@ -542,7 +541,7 @@ static ae_obj_t * lookup(ae_obj_t * env, ae_obj_t * sym) {
   if (! found) {
     ae_obj_t * const err = NEW_ERROR("%s:%d: unbound symbol '%s'", __FILE__, __LINE__, SYM_VAL(sym));
 
-    PUT_PROP(env, "error-env",             err);
+    PUT_PROP(env, "error-env",            err);
     PUT_PROP(sym, "error-unbound-symbol", err);
     
     RETURN(err);
