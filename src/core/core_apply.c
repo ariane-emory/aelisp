@@ -28,7 +28,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env,
   ae_obj_t *       pos           = CDR(args);
   ae_obj_t *       evaluated_arg = NIL;
   
-  UNTIL_NIL(CDR(pos)) {
+  UNTIL_NILP(CDR(pos)) {
     ae_obj_t * arg = CAR(pos);
 
     if (is_quote_form(arg))
