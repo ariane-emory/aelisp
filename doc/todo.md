@@ -21,6 +21,7 @@ To Do:
 - [ ] GC.
 
 Under Consideration:
+- [ ] Polish printed core_names? Probably do this by revising load_fun_helper to put alt name in core->name.
 - [ ] Maybe primitive pop on empty list should be an error? Undecided.
 - [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Maybe move load_file?

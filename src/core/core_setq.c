@@ -35,7 +35,7 @@ DEF_CORE_FUN(setq) {
       PUT_PROP(sym, "last-bound-to", ret);
     
       if (log_core)
-        LOG(PROPS(ret), "core setq! val's new properties");
+        LOG(PROPS(ret), "core setq val's new properties");
     }
 
     ae_env_lookup_mode_t mode = SPECIAL_SYMP(sym) ? GLOBAL : NEAREST;
