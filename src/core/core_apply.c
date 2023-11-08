@@ -51,7 +51,7 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env,
   REQUIRE(env, args, PROPERP(last),
           "apply requires a proper list as its final argument");
   
-  while (!NILP(last)) {
+  UNTIL_NILP(last) {
     ae_obj_t * const elem = CONS(requote(CAR(last)), NIL);
     CDR(new_expr_tail)    = elem;
     new_expr_tail         = elem;
