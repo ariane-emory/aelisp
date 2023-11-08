@@ -4,11 +4,7 @@
 // _premoveb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("premove!");
-
+DEF_CORE_FUN(premoveb) {
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
 
@@ -18,18 +14,14 @@ ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
 
   ret = plist;
   
-  CORE_END("premove!");
+  END_DEF_CORE_FUN(premove!);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _premove
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_premove(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("premove");
-
+DEF_CORE_FUN(premove) {
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
 
@@ -37,18 +29,14 @@ ae_obj_t * ae_core_premove(ae_obj_t * const env,
 
   ret = PREMOVE_NONMUTATING(plist, key);
 
-  CORE_END("pset");
+  END_DEF_CORE_FUN(pset);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _psetb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_psetb(ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("pset!");
-
+DEF_CORE_FUN(psetb) {
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
   ae_obj_t * const value = CADDR(args); // this could be unsave if value is NIL, maybe.
@@ -59,18 +47,14 @@ ae_obj_t * ae_core_psetb(ae_obj_t * const env,
 
   ret = plist;
   
-  CORE_END("pset!");
+  END_DEF_CORE_FUN(pset!);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _pset
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_pset(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("pset");
-
+DEF_CORE_FUN(pset) {
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
   ae_obj_t * const value = CADDR(args); // this could be unsave if value is NIL, maybe.
@@ -79,18 +63,14 @@ ae_obj_t * ae_core_pset(ae_obj_t * const env,
 
   ret = PSET_NONMUTATING(plist, key, value);
 
-  CORE_END("pset");
+  END_DEF_CORE_FUN(pset);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _pget
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_pget(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("pget");
-
+DEF_CORE_FUN(pget) {
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
 
@@ -98,18 +78,14 @@ ae_obj_t * ae_core_pget(ae_obj_t * const env,
 
   ret = PGET(plist, key);
   
-  CORE_END("pget");
+  END_DEF_CORE_FUN(pget);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _phas
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_phas(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("phas");
-
+DEF_CORE_FUN(phas) {
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
 
@@ -117,6 +93,6 @@ ae_obj_t * ae_core_phas(ae_obj_t * const env,
 
   ret = TRUTH(PHAS(plist, key));
   
-  CORE_END("phas");
+  END_DEF_CORE_FUN(phas);
 }
 

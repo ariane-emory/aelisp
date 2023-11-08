@@ -6,11 +6,7 @@
 // _incrb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("incr");
-
+DEF_CORE_FUN(incr) {
   ae_obj_t * const sym = CAR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
@@ -27,18 +23,14 @@ ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, ret);
   
-  CORE_END("incr");
+  END_DEF_CORE_FUN(incr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _decrb
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("decr");
-
+DEF_CORE_FUN(decr) {
   ae_obj_t * const sym = CAR(args);
 
   REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
@@ -55,5 +47,5 @@ ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, ret);
   
-  CORE_END("decr");
+  END_DEF_CORE_FUN(decr);
 }

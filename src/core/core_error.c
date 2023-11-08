@@ -4,11 +4,7 @@
 // _error
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_error(ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("error");
-
+DEF_CORE_FUN(error) {
   REQUIRE(env, args, STRINGP(CAR(args)), "error's 1st arg must be a string");
   REQUIRE(env, args,
           (args_length == 1)  ||
@@ -20,22 +16,18 @@ ae_obj_t * ae_core_error(ae_obj_t * const env,
 
   RETURN(err);
 
-  CORE_END("error");
+  END_DEF_CORE_FUN(error);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _message
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_message(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("message");
-
+DEF_CORE_FUN(message) {
   REQUIRE(env, args, ERRORP(CAR(args)));
 
   RETURN(NEW_STRING(EMSG(CAR(args))));
   
-  CORE_END("message");
+  END_DEF_CORE_FUN(message);
 }
 
