@@ -274,8 +274,8 @@ extern ae_obj_t * symbols_list;
   CORE_FUN  (_obj) = (val);                                                                                                           \
   char * const new_name = free_list_malloc(strlen(name) + 1);                                                                         \
   strcpy(new_name, name);                                                                                                             \
-  CORE_NAME(_obj) = new_name;                                                                                                         \
-  _obj->special = _special;                                                                                                           \
+  CORE_NAME(_obj)  = new_name;                                                                                                        \
+  _obj->special    = _special;                                                                                                        \
   ae_obj_set_min_args(_obj, min_args);                                                                                                \
   ae_obj_set_max_args(_obj, max_args);                                                                                                \
   _obj;                                                                                                                               \
@@ -346,9 +346,9 @@ extern ae_obj_t * symbols_list;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_STRING(val)                                                                                                               \
   ({                                                                                                                                  \
-  assert((val) >= string_pool && (val) < string_pool + string_pool_size);                                                               \
+  assert((val) >= string_pool && (val) < string_pool + string_pool_size);                                                             \
   ae_obj_t * _obj  = NEW(AE_STRING);                                                                                                  \
-  STR_VAL(_obj) = (val);                                                                                                              \
+  STR_VAL(_obj)    = (val);                                                                                                           \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
