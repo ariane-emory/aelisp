@@ -63,7 +63,7 @@ if (local_indents)                                                              
                                                                                                    \
 if (log_core) {                                                                                    \
   char * const tmp##__LINE__ = free_list_malloc(256);                                              \
-  snprintf(tmp##__LINE__, 256, "[returning from 'core_%s']", core_fun_name);                       \
+  snprintf(tmp##__LINE__, 256, "returning from 'core_%s'", core_fun_name);                         \
                                                                                                    \
   LOG_RETURN_WITH_TYPE(tmp##__LINE__, ret);                                                        \
                                                                                                    \

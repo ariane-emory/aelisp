@@ -16,7 +16,11 @@ DEF_CORE_FUN(progn) {
     if (log_core)
       LOG(elem, "eval progn arg  #%d/%d", ctr, args_length);
 
+    INDENT;
+    
     ret = RETURN_IF_ERRORP(EVAL(env, elem));
+
+    OUTDENT;
         
     if (log_core)
       LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);
