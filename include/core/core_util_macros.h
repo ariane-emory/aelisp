@@ -53,9 +53,21 @@
                                                                                                    \
   CORE_BEGIN(#name);                                                                             
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define END_DEF_CORE_FUN(name)                                                                     \
+#define END_DEF_CORE_FUN                                                                           \
   }                                                                                                \
-    CORE_END(#name);
+  {                                                                                                \
+  end:                                                                                             \
+    if (local_indents) OUTDENT;                                                                    \
+    if (log_core) {                                                                                \
+      char * const tmp = free_list_malloc(256);                                                    \
+      snprintf(tmp, 256, "[returning from 'core_%s']", core_fun_name);                             \
+                                                                                                   \
+      LOG_RETURN_WITH_TYPE(tmp, ret);                                                              \
+                                                                                                   \
+      free_list_free(tmp);                                                                         \
+    }                                                                                              \
+    return ret;                                                                                    \
+  }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_END(name)                                                                             \
   {                                                                                                \

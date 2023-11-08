@@ -13,7 +13,7 @@ DEF_CORE_FUN(eq) {
 
   RETURN(TRUE);
   
-  END_DEF_CORE_FUN(eq);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ DEF_CORE_FUN(eql) {
 
   RETURN(TRUE);
   
-  END_DEF_CORE_FUN(eql);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ DEF_CORE_FUN(eql) {
 DEF_CORE_FUN(tailp) {
   RETURN(TRUTH(TAILP(CAR(args))));
   
-  END_DEF_CORE_FUN(tailp);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ DEF_CORE_FUN(properp) {
   REQUIRE(CONSP(CAR(args)));
   RETURN(TRUTH(PROPERP(CAR(args))));
   
-  END_DEF_CORE_FUN(properp);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ DEF_CORE_FUN(boundp) {
   REQUIRE(SYMBOLP(CAR(args)));
   RETURN(TRUTH(ENV_BOUNDP(env, CAR(args))));
   
-  END_DEF_CORE_FUN(boundp);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ DEF_CORE_FUN(keywordp) {
   REQUIRE(SYMBOLP(CAR(args)));
   RETURN(TRUTH(KEYWORDP(CAR(args))));
   
-  END_DEF_CORE_FUN(keywordp);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ DEF_CORE_FUN(keywordp) {
 DEF_CORE_FUN(id) {
   RETURN(CAR(args));
   
-  END_DEF_CORE_FUN(id);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ DEF_CORE_FUN(id) {
 DEF_CORE_FUN(not) {
   RETURN(TRUTH(NILP(CAR(args))));
   
-  END_DEF_CORE_FUN(not);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ DEF_CORE_FUN(not) {
 DEF_CORE_FUN(nilp) {
   RETURN(TRUTH(NILP(CAR(args))));
 
-  END_DEF_CORE_FUN(nil?);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@ DEF_CORE_FUN(zerop) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 0));
   
-  END_DEF_CORE_FUN(zero?);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ DEF_CORE_FUN(onep) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 1));
   
-  END_DEF_CORE_FUN(one?);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ DEF_CORE_FUN(positivep) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) >= 0));
 
-  END_DEF_CORE_FUN(positive?);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +144,6 @@ DEF_CORE_FUN(negativep) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) < 0));
   
-  END_DEF_CORE_FUN(negative?);
+  END_DEF_CORE_FUN;
 }
 
