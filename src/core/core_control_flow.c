@@ -320,7 +320,7 @@ ae_obj_t * ae_core_while(ae_obj_t * const env,
     LOG(do_branch,  "do");
   }
   
-  while (! NILP(RETURN_IF_ERRORP(EVAL(env, while_cond)))) {
+  UNTIL_NILP(RETURN_IF_ERRORP(EVAL(env, while_cond))) {
     if (log_core)
       LOG(do_branch, "do while");
 
@@ -350,7 +350,7 @@ ae_obj_t * ae_core_until(ae_obj_t * const env,
     LOG(do_branch,  "do");
   }
   
-  while (NILP(RETURN_IF_ERRORP(EVAL(env, until_cond)))) {
+  UNTIL_NOT_NILP(RETURN_IF_ERRORP(EVAL(env, until_cond))) {
     if (log_core)
       LOG(do_branch, "do until");
 
