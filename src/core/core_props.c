@@ -8,13 +8,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(set_props) {
-  ae_obj_t * const obj            = CAR(args);
+  ae_obj_t * const obj        = CAR(args);
+  ae_obj_t * const props_list = CADR(args);
 
   REQUIRE(NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
 
-  ae_obj_t * const new_props_list = CADR(args);
-  PROPS(obj)                      = new_props_list;
-  ret                             = new_props_list;
+  ret = PROPS(obj)            = props_list;
 
   END_DEF_CORE_FUN;
 }
@@ -35,17 +34,17 @@ DEF_CORE_FUN(props) {
 // _put_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DEF_CORE_FUN(put_prop) {
+DEF_CORE_FUN(put_prop) {     
   ae_obj_t * const obj           = CAR(args);
-
-  REQUIRE(NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
-       
   ae_obj_t * const key           = CADR(args);
   ae_obj_t * const value         = CADDR(args);
+  ret                            = value;
+
+  REQUIRE(NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
+  
   ae_obj_t * const prop_list     = PROPS(obj);
   ae_obj_t * const new_prop_list = PSET_INTERNAL(prop_list, key, value);
   PROPS(obj)                     = new_prop_list;
-  ret                            = value;
 
   END_DEF_CORE_FUN;
 }
@@ -68,16 +67,14 @@ DEF_CORE_FUN(get_prop) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(remove_prop) {
-  ae_obj_t * const obj       = CAR(args);
+  ae_obj_t * const obj = CAR(args);
+  ae_obj_t * const key = CADR(args);
 
-  REQUIRE(NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
-    
-  ae_obj_t * const key       = CADR(args);
+  REQUIRE(NILP(GET_PROP("no-user-props", obj)),
+          "users cannot alter properties of this object");  
 
-  if (! PHAS(PROPS(obj), key)) {
-    ret = NIL;
-    goto end;
-  }
+  if (! PHAS(PROPS(obj), key))
+    RETURN(NIL);
 
   ret = PGET(PROPS(obj), key);
   
