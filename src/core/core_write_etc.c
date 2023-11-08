@@ -4,7 +4,9 @@
 // _write
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("write");
 
   int written = 0;
@@ -56,7 +58,9 @@ ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env,
 // _princ
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_princ(__attribute__((unused))ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("princ");
 
   int written = 0;
@@ -75,7 +79,9 @@ ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 // _print
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("print");
 
   int written = 0;
