@@ -48,17 +48,13 @@ static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _system
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_system(ae_obj_t * const env,
-                          ae_obj_t * const args,
-                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("system");
-
+DEF_CORE_FUN(system) {
   REQUIRE(env, args, STRINGP(CAR(args)),
           "system's arg must be a string");
 
   RETURN(wrap_captured_command_output(ae_sys_capture_command_output(STR_VAL(CAR(args)))));
 
-  CORE_END("system");
+  END_DEF_CORE_FUN(system);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,11 +62,7 @@ ae_obj_t * ae_core_system(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _expand_path
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
-                               ae_obj_t * const args,
-                               __attribute__((unused)) int args_length) {
-  CORE_BEGIN("expand-path");
-
+DEF_CORE_FUN(expand_path) {
   REQUIRE(env, args, STRINGP(CAR(args)));
 
   char * path = STR_VAL(CAR(args));
@@ -95,7 +87,7 @@ ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
   
   RETURN(NEW_STRING(path));
 
-  CORE_END("expand-path");
+  END_DEF_CORE_FUN(expand-path);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,14 +95,10 @@ ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _allocated
 ///////////////////////////////////////////////////////////////////////////////////////////////////s
-ae_obj_t * ae_core_allocated(__attribute__((unused)) ae_obj_t * const env,
-                             __attribute__((unused)) ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("allocated");
-
+DEF_CORE_FUN(allocated) {
   RETURN(NEW_INT(pool_allocated));
   
-  CORE_END("allocated");
+  END_DEF_CORE_FUN(allocated);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,14 +106,10 @@ ae_obj_t * ae_core_allocated(__attribute__((unused)) ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _now
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_now(__attribute__((unused)) ae_obj_t * const env,
-                       __attribute__((unused)) ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("now");
-
+DEF_CORE_FUN(now) {
   RETURN(NEW_INT(ae_sys_time_now()));
   
-  CORE_END("now");
+  END_DEF_CORE_FUN(now);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -133,14 +117,10 @@ ae_obj_t * ae_core_now(__attribute__((unused)) ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _now_us
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_now_us(__attribute__((unused)) ae_obj_t * const env,
-                          __attribute__((unused)) ae_obj_t * const args,
-                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("now_us");
-
+DEF_CORE_FUN(now_us) {
   RETURN(NEW_INT(ae_sys_time_now_us()));
   
-  CORE_END("now_us");
+  END_DEF_CORE_FUN(now_us);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -148,15 +128,12 @@ ae_obj_t * ae_core_now_us(__attribute__((unused)) ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _elapsed
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_elapsed(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("elapsed");
+DEF_CORE_FUN(elapsed) {
   REQUIRE(env, args, INTEGERP(CAR(args)));
 
   RETURN(NEW_INT(ae_sys_time_elapsed(INT_VAL(CAR(args)))));
   
-  CORE_END("elapsed");
+  END_DEF_CORE_FUN(elapsed);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,15 +141,12 @@ ae_obj_t * ae_core_elapsed(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _elapsed_us
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_elapsed_us(ae_obj_t * const env,
-                              ae_obj_t * const args,
-                              __attribute__((unused)) int args_length) {
-  CORE_BEGIN("elapsed_us");
+DEF_CORE_FUN(elapsed_us) {
   REQUIRE(env, args, INTEGERP(CAR(args)));
 
   RETURN(NEW_INT(ae_sys_time_elapsed_us(INT_VAL(CAR(args)))));
 
-  CORE_END("elapsed");
+  END_DEF_CORE_FUN(elapsed);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -180,17 +154,14 @@ ae_obj_t * ae_core_elapsed_us(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _sleep
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_sleep(ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("sleep");
+DEF_CORE_FUN(sleep) {
   REQUIRE(env, args, INTEGERP(CAR(args)));
 
   usleep(INT_VAL(CAR(args)) * 1000);
 
   RETURN(CAR(args));
 
-  CORE_END("sleep");
+  END_DEF_CORE_FUN(sleep);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -198,29 +169,22 @@ ae_obj_t * ae_core_sleep(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _sleep_us
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_sleep_us(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("sleep-us");
+DEF_CORE_FUN(sleep_us) {
   REQUIRE(env, args, INTEGERP(CAR(args)));
 
   usleep(INT_VAL(CAR(args)));
 
   RETURN(CAR(args));
 
-  CORE_END("sleep-us")
-    }
+  END_DEF_CORE_FUN(sleep-us);
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _exit
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_exit(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("exit");
-  
+DEF_CORE_FUN(exit) {
   int exit_code = 0;
 
   if (args_length == 1) {
@@ -233,7 +197,7 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 
   RETURN(CAR(args));
   
-  CORE_END("exit");
+  END_DEF_CORE_FUN(exit);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -351,15 +315,12 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _load
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_load(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("load");
+DEF_CORE_FUN(load) {
   REQUIRE(env, args, STRINGP(CAR(args)));
 
   RETURN(load_or_require(LORM_LOAD, env, args, args_length));
 
-  CORE_END("load");
+  END_DEF_CORE_FUN(load);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -367,15 +328,12 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _file_read
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_file_read(ae_obj_t * const env,
-                             ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("file-read");
+DEF_CORE_FUN(file_read) {
   REQUIRE(env, args, STRINGP(CAR(args)));
 
   RETURN(CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));
   
-  CORE_END("file-read");
+  END_DEF_CORE_FUN(file-read);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -383,11 +341,7 @@ ae_obj_t * ae_core_file_read(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _require
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_require(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("require");
-
+DEF_CORE_FUN(require) {
   REQUIRE(env, args,
           SYMBOLP(CAR(args))      &&
           (! KEYWORDP(CAR(args))) &&
@@ -396,7 +350,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
 
   RETURN(load_or_require(LORM_REQUIRE, env, args, args_length));
   
-  CORE_END("require");
+  END_DEF_CORE_FUN(require);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -404,11 +358,7 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _requireb
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_requireb(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("requireb");
-
+DEF_CORE_FUN(requireb) {
   REQUIRE(env, args,
           SYMBOLP(CAR(args))      &&
           (! KEYWORDP(CAR(args))) &&
@@ -417,7 +367,7 @@ ae_obj_t * ae_core_requireb(ae_obj_t * const env,
 
   RETURN(load_or_require(LORM_REREQUIRE, env, args, args_length));
   
-  CORE_END("requireb");
+  END_DEF_CORE_FUN(requireb);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -425,11 +375,7 @@ ae_obj_t * ae_core_requireb(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _cd
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_cd(ae_obj_t * const env,
-                      ae_obj_t * const args,
-                      __attribute__((unused)) int args_length) {
-  CORE_BEGIN("cd");
-
+DEF_CORE_FUN(cd) {
   REQUIRE(env, args, STRINGP(CAR(args)),
           "cd's arg must be a string");
 
@@ -451,7 +397,7 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
          ? NEW_ERROR("Could not get current working directory after changing directory")
          : NEW_STRING(pwd));
 
-  CORE_END("cd");
+  END_DEF_CORE_FUN(cd);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -459,18 +405,14 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _pwd
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_pwd(ae_obj_t * const env,
-                       ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("pwd");
-
+DEF_CORE_FUN(pwd) {
   char * const pwd = ae_sys_pwd();
 
   RETURN(pwd
          ? NEW_STRING(pwd)
          : NEW_ERROR("Could not get current working directory"));
 
-  CORE_END("pwd");
+  END_DEF_CORE_FUN(pwd);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -478,11 +420,7 @@ ae_obj_t * ae_core_pwd(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _basename
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_basename(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("basename");
-
+DEF_CORE_FUN(basename) {
   REQUIRE(env, args, STRINGP(CAR(args)),
           "basename's arg must be a string");
 
@@ -492,7 +430,7 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
          ? NEW_STRING(path)
          : NEW_ERROR("Could not get basename"));
 
-  CORE_END("basename");
+  END_DEF_CORE_FUN(basename);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -500,11 +438,7 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _dirname
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_dirname(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("dirname");
-
+DEF_CORE_FUN(dirname) {
   REQUIRE(env, args, STRINGP(CAR(args)),
           "dirname's arg must be a string");
 
@@ -514,7 +448,7 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
          ? NEW_STRING(path)
          : NEW_ERROR("Could not get dirname"));
 
-  CORE_END("dirname");
+  END_DEF_CORE_FUN(dirname);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -522,11 +456,7 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _files
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_files(ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("files");
-
+DEF_CORE_FUN(files) {
   REQUIRE(env, args, (args_length == 0) || STRINGP(CAR(args)), "dirs's arg must be a string");
   
   char * path = NULL;
@@ -566,7 +496,7 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
 
   closedir(dir);
 
-  CORE_END("files");
+  END_DEF_CORE_FUN(files);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -574,11 +504,7 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _dirs
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_dirs(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("dirs");
-
+DEF_CORE_FUN(dirs) {
   REQUIRE(env, args, (args_length == 0) || STRINGP(CAR(args)), "dirs's arg must be a string");
   
   char * path = NULL;
@@ -617,7 +543,7 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env,
 
   closedir(dir);
 
-  CORE_END("dirs");
+  END_DEF_CORE_FUN(dirs);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -625,11 +551,7 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _file_read_string
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
-                                 ae_obj_t * const args,
-                                 __attribute__((unused)) int args_length) {
-  CORE_BEGIN("file-write-string");
-
+DEF_CORE_FUN(fwrite_string) {
   REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)),
           "Arguments must be strings");
 
@@ -647,7 +569,7 @@ ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
 
   RETURN(TRUTH(written == data_size));
   
-  CORE_END("file-write-string");
+  END_DEF_CORE_FUN(file-write-string);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -655,11 +577,7 @@ ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _file_append_string
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
-                                  ae_obj_t * const args,
-                                  __attribute__((unused)) int args_length) {
-  CORE_BEGIN("file-append-string");
-
+DEF_CORE_FUN(fappend_string) {
   REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)),
           "Arguments must be strings");
 
@@ -676,7 +594,7 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
 
   RETURN(TRUTH(written == data_size));
   
-  CORE_END("file-append-string");
+  END_DEF_CORE_FUN(file-append-string);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -684,11 +602,7 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // _file_read_string
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ae_obj_t * ae_core_fread_string(ae_obj_t * const env,
-                                ae_obj_t * const args,
-                                __attribute__((unused)) int args_length) {
-  CORE_BEGIN("file-read-string");
-
+DEF_CORE_FUN(fread_string) {
   REQUIRE(env, args, STRINGP(CAR(args)),
           "Argument must be a string");
 
@@ -709,6 +623,6 @@ ae_obj_t * ae_core_fread_string(ae_obj_t * const env,
 
   RETURN(ret);
   
-  CORE_END("file-read-string");
+  END_DEF_CORE_FUN(file-read-string);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
