@@ -9,8 +9,6 @@ ae_obj_t * ae_core_bnot(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   RETURN(NEW_INT(~INT_VAL(CAR(args))));
   
-end:
-  
   CORE_EXIT("bnot");
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

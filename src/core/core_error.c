@@ -18,8 +18,6 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   RETURN(err);
 
-end:  
-  
   CORE_EXIT("error");
 }
 
@@ -33,8 +31,6 @@ ae_obj_t * ae_core_message(ae_obj_t * const env, ae_obj_t * const args, __attrib
   REQUIRE(env, args, ERRORP(CAR(args)));
 
   RETURN(NEW_STRING(EMSG(CAR(args))));
-  
-end:
   
   CORE_EXIT("message");
 }

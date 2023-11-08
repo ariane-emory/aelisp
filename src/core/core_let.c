@@ -76,8 +76,6 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-end:
-  
   CORE_EXIT("let");
 }
 
@@ -154,8 +152,6 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-end:
-  
   CORE_EXIT("let_star");
 }
 
@@ -235,7 +231,5 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-end:
-  
   CORE_EXIT("letrec");
 }

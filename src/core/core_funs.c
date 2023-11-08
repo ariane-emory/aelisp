@@ -24,8 +24,6 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   RETURN(NEW_MACRO(CAR(args), CDR(args), env));
   
-end:
-  
   CORE_EXIT("macro");
 }
 
@@ -52,8 +50,6 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(NEW_LAMBDA(CAR(args), CDR(args), env));
   
-end:
-  
   CORE_EXIT("lambda");
 }
 
@@ -68,8 +64,6 @@ ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(FUN_PARAMS(CAR(args)));
   
-end:
-  
   CORE_EXIT("params");
 }
 
@@ -83,8 +77,6 @@ ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args, __attribute
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
   RETURN(FUN_BODY(CAR(args)));
-  
-end:
   
   CORE_EXIT("body");
 }

@@ -28,8 +28,6 @@ ae_obj_t * ae_core_log_eval(ae_obj_t * const env,
 
   RETURN(TRUTH(old_value));
   
-end:
-  
   CORE_EXIT("l_eval");
 }
 
@@ -57,8 +55,6 @@ ae_obj_t * ae_core_log_core(ae_obj_t * const env,
 
   RETURN(TRUTH(old_value));
 
-end:
-  
   CORE_EXIT("l_core");
 }
 
@@ -86,7 +82,5 @@ ae_obj_t * ae_core_log_macro(ae_obj_t * const env,
   
   RETURN(TRUTH(old_value));
 
-end:
-  
   CORE_EXIT("l_macro");
 }

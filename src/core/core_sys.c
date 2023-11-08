@@ -57,8 +57,6 @@ ae_obj_t * ae_core_system(ae_obj_t * const env,
 
   RETURN(wrap_captured_command_output(ae_sys_capture_command_output(STR_VAL(CAR(args)))));
 
-end:
-  
   CORE_EXIT("system");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,8 +94,6 @@ ae_obj_t * ae_core_expand_path(ae_obj_t * const env,
   
   RETURN(NEW_STRING(path));
 
-end:
-  
   CORE_EXIT("expand-path");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,8 +108,6 @@ ae_obj_t * ae_core_allocated(__attribute__((unused)) ae_obj_t * const env,
   CORE_ENTER("allocated");
 
   RETURN(NEW_INT(pool_allocated));
-  
-end:
   
   CORE_EXIT("allocated");
 }
@@ -130,8 +124,6 @@ ae_obj_t * ae_core_now(__attribute__((unused)) ae_obj_t * const env,
 
   RETURN(NEW_INT(ae_sys_time_now()));
   
-end:
-  
   CORE_EXIT("now");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,8 +138,6 @@ ae_obj_t * ae_core_now_us(__attribute__((unused)) ae_obj_t * const env,
   CORE_ENTER("now_us");
 
   RETURN(NEW_INT(ae_sys_time_now_us()));
-  
-end:
   
   CORE_EXIT("now_us");
 }
@@ -165,8 +155,6 @@ ae_obj_t * ae_core_elapsed(ae_obj_t * const env,
 
   RETURN(NEW_INT(ae_sys_time_elapsed(INT_VAL(CAR(args)))));
   
-end:
-  
   CORE_EXIT("elapsed");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,8 +171,6 @@ ae_obj_t * ae_core_elapsed_us(ae_obj_t * const env,
 
   RETURN(NEW_INT(ae_sys_time_elapsed_us(INT_VAL(CAR(args)))));
 
-end:
-  
   CORE_EXIT("elapsed");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,8 +189,6 @@ ae_obj_t * ae_core_sleep(ae_obj_t * const env,
 
   RETURN(CAR(args));
 
-end:
-  
   CORE_EXIT("sleep");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,8 +207,6 @@ ae_obj_t * ae_core_sleep_us(ae_obj_t * const env,
 
   RETURN(CAR(args));
 
-end:
-  
   CORE_EXIT("sleep-us")
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -249,8 +231,6 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
   exit(exit_code);
 
   RETURN(CAR(args));
-  
-end:
   
   CORE_EXIT("exit");
 }
@@ -362,8 +342,6 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
   if ((mode == LORM_REQUIRE || mode == LORM_REREQUIRE) && ! have_feature(env, load_target))
     RETURN(NEW_ERROR("required file did not provide '%s", load_target_string));
   
-end:
-  
   CORE_EXIT("load_or_require");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -380,8 +358,6 @@ ae_obj_t * ae_core_load(ae_obj_t * const env,
 
   RETURN(load_or_require(LORM_LOAD, env, args, args_length));
 
-end:
-  
   CORE_EXIT("load");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -397,8 +373,6 @@ ae_obj_t * ae_core_file_read(ae_obj_t * const env,
   REQUIRE(env, args, STRINGP(CAR(args)));
 
   RETURN(CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));
-  
-end:
   
   CORE_EXIT("file-read");
 }
@@ -421,8 +395,6 @@ ae_obj_t * ae_core_require(ae_obj_t * const env,
 
   RETURN(load_or_require(LORM_REQUIRE, env, args, args_length));
   
-end:
-  
   CORE_EXIT("require");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -443,8 +415,6 @@ ae_obj_t * ae_core_requireb(ae_obj_t * const env,
           (! TRUEP(CAR(args))));
 
   RETURN(load_or_require(LORM_REREQUIRE, env, args, args_length));
-  
-end:
   
   CORE_EXIT("requireb");
 }
@@ -478,8 +448,6 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
          ? NEW_ERROR("Could not get current working directory after changing directory")
          : NEW_STRING(pwd));
 
-end:
-  
   CORE_EXIT("cd");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -499,8 +467,6 @@ ae_obj_t * ae_core_pwd(ae_obj_t * const env,
          ? NEW_STRING(pwd)
          : NEW_ERROR("Could not get current working directory"));
 
-end:
-  
   CORE_EXIT("pwd");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -522,8 +488,6 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
          ? NEW_STRING(path)
          : NEW_ERROR("Could not get basename"));
 
-end:
-  
   CORE_EXIT("basename");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -545,8 +509,6 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
          ? NEW_STRING(path)
          : NEW_ERROR("Could not get dirname"));
 
-end:
-  
   CORE_EXIT("dirname");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -598,8 +560,6 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
 
   closedir(dir);
 
-end:
-  
   CORE_EXIT("files");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -650,8 +610,6 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env,
 
   closedir(dir);
 
-end:
-  
   CORE_EXIT("dirs");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -680,8 +638,6 @@ ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
 
   RETURN(TRUTH(written == data_size));
   
-end:
-  
   CORE_EXIT("file-write-string");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -709,8 +665,6 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
   fclose(file);
 
   RETURN(TRUTH(written == data_size));
-  
-end:
   
   CORE_EXIT("file-append-string");
 }
@@ -743,8 +697,6 @@ ae_obj_t * ae_core_fread_string(ae_obj_t * const env,
   }
 
   RETURN(ret);
-  
-end:
   
   CORE_EXIT("file-read-string");
 }

@@ -21,8 +21,6 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
   RETURN(env);
 
-end:
-  
   CORE_EXIT("env");
 }
 
@@ -41,8 +39,6 @@ ae_obj_t * ae_core_syms(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   RETURN(ENV_SYMS(env));
   
-end:
-  
   CORE_EXIT("syms");
 }
 
@@ -60,8 +56,6 @@ ae_obj_t * ae_core_vals(ae_obj_t * const env, ae_obj_t * const args, __attribute
   }
 
   RETURN(ENV_VALS(env));
-  
-end:
   
   CORE_EXIT("vals");
 }

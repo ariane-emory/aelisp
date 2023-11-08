@@ -63,7 +63,5 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   RETURN(EVAL(env, new_expr));
 
-end:
-  
   CORE_EXIT("apply");
 }

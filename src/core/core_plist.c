@@ -18,8 +18,6 @@ ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
 
   ret = plist;
   
-end:
-  
   CORE_EXIT("premove!");
 }
 
@@ -39,8 +37,6 @@ ae_obj_t * ae_core_premove(ae_obj_t * const env,
 
   ret = PREMOVE_NONMUTATING(plist, key);
 
-end:
-  
   CORE_EXIT("pset");
 }
 
@@ -63,8 +59,6 @@ ae_obj_t * ae_core_psetb(ae_obj_t * const env,
 
   ret = plist;
   
-end:
-  
   CORE_EXIT("pset!");
 }
 
@@ -85,8 +79,6 @@ ae_obj_t * ae_core_pset(ae_obj_t * const env,
 
   ret = PSET_NONMUTATING(plist, key, value);
 
-end:
-  
   CORE_EXIT("pset");
 }
 
@@ -106,8 +98,6 @@ ae_obj_t * ae_core_pget(ae_obj_t * const env,
 
   ret = PGET(plist, key);
   
-end:
-  
   CORE_EXIT("pget");
 }
 
@@ -126,8 +116,6 @@ ae_obj_t * ae_core_phas(ae_obj_t * const env,
   REQUIRE(env, args, TAILP(plist), "PLIST must be a list");
 
   ret = TRUTH(PHAS(plist, key));
-  
-end:
   
   CORE_EXIT("phas");
 }

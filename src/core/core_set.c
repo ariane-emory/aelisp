@@ -9,7 +9,5 @@ ae_obj_t * ae_core_set(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
   RETURN(ae_core_setq(env, args, args_length));
 
-end:
-  
   CORE_EXIT("set");
 }

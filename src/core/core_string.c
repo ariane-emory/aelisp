@@ -17,8 +17,6 @@ ae_obj_t * ae_core_string(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(NEW_STRING(tmp2));
 
-end:
-  
   CORE_EXIT("string");
 }
 
@@ -36,8 +34,6 @@ ae_obj_t * ae_core_intern(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(SYM(STR_VAL(CAR(args))));
 
-end:
-  
   CORE_EXIT("intern");
 }
 

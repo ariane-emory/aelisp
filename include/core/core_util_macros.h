@@ -44,8 +44,9 @@
     free(tmp##__LINE__);                                                                           \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CORE_EXIT(name)                                                                          \
+#define CORE_EXIT(name)                                                                            \
   {                                                                                                \
+  end:                                                                                             \
     if (local_indents) OUTDENT;                                                                    \
     if (log_core)                                                                                  \
       LOG_RETURN_WITH_TYPE("core_" name, ret);                                                     \

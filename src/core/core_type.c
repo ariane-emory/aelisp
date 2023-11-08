@@ -20,7 +20,5 @@ ae_obj_t * ae_core_type(__attribute__((unused)) ae_obj_t * const env,
 
   RETURN(sym);
 
-end:
-  
   CORE_EXIT("type");
 }

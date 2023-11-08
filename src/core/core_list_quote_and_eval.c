@@ -12,8 +12,6 @@ ae_obj_t * ae_core_eval(ae_obj_t * const env,
 
   RETURN(EVAL(env, CAR(args)));
   
-end:
-  
   CORE_EXIT("eval");
 }
 
@@ -28,8 +26,6 @@ ae_obj_t * ae_core_list(__attribute__((unused)) ae_obj_t * const env,
 
   RETURN(args);
   
-end:
-  
   CORE_EXIT("list");
 }
 
@@ -43,8 +39,6 @@ ae_obj_t * ae_core_quote(__attribute__((unused)) ae_obj_t * const env,
   CORE_ENTER("quote");
 
   RETURN(CAR(args));
-
-end:
 
   CORE_EXIT("quote");
 }

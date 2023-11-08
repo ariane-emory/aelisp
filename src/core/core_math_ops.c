@@ -40,9 +40,7 @@
                                                                                                                       \
     RETURN(NEW_INT(accum));                                                                                           \
                                                                                                                       \
-  end:                                                                                                                \
-                                                                                                                      \
-    CORE_EXIT(#name);                                                                                               \
+    CORE_EXIT(#name);                                                                                                 \
   }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,8 +58,6 @@ ae_obj_t * ae_core_plus1(__attribute__((unused)) ae_obj_t * const env,
 
   RETURN(NEW_INT(INT_VAL(CAR(args)) + 1));
   
-end:
-  
   CORE_EXIT("1+");
 }
 
@@ -70,14 +66,12 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_minus1(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_ENTER("1-");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
 
   RETURN(NEW_INT(INT_VAL(CAR(args)) - 1));
-  
-end:
   
   CORE_EXIT("1-");
 }

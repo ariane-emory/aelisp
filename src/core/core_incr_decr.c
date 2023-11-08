@@ -27,8 +27,6 @@ ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, ret);
   
-end:
-  
   CORE_EXIT("incr");
 }
 
@@ -56,8 +54,6 @@ ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
   ret = NEW_INT(INT_VAL(integer) - (NILP(subtrahend_integer) ? 1 : INT_VAL(subtrahend_integer)));
 
   ENV_SET(env, sym, ret);
-  
-end:
   
   CORE_EXIT("decr");
 }

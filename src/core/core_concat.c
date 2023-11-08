@@ -48,7 +48,5 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(NEW_STRING(string));
   
-end:
-  
   CORE_EXIT("concat");
 }

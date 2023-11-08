@@ -20,8 +20,6 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
          ? NIL // car of nil is nil.
          : CAAR(args));
   
-end:
-  
   CORE_EXIT("car");
 }
 
@@ -42,8 +40,6 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute_
          ? NIL // cdr of nil is nil.
          : CDAR(args));
   
-end:
-  
   CORE_EXIT("cdr");
 }
 
@@ -60,8 +56,6 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
   CAAR(args) = CADR(args);
 
   RETURN(CADR(args));
-  
-end:
   
   CORE_EXIT("rplaca");
 }
@@ -80,8 +74,6 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(CADR(args));
   
-end:
-  
   CORE_EXIT("rplacd");
 }
 
@@ -99,8 +91,6 @@ ae_obj_t * ae_core_cons(
   ae_obj_t * const tail = CADR(args);
 
   RETURN(NEW_CONS(head, tail));
-  
-end:
   
   CORE_EXIT("cons");
 }
@@ -121,8 +111,6 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
          ? NEW_INT(LENGTH(CAR(args)))
          : NEW_INT(strlen(STR_VAL(CAR(args)))));
   
-end:
-
   CORE_EXIT("length");
 }
 
@@ -153,8 +141,6 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, tail);
 
-end:
-  
   CORE_EXIT("pop");
 }
 
@@ -180,8 +166,6 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
   ret                  = CONS(val, lst);
 
   ENV_SET(env, sym, ret);
-  
-end:
   
   CORE_EXIT("push");
 }

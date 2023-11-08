@@ -24,8 +24,6 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
       LOG(ret, "progn arg #%d/%d evaluated to", ctr, args_length);
   }
 
-end:
-  
   CORE_EXIT("progn");
 }
 
@@ -100,7 +98,6 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if (selected_value_form)
     RETURN(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form)));
 
-end:
   CORE_EXIT("case");
 }
 
@@ -145,8 +142,6 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
     }
   }
 
-end:
-  
   CORE_EXIT("cond");
 }
 
@@ -185,8 +180,6 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
     ret = RETURN_IF_ERRORP(ae_core_progn(env, else_branch, LENGTH(else_branch)));
   }
 
-end:
-  
   CORE_EXIT("if");
 }
 
@@ -220,8 +213,6 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
   if (log_core)
     SLOG("chose nil");
 
-end:
-  
   CORE_EXIT("when");
 }
 
@@ -255,8 +246,6 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
   if (log_core)
     SLOG("chose nil");
 
-end:
-  
   CORE_EXIT("unless");
 }
 
@@ -278,8 +267,6 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
       break;
   }
       
-end:
-    
   CORE_EXIT("or");
 }
 
@@ -300,8 +287,6 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
       break;
   }
 
-end:
-  
   CORE_EXIT("and");
 }
 
@@ -327,8 +312,6 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
     ret = RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)));
   }
 
-end:
-  
   if (log_core)
     SLOG("left while");
   
@@ -359,8 +342,6 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
     ret = RETURN_IF_ERRORP(ae_core_progn(env, do_branch, LENGTH(do_branch)));
   }
 
-end:
-  
   if (log_core)
     SLOG("left until");
   
@@ -383,8 +364,6 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
   for (long long int ix = 0; ix < times; ix++)
     ret = RETURN_IF_ERRORP(ae_core_progn(env, CDR(args), LENGTH(CDR(args))));
 
-end:
-  
   CORE_EXIT("repeat");
 }
 

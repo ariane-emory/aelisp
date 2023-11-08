@@ -11,8 +11,6 @@ ae_obj_t * ae_core_rational(ae_obj_t * const env, ae_obj_t * const args, __attri
 
   RETURN(NEW_RATIONAL(INT_VAL(CAR(args)), INT_VAL(CADR(args))));
 
-end:
-  
   CORE_EXIT("rational");
 }
 
@@ -28,8 +26,6 @@ ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args, __attribut
          ? CAR(args)
          : NEW_INT(NUMER_VAL(CAR(args))));
   
-end:
-  
   CORE_EXIT("numer");
 }
 
@@ -44,8 +40,6 @@ ae_obj_t * ae_core_denom(ae_obj_t * const env, ae_obj_t * const args, __attribut
   RETURN(NEW_INT((RATIONALP(CAR(args)))
                  ? DENOM_VAL(CAR(args))
                  : 1));
-end:
-  
   CORE_EXIT("denom");
 }
 

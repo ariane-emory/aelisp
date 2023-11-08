@@ -18,8 +18,6 @@ ae_obj_t * ae_core_read(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   RETURN(CADR(program));
   
-end:
-  
   CORE_EXIT("read");
 }
 
