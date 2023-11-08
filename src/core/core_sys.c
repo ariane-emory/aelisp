@@ -65,18 +65,17 @@ DEF_CORE_FUN(system) {
 DEF_CORE_FUN(expand_path) {
   REQUIRE(STRINGP(CAR(args)));
 
-  char * path = STR_VAL(CAR(args));
-  
+  char * path                = STR_VAL(CAR(args));
   char * expanded_tilde_path = NULL;
   bool   expanded_tilde      = ae_sys_expand_tilde(path, &expanded_tilde_path);
 
   if (expanded_tilde)
     path = expanded_tilde_path;
   
-  char * realpath_tmp = free_list_malloc(PATH_MAX);
+  char * const realpath_tmp = free_list_malloc(PATH_MAX);
   realpath(path, realpath_tmp);
   
-  char * tmp = free_list_malloc(strlen(realpath_tmp) + 1);
+  char * const tmp = free_list_malloc(strlen(realpath_tmp) + 1);
   strcpy(tmp, realpath_tmp);
   free_list_free(realpath_tmp);
   
@@ -86,7 +85,6 @@ DEF_CORE_FUN(expand_path) {
   path = tmp;
   
   RETURN(NEW_STRING(path));
-
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +95,6 @@ DEF_CORE_FUN(expand_path) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////s
 DEF_CORE_FUN(allocated) {
   RETURN(NEW_INT(pool_allocated));
-  
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +105,6 @@ DEF_CORE_FUN(allocated) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(now) {
   RETURN(NEW_INT(ae_sys_time_now()));
-  
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +115,6 @@ DEF_CORE_FUN(now) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(now_us) {
   RETURN(NEW_INT(ae_sys_time_now_us()));
-  
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,9 +125,7 @@ DEF_CORE_FUN(now_us) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(elapsed) {
   REQUIRE(INTEGERP(CAR(args)));
-
   RETURN(NEW_INT(ae_sys_time_elapsed(INT_VAL(CAR(args)))));
-  
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,9 +136,7 @@ DEF_CORE_FUN(elapsed) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(elapsed_us) {
   REQUIRE(INTEGERP(CAR(args)));
-
   RETURN(NEW_INT(ae_sys_time_elapsed_us(INT_VAL(CAR(args)))));
-
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,7 +151,6 @@ DEF_CORE_FUN(sleep) {
   usleep(INT_VAL(CAR(args)) * 1000);
 
   RETURN(CAR(args));
-
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +165,6 @@ DEF_CORE_FUN(sleep_us) {
   usleep(INT_VAL(CAR(args)));
 
   RETURN(CAR(args));
-
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,7 +235,7 @@ static bool have_feature(ae_obj_t * const env, ae_obj_t * const sym) {
   assert(env);
   assert(ENVP(env));
 
-  bool features_found = false;
+  bool       features_found = false;
   ae_obj_t * const features = ENV_GET(env, SYM("*features*"), &features_found);
 
   assert(features_found);
@@ -317,9 +306,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(load) {
   REQUIRE(STRINGP(CAR(args)));
-
   RETURN(load_or_require(LORM_LOAD, env, args, args_length));
-
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,9 +317,7 @@ DEF_CORE_FUN(load) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(file_read) {
   REQUIRE(STRINGP(CAR(args)));
-
-  RETURN(CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));
-  
+  RETURN(CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));  
   END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -553,9 +538,9 @@ DEF_CORE_FUN(fwrite_string) {
   REQUIRE(STRINGP(CAR(args)) && STRINGP(CADR(args)),
           "Arguments must be strings");
 
-  char * filename  = STR_VAL(CAR(args));
-  char * data      = STR_VAL(CADR(args));
-  FILE * file      = fopen(filename, "w");
+  char * const filename  = STR_VAL(CAR(args));
+  char * const data      = STR_VAL(CADR(args));
+  FILE * const file      = fopen(filename, "w");
 
   REQUIRE(file,
           "Could not open file for writing");
@@ -579,9 +564,9 @@ DEF_CORE_FUN(fappend_string) {
   REQUIRE(STRINGP(CAR(args)) && STRINGP(CADR(args)),
           "Arguments must be strings");
 
-  char * filename  = STR_VAL(CAR(args));
-  char * data      = STR_VAL(CADR(args));
-  FILE * file      = fopen(filename, "a");
+  char * const filename  = STR_VAL(CAR(args));
+  char * const data      = STR_VAL(CADR(args));
+  FILE * const file      = fopen(filename, "a");
   
   REQUIRE(file, "Could not open file for appending");
 
