@@ -54,13 +54,12 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
     if (case_form_car == SYM("else")) {
       REQUIRE(env, args, !else_found, "Only one else clause is allowed in a case expression");
+
       else_found = true;
     }
   }
 
   // second pass: evaluate which case matches
-  ae_obj_t * selected_value_form = NIL;
-
   FOR_EACH(case_form, case_forms) {
     ae_obj_t * const case_form_car = CAR(case_form);
     ae_obj_t * const case_form_cdr = CDR(case_form);
@@ -71,10 +70,8 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     }
 
     if (case_form_car == SYM("else")) {
-      selected_value_form = case_form_cdr;
+      RETURN(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr)));
     } else {
-      INDENT;
-
       ae_obj_t * elements_to_check = CONSP(case_form_car)
         ? case_form_car 
         : CONS(case_form_car, NIL); // single element (atom) case form
@@ -86,19 +83,14 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
         if (EQL(key_form, case_form_car_elem)) {
           if (log_core)
             SLOG("matches");
-          
+        
           RETURN(ae_core_progn(env, case_form_cdr, LENGTH(case_form_cdr)));
         } else if (log_core) {
           SLOG("doesn't match");
         }
       }
-
-      OUTDENT;
     }
   }
-
-  if (selected_value_form)
-    RETURN(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form)));
 
   CORE_END("case");
 }
@@ -122,7 +114,9 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
     if (item_car == SYM("else")) {
       REQUIRE(env, args, !else_found,
               "Only one else clause is allowed in a cond expression");
+
       else_found = true;
+
       REQUIRE(env, args, NILP(CDR(position)),
               "If used, else clause must be the last clause in a cond expression");
     }
