@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_string(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("string");
+  CORE_ENTER("string");
 
   char * const tmp  = SPRINC(CAR(args));
   char * const tmp2 = free_list_malloc(strlen(tmp) + 1);
@@ -19,7 +19,7 @@ ae_obj_t * ae_core_string(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("string");
+  CORE_EXIT("string");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_intern(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("intern");
+  CORE_ENTER("intern");
 
   if (! STRINGP(CAR(args)))
     LOG(CAR(args), "not a string");
@@ -38,6 +38,6 @@ ae_obj_t * ae_core_intern(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("intern");
+  CORE_EXIT("intern");
 }
 

@@ -16,7 +16,7 @@ static ae_obj_t * REQUOTE(ae_obj_t * obj) {
 }
 
 ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("apply");
+  CORE_ENTER("apply");
 
   if (log_core)
     LOG(args, "flattening apply's args:");
@@ -65,5 +65,5 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
 end:
   
-  CORE_RETURN("apply");
+  CORE_EXIT("apply");
 }

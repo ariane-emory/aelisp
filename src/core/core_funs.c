@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("macro");
+  CORE_ENTER("macro");
 
   REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   REQUIRE(env, args, TAILP(CDR(args)));
@@ -26,7 +26,7 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
 end:
   
-  CORE_RETURN("macro");
+  CORE_EXIT("macro");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("lambda");
+  CORE_ENTER("lambda");
 
   REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
   REQUIRE(env, args, TAILP(CDR(args)));
@@ -54,7 +54,7 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
 end:
   
-  CORE_RETURN("lambda");
+  CORE_EXIT("lambda");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("params");
+  CORE_ENTER("params");
 
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
@@ -70,7 +70,7 @@ ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
 end:
   
-  CORE_RETURN("params");
+  CORE_EXIT("params");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("body");
+  CORE_ENTER("body");
 
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
@@ -86,6 +86,6 @@ ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args, __attribute
   
 end:
   
-  CORE_RETURN("body");
+  CORE_EXIT("body");
 }
 

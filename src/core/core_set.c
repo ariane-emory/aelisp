@@ -5,11 +5,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_set(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("set");
+  CORE_ENTER("set");
 
   RETURN(ae_core_setq(env, args, args_length));
 
 end:
   
-  CORE_RETURN("set");
+  CORE_EXIT("set");
 }

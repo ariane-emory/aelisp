@@ -27,7 +27,7 @@
     return err;                                                                                    \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CORE_BEGIN(name)                                                                           \
+#define CORE_ENTER(name)                                                                           \
   JUMP_RETURN_ENTER;                                                                               \
                                                                                                    \
   assert(env);                                                                                     \
@@ -44,7 +44,7 @@
     free(tmp##__LINE__);                                                                           \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CORE_RETURN(name)                                                                          \
+#define CORE_EXIT(name)                                                                          \
   {                                                                                                \
     if (local_indents) OUTDENT;                                                                    \
     if (log_core)                                                                                  \

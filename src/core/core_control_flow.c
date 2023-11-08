@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("progn");
+  CORE_ENTER("progn");
 
   int ctr = 0;
   
@@ -26,7 +26,7 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
 end:
   
-  CORE_RETURN("progn");
+  CORE_EXIT("progn");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("case");
+  CORE_ENTER("case");
 
   ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
   ae_obj_t * const case_forms = CDR(args);
@@ -101,7 +101,7 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
     RETURN(ae_core_progn(env, selected_value_form, LENGTH(selected_value_form)));
 
 end:
-  CORE_RETURN("case");
+  CORE_EXIT("case");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("cond");
+  CORE_ENTER("cond");
 
   bool else_found = false;
     
@@ -147,7 +147,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
 end:
   
-  CORE_RETURN("cond");
+  CORE_EXIT("cond");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("if");
+  CORE_ENTER("if");
 
   ae_obj_t * const if_cond     = CAR(args);
   ae_obj_t * const then_branch = CADR(args);
@@ -187,7 +187,7 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 
 end:
   
-  CORE_RETURN("if");
+  CORE_EXIT("if");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +195,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("when");
+  CORE_ENTER("when");
 
   ae_obj_t * const when_cond   = CAR(args);
   ae_obj_t * const then_branch = CDR(args);
@@ -222,7 +222,7 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
 end:
   
-  CORE_RETURN("when");
+  CORE_EXIT("when");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("unless");
+  CORE_ENTER("unless");
 
   ae_obj_t * const unless_cond = CAR(args);
   ae_obj_t * const then_branch = CDR(args);
@@ -257,7 +257,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("unless");
+  CORE_EXIT("unless");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +265,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("or");
+  CORE_ENTER("or");
 
   
   FOR_EACH(option, args) {
@@ -280,7 +280,7 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
       
 end:
     
-  CORE_RETURN("or");
+  CORE_EXIT("or");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -288,7 +288,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("and");
+  CORE_ENTER("and");
 
   FOR_EACH(option, args) {
     ret = RETURN_IF_ERRORP(EVAL(env, option));
@@ -302,7 +302,7 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
 end:
   
-  CORE_RETURN("and");
+  CORE_EXIT("and");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -310,7 +310,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("while");
+  CORE_ENTER("while");
 
   ae_obj_t * const while_cond = CAR(args);
   ae_obj_t * const do_branch  = CDR(args);
@@ -332,7 +332,7 @@ end:
   if (log_core)
     SLOG("left while");
   
-  CORE_RETURN("while");
+  CORE_EXIT("while");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -340,7 +340,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("until");
+  CORE_ENTER("until");
 
   ae_obj_t * const until_cond = CAR(args);
   ae_obj_t * const do_branch  = CDR(args);
@@ -364,7 +364,7 @@ end:
   if (log_core)
     SLOG("left until");
   
-  CORE_RETURN("until");
+  CORE_EXIT("until");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -372,7 +372,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("repeat");
+  CORE_ENTER("repeat");
 
   ae_obj_t * first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
  
@@ -385,6 +385,6 @@ ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("repeat");
+  CORE_EXIT("repeat");
 }
 

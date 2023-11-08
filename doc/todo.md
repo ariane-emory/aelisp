@@ -9,7 +9,7 @@ To Do:
 - [ ] Audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
-- [ ] Refactor: CORE_RETURN should be unary.
+- [ ] Refactor: CORE_EXIT should be unary.
 - [ ] DRY up core_funs.c.
 - [ ] DRY up core_let.c.
 - [ ] SELFEVALUATINGP and corresponding core might come in handy.

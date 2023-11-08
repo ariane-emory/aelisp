@@ -6,7 +6,7 @@
 // This only deals with AE_INTEGERS for now.
 #define DEF_MATH_OP(name, oper, default, no_zero_args, sym)                                                           \
   ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) { \
-    CORE_BEGIN(#name);                                                                                                \
+    CORE_ENTER(#name);                                                                                                \
     assert(CONSP(args));                                                                                              \
                                                                                                                       \
     long long int  accum  = 0;                                                                                        \
@@ -42,7 +42,7 @@
                                                                                                                       \
   end:                                                                                                                \
                                                                                                                       \
-    CORE_RETURN(#name);                                                                                               \
+    CORE_EXIT(#name);                                                                                               \
   }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,14 +55,14 @@ FOR_EACH_CORE_MATH_OP(DEF_MATH_OP);
 ae_obj_t * ae_core_plus1(__attribute__((unused)) ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("1+");
+  CORE_ENTER("1+");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
 
   RETURN(NEW_INT(INT_VAL(CAR(args)) + 1));
   
 end:
   
-  CORE_RETURN("1+");
+  CORE_EXIT("1+");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,13 +72,13 @@ end:
 ae_obj_t * ae_core_minus1(__attribute__((unused)) ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("1-");
+  CORE_ENTER("1-");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
 
   RETURN(NEW_INT(INT_VAL(CAR(args)) - 1));
   
 end:
   
-  CORE_RETURN("1-");
+  CORE_EXIT("1-");
 }
 

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("let");
+  CORE_ENTER("let");
 
   ae_obj_t * const varlist = CAR(args);
 
@@ -78,7 +78,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
 end:
   
-  CORE_RETURN("let");
+  CORE_EXIT("let");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("let_star");
+  CORE_ENTER("let_star");
 
   ae_obj_t * const varlist = CAR(args);
 
@@ -156,7 +156,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
 
 end:
   
-  CORE_RETURN("let_star");
+  CORE_EXIT("let_star");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
   if (!dummy)
     dummy = KW("DUMMY");
   
-  CORE_BEGIN("letrec");
+  CORE_ENTER("letrec");
 
   ae_obj_t * const  varlist = CAR(args);
 
@@ -237,5 +237,5 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
 end:
   
-  CORE_RETURN("letrec");
+  CORE_EXIT("letrec");
 }

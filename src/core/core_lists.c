@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("car");
+  CORE_ENTER("car");
 
   if (! TAILP(CAR(args))) { 
     LOG(CAR(args), "not TAILP:");
@@ -22,7 +22,7 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   
 end:
   
-  CORE_RETURN("car");
+  CORE_EXIT("car");
 }
 
 
@@ -31,7 +31,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("cdr");
+  CORE_ENTER("cdr");
 
   if (! TAILP(CAR(args))) {
     LOG(CAR(args), "not TAILP:");
@@ -44,7 +44,7 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute_
   
 end:
   
-  CORE_RETURN("cdr");
+  CORE_EXIT("cdr");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("rplaca");
+  CORE_ENTER("rplaca");
 
   REQUIRE(env, args, CONSP(CAR(args)));
   // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
@@ -63,7 +63,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
 end:
   
-  CORE_RETURN("rplaca");
+  CORE_EXIT("rplaca");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("rplacd");
+  CORE_ENTER("rplacd");
 
   REQUIRE(env, args, CONSP(CAR(args)));
   // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
@@ -82,7 +82,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
 end:
   
-  CORE_RETURN("rplacd");
+  CORE_EXIT("rplacd");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ ae_obj_t * ae_core_cons(
   __attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * const args,
   __attribute__((unused)) int args_length) {
-  CORE_BEGIN("cons");
+  CORE_ENTER("cons");
 
   ae_obj_t * const head = CAR(args);
   ae_obj_t * const tail = CADR(args);
@@ -102,7 +102,7 @@ ae_obj_t * ae_core_cons(
   
 end:
   
-  CORE_RETURN("cons");
+  CORE_EXIT("cons");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,7 +110,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("length");
+  CORE_ENTER("length");
 
   REQUIRE(env, args, TAILP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");
 
@@ -123,7 +123,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
   
 end:
 
-  CORE_RETURN("length");
+  CORE_EXIT("length");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ end:
 ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
                        ae_obj_t * const args,
                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("pop");
+  CORE_ENTER("pop");
 
   ae_obj_t * const sym  = CAR(args);
 
@@ -155,7 +155,7 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("pop");
+  CORE_EXIT("pop");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ end:
 ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("push");
+  CORE_ENTER("push");
 
   ae_obj_t * const sym = CADR(args);
 
@@ -183,5 +183,5 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("push");
+  CORE_EXIT("push");
 }

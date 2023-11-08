@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_name(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("name");
+  CORE_ENTER("name");
 
   REQUIRE(env, args, SYMBOLP(CAR(args)));
 
@@ -13,6 +13,6 @@ ae_obj_t * ae_core_name(ae_obj_t * const env, ae_obj_t * const args, __attribute
   
 end:
   
-  CORE_RETURN("name");
+  CORE_EXIT("name");
 }
 

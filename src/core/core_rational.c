@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_rational(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("rational");
+  CORE_ENTER("rational");
   REQUIRE(env, args, INTEGERP(CAR(args)));
   REQUIRE(env, args, INTEGERP(CADR(args)));
 
@@ -13,7 +13,7 @@ ae_obj_t * ae_core_rational(ae_obj_t * const env, ae_obj_t * const args, __attri
 
 end:
   
-  CORE_RETURN("rational");
+  CORE_EXIT("rational");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("numer");
+  CORE_ENTER("numer");
   REQUIRE(env, args, RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
 
   RETURN(INTEGERP(CAR(args))
@@ -30,7 +30,7 @@ ae_obj_t * ae_core_numer(ae_obj_t * const env, ae_obj_t * const args, __attribut
   
 end:
   
-  CORE_RETURN("numer");
+  CORE_EXIT("numer");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ end:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_denom(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("denom");
+  CORE_ENTER("denom");
   REQUIRE(env, args, RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
 
   RETURN(NEW_INT((RATIONALP(CAR(args)))
@@ -46,6 +46,6 @@ ae_obj_t * ae_core_denom(ae_obj_t * const env, ae_obj_t * const args, __attribut
                  : 1));
 end:
   
-  CORE_RETURN("denom");
+  CORE_EXIT("denom");
 }
 

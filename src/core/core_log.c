@@ -11,7 +11,7 @@
 ae_obj_t * ae_core_log_eval(ae_obj_t * const env,
                           ae_obj_t * const args,
                           int args_length) {
-  CORE_BEGIN("l_eval");
+  CORE_ENTER("l_eval");
   
   bool old_value = log_eval;
 
@@ -30,7 +30,7 @@ ae_obj_t * ae_core_log_eval(ae_obj_t * const env,
   
 end:
   
-  CORE_RETURN("l_eval");
+  CORE_EXIT("l_eval");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ end:
 ae_obj_t * ae_core_log_core(ae_obj_t * const env,
                           ae_obj_t * const args,
                           int args_length) {
-  CORE_BEGIN("l_core");
+  CORE_ENTER("l_core");
 
   bool old_value = log_core;
 
@@ -59,7 +59,7 @@ ae_obj_t * ae_core_log_core(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("l_core");
+  CORE_EXIT("l_core");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ end:
 ae_obj_t * ae_core_log_macro(ae_obj_t * const env,
                           ae_obj_t * const args,
                           int args_length) {
-  CORE_BEGIN("l_macro");
+  CORE_ENTER("l_macro");
 
   bool old_value = log_macro;
 
@@ -88,5 +88,5 @@ ae_obj_t * ae_core_log_macro(ae_obj_t * const env,
 
 end:
   
-  CORE_RETURN("l_macro");
+  CORE_EXIT("l_macro");
 }
