@@ -53,7 +53,8 @@ ae_obj_t * ae_core_system(ae_obj_t * const env,
                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("system");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "system's arg must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)),
+          "system's arg must be a string");
 
   RETURN(wrap_captured_command_output(ae_sys_capture_command_output(STR_VAL(CAR(args)))));
 
@@ -243,8 +244,8 @@ ae_obj_t * ae_core_exit(ae_obj_t * const env,
 static char * find_file_in_load_path(ae_obj_t * const env,
                                      bool add_extension,
                                      const char * const name) {
-  bool load_path_found = false;
-  ae_obj_t * const load_path = ENV_GET(env, SYM("*load-path*"), &load_path_found);
+  bool             load_path_found = false;
+  ae_obj_t * const load_path       = ENV_GET(env, SYM("*load-path*"), &load_path_found);
 
   assert(load_path_found);
   assert(load_path);
@@ -429,7 +430,8 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("cd");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "cd's arg must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)),
+          "cd's arg must be a string");
 
   char * const dst = STR_VAL(CAR(args));
   char         cwd[PATH_MAX];
@@ -437,7 +439,8 @@ ae_obj_t * ae_core_cd(ae_obj_t * const env,
   if (getcwd(cwd, sizeof(cwd)) == NULL)
     RETURN(NIL);
   
-  REQUIRE(env, args, chdir(dst) == 0, "Could not change directory");
+  REQUIRE(env, args, chdir(dst) == 0,
+          "Could not change directory");
   
   if (strcmp(dst, "..") == 0 && strcmp(cwd, "/") == 0)
     RETURN(NIL);
@@ -480,7 +483,8 @@ ae_obj_t * ae_core_basename(ae_obj_t * const env,
                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("basename");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "basename's arg must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)),
+          "basename's arg must be a string");
 
   char * const path = ae_sys_basename(STR_VAL(CAR(args)));
 
@@ -501,7 +505,8 @@ ae_obj_t * ae_core_dirname(ae_obj_t * const env,
                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("dirname");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "dirname's arg must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)),
+          "dirname's arg must be a string");
 
   char * const path = ae_sys_dirname(STR_VAL(CAR(args)));
 
@@ -538,7 +543,8 @@ ae_obj_t * ae_core_files(ae_obj_t * const env,
   
   DIR * const dir = opendir(path);
 
-  REQUIRE(env, args, dir, "could not open directory");
+  REQUIRE(env, args, dir,
+          "could not open directory");
 
   struct dirent * entry;
   
@@ -589,7 +595,8 @@ ae_obj_t * ae_core_dirs(ae_obj_t * const env,
   
   DIR * const dir = opendir(path);
 
-  REQUIRE(env, args, dir, "could not open directory");
+  REQUIRE(env, args, dir,
+          "could not open directory");
 
   struct dirent * entry;
   
@@ -623,13 +630,15 @@ ae_obj_t * ae_core_fwrite_string(ae_obj_t * const env,
                                  __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-write-string");
 
-  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
+  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)),
+          "Arguments must be strings");
 
   char * filename  = STR_VAL(CAR(args));
   char * data      = STR_VAL(CADR(args));
   FILE * file      = fopen(filename, "w");
 
-  REQUIRE(env, args, file, "Could not open file for writing");
+  REQUIRE(env, args, file,
+          "Could not open file for writing");
 
   size_t data_size = strlen(data);
   size_t written   = fwrite(data, sizeof(char), data_size, file);
@@ -651,7 +660,8 @@ ae_obj_t * ae_core_fappend_string(ae_obj_t * const env,
                                   __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-append-string");
 
-  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)), "Arguments must be strings");
+  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)),
+          "Arguments must be strings");
 
   char * filename  = STR_VAL(CAR(args));
   char * data      = STR_VAL(CADR(args));
@@ -679,7 +689,8 @@ ae_obj_t * ae_core_fread_string(ae_obj_t * const env,
                                 __attribute__((unused)) int args_length) {
   CORE_BEGIN("file-read-string");
 
-  REQUIRE(env, args, STRINGP(CAR(args)), "Argument must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)),
+          "Argument must be a string");
 
   fread_string_t result = ae_sys_file_read_string(STR_VAL(CAR(args)));
 
