@@ -83,7 +83,7 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
 
     INDENT;
 
-    ae_obj_t* eval_result = EVAL_AND_RETURN_IF_ERRORP(env, CAR(current_arg));
+    ae_obj_t * const eval_result = EVAL_AND_RETURN_IF_ERRORP(env, CAR(current_arg));
 
     OUTDENT;
 
@@ -299,7 +299,7 @@ static ae_obj_t * apply_user(ae_obj_t * env, ae_obj_t * fun, ae_obj_t * args) {
              s_or_blank(LENGTH(FUN_PARAMS(fun))),
              LENGTH(args));
     
-    char * msg = free_list_malloc(strlen(msg_tmp) + 1);
+    char * const msg = free_list_malloc(strlen(msg_tmp) + 1);
     strcpy(msg, msg_tmp);
     free_list_free(msg_tmp);
 
@@ -469,7 +469,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     if (log_eval || log_macro)
       LOG(obj, "expanding took %.2f ms:", ((double)(after - begin))/1000.0);
 
-    RETURN_IF_ERRORP(ret);
+    // RETURN_IF_ERRORP(ret);
 
     // this line would cause 'in-place expansion' and is disabled until a way
     // to annotate which macros should be expanded in-place is implemented:
@@ -490,7 +490,7 @@ ae_obj_t * apply(ae_obj_t * env, ae_obj_t * obj) {
     /* else */
     /*   PUT_PROP(CONS(fun, NIL), "error-fun", ret); */
         
-    RETURN_IF_ERRORP(ret);
+    // RETURN_IF_ERRORP(ret);
   }
 
 end:
