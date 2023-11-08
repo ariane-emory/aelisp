@@ -7,15 +7,17 @@
 // _apply
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static bool IS_QUOTE_FORM(ae_obj_t * obj) {
+static bool is_quote_form(ae_obj_t * obj) {
   return CONSP(obj) && (CAR(obj) ==  SYM("quote")) && CONSP(CDR(obj));
 }
 
-static ae_obj_t * REQUOTE(ae_obj_t * obj) {
+static ae_obj_t * requote(ae_obj_t * obj) {
   return CONS(SYM("quote"), CONS(obj, NIL));
 }
 
-ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_apply(ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("apply");
 
   if (log_core)
@@ -29,11 +31,11 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
   while (!NILP(CDR(pos))) {
     ae_obj_t * arg = CAR(pos);
 
-    if (IS_QUOTE_FORM(arg))
+    if (is_quote_form(arg))
       arg = CADR(arg);
 
     evaluated_arg         = RETURN_IF_ERRORP(EVAL(env, CAR(pos)));
-    ae_obj_t * const elem = CONS(REQUOTE(evaluated_arg), NIL);
+    ae_obj_t * const elem = CONS(requote(evaluated_arg), NIL);
     CDR(new_expr_tail)    = elem;
     new_expr_tail         = elem;
     pos                   = CDR(pos);
@@ -41,15 +43,16 @@ ae_obj_t * ae_core_apply(ae_obj_t * const env, ae_obj_t * const args, __attribut
 
   ae_obj_t * last = CAR(pos);
 
-  if (IS_QUOTE_FORM(last))
+  if (is_quote_form(last))
     last = CADR(last);
   else
     last = RETURN_IF_ERRORP(EVAL(env, last));
 
-  REQUIRE(env, args, PROPERP(last), "apply requires a proper list as its final argument");
+  REQUIRE(env, args, PROPERP(last),
+          "apply requires a proper list as its final argument");
   
   while (!NILP(last)) {
-    ae_obj_t * const elem = CONS(REQUOTE(CAR(last)), NIL);
+    ae_obj_t * const elem = CONS(requote(CAR(last)), NIL);
     CDR(new_expr_tail)    = elem;
     new_expr_tail         = elem;
     last                  = CDR(last);

@@ -4,7 +4,9 @@
 // _concat
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_concat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_concat(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("concat");
 
   int total_length = 0;

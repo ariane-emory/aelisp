@@ -5,7 +5,9 @@
 // _macro
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_macro(ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("macro");
 
   REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
@@ -31,7 +33,9 @@ ae_obj_t * ae_core_macro(ae_obj_t * const env, ae_obj_t * const args, __attribut
 // _lambda
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_lambda(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("lambda");
 
   REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
@@ -57,7 +61,9 @@ ae_obj_t * ae_core_lambda(ae_obj_t * const env, ae_obj_t * const args, __attribu
 // _params
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_params(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("params");
 
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
@@ -71,7 +77,9 @@ ae_obj_t * ae_core_params(ae_obj_t * const env, ae_obj_t * const args, __attribu
 // _body
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_body(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_body(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("body");
 
   REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));

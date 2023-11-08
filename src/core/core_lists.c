@@ -8,7 +8,9 @@
 // _car
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_car(ae_obj_t * const env,
+                       ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("car");
 
   if (! TAILP(CAR(args))) { 
@@ -28,7 +30,9 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 // _cdr
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_cdr(ae_obj_t * const env,
+                       ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("cdr");
 
   if (! TAILP(CAR(args))) {
@@ -47,7 +51,9 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 // _rplaca
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_rplaca(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("rplaca");
 
   REQUIRE(env, args, CONSP(CAR(args)));
@@ -64,7 +70,9 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
 // _rplacd
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_rplacd(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("rplacd");
 
   REQUIRE(env, args, CONSP(CAR(args)));
@@ -81,10 +89,9 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
 // _cons
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_cons(
-  __attribute__((unused)) ae_obj_t * const env,
-  ae_obj_t * const args,
-  __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_cons(__attribute__((unused)) ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("cons");
 
   ae_obj_t * const head = CAR(args);
@@ -99,7 +106,9 @@ ae_obj_t * ae_core_cons(
 // _length
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_length(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("length");
 
   REQUIRE(env, args, TAILP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");

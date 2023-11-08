@@ -8,7 +8,9 @@
 // _let
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_let(ae_obj_t * const env,
+                       ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("let");
 
   ae_obj_t * const varlist = CAR(args);
@@ -83,7 +85,9 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 // _let_star
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_let_star(ae_obj_t * const env,
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("let_star");
 
   ae_obj_t * const varlist = CAR(args);
@@ -159,7 +163,9 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
 // _letrec
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_letrec(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   static ae_obj_t * dummy   = NULL;
 
   if (!dummy)

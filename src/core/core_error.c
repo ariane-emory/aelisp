@@ -4,7 +4,9 @@
 // _error
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_error(ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("error");
 
   REQUIRE(env, args, STRINGP(CAR(args)), "error's 1st arg must be a string");
@@ -25,7 +27,9 @@ ae_obj_t * ae_core_error(ae_obj_t * const env, ae_obj_t * const args, __attribut
 // _message
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_message(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_message(ae_obj_t * const env,
+                           ae_obj_t * const args,
+                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("message");
 
   REQUIRE(env, args, ERRORP(CAR(args)));

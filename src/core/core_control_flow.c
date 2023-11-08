@@ -7,7 +7,9 @@
 // _progn
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_progn(ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("progn");
 
   int ctr = 0;
@@ -31,7 +33,9 @@ ae_obj_t * ae_core_progn(ae_obj_t * const env, ae_obj_t * const args, __attribut
 // _case
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_case(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("case");
 
   ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
@@ -102,7 +106,9 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 // _cond
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_cond(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("cond");
 
   bool else_found = false;
@@ -146,7 +152,9 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
 // _if
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_if(ae_obj_t * const env,
+                      ae_obj_t * const args,
+                      __attribute__((unused)) int args_length) {
   CORE_BEGIN("if");
 
   ae_obj_t * const if_cond     = CAR(args);
@@ -184,7 +192,9 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 // _when
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_when(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("when");
 
   ae_obj_t * const when_cond   = CAR(args);
@@ -217,7 +227,9 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
 // _unless
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_unless(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("unless");
 
   ae_obj_t * const unless_cond = CAR(args);
@@ -250,7 +262,9 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
 // _or
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_or(ae_obj_t * const env,
+                      ae_obj_t * const args,
+                      __attribute__((unused)) int args_length) {
   CORE_BEGIN("or");
 
   
@@ -271,7 +285,9 @@ ae_obj_t * ae_core_or(ae_obj_t * const env, ae_obj_t * const args, __attribute__
 // _and
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_and(ae_obj_t * const env,
+                       ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("and");
 
   FOR_EACH(option, args) {
@@ -291,7 +307,9 @@ ae_obj_t * ae_core_and(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 // _while
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_while(ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("while");
 
   ae_obj_t * const while_cond = CAR(args);
@@ -319,7 +337,9 @@ ae_obj_t * ae_core_while(ae_obj_t * const env, ae_obj_t * const args, __attribut
 // _until
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_until(ae_obj_t * const env,
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("until");
 
   ae_obj_t * const until_cond = CAR(args);
@@ -347,7 +367,9 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
 // _repeat
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_repeat(ae_obj_t * const env,
+                          ae_obj_t * const args,
+                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("repeat");
 
   ae_obj_t * const first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));

@@ -5,7 +5,9 @@
 // _env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_env(ae_obj_t * const env,
+                       ae_obj_t * const args,
+                       __attribute__((unused)) int args_length) {
   CORE_BEGIN("env");
 
   if (args_length == 1) {
@@ -28,7 +30,9 @@ ae_obj_t * ae_core_env(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 // _syms
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_syms(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
+ae_obj_t * ae_core_syms(ae_obj_t * const env,
+                        ae_obj_t * const args,
+                        __attribute__((unused)) int args_length) {
   CORE_BEGIN("syms");
 
   if (args_length == 1) {
