@@ -49,21 +49,7 @@
                             ae_obj_t * const args,                                                 \
                             __attribute__((unused)) int args_length) {                             \
                                                                                                    \
-  JUMP_RETURN_ENTER;                                                                               \
-                                                                                                   \
-  assert(env);                                                                                     \
-  assert(ENVP(env));                                                                               \
-  assert(args);                                                                                    \
-  assert(TAILP(args));                                                                             \
-  assert(args_length >= 0);                                                                        \
-                                                                                                   \
-  {                                                                                                \
-    char * tmp##__LINE__ = SWRITE(env);                                                            \
-    if (log_core)                                                                                  \
-      LOG(env,  "[applying 'core_" #name "' in env]", tmp##__LINE__);                              \
-    INDENT;                                                                                        \
-    free(tmp##__LINE__);                                                                           \
-  }
+  CORE_BEGIN(#name);                                                                               \
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_END(name)                                                                             \
   {                                                                                                \
