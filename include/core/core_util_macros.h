@@ -36,6 +36,8 @@
   assert(TAILP(args));                                                                             \
   assert(args_length >= 0);                                                                        \
                                                                                                    \
+  const char * const core_fun_name = name;                                                         \
+                                                                                                   \
   {                                                                                                \
     char * tmp##__LINE__ = SWRITE(env);                                                            \
     if (log_core)                                                                                  \
