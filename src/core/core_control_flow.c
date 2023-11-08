@@ -128,7 +128,7 @@ ae_obj_t * ae_core_cond(ae_obj_t * const env, ae_obj_t * const args, __attribute
     }
   }
 
-  // second pass: Evaluate the conditions
+  // second pass: evaluate the conditions
   FOR_EACH(cond_item, args) {
     ae_obj_t * const item_car         = CAR(cond_item);
     ae_obj_t * const item_cdr         = CDR(cond_item);
