@@ -8,7 +8,7 @@
 // This only deals with AE_INTEGERS for now.
 #define DEF_CMP_OP(name, oper, assign, init, sym)                                                                     \
   ae_obj_t * ae_core_ ## name(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) { \
-    CORE_ENTER(#name);                                                                                                \
+    CORE_BEGIN(#name);                                                                                                \
     assert(CONSP(args));                                                                                              \
                                                                                                                       \
     bool result = init;                                                                                               \
@@ -25,7 +25,7 @@
                                                                                                                       \
     ret = TRUTH(result);                                                                                              \
                                                                                                                       \
-    CORE_EXIT(#name);                                                                                                 \
+    CORE_END(#name);                                                                                                 \
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

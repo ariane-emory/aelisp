@@ -9,7 +9,7 @@
 ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_ENTER("incr");
+  CORE_BEGIN("incr");
 
   ae_obj_t * const sym = CAR(args);
 
@@ -27,7 +27,7 @@ ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, ret);
   
-  CORE_EXIT("incr");
+  CORE_END("incr");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ ae_obj_t * ae_core_incr(__attribute__((unused)) ae_obj_t * const env,
 ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_ENTER("decr");
+  CORE_BEGIN("decr");
 
   ae_obj_t * const sym = CAR(args);
 
@@ -55,5 +55,5 @@ ae_obj_t * ae_core_decr(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, ret);
   
-  CORE_EXIT("decr");
+  CORE_END("decr");
 }

@@ -10,7 +10,7 @@
 ae_obj_t * ae_core_set_props(ae_obj_t * const env,
                              ae_obj_t * const args,
                              __attribute__((unused)) int args_length) {
-  CORE_ENTER("set-props");
+  CORE_BEGIN("set-props");
 
   ae_obj_t * const obj            = CAR(args);
 
@@ -20,7 +20,7 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
   PROPS(obj)                      = new_props_list;
   ret                             = new_props_list;
 
-  CORE_EXIT("set-props");
+  CORE_END("set-props");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,13 +30,13 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
 ae_obj_t * ae_core_props(ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_ENTER("props");
+  CORE_BEGIN("props");
 
   ae_obj_t * const obj       = CAR(args);
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = prop_list;               
 
-  CORE_EXIT("props");
+  CORE_END("props");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ ae_obj_t * ae_core_props(ae_obj_t * const env,
 ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_ENTER("put!");
+  CORE_BEGIN("put!");
 
   ae_obj_t * const obj           = CAR(args);
 
@@ -59,7 +59,7 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   PROPS(obj)                     = new_prop_list;
   ret                            = value;
 
-  CORE_EXIT("put!");
+  CORE_END("put!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,14 +69,14 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
 ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_ENTER("get");
+  CORE_BEGIN("get");
 
   ae_obj_t * const obj       = CAR(args);
   ae_obj_t * const key       = CADR(args);
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = PGET(prop_list, key);
 
-  CORE_EXIT("get");
+  CORE_END("get");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
 ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_ENTER("remove");
+  CORE_BEGIN("remove");
 
   ae_obj_t * const obj       = CAR(args);
 
@@ -106,7 +106,7 @@ ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
   else
     PREMOVE_MUTATING(PROPS(obj), key);
 
-  CORE_EXIT("remove");
+  CORE_END("remove");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,13 +116,13 @@ ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
 ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_ENTER("has?");
+  CORE_BEGIN("has?");
 
   ae_obj_t * const obj       = CAR(args);
   ae_obj_t * const key       = CADR(args);
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = TRUTH(PHAS(prop_list, key));
 
-  CORE_EXIT("has?");
+  CORE_END("has?");
 }
 

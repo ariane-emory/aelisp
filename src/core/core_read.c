@@ -7,7 +7,7 @@ void parse_line(const char * const line);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_read(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("read");
+  CORE_BEGIN("read");
   
   REQUIRE(env, args, STRINGP(CAR(args)));
 
@@ -18,6 +18,6 @@ ae_obj_t * ae_core_read(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   RETURN(CADR(program));
   
-  CORE_EXIT("read");
+  CORE_END("read");
 }
 

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("let");
+  CORE_BEGIN("let");
 
   ae_obj_t * const varlist = CAR(args);
 
@@ -76,7 +76,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  CORE_EXIT("let");
+  CORE_END("let");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("let_star");
+  CORE_BEGIN("let_star");
 
   ae_obj_t * const varlist = CAR(args);
 
@@ -152,7 +152,7 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env, ae_obj_t * const args, __attri
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  CORE_EXIT("let_star");
+  CORE_END("let_star");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
   if (!dummy)
     dummy = KW("DUMMY");
   
-  CORE_ENTER("letrec");
+  CORE_BEGIN("letrec");
 
   ae_obj_t * const  varlist = CAR(args);
 
@@ -231,5 +231,5 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  CORE_EXIT("letrec");
+  CORE_END("letrec");
 }

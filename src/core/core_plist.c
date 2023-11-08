@@ -7,7 +7,7 @@
 ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
                             ae_obj_t * const args,
                             __attribute__((unused)) int args_length) {
-  CORE_ENTER("premove!");
+  CORE_BEGIN("premove!");
 
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
@@ -18,7 +18,7 @@ ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
 
   ret = plist;
   
-  CORE_EXIT("premove!");
+  CORE_END("premove!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ ae_obj_t * ae_core_premoveb(ae_obj_t * const env,
 ae_obj_t * ae_core_premove(ae_obj_t * const env,
                            ae_obj_t * const args,
                            __attribute__((unused)) int args_length) {
-  CORE_ENTER("premove");
+  CORE_BEGIN("premove");
 
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
@@ -37,7 +37,7 @@ ae_obj_t * ae_core_premove(ae_obj_t * const env,
 
   ret = PREMOVE_NONMUTATING(plist, key);
 
-  CORE_EXIT("pset");
+  CORE_END("pset");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ ae_obj_t * ae_core_premove(ae_obj_t * const env,
 ae_obj_t * ae_core_psetb(ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
-  CORE_ENTER("pset!");
+  CORE_BEGIN("pset!");
 
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
@@ -59,7 +59,7 @@ ae_obj_t * ae_core_psetb(ae_obj_t * const env,
 
   ret = plist;
   
-  CORE_EXIT("pset!");
+  CORE_END("pset!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ ae_obj_t * ae_core_psetb(ae_obj_t * const env,
 ae_obj_t * ae_core_pset(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_ENTER("pset");
+  CORE_BEGIN("pset");
 
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
@@ -79,7 +79,7 @@ ae_obj_t * ae_core_pset(ae_obj_t * const env,
 
   ret = PSET_NONMUTATING(plist, key, value);
 
-  CORE_EXIT("pset");
+  CORE_END("pset");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ ae_obj_t * ae_core_pset(ae_obj_t * const env,
 ae_obj_t * ae_core_pget(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_ENTER("pget");
+  CORE_BEGIN("pget");
 
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
@@ -98,7 +98,7 @@ ae_obj_t * ae_core_pget(ae_obj_t * const env,
 
   ret = PGET(plist, key);
   
-  CORE_EXIT("pget");
+  CORE_END("pget");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ ae_obj_t * ae_core_pget(ae_obj_t * const env,
 ae_obj_t * ae_core_phas(ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_ENTER("phas");
+  CORE_BEGIN("phas");
 
   ae_obj_t * const plist = CAR(args);
   ae_obj_t * const key   = CADR(args);
@@ -117,6 +117,6 @@ ae_obj_t * ae_core_phas(ae_obj_t * const env,
 
   ret = TRUTH(PHAS(plist, key));
   
-  CORE_EXIT("phas");
+  CORE_END("phas");
 }
 

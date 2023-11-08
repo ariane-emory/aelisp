@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("write");
+  CORE_BEGIN("write");
 
   int written = 0;
 
@@ -22,7 +22,7 @@ ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   RETURN(NEW_INT(written));
   
-  CORE_EXIT("write");
+  CORE_END("write");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@ ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env,
                        ae_obj_t * const args,
                        __attribute__((unused)) int args_length) {
-  CORE_ENTER("put");
+  CORE_BEGIN("put");
 
   int written = 0;
 
@@ -49,7 +49,7 @@ ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env,
 
   RETURN(NEW_INT(written));
   
-  CORE_EXIT("put");
+  CORE_END("put");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ ae_obj_t * ae_core_put(__attribute__((unused)) ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("princ");
+  CORE_BEGIN("princ");
 
   int written = 0;
 
@@ -68,7 +68,7 @@ ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   RETURN(NEW_INT(written));
   
-  CORE_EXIT("princ");
+  CORE_END("princ");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ ae_obj_t * ae_core_princ(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("print");
+  CORE_BEGIN("print");
 
   int written = 0;
 
@@ -93,7 +93,7 @@ ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 
   RETURN(NEW_INT(written));
 
-  CORE_EXIT("print");
+  CORE_END("print");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,12 +103,12 @@ ae_obj_t * ae_core_print(__attribute__((unused)) ae_obj_t * const env, ae_obj_t 
 ae_obj_t * ae_core_nl(__attribute__((unused)) ae_obj_t * const env,
                       __attribute__((unused)) ae_obj_t * const args,
                       __attribute__((unused)) int args_length) {
-  CORE_ENTER("nl");
+  CORE_BEGIN("nl");
 
   NL;
 
   RETURN(NEW_INT(1));
 
-  CORE_EXIT("nl");
+  CORE_END("nl");
 }
 

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("car");
+  CORE_BEGIN("car");
 
   if (! TAILP(CAR(args))) { 
     LOG(CAR(args), "not TAILP:");
@@ -20,7 +20,7 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
          ? NIL // car of nil is nil.
          : CAAR(args));
   
-  CORE_EXIT("car");
+  CORE_END("car");
 }
 
 
@@ -29,7 +29,7 @@ ae_obj_t * ae_core_car(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("cdr");
+  CORE_BEGIN("cdr");
 
   if (! TAILP(CAR(args))) {
     LOG(CAR(args), "not TAILP:");
@@ -40,7 +40,7 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute_
          ? NIL // cdr of nil is nil.
          : CDAR(args));
   
-  CORE_EXIT("cdr");
+  CORE_END("cdr");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ ae_obj_t * ae_core_cdr(ae_obj_t * const env, ae_obj_t * const args, __attribute_
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("rplaca");
+  CORE_BEGIN("rplaca");
 
   REQUIRE(env, args, CONSP(CAR(args)));
   // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
@@ -57,7 +57,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(CADR(args));
   
-  CORE_EXIT("rplaca");
+  CORE_END("rplaca");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ ae_obj_t * ae_core_rplaca(ae_obj_t * const env, ae_obj_t * const args, __attribu
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("rplacd");
+  CORE_BEGIN("rplacd");
 
   REQUIRE(env, args, CONSP(CAR(args)));
   // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
@@ -74,7 +74,7 @@ ae_obj_t * ae_core_rplacd(ae_obj_t * const env, ae_obj_t * const args, __attribu
 
   RETURN(CADR(args));
   
-  CORE_EXIT("rplacd");
+  CORE_END("rplacd");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,14 +85,14 @@ ae_obj_t * ae_core_cons(
   __attribute__((unused)) ae_obj_t * const env,
   ae_obj_t * const args,
   __attribute__((unused)) int args_length) {
-  CORE_ENTER("cons");
+  CORE_BEGIN("cons");
 
   ae_obj_t * const head = CAR(args);
   ae_obj_t * const tail = CADR(args);
 
   RETURN(NEW_CONS(head, tail));
   
-  CORE_EXIT("cons");
+  CORE_END("cons");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ ae_obj_t * ae_core_cons(
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("length");
+  CORE_BEGIN("length");
 
   REQUIRE(env, args, TAILP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");
 
@@ -111,7 +111,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
          ? NEW_INT(LENGTH(CAR(args)))
          : NEW_INT(strlen(STR_VAL(CAR(args)))));
   
-  CORE_EXIT("length");
+  CORE_END("length");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ ae_obj_t * ae_core_length(ae_obj_t * const env, ae_obj_t * const args, __attribu
 ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
                        ae_obj_t * const args,
                        __attribute__((unused)) int args_length) {
-  CORE_ENTER("pop");
+  CORE_BEGIN("pop");
 
   ae_obj_t * const sym  = CAR(args);
 
@@ -141,7 +141,7 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, tail);
 
-  CORE_EXIT("pop");
+  CORE_END("pop");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +151,7 @@ ae_obj_t * ae_core_pop(__attribute__((unused)) ae_obj_t * const env,
 ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
                         ae_obj_t * const args,
                         __attribute__((unused)) int args_length) {
-  CORE_ENTER("push");
+  CORE_BEGIN("push");
 
   ae_obj_t * const sym = CADR(args);
 
@@ -167,5 +167,5 @@ ae_obj_t * ae_core_push(__attribute__((unused)) ae_obj_t * const env,
 
   ENV_SET(env, sym, ret);
   
-  CORE_EXIT("push");
+  CORE_END("push");
 }

@@ -6,7 +6,7 @@
 // _setq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_ENTER("setq");
+  CORE_BEGIN("setq");
 
   REQUIRE(env, args, !(args_length % 2), "setq requires an even number of arguments");
   
@@ -49,6 +49,6 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
     pair = CDDR(pair);
   }
 
-  CORE_EXIT("setq");
+  CORE_END("setq");
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
