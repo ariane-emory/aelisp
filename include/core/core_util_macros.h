@@ -49,7 +49,11 @@
                             ae_obj_t * const args,                                                 \
                             __attribute__((unused)) int args_length) {                             \
                                                                                                    \
-  CORE_BEGIN(#name);                                                                               \
+  CORE_BEGIN(#name);                                                                             
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define END_DEF_CORE_FUN(name)                                                                     \
+  }                                                                                                \
+    CORE_END(#name);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_END(name)                                                                             \
   {                                                                                                \
@@ -57,16 +61,6 @@
     if (local_indents) OUTDENT;                                                                    \
     if (log_core)                                                                                  \
       LOG_RETURN_WITH_TYPE("core_" name, ret);                                                     \
-    return ret;                                                                                    \
-  }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#define END_DEF_CORE_FUN(name)                                                                            \
-  }                                                                                                \
-  {                                                                                                \
-  end:                                                                                             \
-    if (local_indents) OUTDENT;                                                                    \
-    if (log_core)                                                                                  \
-      LOG_RETURN_WITH_TYPE("core_" #name, ret);                                                    \
     return ret;                                                                                    \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
