@@ -198,13 +198,13 @@ ae_obj_t * ae_core_when(ae_obj_t * const env, ae_obj_t * const args, __attribute
   bool cond_result = ! NILP(RETURN_IF_ERRORP(EVAL(env, when_cond)));
 
   if (log_core)
-    LOG(cond_result ? TRUE : NIL, "cond_result: ");
+    LOG(TRUTH(cond_result), "cond_result: ");
 
   if (cond_result) {
     if (log_core)
       LOG(then_branch, "chose then");
 
-    ret = RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)));
+    RETURN(ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 
   if (log_core)
@@ -231,13 +231,13 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
   bool cond_result = NILP(RETURN_IF_ERRORP(EVAL(env, unless_cond)));
 
   if (log_core)
-    LOG(cond_result ? TRUE : NIL, "cond_result: ");
+    LOG(TRUTH(cond_result ? TRUE : NIL, "cond_result: "));
 
   if (cond_result) {
     if (log_core)
       LOG(then_branch, "chose then");
 
-    ret = RETURN_IF_ERRORP(ae_core_progn(env, then_branch, LENGTH(then_branch)));
+    RETURN(ae_core_progn(env, then_branch, LENGTH(then_branch)));
   }
 
   if (log_core)
@@ -330,8 +330,6 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
     LOG(do_branch,  "do");
   }
   
-  // ae_obj_t * cond_result = NIL;
-
   while (NILP(RETURN_IF_ERRORP(EVAL(env, until_cond)))) {
     if (log_core)
       LOG(do_branch, "do until");
