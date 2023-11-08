@@ -1,4 +1,6 @@
 To Do:
+- [ ] car/cdr on strings, concat on chars.
+- [ ] maplist.
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
 - [ ] Add dotimes, it's just a fancier repeat.
