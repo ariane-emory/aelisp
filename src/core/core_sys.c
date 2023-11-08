@@ -31,13 +31,14 @@ static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured
       return NEW_ERROR("Unknown error");
     }
  
-  ae_obj_t * const plist = CONS(KW("exit"),
-                                CONS(NEW_INT(captured.exit),
-                                     CONS(KW("stdout"),
-                                          CONS(captured.stdout ? NEW_STRING(captured.stdout) : NIL,
-                                               CONS(KW("stderr"),
-                                                    CONS(captured.stderr ? NEW_STRING(captured.stderr) : NIL,
-                                                         NIL))))));
+  ae_obj_t * const plist =
+    CONS(KW("exit"),
+         CONS(NEW_INT(captured.exit),
+              CONS(KW("stdout"),
+                   CONS(captured.stdout ? NEW_STRING(captured.stdout) : NIL,
+                        CONS(KW("stderr"),
+                             CONS(captured.stderr ? NEW_STRING(captured.stderr) : NIL,
+                                  NIL))))));
 
   return plist;
 }
@@ -207,7 +208,7 @@ ae_obj_t * ae_core_sleep_us(ae_obj_t * const env,
   RETURN(CAR(args));
 
   CORE_END("sleep-us")
-}
+    }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
