@@ -13,7 +13,7 @@
 #include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define REQUIRE(cond, ...)                                                              \
+#define REQUIRE(cond, ...)                                                                         \
   if (! (cond)) {                                                                                  \
     char * const fmt      = ("" __VA_ARGS__)[0]                                                    \
       ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \
@@ -47,36 +47,41 @@
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DEF_CORE_FUN(name)                                                                         \
-  ae_obj_t * ae_core_##name(ae_obj_t * const env,                                                  \
-                            ae_obj_t * const args,                                                 \
-                            __attribute__((unused)) int args_length) {                             \
+  ae_obj_t * ae_core_##name(__attribute__((unused)) ae_obj_t * const env,                          \
+                            __attribute__((unused)) ae_obj_t * const args,                         \
+                            __attribute__((unused)) int              args_length) {                \
                                                                                                    \
   CORE_BEGIN(#name);                                                                             
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define END_DEF_CORE_FUN                                                                           \
   }                                                                                                \
-  {                                                                                                \
-  end:                                                                                             \
-    if (local_indents) OUTDENT;                                                                    \
-    if (log_core) {                                                                                \
-      char * const tmp = free_list_malloc(256);                                                    \
-      snprintf(tmp, 256, "[returning from 'core_%s']", core_fun_name);                             \
                                                                                                    \
-      LOG_RETURN_WITH_TYPE(tmp, ret);                                                              \
+end:                                                                                               \
                                                                                                    \
-      free_list_free(tmp);                                                                         \
-    }                                                                                              \
-    return ret;                                                                                    \
-  }
+if (local_indents)                                                                                 \
+  OUTDENT;                                                                                         \
+                                                                                                   \
+if (log_core) {                                                                                    \
+  char * const tmp##__LINE__ = free_list_malloc(256);                                              \
+  snprintf(tmp##__LINE__, 256, "[returning from 'core_%s']", core_fun_name);                       \
+                                                                                                   \
+  LOG_RETURN_WITH_TYPE(tmp##__LINE__, ret);                                                        \
+                                                                                                   \
+  free_list_free(tmp##__LINE__);                                                                   \
+}                                                                                                  \
+                                                                                                   \
+return ret;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_END(name)                                                                             \
-  {                                                                                                \
   end:                                                                                             \
-    if (local_indents) OUTDENT;                                                                    \
-    if (log_core)                                                                                  \
-      LOG_RETURN_WITH_TYPE("core_" name, ret);                                                     \
-    return ret;                                                                                    \
-  }
+                                                                                                   \
+  if (local_indents)                                                                               \
+    OUTDENT;                                                                                       \
+                                                                                                   \
+  if (log_core)                                                                                    \
+    LOG_RETURN_WITH_TYPE("core_" name, ret);                                                       \
+                                                                                                   \
+  return ret;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #define UNTIL_NILP(expr)     while (! NILP((expr)))
 ////////////////////////////////////////////////////////////////////////////////////////////////////
