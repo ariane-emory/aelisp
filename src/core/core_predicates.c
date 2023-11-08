@@ -6,196 +6,144 @@
 // _eq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_eq(__attribute__((unused)) ae_obj_t * const env,
-                      ae_obj_t * const args,
-                      __attribute__((unused)) int args_length) {
-  CORE_BEGIN("eq");
-
+DEF_CORE_FUN(eq) {
   FOR_EACH(tailarg, CDR(args))
     if (CAR(args) != tailarg)
       RETURN(NIL);
 
   RETURN(TRUE);
   
-  CORE_END("eq");
+  END_DEF_CORE_FUN(eq);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _eql
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_eql(__attribute__((unused)) ae_obj_t * const env,
-                       ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("eql");
-
+DEF_CORE_FUN(eql) {
   FOR_EACH(tailarg, CDR(args))
     if (! EQL(CAR(args), tailarg))
       RETURN(NIL);
 
   RETURN(TRUE);
   
-  CORE_END("eql");
+  END_DEF_CORE_FUN(eql);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _tailp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_tailp(ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("tailp");
-
+DEF_CORE_FUN(tailp) {
   RETURN(TRUTH(TAILP(CAR(args))));
   
-  CORE_END("tailp");
+  END_DEF_CORE_FUN(tailp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _properp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_properp(ae_obj_t * const env,
-                           ae_obj_t * const args,
-                           __attribute__((unused)) int args_length) {
-  CORE_BEGIN("properp");
-
+DEF_CORE_FUN(properp) {
   REQUIRE(env, args, CONSP(CAR(args)));
   RETURN(TRUTH(PROPERP(CAR(args))));
   
-  CORE_END("properp");
+  END_DEF_CORE_FUN(properp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _boundp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_boundp(ae_obj_t * const env,
-                          ae_obj_t * const args,
-                          __attribute__((unused)) int args_length) {
-  CORE_BEGIN("boundp");
-
+DEF_CORE_FUN(boundp) {
   REQUIRE(env, args, SYMBOLP(CAR(args)));
   RETURN(TRUTH(ENV_BOUNDP(env, CAR(args))));
   
-  CORE_END("boundp");
+  END_DEF_CORE_FUN(boundp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _keywordp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_keywordp(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("keywordp");
-
+DEF_CORE_FUN(keywordp) {
   REQUIRE(env, args, SYMBOLP(CAR(args)));
   RETURN(TRUTH(KEYWORDP(CAR(args))));
   
-  CORE_END("keywordp");
+  END_DEF_CORE_FUN(keywordp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _id
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_id(__attribute__((unused)) ae_obj_t * const env,
-                      ae_obj_t * const args,
-                      __attribute__((unused)) int args_length) {
-  CORE_BEGIN("id");
-
+DEF_CORE_FUN(id) {
   RETURN(CAR(args));
   
-  CORE_END("id");
+  END_DEF_CORE_FUN(id);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _not
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_not(__attribute__((unused)) ae_obj_t * const env,
-                       ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("not");
-
+DEF_CORE_FUN(not) {
   RETURN(TRUTH(NILP(CAR(args))));
   
-  CORE_END("not");
+  END_DEF_CORE_FUN(not);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _nilp
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_nilp(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("nil?");
-
+DEF_CORE_FUN(nilp) {
   RETURN(TRUTH(NILP(CAR(args))));
 
-  CORE_END("nil?");
+  END_DEF_CORE_FUN(nil?);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _zerop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_zerop(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("zero?");
-
+DEF_CORE_FUN(zerop) {
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 0));
   
-  CORE_END("zero?");
+  END_DEF_CORE_FUN(zero?);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _onep
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_onep(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("one?");
-
+DEF_CORE_FUN(onep) {
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 1));
   
-  CORE_END("one?");
+  END_DEF_CORE_FUN(one?);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _positivep
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_positivep(__attribute__((unused)) ae_obj_t * const env,
-                             ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("positive?");
-
+DEF_CORE_FUN(positivep) {
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) >= 0));
 
-  CORE_END("positive?");
+  END_DEF_CORE_FUN(positive?);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _negativep
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_negativep(__attribute__((unused)) ae_obj_t * const env,
-                             ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("negative?");
-
+DEF_CORE_FUN(negativep) {
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) < 0));
   
-  CORE_END("negative?");
+  END_DEF_CORE_FUN(negative?);
 }
 

@@ -7,11 +7,7 @@
 // _set_props
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_set_props(ae_obj_t * const env,
-                             ae_obj_t * const args,
-                             __attribute__((unused)) int args_length) {
-  CORE_BEGIN("set-props");
-
+DEF_CORE_FUN(set_props) {
   ae_obj_t * const obj            = CAR(args);
 
   REQUIRE(env, args, NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
@@ -20,34 +16,26 @@ ae_obj_t * ae_core_set_props(ae_obj_t * const env,
   PROPS(obj)                      = new_props_list;
   ret                             = new_props_list;
 
-  CORE_END("set-props");
+  END_DEF_CORE_FUN(set-props);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _props
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_props(ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("props");
-
+DEF_CORE_FUN(props) {
   ae_obj_t * const obj       = CAR(args);
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = prop_list;               
 
-  CORE_END("props");
+  END_DEF_CORE_FUN(props);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _put_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("put!");
-
+DEF_CORE_FUN(put_prop) {
   ae_obj_t * const obj           = CAR(args);
 
   REQUIRE(env, args, NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
@@ -59,35 +47,27 @@ ae_obj_t * ae_core_put_prop(ae_obj_t * const env,
   PROPS(obj)                     = new_prop_list;
   ret                            = value;
 
-  CORE_END("put!");
+  END_DEF_CORE_FUN(put!);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _get_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_get_prop(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("get");
-
+DEF_CORE_FUN(get_prop) {
   ae_obj_t * const obj       = CAR(args);
   ae_obj_t * const key       = CADR(args);
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = PGET(prop_list, key);
 
-  CORE_END("get");
+  END_DEF_CORE_FUN(get);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _remove_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("remove");
-
+DEF_CORE_FUN(remove_prop) {
   ae_obj_t * const obj       = CAR(args);
 
   REQUIRE(env, args, NILP(GET_PROP("no-user-props", obj)), "users cannot alter properties on this object");
@@ -106,23 +86,19 @@ ae_obj_t * ae_core_remove_prop(ae_obj_t * const env,
   else
     PREMOVE_MUTATING(PROPS(obj), key);
 
-  CORE_END("remove");
+  END_DEF_CORE_FUN(remove);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _has_prop
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_has_prop(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("has?");
-
+DEF_CORE_FUN(has_prop) {
   ae_obj_t * const obj       = CAR(args);
   ae_obj_t * const key       = CADR(args);
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = TRUTH(PHAS(prop_list, key));
 
-  CORE_END("has?");
+  END_DEF_CORE_FUN(has?);
 }
 

@@ -4,12 +4,8 @@
 // _set
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_set( ae_obj_t * const env,
-                        ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("set");
-
+DEF_CORE_FUN(set) {
   RETURN(ae_core_setq(env, args, args_length));
 
-  CORE_END("set");
+  END_DEF_CORE_FUN(set);
 }
