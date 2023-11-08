@@ -177,16 +177,12 @@ DEF_CORE_FUN(letrec) {
   ae_obj_t * const body    = CDR(args);
 
   REQUIRE(PROPERP(body),       "body must be a proper list");
-  // REQUIRE(LENGTH(body) > 0,    "empty body");
 
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
-  // First, bind all symbols to dummy values in the environment.
-  FOR_EACH(varlist_item, varlist) {
+  FOR_EACH(varlist_item, varlist)
     ENV_SET_L(new_env, CAR(varlist_item), dummy);  // DUMMY_VALUE can be anything like NIL or a specific uninitialized marker.
-  }
 
-  // Now, go through the list again and evaluate the right-hand side expressions to replace the dummy values.
   FOR_EACH(varlist_item, varlist) {
     if (log_core)
       LOG(varlist_item, "letrec varlist item");
