@@ -44,7 +44,38 @@
     free(tmp##__LINE__);                                                                           \
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#define DEF_CORE_FUN(name)                                                                         \
+  ae_obj_t * ae_core_##name(ae_obj_t * const env,                                                  \
+                            ae_obj_t * const args,                                                 \
+                            __attribute__((unused)) int args_length) {                             \
+                                                                                                   \
+  JUMP_RETURN_ENTER;                                                                               \
+                                                                                                   \
+  assert(env);                                                                                     \
+  assert(ENVP(env));                                                                               \
+  assert(args);                                                                                    \
+  assert(TAILP(args));                                                                             \
+  assert(args_length >= 0);                                                                        \
+                                                                                                   \
+  {                                                                                                \
+    char * tmp##__LINE__ = SWRITE(env);                                                            \
+    if (log_core)                                                                                  \
+      LOG(env,  "[applying 'core_" #name "' in env]", tmp##__LINE__);                              \
+    INDENT;                                                                                        \
+    free(tmp##__LINE__);                                                                           \
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CORE_END(name)                                                                             \
+  {                                                                                                \
+  end:                                                                                             \
+    if (local_indents) OUTDENT;                                                                    \
+    if (log_core)                                                                                  \
+      LOG_RETURN_WITH_TYPE("core_" name, ret);                                                     \
+    return ret;                                                                                    \
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#define CORE_END2(name)                                                                            \
+  }                                                                                                \
   {                                                                                                \
   end:                                                                                             \
     if (local_indents) OUTDENT;                                                                    \
