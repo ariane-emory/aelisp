@@ -14,6 +14,7 @@ ae_obj_t * ae_core_string(ae_obj_t * const env,
 
   char * const tmp        = SPRINC(CAR(args));
   char * const new_string = free_list_malloc(strlen(tmp) + 1);
+
   strcpy(new_string, tmp);
   free(tmp);
   
@@ -35,7 +36,7 @@ ae_obj_t * ae_core_intern(ae_obj_t * const env,
   if (! STRINGP(CAR(args)))
     LOG(CAR(args), "not a string");
   
-  REQUIRE(env, args, STRINGP(CAR(args)), "intern's 1st arg must be a string");
+  REQUIRE(env, args, STRINGP(CAR(args)), "intern's first argument must be a string");
 
   RETURN(SYM(STR_VAL(CAR(args))));
 
