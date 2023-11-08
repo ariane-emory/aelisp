@@ -8,11 +8,7 @@
 // _let
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let(ae_obj_t * const env,
-                       ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("let");
-
+DEF_CORE_FUN(let) {
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -78,7 +74,7 @@ ae_obj_t * ae_core_let(ae_obj_t * const env,
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  CORE_END("let");
+  END_DEF_CORE_FUN(let);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
