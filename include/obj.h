@@ -257,6 +257,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                                  \
   ae_obj_t * _obj  = NEW(AE_CHAR);                                                                                                    \
   CHAR_VAL  (_obj) = (val);                                                                                                           \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,19 +266,23 @@ extern ae_obj_t * symbols_list;
   ae_obj_t * _obj  = NEW(AE_CONS);                                                                                                    \
   CAR       (_obj) = (head);                                                                                                          \
   CDR       (_obj) = (tail);                                                                                                          \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define NEW_CORE(name, val, _special, min_args, max_args)                                                                             \
   ({                                                                                                                                  \
-  ae_obj_t * _obj  = NEW(AE_CORE);                                                                                                    \
-  CORE_FUN  (_obj) = (val);                                                                                                           \
+  ae_obj_t * _obj       = NEW(AE_CORE);                                                                                               \
+  CORE_FUN  (_obj)      = (val);                                                                                                      \
+                                                                                                                                      \
   char * const new_name = free_list_malloc(strlen(name) + 1);                                                                         \
   strcpy(new_name, name);                                                                                                             \
-  CORE_NAME(_obj)  = new_name;                                                                                                        \
-  _obj->special    = _special;                                                                                                        \
+                                                                                                                                      \
+  CORE_NAME(_obj)       = new_name;                                                                                                   \
+  _obj->special         = _special;                                                                                                   \
   ae_obj_set_min_args(_obj, min_args);                                                                                                \
   ae_obj_set_max_args(_obj, max_args);                                                                                                \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -287,6 +292,7 @@ extern ae_obj_t * symbols_list;
   _obj->parent    = (parent_);                                                                                                        \
   _obj->symbols   = (symbols_);                                                                                                       \
   _obj->values    = (values_);                                                                                                        \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,13 +300,18 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                                  \
   char * const tmp = free_list_malloc(256);                                                                                           \
   snprintf(tmp, 256, __VA_ARGS__);                                                                                                    \
+                                                                                                                                      \
   char * const err_msg = free_list_malloc(strlen(tmp) + 1);                                                                           \
   strcpy(err_msg, tmp);                                                                                                               \
+                                                                                                                                      \
   free_list_free(tmp);                                                                                                                \
-  ae_obj_t * _obj = NEW(AE_ERROR);                                                                                                    \
-  EMSG(_obj) = err_msg;                                                                                                               \
+                                                                                                                                      \
+  ae_obj_t * _obj     = NEW(AE_ERROR);                                                                                                \
+  EMSG(_obj)          = err_msg;                                                                                                      \
+                                                                                                                                      \
   /* log_eval = true;  */                                                                                                             \
   /* log_core = true; */                                                                                                              \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +319,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                                  \
   ae_obj_t * _obj  = NEW(AE_FLOAT);                                                                                                   \
   FLOAT_VAL (_obj) = (val);                                                                                                           \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,6 +327,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                                  \
   ae_obj_t * _obj  = NEW(AE_INTEGER);                                                                                                 \
   INT_VAL   (_obj) = (val);                                                                                                           \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +337,7 @@ extern ae_obj_t * symbols_list;
   _obj->params     = params_;                                                                                                         \
   _obj->body       = CONS(SYM("progn"),  body_);                                                                                      \
   _obj->env        = env_;                                                                                                            \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -333,6 +347,7 @@ extern ae_obj_t * symbols_list;
   _obj->params     = params_;                                                                                                         \
   _obj->body       = CONS(SYM("progn"),  body_);                                                                                      \
   _obj->env        = env_;                                                                                                            \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -341,6 +356,7 @@ extern ae_obj_t * symbols_list;
   ae_obj_t * _obj  = NEW(AE_RATIONAL);                                                                                                \
   NUMER_VAL (_obj) = (numer);                                                                                                         \
   DENOM_VAL (_obj) = (denom);                                                                                                         \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -348,7 +364,8 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                                  \
   assert((val) >= string_pool && (val) < string_pool + string_pool_size);                                                             \
   ae_obj_t * _obj  = NEW(AE_STRING);                                                                                                  \
-  STR_VAL(_obj)    = (val);                                                                                                           \
+  STR_VAL   (_obj) = (val);                                                                                                           \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,6 +373,7 @@ extern ae_obj_t * symbols_list;
   ({                                                                                                                                  \
   ae_obj_t * _obj  = NEW(AE_SYMBOL);                                                                                                  \
   SYM_VAL   (_obj) = (val);                                                                                                           \
+                                                                                                                                      \
   _obj;                                                                                                                               \
   })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

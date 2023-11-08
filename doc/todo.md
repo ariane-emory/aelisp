@@ -20,6 +20,7 @@ To Do:
 - [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position?
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
+- [ ] 'special' field on AE_COREs could move into metadata, maybe.
 - [ ] GC.
 
 Under Consideration:
