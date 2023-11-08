@@ -31,7 +31,6 @@ static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured
       return NEW_ERROR("Unknown error");
     }
  
-  // If completed successfully, create the plist
   ae_obj_t * const plist = CONS(KW("exit"),
                                 CONS(NEW_INT(captured.exit),
                                      CONS(KW("stdout"),
