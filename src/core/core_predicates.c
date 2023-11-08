@@ -84,8 +84,8 @@ ae_obj_t * ae_core_boundp(ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_keywordp(ae_obj_t * const env,
-                          ae_obj_t * const args,
-                          __attribute__((unused)) int args_length) {
+                            ae_obj_t * const args,
+                            __attribute__((unused)) int args_length) {
   CORE_BEGIN("keywordp");
   REQUIRE(env, args, SYMBOLP(CAR(args)));
   RETURN(TRUTH(KEYWORDP(CAR(args))));
@@ -98,8 +98,8 @@ ae_obj_t * ae_core_keywordp(ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_id(__attribute__((unused)) ae_obj_t * const env,
-                       ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
+                      ae_obj_t * const args,
+                      __attribute__((unused)) int args_length) {
   CORE_BEGIN("id");
   RETURN(CAR(args));
   
@@ -137,8 +137,8 @@ ae_obj_t * ae_core_nilp(__attribute__((unused)) ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_zerop(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+                         ae_obj_t * const args,
+                         __attribute__((unused)) int args_length) {
   CORE_BEGIN("zero?");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 0));
@@ -165,8 +165,8 @@ ae_obj_t * ae_core_onep(__attribute__((unused)) ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_positivep(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+                             ae_obj_t * const args,
+                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("positive?");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) >= 0));
@@ -179,8 +179,8 @@ ae_obj_t * ae_core_positivep(__attribute__((unused)) ae_obj_t * const env,
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ae_obj_t * ae_core_negativep(__attribute__((unused)) ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
+                             ae_obj_t * const args,
+                             __attribute__((unused)) int args_length) {
   CORE_BEGIN("negative?");
   REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) < 0));
