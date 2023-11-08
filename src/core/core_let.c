@@ -81,11 +81,7 @@ DEF_CORE_FUN(let) {
 // _let_star
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_let_star(ae_obj_t * const env,
-                            ae_obj_t * const args,
-                            __attribute__((unused)) int args_length) {
-  CORE_BEGIN("let_star");
-
+DEF_CORE_FUN(let_star) {
   ae_obj_t * const varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -152,23 +148,19 @@ ae_obj_t * ae_core_let_star(ae_obj_t * const env,
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  CORE_END("let_star");
+  END_DEF_CORE_FUN(let_star);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _letrec
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_letrec(ae_obj_t * const env,
-                          ae_obj_t * const args,
-                          __attribute__((unused)) int args_length) {
+DEF_CORE_FUN(letrec) {
   static ae_obj_t * dummy   = NULL;
 
   if (!dummy)
     dummy = KW("DUMMY");
   
-  CORE_BEGIN("letrec");
-
   ae_obj_t * const  varlist = CAR(args);
 
   REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
@@ -233,5 +225,5 @@ ae_obj_t * ae_core_letrec(ae_obj_t * const env,
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  CORE_END("letrec");
+  END_DEF_CORE_FUN(letrec);
 }
