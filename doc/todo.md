@@ -1,5 +1,4 @@
 To Do:
-- [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
 - [ ] Review printing of characters that need escaping.
 - [ ] Add dotimes, it's just a fancier repeat.
@@ -24,9 +23,10 @@ To Do:
 - [ ] GC.
 
 Under Consideration:
+- [ ] Maybe primitive pop on empty list should be an error? Undecided.
+- [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Maybe move load_file?
 - [ ] Maybe pretty-print s-exps?
-- [ ] core_concat could be simplified using strcat? Maybe not.
 - [ ] eval could take an optional env param?
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
 - [ ] Maybe parse-time math on integers?
@@ -166,5 +166,6 @@ Completed:
 - [x] Add ae_list_remove_member.
 
 Cancelled / Abandoned:
+- [x] core_concat could be simplified using strcat? Maybe not. (Nah.)
 - [x] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it. (Not really needed.)
 - [x] certain funcs should NOT return early when given ERRORS arguments. (Early return abandoned for now.)

@@ -10,9 +10,7 @@ DEF_CORE_FUN(eq) {
   FOR_EACH(tailarg, CDR(args))
     if (CAR(args) != tailarg)
       RETURN(NIL);
-
   RETURN(TRUE);
-  
   END_DEF_CORE_FUN;
 }
 
@@ -24,9 +22,7 @@ DEF_CORE_FUN(eql) {
   FOR_EACH(tailarg, CDR(args))
     if (! EQL(CAR(args), tailarg))
       RETURN(NIL);
-
   RETURN(TRUE);
-  
   END_DEF_CORE_FUN;
 }
 
@@ -36,7 +32,6 @@ DEF_CORE_FUN(eql) {
 
 DEF_CORE_FUN(tailp) {
   RETURN(TRUTH(TAILP(CAR(args))));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -47,7 +42,6 @@ DEF_CORE_FUN(tailp) {
 DEF_CORE_FUN(properp) {
   REQUIRE(CONSP(CAR(args)));
   RETURN(TRUTH(PROPERP(CAR(args))));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -58,7 +52,6 @@ DEF_CORE_FUN(properp) {
 DEF_CORE_FUN(boundp) {
   REQUIRE(SYMBOLP(CAR(args)));
   RETURN(TRUTH(ENV_BOUNDP(env, CAR(args))));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -69,7 +62,6 @@ DEF_CORE_FUN(boundp) {
 DEF_CORE_FUN(keywordp) {
   REQUIRE(SYMBOLP(CAR(args)));
   RETURN(TRUTH(KEYWORDP(CAR(args))));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -79,7 +71,6 @@ DEF_CORE_FUN(keywordp) {
 
 DEF_CORE_FUN(id) {
   RETURN(CAR(args));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -89,7 +80,6 @@ DEF_CORE_FUN(id) {
 
 DEF_CORE_FUN(not) {
   RETURN(TRUTH(NILP(CAR(args))));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -99,7 +89,6 @@ DEF_CORE_FUN(not) {
 
 DEF_CORE_FUN(nilp) {
   RETURN(TRUTH(NILP(CAR(args))));
-
   END_DEF_CORE_FUN;
 }
 
@@ -109,8 +98,7 @@ DEF_CORE_FUN(nilp) {
 
 DEF_CORE_FUN(zerop) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
-  RETURN(TRUTH(INT_VAL(CAR(args)) == 0));
-  
+  RETURN(TRUTH(INT_VAL(CAR(args)) == 0));  
   END_DEF_CORE_FUN;
 }
 
@@ -121,7 +109,6 @@ DEF_CORE_FUN(zerop) {
 DEF_CORE_FUN(onep) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 1));
-  
   END_DEF_CORE_FUN;
 }
 
@@ -132,7 +119,6 @@ DEF_CORE_FUN(onep) {
 DEF_CORE_FUN(positivep) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) >= 0));
-
   END_DEF_CORE_FUN;
 }
 
@@ -143,7 +129,6 @@ DEF_CORE_FUN(positivep) {
 DEF_CORE_FUN(negativep) {
   REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) < 0));
-  
   END_DEF_CORE_FUN;
 }
 
