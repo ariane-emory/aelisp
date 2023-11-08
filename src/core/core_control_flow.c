@@ -231,7 +231,7 @@ ae_obj_t * ae_core_unless(ae_obj_t * const env, ae_obj_t * const args, __attribu
   bool cond_result = NILP(RETURN_IF_ERRORP(EVAL(env, unless_cond)));
 
   if (log_core)
-    LOG(TRUTH(cond_result ? TRUE : NIL, "cond_result: "));
+    LOG(TRUTH(cond_result), "cond_result: ");
 
   if (cond_result) {
     if (log_core)
@@ -350,12 +350,12 @@ ae_obj_t * ae_core_until(ae_obj_t * const env, ae_obj_t * const args, __attribut
 ae_obj_t * ae_core_repeat(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
   CORE_BEGIN("repeat");
 
-  ae_obj_t * first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
+  ae_obj_t * const first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
  
   REQUIRE(env, args, INTEGERP(first_arg) && (INT_VAL(first_arg) >= 0),
           "repeat requires a positive integer as its first argument");
 
-  long long int times = INT_VAL(first_arg);
+  const long long int times = INT_VAL(first_arg);
 
   for (long long int ix = 0; ix < times; ix++)
     ret = RETURN_IF_ERRORP(ae_core_progn(env, CDR(args), LENGTH(CDR(args))));
