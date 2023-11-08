@@ -10,20 +10,18 @@ ae_obj_t * ae_core_setq(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   REQUIRE(env, args, !(args_length % 2), "setq requires an even number of arguments");
   
-  ae_obj_t * pair     = args;
-  ae_obj_t * sym      = NIL;
-  ae_obj_t * val_expr = NIL;
+  ae_obj_t * pair = args;
 
   while (! NILP(pair) && ! NILP(CDR(pair))) {
-    sym      = CAR(pair);
-    val_expr = CADR(pair);
+    ae_obj_t * const sym      = CAR(pair);
+    ae_obj_t * const val_expr = CADR(pair);
 
-    REQUIRE(env, pair, SYMBOLP(sym), "sym is not a symbol");
-    REQUIRE(env, pair, !KEYWORDP(sym), "keyword symbols may not be set");
-    REQUIRE(env, pair, NILP(GET_PROP("constant", sym)), "constant symbols may not be set");
+    REQUIRE(env, args, SYMBOLP(sym),                    "sym is not a symbol");
+    REQUIRE(env, args, !KEYWORDP(sym),                  "keyword symbols may not be set");
+    REQUIRE(env, args, NILP(GET_PROP("constant", sym)), "constant symbols may not be set");
 
     if (log_core) {
-      LOG(sym, "setting symbol");
+      LOG(sym,      "setting symbol");
       LOG(val_expr, "to value");
     }
 
