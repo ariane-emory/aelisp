@@ -37,7 +37,8 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
   ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
   ae_obj_t * const case_forms = CDR(args);
 
-  REQUIRE(env, args, ! NILP(case_forms), "case requires at least one form after the key form");
+  REQUIRE(env, args, ! NILP(case_forms),
+          "case requires at least one form after the key form");
 
   if (log_core) {
     LOG(key_form,   "key_form");
@@ -48,12 +49,14 @@ ae_obj_t * ae_core_case(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   // first pass: Check for well-formedness and multiple else clauses
   FOR_EACH(case_form, case_forms) {
-    REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1, "case forms must be proper lists with at least two elements");
+    REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1,
+            "case forms must be proper lists with at least two elements");
 
     ae_obj_t * const case_form_car = CAR(case_form);
 
     if (case_form_car == SYM("else")) {
-      REQUIRE(env, args, !else_found, "Only one else clause is allowed in a case expression");
+      REQUIRE(env, args, !else_found,
+              "Only one else clause is allowed in a case expression");
 
       else_found = true;
     }
@@ -159,19 +162,19 @@ ae_obj_t * ae_core_if(ae_obj_t * const env, ae_obj_t * const args, __attribute__
   bool cond_result = ! NILP(RETURN_IF_ERRORP(EVAL(env, if_cond)));
 
   if (log_core) 
-    LOG(cond_result ? TRUE : NIL, "cond_result: ");
+    LOG(TRUTH(cond_result), "cond_result: ");
 
   if (cond_result) {
     if (log_core)
       LOG(then_branch, "chose then");
 
-    ret = RETURN_IF_ERRORP(EVAL(env, then_branch));
+    RETURN(EVAL(env, then_branch));
   } 
   else {
     if (log_core)
       LOG(else_branch, "chose else");
 
-    ret = RETURN_IF_ERRORP(ae_core_progn(env, else_branch, LENGTH(else_branch)));
+    RETURN(ae_core_progn(env, else_branch, LENGTH(else_branch)));
   }
 
   CORE_END("if");
