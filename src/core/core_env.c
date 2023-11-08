@@ -7,7 +7,7 @@
 
 DEF_CORE_FUN(env) {
   if (args_length == 1) {
-    REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
+    REQUIRE((ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
     if (ENVP(CAR(args))) {
       RETURN(ENV_PARENT(CAR(args)));
@@ -28,7 +28,7 @@ DEF_CORE_FUN(env) {
 
 DEF_CORE_FUN(syms) {
   if (args_length == 1) {
-    REQUIRE(env, args, ENVP(CAR(args)));
+    REQUIRE(ENVP(CAR(args)));
 
     RETURN(ENV_SYMS(CAR(args)));
   }
@@ -44,7 +44,7 @@ DEF_CORE_FUN(syms) {
 
 DEF_CORE_FUN(vals) {
   if (args_length == 1) {
-    REQUIRE(env, args, ENVP(CAR(args)));
+    REQUIRE(ENVP(CAR(args)));
 
     RETURN(ENV_VALS(CAR(args)));
   }

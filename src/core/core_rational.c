@@ -5,8 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(rational) {
-  REQUIRE(env, args, INTEGERP(CAR(args)));
-  REQUIRE(env, args, INTEGERP(CADR(args)));
+  REQUIRE(INTEGERP(CAR(args)));
+  REQUIRE(INTEGERP(CADR(args)));
 
   RETURN(NEW_RATIONAL(INT_VAL(CAR(args)), INT_VAL(CADR(args))));
 
@@ -18,7 +18,7 @@ DEF_CORE_FUN(rational) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(numer) {
-  REQUIRE(env, args, RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
+  REQUIRE(RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
 
   RETURN(INTEGERP(CAR(args))
          ? CAR(args)
@@ -32,7 +32,7 @@ DEF_CORE_FUN(numer) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(denom) {
-  REQUIRE(env, args, RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
+  REQUIRE(RATIONALP(CAR(args)) || INTEGERP(CAR(args)));
 
   RETURN(NEW_INT((RATIONALP(CAR(args)))
                  ? DENOM_VAL(CAR(args))

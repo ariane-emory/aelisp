@@ -5,9 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(error) {
-  REQUIRE(env, args, STRINGP(CAR(args)), "error's 1st arg must be a string");
-  REQUIRE(env, args,
-          (args_length == 1)  ||
+  REQUIRE(STRINGP(CAR(args)), "error's 1st arg must be a string");
+  REQUIRE((args_length == 1)  ||
           (PROPERP(CADR(args)) && ((LENGTH(CADR(args)) % 2) == 0)), "error's 2nd arg must be a proper list or nil");
 
   ae_obj_t * const err = NEW_ERROR(STR_VAL(CAR(args)));
@@ -24,7 +23,7 @@ DEF_CORE_FUN(error) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(message) {
-  REQUIRE(env, args, ERRORP(CAR(args)));
+  REQUIRE(ERRORP(CAR(args)));
 
   RETURN(NEW_STRING(EMSG(CAR(args))));
   

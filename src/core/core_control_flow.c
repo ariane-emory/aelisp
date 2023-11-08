@@ -33,7 +33,7 @@ DEF_CORE_FUN(case) {
   ae_obj_t * const key_form   = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
   ae_obj_t * const case_forms = CDR(args);
 
-  REQUIRE(env, args, ! NILP(case_forms),
+  REQUIRE(! NILP(case_forms),
           "case requires at least one form after the key form");
 
   if (log_core) {
@@ -45,13 +45,13 @@ DEF_CORE_FUN(case) {
 
   // first pass: Check for well-formedness and multiple else clauses
   FOR_EACH(case_form, case_forms) {
-    REQUIRE(env, args, PROPERP(case_form) && LENGTH(case_form) > 1,
+    REQUIRE(PROPERP(case_form) && LENGTH(case_form) > 1,
             "case forms must be proper lists with at least two elements");
 
     ae_obj_t * const case_form_car = CAR(case_form);
 
     if (case_form_car == SYM("else")) {
-      REQUIRE(env, args, !else_found,
+      REQUIRE(!else_found,
               "Only one else clause is allowed in a case expression");
 
       else_found = true;
@@ -103,18 +103,18 @@ DEF_CORE_FUN(cond) {
     
   // first pass: Ensure no duplicate 'else' clauses and validate structure
   FOR_EACH(cond_item, args) {
-    REQUIRE(env, args, PROPERP(cond_item) && LENGTH(cond_item) > 1,
+    REQUIRE(PROPERP(cond_item) && LENGTH(cond_item) > 1,
             "cond arguments must be proper lists with at least two elements");
 
     ae_obj_t * const item_car = CAR(cond_item);
 
     if (item_car == SYM("else")) {
-      REQUIRE(env, args, !else_found,
+      REQUIRE(!else_found,
               "Only one else clause is allowed in a cond expression");
 
       else_found = true;
 
-      REQUIRE(env, args, NILP(CDR(position)),
+      REQUIRE(NILP(CDR(position)),
               "If used, else clause must be the last clause in a cond expression");
     }
   }
@@ -330,7 +330,7 @@ DEF_CORE_FUN(until) {
 DEF_CORE_FUN(repeat) {
   ae_obj_t * const first_arg = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
  
-  REQUIRE(env, args, INTEGERP(first_arg) && (INT_VAL(first_arg) >= 0),
+  REQUIRE(INTEGERP(first_arg) && (INT_VAL(first_arg) >= 0),
           "repeat requires a positive integer as its first argument");
 
   const long long int times = INT_VAL(first_arg);

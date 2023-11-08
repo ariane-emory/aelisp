@@ -6,7 +6,7 @@
 // _setq
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(setq) {
-  REQUIRE(env, args, !(args_length % 2), "setq requires an even number of arguments");
+  REQUIRE(!(args_length % 2), "setq requires an even number of arguments");
   
   ae_obj_t * pair = args;
 
@@ -14,9 +14,9 @@ DEF_CORE_FUN(setq) {
     ae_obj_t * const sym      = CAR(pair);
     ae_obj_t * const val_expr = CADR(pair);
 
-    REQUIRE(env, args, SYMBOLP(sym),                    "sym is not a symbol");
-    REQUIRE(env, args, !KEYWORDP(sym),                  "keyword symbols may not be set");
-    REQUIRE(env, args, NILP(GET_PROP("constant", sym)), "constant symbols may not be set");
+    REQUIRE(SYMBOLP(sym),                    "sym is not a symbol");
+    REQUIRE(!KEYWORDP(sym),                  "keyword symbols may not be set");
+    REQUIRE(NILP(GET_PROP("constant", sym)), "constant symbols may not be set");
 
     if (log_core) {
       LOG(sym,      "setting symbol");

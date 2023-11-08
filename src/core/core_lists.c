@@ -11,7 +11,7 @@
 DEF_CORE_FUN(car) {
   if (! TAILP(CAR(args))) { 
     LOG(CAR(args), "not TAILP:");
-    REQUIRE(env, args, TAILP(CAR(args)));
+    REQUIRE(TAILP(CAR(args)));
   }
 
   RETURN(NILP(CAR(args))
@@ -29,7 +29,7 @@ DEF_CORE_FUN(car) {
 DEF_CORE_FUN(cdr) {
   if (! TAILP(CAR(args))) {
     LOG(CAR(args), "not TAILP:");
-    REQUIRE(env, args, TAILP(CAR(args)));
+    REQUIRE(TAILP(CAR(args)));
   }
 
   RETURN(NILP(CAR(args))
@@ -44,8 +44,8 @@ DEF_CORE_FUN(cdr) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(rplaca) {
-  REQUIRE(env, args, CONSP(CAR(args)));
-  // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
+  REQUIRE(CONSP(CAR(args)));
+  // REQUIRE(! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
   
   CAAR(args) = CADR(args);
 
@@ -59,8 +59,8 @@ DEF_CORE_FUN(rplaca) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(rplacd) {
-  REQUIRE(env, args, CONSP(CAR(args)));
-  // REQUIRE(env, args, ! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
+  REQUIRE(CONSP(CAR(args)));
+  // REQUIRE(! HAS_PROP("read-only", CAR(args)), "read-only objects cannot be mutated");
   
   CDAR(args) = CADR(args);
 
@@ -87,7 +87,7 @@ DEF_CORE_FUN(cons) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(length) {
-  REQUIRE(env, args, TAILP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");
+  REQUIRE(TAILP(CAR(args)) || STRINGP(CAR(args)), "core length only works on lists and strings");
 
   if (NILP(CAR(args)))
     RETURN(NEW_INT(0));
@@ -106,7 +106,7 @@ DEF_CORE_FUN(length) {
 DEF_CORE_FUN(pop) {
   ae_obj_t * const sym  = CAR(args);
 
-  REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
+  REQUIRE(SETTABLEP(sym) && ENV_BOUNDP(env, sym),
           "pop only works on bound and settable symbols");
 
   ae_obj_t * const lst  = RETURN_IF_ERRORP(EVAL(env, sym));
@@ -114,7 +114,7 @@ DEF_CORE_FUN(pop) {
   if (NILP(lst))
     RETURN(NIL);
   
-  REQUIRE(env, args, CONSP(lst));
+  REQUIRE(CONSP(lst));
 
   ae_obj_t * const tail = CDR(lst);
   
@@ -132,12 +132,12 @@ DEF_CORE_FUN(pop) {
 DEF_CORE_FUN(push) {
   ae_obj_t * const sym = CADR(args);
 
-  REQUIRE(env, args, SETTABLEP(sym) && ENV_BOUNDP(env, sym),
+  REQUIRE(SETTABLEP(sym) && ENV_BOUNDP(env, sym),
           "push only works on bound and settable symbols");
 
   ae_obj_t * const lst = RETURN_IF_ERRORP(EVAL(env, sym));
 
-  REQUIRE(env, args, TAILP(lst));
+  REQUIRE(TAILP(lst));
 
   ae_obj_t * const val = RETURN_IF_ERRORP(EVAL(env, CAR(args)));
   ret                  = CONS(val, lst);

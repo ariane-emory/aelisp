@@ -28,7 +28,7 @@ DEF_CORE_FUN(intern) {
   if (! STRINGP(CAR(args)))
     LOG(CAR(args), "not a string");
   
-  REQUIRE(env, args, STRINGP(CAR(args)), "intern's first argument must be a string");
+  REQUIRE(STRINGP(CAR(args)), "intern's first argument must be a string");
 
   RETURN(SYM(STR_VAL(CAR(args))));
 

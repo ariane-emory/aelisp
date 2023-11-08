@@ -45,7 +45,7 @@ DEF_CORE_FUN(tailp) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(properp) {
-  REQUIRE(env, args, CONSP(CAR(args)));
+  REQUIRE(CONSP(CAR(args)));
   RETURN(TRUTH(PROPERP(CAR(args))));
   
   END_DEF_CORE_FUN(properp);
@@ -56,7 +56,7 @@ DEF_CORE_FUN(properp) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(boundp) {
-  REQUIRE(env, args, SYMBOLP(CAR(args)));
+  REQUIRE(SYMBOLP(CAR(args)));
   RETURN(TRUTH(ENV_BOUNDP(env, CAR(args))));
   
   END_DEF_CORE_FUN(boundp);
@@ -67,7 +67,7 @@ DEF_CORE_FUN(boundp) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(keywordp) {
-  REQUIRE(env, args, SYMBOLP(CAR(args)));
+  REQUIRE(SYMBOLP(CAR(args)));
   RETURN(TRUTH(KEYWORDP(CAR(args))));
   
   END_DEF_CORE_FUN(keywordp);
@@ -108,7 +108,7 @@ DEF_CORE_FUN(nilp) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(zerop) {
-  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 0));
   
   END_DEF_CORE_FUN(zero?);
@@ -119,7 +119,7 @@ DEF_CORE_FUN(zerop) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(onep) {
-  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) == 1));
   
   END_DEF_CORE_FUN(one?);
@@ -130,7 +130,7 @@ DEF_CORE_FUN(onep) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(positivep) {
-  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) >= 0));
 
   END_DEF_CORE_FUN(positive?);
@@ -141,7 +141,7 @@ DEF_CORE_FUN(positivep) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(negativep) {
-  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
   RETURN(TRUTH(INT_VAL(CAR(args)) < 0));
   
   END_DEF_CORE_FUN(negative?);

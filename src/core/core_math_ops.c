@@ -20,7 +20,7 @@
       if (! INTEGERP(CAR(args)))                                                                                      \
         LOG(CAR(args), "NOT AN INTEGER");                                                                             \
                                                                                                                       \
-      REQUIRE(env, args, INTEGERP(CAR(args)));                                                                        \
+      REQUIRE(INTEGERP(CAR(args)));                                                                        \
                                                                                                                       \
       accum = INT_VAL(CAR(args));                                                                                     \
       rest  = CDR(args);                                                                                              \
@@ -30,10 +30,10 @@
       if (! INTEGERP(CAR(args)))                                                                                      \
         LOG(CAR(args), "NOT AN INTEGER");                                                                             \
                                                                                                                       \
-      REQUIRE(env, args, INTEGERP(elem));                                                                             \
+      REQUIRE(INTEGERP(elem));                                                                             \
                                                                                                                       \
       if (no_zero_args)                                                                                               \
-        REQUIRE(env, args, INT_VAL(elem) != 0, "division by zero");                                                   \
+        REQUIRE(INT_VAL(elem) != 0, "division by zero");                                                   \
                                                                                                                       \
       accum = accum oper INT_VAL(elem);                                                                               \
     }                                                                                                                 \
@@ -54,7 +54,7 @@ ae_obj_t * ae_core_plus1(__attribute__((unused)) ae_obj_t * const env,
                          ae_obj_t * const args,
                          __attribute__((unused)) int args_length) {
   CORE_BEGIN("1+");
-  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
 
   RETURN(NEW_INT(INT_VAL(CAR(args)) + 1));
   
@@ -69,7 +69,7 @@ ae_obj_t * ae_core_minus1(__attribute__((unused)) ae_obj_t * const env,
                           ae_obj_t * const args,
                           __attribute__((unused)) int args_length) {
   CORE_BEGIN("1-");
-  REQUIRE(env, args, INTEGERP(CAR(args)), "argument must be an integer");
+  REQUIRE(INTEGERP(CAR(args)), "argument must be an integer");
 
   RETURN(NEW_INT(INT_VAL(CAR(args)) - 1));
   

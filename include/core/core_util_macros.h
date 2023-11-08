@@ -13,7 +13,7 @@
 #include "write.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#define REQUIRE(env, args, cond, ...)                                                              \
+#define REQUIRE(cond, ...)                                                              \
   if (! (cond)) {                                                                                  \
     char * const fmt      = ("" __VA_ARGS__)[0]                                                    \
       ? "%s:%d: \"Error in %s: require " #cond ", " __VA_ARGS__ "!\""                              \

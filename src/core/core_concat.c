@@ -12,7 +12,7 @@ ae_obj_t * ae_core_concat(ae_obj_t * const env,
   int total_length = 0;
 
   FOR_EACH(elem, args) {
-    REQUIRE(env, args, NILP(elem) || STRINGP(elem));
+    REQUIRE(NILP(elem) || STRINGP(elem));
     
     if (NILP(elem))
       continue;

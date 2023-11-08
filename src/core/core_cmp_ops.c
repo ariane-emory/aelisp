@@ -17,8 +17,8 @@
       if (NILP(CDR(position)))                                                                                        \
         break;                                                                                                        \
                                                                                                                       \
-      REQUIRE(env, args, INTEGERP(elem));                                                                             \
-      REQUIRE(env, args, INTEGERP(CADR(position)));                                                                   \
+      REQUIRE(INTEGERP(elem));                                                                             \
+      REQUIRE(INTEGERP(CADR(position)));                                                                   \
                                                                                                                       \
       result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                                       \
     }                                                                                                                 \

@@ -44,7 +44,7 @@ DEF_CORE_FUN(apply) {
   else
     last = RETURN_IF_ERRORP(EVAL(env, last));
 
-  REQUIRE(env, args, PROPERP(last),
+  REQUIRE(PROPERP(last),
           "apply requires a proper list as its final argument");
   
   UNTIL_NILP(last) {

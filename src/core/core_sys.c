@@ -49,7 +49,7 @@ static ae_obj_t * wrap_captured_command_output(capture_command_output_t captured
 // _system
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(system) {
-  REQUIRE(env, args, STRINGP(CAR(args)),
+  REQUIRE(STRINGP(CAR(args)),
           "system's arg must be a string");
 
   RETURN(wrap_captured_command_output(ae_sys_capture_command_output(STR_VAL(CAR(args)))));
@@ -63,7 +63,7 @@ DEF_CORE_FUN(system) {
 // _expand_path
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(expand_path) {
-  REQUIRE(env, args, STRINGP(CAR(args)));
+  REQUIRE(STRINGP(CAR(args)));
 
   char * path = STR_VAL(CAR(args));
   
@@ -129,7 +129,7 @@ DEF_CORE_FUN(now_us) {
 // _elapsed
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(elapsed) {
-  REQUIRE(env, args, INTEGERP(CAR(args)));
+  REQUIRE(INTEGERP(CAR(args)));
 
   RETURN(NEW_INT(ae_sys_time_elapsed(INT_VAL(CAR(args)))));
   
@@ -142,7 +142,7 @@ DEF_CORE_FUN(elapsed) {
 // _elapsed_us
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(elapsed_us) {
-  REQUIRE(env, args, INTEGERP(CAR(args)));
+  REQUIRE(INTEGERP(CAR(args)));
 
   RETURN(NEW_INT(ae_sys_time_elapsed_us(INT_VAL(CAR(args)))));
 
@@ -155,7 +155,7 @@ DEF_CORE_FUN(elapsed_us) {
 // _sleep
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(sleep) {
-  REQUIRE(env, args, INTEGERP(CAR(args)));
+  REQUIRE(INTEGERP(CAR(args)));
 
   usleep(INT_VAL(CAR(args)) * 1000);
 
@@ -170,7 +170,7 @@ DEF_CORE_FUN(sleep) {
 // _sleep_us
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(sleep_us) {
-  REQUIRE(env, args, INTEGERP(CAR(args)));
+  REQUIRE(INTEGERP(CAR(args)));
 
   usleep(INT_VAL(CAR(args)));
 
@@ -188,7 +188,7 @@ DEF_CORE_FUN(exit) {
   int exit_code = 0;
 
   if (args_length == 1) {
-    REQUIRE(env, args, INTEGERP(CAR(args)));
+    REQUIRE(INTEGERP(CAR(args)));
 
     exit_code = INT_VAL(CAR(args));
   }
@@ -284,7 +284,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
     RETURN(load_target);
 
   // Args will have already been checked by the caller, so don't bother doing this:
-  // REQUIRE(env, args, (SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
+  // REQUIRE((SYMBOLP(load_target) || ! KEYWORDP(load_target)) || STRINGP(load_target));
 
   char * const load_target_string = SYMBOLP(load_target) ? SYM_VAL(load_target) : STR_VAL(load_target);
   char * const file_path =
@@ -316,7 +316,7 @@ static ae_obj_t * load_or_require(load_or_require_mode_t mode,
 // _load
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(load) {
-  REQUIRE(env, args, STRINGP(CAR(args)));
+  REQUIRE(STRINGP(CAR(args)));
 
   RETURN(load_or_require(LORM_LOAD, env, args, args_length));
 
@@ -329,7 +329,7 @@ DEF_CORE_FUN(load) {
 // _file_read
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(file_read) {
-  REQUIRE(env, args, STRINGP(CAR(args)));
+  REQUIRE(STRINGP(CAR(args)));
 
   RETURN(CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));
   
@@ -342,8 +342,7 @@ DEF_CORE_FUN(file_read) {
 // _require
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(require) {
-  REQUIRE(env, args,
-          SYMBOLP(CAR(args))      &&
+  REQUIRE(SYMBOLP(CAR(args))      &&
           (! KEYWORDP(CAR(args))) &&
           (! NILP(CAR(args)))     &&
           (! TRUEP(CAR(args))));
@@ -359,8 +358,7 @@ DEF_CORE_FUN(require) {
 // _requireb
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(requireb) {
-  REQUIRE(env, args,
-          SYMBOLP(CAR(args))      &&
+  REQUIRE(SYMBOLP(CAR(args))      &&
           (! KEYWORDP(CAR(args))) &&
           (! NILP(CAR(args)))     &&
           (! TRUEP(CAR(args))));
@@ -376,7 +374,7 @@ DEF_CORE_FUN(requireb) {
 // _cd
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(cd) {
-  REQUIRE(env, args, STRINGP(CAR(args)),
+  REQUIRE(STRINGP(CAR(args)),
           "cd's arg must be a string");
 
   char * const dst = STR_VAL(CAR(args));
@@ -385,7 +383,7 @@ DEF_CORE_FUN(cd) {
   if (getcwd(cwd, sizeof(cwd)) == NULL)
     RETURN(NIL);
   
-  REQUIRE(env, args, chdir(dst) == 0,
+  REQUIRE(chdir(dst) == 0,
           "Could not change directory");
   
   if (strcmp(dst, "..") == 0 && strcmp(cwd, "/") == 0)
@@ -421,7 +419,7 @@ DEF_CORE_FUN(pwd) {
 // _basename
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(basename) {
-  REQUIRE(env, args, STRINGP(CAR(args)),
+  REQUIRE(STRINGP(CAR(args)),
           "basename's arg must be a string");
 
   char * const path = ae_sys_basename(STR_VAL(CAR(args)));
@@ -439,7 +437,7 @@ DEF_CORE_FUN(basename) {
 // _dirname
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(dirname) {
-  REQUIRE(env, args, STRINGP(CAR(args)),
+  REQUIRE(STRINGP(CAR(args)),
           "dirname's arg must be a string");
 
   char * const path = ae_sys_dirname(STR_VAL(CAR(args)));
@@ -457,7 +455,7 @@ DEF_CORE_FUN(dirname) {
 // _files
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(files) {
-  REQUIRE(env, args, (args_length == 0) || STRINGP(CAR(args)), "dirs's arg must be a string");
+  REQUIRE((args_length == 0) || STRINGP(CAR(args)), "dirs's arg must be a string");
   
   char * path = NULL;
 
@@ -473,7 +471,7 @@ DEF_CORE_FUN(files) {
   
   DIR * const dir = opendir(path);
 
-  REQUIRE(env, args, dir,
+  REQUIRE(dir,
           "could not open directory");
 
   struct dirent * entry;
@@ -505,7 +503,7 @@ DEF_CORE_FUN(files) {
 // _dirs
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(dirs) {
-  REQUIRE(env, args, (args_length == 0) || STRINGP(CAR(args)), "dirs's arg must be a string");
+  REQUIRE((args_length == 0) || STRINGP(CAR(args)), "dirs's arg must be a string");
   
   char * path = NULL;
 
@@ -521,7 +519,7 @@ DEF_CORE_FUN(dirs) {
   
   DIR * const dir = opendir(path);
 
-  REQUIRE(env, args, dir,
+  REQUIRE(dir,
           "could not open directory");
 
   struct dirent * entry;
@@ -552,14 +550,14 @@ DEF_CORE_FUN(dirs) {
 // _file_read_string
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(fwrite_string) {
-  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)),
+  REQUIRE(STRINGP(CAR(args)) && STRINGP(CADR(args)),
           "Arguments must be strings");
 
   char * filename  = STR_VAL(CAR(args));
   char * data      = STR_VAL(CADR(args));
   FILE * file      = fopen(filename, "w");
 
-  REQUIRE(env, args, file,
+  REQUIRE(file,
           "Could not open file for writing");
 
   size_t data_size = strlen(data);
@@ -578,14 +576,14 @@ DEF_CORE_FUN(fwrite_string) {
 // _file_append_string
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(fappend_string) {
-  REQUIRE(env, args, STRINGP(CAR(args)) && STRINGP(CADR(args)),
+  REQUIRE(STRINGP(CAR(args)) && STRINGP(CADR(args)),
           "Arguments must be strings");
 
   char * filename  = STR_VAL(CAR(args));
   char * data      = STR_VAL(CADR(args));
   FILE * file      = fopen(filename, "a");
   
-  REQUIRE(env, args, file, "Could not open file for appending");
+  REQUIRE(file, "Could not open file for appending");
 
   size_t data_size = strlen(data);
   size_t written   = fwrite(data, sizeof(char), data_size, file);
@@ -603,7 +601,7 @@ DEF_CORE_FUN(fappend_string) {
 // _file_read_string
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 DEF_CORE_FUN(fread_string) {
-  REQUIRE(env, args, STRINGP(CAR(args)),
+  REQUIRE(STRINGP(CAR(args)),
           "Argument must be a string");
 
   fread_string_t result = ae_sys_file_read_string(STR_VAL(CAR(args)));

@@ -11,24 +11,23 @@
 DEF_CORE_FUN(let) {
   ae_obj_t * const varlist = CAR(args);
 
-  REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
-  // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
+  REQUIRE(PROPERP(varlist), "varlist must be a proper list");
+  // REQUIRE(LENGTH(varlist) > 0, "empty varlist");
 
   FOR_EACH(varlist_item, varlist) {
-    REQUIRE(env, args,
-            SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
+    REQUIRE(SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
             "varlist items must be symbols or lists with two elements");
 
     ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
 
-    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
+    REQUIRE((! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
 
   }
   
   ae_obj_t * const body    = CDR(args);
 
-  REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
-  // REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
+  REQUIRE(PROPERP(body),       "body must be a proper list");
+  // REQUIRE(LENGTH(body) > 0,    "empty body");
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
@@ -84,24 +83,23 @@ DEF_CORE_FUN(let) {
 DEF_CORE_FUN(let_star) {
   ae_obj_t * const varlist = CAR(args);
 
-  REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
-  // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
+  REQUIRE(PROPERP(varlist),    "varlist must be a proper list");
+  // REQUIRE(LENGTH(varlist) > 0, "empty varlist");
 
   FOR_EACH(varlist_item, varlist) {
-    REQUIRE(env, args,
-            SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
+    REQUIRE(SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
             "varlist items must be symbols or lists with two elements");
 
     ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
 
-    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
+    REQUIRE((! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
 
   }
 
   ae_obj_t * const body    = CDR(args);
 
-  REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
-  // REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
+  REQUIRE(PROPERP(body),       "body must be a proper list");
+  // REQUIRE(LENGTH(body) > 0,    "empty body");
   
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 
@@ -163,24 +161,23 @@ DEF_CORE_FUN(letrec) {
   
   ae_obj_t * const  varlist = CAR(args);
 
-  REQUIRE(env, args, PROPERP(varlist),    "varlist must be a proper list");
-  // REQUIRE(env, args, LENGTH(varlist) > 0, "empty varlist");
+  REQUIRE(PROPERP(varlist),    "varlist must be a proper list");
+  // REQUIRE(LENGTH(varlist) > 0, "empty varlist");
  
   FOR_EACH(varlist_item, varlist) {
-    REQUIRE(env, args,
-            SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
+    REQUIRE(SYMBOLP(varlist_item) || (CONSP(varlist_item) && LENGTH(varlist_item) == 2),
             "varlist items must be symbols or lists with two elements");
 
     ae_obj_t * const sym = SYMBOLP(varlist_item) ? varlist_item : CAR(varlist_item);
 
-    REQUIRE(env, args, (! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
+    REQUIRE((! SPECIAL_SYMP(sym)), "let forms cannot bind special symbols");
 
   }
   
   ae_obj_t * const body    = CDR(args);
 
-  REQUIRE(env, args, PROPERP(body),       "body must be a proper list");
-  // REQUIRE(env, args, LENGTH(body) > 0,    "empty body");
+  REQUIRE(PROPERP(body),       "body must be a proper list");
+  // REQUIRE(LENGTH(body) > 0,    "empty body");
 
   ae_obj_t * const new_env = NEW_ENV(env, NIL, NIL);
 

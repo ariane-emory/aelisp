@@ -6,17 +6,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(macro) {
-  REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
-  REQUIRE(env, args, TAILP(CDR(args)));
+  REQUIRE(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
+  REQUIRE(TAILP(CDR(args)));
 
   // symbols used in params must not be '*special*':
   if (SYMBOLP(CAR(args))) {
-      REQUIRE(env, args, ! SPECIAL_SYMP(CAR(args)), "special symbols cannot be used as params");
+      REQUIRE(! SPECIAL_SYMP(CAR(args)), "special symbols cannot be used as params");
   }
   else {
     FOR_EACH (param, CAR(args)) {
-      REQUIRE(env, args, SYMBOLP(param));
-      REQUIRE(env, args, ! SPECIAL_SYMP(param), "special symbols cannot be used as params");
+      REQUIRE(SYMBOLP(param));
+      REQUIRE(! SPECIAL_SYMP(param), "special symbols cannot be used as params");
     }
   }
 
@@ -30,17 +30,17 @@ DEF_CORE_FUN(macro) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(lambda) {
-  REQUIRE(env, args, TAILP(CAR(args)) || SYMBOLP(CAR(args)));
-  REQUIRE(env, args, TAILP(CDR(args)));
+  REQUIRE(TAILP(CAR(args)) || SYMBOLP(CAR(args)));
+  REQUIRE(TAILP(CDR(args)));
 
   // symbols used in params must not be '*special*':
   if (SYMBOLP(CAR(args))) {
-      REQUIRE(env, args, ! SPECIAL_SYMP(CAR(args)), "special symbols cannot be used as params");
+      REQUIRE(! SPECIAL_SYMP(CAR(args)), "special symbols cannot be used as params");
   }
   else {
     FOR_EACH (param, CAR(args)) {
-      REQUIRE(env, args, SYMBOLP(param));
-      REQUIRE(env, args, ! SPECIAL_SYMP(param), "special symbols cannot be used as params");
+      REQUIRE(SYMBOLP(param));
+      REQUIRE(! SPECIAL_SYMP(param), "special symbols cannot be used as params");
     }
   }
 
@@ -54,7 +54,7 @@ DEF_CORE_FUN(lambda) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(params) {
-  REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
+  REQUIRE(MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
   RETURN(FUN_PARAMS(CAR(args)));
   
@@ -66,7 +66,7 @@ DEF_CORE_FUN(params) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(body) {
-  REQUIRE(env, args, MACROP(CAR(args)) || LAMBDAP(CAR(args)));
+  REQUIRE(MACROP(CAR(args)) || LAMBDAP(CAR(args)));
 
   RETURN(FUN_BODY(CAR(args)));
   

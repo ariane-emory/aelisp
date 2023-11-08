@@ -12,7 +12,7 @@ DEF_CORE_FUN(log_eval) {
   bool old_value = log_eval;
 
   if (args_length == 1) {
-    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
+    REQUIRE(SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
 
     log_eval = TRUEP(CAR(args));
 
@@ -35,7 +35,7 @@ DEF_CORE_FUN(log_core) {
   bool old_value = log_core;
 
   if (args_length == 1) {
-    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
+    REQUIRE(SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
 
     log_core = TRUEP(CAR(args));
 
@@ -58,7 +58,7 @@ DEF_CORE_FUN(log_macro) {
   bool old_value = log_macro;
 
   if (args_length == 1) {
-    REQUIRE(env, args, SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
+    REQUIRE(SYMBOLP(CAR(args)) && (NILP(CAR(args)) || TRUEP(CAR(args))));
 
     log_macro = TRUEP(CAR(args));
 

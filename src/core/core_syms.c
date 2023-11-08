@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEF_CORE_FUN(name) {
-  REQUIRE(env, args, SYMBOLP(CAR(args)));
+  REQUIRE(SYMBOLP(CAR(args)));
 
   RETURN(NEW_STRING(SYM_VAL(CAR(args))));
   
