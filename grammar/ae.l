@@ -1,4 +1,4 @@
-/* -*- mode: flex; c-basic-offset: 2; indent-tabs-mode: nil -*- */
+h/* -*- mode: flex; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 %{
 #include <stdbool.h>
 #include <stdio.h>
@@ -121,7 +121,7 @@ void parse_line(const char * const line) {
       memset(&tmp[0], 0, 3);
 
       if (yytext[0] == '?')
-        strncpy(tmp, yytext + 2, strlen(yytext) - 1);
+        strncpy(tmp, yytext + 1, strlen(yytext) - 1);
       else
         strncpy(tmp, yytext + 1, strlen(yytext) - 2);
 
@@ -187,8 +187,8 @@ nil                                                                        |
 \"((\\\")|([^\"]))*\"                                                      TOKENIZE(STRING,      AE_STRING  );
 '[^']'                                                                     |
 '\\.'                                                                      |
-\?\\\\.                                                                    |
-\?\\.                                                                      TOKENIZE(CHAR,        AE_CHAR    );
+\?\\.                                                                      |
+\?.                                                                        TOKENIZE(CHAR,        AE_CHAR    );
 \?\?\?                                                                           |
 [\%\#]([a-zA-Z][a-zA-Z0-9]*)(((\-+)|\/+)([a-zA-Z0-9]+))*[\?\!\*\+]?              |
 ([1-9][0-9]*)?[\+\-\/\*]                                                         |
