@@ -5,7 +5,6 @@ To Do:
 - [ ] Better version of return.
 - [ ] Some sort of catch.
 - [ ] Maybe let loop?
-- [ ] Audit free_list_malloc/free.
 - [ ] makunbound.
 - [ ] AE_FILE type.
 - [ ] Refactor: CORE_END should be unary.
@@ -19,7 +18,6 @@ To Do:
 - [ ] progn optimization: skip evaluating self-evaluating or symbol forms not located in the tailtip position?
 - [ ] Lexer will accept otherwise-valid tokens even if there's no whitespace separating them from adjacent non-paren tokens, it should not.
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
-- [ ] 'special' field on AE_COREs could move into metadata, maybe.
 - [ ] GC.
 
 Under Consideration:
@@ -28,6 +26,7 @@ Under Consideration:
 - [ ] Maybe move load_file?
 - [ ] Maybe pretty-print s-exps?
 - [ ] eval could take an optional env param?
+- [ ] 'special' field on AE_COREs could move into metadata, maybe. Low priority, lots of room in an AE_CORE.
 - [ ] Set metadata bit for delocalized state. (Set it when, exactly? What did I mean when I added this?)
 - [ ] Maybe parse-time math on integers?
 - [ ] Maybe put line/column of source in properties of read objects?
@@ -39,6 +38,7 @@ Under Consideration:
 - [ ] ... advices?!
 
 Completed:
+- [x] Audit free_list_malloc/free. (Half-assed it, seems alright.)
 - [x] 'files' and 'dirs' should allocate new strings?
 - [x] Move ae_common_new_root into common or maybe it's own file. (Moved into common)
 - [x] Add core_read to parse strings.
