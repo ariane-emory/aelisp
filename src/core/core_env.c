@@ -5,11 +5,7 @@
 // _env
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_env(ae_obj_t * const env,
-                       ae_obj_t * const args,
-                       __attribute__((unused)) int args_length) {
-  CORE_BEGIN("env");
-
+DEF_CORE_FUN(env) {
   if (args_length == 1) {
     REQUIRE(env, args, (ENVP(CAR(args)) || LAMBDAP(CAR(args)) || MACROP(CAR(args))));
 
@@ -23,18 +19,14 @@ ae_obj_t * ae_core_env(ae_obj_t * const env,
 
   RETURN(env);
 
-  CORE_END("env");
+  END_DEF_CORE_FUN(env);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _syms
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_syms(ae_obj_t * const env,
-                        ae_obj_t * const args,
-                        __attribute__((unused)) int args_length) {
-  CORE_BEGIN("syms");
-
+DEF_CORE_FUN(syms) {
   if (args_length == 1) {
     REQUIRE(env, args, ENVP(CAR(args)));
 
@@ -43,16 +35,14 @@ ae_obj_t * ae_core_syms(ae_obj_t * const env,
 
   RETURN(ENV_SYMS(env));
   
-  CORE_END("syms");
+  END_DEF_CORE_FUN(syms);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // _vals
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_vals(ae_obj_t * const env, ae_obj_t * const args, __attribute__((unused)) int args_length) {
-  CORE_BEGIN("vals");
-
+DEF_CORE_FUN(vals) {
   if (args_length == 1) {
     REQUIRE(env, args, ENVP(CAR(args)));
 
@@ -61,6 +51,6 @@ ae_obj_t * ae_core_vals(ae_obj_t * const env, ae_obj_t * const args, __attribute
 
   RETURN(ENV_VALS(env));
   
-  CORE_END("vals");
+  END_DEF_CORE_FUN(vals);
 }
 
