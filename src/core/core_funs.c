@@ -22,7 +22,7 @@ DEF_CORE_FUN(macro) {
 
   RETURN(NEW_MACRO(CAR(args), CDR(args), env));
   
-  END_DEF_CORE_FUN(macro);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ DEF_CORE_FUN(lambda) {
 
   RETURN(NEW_LAMBDA(CAR(args), CDR(args), env));
   
-  END_DEF_CORE_FUN(lambda);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ DEF_CORE_FUN(params) {
 
   RETURN(FUN_PARAMS(CAR(args)));
   
-  END_DEF_CORE_FUN(params);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +70,6 @@ DEF_CORE_FUN(body) {
 
   RETURN(FUN_BODY(CAR(args)));
   
-  END_DEF_CORE_FUN(body);
+  END_DEF_CORE_FUN;
 }
 

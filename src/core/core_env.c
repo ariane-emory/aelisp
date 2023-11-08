@@ -19,7 +19,7 @@ DEF_CORE_FUN(env) {
 
   RETURN(env);
 
-  END_DEF_CORE_FUN(env);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ DEF_CORE_FUN(syms) {
 
   RETURN(ENV_SYMS(env));
   
-  END_DEF_CORE_FUN(syms);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +51,6 @@ DEF_CORE_FUN(vals) {
 
   RETURN(ENV_VALS(env));
   
-  END_DEF_CORE_FUN(vals);
+  END_DEF_CORE_FUN;
 }
 

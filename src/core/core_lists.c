@@ -18,7 +18,7 @@ DEF_CORE_FUN(car) {
          ? NIL // car of nil is nil.
          : CAAR(args));
   
-  END_DEF_CORE_FUN(car);
+  END_DEF_CORE_FUN;
 }
 
 
@@ -36,7 +36,7 @@ DEF_CORE_FUN(cdr) {
          ? NIL // cdr of nil is nil.
          : CDAR(args));
   
-  END_DEF_CORE_FUN(cdr);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ DEF_CORE_FUN(rplaca) {
 
   RETURN(CADR(args));
   
-  END_DEF_CORE_FUN(rplaca);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ DEF_CORE_FUN(rplacd) {
 
   RETURN(CADR(args));
   
-  END_DEF_CORE_FUN(rplacd);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ DEF_CORE_FUN(cons) {
 
   RETURN(NEW_CONS(head, tail));
   
-  END_DEF_CORE_FUN(cons);
+  END_DEF_CORE_FUN;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ DEF_CORE_FUN(length) {
          ? NEW_INT(LENGTH(CAR(args)))
          : NEW_INT(strlen(STR_VAL(CAR(args)))));
   
-  END_DEF_CORE_FUN(length);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ DEF_CORE_FUN(pop) {
 
   ENV_SET(env, sym, tail);
 
-  END_DEF_CORE_FUN(pop);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,5 +144,5 @@ DEF_CORE_FUN(push) {
 
   ENV_SET(env, sym, ret);
   
-  END_DEF_CORE_FUN(push);
+  END_DEF_CORE_FUN;
 }

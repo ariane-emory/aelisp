@@ -10,7 +10,7 @@ DEF_CORE_FUN(rational) {
 
   RETURN(NEW_RATIONAL(INT_VAL(CAR(args)), INT_VAL(CADR(args))));
 
-  END_DEF_CORE_FUN(rational);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@ DEF_CORE_FUN(numer) {
          ? CAR(args)
          : NEW_INT(NUMER_VAL(CAR(args))));
   
-  END_DEF_CORE_FUN(numer);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +37,6 @@ DEF_CORE_FUN(denom) {
   RETURN(NEW_INT((RATIONALP(CAR(args)))
                  ? DENOM_VAL(CAR(args))
                  : 1));
-  END_DEF_CORE_FUN(denom);
+  END_DEF_CORE_FUN;
 }
 

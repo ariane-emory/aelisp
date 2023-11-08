@@ -16,7 +16,7 @@ DEF_CORE_FUN(set_props) {
   PROPS(obj)                      = new_props_list;
   ret                             = new_props_list;
 
-  END_DEF_CORE_FUN(set-props);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ DEF_CORE_FUN(props) {
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = prop_list;               
 
-  END_DEF_CORE_FUN(props);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ DEF_CORE_FUN(put_prop) {
   PROPS(obj)                     = new_prop_list;
   ret                            = value;
 
-  END_DEF_CORE_FUN(put!);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ DEF_CORE_FUN(get_prop) {
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = PGET(prop_list, key);
 
-  END_DEF_CORE_FUN(get);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ DEF_CORE_FUN(remove_prop) {
   else
     PREMOVE_MUTATING(PROPS(obj), key);
 
-  END_DEF_CORE_FUN(remove);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +99,6 @@ DEF_CORE_FUN(has_prop) {
   ae_obj_t * const prop_list = PROPS(obj);
   ret                        = TRUTH(PHAS(prop_list, key));
 
-  END_DEF_CORE_FUN(has?);
+  END_DEF_CORE_FUN;
 }
 

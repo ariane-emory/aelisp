@@ -14,7 +14,7 @@ DEF_CORE_FUN(premoveb) {
 
   ret = plist;
   
-  END_DEF_CORE_FUN(premove!);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ DEF_CORE_FUN(premove) {
 
   ret = PREMOVE_NONMUTATING(plist, key);
 
-  END_DEF_CORE_FUN(pset);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ DEF_CORE_FUN(psetb) {
 
   ret = plist;
   
-  END_DEF_CORE_FUN(pset!);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ DEF_CORE_FUN(pset) {
 
   ret = PSET_NONMUTATING(plist, key, value);
 
-  END_DEF_CORE_FUN(pset);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ DEF_CORE_FUN(pget) {
 
   ret = PGET(plist, key);
   
-  END_DEF_CORE_FUN(pget);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +93,6 @@ DEF_CORE_FUN(phas) {
 
   ret = TRUTH(PHAS(plist, key));
   
-  END_DEF_CORE_FUN(phas);
+  END_DEF_CORE_FUN;
 }
 

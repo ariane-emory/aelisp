@@ -16,5 +16,5 @@ DEF_CORE_FUN(type) {
 
   RETURN(sym);
 
-  END_DEF_CORE_FUN(type);
+  END_DEF_CORE_FUN;
 }

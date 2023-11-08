@@ -24,7 +24,7 @@ DEF_CORE_FUN(log_eval) {
 
   RETURN(TRUTH(old_value));
   
-  END_DEF_CORE_FUN(l_eval);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ DEF_CORE_FUN(log_core) {
 
   RETURN(TRUTH(old_value));
 
-  END_DEF_CORE_FUN(l_core);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,5 +70,5 @@ DEF_CORE_FUN(log_macro) {
   
   RETURN(TRUTH(old_value));
 
-  END_DEF_CORE_FUN(l_macro);
+  END_DEF_CORE_FUN;
 }

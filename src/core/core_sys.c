@@ -54,7 +54,7 @@ DEF_CORE_FUN(system) {
 
   RETURN(wrap_captured_command_output(ae_sys_capture_command_output(STR_VAL(CAR(args)))));
 
-  END_DEF_CORE_FUN(system);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,7 +87,7 @@ DEF_CORE_FUN(expand_path) {
   
   RETURN(NEW_STRING(path));
 
-  END_DEF_CORE_FUN(expand-path);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,7 +98,7 @@ DEF_CORE_FUN(expand_path) {
 DEF_CORE_FUN(allocated) {
   RETURN(NEW_INT(pool_allocated));
   
-  END_DEF_CORE_FUN(allocated);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,7 +109,7 @@ DEF_CORE_FUN(allocated) {
 DEF_CORE_FUN(now) {
   RETURN(NEW_INT(ae_sys_time_now()));
   
-  END_DEF_CORE_FUN(now);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -120,7 +120,7 @@ DEF_CORE_FUN(now) {
 DEF_CORE_FUN(now_us) {
   RETURN(NEW_INT(ae_sys_time_now_us()));
   
-  END_DEF_CORE_FUN(now_us);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -133,7 +133,7 @@ DEF_CORE_FUN(elapsed) {
 
   RETURN(NEW_INT(ae_sys_time_elapsed(INT_VAL(CAR(args)))));
   
-  END_DEF_CORE_FUN(elapsed);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -146,7 +146,7 @@ DEF_CORE_FUN(elapsed_us) {
 
   RETURN(NEW_INT(ae_sys_time_elapsed_us(INT_VAL(CAR(args)))));
 
-  END_DEF_CORE_FUN(elapsed);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -161,7 +161,7 @@ DEF_CORE_FUN(sleep) {
 
   RETURN(CAR(args));
 
-  END_DEF_CORE_FUN(sleep);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,7 +176,7 @@ DEF_CORE_FUN(sleep_us) {
 
   RETURN(CAR(args));
 
-  END_DEF_CORE_FUN(sleep-us);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -197,7 +197,7 @@ DEF_CORE_FUN(exit) {
 
   RETURN(CAR(args));
   
-  END_DEF_CORE_FUN(exit);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -320,7 +320,7 @@ DEF_CORE_FUN(load) {
 
   RETURN(load_or_require(LORM_LOAD, env, args, args_length));
 
-  END_DEF_CORE_FUN(load);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -333,7 +333,7 @@ DEF_CORE_FUN(file_read) {
 
   RETURN(CDR(load_or_require(LORM_READ_FILE, env, args, args_length)));
   
-  END_DEF_CORE_FUN(file-read);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -349,7 +349,7 @@ DEF_CORE_FUN(require) {
 
   RETURN(load_or_require(LORM_REQUIRE, env, args, args_length));
   
-  END_DEF_CORE_FUN(require);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -365,7 +365,7 @@ DEF_CORE_FUN(requireb) {
 
   RETURN(load_or_require(LORM_REREQUIRE, env, args, args_length));
   
-  END_DEF_CORE_FUN(requireb);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -395,7 +395,7 @@ DEF_CORE_FUN(cd) {
          ? NEW_ERROR("Could not get current working directory after changing directory")
          : NEW_STRING(pwd));
 
-  END_DEF_CORE_FUN(cd);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -410,7 +410,7 @@ DEF_CORE_FUN(pwd) {
          ? NEW_STRING(pwd)
          : NEW_ERROR("Could not get current working directory"));
 
-  END_DEF_CORE_FUN(pwd);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -428,7 +428,7 @@ DEF_CORE_FUN(basename) {
          ? NEW_STRING(path)
          : NEW_ERROR("Could not get basename"));
 
-  END_DEF_CORE_FUN(basename);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -446,7 +446,7 @@ DEF_CORE_FUN(dirname) {
          ? NEW_STRING(path)
          : NEW_ERROR("Could not get dirname"));
 
-  END_DEF_CORE_FUN(dirname);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -494,7 +494,7 @@ DEF_CORE_FUN(files) {
 
   closedir(dir);
 
-  END_DEF_CORE_FUN(files);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -541,7 +541,7 @@ DEF_CORE_FUN(dirs) {
 
   closedir(dir);
 
-  END_DEF_CORE_FUN(dirs);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -567,7 +567,7 @@ DEF_CORE_FUN(fwrite_string) {
 
   RETURN(TRUTH(written == data_size));
   
-  END_DEF_CORE_FUN(file-write-string);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -592,7 +592,7 @@ DEF_CORE_FUN(fappend_string) {
 
   RETURN(TRUTH(written == data_size));
   
-  END_DEF_CORE_FUN(file-append-string);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -621,6 +621,6 @@ DEF_CORE_FUN(fread_string) {
 
   RETURN(ret);
   
-  END_DEF_CORE_FUN(file-read-string);
+  END_DEF_CORE_FUN;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

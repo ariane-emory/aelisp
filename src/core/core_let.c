@@ -73,7 +73,7 @@ DEF_CORE_FUN(let) {
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  END_DEF_CORE_FUN(let);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ DEF_CORE_FUN(let_star) {
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  END_DEF_CORE_FUN(let_star);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,5 +222,5 @@ DEF_CORE_FUN(letrec) {
 
   RETURN(ae_core_progn(new_env, body, LENGTH(body)));
 
-  END_DEF_CORE_FUN(letrec);
+  END_DEF_CORE_FUN;
 }

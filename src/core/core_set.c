@@ -7,5 +7,5 @@
 DEF_CORE_FUN(set) {
   RETURN(ae_core_setq(env, args, args_length));
 
-  END_DEF_CORE_FUN(set);
+  END_DEF_CORE_FUN;
 }

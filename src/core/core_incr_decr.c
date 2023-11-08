@@ -23,7 +23,7 @@ DEF_CORE_FUN(incr) {
 
   ENV_SET(env, sym, ret);
   
-  END_DEF_CORE_FUN(incr);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,5 +47,5 @@ DEF_CORE_FUN(decr) {
 
   ENV_SET(env, sym, ret);
   
-  END_DEF_CORE_FUN(decr);
+  END_DEF_CORE_FUN;
 }

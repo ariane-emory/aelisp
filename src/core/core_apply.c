@@ -62,5 +62,5 @@ DEF_CORE_FUN(apply) {
 
   RETURN(EVAL(env, new_expr));
 
-  END_DEF_CORE_FUN(apply);
+  END_DEF_CORE_FUN;
 }

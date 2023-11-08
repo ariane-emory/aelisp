@@ -8,7 +8,7 @@
 DEF_CORE_FUN(eval) {
   RETURN(EVAL(env, CAR(args)));
   
-  END_DEF_CORE_FUN(eval);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ DEF_CORE_FUN(eval) {
 DEF_CORE_FUN(list) {
   RETURN(args);
   
-  END_DEF_CORE_FUN(list);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +28,6 @@ DEF_CORE_FUN(list) {
 DEF_CORE_FUN(quote) {
   RETURN(CAR(args));
 
-  END_DEF_CORE_FUN(quote);
+  END_DEF_CORE_FUN;
 }
 

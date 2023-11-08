@@ -9,6 +9,6 @@ DEF_CORE_FUN(name) {
 
   RETURN(NEW_STRING(SYM_VAL(CAR(args))));
   
-  END_DEF_CORE_FUN(name);
+  END_DEF_CORE_FUN;
 }
 

@@ -15,7 +15,7 @@ DEF_CORE_FUN(error) {
 
   RETURN(err);
 
-  END_DEF_CORE_FUN(error);
+  END_DEF_CORE_FUN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +27,6 @@ DEF_CORE_FUN(message) {
 
   RETURN(NEW_STRING(EMSG(CAR(args))));
   
-  END_DEF_CORE_FUN(message);
+  END_DEF_CORE_FUN;
 }
 

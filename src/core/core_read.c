@@ -16,6 +16,6 @@ DEF_CORE_FUN(read) {
 
   RETURN(CADR(program));
   
-  END_DEF_CORE_FUN(read);
+  END_DEF_CORE_FUN;
 }
 
