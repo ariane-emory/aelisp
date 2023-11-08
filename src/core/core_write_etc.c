@@ -4,11 +4,7 @@
 // _write
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env,
-                         ae_obj_t * const args,
-                         __attribute__((unused)) int args_length) {
-  CORE_BEGIN("write");
-
+DEF_CORE_FUN(write) {
   int written = 0;
 
   FOR_EACH(elem, args) {
@@ -24,7 +20,7 @@ ae_obj_t * ae_core_write(__attribute__((unused)) ae_obj_t * const env,
 
   RETURN(NEW_INT(written));
   
-  CORE_END("write");
+  END_DEF_CORE_FUN(write);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
