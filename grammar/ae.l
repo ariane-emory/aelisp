@@ -40,8 +40,9 @@ void parse_line(const char * const line) {
 ////////////////////////////////////////////////////////////////////////////////
 
 long long int read_integer(const char *str) {
-  // This function tolerates an underscore as the first character of the string,
-  // but the token pattern will prohibit that.
+  // NOTE: This function will tolerate a comma as the first character of the
+  // string or multiple commas in a row, but the token pattern it's used will
+  // prohibit that.
   
   long long int result = 0;
 
@@ -225,7 +226,7 @@ nil                                                                        |
 [-+]?[0-9]+(,[0-9]+)*                                                      TOKENIZE(INTEGER,     AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*                                                        |
 [-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
-[-+]?[0-9][,0-9]*\/[0-9][,0-9]*                                            TOKENIZE(RATIONAL,    AE_RATIONAL);
+[-+]?[0-9]+(,[0-9]+)*\/[0-9]+(,[0-9]+)*                                    TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
 . { 
