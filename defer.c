@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define until(expr) while (! (expr))
 #define unless(expr) if (! (expr))
 
 #define CONCAT2(x, y) x##y
@@ -19,9 +20,11 @@
 
 #define raii_charp(name) char * name, free(name); name = NULL
 
+#define FREE(var) ({ free((var)); (var) = NULL; })
+
 int main() {
   // defer (raii_charp(str))
-  defer (char * str, free(str); str = NULL) {
+  defer (char * str, FREE(str)) {
     str = malloc(6);
     strcpy(str, "hello world");
     printf("%s\n", str);
