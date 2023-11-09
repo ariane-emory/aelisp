@@ -7,10 +7,18 @@
 #define CONCAT(x, y) CONCAT_INTERNAL(x, y)
 
 // Macro to create a unique label for deferred execution
-#define DEFER(stmt)                                                                                \
+#define DEFER(stmt, stmt2)                                                                         \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
        ({ (CONCAT(_defer_flag_, __LINE__) = 0); stmt; }) )                                                 
+
+#define DEFER2(var_decl, cleanup)                                                                  \
+  var_decl;                                                                                        \
+                                                                                                   \
+  for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
+       CONCAT(_defer_flag_, __LINE__);                                                             \
+       ({ (CONCAT(_defer_flag_, __LINE__) = 0); cleanup; (void)0; }) )                              \
+              
 
 
 int main() {
@@ -18,10 +26,16 @@ int main() {
   strcpy(hello, "hello");
   printf("%s\n", hello);
 
-  DEFER(printf("cleanup.\n"); printf("more cleanup.\n")) {
+  DEFER(printf("cleanup.\n"); printf("more cleanup.\n"), printf("ignored cleanup.\n")) {
     printf("work.\n");
   }
 
+  DEFER2(char * str, free(str)) {
+    str = malloc(6);
+    strcpy(str, "magic");
+    printf("%s\n", str);
+  }
+  
   printf("%s\n", ({ printf("beep.\n"); "boop"; }));
   
   return 0;
