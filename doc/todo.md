@@ -24,7 +24,8 @@ To Do:
 - [ ] GC.
 
 Under Consideration:
-- [ ] Polish printed core_names? Probably do this by revising load_fun_helper to put alt name in core->name.
+- [ ] Polish printed core_names by replacing _ with - and p/b suffixes with ? / !. Probably do this by revising load_fun_helper to put alt name in core->name.
+- [ ] write could also use digit separators in integers?
 - [ ] Maybe primitive pop on empty list should be an error? Undecided.
 - [ ] Maybe primitive strcmp so that REPL can use it to sort tab completions?
 - [ ] Maybe move load_file?
