@@ -22,6 +22,16 @@ int main() {
     printf("work.\n");
   }
 
+  printf("%s\n", ({ printf("beep.\n"); "boop"; }));
+  
   return 0;
 }
 
+
+/*
+  for (int _defer_flag_21 = 1;
+           _defer_flag_21;
+           (_defer_flag_21 = 0), printf("cleanup.\n")) {
+    printf("work.\n");
+  }
+*/
