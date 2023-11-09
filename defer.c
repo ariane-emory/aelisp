@@ -2,53 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Helper macros for unique label generation
-#define CONCAT_INTERNAL(x, y) x##y
-#define CONCAT(x, y) CONCAT_INTERNAL(x, y)
+#define CONCAT2(x, y) x##y
+#define CONCAT(x, y) CONCAT2(x, y)
 
-// Macro to create a unique label for deferred execution
-#define DEFER3(stmt, stmt2)                                                                        \
-  for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
-       CONCAT(_defer_flag_, __LINE__);                                                             \
-       ({ (CONCAT(_defer_flag_, __LINE__) = 0); stmt; }) )                                                 
-
-#define DEFER(var_decl, cleanup_stmts)                                                             \
+#define defer(var_decl, cleanup_stmts)                                                             \
   var_decl;                                                                                        \
-                                                                                                   \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
        ({                                                                                          \
          (CONCAT(_defer_flag_, __LINE__) = 0);                                                     \
          cleanup_stmts; (void)0;                                                                   \
        }))
-              
-
 
 int main() {
-  char * hello = malloc(6);
-  strcpy(hello, "hello");
-  printf("%s\n", hello);
-
-  DEFER3(printf("cleanup.\n"); printf("more cleanup.\n"), printf("ignored cleanup.\n")) {
-    printf("work.\n");
-  }
-
-  DEFER(char * str, free(str)) {
+  defer(char * str, free(str); str = NULL;) {
     str = malloc(6);
-    strcpy(str, "magic");
+    strcpy(str, "hello world");
     printf("%s\n", str);
   }
   
-  printf("%s\n", ({ printf("beep.\n"); "boop"; }));
-  
-  return 0;
+  if (! str) {
+    printf("str is NULL\n");
+  }
 }
 
-
-/*
-  for (int _defer_flag_21 = 1;
-  _defer_flag_21;
-  (_defer_flag_21 = 0), printf("cleanup.\n")) {
-  printf("work.\n");
-  }
-*/
