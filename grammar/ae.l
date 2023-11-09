@@ -34,6 +34,28 @@ void parse_line(const char * const line) {
       yy_delete_buffer(buffer);
 }
 
+#include <stdio.h>
+#include <ctype.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+long long int read_integer(const char *str) {
+  // This function tolerates an underscore as the first character of the string,
+  // but the token pattern will prohibit that.
+  
+  long long int result = 0;
+
+  for (const char *p = str; *p; ++p) {
+    if (isdigit((unsigned char)*p)) {
+      result = result * 10 + (*p - '0');
+    } else if (*p != '_') {
+      break;
+    }
+  }
+
+  return result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #define TOKENIZE(yy_tok_type, ae_type) return tokenize(#yy_tok_type, yy_tok_type, ae_type);
@@ -89,7 +111,7 @@ void parse_line(const char * const line) {
     case AE_CONS:
       break;
     case AE_INTEGER:
-      INT_VAL(yylval) = atoi(yytext);
+      INT_VAL(yylval) = read_integer(yytext);
       break;
     case AE_FLOAT:
       FLOAT_VAL(yylval) = strtod(yytext, 0);
@@ -201,7 +223,7 @@ nil                                                                        |
 \<\<                                                                             |
 \>\>                                                                             |
 [\+\-\/\%\*]                                                               TOKENIZE(SYMBOL,      AE_SYMBOL  );
-[-+]?[0-9]+                                                                TOKENIZE(INTEGER,     AE_INTEGER );
+[-+]?[0-9][_0-9]*                                                          TOKENIZE(INTEGER,     AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*                                                        |
 [-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
 [-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL,    AE_RATIONAL);
