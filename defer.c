@@ -17,7 +17,7 @@
                                                                                                    \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
-       ({ (CONCAT(_defer_flag_, __LINE__) = 0); cleanup; (void)0; }) )                              \
+       ({ (CONCAT(_defer_flag_, __LINE__) = 0); cleanup; (void)0; }))                              \
               
 
 
@@ -44,8 +44,8 @@ int main() {
 
 /*
   for (int _defer_flag_21 = 1;
-           _defer_flag_21;
-           (_defer_flag_21 = 0), printf("cleanup.\n")) {
-    printf("work.\n");
+  _defer_flag_21;
+  (_defer_flag_21 = 0), printf("cleanup.\n")) {
+  printf("work.\n");
   }
 */
