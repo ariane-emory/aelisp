@@ -15,14 +15,16 @@
          (void)0;                                                                                  \
        }))
 
+#define unless(expr) if (! (expr))
+
 int main() {
-  defer(char * str, free(str); str = NULL;) {
+  defer (char * str, free(str); str = NULL) {
     str = malloc(6);
     strcpy(str, "hello world");
     printf("%s\n", str);
   }
   
-  if (! str) {
+  unless (str) {
     printf("str is NULL\n");
   }
 }
