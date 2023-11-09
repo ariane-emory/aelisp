@@ -7,17 +7,20 @@
 #define CONCAT(x, y) CONCAT_INTERNAL(x, y)
 
 // Macro to create a unique label for deferred execution
-#define DEFER(stmt, stmt2)                                                                         \
+#define DEFER3(stmt, stmt2)                                                                        \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
        ({ (CONCAT(_defer_flag_, __LINE__) = 0); stmt; }) )                                                 
 
-#define DEFER2(var_decl, cleanup)                                                                  \
+#define DEFER(var_decl, cleanup_stmts)                                                             \
   var_decl;                                                                                        \
                                                                                                    \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
-       ({ (CONCAT(_defer_flag_, __LINE__) = 0); cleanup; (void)0; }))                              \
+       ({                                                                                          \
+         (CONCAT(_defer_flag_, __LINE__) = 0);                                                     \
+         cleanup_stmts; (void)0;                                                                   \
+       }))
               
 
 
@@ -26,11 +29,11 @@ int main() {
   strcpy(hello, "hello");
   printf("%s\n", hello);
 
-  DEFER(printf("cleanup.\n"); printf("more cleanup.\n"), printf("ignored cleanup.\n")) {
+  DEFER3(printf("cleanup.\n"); printf("more cleanup.\n"), printf("ignored cleanup.\n")) {
     printf("work.\n");
   }
 
-  DEFER2(char * str, free(str)) {
+  DEFER(char * str, free(str)) {
     str = malloc(6);
     strcpy(str, "magic");
     printf("%s\n", str);
