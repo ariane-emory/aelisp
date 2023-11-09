@@ -122,12 +122,12 @@ long long int read_integer(const char *str) {
       
       char * tmp2 = malloc(slash_pos + 1);
       strncpy(tmp2, yytext, slash_pos);
-      NUMER_VAL(yylval) = atoi(tmp2);
+      NUMER_VAL(yylval) = read_integer(tmp2);
       free(tmp2);
 
       tmp2 = malloc(strlen(yytext) - slash_pos);
       strncpy(tmp2, yytext + slash_pos + 1, strlen(yytext) - slash_pos - 1);
-      DENOM_VAL(yylval) = atoi(tmp2);
+      DENOM_VAL(yylval) = read_integer(tmp2);
       free(tmp2);
 
       break;
@@ -226,7 +226,7 @@ nil                                                                        |
 [-+]?[0-9][_0-9]*                                                          TOKENIZE(INTEGER,     AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*                                                        |
 [-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
-[-+]?[0-9]+\/[0-9]+                                                        TOKENIZE(RATIONAL,    AE_RATIONAL);
+[-+]?[0-9][_0-9]*\/[0-9][_0-9]*                                            TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
 . { 
