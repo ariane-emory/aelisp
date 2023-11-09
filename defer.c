@@ -11,7 +11,8 @@
        CONCAT(_defer_flag_, __LINE__);                                                             \
        ({                                                                                          \
          (CONCAT(_defer_flag_, __LINE__) = 0);                                                     \
-         cleanup_stmts; (void)0;                                                                   \
+         cleanup_stmts;                                                                            \
+         (void)0;                                                                                  \
        }))
 
 int main() {
