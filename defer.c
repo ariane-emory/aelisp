@@ -10,7 +10,7 @@
 #define DEFER(stmt)                                                                                \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
-       ({ (CONCAT(_defer_flag_, __LINE__) = 0), stmt; }) )                                                 
+       ({ (CONCAT(_defer_flag_, __LINE__) = 0); stmt; }) )                                                 
 
 
 int main() {
