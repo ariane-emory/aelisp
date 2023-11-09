@@ -2,6 +2,7 @@ Safe files - should not need major revision:
 - capture.h: should be fine.
 - jump_return.h: should be fine.
 - log.h/c: should be fine.
+- sys.c/h: should be fine.
 - sys_time.c/h: should be fine.
 - write.c/h: should be fine.
 - free_list.h/c: might become obsolete, but if not should be fine in current form. splitting into from/to spaces could possibly benefit from a void  free_list_remove_block function, undecided.
