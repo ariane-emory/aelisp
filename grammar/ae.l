@@ -46,11 +46,10 @@ long long int read_integer(const char *str) {
   long long int result = 0;
 
   for (const char *p = str; *p; ++p) {
-    if (isdigit((unsigned char)*p)) {
+    if (isdigit((unsigned char)*p))
       result = result * 10 + (*p - '0');
-    } else if (*p != '_') {
+    else if (*p != ',')
       break;
-    }
   }
 
   return result;
@@ -223,10 +222,10 @@ nil                                                                        |
 \<\<                                                                             |
 \>\>                                                                             |
 [\+\-\/\%\*]                                                               TOKENIZE(SYMBOL,      AE_SYMBOL  );
-[-+]?[0-9][_0-9]*                                                          TOKENIZE(INTEGER,     AE_INTEGER );
+[-+]?[0-9][,0-9]*                                                          TOKENIZE(INTEGER,     AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*                                                        |
 [-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
-[-+]?[0-9][_0-9]*\/[0-9][_0-9]*                                            TOKENIZE(RATIONAL,    AE_RATIONAL);
+[-+]?[0-9][,0-9]*\/[0-9][,0-9]*                                            TOKENIZE(RATIONAL,    AE_RATIONAL);
 \;[^\n]*\n                                                                 ; /* comments */
 [\f\n\t\v\ ]+                                                              ; /* ignored whitespace */
 . { 
