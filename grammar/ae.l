@@ -222,7 +222,7 @@ nil                                                                        |
 \<\<                                                                             |
 \>\>                                                                             |
 [\+\-\/\%\*]                                                               TOKENIZE(SYMBOL,      AE_SYMBOL  );
-[-+]?[0-9][,0-9]*                                                          TOKENIZE(INTEGER,     AE_INTEGER );
+[-+]?[0-9]+(,[0-9]+)*                                                      TOKENIZE(INTEGER,     AE_INTEGER );
 [-+]?[0-9]+\.[0-9]*                                                        |
 [-+]?[0-9]*\.[0-9]+                                                        TOKENIZE(FLOAT,       AE_FLOAT   );
 [-+]?[0-9][,0-9]*\/[0-9][,0-9]*                                            TOKENIZE(RATIONAL,    AE_RATIONAL);
