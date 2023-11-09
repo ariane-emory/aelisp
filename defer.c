@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define unless(expr) if (! (expr))
+
 #define CONCAT2(x, y) x##y
 #define CONCAT(x, y) CONCAT2(x, y)
 
@@ -15,9 +17,10 @@
          (void)0;                                                                                  \
        }))
 
-#define unless(expr) if (! (expr))
+#define raii_charp(name) char * name, free(name); name = NULL
 
 int main() {
+  // defer (raii_charp(str))
   defer (char * str, free(str); str = NULL) {
     str = malloc(6);
     strcpy(str, "hello world");
