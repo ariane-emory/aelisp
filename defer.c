@@ -10,7 +10,7 @@
 #define DEFER(stmt)                                                                                \
   for (int CONCAT(_defer_flag_, __LINE__) = 1;                                                     \
        CONCAT(_defer_flag_, __LINE__);                                                             \
-       (CONCAT(_defer_flag_, __LINE__) = 0), stmt)                                                 
+       ({ (CONCAT(_defer_flag_, __LINE__) = 0), stmt; }) )                                                 
 
 
 int main() {
@@ -18,7 +18,7 @@ int main() {
   strcpy(hello, "hello");
   printf("%s\n", hello);
 
-  DEFER(printf("cleanup.\n")) {
+  DEFER(printf("cleanup.\n"); printf("more cleanup.\n")) {
     printf("work.\n");
   }
 
