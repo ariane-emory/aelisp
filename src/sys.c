@@ -14,6 +14,7 @@
 #include "sys.h"
 
 #include "free_list.h"
+#include "utility_macros.h"
 
 #define BUFFER_SIZE 4096
 
@@ -247,17 +248,19 @@ fread_string_t ae_sys_file_read_string(const char * const filename) {
 // _pwd
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 char * ae_sys_pwd() {
-  char * const buff = free_list_malloc(PATH_MAX);
-
-  getcwd(buff, PATH_MAX);
-
-  char * const cwd = free_list_malloc(strlen(buff) + 1);
-
-  if (! cwd)
-    return NULL;
+  char * cwd = NULL;
   
-  strcpy(cwd, buff);
-  free_list_free(buff);
+  defer (char * buff, FL_FREE(buff)) {
+    buff = free_list_malloc(PATH_MAX);
+
+    getcwd(buff, PATH_MAX);
+
+    cwd = free_list_malloc(strlen(buff) + 1);
+
+    unless (! cwd)
+      strcpy(cwd, buff);
+  }
+  
   return cwd;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
