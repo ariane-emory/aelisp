@@ -2571,7 +2571,7 @@
     $('plist-get 'obj slot-kw))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-setter (struct-type slot)
- "Generate a setter function for STRUCT-TYPE's slot SLOT."
+ "Generate a non-destructive setter function for STRUCT-TYPE's slot SLOT."
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (unless (symbol? slot)        (error "SLOT must be a symbol"))
  (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot))))
@@ -2582,7 +2582,7 @@
     $('plist-set 'obj slot-kw 'val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-setter! (struct-type slot)
- "Generate a setter function for STRUCT-TYPE's slot SLOT."
+ "Generate a destructive setter function for STRUCT-TYPE's slot SLOT."
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (unless (symbol? slot)        (error "SLOT must be a symbol"))
  (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot) "!")))
@@ -2596,6 +2596,7 @@
  "Generate a constructor function for STRUCT-TYPE with SLOTS."
  (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
  (unless (all symbol? slots)  (error "SLOTS must be a list of symbols"))
+ (unless slots (error "Empty structs are not currently supported"))
  (let ((constructor-name (intern (concat "make-" (symbol-name struct-type))))
        (slot-kws (mapcar (lambda (slot) (intern (concat ":" (symbol-name slot)))) slots)))
   $('defun constructor-name 'slot-values
