@@ -2568,7 +2568,7 @@
   $('defun getter-name $('obj)
     $('unless $('eq? $('get 'obj ':struct-type) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
-    $('plist-get slot-kw 'obj))))
+    $('plist-get 'obj slot-kw))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-setter (struct-type slot)
  "Generate a setter function for STRUCT-TYPE's slot SLOT."
@@ -2579,7 +2579,18 @@
   $('defun setter-name $('obj 'val)
     $('unless $('eq? $('get 'obj ':struct-type) $('quote struct-type))
       $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
-    $('plist-set slot-kw 'obj 'val))))
+    $('plist-set 'obj slot-kw 'val))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro make-struct-setter! (struct-type slot)
+ "Generate a setter function for STRUCT-TYPE's slot SLOT."
+ (unless (symbol? struct-type) (error "STRUCT-TYPE must be a symbol"))
+ (unless (symbol? slot)        (error "SLOT must be a symbol"))
+ (let ((setter-name (intern (concat "set-" (symbol-name struct-type) "-" (symbol-name slot) "!")))
+       (slot-kw (intern (concat ":" (symbol-name slot)))))
+  $('defun setter-name $('obj 'val)
+    $('unless $('eq? $('get 'obj ':struct-type) $('quote struct-type))
+      $('error (concat "OBJ must be a struct of type " (symbol-name struct-type))))
+    $('plist-set! 'obj slot-kw 'val))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmacro make-struct-constructor (struct-type . slots)
  "Generate a constructor function for STRUCT-TYPE with SLOTS."
@@ -2609,14 +2620,16 @@
  (unless (list? slots)         (error "SLOTS must be a list"))
  (unless (all symbol? slots)  (error "SLOTS must be a list of symbols"))
  (let
-  ((getters (mapcar (lambda (slot) $('make-struct-getter struct-type slot)) slots))
-   (setters (mapcar (lambda (slot) $('make-struct-setter struct-type slot)) slots)))
+  ((getters  (mapcar (lambda (slot) $('make-struct-getter  struct-type slot)) slots))
+   (setters  (mapcar (lambda (slot) $('make-struct-setter  struct-type slot)) slots))
+   (setters! (mapcar (lambda (slot) $('make-struct-setter! struct-type slot)) slots)))
   (cons 'list
    (append
     $($('make-struct-constructor struct-type . slots))
     $($('make-struct-predicate struct-type))
     getters
-    setters))))
+    setters
+    setters!))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'struct)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
