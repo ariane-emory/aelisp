@@ -116,10 +116,10 @@ ae_obj_t * ae_eval_args(ae_obj_t * const env, ae_obj_t * const args) {
     if (log_eval)
       LOG(eval_result, "evaled tail arg");
 
-    if (NILP(ret))
-      ret = eval_result;
-    else
-      CDR(result_tail) = eval_result;
+    /* if (NILP(ret)) */
+    /*   ret = eval_result; */
+    /* else */
+    CDR(result_tail) = eval_result;
 
   }
 

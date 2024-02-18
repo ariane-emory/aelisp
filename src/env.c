@@ -159,7 +159,7 @@ ae_obj_t * ae_env_lookup(ae_env_lookup_mode_t mode,
       }
     }
 
-    // Special case for symbols being one symbol:
+    // Special case for the symbols list consists of one symbol, in which case all values are bound to this symbol:
     if (symbol == symbols) {
       ret = values;
 
