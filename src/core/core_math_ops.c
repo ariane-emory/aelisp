@@ -20,7 +20,7 @@
       if (! INTEGERP(CAR(args)))                                                                                      \
         LOG(CAR(args), "NOT AN INTEGER");                                                                             \
                                                                                                                       \
-      REQUIRE(INTEGERP(CAR(args)));                                                                        \
+      REQUIRE(INTEGERP(CAR(args)));                                                                                   \
                                                                                                                       \
       accum = INT_VAL(CAR(args));                                                                                     \
       rest  = CDR(args);                                                                                              \
@@ -30,17 +30,17 @@
       if (! INTEGERP(CAR(args)))                                                                                      \
         LOG(CAR(args), "NOT AN INTEGER");                                                                             \
                                                                                                                       \
-      REQUIRE(INTEGERP(elem));                                                                             \
+      REQUIRE(INTEGERP(elem));                                                                                        \
                                                                                                                       \
       if (no_zero_args)                                                                                               \
-        REQUIRE(INT_VAL(elem) != 0, "division by zero");                                                   \
+        REQUIRE(INT_VAL(elem) != 0, "division by zero");                                                              \
                                                                                                                       \
       accum = accum oper INT_VAL(elem);                                                                               \
     }                                                                                                                 \
                                                                                                                       \
     RETURN(NEW_INT(accum));                                                                                           \
                                                                                                                       \
-    CORE_END(#name);                                                                                                 \
+    CORE_END(#name);                                                                                                  \
   }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
