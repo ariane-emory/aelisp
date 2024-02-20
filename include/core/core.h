@@ -62,7 +62,7 @@
   DO(premove,            false,          2,          2, "plist-remove",        FUNDEF_END)                              \
   DO(pget,               false,          2,          2, "plist-get",           FUNDEF_END)                              \
   /*================================================================================================================*/  \
-  DO(put,                false,          1,  UNLIMITED, "put-raw",             FUNDEF_END)                              \
+  DO(put,                false,          1,  UNLIMITED, "raw",             FUNDEF_END)                              \
   DO(princ,              false,          1,  UNLIMITED,                        FUNDEF_END)                              \
   DO(print,              false,          1,  UNLIMITED,                        FUNDEF_END)                              \
   DO(write,              false,          1,  UNLIMITED,                        FUNDEF_END)                              \
