@@ -1,4 +1,4 @@
-To Do:
+## To Do:
 - [ ] std subseq is probably just nthcdr + butlast.
 - [ ] car/cdr on strings, concat on chars.
 - [ ] maplist.
@@ -23,7 +23,7 @@ To Do:
 - [ ] fprinc_lengths test passes normally but fails when run in lldb? Investigate.
 - [ ] GC.
 
-Under Consideration:
+## Under Consideration:
 - [ ] Polish printed core_names by replacing _ with - and p/b suffixes with ? / !. Probably do this by revising load_fun_helper to put alt name in core->name.
 - [ ] write could also use digit separators in integers?
 - [ ] Maybe primitive pop on empty list should be an error? Undecided.
@@ -42,7 +42,7 @@ Under Consideration:
 - [ ] Maybe add macro version of map? May not need it.
 - [ ] ... advices?!
 
-Completed:
+## Completed:
 - [x] Audit free_list_malloc/free. (Half-assed it, seems alright.)
 - [x] 'files' and 'dirs' should allocate new strings?
 - [x] Move ae_common_new_root into common or maybe it's own file. (Moved into common)
