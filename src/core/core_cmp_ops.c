@@ -27,7 +27,7 @@
     }                                                                                                                 \
                                                                                                                       \
     if (invert)                                                                                                       \
-      result = !result;                                                                                               \
+      result = ! result;                                                                                              \
                                                                                                                       \
     ret = TRUTH(result);                                                                                              \
                                                                                                                       \
