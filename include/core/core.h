@@ -146,12 +146,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_CMP_OP(DO)                                                                                        \
-  DO(lte,    <=, &=, true,  "lte")                                                                                      \
-  DO(gte,    >=, &=, true,  "gte")                                                                                      \
-  DO(lt,     < , &=, true,  "lt")                                                                                       \
-  DO(gt,     > , &=, true,  "gt")                                                                                       \
-  DO(nequal, !=, |=, false, "int-not-equal")                                                                            \
-  DO(equal,  ==, &=, true,  "int-equal")                                                                                \
+  DO(lte,    <=, <=, false,  "lte")                                                                                     \
+  DO(gte,    >=, >=, false,  "gte")                                                                                     \
+  DO(lt,     < , < , false,  "lt")                                                                                      \
+  DO(gt,     > , > , false,  "gt")                                                                                      \
+  DO(nequal, !=, ==, true,   "int-not-equal")                                                                           \
+  DO(equal,  ==, ==, false,  "int-equal")                                                                               \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
