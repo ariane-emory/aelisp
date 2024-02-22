@@ -55,14 +55,14 @@
   DO(vals,               false,          0,          1,                        FUNDEF_END) /* env accessor          */  \
   DO(syms,               false,          0,          1,                        FUNDEF_END) /* env accessor          */  \
   /*================================================================================================================*/  \
-  DO(phas,               false,          2,          2, "plist-has?",          FUNDEF_END)                              \
-  DO(psetb,              false,          3,          3, "plist-set!",          FUNDEF_END)                              \
-  DO(pset,               false,          3,          3, "plist-set",           FUNDEF_END)                              \
   DO(premoveb,           false,          2,          2, "plist-remove!",       FUNDEF_END)                              \
   DO(premove,            false,          2,          2, "plist-remove",        FUNDEF_END)                              \
+  DO(psetb,              false,          3,          3, "plist-set!",          FUNDEF_END)                              \
+  DO(pset,               false,          3,          3, "plist-set",           FUNDEF_END)                              \
+  DO(phas,               false,          2,          2, "plist-has?",          FUNDEF_END)                              \
   DO(pget,               false,          2,          2, "plist-get",           FUNDEF_END)                              \
   /*================================================================================================================*/  \
-  DO(put,                false,          1,  UNLIMITED, "raw",             FUNDEF_END)                              \
+  DO(put,                false,          1,  UNLIMITED, "raw",             FUNDEF_END)                                  \
   DO(princ,              false,          1,  UNLIMITED,                        FUNDEF_END)                              \
   DO(print,              false,          1,  UNLIMITED,                        FUNDEF_END)                              \
   DO(write,              false,          1,  UNLIMITED,                        FUNDEF_END)                              \
