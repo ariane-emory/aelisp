@@ -111,16 +111,16 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_MATH_OP(DO)                                                                                       \
-  DO(bxor,  ^, 0, false, "bit-xor")                                                                                     \
-  DO(band,  &, 0, false, "bit-and")                                                                                     \
-  DO(bor,   |, 0, false, "bit-or" )                                                                                     \
-  DO(rsft, >>, 1, false, "rsft"   )                                                                                     \
-  DO(lsft, <<, 1, false, "lsft"   )                                                                                     \
-  DO(mod,   %, 1, true,  "mod"    )                                                                                     \
-  DO(div,   /, 1, true,  "div"    )                /* reducing these doesn't really seem like it would be worth the */  \
-  DO(mul,   *, 1, false, "mul"    )                /* bother or the performance impact.                             */  \
-  DO(sub,   -, 0, false, "sub"    )                                                                                     \
-  DO(add,   +, 0, false, "add"    )                                                                                     \
+  DO(bxor,  ^, 0, false, NULL, "bit-xor")                                                                               \
+  DO(band,  &, 0, false, NULL, "bit-and")                                                                               \
+  DO(bor,   |, 0, false, NULL, "bit-or" )                                                                               \
+  DO(rsft, >>, 1, false, NULL, "rsft"   )                                                                               \
+  DO(lsft, <<, 1, false, NULL, "lsft"   )                                                                               \
+  DO(mod,   %, 1, true,  NULL, "mod"    )                                                                               \
+  DO(div,   /, 1, true,  NULL, "div"    )        /* reducing these doesn't really seem like it would be worth the */    \
+  DO(mul,   *, 1, false, NULL, "mul"    )        /* bother or the performance impact.                             */    \
+  DO(sub,   -, 0, false, NULL, "sub"    )                                                                               \
+  DO(add,   +, 0, false, NULL, "add"    )                                                                               \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -146,12 +146,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define FOR_EACH_CORE_CMP_OP(DO)                                                                                        \
-  DO(lte,    <=, <=, false,  "lte")                                                                                     \
-  DO(gte,    >=, >=, false,  "gte")                                                                                     \
-  DO(lt,     < , < , false,  "lt")                                                                                      \
-  DO(gt,     > , > , false,  "gt")                                                                                      \
-  DO(nequal, !=, ==, true,   "int-not-equal")                                                                           \
-  DO(equal,  ==, ==, false,  "int-equal")                                                                               \
+  DO(lte,    <=, <=, false,  false,  "lte")                                                                             \
+  DO(gte,    >=, >=, false,  false,  "gte")                                                                             \
+  DO(lt,     < , < , false,  false,  "lt")                                                                              \
+  DO(gt,     > , > , false,  false,  "gt")                                                                              \
+  DO(nequal, !=, ==, true,   true,   "int-not-equal")                                                                   \
+  DO(equal,  ==, ==, false,  false,  "int-equal")                                                                       \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
