@@ -20,18 +20,14 @@
       REQUIRE(INTEGERP(elem));                                                                                        \
       REQUIRE(INTEGERP(CADR(position)));                                                                              \
                                                                                                                       \
-      bool tmp = INT_VAL(elem) oper INT_VAL(CADR(position));                                                          \
+      result = INT_VAL(elem) oper INT_VAL(CADR(position));                                                            \
                                                                                                                       \
-      printf("%u " #oper " %u = %u\n", INT_VAL(elem), INT_VAL(CADR(position)), tmp);                                  \
-                                                                                                                      \
-      result = tmp;                                                                                                   \
+      if (!result)                                                                                                    \
+        break;                                                                                                        \
     }                                                                                                                 \
                                                                                                                       \
-    if (invert) {                                                                                                     \
-      printf("Invert!\n");                                                                                            \
-                                                                                                                      \
+    if (invert)                                                                                                       \
       result = !result;                                                                                               \
-    }                                                                                                                 \
                                                                                                                       \
     ret = TRUTH(result);                                                                                              \
                                                                                                                       \
