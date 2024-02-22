@@ -499,7 +499,15 @@ Write some tests for bitwise operators.
 (confirm that (<= 1 2 3 4 4)  returns t)
 (confirm that (<= 1)          returns t)
 
+(confirm that (>  5 4 3 2 1)  returns t)
+(confirm that (>  5 0 3 2 1)  returns nil)
+(confirm that (>  4 4 3 2 1)  returns nil)
+(confirm that (>  1)          returns t)
 
+(confirm that (>= 5 4 3 2 1)  returns t)
+(confirm that (>= 5 0 3 2 1)  returns nil)
+(confirm that (>= 4 4 3 2 1)  returns t)
+(confirm that (>= 1)          returns t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
