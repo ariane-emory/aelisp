@@ -23,7 +23,7 @@
       printf("%u " #oper " %u = %u\n", INT_VAL(elem), INT_VAL(CADR(position)), tmp);                                  \
                                                                                                                       \
       if (!tmp) {                                                                                                     \
-        RETURN(NIL);                                                                                                  \
+        break;                                                                                                        \
       }                                                                                                               \
     }                                                                                                                 \
                                                                                                                       \
