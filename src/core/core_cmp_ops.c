@@ -21,9 +21,6 @@
       REQUIRE(INTEGERP(CADR(position)));                                                                              \
                                                                                                                       \
       result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                                       \
-                                                                                                                      \
-      if (! result)                                                                                                   \
-        RETURN(false);                                                                                                \
     }                                                                                                                 \
                                                                                                                       \
     ret = TRUTH(result);                                                                                              \
