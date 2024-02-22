@@ -489,9 +489,22 @@ Write some tests for bitwise operators.
 
 |#
 
+(confirm that (<  1 2 3 4 5)  returns t)
+(confirm that (<  1 2 3 0 5)  returns nil)
+(confirm that (<  1 2 3 4 4)  returns nil)
+(confirm that (<  1)          returns t)
+
+(confirm that (<= 1 2 3 4 5)  returns t)
+(confirm that (<= 1 2 3 0 5)  returns nil)
+(confirm that (<= 1 2 3 4 4)  returns t)
+(confirm that (<= 1)          returns t)
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nl)
 (princ "All tests passed.")
 (provide 'tests)
 (nl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
