@@ -2,7 +2,7 @@
 ;; mcm; time { for i in {1..10000}; do ./bin/ae; done; }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib
- (let* ((memo-plist '((2 . 1) (1 . 1)))
+ (let* ((memo-plist '(2 1 1 1))
        (memoize (lambda (key value) (cdr (car (setq memo-plist (plist-set memo-plist key value)))))))
   (lambda (nth) 
    (let* ((fib (lambda (xxx)
@@ -12,7 +12,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq memo-fib-2
   (lambda (nth) 
-   (let* ((memo-plist '((2 . 1) (1 . 1)))
+   (let* ((memo-plist '(2 1 1 1))
           (memoize (lambda (key value) (cdr (car (setq memo-plist (plist-set memo-plist key value))))))
           (fib     (lambda (xxx)
                     (let ((memoized (plist-get memo-plist  xxx)))
