@@ -1,6 +1,5 @@
 # ÆlispC To Do List:
 ## To Do:
-- [ ] cmp ops can maybe be simplified more?
 - [ ] Math ops should handle more types with auto demotion for consistency with Ælisp#.
 - [ ] Change nonmutating plist set/remove so that the retuned list doesn't share a tail with the original for consistency with Ælisp#.
 - [ ] Core and/or can
@@ -177,6 +176,7 @@
 - [x] Add ae_list_remove_member.
 
 Cancelled / Abandoned:
+- [x] cmp ops can maybe be simplified more? (Nah, not by much... leaving 'em alone for now.)
 - [x] core_concat could be simplified using strcat? Maybe not. (Nah.)
 - [x] Maybe FOR_EACH2 macro for parralel lists? Unsure, may not need it. (Not really needed.)
 - [x] certain funcs should NOT return early when given ERRORS arguments. (Early return abandoned for now.)
