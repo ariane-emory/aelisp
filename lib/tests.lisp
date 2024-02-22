@@ -514,7 +514,7 @@ Write some tests for bitwise operators.
 (confirm that (== 2)          returns t)
 
 (confirm that (!= 2 2 2)      returns nil)
-(confirm that (!= 2 2 3)      returns t)
+(confirm that (!= 2 2 3)      returns t) 
 (confirm that (!= 2)          returns nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
