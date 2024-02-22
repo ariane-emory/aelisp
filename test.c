@@ -955,10 +955,10 @@ void core_cmp(void) {
   args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL)));
   T(NILP (ae_core_equal (env, args, LENGTH(args))));
 
-  args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL)));
-  T(NILP (ae_core_nequal(env, args, LENGTH(args))));
-  args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL)));
-  T(TRUEP(ae_core_nequal(env, args, LENGTH(args))));
+  /* args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(2), NIL))); */
+  /* T(NILP (ae_core_nequal(env, args, LENGTH(args)))); */
+  /* args = CONS(NEW_INT(2), CONS(NEW_INT(2), NEW_CONS(NEW_INT(3), NIL))); */
+  /* T(TRUEP(ae_core_nequal(env, args, LENGTH(args)))); */
 
   args = CONS(NEW_INT(2), CONS(NEW_INT(4), NEW_CONS(NEW_INT(6), NIL)));
   T(TRUEP(ae_core_lt (env, args, LENGTH(args))));

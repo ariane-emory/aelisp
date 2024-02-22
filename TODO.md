@@ -1,6 +1,6 @@
 # ÆlispC To Do List:
 ## To Do:
-- [ ] Core cmp ops can short circuit earlier for consistency with Ælisp#.
+- [ ] cmp ops can maybe be simplified more?
 - [ ] Math ops should handle more types with auto demotion for consistency with Ælisp#.
 - [ ] Change nonmutating plist set/remove so that the retuned list doesn't share a tail with the original for consistency with Ælisp#.
 - [ ] Core and/or can
@@ -47,6 +47,7 @@
 - [ ] ... advices?!
 
 ## Completed:
+- [x] Core cmp ops can short circuit earlier for consistency with Ælisp#.
 - [x] Refactor: CORE_END should be unary.
 - [x] Audit free_list_malloc/free. (Half-assed it, seems alright.)
 - [x] 'files' and 'dirs' should allocate new strings?

@@ -20,7 +20,15 @@
       REQUIRE(INTEGERP(elem));                                                                                        \
       REQUIRE(INTEGERP(CADR(position)));                                                                              \
                                                                                                                       \
-      result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                                       \
+      printf("\nResult = %d\n", result);                                                                              \
+      printf("Compare %u and %u with " #oper "\n", INT_VAL(elem), INT_VAL(CADR(position)));                           \
+                                                                                                                      \
+      bool tmp = INT_VAL(elem) oper INT_VAL(CADR(position));                                                          \
+                                                                                                                      \
+      result assign tmp;                                                                                              \
+                                                                                                                      \
+      if (result != init)                                                                                             \
+        break;                                                                                                        \
     }                                                                                                                 \
                                                                                                                       \
     ret = TRUTH(result);                                                                                              \

@@ -150,8 +150,8 @@
   DO(gte,    >=, &=, true,  "gte")                                                                                      \
   DO(lt,     < , &=, true,  "lt")                                                                                       \
   DO(gt,     > , &=, true,  "gt")                                                                                       \
-  DO(nequal, !=, |=, false, "int-equal")                                                                                \
-  DO(equal,  ==, &=, true,  "int-not-equal")                                                                            \
+  DO(nequal, !=, |=, false, "int-not-equal")                                                                            \
+  DO(equal,  ==, &=, true,  "int-equal")                                                                                \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
