@@ -1,17 +1,19 @@
-# Ælisp-C To Do List:
+# ÆlispC To Do List:
 ## To Do:
+- [ ] Core cmp ops can short circuit earlier for consistency with Ælisp#.
+- [ ] Change nonmutating plist set/remove so that the retuned list doesn't share a tail with the original for consistency with Ælisp#.
+- [ ] Core and/or can
+- [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
+- [ ] Review printing of characters that need escaping.
 - [ ] std subseq is probably just nthcdr + butlast.
 - [ ] car/cdr on strings, concat on chars.
 - [ ] maplist.
-- [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
-- [ ] Review printing of characters that need escaping.
 - [ ] Add dotimes, it's just a fancier repeat.
 - [ ] Better version of return.
 - [ ] Some sort of catch.
 - [ ] Maybe let loop?
 - [ ] makunbound.
 - [ ] AE_FILE type.
-- [ ] Refactor: CORE_END should be unary.
 - [ ] DRY up core_funs.c.
 - [ ] DRY up core_let.c.
 - [ ] SELFEVALUATINGP and corresponding core might come in handy.
@@ -44,6 +46,7 @@
 - [ ] ... advices?!
 
 ## Completed:
+- [x] Refactor: CORE_END should be unary.
 - [x] Audit free_list_malloc/free. (Half-assed it, seems alright.)
 - [x] 'files' and 'dirs' should allocate new strings?
 - [x] Move ae_common_new_root into common or maybe it's own file. (Moved into common)
