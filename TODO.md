@@ -1,6 +1,7 @@
 # ÆlispC To Do List:
 ## To Do:
 - [ ] Core cmp ops can short circuit earlier for consistency with Ælisp#.
+- [ ] Math ops should handle more types with auto demotion for consistency with Ælisp#.
 - [ ] Change nonmutating plist set/remove so that the retuned list doesn't share a tail with the original for consistency with Ælisp#.
 - [ ] Core and/or can
 - [ ] Escaped characters in AE_STRINGs don't read quite right, will need code similar to AE_CHARs.
