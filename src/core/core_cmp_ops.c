@@ -17,15 +17,18 @@
       if (NILP(CDR(position)))                                                                                        \
         break;                                                                                                        \
                                                                                                                       \
-      REQUIRE(INTEGERP(elem));                                                                             \
-      REQUIRE(INTEGERP(CADR(position)));                                                                   \
+      REQUIRE(INTEGERP(elem));                                                                                        \
+      REQUIRE(INTEGERP(CADR(position)));                                                                              \
                                                                                                                       \
       result assign INT_VAL(elem) oper INT_VAL(CADR(position));                                                       \
+                                                                                                                      \
+      if (! result)                                                                                                   \
+        RETURN(false);                                                                                                \
     }                                                                                                                 \
                                                                                                                       \
     ret = TRUTH(result);                                                                                              \
                                                                                                                       \
-    CORE_END(#name);                                                                                                 \
+    CORE_END(#name);                                                                                                  \
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
