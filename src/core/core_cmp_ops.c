@@ -11,6 +11,8 @@
     CORE_BEGIN(#name);                                                                                                \
     assert(CONSP(args));                                                                                              \
                                                                                                                       \
+    bool result = true;                                                                                               \
+                                                                                                                      \
     FOR_EACH(elem, args) {                                                                                            \
       if (NILP(CDR(position)))                                                                                        \
         break;                                                                                                        \
@@ -22,12 +24,17 @@
                                                                                                                       \
       printf("%u " #oper " %u = %u\n", INT_VAL(elem), INT_VAL(CADR(position)), tmp);                                  \
                                                                                                                       \
-      if (!tmp) {                                                                                                     \
-        break;                                                                                                        \
-      }                                                                                                               \
+      if (!tmp)                                                                                                       \
+        result = false;                                                                                               \
     }                                                                                                                 \
                                                                                                                       \
-    ret = invert ? NIL : TRUE;                                                                                        \
+    if (invert) {                                                                                                     \
+      printf("Invert!\n");                                                                                            \
+                                                                                                                      \
+      result = !result;                                                                                               \
+    }                                                                                                                 \
+                                                                                                                      \
+    ret = TRUTH(result);                                                                                              \
                                                                                                                       \
     CORE_END(#name);                                                                                                  \
   }
