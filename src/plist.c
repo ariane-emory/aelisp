@@ -201,7 +201,7 @@ ae_obj_t * ae_plist_set_internal(ae_obj_t * const plist, ae_obj_t * const key, a
   assert(TAILP(plist));
   assert(NILP(plist) || !(LENGTH(plist) % 2));
 
-  if (plist == NULL || NILP(plist)) {
+  if (NILP(plist)) {
     return CONS(key, CONS(value, NIL));
   } else {
     ae_plist_set_mutating(plist, key, value);
